@@ -1,1 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sources & Data — Adam Neil Arafat for Congress</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#0d3b66" />
+  <style>
+    :root{ --primary:#0d3b66; --donate:#c1121f; }
+    .section-title{ color:var(--primary); }
+    .home-icon{ width:40px; height:40px; object-fit:contain; }
+    nav ul{ list-style:none; padding:0; margin:0; display:flex; gap:1rem; flex-wrap:wrap; align-items:center; }
+    .bar{ height:14px; background:#e9ecef; border-radius:8px; overflow:hidden; }
+    .bar > span{ display:block; height:100%; background:#0b6e4f; }
+    .bar.red > span{ background:#b11e2d; }
+    .small-muted{ color:#6c757d; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <!-- Header with image home link -->
+  <header class="border-bottom">
+    <div class="container py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" aria-label="Home"><img class="home-icon" src="assets/home-mark.png" alt="Home"></a>
+        <div>
+          <h1 class="h4 m-0">Sources & Data</h1>
+          <p class="text-muted m-0">Receipts, references, and downloads</p>
+        </div>
+      </div>
+      <nav class="mt-3 mt-md-0">
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="sources.html" aria-current="page">Sources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a class="btn btn-sm" style="background:var(--donate);color:#fff" target="_blank" rel="noopener" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
+  <main class="py-5">
+    <div class="container px-4">
+
+      <!-- Download -->
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+          <h2 class="section-title h4 mb-1">Download the data</h2>
+          <p class="text-muted mb-2">This CSV powers the table below. Update it manually or with automation later.</p>
+        </div>
+        <a class="btn btn-outline-primary" href="assets/data/strickland_funding.csv" download>Download CSV</a>
+      </div>
+
+      <!-- Table -->
+      <h2 class="section-title h4 mb-3">Key figures</h2>
+      <div class="table-responsive">
+        <table id="data-table" class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Amount</th>
+              <th>Percent</th>
+              <th>Cycle/Years</th>
+              <th>Notes</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Visuals -->
+      <h2 class="section-title h4 mb-3 mt-5">Visuals</h2>
+      <div id="charts" class="row g-4"></div>
+      <p class="small-muted mt-3">Numbers are rounded. Always check the linked filings for exact totals.</p>
+
+    </div>
+  </main>
+
+  <footer class="py-4 bg-white border-top">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="small text-muted mb-2 mb-md-0">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+      <div>
+        <a class="me-3" href="about.html">About</a>
+        <a class="me-3" href="issues.html">Issues</a>
+        <a class="me-3" href="sources.html">Sources</a>
+        <a class="me-3" href="contact.html">Contact</a>
+        <a class="btn btn-sm" style="background:var(--donate);color:#fff" target="_blank" rel="noopener" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky donate on mobile -->
+  <div id="sticky-donate" class="d-md-none" style="position:sticky;bottom:0;width:100%;background:#c1121f;color:#fff;z-index:1030;">
+    <div class="container py-2 d-flex justify-content-between align-items-center">
+      <strong>Chip in to power the campaign</strong>
+      <a class="btn btn-sm btn-light" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    async function loadCSV(url){
+      const res = await fetch(url, {cache:'no-store'});
+      if(!res.ok) return [];
+      const text = await res.text();
+      const [headerLine, ...lines] = text.trim().split(/\r?\n/);
+      const headers = headerLine.split(',').map(h=>h.trim());
+      return lines.map(line=>{
+        const parts = line.match(/(".*?"|[^",\n]+)(?=\s*,|\s*$)/g).map(s=>s.replace(/^"|"$/g,''));
+        const obj = {}; headers.forEach((h,i)=>obj[h]=parts[i]||''); return obj;
+      });
+    }
+    function fmtMoney(n){ const v=Number(n); return isNaN(v)?(n||''):('$'+v.toLocaleString('en-US')); }
+    function percentBar(pct){
+      const p=Math.max(0,Math.min(100,Number(pct)||0));
+      return `<div class="bar ${p>=40?'red':''}"><span style="width:${p}%"></span></div>
+              <div class="small text-muted mt-1">${p}%</div>`;
+    }
+    function link(u){ return u?`<a href="${u}" target="_blank" rel="noopener">Link</a>`:''; }
+
+    (async ()=>{
+      const rows = await loadCSV('assets/data/strickland_funding.csv');
+      const tbody = document.querySelector('#data-table tbody');
+      if(!rows.length){
+        tbody.innerHTML = `<tr><td colspan="6" class="text-muted">No data yet. Check back soon.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = rows.map(r=>`
+        <tr>
+          <td>${r['Topic']||''}</td>
+          <td>${fmtMoney(r['Amount'])}</td>
+          <td style="min-width:130px">${percentBar(r['Percent'])}</td>
+          <td>${r['Cycle/Years']||''}</td>
+          <td>${r['Notes']||''}</td>
+          <td>${link(r['Source'])}</td>
+        </tr>
+      `).join('');
+
+      const charts = document.getElementById('charts');
+      charts.innerHTML = rows
+        .filter(r => Number(r['Percent'])>0)
+        .map(r=>`
+          <div class="col-md-6">
+            <div class="border rounded p-3 h-100">
+              <div class="small text-muted mb-1">${r['Topic']} — ${r['Cycle/Years']}</div>
+              ${percentBar(r['Percent'])}
+              <div class="small mt-2">Amount: ${fmtMoney(r['Amount'])}</div>
+            </div>
+          </div>
+        `).join('');
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
