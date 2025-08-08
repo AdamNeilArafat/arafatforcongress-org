@@ -15,7 +15,6 @@
     nav ul{ list-style:none; padding:0; margin:0; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
     .btn-donate{ background:var(--donate); color:#fff !important; border:none; }
     .btn-donate:hover{ filter:brightness(.95); }
-    .headshot{ width:112px; height:112px; border-radius:50%; object-fit:cover; border:3px solid #fff; box-shadow:0 0 0 3px var(--primary); }
     .home-icon{ display:none; }
     #campaignCarousel img{ width:100%; height:60vh; min-height:420px; object-fit:cover; aspect-ratio:16/9; }
     .carousel-caption{ background:rgba(0,0,0,.45); padding:1rem 1.25rem; border-radius:.25rem; }
@@ -32,8 +31,6 @@
     <div class="container py-3">
       <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
         <div class="brand d-flex align-items-center gap-3">
-          <img class="home-icon" src="images/IMG_4336.jpeg" alt="Home">
-          <img class="headshot d-none d-md-block" src="images/IMG_4323.jpeg" alt="Adam Neil Arafat headshot">
           <div>
             <h1 class="m-0">Adam Neil Arafat for Congress</h1>
             <p class="m-0 text-muted">Washington District 10</p>
@@ -58,51 +55,6 @@
       <span class="ms-2">This campaign is about your quality of life and a brighter future for our kids and grandkids.</span>
     </div>
   </div>
-
-  <!-- Adam vs. the Incumbent -->
-  <section id="vs-incumbent" class="py-4 border-bottom">
-    <div class="container px-4">
-      <h2 class="h4 fw-bold mb-3 section-title">Adam vs. the incumbent</h2>
-
-      <div class="mb-3">
-        <p class="mb-1"><strong>Fighting for fairness</strong></p>
-        <p class="mb-2">
-          In 2018, Seattle approved a head tax of <strong>$275 per employee</strong> to raise about
-          <strong>$50 million a year</strong> for homelessness and affordable housing. After pressure from Amazon and business groups, the City Council repealed it. That removed planned funding and left residents with fewer services and fewer homes built.
-          <a href="issues.html#fair-taxation" class="small ms-1">Learn more</a>
-        </p>
-      </div>
-
-      <div>
-        <p class="mb-1"><strong>Powered by people</strong></p>
-        <p class="mb-3">
-          Adam takes <strong>$0</strong> from corporate PACs. Public summaries show the incumbent relies heavily on PAC money. In the 2024 cycle about <strong>44 percent</strong> of her funds came from PACs, with Amazon listed among top contributors and Pro-Israel categorized donors among top industries. Voters deserve a representative who answers to people, not lobbyists.
-          <a href="#sources" class="small ms-1">Sources</a>
-        </p>
-
-        <div class="row g-3">
-          <div class="col-md-6">
-            <div class="small text-muted">Incumbent 2024 — PAC share</div>
-            <div class="bar red" aria-label="PAC share 44%"><span style="width:44%"></span></div>
-            <div class="small mt-1">PACs ≈ 44% • Individuals and other ≈ 56%</div>
-          </div>
-          <div class="col-md-6">
-            <div class="small text-muted">Career PAC support by type</div>
-            <div class="d-flex justify-content-between"><span>Business</span><span>largest share</span></div>
-            <div class="bar"><span style="width:66%"></span></div>
-            <div class="d-flex justify-content-between mt-2"><span>Ideological</span><span>meaningful</span></div>
-            <div class="bar"><span style="width:20%"></span></div>
-            <div class="d-flex justify-content-between mt-2"><span>Labor</span><span>significant</span></div>
-            <div class="bar"><span style="width:14%"></span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <a href="#sources" class="small">Sources</a>
-      </div>
-    </div>
-  </section>
 
   <!-- HERO CAROUSEL -->
   <section id="campaignCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" aria-label="Featured issues">
@@ -166,20 +118,57 @@
     </button>
   </section>
 
-  <section class="py-5">
-    <div class="container">
-      <h2 class="section-title mb-3">Why it matters</h2>
-      <p class="lead">We should measure success by how families live. Can people afford groceries, rent, a doctor visit, and a little savings for the future. Our work is about raising quality of life now and giving our kids and grandkids a fair shot.</p>
-    </div>
-  </section>
+  <!-- Adam vs. the Incumbent -->
+  <section id="vs-incumbent" class="py-4 border-bottom">
+    <div class="container px-4">
+      <h2 class="h4 fw-bold mb-3 section-title">Adam vs. the incumbent</h2>
 
-  <section id="by-the-numbers" class="bg-light py-5">
-    <div class="container px-5">
-      <h2 class="fw-bolder mb-4 text-center section-title">By the numbers</h2>
-      <div class="row gx-5 gy-4 text-center">
-        <div class="col-md-4"><div class="p-4 bg-white shadow-sm h-100"><div class="display-5 fw-bold" style="color:#0d3b66">$0</div><div class="small text-muted">Corporate PAC money accepted</div></div></div>
-        <div class="col-md-4"><div class="p-4 bg-white shadow-sm h-100"><div class="display-5 fw-bold" style="color:#0d3b66">100%</div><div class="small text-muted">Transparency and accountability</div></div></div>
-        <div class="col-md-4"><div class="p-4 bg-white shadow-sm h-100"><div class="display-5 fw-bold" style="color:#0d3b66">24/7</div><div class="small text-muted">Commitment to serving you</div></div></div>
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered text-center align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Issue</th>
+              <th>Adam Arafat</th>
+              <th>Incumbent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Corporate PACs</td>
+              <td style="color:#0b6e4f;">✓ No PAC money</td>
+              <td style="color:#b11e2d;">✘ Took $900K+ from PACs</td>
+            </tr>
+            <tr>
+              <td>AIPAC Funding</td>
+              <td style="color:#0b6e4f;">✓ $0 from AIPAC</td>
+              <td style="color:#b11e2d;">✘ ~ $600K from AIPAC</td>
+            </tr>
+            <tr>
+              <td>Lobbyists</td>
+              <td style="color:#0b6e4f;">✓ Ban lobbyists &amp; full transparency</td>
+              <td style="color:#b11e2d;">✘ Funded by D.C. lobbyists</td>
+            </tr>
+            <tr>
+              <td>Healthcare</td>
+              <td style="color:#0b6e4f;">✓ Support Universal Healthcare</td>
+              <td style="color:#b11e2d;">✘ Status quo — No change</td>
+            </tr>
+            <tr>
+              <td>Housing</td>
+              <td style="color:#0b6e4f;">✓ Support a Corporate Social Responsibility Tax</td>
+              <td style="color:#b11e2d;">✘ Helped repeal Seattle head tax</td>
+            </tr>
+            <tr>
+              <td>Ethics</td>
+              <td style="color:#0b6e4f;">✓ Clean record</td>
+              <td style="color:#b11e2d;">✘ 2011 ethics violation (Tacoma)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4">
+        <a href="#sources" class="small">Sources</a>
       </div>
     </div>
   </section>
