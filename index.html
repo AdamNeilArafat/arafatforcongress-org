@@ -1,131 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adam Neil Arafat for Congress</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adam Neil Arafat for Congress — WA District 10</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+
+  <meta name="theme-color" content="#0d3b66" />
+  <meta name="description" content="Trust is earned, not bought. A campaign focused on quality of life today and a brighter future for our kids and grandkids.">
+
+  <style>
+    .brand-mark { width: 46px; height: 46px; object-fit: contain; }
+    .name-stack { line-height: 1.05; }
+    .name-stack .line1 { font-weight: 700; font-size: 1.6rem; color: #b89018; }
+    .name-stack .line2 { font-weight: 700; font-size: 1.8rem; color: #0d3b66; }
+    .name-stack .line3 { font-weight: 600; font-size: 1.2rem; color: #b89018; }
+
+    .trust-card {
+      border: 2px solid #0d3b66; background: #f8fbff; color: #0d3b66;
+      border-radius: .5rem; padding: .75rem 1rem;
+    }
+    .trust-wrap { margin-top: .5rem; margin-bottom: 1rem; }
+
+    #campaignCarousel { margin-bottom: 1rem; }
+    #campaignCarousel .carousel-caption {
+      right: 1rem; left: auto; bottom: 1rem;
+      background: rgba(0, 0, 0, .55);
+      padding: .85rem 1rem; border-radius: .4rem; max-width: 84%;
+      text-align: left;
+    }
+    #campaignCarousel .carousel-caption h2 { font-size: 1.35rem; margin-bottom: .25rem; }
+    #campaignCarousel .carousel-caption p { margin: 0 0 .5rem; }
+
+    .compare-table { font-size: .92rem; }
+    .compare-table th { white-space: nowrap; }
+    .compare-table td, .compare-table th { padding: .45rem .5rem; }
+    .issue-col { width: 32%; }
+
+    @media (max-width: 576px) {
+      .name-stack .line1 { font-size: 1.35rem; }
+      .name-stack .line2 { font-size: 1.5rem; }
+      .name-stack .line3 { font-size: 1.05rem; }
+      #campaignCarousel .carousel-caption { max-width: 96%; }
+      .compare-table { font-size: .88rem; }
+    }
+  </style>
+</head>
 <body>
-  <header class="header">
-    <div class="logo">
-      <img src="images/4336.jpeg" alt="Home Button" class="logo-img">
-      <div class="logo-text">
-        <h1>Adam Neil<br>Arafat<br>WA District 10</h1>
+  <header class="border-bottom">
+    <div class="container py-3">
+      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <img src="images/IMG_4336.jpeg" alt="Home" class="brand-mark">
+          <div class="name-stack">
+            <div class="line1">Adam Neil</div>
+            <div class="line2">Arafat</div>
+            <div class="line3">WA District 10</div>
+          </div>
+        </div>
+        <nav class="mt-3 mt-md-0">
+          <ul class="d-flex list-unstyled m-0 gap-3 align-items-center">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="issues.html">Issues</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="issues.html">Issues</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="donate.html" class="donate-btn">Donate</a></li>
-      </ul>
-    </nav>
   </header>
 
-  <section class="campaign-message">
-    <div class="message-box">
-      <h2>Trust is earned not bought</h2>
-      <p>This campaign is about your quality of life and a brighter future for our kids and grandkids.</p>
+  <div class="trust-wrap">
+    <div class="container">
+      <div class="trust-card text-center">
+        <strong>Trust is earned, not bought.</strong>
+        <span class="ms-2">This campaign is about your quality of life and a brighter future for our kids and grandkids.</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="campaignCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <a href="issues.html#cost-of-living"><img src="images/IMG_4349.jpeg" class="d-block w-100" alt="Cost of living"></a>
+        <div class="carousel-caption">
+          <h2 class="fw-bold text-white">Lowering the cost of living</h2>
+          <p class="text-white-50">Lower housing, food, energy, and healthcare costs. Stop price gouging.</p>
+          <div>
+            <a href="issues.html#cost-of-living" class="btn btn-primary btn-sm">Learn more</a>
+            <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" class="btn btn-donate btn-sm ms-2">Donate</a>
+          </div>
+        </div>
+      </div>
+      <!-- Additional carousel items go here -->
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#campaignCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#campaignCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
+  </section>
+
+  <section id="vs-incumbent" class="py-4 border-top">
+    <div class="container px-3">
+      <h2 class="h5 fw-bold mb-3" style="color:#0d3b66">Adam vs. the incumbent</h2>
+      <div class="table-responsive">
+        <table class="table table-sm compare-table">
+          <thead>
+            <tr>
+              <th class="issue-col">Issue</th>
+              <th>Adam</th>
+              <th>Incumbent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Corporate PACs</strong></td>
+              <td>Refuses PAC money</td>
+              <td>Over 44% PAC-funded (2024)</td>
+            </tr>
+            <tr>
+              <td><strong>Healthcare</strong></td>
+              <td>Universal coverage advocate</td>
+              <td>No plan or pathway proposed</td>
+            </tr>
+            <tr>
+              <td><strong>Head Tax</strong></td>
+              <td>Supports fair housing revenue</td>
+              <td>Helped repeal after Amazon pushback</td>
+            </tr>
+            <tr>
+              <td><strong>Campaign Ethics</strong></td>
+              <td>Clean record</td>
+              <td>Reported 2011 violation (Tacoma)</td>
+            </tr>
+            <tr>
+              <td><strong>Campaign Funding Model</strong></td>
+              <td>Small donors + voucher model</td>
+              <td>Big donor, PAC-funded</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
-  <section class="carousel">
-    <div class="carousel-container">
-      <div class="carousel-slide fade">
-        <img src="images/4339.jpeg" alt="Universal Healthcare">
-        <div class="carousel-caption">Universal Healthcare</div>
-      </div>
-      <div class="carousel-slide fade">
-        <img src="images/4349.jpeg" alt="Cost of Living">
-        <div class="carousel-caption">Cost of Living</div>
-      </div>
-      <div class="carousel-slide fade">
-        <img src="images/4344.jpeg" alt="No Special Interests">
-        <div class="carousel-caption">No Special Interests</div>
-      </div>
-      <div class="carousel-slide fade">
-        <img src="images/4345.jpeg" alt="Corporate Accountability">
-        <div class="carousel-caption">Corporate Accountability</div>
-      </div>
-      <div class="carousel-slide fade">
-        <img src="images/4346.jpeg" alt="Fair Taxation">
-        <div class="carousel-caption">Fair Taxation</div>
+  <footer class="py-4 bg-white border-top">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="small text-muted mb-2 mb-md-0">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+      <div>
+        <a class="me-3" href="about.html">About</a>
+        <a class="me-3" href="issues.html">Issues</a>
+        <a class="me-3" href="contact.html">Contact</a>
+        <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank">Donate</a>
       </div>
     </div>
-  </section>
-
-  <section id="vs-incumbent" class="comparison-section">
-    <h2>Quick Contrast: Adam vs. Strickland</h2>
-    <div class="comparison-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Issue</th>
-            <th>Adam Arafat</th>
-            <th>Marilyn Strickland</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Corporate PACs</td>
-            <td>No PAC money</td>
-            <td>$900,000+ from PACs</td>
-          </tr>
-          <tr>
-            <td>AIPAC Funding</td>
-            <td>$0 accepted</td>
-            <td>$600,000 accepted</td>
-          </tr>
-          <tr>
-            <td>Lobbyists</td>
-            <td>Ban lobbyists and full transparency</td>
-            <td>Backed by D.C. lobbyists</td>
-          </tr>
-          <tr>
-            <td>Healthcare</td>
-            <td>Universal care for all</td>
-            <td>No plan or action</td>
-          </tr>
-          <tr>
-            <td>Housing</td>
-            <td>Supported $50M housing tax</td>
-            <td>Helped repeal Seattle head tax</td>
-          </tr>
-          <tr>
-            <td>Ethics</td>
-            <td>Clean record</td>
-            <td>2011 ethics violation in Tacoma</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <p>&copy; 2025 Adam Neil Arafat for Congress. All rights reserved.</p>
   </footer>
 
-  <script>
-    let index = 0;
-    carousel();
-
-    function carousel() {
-      let i;
-      const slides = document.getElementsByClassName("carousel-slide");
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-      }
-      index++;
-      if (index > slides.length) { index = 1; }
-      slides[index - 1].style.display = "block";
-      setTimeout(carousel, 3000); // 3 seconds
-    }
-  </script>
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
