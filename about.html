@@ -1,160 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Adam for Congress - About</title>
-        <!-- Favicon removed for simplicity; add your own icon if desired -->
-        <!-- Custom Google font-->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core Bootstrap CSS from CDN -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <!-- Custom campaign color overrides -->
-        <style>
-            :root {
-                /* Updated palette: navy, green and warm gold echoing official government websites */
-                --primary-color: #003366; /* navy blue */
-                --secondary-color: #006633; /* dark green */
-                --accent-color: #C39A3A; /* warm gold */
-                --donation-color: #C00021; /* crimson red for donation buttons */
-                --bs-primary: var(--primary-color);
-                --bs-secondary: var(--secondary-color);
-            }
-            .btn-primary {
-                background-color: var(--primary-color) !important;
-                border-color: var(--primary-color) !important;
-            }
-            .btn-outline-dark {
-                color: var(--primary-color) !important;
-                border-color: var(--primary-color) !important;
-            }
-            .bg-gradient-primary-to-secondary {
-                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
-            }
-            .text-gradient {
-                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .badge.bg-gradient-primary-to-secondary {
-                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
-            }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Adam — Adam Neil Arafat for Congress</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{ --primary-color:#0d3b66; }
+    .section-title{ color:var(--primary-color); }
+    .headshot-lg{
+      width: 220px; height: 220px; object-fit: cover; border-radius: 50%;
+      border:4px solid #fff; box-shadow:0 0 0 4px var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <header class="border-bottom">
+    <div class="container py-3">
+      <h1 class="h3 m-0">About Adam</h1>
+      <p class="text-muted m-0">Service, accountability, and results for Washington’s 10th</p>
+    </div>
+  </header>
 
-            .btn-outline-secondary {
-                color: var(--secondary-color) !important;
-                border-color: var(--secondary-color) !important;
-            }
+  <main class="py-5">
+    <div class="container px-4">
 
-            /* Donation button style using donation color */
-            .btn-donate {
-                background-color: var(--donation-color) !important;
-                border-color: var(--donation-color) !important;
-                color: #ffffff !important;
-            }
-        </style>
-    </head>
-    <body class="d-flex flex-column h-100 bg-light">
-        <main class="flex-shrink-0">
-            <!-- Navigation-->
-            <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-                <div class="container px-5">
-                    <!-- Site brand with icon and name block -->
-                    <a class="navbar-brand d-flex align-items-center" href="index.html">
-                        <i class="bi bi-geo-fill" style="color:var(--primary-color); font-size: 1.7rem; margin-right: .5rem;"></i>
-                        <div class="lh-sm">
-                            <span class="fw-bolder" style="color:var(--accent-color);">Adam Neil</span><br />
-                            <span class="fw-bolder" style="color:var(--primary-color);">Arafat</span><br />
-                            <small style="color:var(--accent-color);">WA&nbsp;District&nbsp;10</small>
-                        </div>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                            <li class="nav-item"><a class="nav-link" href="issues.html">Issues</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" style="color:var(--donation-color); font-weight: bold;">Donate</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            <!-- Page Content-->
-            <div class="container px-5 my-5">
-                <div class="text-center mb-5">
-                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">About Adam</span></h1>
-                </div>
-                <div class="row gx-5 justify-content-center">
-                    <div class="col-lg-11 col-xl-9 col-xxl-8">
-                        <!-- Story Section-->
-                        <section>
-                            <h2 class="fw-bolder mb-4" style="color:var(--primary-color);">Our Story</h2>
-                            <div class="card shadow border-0 rounded-4 mb-5">
-                                <div class="card-body p-5">
-                                    <p>Adam was born and raised in our district and attended local public schools. After serving our country overseas, he came home determined to fight for working people. For years he has volunteered with veterans groups, mentored at‑risk youth and organized food drives. Adam knows our communities because he’s lived our struggles and worked tirelessly to make life better for our neighbors.</p>
-                                </div>
-                            </div>
-                            <h2 class="fw-bolder mb-4" style="color:var(--secondary-color);">Experience and Service</h2>
-                            <div class="card shadow border-0 rounded-4 mb-5">
-                                <div class="card-body p-5">
-                                    <p>As a veteran and project manager, Adam understands the importance of leadership, accountability and teamwork. He has served on the boards of local nonprofits and partnered with labor organizations to promote good‑paying jobs and safe working conditions. His professional experience managing complex projects in the public and private sectors has prepared him to tackle our district’s toughest challenges—from rebuilding infrastructure to expanding access to healthcare.</p>
-                                </div>
-                            </div>
-                            <h2 class="fw-bolder mb-4" style="color:var(--primary-color);">Values</h2>
-                            <div class="card shadow border-0 rounded-4 mb-5">
-                                <div class="card-body p-5">
-                                    <ul class="mb-0">
-                                        <li class="mb-2">Fairness and justice for every person</li>
-                                        <li class="mb-2">Investment in education and our children’s future</li>
-                                        <li class="mb-2">Accessible, affordable healthcare for all families</li>
-                                        <li class="mb-2">Safeguarding our environment for future generations</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Comparison section highlighting differences with the incumbent -->
-                        <section class="mt-5">
-                            <h2 class="fw-bolder mb-4" style="color:var(--primary-color);">How Adam Differs From the Incumbent</h2>
-                            <div class="card shadow border-0 rounded-4 mb-4">
-                                <div class="card-body p-4">
-                                    <ul class="mb-0">
-                                        <li class="mb-2"><strong>No special interest money:</strong> Adam refuses corporate and PAC money, while our current representative has accepted hundreds of thousands of dollars from political action committees.</li>
-                                        <li class="mb-2"><strong>Accountability:</strong> Adam pledges to share every vote and expenditure with you; the incumbent has operated behind closed doors and has deep ties to the corporate lobby.</li>
-                                        <li class="mb-2"><strong>Working‑family focus:</strong> Adam comes from a working‑class family and knows the cost of living crisis firsthand. The incumbent spent years leading the Seattle Chamber of Commerce and opposed a tax on large corporations designed to address homelessness.</li>
-                                        <li class="mb-2"><strong>Real change:</strong> Adam supports fair taxation of the ultra‑rich, universal healthcare and meaningful climate action. Our opponent promises progress but continues to side with wealthy donors.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a class="btn btn-donate btn-lg px-5 py-3 fs-6 fw-bolder" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank">Stand with Adam</a>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <!-- Footer-->
-        <footer class="bg-white py-4 mt-auto">
-            <div class="container px-5">
-                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0">Copyright &copy; 2025 Adam Arafat for Congress</div></div>
-                    <div class="col-auto">
-                        <a class="small" href="#!">Privacy</a>
-                        <span class="mx-1">&middot;</span>
-                        <a class="small" href="#!">Terms</a>
-                        <span class="mx-1">&middot;</span>
-                        <a class="small" href="#!">Contact</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Bootstrap core JS from CDN (includes Popper) -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+      <!-- Meet Adam -->
+      <section id="meet-adam" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-4 text-center">
+            <!-- Use the same headshot file -->
+            <img class="headshot-lg" src="assets/headshot-adam.jpg" alt="Adam Neil Arafat headshot">
+          </div>
+          <div class="col-md-8">
+            <h2 class="section-title">Meet Adam</h2>
+            <p>
+              Adam grew up in The Woodlands, Texas, the son of a Palestinian immigrant. He served 12 years overseas in Europe and Asia.
+              After meeting his wife in Tacoma, Washington became home. They are raising two boys in District 10 who attend public schools,
+              where his wife volunteers with the PTA.
+            </p>
+            <p>
+              After the military, Adam kept serving through county work that improves everyday life. He put himself through college,
+              earning a bachelor’s and a master’s degree while working full time. That same work ethic guides this campaign:
+              do the work, put people first, deliver results.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience & Service -->
+      <section id="experience" class="mb-5">
+        <h2 class="section-title">Experience and Service</h2>
+        <p>
+          As a veteran and project manager, Adam knows leadership, accountability, and teamwork matter. Living in Europe and Asia showed him what is possible
+          when a society guarantees healthcare, invests in education, and keeps food affordable and healthy. Here at home he has partnered with nonprofits and labor
+          to support good-paying jobs and safe workplaces.
+        </p>
+      </section>
+
+      <!-- Why it matters -->
+      <section id="why-it-matters" class="mb-5">
+        <h2 class="section-title">Why it matters</h2>
+        <ul>
+          <li>Fairness and justice for every person</li>
+          <li>Investing in our kids and our public schools</li>
+          <li>Affordable, accessible healthcare for every family</li>
+          <li>Protecting our environment for the next generation</li>
+        </ul>
+        <p class="mb-0">
+          Our country is at a crossroads. Our kids deserve a future, not a system stuck in place. Change starts with leaders rooted in our communities,
+          not in donor lists. We need people with integrity who will stand up to special interests and deliver for working families.
+        </p>
+      </section>
+
+      <div class="text-center">
+        <a class="btn btn-lg btn-danger" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-4 bg-white border-top mt-5">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="small text-muted mb-2 mb-md-0">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+      <div>
+        <a class="me-3" href="about.html">About</a>
+        <a class="me-3" href="issues.html">Issues</a>
+        <a class="me-3" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
