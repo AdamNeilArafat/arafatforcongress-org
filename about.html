@@ -11,7 +11,12 @@
     :root{ --primary:#0d3b66; --donate:#c1121f; }
     nav ul{ list-style:none; display:flex; gap:1rem; margin:0; padding:0; align-items:center; flex-wrap:wrap; }
     .home-icon{ width:40px; height:40px; object-fit:contain; }
-    .headshot{ width:220px;height:220px;border:4px solid #fff;box-shadow:0 0 0 4px var(--primary); border-radius:50%; object-fit:cover; }
+    .headshot{
+      width:220px; height:260px; /* a bit taller to keep full head in frame */
+      border:4px solid #fff; box-shadow:0 0 0 4px var(--primary);
+      border-radius:12px; object-fit:cover; object-position:50% 18%; /* shift focus up */
+      background:#f6f6f6;
+    }
     .section-title{ color:var(--primary); }
     .btn-donate{ background:var(--donate); color:#fff !important; border:none; }
   </style>
@@ -43,12 +48,13 @@
       <section id="meet-adam" class="mb-5">
         <div class="row g-4 align-items-center">
           <div class="col-md-4 text-center">
+            <!-- Updated focal point so the head isn't cropped -->
             <img class="headshot" src="images/IMG_4323.jpeg" alt="Adam Neil Arafat headshot">
           </div>
           <div class="col-md-8">
             <h2 class="section-title">Meet Adam</h2>
-            <p>Born in The Woodlands, Texas and the son of a Palestinian immigrant, Adam served 12 years overseas in Europe and Asia. After meeting his wife in Tacoma, Washington became home. They’re raising two boys in District 10 who attend local public schools, where his wife volunteers with the PTA.</p>
-            <p>After the military, Adam kept serving through county projects that improve everyday life. He put himself through college, earning a bachelor’s and a master’s degree while working full time.</p>
+            <p>Born in The Woodlands, Texas, and the son of a Palestinian immigrant, Adam served 20 years in the military, including 12 years in Europe and Asia. After meeting his wife in Tacoma, Washington became home. They’re raising two boys who attend public school in District 10, where his wife volunteers with the PTA.</p>
+            <p>After the military, Adam kept serving through county projects that improve everyday life. He put himself through college while working full time, earning a bachelor’s and a master’s degree, along with professional certificates, awards, and commendations.</p>
           </div>
         </div>
       </section>
