@@ -1,49 +1,131 @@
-<!-- ADAM vs INCUMBENT — with metrics and impact -->
-<section id="vs-incumbent" class="py-4 border-top">
-  <div class="container px-3">
-    <h2 class="h5 fw-bold mb-3" style="color:#0d3b66">Adam vs. the incumbent</h2>
-    <div class="table-responsive">
-      <table class="table table-sm compare-table">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adam Neil Arafat for Congress</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo">
+      <img src="images/4336.jpeg" alt="Home Button" class="logo-img">
+      <div class="logo-text">
+        <h1>Adam Neil<br>Arafat<br>WA District 10</h1>
+      </div>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="issues.html">Issues</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="donate.html" class="donate-btn">Donate</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="campaign-message">
+    <div class="message-box">
+      <h2>Trust is earned not bought</h2>
+      <p>This campaign is about your quality of life and a brighter future for our kids and grandkids.</p>
+    </div>
+  </section>
+
+  <section class="carousel">
+    <div class="carousel-container">
+      <div class="carousel-slide fade">
+        <img src="images/4339.jpeg" alt="Universal Healthcare">
+        <div class="carousel-caption">Universal Healthcare</div>
+      </div>
+      <div class="carousel-slide fade">
+        <img src="images/4349.jpeg" alt="Cost of Living">
+        <div class="carousel-caption">Cost of Living</div>
+      </div>
+      <div class="carousel-slide fade">
+        <img src="images/4344.jpeg" alt="No Special Interests">
+        <div class="carousel-caption">No Special Interests</div>
+      </div>
+      <div class="carousel-slide fade">
+        <img src="images/4345.jpeg" alt="Corporate Accountability">
+        <div class="carousel-caption">Corporate Accountability</div>
+      </div>
+      <div class="carousel-slide fade">
+        <img src="images/4346.jpeg" alt="Fair Taxation">
+        <div class="carousel-caption">Fair Taxation</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vs-incumbent" class="comparison-section">
+    <h2>Quick Contrast: Adam vs. Strickland</h2>
+    <div class="comparison-table">
+      <table>
         <thead>
           <tr>
-            <th class="issue-col">Issue</th>
-            <th>Adam (<span class="check">✔</span>)</th>
-            <th>Incumbent (<span class="xmark">✖</span>)</th>
+            <th>Issue</th>
+            <th>Adam Arafat</th>
+            <th>Marilyn Strickland</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Corporate PACs</strong></td>
-            <td class="good">Refuses corporate PAC money—100% small‑donor/voucher funded</td>
-            <td class="bad">~44% PAC-based in 2024 cycle—$905K+ raised from big‑money groups</td>
+            <td>Corporate PACs</td>
+            <td>No PAC money</td>
+            <td>$900,000+ from PACs</td>
           </tr>
           <tr>
-            <td><strong>Pro‑Israel PACs</strong></td>
-            <td class="good">$0 accepted from AIPAC or pro‑Israel PACs</td>
-            <td class="bad">~$600K received—top issue supporter</td>
+            <td>AIPAC Funding</td>
+            <td>$0 accepted</td>
+            <td>$600,000 accepted</td>
           </tr>
           <tr>
-            <td><strong>Lobbyist Ties</strong></td>
-            <td class="good">Supports ban and real-time transparency</td>
-            <td class="bad">Significant lobbyist funding—opaque disclosures</td>
+            <td>Lobbyists</td>
+            <td>Ban lobbyists and full transparency</td>
+            <td>Backed by D.C. lobbyists</td>
           </tr>
           <tr>
-            <td><strong>Healthcare</strong></td>
-            <td class="good">Pushes universal coverage—U.S. only wealthy OECD nation without it</td>
-            <td class="bad">No plan—health spending per capita among highest globally</td>
+            <td>Healthcare</td>
+            <td>Universal care for all</td>
+            <td>No plan or action</td>
           </tr>
           <tr>
-            <td><strong>Housing / Head Tax</strong></td>
-            <td class="good">Supported $50M/year Seattle head tax for homelessness & housing</td>
-            <td class="bad">Voted repeal—eliminated $50M/year in funding for homeless services</td>
+            <td>Housing</td>
+            <td>Supported $50M housing tax</td>
+            <td>Helped repeal Seattle head tax</td>
           </tr>
           <tr>
-            <td><strong>Campaign Ethics</strong></td>
-            <td class="good">No ethics violations; transparent filings quarterly</td>
-            <td class="bad">2011 ethics violation (Tacoma) + questionable luxury expenses</td>
+            <td>Ethics</td>
+            <td>Clean record</td>
+            <td>2011 ethics violation in Tacoma</td>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
-</section>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 Adam Neil Arafat for Congress. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let index = 0;
+    carousel();
+
+    function carousel() {
+      let i;
+      const slides = document.getElementsByClassName("carousel-slide");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      index++;
+      if (index > slides.length) { index = 1; }
+      slides[index - 1].style.display = "block";
+      setTimeout(carousel, 3000); // 3 seconds
+    }
+  </script>
+</body>
+
+</html>
