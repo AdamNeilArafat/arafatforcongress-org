@@ -1,214 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Adam for Congress - Issues</title>
-        <!-- Favicon removed for simplicity; add your own icon if desired -->
-        <!-- Custom Google font-->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core Bootstrap CSS from CDN -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <!-- Custom campaign color overrides -->
-        <style>
-            :root {
-                /* Updated palette echoing official government websites */
-                --primary-color: #003366; /* navy blue */
-                --secondary-color: #006633; /* dark green */
-                --accent-color: #C39A3A; /* warm gold */
-                --donation-color: #C00021; /* crimson red for donation buttons */
-                --bs-primary: var(--primary-color);
-                --bs-secondary: var(--secondary-color);
-            }
-            .btn-primary {
-                background-color: var(--primary-color) !important;
-                border-color: var(--primary-color) !important;
-            }
-            .btn-outline-dark {
-                color: var(--primary-color) !important;
-                border-color: var(--primary-color) !important;
-            }
-            .bg-gradient-primary-to-secondary {
-                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
-            }
-            .text-gradient {
-                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .badge.bg-gradient-primary-to-secondary {
-                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
-            }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Issues & Plans — Adam Neil Arafat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{ --primary-color:#0d3b66; }
+    .section-title{ color:var(--primary-color); }
+    .issue-img{ width:100%; height:auto; border-radius:.25rem; }
+  </style>
+</head>
+<body>
+  <header class="border-bottom">
+    <div class="container py-3">
+      <h1 class="h3 m-0">Issues & Plans</h1>
+      <p class="text-muted m-0">Concrete actions to help working families in WA-10</p>
+    </div>
+  </header>
 
-            .btn-outline-secondary {
-                color: var(--secondary-color) !important;
-                border-color: var(--secondary-color) !important;
-            }
+  <main class="py-5">
+    <div class="container px-4">
 
-            /* Donation button style using donation color */
-            .btn-donate {
-                background-color: var(--donation-color) !important;
-                border-color: var(--donation-color) !important;
-                color: #ffffff !important;
-            }
-        </style>
-    </head>
-    <body class="d-flex flex-column h-100 bg-light">
-        <main class="flex-shrink-0">
-            <!-- Navigation-->
-            <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-                <div class="container px-5">
-                    <!-- Site brand with icon and name block -->
-                    <a class="navbar-brand d-flex align-items-center" href="index.html">
-                        <i class="bi bi-geo-fill" style="color:var(--primary-color); font-size: 1.7rem; margin-right: .5rem;"></i>
-                        <div class="lh-sm">
-                            <span class="fw-bolder" style="color:var(--accent-color);">Adam Neil</span><br />
-                            <span class="fw-bolder" style="color:var(--primary-color);">Arafat</span><br />
-                            <small style="color:var(--accent-color);">WA&nbsp;District&nbsp;10</small>
-                        </div>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                            <li class="nav-item"><a class="nav-link" href="issues.html">Issues</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" style="color:var(--donation-color); font-weight: bold;">Donate</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            <!-- Projects Section-->
-            <section class="py-5">
-                <div class="container px-5 mb-5">
-                    <div class="text-center mb-5">
-                        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Issues</span></h1>
-                        <p class="lead text-muted">These are the priorities Adam will champion in Congress.</p>
-                    </div>
-                    <div class="row gx-5 justify-content-center">
-                        <div class="col-lg-11 col-xl-9 col-xxl-8">
-                            <!-- Updated issue cards reflecting Adam's platform -->
-                            <!-- Lower Cost of Living -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                                <div class="card-body p-0">
-                                    <div class="d-flex align-items-center flex-column flex-md-row">
-                                        <div class="p-5">
-                                            <h2 class="fw-bolder">Lower Cost of Living</h2>
-                                            <p>Everyone deserves an affordable place to live and enough to eat. Adam will fight for affordable housing, lower food costs, fair wages and a secure social safety net so families can thrive. He will champion policies that cap rent increases and expand housing supply while raising the minimum wage and protecting Social Security.</p>
-                                        </div>
-                                        <img class="img-fluid" src="https://images.unsplash.com/photo-1600585154340-be6161d94fa5?auto=format&fit=crop&w=600&q=80" alt="Lower cost of living" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Universal Healthcare -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                                <div class="card-body p-0">
-                                    <div class="d-flex align-items-center flex-column flex-md-row">
-                                        <div class="p-5">
-                                            <h2 class="fw-bolder">Universal Healthcare</h2>
-                                            <p>Healthcare is a human right. Adam supports universal healthcare where every medical decision is made between patients and doctors—not politicians or insurance companies. He will work to expand Medicare, lower drug prices and ensure mental health services are available to everyone.</p>
-                                        </div>
-                                        <img class="img-fluid" src="https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=600&q=80" alt="Universal healthcare" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Fair Taxation -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                                <div class="card-body p-0">
-                                    <div class="d-flex align-items-center flex-column flex-md-row">
-                                        <div class="p-5">
-                                            <h2 class="fw-bolder">Fair Taxation</h2>
-                                            <p>For too long the ultra‑rich and big corporations have gamed the system. Adam will close loopholes and make sure the wealthy and corporations pay their fair share so we can invest in communities. He will push for progressive taxes and end unfair corporate subsidies while protecting middle‑class families.</p>
-                                        </div>
-                                        <img class="img-fluid" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Fair taxation" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- No Special Interests & Lobbyists -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                                <div class="card-body p-0">
-                                    <div class="d-flex align-items-center flex-column flex-md-row">
-                                        <div class="p-5">
-                                            <h2 class="fw-bolder">No Special Interests &amp; Lobbyists</h2>
-                                            <p>Our campaign is powered by people, not lobbyists. Adam will refuse special‑interest money and put constituents first—no strings attached. He will champion campaign finance reform and fight to overturn Citizens United so elections are decided by voters, not donors.</p>
-                                        </div>
-                                        <img class="img-fluid" src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=600&q=80" alt="No special interests" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Corporate Accountability -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                                <div class="card-body p-0">
-                                    <div class="d-flex align-items-center flex-column flex-md-row">
-                                        <div class="p-5">
-                                            <h2 class="fw-bolder">Corporate Accountability</h2>
-                                            <p>Corporations must pay their workers fairly and follow the rules. Adam will hold corporations accountable, end sweetheart deals and protect workers’ rights. He will crack down on wage theft, strengthen unions and ensure polluters pay for the damage they cause.</p>
-                                        </div>
-                                        <img class="img-fluid" src="https://images.unsplash.com/photo-1532465614-6ff3dc3f9c5a?auto=format&fit=crop&w=600&q=80" alt="Corporate accountability" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Support Farmers & Trade -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                                <div class="card-body p-0">
-                                    <div class="d-flex align-items-center flex-column flex-md-row">
-                                        <div class="p-5">
-                                            <h2 class="fw-bolder">Support Farmers &amp; Trade</h2>
-                                            <p>Our farmers feed the nation and deserve policies that sustain them. Adam will champion fair trade, invest in local agriculture and protect farmers from unfair corporate practices. He will work to improve crop insurance, expand markets for small producers and oppose trade deals that hurt workers.</p>
-                                        </div>
-                                        <img class="img-fluid" src="https://images.unsplash.com/photo-1470173274384-c4e8e2f9ce50?auto=format&fit=crop&w=600&q=80" alt="Farmers and trade" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Climate Action Now -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
-                                <div class="card-body p-0">
-                                    <div class="d-flex align-items-center flex-column flex-md-row">
-                                        <div class="p-5">
-                                            <h2 class="fw-bolder">Climate Action Now</h2>
-                                            <p>Our planet can’t wait. Adam will push for clean energy, cut polluter handouts and invest in green jobs to build a sustainable future for our kids. He will support a Green New Deal, invest in public transit and protect our natural resources.</p>
-                                        </div>
-                                        <img class="img-fluid" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=600&q=80" alt="Climate action" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- Call to action section-->
-            <section class="py-5 bg-gradient-primary-to-secondary text-white">
-                <div class="container px-5 my-5">
-                    <div class="text-center">
-                        <h2 class="display-4 fw-bolder mb-4">Ready to make a difference?</h2>
-                        <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" href="contact.html">Join the Campaign</a>
-                    </div>
-                </div>
-            </section>
-        </main>
-        <!-- Footer-->
-        <footer class="bg-white py-4 mt-auto">
-            <div class="container px-5">
-                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0">Copyright &copy; 2025 Adam Arafat for Congress</div></div>
-                    <div class="col-auto">
-                        <a class="small" href="#!">Privacy</a>
-                        <span class="mx-1">&middot;</span>
-                        <a class="small" href="#!">Terms</a>
-                        <span class="mx-1">&middot;</span>
-                        <a class="small" href="#!">Contact</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Bootstrap core JS from CDN (includes Popper) -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+      <!-- Cost of Living -->
+      <section id="cost-of-living" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5">
+            <img class="issue-img" src="https://images.unsplash.com/photo-1567427013953-1c0b0c1f5f19?q=80&w=1400&auto=format&fit=crop" alt="Grocery prices">
+          </div>
+          <div class="col-md-7">
+            <h2 class="h4 section-title">Lowering the Cost of Living</h2>
+            <p>Housing, groceries, childcare, energy. Everything keeps rising except paychecks. Families deserve relief.</p>
+            <h3 class="h6 text-muted">How I will do it</h3>
+            <ul>
+              <li>Ban price gouging and crack down on corporate consolidation that inflates prices.</li>
+              <li>Build more affordable housing and speed up permits for local builders.</li>
+              <li>Cap essential drug costs and rein in hospital monopolies.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Universal Healthcare -->
+      <section id="universal-healthcare" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5">
+            <img class="issue-img" src="https://images.unsplash.com/photo-1580281657527-47e4c1d71a7b?q=80&w=1400&auto=format&fit=crop" alt="Healthcare workers">
+          </div>
+          <div class="col-md-7">
+            <h2 class="h4 section-title">Universal Healthcare</h2>
+            <p>No family should lose a home because someone got sick. Health care must be affordable and accessible.</p>
+            <h3 class="h6 text-muted">How I will do it</h3>
+            <ul>
+              <li>Universal coverage with simple benefits and automatic enrollment.</li>
+              <li>Negotiate lower drug prices and end patent gaming.</li>
+              <li>Invest in primary care, mental health, and rural access.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fair Taxation -->
+      <section id="fair-taxation" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5">
+            <img class="issue-img" src="https://images.unsplash.com/photo-1554224155-3a589877462f?q=80&w=1400&auto=format&fit=crop" alt="Tax forms">
+          </div>
+          <div class="col-md-7">
+            <h2 class="h4 section-title">Fair Taxation</h2>
+            <p>Close loopholes so working families do not subsidize the largest corporations.</p>
+            <h3 class="h6 text-muted">How I will do it</h3>
+            <ul>
+              <li>Minimum effective tax for large corporations.</li>
+              <li>End offshore profit shifting and pass-through gimmicks.</li>
+              <li>Targeted relief for families and small businesses.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- No Special Interests -->
+      <section id="no-special-interests" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5">
+            <img class="issue-img" src="https://images.unsplash.com/photo-1517260739337-6799d9b9e5a1?q=80&w=1400&auto=format&fit=crop" alt="Capitol building">
+          </div>
+          <div class="col-md-7">
+            <h2 class="h4 section-title">No Special Interests or Lobbyists</h2>
+            <p>Politics should serve people, not donors. I will not take corporate PAC money.</p>
+            <h3 class="h6 text-muted">How I will do it</h3>
+            <ul>
+              <li>Ban members from trading individual stocks while in office.</li>
+              <li>Disclose meetings with lobbyists and publish calendars.</li>
+              <li>Post budgets and earmarks in plain English.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Corporate Accountability -->
+      <section id="corporate-accountability" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5">
+            <img class="issue-img" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1400&auto=format&fit=crop" alt="Office towers">
+          </div>
+          <div class="col-md-7">
+            <h2 class="h4 section-title">Corporate Accountability</h2>
+            <p>Good jobs and safe workplaces should be the norm, not the exception.</p>
+            <h3 class="h6 text-muted">How I will do it</h3>
+            <ul>
+              <li>Hold violators accountable for wage theft and unsafe conditions.</li>
+              <li>Reward companies that create living-wage jobs here at home.</li>
+              <li>Support the right to organize and bargain for fair contracts.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Farmers & Fair Trade -->
+      <section id="farmers-trade" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5">
+            <img class="issue-img" src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1400&auto=format&fit=crop" alt="Farm field at sunrise">
+          </div>
+          <div class="col-md-7">
+            <h2 class="h4 section-title">Support Farmers and Fair Trade</h2>
+            <p>Keep agriculture strong and trade fair for workers and small producers.</p>
+            <h3 class="h6 text-muted">How I will do it</h3>
+            <ul>
+              <li>Invest in local processors and cold storage to cut costs.</li>
+              <li>Protect family farms from predatory contracts.</li>
+              <li>Enforce labor and environmental standards in trade deals.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Climate Action -->
+      <section id="climate-action" class="mb-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5">
+            <img class="issue-img" src="https://images.unsplash.com/photo-1509395062183-67c5ad6faff9?q=80&w=1400&auto=format&fit=crop" alt="Wind turbines">
+          </div>
+          <div class="col-md-7">
+            <h2 class="h4 section-title">Climate Action Now</h2>
+            <p>Protect what we love and create thousands of clean energy jobs.</p>
+            <h3 class="h6 text-muted">How I will do it</h3>
+            <ul>
+              <li>Scale up wind, solar, and transmission while cutting red tape.</li>
+              <li>Fund home weatherization and heat pumps to lower bills.</li>
+              <li>Hold major polluters accountable for the true costs of pollution.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="py-4 bg-white border-top">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="small text-muted mb-2 mb-md-0">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+      <div>
+        <a class="me-3" href="about.html">About</a>
+        <a class="me-3" href="issues.html">Issues</a>
+        <a class="me-3" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
