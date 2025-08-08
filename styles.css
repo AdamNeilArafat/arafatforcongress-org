@@ -1,0 +1,74 @@
+/* ===== Global ===== */
+:root{
+  --primary:#0d3b66;      /* deep blue */
+  --green:#0b6e4f;        /* accent green (bars/buttons) */
+  --donate:#c1121f;       /* donate red */
+  --muted:#6c757d;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body{
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  color:#111;
+  line-height:1.5;
+  background:#fff;
+}
+img{ max-width:100%; display:block; }
+
+/* Links & Buttons */
+a{ color:var(--primary); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+.btn-donate{ background:var(--donate); color:#fff !important; border:none; }
+.btn-donate:hover{ filter:brightness(.95); }
+
+/* ===== Header / Nav ===== */
+.home-icon{ width:40px; height:40px; object-fit:contain; }
+nav ul{
+  list-style:none; padding:0; margin:0;
+  display:flex; gap:1rem; flex-wrap:wrap; align-items:center;
+}
+header h1, header p{ margin:0; }
+.section-title{ color:var(--primary); }
+
+/* ===== Identity ===== */
+.headshot{
+  width:112px; height:112px; border-radius:50%; object-fit:cover;
+  border:3px solid #fff; box-shadow:0 0 0 3px var(--primary);
+}
+@media (min-width:768px){
+  .headshot{ width:220px; height:220px; border:4px solid #fff; box-shadow:0 0 0 4px var(--primary); }
+}
+
+/* ===== Carousel ===== */
+.carousel-caption{
+  background:rgba(0,0,0,.45);
+  padding:1rem 1.25rem;
+  border-radius:.25rem;
+}
+.overlay-tag{
+  position:absolute; bottom:0; right:0; margin:.75rem;
+  background:rgba(0,0,0,.6); color:#fff;
+  padding:.35rem .6rem; border-radius:.25rem;
+  font-weight:600; font-size:.95rem;
+}
+
+/* ===== Bars / Charts ===== */
+.bar{
+  height:14px; background:#e9ecef; border-radius:8px; overflow:hidden;
+}
+.bar > span{ display:block; height:100%; background:var(--green); }
+.bar.red > span{ background:#b11e2d; }
+
+/* ===== Cards / Sections ===== */
+footer p{ margin:0; }
+
+.hero{
+  background:#eef4f8 center/cover no-repeat;
+}
+.hero .wrap{
+  background:rgba(13,59,102,.6); color:#fff;
+}
+
+/* ===== Utilities ===== */
+.text-muted{ color:var(--muted) !important; }
