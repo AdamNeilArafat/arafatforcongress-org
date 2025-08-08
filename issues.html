@@ -18,10 +18,11 @@
         <!-- Custom campaign color overrides -->
         <style>
             :root {
-                /* Neutral and welcoming palette inspired by official sites */
-                --primary-color: #0D3B66; /* prussian blue */
-                --secondary-color: #006633; /* deep green */
-                --accent-color: #E6B800; /* muted gold */
+                /* Updated palette echoing official government websites */
+                --primary-color: #003366; /* navy blue */
+                --secondary-color: #006633; /* dark green */
+                --accent-color: #C39A3A; /* warm gold */
+                --donation-color: #C00021; /* crimson red for donation buttons */
                 --bs-primary: var(--primary-color);
                 --bs-secondary: var(--secondary-color);
             }
@@ -49,6 +50,13 @@
                 color: var(--secondary-color) !important;
                 border-color: var(--secondary-color) !important;
             }
+
+            /* Donation button style using donation color */
+            .btn-donate {
+                background-color: var(--donation-color) !important;
+                border-color: var(--donation-color) !important;
+                color: #ffffff !important;
+            }
         </style>
     </head>
     <body class="d-flex flex-column h-100 bg-light">
@@ -71,8 +79,8 @@
                             <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                             <li class="nav-item"><a class="nav-link" href="issues.html">Issues</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Get&nbsp;Involved</a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" style="color:var(--accent-color);">Donate</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" style="color:var(--donation-color); font-weight: bold;">Donate</a></li>
                         </ul>
                     </div>
                 </div>
