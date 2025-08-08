@@ -1,101 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About Adam — Adam Neil Arafat for Congress</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <meta name="theme-color" content="#0d3b66" />
-  <style>
-    :root{ --primary:#0d3b66; --donate:#c1121f; }
-    nav ul{ list-style:none; display:flex; gap:1rem; margin:0; padding:0; align-items:center; flex-wrap:wrap; }
-    .home-icon{ width:40px; height:40px; object-fit:contain; }
-    .headshot{ width:220px; height:220px; border:4px solid #fff; box-shadow:0 0 0 4px var(--primary); border-radius:12px; object-fit:cover; }
-    .section-title{ color:var(--primary); }
-    .btn-donate{ background:var(--donate); color:#fff !important; border:none; }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Adam</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
 </head>
 <body>
-  <header class="border-bottom">
-    <div class="container py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-      <div class="d-flex align-items-center gap-3">
-        <a href="index.html" aria-label="Home"><img class="home-icon" src="images/IMG_4336.jpeg" alt="Home"></a>
-        <div>
-          <h1 class="h3 m-0">About Adam</h1>
-          <p class="text-muted m-0">Service. Accountability. Results.</p>
-        </div>
-      </div>
-      <nav class="mt-3 mt-md-0">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html" aria-current="page">About</a></li>
-          <li><a href="issues.html">Issues</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
 
-  <main class="py-5">
-    <div class="container px-4">
-      <section id="meet-adam" class="mb-5">
-        <div class="row g-4 align-items-center">
-          <div class="col-md-4 text-center">
-            <img class="headshot" src="images/IMG_4323.jpeg" alt="Adam Neil Arafat">
-          </div>
-          <div class="col-md-8">
-            <h2 class="section-title">Meet Adam</h2>
-            <p>Born in Louisiana and raised in Texas, Adam is the son of a Palestinian immigrant. He served 20 years in the military, including 12 years in Europe and Asia. After meeting his wife in Tacoma, Washington became home. They are raising two boys who attend public school in District 10, where his wife volunteers with the PTA.</p>
-            <p>After the military, Adam kept serving through county projects that improve everyday life. He put himself through college while working full time, earning a bachelor’s and a master’s degree, along with professional certificates, awards, and commendations.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="experience" class="mb-5">
-        <h2 class="section-title">Experience and service</h2>
-        <p>As a veteran and project manager, Adam values leadership and accountability. Living in Europe and Asia showed what is possible when healthcare is guaranteed, education is accessible, and food is affordable and healthy. Here at home, he has volunteered with nonprofits and labor groups to support good-paying jobs and safe workplaces.</p>
-      </section>
-
-      <section id="values" class="mb-5">
-        <h2 class="section-title">Values — trust you can measure</h2>
-        <div class="row g-4">
-          <div class="col-md-6">
-            <h3 class="h6 mb-1">Transparency</h3>
-            <p class="mb-0">Publish calendars, report every dollar in near real time, and keep doors open to the public. This ties directly to <a href="issues.html#no-special-interests">No Special Interests</a>.</p>
-          </div>
-          <div class="col-md-6">
-            <h3 class="h6 mb-1">Fairness</h3>
-            <p class="mb-0">End loopholes and special treatment so workers and small businesses are not subsidizing corporate giants. See <a href="issues.html#fair-taxation">Fair Taxation</a> and <a href="issues.html#corporate-accountability">Corporate Accountability</a>.</p>
-          </div>
-          <div class="col-md-6">
-            <h3 class="h6 mb-1">Responsibility to families</h3>
-            <p class="mb-0">Lower the cost of living and target help where costs are highest. See <a href="issues.html#cost-of-living">Cost of Living</a>.</p>
-          </div>
-          <div class="col-md-6">
-            <h3 class="h6 mb-1">Dignity in care</h3>
-            <p class="mb-0">Healthcare is a basic human right. See <a href="issues.html#universal-healthcare">Universal Healthcare</a>.</p>
-          </div>
-        </div>
-        <p class="mt-3">Our goal is simple. Make life better now and secure a brighter future for our kids and grandkids.</p>
-      </section>
-    </div>
-  </main>
-
-  <footer class="py-4 bg-white border-top">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-      <p class="small text-muted mb-2 mb-md-0">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+<!-- Header -->
+<header class="py-3 border-bottom">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center">
+    <div class="brand d-flex align-items-center">
+      <img src="images/4336.jpeg" alt="Home" class="home-icon me-2">
       <div>
-        <a class="me-3" href="about.html">About</a>
-        <a class="me-3" href="issues.html">Issues</a>
-        <a class="me-3" href="contact.html">Contact</a>
-        <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+        <h1 class="mb-0">About Adam</h1>
+        <p class="mb-0 text-muted">Service. Accountability. Results.</p>
       </div>
     </div>
-  </footer>
+    <nav>
+      <ul class="nav">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link active" aria-current="page">About</a></li>
+        <li class="nav-item"><a href="issues.html" class="nav-link">Issues</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+        <li class="nav-item"><a href="donate.html" class="btn btn-donate ms-2">Donate</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Main Content -->
+<main class="container my-5">
+  <div class="text-center mb-4">
+    <img src="images/4323.jpeg" alt="Adam Neil Arafat" 
+         class="headshot-rect"
+         style="object-position: center top; object-fit: cover;">
+  </div>
+
+  <section>
+    <h2 class="section-title">Meet Adam</h2>
+    <p>
+      Born in Louisiana and raised in Texas, Adam is the son of a Palestinian immigrant.
+      He served 20 years in the military, including 12 years in Europe and Asia.
+      After meeting his wife in Tacoma, Washington became home. They are raising two boys
+      who attend public school in District 10, where his wife volunteers with the PTA.
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2 class="section-title">Core Values</h2>
+    <p>
+      Adam’s campaign is built on the foundation of <strong>TRUST</strong> —
+      Transparency, Responsibility, Unity, Service, and Tenacity.
+      Every policy, from healthcare to housing, is rooted in protecting our quality of life
+      and ensuring a brighter future for our children and grandchildren.
+    </p>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="py-4 mt-5">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center">
+    <p class="mb-0 text-muted">&copy; 2025 Adam Neil Arafat for Congress</p>
+    <div>
+      <a href="donate.html" class="btn btn-donate">Donate</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
