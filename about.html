@@ -6,60 +6,68 @@
   <title>About Adam — Adam Neil Arafat for Congress</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    :root{ --primary-color:#0d3b66; }
-    .section-title{ color:var(--primary-color); }
-    .headshot-lg{
-      width: 220px; height: 220px; object-fit: cover; border-radius: 50%;
-      border:4px solid #fff; box-shadow:0 0 0 4px var(--primary-color);
-    }
+    :root{ --primary:#0d3b66; }
+    .section-title{ color:var(--primary); }
+    .headshot-lg{ width:220px; height:220px; object-fit:cover; border-radius:50%; border:4px solid #fff; box-shadow:0 0 0 4px var(--primary); }
+    nav ul{ list-style:none; padding:0; margin:0; display:flex; gap:1rem; flex-wrap:wrap; align-items:center; }
+    .home-icon{ width:40px; height:40px; object-fit:contain; }
   </style>
 </head>
 <body>
   <header class="border-bottom">
-    <div class="container py-3">
-      <h1 class="h3 m-0">About Adam</h1>
-      <p class="text-muted m-0">Service, accountability, and results for Washington’s 10th</p>
+    <div class="container py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" aria-label="Home"><img class="home-icon" src="assets/home-mark.png" alt="Home"></a>
+        <div>
+          <h1 class="h3 m-0">About Adam</h1>
+          <p class="text-muted m-0">Service, accountability, results</p>
+        </div>
+      </div>
+      <nav class="mt-3 mt-md-0">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+          <li><a href="issues.html">Issues</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
   <main class="py-5">
     <div class="container px-4">
-
-      <!-- Meet Adam -->
       <section id="meet-adam" class="mb-5">
         <div class="row g-4 align-items-center">
           <div class="col-md-4 text-center">
-            <!-- Use the same headshot file -->
             <img class="headshot-lg" src="assets/headshot-adam.jpg" alt="Adam Neil Arafat headshot">
           </div>
           <div class="col-md-8">
             <h2 class="section-title">Meet Adam</h2>
             <p>
-              Adam grew up in The Woodlands, Texas, the son of a Palestinian immigrant. He served 12 years overseas in Europe and Asia.
+              Born in The Woodlands, Texas and the son of a Palestinian immigrant, Adam served 12 years overseas in Europe and Asia.
               After meeting his wife in Tacoma, Washington became home. They are raising two boys in District 10 who attend public schools,
               where his wife volunteers with the PTA.
             </p>
             <p>
               After the military, Adam kept serving through county work that improves everyday life. He put himself through college,
-              earning a bachelor’s and a master’s degree while working full time. That same work ethic guides this campaign:
-              do the work, put people first, deliver results.
+              earning a bachelor’s and a master’s degree while working full time. Same approach to this campaign: do the work,
+              put people first, deliver results.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- Experience & Service -->
       <section id="experience" class="mb-5">
-        <h2 class="section-title">Experience and Service</h2>
+        <h2 class="section-title">Experience and service</h2>
         <p>
-          As a veteran and project manager, Adam knows leadership, accountability, and teamwork matter. Living in Europe and Asia showed him what is possible
-          when a society guarantees healthcare, invests in education, and keeps food affordable and healthy. Here at home he has partnered with nonprofits and labor
-          to support good-paying jobs and safe workplaces.
+          As a veteran and project manager, Adam knows leadership, accountability, and teamwork matter.
+          Living in Europe and Asia showed what’s possible when a society guarantees healthcare, invests in education,
+          and keeps food affordable and healthy. Here at home he has partnered with nonprofits and labor to support
+          good-paying jobs and safe workplaces.
         </p>
       </section>
 
-      <!-- Why it matters -->
-      <section id="why-it-matters" class="mb-5">
+      <section id="why" class="mb-5">
         <h2 class="section-title">Why it matters</h2>
         <ul>
           <li>Fairness and justice for every person</li>
@@ -68,18 +76,14 @@
           <li>Protecting our environment for the next generation</li>
         </ul>
         <p class="mb-0">
-          Our country is at a crossroads. Our kids deserve a future, not a system stuck in place. Change starts with leaders rooted in our communities,
+          Our kids deserve a future, not a system stuck in place. Change starts with leaders rooted in our communities,
           not in donor lists. We need people with integrity who will stand up to special interests and deliver for working families.
         </p>
       </section>
-
-      <div class="text-center">
-        <a class="btn btn-lg btn-danger" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
-      </div>
     </div>
   </main>
 
-  <footer class="py-4 bg-white border-top mt-5">
+  <footer class="py-4 bg-white border-top">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
       <p class="small text-muted mb-2 mb-md-0">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
       <div>
