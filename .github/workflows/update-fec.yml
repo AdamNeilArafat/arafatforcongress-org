@@ -1,0 +1,34 @@
+name: Update FEC data
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6 hours
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install requests
+
+      - name: Run updater
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+          CANDIDATE_ID: ${{ secrets.CANDIDATE_ID }}
+        run: python scripts/update_fec_data.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets/data/strickland_funding.csv
+          git commit -m "chore(data): refresh FEC totals" || echo "No changes"
+          git push
