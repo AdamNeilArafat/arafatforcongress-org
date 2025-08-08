@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Arafat for Congress - Home</title>
+        <title>Adam for Congress - Home</title>
         <!-- Custom Google font-->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -67,6 +67,42 @@
                 </div>
             </nav>
 
+            <!-- Core message tagline -->
+            <div class="py-2 text-center text-white" style="background-color: var(--primary-color);">
+                <span class="fw-bold">Trust is earned, not bought.</span>
+                <span class="ms-2">Fighting for the people, not special interests.</span>
+            </div>
+
+            <!-- High‑level key priorities list -->
+            <section class="py-3 bg-light border-bottom">
+                <div class="container px-5">
+                    <h2 class="fw-bolder mb-2" style="color: var(--primary-color);">Key Priorities at a Glance</h2>
+                    <ul class="mb-0 ps-3">
+                        <li class="mb-1">Lower cost of living</li>
+                        <li class="mb-1">Universal healthcare</li>
+                        <li class="mb-1">Fair taxation</li>
+                        <li class="mb-1">No special interests &amp; lobbyists</li>
+                        <li class="mb-1">Corporate accountability</li>
+                        <li class="mb-1">Support farmers &amp; fair trade</li>
+                        <li class="mb-1">Climate action now</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Comparison section highlighting differences with the incumbent -->
+            <section class="py-5">
+                <div class="container px-5">
+                    <h2 class="fw-bolder mb-3" style="color:var(--primary-color);">Adam vs the Incumbent</h2>
+                    <ul class="ps-3">
+                        <li class="mb-2"><strong>Powered by people:</strong> Adam refuses all corporate and PAC money; the incumbent accepted over $191,000 from PACs and still solicits donations from corporate lobbyists.</li>
+                        <li class="mb-2"><strong>Fighting for fairness:</strong> Adam will close tax loopholes, restore progressive taxes and ensure big corporations pay their share.  The incumbent opposed Seattle’s "head tax" on large corporations designed to fund homelessness services.</li>
+                        <li class="mb-2"><strong>Community first:</strong> Adam served our country abroad and works alongside local families, teachers and veterans.  The incumbent spent years representing business interests as CEO of the Seattle Metropolitan Chamber of Commerce and sides with corporate donors over working people.</li>
+                        <li class="mb-2"><strong>Transparent leadership:</strong> Adam will make every vote and expenditure public.  The incumbent’s campaign relies on special‑interest contributions—including pro‑business PACs—and refuses to pledge full transparency.</li>
+                        <li class="mb-2"><strong>No foreign lobbying money:</strong> Adam will reject donations from lobbyists and foreign‑policy groups that distort our democracy; the incumbent has accepted contributions from powerful lobbying organizations and votes with their agenda.</li>
+                    </ul>
+                </div>
+            </section>
+
             <!-- Hero Carousel Section -->
             <section id="campaignCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
@@ -75,19 +111,22 @@
                     <button type="button" data-bs-target="#campaignCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <div class="carousel-item active" style="position: relative;">
                         <img src="https://images.unsplash.com/photo-1505245208761-ba872912fac0?auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="Lower Cost of Living" style="object-fit: cover; height: 450px;">
+                        <!-- overlay tag showing the issue -->
+                        <div class="position-absolute bottom-0 end-0 m-3 p-2 bg-primary text-white rounded-3 small">Lower Cost of Living</div>
                         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
                             <h2 class="fw-bolder text-white">Lower Cost of Living</h2>
                             <p class="fw-normal text-white">Affordable housing, fair wages and a secure retirement for every family.</p>
                             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                                <a class="btn btn-primary btn-lg px-4" href="contact.html">Contact Arafat</a>
+                                <a class="btn btn-primary btn-lg px-4" href="contact.html">Contact Adam</a>
                                 <a class="btn btn-donate btn-lg px-4" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank">Donate</a>
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item" style="position: relative;">
                         <img src="https://images.unsplash.com/photo-1584467735871-7a25e84cd83a?auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="Universal Healthcare" style="object-fit: cover; height: 450px;">
+                        <div class="position-absolute bottom-0 end-0 m-3 p-2 bg-primary text-white rounded-3 small">Universal Healthcare</div>
                         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
                             <h2 class="fw-bolder text-white">Universal Healthcare</h2>
                             <p class="fw-normal text-white">Care for all. Decisions between doctor and patient, not the government.</p>
@@ -97,8 +136,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item" style="position: relative;">
                         <img src="https://images.unsplash.com/photo-1554224155-ff38636da529?auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="Fair Taxation" style="object-fit: cover; height: 450px;">
+                        <div class="position-absolute bottom-0 end-0 m-3 p-2 bg-primary text-white rounded-3 small">Fair Taxation</div>
                         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-4 rounded">
                             <h2 class="fw-bolder text-white">Fair Taxation</h2>
                             <p class="fw-normal text-white">Close loopholes, tax corporations and the ultra-rich — people over profits.</p>
@@ -189,19 +229,15 @@
                 <div class="container px-5">
                     <h2 class="fw-bolder mb-4 text-center" style="color:var(--primary-color);">By the Numbers</h2>
                     <div class="row gx-5 gy-4 text-center">
-                        <div class="col-md-3">
-                            <div class="display-4 fw-bolder" style="color:var(--primary-color);">0</div>
+                        <div class="col-md-4">
+                            <div class="display-4 fw-bolder" style="color:var(--primary-color);">$0</div>
                             <p>No corporate PAC money accepted</p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="display-4 fw-bolder" style="color:var(--primary-color);">100%</div>
-                            <p>Transparency & accountability promised</p>
+                            <p>Transparency &amp; accountability promised</p>
                         </div>
-                        <div class="col-md-3">
-                            <div class="display-4 fw-bolder" style="color:var(--primary-color);">10K+</div>
-                            <p>Constituent interactions planned</p>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="display-4 fw-bolder" style="color:var(--primary-color);">24/7</div>
                             <p>Commitment to serving you</p>
                         </div>
@@ -216,13 +252,11 @@
                     <div class="row gx-5 gy-4">
                         <div class="col-md-6">
                             <h4 class="fw-bolder" style="color:var(--primary-color);">Main Campaign Office</h4>
-                            <p>123 Main Street<br>South Hill, WA&nbsp;98375</p>
-                            <p>Phone: (360) 555‑1234</p>
+                            <p>Hopefully moving into the district office soon.<br>South Hill, WA&nbsp;98375</p>
                         </div>
                         <div class="col-md-6">
                             <h4 class="fw-bolder" style="color:var(--primary-color);">District Office</h4>
                             <p>456 Elm Street<br>Lacey, WA&nbsp;98503</p>
-                            <p>Phone: (360) 555‑5678</p>
                         </div>
                     </div>
                 </div>
@@ -254,15 +288,15 @@
                 </div>
             </section>
 
-            <!-- Meet Arafat Section -->
+            <!-- Meet Adam Section -->
             <section class="py-5">
                 <div class="container px-5">
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-8">
                             <div class="text-center my-5">
-                                <h2 class="fw-bolder mb-4" style="color:var(--primary-color);">Meet Arafat</h2>
-                                <p class="lead fw-light mb-4">Community advocate, neighbor and small business owner.</p>
-                                <p class="text-muted">Arafat has spent his life working for the people of our district—fighting for good jobs, excellent schools, affordable healthcare and a clean environment. Now he's ready to bring that passion and experience to Congress. Join our movement and help us build a future where every family can thrive.</p>
+                                <h2 class="fw-bolder mb-4" style="color:var(--primary-color);">Meet Adam</h2>
+                                <p class="lead fw-light mb-4">Community advocate, neighbor and veteran.</p>
+                                <p class="text-muted">Adam served our country abroad and returned home to fight for working families and our kids’ future. As a project manager and grassroots organizer, he’s worked alongside teachers, veterans and small businesses to improve our schools, expand access to healthcare and protect our environment. Now he's ready to bring that passion and experience to Congress. Join our movement and help us build a future where every family can thrive.</p>
                                 <div class="d-flex justify-content-center fs-2 gap-4">
                                     <a class="text-decoration-none" href="#" title="Twitter"><i class="bi bi-twitter" style="color:var(--primary-color);"></i></a>
                                     <a class="text-decoration-none" href="#" title="LinkedIn"><i class="bi bi-linkedin" style="color:var(--primary-color);"></i></a>
