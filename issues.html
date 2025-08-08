@@ -15,20 +15,64 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core Bootstrap CSS from CDN -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- Custom campaign color overrides -->
+        <style>
+            :root {
+                /* Neutral and welcoming palette inspired by official sites */
+                --primary-color: #0D3B66; /* prussian blue */
+                --secondary-color: #006633; /* deep green */
+                --accent-color: #E6B800; /* muted gold */
+                --bs-primary: var(--primary-color);
+                --bs-secondary: var(--secondary-color);
+            }
+            .btn-primary {
+                background-color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+            }
+            .btn-outline-dark {
+                color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+            }
+            .bg-gradient-primary-to-secondary {
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+            }
+            .text-gradient {
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .badge.bg-gradient-primary-to-secondary {
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+            }
+
+            .btn-outline-secondary {
+                color: var(--secondary-color) !important;
+                border-color: var(--secondary-color) !important;
+            }
+        </style>
     </head>
     <body class="d-flex flex-column h-100 bg-light">
         <main class="flex-shrink-0">
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
                 <div class="container px-5">
-                    <a class="navbar-brand" href="index.html"><span class="fw-bolder text-primary">Arafat for Congress</span></a>
+                    <!-- Site brand with icon and name block -->
+                    <a class="navbar-brand d-flex align-items-center" href="index.html">
+                        <i class="bi bi-geo-fill" style="color:var(--primary-color); font-size: 1.7rem; margin-right: .5rem;"></i>
+                        <div class="lh-sm">
+                            <span class="fw-bolder" style="color:var(--accent-color);">Adam Neil</span><br />
+                            <span class="fw-bolder" style="color:var(--primary-color);">Arafat</span><br />
+                            <small style="color:var(--accent-color);">WA&nbsp;District&nbsp;10</small>
+                        </div>
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                             <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                             <li class="nav-item"><a class="nav-link" href="issues.html">Issues</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Volunteer</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact.html">Get&nbsp;Involved</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" style="color:var(--accent-color);">Donate</a></li>
                         </ul>
                     </div>
                 </div>
@@ -42,63 +86,88 @@
                     </div>
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-11 col-xl-9 col-xxl-8">
-                            <!-- Issue Card: Economic Opportunity -->
+                            <!-- Updated issue cards reflecting Arafat's platform -->
+                            <!-- Lower Cost of Living -->
                             <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
                                     <div class="d-flex align-items-center flex-column flex-md-row">
                                         <div class="p-5">
-                                            <h2 class="fw-bolder">Economic Opportunity</h2>
-                                            <p>Arafat will champion job creation and support small businesses. He believes in raising wages, strengthening workers’ rights and investing in job training so that everyone has a fair shot at prosperity.</p>
+                                            <h2 class="fw-bolder">Lower Cost of Living</h2>
+                                            <p>Everyone deserves an affordable place to live and enough to eat. Arafat will fight for affordable housing, lower food costs, fair wages and a secure social safety net so families can thrive.</p>
                                         </div>
-                                        <img class="img-fluid" src="https://dummyimage.com/300x400/343a40/6c757d" alt="Economy" />
+                                        <img class="img-fluid" src="https://dummyimage.com/300x400/e9ecef/d1d1d1" alt="Cost of living" />
                                     </div>
                                 </div>
                             </div>
-                            <!-- Issue Card: Education -->
+                            <!-- Universal Healthcare -->
                             <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
                                     <div class="d-flex align-items-center flex-column flex-md-row">
                                         <div class="p-5">
-                                            <h2 class="fw-bolder">Education</h2>
-                                            <p>Every child deserves a world‑class education. Arafat will fight to fully fund our public schools, pay teachers a living wage, and make higher education and vocational training affordable and accessible.</p>
+                                            <h2 class="fw-bolder">Universal Healthcare</h2>
+                                            <p>Healthcare is a human right. Arafat supports universal healthcare where every medical decision is made between patients and doctors—not politicians or insurance companies.</p>
                                         </div>
-                                        <img class="img-fluid" src="https://dummyimage.com/300x400/343a40/6c757d" alt="Education" />
+                                        <img class="img-fluid" src="https://dummyimage.com/300x400/e9ecef/d1d1d1" alt="Healthcare" />
                                     </div>
                                 </div>
                             </div>
-                            <!-- Issue Card: Healthcare -->
+                            <!-- Fair Taxation -->
                             <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
                                     <div class="d-flex align-items-center flex-column flex-md-row">
                                         <div class="p-5">
-                                            <h2 class="fw-bolder">Healthcare</h2>
-                                            <p>No one should go broke because they get sick. Arafat supports expanding access to affordable healthcare, lowering prescription drug costs and protecting reproductive rights.</p>
+                                            <h2 class="fw-bolder">Fair Taxation</h2>
+                                            <p>For too long the ultra‑rich and big corporations have gamed the system. Arafat will close loopholes and make sure the wealthy and corporations pay their fair share so we can invest in communities.</p>
                                         </div>
-                                        <img class="img-fluid" src="https://dummyimage.com/300x400/343a40/6c757d" alt="Healthcare" />
+                                        <img class="img-fluid" src="https://dummyimage.com/300x400/e9ecef/d1d1d1" alt="Fair taxation" />
                                     </div>
                                 </div>
                             </div>
-                            <!-- Issue Card: Environment -->
+                            <!-- No Special Interests & Lobbyists -->
                             <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
                                     <div class="d-flex align-items-center flex-column flex-md-row">
                                         <div class="p-5">
-                                            <h2 class="fw-bolder">Environment</h2>
-                                            <p>Arafat will work to preserve our natural resources and address climate change by investing in clean energy and green infrastructure, while protecting jobs and communities during the transition.</p>
+                                            <h2 class="fw-bolder">No Special Interests &amp; Lobbyists</h2>
+                                            <p>Our campaign is powered by people, not lobbyists. Arafat will refuse special‑interest money and put constituents first—no strings attached.</p>
                                         </div>
-                                        <img class="img-fluid" src="https://dummyimage.com/300x400/343a40/6c757d" alt="Environment" />
+                                        <img class="img-fluid" src="https://dummyimage.com/300x400/e9ecef/d1d1d1" alt="No special interests" />
                                     </div>
                                 </div>
                             </div>
-                            <!-- Issue Card: Veterans & Service Members -->
-                            <div class="card overflow-hidden shadow rounded-4 border-0">
+                            <!-- Corporate Accountability -->
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
                                     <div class="d-flex align-items-center flex-column flex-md-row">
                                         <div class="p-5">
-                                            <h2 class="fw-bolder">Veterans & Service Members</h2>
-                                            <p>Our veterans and military families deserve respect and support. Arafat will secure funding for quality healthcare, housing and job programs for those who have served our country.</p>
+                                            <h2 class="fw-bolder">Corporate Accountability</h2>
+                                            <p>Corporations must pay their workers fairly and follow the rules. Arafat will hold corporations accountable, end sweetheart deals and protect workers’ rights.</p>
                                         </div>
-                                        <img class="img-fluid" src="https://dummyimage.com/300x400/343a40/6c757d" alt="Veterans" />
+                                        <img class="img-fluid" src="https://dummyimage.com/300x400/e9ecef/d1d1d1" alt="Corporate accountability" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Support Farmers & Trade -->
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                                <div class="card-body p-0">
+                                    <div class="d-flex align-items-center flex-column flex-md-row">
+                                        <div class="p-5">
+                                            <h2 class="fw-bolder">Support Farmers &amp; Trade</h2>
+                                            <p>Our farmers feed the nation and deserve policies that sustain them. Arafat will champion fair trade, invest in local agriculture and protect farmers from unfair corporate practices.</p>
+                                        </div>
+                                        <img class="img-fluid" src="https://dummyimage.com/300x400/e9ecef/d1d1d1" alt="Farmers and trade" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Climate Action Now -->
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                                <div class="card-body p-0">
+                                    <div class="d-flex align-items-center flex-column flex-md-row">
+                                        <div class="p-5">
+                                            <h2 class="fw-bolder">Climate Action Now</h2>
+                                            <p>Our planet can’t wait. Arafat will push for clean energy, cut polluter handouts and invest in green jobs to build a sustainable future for our kids.</p>
+                                        </div>
+                                        <img class="img-fluid" src="https://dummyimage.com/300x400/e9ecef/d1d1d1" alt="Climate action" />
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +189,7 @@
         <footer class="bg-white py-4 mt-auto">
             <div class="container px-5">
                 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0">Copyright &copy; Your Website 2023</div></div>
+                    <div class="col-auto"><div class="small m-0">Copyright &copy; 2025 Adam Arafat for Congress</div></div>
                     <div class="col-auto">
                         <a class="small" href="#!">Privacy</a>
                         <span class="mx-1">&middot;</span>
