@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adam for Congress - Home</title>
+  <title>Adam Neil Arafat for Congress — Washington District 10</title>
 
-  <!-- Bootstrap 5 -->
+  <!-- Keep your existing stylesheet if you have one -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Optional Bootstrap for layout (safe to keep even if styles.css exists) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -14,46 +17,59 @@
       --secondary-color:#0b6e4f; /* deep green */
       --donation-color:#c1121f;  /* red for donate */
     }
-    .navbar-brand span { font-weight: 800; letter-spacing:.5px; }
-    .btn-donate{ background:var(--donation-color); color:#fff!important; border:none; }
-    .btn-donate:hover{ filter:brightness(.9); }
+    /* Header */
+    header .brand h1{ margin:0; font-weight:800; letter-spacing:.3px; }
+    header .brand p{ margin:0; color:#555; }
+    /* Buttons */
+    .btn-donate{ background:var(--donation-color); color:#fff !important; border:none; }
+    .btn-donate:hover{ filter:brightness(.94); }
+    /* Carousel */
     .carousel-caption{ background:rgba(0,0,0,.45); padding:1rem 1.25rem; border-radius:.25rem; }
     .overlay-tag{
       position:absolute; bottom:0; right:0; margin:.75rem;
       background:rgba(0,0,0,.6); color:#fff; padding:.35rem .6rem; border-radius:.25rem;
       font-weight:600; font-size:.95rem;
     }
+    /* Sections */
     .section-title{ color:var(--primary-color); }
+    .stats .display-5{ color:var(--primary-color); }
+    footer p{ margin:0; }
+    /* Simple nav fallback if not using a Bootstrap navbar */
+    nav ul{ list-style:none; padding:0; margin:0; display:flex; gap:1rem; flex-wrap:wrap; }
+    nav a{ text-decoration:none; }
+    /* Headshot */
     .headshot{
-      width: 112px; height:112px; border-radius:50%; object-fit:cover; border:3px solid #fff;
-      box-shadow: 0 0 0 3px var(--primary-color);
+      width: 112px; height:112px; border-radius:50%; object-fit:cover;
+      border:3px solid #fff; box-shadow:0 0 0 3px var(--primary-color);
     }
-    footer a { text-decoration:none; }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="navbar navbar-expand-lg bg-white border-bottom">
-    <div class="container px-3">
-      <a class="navbar-brand d-flex align-items-center" href="index.html" aria-label="Home">
-        <img class="headshot me-2 d-none d-md-block" src="https://images.unsplash.com/photo-1603415526960-f7e0328d13b1?q=80&w=256&auto=format&fit=crop" alt="Candidate headshot placeholder"><!-- replace with your real photo -->
-        <span class="me-2">ADAM</span> <small class="text-muted ms-1">for Congress</small>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navMain">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="issues.html">Issues</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item ms-lg-2"><a class="btn btn-donate btn-sm" target="_blank" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a></li>
-        </ul>
+  <!-- HEADER (kept exactly as requested) -->
+  <header class="border-bottom">
+    <div class="container py-3">
+      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="brand d-flex align-items-center gap-3">
+          <!-- Your headshot: upload assets/headshot-adam.jpg -->
+          <img class="headshot d-none d-md-block" src="assets/headshot-adam.jpg" alt="Adam Neil Arafat headshot">
+          <div>
+            <h1>Adam Neil Arafat for Congress</h1>
+            <p>Washington District 10</p>
+          </div>
+        </div>
+        <nav class="mt-3 mt-md-0">
+          <ul class="align-items-center">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="issues.html">Issues</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
-  </nav>
+  </header>
 
   <!-- Message bar -->
   <div class="py-2 text-center text-white" style="background:var(--primary-color)">
@@ -68,73 +84,75 @@
     <div class="container px-4 py-3">
       <h2 class="h4 mb-2 section-title">Top Priorities</h2>
       <ul class="mb-0">
-        <li>Lowering the cost of living</li>
-        <li>Universal healthcare</li>
-        <li>Fair taxation</li>
-        <li>No special interests or lobbyists</li>
-        <li>Corporate accountability</li>
-        <li>Support farmers &amp; fair trade</li>
-        <li>Climate action now</li>
+        <li><a href="issues.html#cost-of-living">Lowering the cost of living</a></li>
+        <li><a href="issues.html#universal-healthcare">Universal healthcare</a></li>
+        <li><a href="issues.html#fair-taxation">Fair taxation</a></li>
+        <li><a href="issues.html#no-special-interests">No special interests &amp; lobbyists</a></li>
+        <li><a href="issues.html#corporate-accountability">Corporate accountability</a></li>
+        <li><a href="issues.html#farmers-trade">Support farmers &amp; fair trade</a></li>
+        <li><a href="issues.html#climate-action">Climate action now</a></li>
       </ul>
     </div>
   </section>
 
-  <!-- Adam vs Incumbent -->
+  <!-- Adam vs. Incumbent -->
   <section id="vs-incumbent" class="py-4 border-bottom">
     <div class="container px-4">
       <h2 class="h4 fw-bold mb-3 section-title">Adam vs. the Incumbent</h2>
       <ul class="mb-0">
         <li class="mb-2">
           <strong>Fighting for fairness:</strong> Adam will close loopholes, restore progressive taxes, and make big corporations pay their share.
-          In 2018, Seattle’s head tax was set at <strong>$275 per employee</strong> and projected to raise <strong>≈$47–50 million/year</strong> for homelessness and affordable housing.
-          Amazon paused construction and business groups mounted intense pressure; the council repealed the tax, leaving the shortfall to be covered by strained services and other local revenues borne by residents.
-          <a href="#sources" class="small">Sources</a>
+          In 2018, Seattle’s head tax was set at <strong>$275 per employee</strong> and projected to raise <strong>≈$47–50 million/year</strong> for homelessness and affordable housing. After intense pressure from Amazon and business groups, it was repealed—shifting the shortfall back onto residents through strained services and other local revenues.
+          <a href="issues.html#fair-taxation" class="small ms-1">Learn more</a>
         </li>
         <li class="mb-2">
-          <strong>Powered by people:</strong> Adam refuses corporate and PAC money.
-          Across her congressional career to date (2019–2024), the incumbent’s campaign has taken <strong>≈$2.04 million</strong> from PACs (≈<strong>$1.35M business</strong>, <strong>$415k ideological</strong>, <strong>$278k labor</strong>).
-          In the 2023–24 cycle alone, PACs were <strong>44%</strong> of her campaign funds (<strong>$905,175</strong>).
-          Her top 2024 industry was <strong>Pro-Israel ($150,980)</strong>, with <strong>AIPAC</strong> as a top contributor (<strong>$145,379</strong>), and <strong>Amazon</strong> among top contributors (<strong>$21,793</strong>, incl. <strong>$7,500</strong> from Amazon PAC).
-          <a href="#sources" class="small">Sources</a>
+          <strong>Powered by people:</strong> Adam refuses corporate and PAC money. The incumbent’s career fundraising includes <strong>~$2.0M from PACs</strong> (business, ideological, and labor combined), with the 2023–24 cycle alone showing <strong>~$905k</strong> in PAC contributions and <strong>Pro-Israel</strong> as a top industry; AIPAC and Amazon appear among top contributors in cycle summaries.
+          <a href="issues.html#no-special-interests" class="small ms-1">Learn more</a>
         </li>
       </ul>
     </div>
   </section>
 
-  <!-- HERO CAROUSEL -->
+  <!-- HERO CAROUSEL (slides link to Issues) -->
   <section id="campaignCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Featured issues">
     <div class="carousel-inner">
 
       <!-- Slide 1: Cost of Living -->
       <div class="carousel-item active">
-        <img src="https://images.unsplash.com/photo-1502904550040-7534597429ae?q=80&w=1600&auto=format&fit=crop" class="d-block w-100" alt="Family budgeting at kitchen table (Unsplash)">
+        <a href="issues.html#cost-of-living">
+          <img src="assets/hero-cost-of-living.jpg" class="d-block w-100" alt="Family budgeting (placeholder)">
+        </a>
         <div class="carousel-caption text-start">
           <h2 class="display-6 fw-bold">Lowering the Cost of Living</h2>
           <p>Lower prices for housing, food, energy, and healthcare—without corporate price-gouging.</p>
-          <a href="issues.html" class="btn btn-primary">See Plan</a>
+          <a href="issues.html#cost-of-living" class="btn btn-primary">See Plan</a>
           <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" class="btn btn-donate ms-2">Donate</a>
         </div>
         <div class="overlay-tag">Cost of Living</div>
       </div>
 
-      <!-- Slide 2: Healthcare -->
+      <!-- Slide 2: Universal Healthcare -->
       <div class="carousel-item">
-        <img src="https://images.unsplash.com/photo-1504814532849-9276610a0211?q=80&w=1600&auto=format&fit=crop" class="d-block w-100" alt="Healthcare workers in hallway (Unsplash)">
+        <a href="issues.html#universal-healthcare">
+          <img src="assets/hero-healthcare.jpg" class="d-block w-100" alt="Healthcare team (placeholder)">
+        </a>
         <div class="carousel-caption text-start">
           <h2 class="display-6 fw-bold">Universal Healthcare</h2>
           <p>Coverage for all, lower drug prices, and no one goes broke from a hospital visit.</p>
-          <a href="issues.html" class="btn btn-primary">See Plan</a>
+          <a href="issues.html#universal-healthcare" class="btn btn-primary">See Plan</a>
         </div>
         <div class="overlay-tag">Healthcare</div>
       </div>
 
       <!-- Slide 3: Fair Taxation -->
       <div class="carousel-item">
-        <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=1600&auto=format&fit=crop" class="d-block w-100" alt="Tax forms and calculator (Unsplash)">
+        <a href="issues.html#fair-taxation">
+          <img src="assets/hero-fair-taxes.jpg" class="d-block w-100" alt="Tax forms and calculator (placeholder)">
+        </a>
         <div class="carousel-caption text-start">
           <h2 class="display-6 fw-bold">Fair Taxation</h2>
           <p>Close loopholes, restore progressivity, and make sure big corporations pay what they owe.</p>
-          <a href="issues.html" class="btn btn-primary">See Plan</a>
+          <a href="issues.html#fair-taxation" class="btn btn-primary">See Plan</a>
         </div>
         <div class="overlay-tag">Fair Taxes</div>
       </div>
@@ -149,37 +167,46 @@
     </button>
   </section>
 
+  <!-- KEY ISSUES (links to Issues page anchors) -->
+  <section class="key-issues py-5">
+    <div class="container">
+      <h2 class="section-title mb-3">Key Priorities at a Glance</h2>
+      <ul>
+        <li><a href="issues.html#cost-of-living">Lowering the cost of living</a></li>
+        <li><a href="issues.html#universal-healthcare">Universal healthcare</a></li>
+        <li><a href="issues.html#fair-taxation">Fair taxation</a></li>
+        <li><a href="issues.html#no-special-interests">No special interests &amp; lobbyists</a></li>
+        <li><a href="issues.html#corporate-accountability">Corporate accountability</a></li>
+        <li><a href="issues.html#farmers-trade">Support farmers &amp; fair trade</a></li>
+        <li><a href="issues.html#climate-action">Climate action now</a></li>
+      </ul>
+    </div>
+  </section>
+
   <!-- BY THE NUMBERS -->
   <section id="by-the-numbers" class="bg-light py-5">
     <div class="container px-5">
       <h2 class="fw-bolder mb-4 text-center section-title">By the Numbers</h2>
       <div class="row gx-5 gy-4 text-center">
 
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="p-4 bg-white shadow-sm h-100">
             <div class="display-5 fw-bold" style="color:var(--primary-color);">$0</div>
             <div class="small text-muted">Corporate PAC money accepted</div>
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="p-4 bg-white shadow-sm h-100">
             <div class="display-5 fw-bold" style="color:var(--primary-color);">100%</div>
             <div class="small text-muted">Transparency &amp; accountability promised</div>
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="p-4 bg-white shadow-sm h-100">
             <div class="display-5 fw-bold" style="color:var(--primary-color);">24/7</div>
             <div class="small text-muted">Commitment to serving you</div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="p-4 bg-white shadow-sm h-100">
-            <div class="display-5 fw-bold" style="color:var(--primary-color);">1</div>
-            <div class="small text-muted">Community, united</div>
           </div>
         </div>
 
@@ -208,45 +235,14 @@
     </div>
   </section>
 
-  <!-- SOURCES -->
-  <section id="sources" class="py-4 border-top">
-    <div class="container px-4">
-      <h2 class="h5 mb-3 section-title">Sources</h2>
-      <ul class="small mb-0">
-        <li>
-          Seattle head tax amount and expected revenue; approval/repeal under pressure including Amazon’s construction pause:
-          <a href="https://www.axios.com/2018/06/12/seattle-repeals-homelessness-tax-amazon-big-tech-hq2" target="_blank" rel="noopener">Axios</a>,
-          <a href="https://www.wired.com/story/tax-compromise-gives-amazons-latest-seattle-office-new-life" target="_blank" rel="noopener">Wired (compromise &amp; $50M/yr)</a>,
-          <a href="https://www.geekwire.com/2018/amazon-suspends-construction-seattle-city-considers-new-tax-biggest-businesses/" target="_blank" rel="noopener">GeekWire (construction pause)</a>,
-          <a href="https://downtownseattle.org/2018/06/seattle-repeals-per-worker-tax-victory-amazon-employers/" target="_blank" rel="noopener">Downtown Seattle Association</a>,
-          <a href="https://www.theatlantic.com/technology/archive/2018/06/how-amazon-helped-kill-a-seattle-tax-on-business/562736/" target="_blank" rel="noopener">The Atlantic</a>.
-        </li>
-        <li>
-          Chamber opposition while she was CEO:
-          <a href="https://www.cascadepbs.org/politics/2020/08/what-separates-strickland-and-doglio-was-10th-congressional-district/" target="_blank" rel="noopener">Cascade PBS</a>,
-          <a href="https://www.geekwire.com/2018/seattle-businesses-rejected-head-tax-wrong-approach-homeless-crisis-now-going/" target="_blank" rel="noopener">GeekWire</a>.
-        </li>
-        <li>
-          2024 cycle summary: top contributor AIPAC; Amazon among top contributors with totals and PAC portion; top industry Pro-Israel; PAC share and dollar:
-          <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets (2023–24 summary)</a>,
-          <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/industries?cid=N00046320&cycle=2024&recs=0&type=C" target="_blank" rel="noopener">OpenSecrets (2024 industries)</a>.
-        </li>
-        <li>
-          Career PAC totals by type (2019–2024 combined):
-          <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/pacs?cid=N00046320&cycle=CAREER&seclong=Communications%2FElectronics&sector=B&type=I" target="_blank" rel="noopener">OpenSecrets (career PAC breakdown)</a>.
-        </li>
-      </ul>
-    </div>
-  </section>
-
   <footer class="py-4 bg-white border-top">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-      <div class="small text-muted">© <span id="yr"></span> Adam for Congress</div>
-      <div class="mt-2 mt-md-0">
+      <p class="small text-muted mb-2 mb-md-0">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+      <div>
         <a class="me-3" href="about.html">About</a>
         <a class="me-3" href="issues.html">Issues</a>
         <a class="me-3" href="contact.html">Contact</a>
-        <a class="btn btn-donate btn-sm" target="_blank" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a>
+        <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
       </div>
     </div>
   </footer>
