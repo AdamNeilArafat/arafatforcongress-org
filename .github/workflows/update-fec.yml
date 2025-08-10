@@ -2,11 +2,11 @@ name: Update FEC data
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 */6 * * *"     # every 6 hours
   workflow_dispatch:
 
 permissions:
-  contents: write   # <-- needed to push
+  contents: write
 
 jobs:
   update:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0           # allow pushing
+          fetch-depth: 0
           persist-credentials: true
 
       - name: Set up Python
@@ -39,6 +39,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes"; exit 0
           fi
-          git pull --rebase
           git commit -m "chore(data): refresh FEC totals"
+          git pull --rebase
           git push
