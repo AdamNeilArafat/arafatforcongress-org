@@ -31,7 +31,7 @@ jobs:
         with:
           fetch-depth: 1
       - uses: actions/configure-pages@v5
-      # If you have a build step (npm/hugo/etc.), add it here
+      # Add your build step here if you have one (e.g., npm run build)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: "."   # change to your build output dir if you build (e.g., "dist")
