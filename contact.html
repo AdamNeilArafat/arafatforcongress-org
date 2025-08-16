@@ -91,16 +91,18 @@
       color:#fff; border-radius:14px;
     }
 
-    /* Footer underline links */
-    footer a {
-      position:relative; color:#1c2b3a; text-decoration:none; font-weight:600;
+    /* Footer: social row + legal */
+    .footer-social {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color: #fff;
     }
-    footer a:hover { color: var(--link); }
-    footer a::after {
-      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background: currentColor; border-radius:2px; transition: width .18s ease;
+    .footer-social .social-pill {
+      border-color: rgba(255,255,255,.3);
+      background: rgba(255,255,255,.10);
     }
-    footer a:hover::after, footer a:focus::after { width:100%; }
+    .footer-legal {
+      background:#ffffff;
+    }
   </style>
 </head>
 <body>
@@ -127,9 +129,10 @@
     <div class="row align-items-center g-2">
       <div class="col-12 text-center">
         <div class="h5 m-0 text-uppercase">Get in Touch</div>
-    <p class="mb-0">
-  This is a grassroots campaign — I work full time and have a family, so I may be slow to respond. But I read every message, and I truly appreciate you taking the time to reach out.
-</p>
+        <p class="mb-0">
+          This is a grassroots campaign — I work full time and have a family, so I may be slow to respond.
+          But I read every message, and I truly appreciate you taking the time to reach out.
+        </p>
       </div>
     </div>
   </div>
@@ -144,7 +147,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
         <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart from the Current Representative</a></li>
         <li class="nav-item"><a class="nav-link" aria-current="page" href="contact.html">Contact</a></li>
         <li class="nav-item ms-lg-2">
@@ -251,18 +254,29 @@
   </div>
 </main>
 
-<footer class="py-4 bg-white border-top text-center">
+<!-- FOOTER (Social strip + legal; no page navigation buttons) -->
+<section class="footer-social py-3">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <span class="me-2 fw-semibold">Follow Adam:</span>
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
+  </div>
+</section>
+
+<footer class="footer-legal py-4 border-top text-center">
   <div class="container">
     <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
     <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
     <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
-    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <a href="issues.html">Issues</a>
-      <a href="contrast.html">What Sets Me Apart from the Current Representative</a>
-      <a href="contact.html" aria-current="page">Contact</a>
-      <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
-    </div>
+    <p class="small text-muted mb-0">Not authorized by any other candidate or candidate’s committee.</p>
   </div>
 </footer>
 
