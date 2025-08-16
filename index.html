@@ -1,225 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-TSHYRZVZ97');
-  </script>
-
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adam Neil Arafat for Congress — Washington District 10</title>
-  <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="Trust is built, not bought. This campaign is about our quality of life and a better future for our kids and grandkids." />
-
-  <!-- Bootstrap CSS + Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adam Neil Arafat for Congress</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    nav ul { list-style:none; padding:0; margin:0; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
-    .btn-donate { background:var(--donate); color:#fff !important; border:none; }
-    .btn-donate:hover { filter:brightness(0.95); }
-
-    /* Hero */
-    #campaignCarousel img { width:100%; height:60vh; min-height:420px; object-fit:cover; aspect-ratio:16/9; }
-    .carousel-caption { background:rgba(0,0,0,.45); padding:1rem 1.25rem; border-radius:.25rem; bottom:1rem; right:1rem; left:auto; text-align:left; }
-
-    .section-title { color:var(--primary); }
-
-    /* About image */
-    .about-photo {
-      width:100%; max-width:520px; aspect-ratio:4/5; object-fit:cover;
-      border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.12);
+    body {
+      font-family: Arial, sans-serif;
     }
-
-    /* Social buttons */
-    .social-btn { border:1px solid #e0e0e0; }
-    .social-btn i { font-size:1.1rem; }
+    .social-bar {
+      background: #222;
+      padding: 0.5rem 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      text-align: right;
+    }
+    .social-bar a {
+      color: #fff;
+      margin-left: 1rem;
+      font-size: 1.3rem;
+      transition: color 0.2s ease;
+    }
+    .social-bar a:hover {
+      color: #0d6efd;
+    }
+    .hero img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .about-photo {
+      width: 100%;
+      border-radius: 50%;
+      border: 4px solid #0d6efd;
+    }
+    .btn-contrast {
+      background: #0d6efd;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 0.75rem 1.25rem;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
+    .btn-contrast:hover {
+      background: #084298;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
 
-<header class="border-bottom">
-  <div class="container py-3">
-    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-      <div class="brand d-flex align-items-center gap-3">
-        <div>
-          <h1 class="m-0">Adam Neil Arafat for Congress</h1>
-          <p class="m-0 text-muted">Washington District 10</p>
-        </div>
-      </div>
-      <nav class="mt-3 mt-md-0">
-        <ul>
-          <li><a href="index.html" aria-current="page">Home</a></li>
-          <li><a href="issues.html">Issues</a></li>
-          <li><a href="contrast.html">What Sets Us Apart</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
+  <!-- SOCIAL BAR -->
+  <div class="social-bar">
+    <a href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" aria-label="Reddit">
+      <i class="fab fa-reddit"></i>
+    </a>
+    <a href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" aria-label="Bluesky">
+      <i class="fa-brands fa-bluesky"></i>
+    </a>
+    <a href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" aria-label="TikTok">
+      <i class="fab fa-tiktok"></i>
+    </a>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Adam Neil Arafat</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#issues">Issues</a></li>
+          <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Us Apart</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
-      </nav>
-    </div>
-  </div>
-</header>
-
-<div class="py-2 text-center text-white" style="background:#0d3b66">
-  <div class="container px-3">
-    <strong>Trust is built, not bought.</strong>
-    <span class="ms-2">This campaign is about our quality of life and a better future for our kids and grandkids.</span>
-  </div>
-</div>
-
-<!-- HERO CAROUSEL (Top Three Only) -->
-<section id="campaignCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" aria-label="Featured issues">
-  <div class="carousel-inner">
-    <!-- 1) Universal Healthcare & Women’s Rights -->
-    <div class="carousel-item active">
-      <a href="issues.html#universal-healthcare"><img src="images/IMG_4339.jpeg" alt="Universal healthcare and women's rights" /></a>
-      <div class="carousel-caption text-start">
-        <h2 class="display-6 fw-bold">Universal Healthcare &amp; Women’s Rights</h2>
-        <p>Healthcare is a human right!</p>
-        <div class="d-flex gap-2">
-          <a href="issues.html#universal-healthcare" class="btn btn-primary">Healthcare</a>
-          <a href="issues.html#womens-rights" class="btn btn-outline-light">Women’s Rights</a>
-        </div>
       </div>
     </div>
+  </nav>
 
-    <!-- 2) Lowering the cost of living -->
-    <div class="carousel-item">
-      <a href="issues.html#cost-of-living"><img src="images/IMG_4349.jpeg" alt="Lowering the cost of living" /></a>
-      <div class="carousel-caption text-start">
-        <h2 class="display-6 fw-bold">Lowering the cost of living</h2>
-        <p>When the working class thrives, America thrives!</p>
-        <a href="issues.html#cost-of-living" class="btn btn-primary">Learn more</a>
-      </div>
-    </div>
-
-    <!-- 3) End Corruption & Special Interests -->
-    <div class="carousel-item">
-      <a href="issues.html#no-special-interests"><img src="images/IMG_4344.jpeg" alt="End corruption and special interests" /></a>
-      <div class="carousel-caption text-start">
-        <h2 class="display-6 fw-bold">End Corruption &amp; Special Interests</h2>
-        <p>Voters over Donors!</p>
-        <a href="issues.html#no-special-interests" class="btn btn-primary">Learn more</a>
-      </div>
-    </div>
-  </div>
-
-  <button class="carousel-control-prev" type="button" data-bs-target="#campaignCarousel" data-bs-slide="prev" aria-label="Previous slide">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#campaignCarousel" data-bs-slide="next" aria-label="Next slide">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-  </button>
-</section>
-
-<!-- CTA: What Sets Us Apart -->
-<section class="py-5 text-center">
-  <div class="container">
-    <a href="contrast.html" class="btn btn-lg btn-outline-primary">See how I’m different from the incumbent</a>
-  </div>
-</section>
-
-<!-- WHY IT MATTERS -->
-<section id="why-it-matters" class="py-5 border-top border-bottom">
-  <div class="container">
-    <h2 class="section-title mb-3">Why It Matters</h2>
-    <p class="lead">
-      Our country is at a crossroads. Our children deserve a future, not a failing system run by career politicians who prefer the status quo.
-      Adam believes change starts with leaders grounded in our communities—working-class Americans who aren’t beholden to foreign interests, corporate sponsors, or lobbyists.
-      It’s time to stop waiting and start building a future led by integrity, optimism, and results.
-    </p>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about" class="py-5 border-bottom">
-  <div class="container">
-    <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
-    <div class="row g-4 align-items-center">
-      <div class="col-12 col-md-5">
-        <!-- Swap this path to your actual headshot -->
-        <img src="images/adam-headshot.jpg" class="about-photo" alt="Photo of Adam Neil Arafat" />
-      </div>
-      <div class="col-12 col-md-7">
-        <p>
-          Adam Neil Arafat is a retired Army aviation maintenance program manager with 20 years of service.
-          He led teams that kept aircraft fleets and airfields mission-ready, serving overseas where he saw how other nations run their systems and care for their people.
-          That perspective shapes his belief that America can and must do better for working families.
-        </p>
-        <p>
-          At home, Adam is a parent with kids in local public schools and an active PTA volunteer.
-          He knows the day-to-day reality families face and brings that experience to the fight for fair policy.
-        </p>
-        <p>
-          After retiring from the Army, Adam continued his commitment to public service as a project manager for King County Wastewater Treatment Division,
-          helping oversee the infrastructure that keeps our communities safe and running every day.
-        </p>
-
-        <!-- Social links -->
-        <div class="mt-4">
-          <div class="fw-semibold mb-2">Connect with Adam</div>
-          <div class="d-flex flex-wrap gap-2">
-            <a class="btn btn-sm btn-light social-btn" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener">
-              <i class="bi bi-reddit me-2"></i>Reddit
-            </a>
-            <a class="btn btn-sm btn-light social-btn" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener">
-              <i class="bi bi-stars me-2"></i>Bluesky
-            </a>
-            <a class="btn btn-sm btn-light social-btn" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener">
-              <i class="bi bi-tiktok me-2"></i>TikTok
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- VALUES -->
-<section id="values" class="py-5 border-top border-bottom bg-light">
-  <div class="container">
-    <h2 class="section-title mb-3 text-center">Values</h2>
+  <!-- HERO -->
+  <section class="hero container py-5">
+    <h1 class="text-center mb-5">Adam Neil Arafat for Congress</h1>
     <div class="row g-4">
-      <div class="col-12 col-md-6">
-        <p><strong>T — Transparency:</strong> No PAC money, no secrets. Every vote and dollar in the open.</p>
-        <p><strong>R — Responsibility:</strong> I answer to the people — not corporations, lobbyists, or foreign interests.</p>
-        <p><strong>U — Unity:</strong> We rise together. No division, no distractions.</p>
+      <div class="col-md-4">
+        <img src="images/IMG_4339.jpeg" alt="Universal healthcare and women's rights" loading="lazy" />
       </div>
-      <div class="col-12 col-md-6">
-        <p><strong>S — Service:</strong> 20 years defending this country. Now I fight for working families at home.</p>
-        <p><strong>T — Truth:</strong> Receipts over rhetoric.</p>
+      <div class="col-md-4">
+        <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living" loading="lazy" />
+      </div>
+      <div class="col-md-4">
+        <img src="images/IMG_4344.jpeg" alt="End corruption and special interests" loading="lazy" />
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer class="py-4 bg-white border-top text-center">
-  <div class="container">
-    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
-    <p class="small text-muted mb-1">Treasurer: Adam Neil Arafat</p>
-    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
-    <div class="mb-3">
-      <a class="me-3" href="issues.html">Issues</a>
-      <a class="me-3" href="contrast.html">What Sets Us Apart</a>
-      <a class="me-3" href="contact.html">Contact</a>
-      <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+  <!-- ABOUT -->
+  <section id="about" class="py-5 border-bottom">
+    <div class="container">
+      <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-md-5">
+          <!-- Updated headshot -->
+          <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" loading="lazy" />
+        </div>
+        <div class="col-12 col-md-7">
+          <p>
+            Adam served this country for two decades, including time overseas where he saw firsthand how other nations structure healthcare, education, and public services.
+            That perspective fuels his belief that America can and should deliver better for working families.
+          </p>
+          <p>
+            At home, Adam and his wife have kids in local public schools. They both participate in the PTA and volunteer at school and community events.
+            He understands the everyday challenges families face and brings that lived experience to the work.
+          </p>
+          <p>
+            Today, Adam continues his public service as a project manager supporting the county’s essential infrastructure—work that keeps our communities safe and running.
+          </p>
+          <p>
+            His campaign is rooted in working-class values: fair taxation, affordable healthcare, housing families can afford, and a government that answers to people—not special interests.
+          </p>
+          <p>
+            Money in politics is one of the biggest problems we face. As long as campaigns are fueled by corporate PACs and big donors, policies will serve those funders—not the public. When lobbyists and special interests pay the bills, everyday people pay the price.
+          </p>
+          <p>
+            Adam takes no corporate PAC money because trust should be earned, not bought. He believes government must belong to the people, and that accountability starts with who funds the campaign.
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
+  </section>
 
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- ISSUES -->
+  <section id="issues" class="py-5">
+    <div class="container">
+      <h2 class="section-title mb-4">Why It Matters</h2>
+      <p>
+        The stakes are clear: we need leaders who fight for working families, not corporate donors. 
+        That means tackling the cost of living, securing universal healthcare, protecting women’s rights, and making sure government works for the people again.
+      </p>
+      <a href="contrast.html" class="btn btn-contrast mt-3">What Sets Us Apart</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-5 bg-light border-top">
+    <div class="container">
+      <h2 class="section-title mb-4">Contact</h2>
+      <p>Email: <a href="mailto:info@adamarafatforcongress.com">info@adamarafatforcongress.com</a></p>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
