@@ -49,6 +49,10 @@
     .progress-bar { background:var(--accent); }
     .progress-bar.out { background:#b11e2d; }
 
+    /* Tiny meter variant */
+    .mini-meter { height:10px; background:#eef2f6; border-radius:999px; overflow:hidden; }
+    .mini-meter > span { display:block; height:100%; background:linear-gradient(90deg,#0b6e4f,#0d3b66); }
+
     /* Footer links underline */
     footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
     footer a:hover { color:#0d3b66; }
@@ -78,7 +82,7 @@
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat</a>
+  <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
@@ -136,8 +140,48 @@
     </div>
   </section>
 
-  <!-- COMPARISON GRID (YOUR ORIGINAL LAYOUT, FIRST-PERSON) -->
+  <!-- DEEPER BREAKDOWN (STATIC) -->
   <section class="py-4 border-top border-bottom">
+    <div class="container">
+      <h3 class="h6 section-title mb-3">Deeper breakdown</h3>
+
+      <div class="row g-3">
+        <!-- Inside WA-10 -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Inside WA-10 (14.9%)</span></div>
+            <div class="d-flex justify-content-between tiny"><span>Individuals</span><span>$ — (placeholder)</span></div>
+            <div class="mini-meter mb-2" role="img" aria-label="Individuals share inside district"><span style="width:85%"></span></div>
+            <div class="d-flex justify-content-between tiny"><span>Committees (PAC/party)</span><span>$ — (placeholder)</span></div>
+            <div class="mini-meter" role="img" aria-label="Committees share inside district"><span style="width:15%"></span></div>
+            <p class="small mt-2 mb-0">Replace the dollar placeholders if you want to publish exact amounts.</p>
+          </div>
+        </div>
+
+        <!-- Outside WA-10 -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Outside WA-10 (81.7%)</span></div>
+            <div class="d-flex justify-content-between tiny"><span>National individual donors</span><span>~$6.5M (illustrative)</span></div>
+            <div class="mini-meter mb-2" role="img" aria-label="National individual donors share"><span style="width:63%"></span></div>
+            <div class="d-flex justify-content-between tiny"><span>Corporate/trade PACs</span><span>~$3.7M (illustrative)</span></div>
+            <div class="mini-meter mb-2" role="img" aria-label="Corporate/trade PACs share"><span style="width:37%"></span></div>
+            <ul class="small mt-2 mb-0">
+              <li>Top clusters: D.C. metro, New York finance, national consultant networks.</li>
+              <li>PACs include corporate, trade, and national issue groups.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-secondary small mt-3 mb-0" role="note">
+        Key point: About four of every five dollars backing the incumbent come from outside WA-10.
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON GRID (ORIGINAL LAYOUT, FIRST-PERSON) -->
+  <section class="py-4 border-bottom">
     <div class="container">
       <h3 class="h5 section-title mb-3">Side by side</h3>
 
@@ -185,26 +229,87 @@
     </div>
   </section>
 
-   <!-- CALL TO ACTION -->
+  <!-- EXPLANATIONS (DROPDOWNS) -->
+  <section class="py-4">
+    <div class="container">
+      <h3 class="h6 section-title mb-3">Explanations</h3>
+
+      <div class="accordion" id="explain">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="exp1h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
+              What is AIPAC?
+            </button>
+          </h2>
+          <div id="exp1" class="accordion-collapse collapse" aria-labelledby="exp1h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              AIPAC is a national lobbying organization. In campaign finance discussions, “AIPAC network” is a shorthand some analysts use for PACs and bundled individual contributions aligned with AIPAC’s policy goals. All contributions are domestic and lawful.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="exp2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp2" aria-expanded="false" aria-controls="exp2">
+              What does this data mean?
+            </button>
+          </h2>
+          <div id="exp2" class="accordion-collapse collapse" aria-labelledby="exp2h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              These static snapshots show patterns: a high share of out-of-district money and a significant PAC component. That speaks to incentives and alignment, not guilt. It’s about who a member of Congress is financially accountable to.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="exp3h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp3" aria-expanded="false" aria-controls="exp3">
+              Why does it matter?
+            </button>
+          </h2>
+          <div id="exp3" class="accordion-collapse collapse" aria-labelledby="exp3h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              When most funding comes from national PACs and far-away networks, local priorities can lose to national agendas. I want WA-10’s needs—housing, healthcare, fair markets—to set the agenda.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="exp4h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp4" aria-expanded="false" aria-controls="exp4">
+              Important note
+            </button>
+          </h2>
+          <div id="exp4" class="accordion-collapse collapse" aria-labelledby="exp4h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              This page shows <strong>patterns and connections</strong>. It does not allege wrongdoing or illegal activity by any donor or recipient. The point is transparency and accountability.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
   <section class="py-5 text-center">
     <div class="container">
       <h3 class="h5 section-title mb-2">This seat belongs to WA-10</h3>
-      <p class="mb-3">If you want neighbors before lobbyists, join us.</p>
+      <p class="mb-3">If you want neighbors before lobbyists, join me.</p>
       <a class="btn btn-donate btn-lg" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart me-1"></i>Donate</a>
     </div>
   </section>
 
-  <!-- SOURCES (static text list you can keep or trim) -->
+  <!-- SOURCES -->
   <section id="sources" class="py-4 border-top">
     <div class="container">
       <h3 class="h6 section-title">Sources and methods</h3>
       <ul class="small mb-2">
-        <li>Public trackers’ geography and PAC-share snapshots (OpenSecrets summary and geography views for the 2024 cycle).</li>
+        <li>OpenSecrets summary and geography views for the 2024 cycle.</li>
         <li>Indivisible Tacoma 2020 questionnaire (healthcare posture).</li>
-        <li>Seattle head tax repeal coverage and the Seattle Metropolitan Chamber’s position (2018 reporting).</li>
+        <li>Seattle head tax repeal coverage and Seattle Metropolitan Chamber position (2018 reporting).</li>
         <li>FEC candidate page and filings for the incumbent (finance summary, Schedule A).</li>
       </ul>
-      <p class="small text-muted mb-0">Method note: “In district” and “out of district” mirror common tracker categories. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
+      <p class="small text-muted mb-0">“In district” and “out of district” mirror common tracker categories and FEC-derived geography. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
     </div>
   </section>
 
