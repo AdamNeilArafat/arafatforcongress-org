@@ -42,17 +42,6 @@
     }
 
     .section-title { color: var(--primary); }
-
-    /* Simple bars */
-    .bar { height: 14px; background: #e9ecef; border-radius: 8px; overflow: hidden; }
-    .bar > span { display: block; height: 100%; background: var(--accent); }
-    .bar.red > span { background: #b11e2d; }
-
-    a.small { text-decoration: underline; }
-
-    /* Section borders */
-    .border-top { border-top: 1px solid #ddd !important; }
-    .border-bottom { border-bottom: 1px solid #ddd !important; }
   </style>
 </head>
 <body>
@@ -69,8 +58,8 @@
       <nav class="mt-3 mt-md-0">
         <ul>
           <li><a href="index.html" aria-current="page">Home</a></li>
-          <li><a href="about.html">About</a></li>
           <li><a href="issues.html">Issues</a></li>
+          <li><a href="contrast.html">Compare</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
         </ul>
@@ -131,63 +120,10 @@
   </button>
 </section>
 
-<!-- HIGHLIGHT OF DIFFERENCES -->
-<section id="highlight-differences" class="py-5 border-top border-bottom">
-  <div class="container px-4">
-    <h2 class="h4 fw-bold mb-3 section-title">Highlight of Differences</h2>
-    <div class="table-responsive mb-4">
-      <table class="table table-bordered text-center align-middle">
-        <thead class="table-light">
-          <tr>
-            <th>Issue</th>
-            <th>Adam Arafat</th>
-            <th>Incumbent</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Corporate PACs</td><td style="color:#0b6e4f;">✓ No PAC money</td><td style="color:#b11e2d;">✘ Took $900K+ from PACs</td></tr>
-          <tr><td>AIPAC Funding</td><td style="color:#0b6e4f;">✓ $0 from AIPAC</td><td style="color:#b11e2d;">✘ ~ $600K from AIPAC</td></tr>
-          <tr><td>Lobbyists</td><td style="color:#0b6e4f;">✓ Ban lobbyists &amp; full transparency</td><td style="color:#b11e2d;">✘ Funded by D.C. lobbyists</td></tr>
-          <tr><td>Healthcare</td><td style="color:#0b6e4f;">✓ Support Universal Healthcare</td><td style="color:#b11e2d;">✘ Status quo — No change</td></tr>
-          <tr><td>Housing</td><td style="color:#0b6e4f;">✓ Support a Corporate Social Responsibility Tax</td><td style="color:#b11e2d;">✘ Helped repeal Seattle head tax</td></tr>
-          <tr><td>Ethics</td><td style="color:#0b6e4f;">✓ Clean record</td><td style="color:#b11e2d;">✘ 2011 ethics violation (Tacoma)</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ADAM VS INCUMBENT -->
-<section id="vs-incumbent" class="py-5 border-bottom">
-  <div class="container px-4">
-    <h2 class="h4 fw-bold mb-3 section-title">Adam vs. incumbent</h2>
-    <div class="mb-3">
-      <p class="mb-1"><strong>Fighting for fairness</strong></p>
-      <p class="mb-2">
-        In 2018, Seattle approved a head tax of <strong>$275 per employee</strong> to raise about
-        <strong>$50 million a year</strong> for homelessness and affordable housing. After pressure from Amazon and business groups, the City Council repealed it. That removed planned funding and left residents with fewer services and fewer homes built.
-        <a href="issues.html#fair-taxation" class="small ms-1">Learn more</a>
-      </p>
-    </div>
-    <div class="mb-3">
-      <p class="mb-1"><strong>Powered by people</strong></p>
-      <p class="mb-2">
-        Adam takes <strong>$0</strong> from corporate PACs. Public summaries show the incumbent relies heavily on PAC money. In the 2024 cycle about <strong>44 percent</strong> of her funds came from PACs, with Amazon listed among top contributors and Pro-Israel categorized donors among top industries. Voters deserve a representative who answers to people, not lobbyists.
-        <a href="#sources" class="small ms-1">Sources</a>
-      </p>
-      <div class="mb-3">
-        <p class="small text-muted mb-1">Incumbent 2024 — PAC share</p>
-        <div class="bar red mb-1"><span style="width: 44%"></span></div>
-        <p class="small text-muted mb-3">PACs = 44% • Individuals and other = 56%</p>
-        <p class="small text-muted mb-1">Career PAC support by type</p>
-        <div class="bar red mb-1"><span style="width: 80%"></span></div>
-        <p class="small text-muted">Business — largest share</p>
-        <div class="bar red mb-1"><span style="width: 40%"></span></div>
-        <p class="small text-muted">Ideological — meaningful</p>
-        <div class="bar red mb-1"><span style="width: 25%"></span></div>
-        <p class="small text-muted">Labor — significant</p>
-      </div>
-    </div>
+<!-- CTA: What Sets Us Apart -->
+<section class="py-5 text-center">
+  <div class="container">
+    <a href="contrast.html" class="btn btn-lg btn-outline-primary">What Sets Us Apart</a>
   </div>
 </section>
 
@@ -203,15 +139,45 @@
   </div>
 </section>
 
-<!-- SOURCES -->
-<section id="sources" class="py-4 border-top">
+<!-- ABOUT -->
+<section id="about" class="py-5 border-bottom">
   <div class="container">
-    <h2 class="h5 section-title">Sources</h2>
-    <ul class="small">
-      <li>Seattle head tax details and repeal: <a href="https://www.axios.com/2018/06/12/seattle-repeals-homelessness-tax-amazon-big-tech-hq2" target="_blank" rel="noopener">Axios</a>, <a href="https://www.wired.com/story/tax-compromise-gives-amazons-latest-seattle-office-new-life" target="_blank" rel="noopener">Wired</a>, <a href="https://en.wikipedia.org/wiki/Seattle_head_tax" target="_blank" rel="noopener">Wikipedia overview</a></li>
-      <li>Seattle Democracy Voucher example of public financing: <a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">City of Seattle</a></li>
-      <li>Federal minimum wage has been $7.25 since 2009: <a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor</a></li>
-    </ul>
+    <h2 class="section-title mb-3">Meet Adam Neil Arafat</h2>
+    <p>
+      Adam Neil Arafat is a retired Army aviation maintenance program manager with 20 years of service.
+      He led teams that kept aircraft fleets and airfields mission-ready, serving overseas where he saw how other nations run their systems and care for their people.
+      That perspective shapes his belief that America can and must do better for working families.
+    </p>
+    <p>
+      At home, Adam is a parent with kids in local public schools and an active PTA volunteer.
+      He knows firsthand the challenges families face balancing school, work, and rising costs — and he brings those experiences with him to the fight for fair policies.
+    </p>
+    <p>
+      After retiring from the Army, Adam continued his commitment to public service as a project manager for King County Wastewater Treatment Division.
+      There, he helps oversee the infrastructure that keeps our communities safe and running every day.
+    </p>
+    <p>
+      Adam’s campaign is rooted in working-class values: fair taxation, affordable healthcare, housing families can afford, and a government that answers to people, not special interests.
+      He takes no corporate PAC money because he believes trust is earned — not bought.
+    </p>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section id="values" class="py-5 border-top border-bottom bg-light">
+  <div class="container">
+    <h2 class="section-title mb-3 text-center">Values</h2>
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <p><strong>T — Transparency:</strong> No PAC money, no secrets. Every vote and dollar in the open.</p>
+        <p><strong>R — Responsibility:</strong> I answer to the people — not corporations, lobbyists, or foreign interests.</p>
+        <p><strong>U — Unity:</strong> We rise together. No division, no distractions.</p>
+      </div>
+      <div class="col-12 col-md-6">
+        <p><strong>S — Service:</strong> 20 years defending this country. Now I fight for working families at home.</p>
+        <p><strong>T — Truth:</strong> Receipts over rhetoric.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -223,8 +189,8 @@
     <p class="small text-muted mb-1">Treasurer: Adam Neil Arafat</p>
     <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
     <div class="mb-3">
-      <a class="me-3" href="about.html">About</a>
       <a class="me-3" href="issues.html">Issues</a>
+      <a class="me-3" href="contrast.html">Compare</a>
       <a class="me-3" href="contact.html">Contact</a>
       <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
