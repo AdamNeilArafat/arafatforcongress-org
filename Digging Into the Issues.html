@@ -1,215 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
+  </script>
 
-  gtag('config', 'G-TSHYRZVZ97');
-</script>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Issues and Plans — Adam Neil Arafat</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Digging Into the Issues — Adam Neil Arafat</title>
   <meta name="theme-color" content="#0d3b66" />
+  <meta name="description" content="Adam Neil Arafat’s plans to lower costs, deliver universal healthcare, enact fair taxation, end special-interest influence, and hold corporations accountable." />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; }
-    nav ul { list-style:none; padding:0; margin:0; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
-    .home-icon { width:40px; height:40px; object-fit:contain; }
-    .btn-donate { background:var(--donate); color:#fff !important; border:none; }
-    .issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:.25rem; }
-    .section-title { color:var(--primary); }
-    a.small { text-decoration:underline; }
-    .divider { border-top:2px solid #ddd; margin:3rem 0 1rem; }
-    .issue-nav { padding:1rem; background:#f8f9fa; border-radius:0.25rem; margin-bottom:2rem; }
-    .issue-nav h5 { margin-bottom:.5rem; font-weight:600; color:#0d3b66; }
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
+
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+
+    /* Top social bar */
+    .social-top {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color: #fff;
+    }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+
+    /* Header break band */
+    .header-break {
+      background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem;
+    }
+    .header-break p { margin:.25rem 0 0; font-weight:500; opacity:.95; }
+
+    /* Pretty nav links: subtle animated underline */
+    .navbar .nav-link {
+      position: relative;
+      padding: .25rem .5rem;
+      color: #1c2b3a;
+      font-weight: 600;
+    }
+    .navbar .nav-link:hover { color: var(--link); }
+    .navbar .nav-link::after {
+      content:"";
+      position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .navbar .btn-donate:hover { filter: brightness(.95); }
+
+    /* Utility */
+    .issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; }
+    .section-title { color: var(--primary); }
+    .divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
+    .issue-nav { padding:1rem; background:#f8f9fa; border-radius:14px; margin-bottom:2rem; border:1px solid #e9eef3; }
+    .issue-nav h5 { margin-bottom:.5rem; font-weight:800; color:#0d3b66; }
     .issue-nav ul { padding-left:1rem; margin-bottom:0; }
+    .badge-kicker { background:#e6f0f8; color:#0d3b66; font-weight:700; }
+    .lead-small { font-size:1.05rem; }
+    .muted { color:#6b7280; }
+
+    /* Footer links underline */
+    footer a {
+      position:relative; color:#1c2b3a; text-decoration:none; font-weight:600;
+    }
+    footer a:hover { color: var(--link); }
+    footer a::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    footer a:hover::after, footer a:focus::after { width:100%; }
   </style>
 </head>
 <body>
-  <header class="border-bottom">
-    <div class="container py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-      <div class="d-flex align-items-center gap-3">
-        <a href="index.html" aria-label="Home"><img class="home-icon" src="images/IMG_4336.jpeg" alt="Home"></a>
-        <div>
-          <h1 class="h3 m-0">Adam Neil Arafat for Congress</h1>
-          <p class="m-0 text-muted">Washington District 10</p>
-        </div>
+
+<!-- SOCIAL MEDIA BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
+  </div>
+</section>
+
+<!-- HEADER BREAK (Issues page identity) -->
+<div class="header-break">
+  <div class="container">
+    <div class="row align-items-center g-2">
+      <div class="col-12 text-center">
+        <div class="h5 m-0 text-uppercase">Digging Into the Issues</div>
+        <p class="mb-0">Trust is built, not bought — and every plan here puts people over special interests.</p>
       </div>
-      <nav class="mt-3 mt-md-0">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="issues.html" aria-current="page">Issues</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
-        </ul>
-      </nav>
     </div>
-  </header>
+  </div>
+</div>
 
-  <main class="py-5">
-    <div class="container px-4">
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="issues.html" aria-current="page">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart from the Current Representative</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-      <div class="issue-nav">
-        <h5>Explore Key Issues</h5>
-        <ul>
-          <li><a href="#cost-of-living">Lowering the Cost of Living</a></li>
-          <li><a href="#universal-healthcare">Universal Healthcare</a></li>
-          <li><a href="#fair-taxation">Fair Taxation</a></li>
-          <li><a href="#no-special-interests">No Special Interests or Lobbyists</a></li>
-          <li><a href="#corporate-accountability">Corporate Accountability</a></li>
-        </ul>
-      </div>
+<main class="py-5">
+  <div class="container px-4">
 
-      <section id="cost-of-living" class="mb-5">
-        <div class="divider"></div>
-        <div class="row g-4 align-items-center">
-          <div class="col-md-5">
-            <img class="issue-img" src="images/IMG_4349.jpeg" alt="Cost of living">
-          </div>
-          <div class="col-md-7">
-            <h2 class="h4 section-title">Lowering the cost of living</h2>
-            <p>Housing, groceries, childcare, and energy costs are squeezing families. Relief has to be real and lasting.</p>
-            <h3 class="h6 text-muted">What I support at the federal level</h3>
-            <ul>
-              <li><strong>Groceries.</strong> I would support enforcing antitrust laws against dominant processors and retailers, transparency in supply chains, and targeted farm supports that stabilize prices while protecting small and mid-size farmers.</li>
-              <li><strong>First homes.</strong> I would support a federally backed mortgage program for first-time homebuyers, offering a target interest rate around 3% for income-eligible families.</li>
-              <li><strong>Update outdated thresholds.</strong> I would support indexing key benefits and tax credits to regional cost differences—San Francisco is not Kansas—so help is available when and where it is needed.</li>
-              <li><strong>Lower monthly bills.</strong> I would support bigger rebates for weatherization, heat pumps, and community solar to cut electric and heating costs.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+    <!-- Quick Nav -->
+    <div class="issue-nav">
+      <h5>Jump to a section</h5>
+      <ul>
+        <li><a href="#universal-healthcare">1) Universal Healthcare</a></li>
+        <li><a href="#cost-of-living">2) Lowering the Cost of Living</a></li>
+        <li><a href="#fair-taxation">3) Fair Taxation</a></li>
+        <li><a href="#no-special-interests">No Special Interests or Lobbyists</a></li>
+        <li><a href="#corporate-accountability">Corporate Accountability</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ul>
+    </div>
 
-      <section id="universal-healthcare" class="mb-5">
-        <div class="divider"></div>
-        <div class="row g-4 align-items-center">
-          <div class="col-md-5">
-            <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
-          </div>
-          <div class="col-md-7">
-            <h2 class="h4 section-title">Universal healthcare</h2>
-            <p>Healthcare should be a basic human right. The United States is the only member of the 38-nation Organisation for Economic Co-operation and Development (OECD) without universal coverage, despite being the wealthiest of the group.</p>
-            <h3 class="h6 text-muted">What I support at the federal level</h3>
-            <ul>
-              <li><strong>Universal coverage for all.</strong> I would support automatic enrollment with a guaranteed benefits floor so everyone is covered.</li>
-              <li><strong>Reproductive freedom.</strong> I would support protecting access to reproductive healthcare. Medical decisions belong to patients and their doctors.</li>
-              <li><strong>Prescription drugs.</strong> I would support direct price negotiation, an end to patent gaming, and firm caps on out-of-pocket costs for essential medicines.</li>
-              <li><strong>Mental health parity.</strong> I would support real parity in networks, access, and reimbursement so mental and behavioral health care is actually available.</li>
-              <li><strong>Primary care first.</strong> I would support investments in clinics and providers in underserved areas so people get care early and locally.</li>
-            </ul>
-            <p class="small"><a href="#sources">See sources</a></p>
-          </div>
-        </div>
-      </section>
-
-      <section id="fair-taxation" class="mb-5">
-        <div class="divider"></div>
-        <div class="row g-4 align-items-center">
-          <div class="col-md-5">
-            <img class="issue-img" src="images/IMG_4346.jpeg" alt="Fair taxation">
-          </div>
-          <div class="col-md-7">
-            <h2 class="h4 section-title">Fair taxation</h2>
-            <p>Close loopholes so working families are not subsidizing the largest corporations.</p>
-            <h3 class="h6 text-muted">What I support at the federal level</h3>
-            <ul>
-              <li>I would support a strong corporate minimum tax on book profits.</li>
-              <li>I would support anti-offshoring rules that end profit shifting and shell games.</li>
-              <li>I want to see targeted tax relief for families and small businesses.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="no-special-interests" class="mb-5">
-        <div class="divider"></div>
-        <div class="row g-4 align-items-center">
-          <div class="col-md-5">
-            <img class="issue-img" src="images/IMG_4344.jpeg" alt="No special interests and lobbyists">
-          </div>
-          <div class="col-md-7">
-            <h2 class="h4 section-title">No special interests or lobbyists</h2>
-            <p>Politics should serve people, not donors.</p>
-            <h3 class="h6 text-muted">What I support at the federal level</h3>
-            <ul>
-              <li>I would not take corporate PAC money.</li>
-              <li>I would support a ban on corporate PACs and registered lobbyists donating to federal candidates or coordinating with campaigns.</li>
-              <li>I would support a ban on lobbyist fundraising and bundling.</li>
-              <li>I would support a public financing system using democracy vouchers—one voucher per voter. Campaigns could use vouchers and small donations only. Seattle’s program is a local example.</li>
-              <li>I would support near real-time reporting for every campaign dollar with strong penalties for violations.</li>
-            </ul>
-            <p class="small"><a href="#sources">See sources</a></p>
-          </div>
-        </div>
-      </section>
-
-      <section id="corporate-accountability" class="mb-3">
-        <div class="divider"></div>
-        <div class="row g-4 align-items-center">
-          <div class="col-md-5">
-            <img class="issue-img" src="images/IMG_4345.png" alt="Corporate accountability">
-          </div>
-          <div class="col-md-7">
-            <h2 class="h4 section-title">Corporate accountability</h2>
-            <p>Good jobs and safe workplaces should be the norm.</p>
-            <h3 class="h6 text-muted">Corporate Social Responsibility Tax</h3>
-            <ul>
-              <li><strong>Triggers:</strong> extreme CEO-to-worker pay gaps, chronic low wages, repeat safety violations, layoffs during record profits, environmental harm.</li>
-              <li><strong>How it works:</strong> the tax rises with harm and can be reduced by improving practices.</li>
-              <li><strong>Why it helps:</strong> it makes exploitation more costly than fairness.</li>
-            </ul>
-            <h3 class="h6 text-muted">What I support at the federal level</h3>
-            <ul>
-              <li>I would support stronger penalties for wage theft and repeat OSHA violators.</li>
-              <li>I would support incentives for firms that create living-wage jobs in the United States.</li>
-              <li>I want to see transparent reporting on pay ratios, safety, and community impacts.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
+    <!-- #1 Universal Healthcare -->
+    <section id="universal-healthcare" class="mb-5">
       <div class="divider"></div>
-      <section id="sources" class="pt-3">
-        <h3 class="h6 section-title">Sources</h3>
-        <ul class="small">
-          <li><a href="https://www.oecd.org/en/topics/health-inequality-and-universal-health-coverage.html" target="_blank" rel="noopener">OECD: Universal coverage comparison</a></li>
-          <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022" target="_blank" rel="noopener">Commonwealth Fund: U.S. vs. global peers</a></li>
-          <li><a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">Seattle Democracy Voucher Program</a></li>
-          <li><a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Minimum Wage History</a></li>
-        </ul>
-      </section>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
+          <h2 class="h4 section-title">Universal healthcare</h2>
+          <p class="lead-small">Healthcare is a right. The U.S. is the only wealthy OECD nation without universal coverage, while spending among the most per person.</p>
 
-    </div>
-  </main>
+          <h3 class="h6 text-muted mt-3">The picture (by the numbers)</h3>
+          <ul>
+            <li><strong>Spending:</strong> ~$12,500 per person annually—nearly 2× the OECD average.</li>
+            <li><strong>Outcomes:</strong> Lower life expectancy and higher infant mortality than peer nations.</li>
+            <li><strong>Access:</strong> Millions uninsured or underinsured; many delay or skip care due to cost.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Plan: cover everyone and realign policy around health</h3>
+          <ul>
+            <li><strong>Automatic universal enrollment.</strong> A guaranteed national benefits floor for all; supplemental options can remain for add-ons.</li>
+            <li><strong>Prescription drugs.</strong> Direct price negotiation, end patent gaming, and cap out-of-pocket costs for essential medicines.</li>
+            <li><strong>Reproductive freedom.</strong> Keep medical decisions between patients and doctors.</li>
+            <li><strong>Mental health parity.</strong> Enforce equal access, networks, and reimbursement.</li>
+            <li><strong>Primary care first.</strong> Invest in clinics and workforce in underserved areas to catch problems early and locally.</li>
+            <li><strong>Policy alignment for health.</strong> With health as the north star, policies for safer food, clean water, clean air, and stronger workplace protections follow.</li>
+          </ul>
+
+          <p class="small"><a href="#sources">See sources</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- #2 Cost of Living -->
+    <section id="cost-of-living" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4349.jpeg" alt="Cost of living">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
+          <h2 class="h4 section-title">Lowering the cost of living</h2>
+          <p class="lead-small">Families are being squeezed by housing, groceries, childcare, and utilities. Relief must be real and lasting—without raising taxes on working people.</p>
+
+          <h3 class="h6 text-muted mt-3">What’s driving the squeeze</h3>
+          <ul>
+            <li><strong>Housing:</strong> Limited supply and slow permitting push up prices and rents.</li>
+            <li><strong>Groceries:</strong> Consolidation among processors/retailers weakens competition and price transparency.</li>
+            <li><strong>Childcare:</strong> Costs rival college tuition for many families.</li>
+            <li><strong>Utilities:</strong> Energy bills and home heating costs climbed in recent years.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Plan: more homes, fair markets, smaller monthly bills</h3>
+          <ul>
+            <li><strong>Housing supply & permitting speed—no new taxes.</strong>
+              <ul>
+                <li>Federal incentives for states/locals to <em>streamline permitting timelines</em> and modernize digital approvals.</li>
+                <li>Support zoning flexibility near jobs and transit to add “missing middle” housing.</li>
+                <li>Expand federal support for modular/industrialized construction to cut time and cost.</li>
+                <li>Prioritize infrastructure grants for communities that meet <em>predictable</em> permit SLAs (service-level agreements).</li>
+              </ul>
+            </li>
+            <li><strong>First-home affordability.</strong> Federally backed ~3% fixed-rate mortgages for first-time, income-eligible buyers; down-payment assistance tied to local costs.</li>
+            <li><strong>Groceries.</strong> Enforce antitrust laws against dominant processors/retailers; require transparent fees and contracts; strengthen regional food hubs; targeted farm supports that stabilize prices while protecting small/mid-size farms.</li>
+            <li><strong>Childcare.</strong> Expand/refund the Child and Dependent Care Tax Credit; scale supply grants so providers can add seats without lowering quality.</li>
+            <li><strong>Lower monthly bills.</strong> Bigger rebates for weatherization, heat pumps, and community solar; expand LIHEAP reach with simpler enrollment.</li>
+            <li><strong>Reduce barriers to entry.</strong> Reform excessive licensing/certification costs; recognize equivalent experience; expand apprenticeships and paid earn-while-you-learn pathways.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- #3 Fair Taxation -->
+    <section id="fair-taxation" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4346.jpeg" alt="Fair taxation">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #3</span>
+          <h2 class="h4 section-title">Fair taxation</h2>
+          <p class="lead-small">Close loopholes so working families don’t subsidize the largest corporations and the ultra-wealthy.</p>
+
+          <h3 class="h6 text-muted mt-3">The problem</h3>
+          <ul>
+            <li>Some highly profitable corporations pay little or no federal income tax in a given year.</li>
+            <li>Profit shifting/offshoring erodes the tax base and rewards moving jobs and IP overseas.</li>
+            <li>Complex rules favor those with the priciest accountants, not small businesses or workers.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Plan: simple, enforceable, pro-worker</h3>
+          <ul>
+            <li><strong>Corporate minimum tax on book profits.</strong> If you report it to shareholders, you pay it.</li>
+            <li><strong>Anti-offshoring rules.</strong> Align rates/treatment of foreign profits to end shell games.</li>
+            <li><strong>Targeted relief.</strong> Expand the Child Tax Credit and Earned Income Tax Credit; simplify small-business expensing and compliance.</li>
+            <li><strong>Near real-time transparency.</strong> Modernized e-filing and public dashboards for large filers.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Corporate Social Responsibility (CSR) Tax — a fairness backstop</h3>
+          <p class="muted mb-1"><em>Make exploitation more expensive than fairness; reward firms that treat workers and communities well.</em></p>
+          <ul>
+            <li><strong>Triggers:</strong> extreme CEO-to-worker pay ratios (a CEO shouldn’t make in a day what an employee makes in a year), chronic wage theft, repeat OSHA violations, layoffs during record profits, and repeat environmental harm.</li>
+            <li><strong>Mechanics:</strong> a surtax that scales with harm and <em>automatically phases down</em> as firms improve practices (higher wages, safer workplaces, smaller pay gaps).</li>
+            <li><strong>Disclosure:</strong> standardized reporting on pay ratios, injury rates, and community impacts.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- No Special Interests -->
+    <section id="no-special-interests" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4344.jpeg" alt="No special interests and lobbyists">
+        </div>
+        <div class="col-md-7">
+          <h2 class="h4 section-title">No special interests or lobbyists</h2>
+          <p class="lead-small">Politics should serve people, not donors. I will not take corporate PAC money—ever.</p>
+          <h3 class="h6 text-muted">Clean elections</h3>
+          <ul>
+            <li>Ban corporate PACs and registered lobbyists from donating to or coordinating with campaigns.</li>
+            <li>Ban lobbyist bundling and fundraising.</li>
+            <li>Public financing using <strong>democracy vouchers</strong> (one voucher per voter). Seattle’s program shows it increases participation and reduces big-money influence.</li>
+            <li>Near real-time reporting of every campaign dollar with strong penalties for violations.</li>
+          </ul>
+          <p class="small"><a href="#sources">See sources</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Corporate Accountability -->
+    <section id="corporate-accountability" class="mb-3">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4345.png" alt="Corporate accountability">
+        </div>
+        <div class="col-md-7">
+          <h2 class="h4 section-title">Corporate accountability</h2>
+          <p class="lead-small">Good jobs and safe workplaces should be the norm. Responsible companies should never be undercut by bad actors.</p>
+
+          <h3 class="h6 text-muted">Work, pay, and safety</h3>
+          <ul>
+            <li><strong>Stronger penalties</strong> for wage theft and repeat OSHA violators; prioritize criminal enforcement for egregious harm.</li>
+            <li><strong>Incentives</strong> for firms that create living-wage U.S. jobs, invest in training, and demonstrate low injury rates.</li>
+            <li><strong>Transparency</strong> on CEO-to-median worker pay, injury rates, and community impacts—shared in a common, comparable format.</li>
+          </ul>
+
+          <h3 class="h6 text-muted">Private equity and local communities</h3>
+          <ul>
+            <li>Address debt-loading models that strip assets, slash jobs/benefits, and leave communities with closures.</li>
+            <li>Condition favorable tax treatment on <em>employment stability</em>, <em>pension protection</em>, and <em>post-acquisition safety</em> outcomes.</li>
+          </ul>
+
+          <h3 class="h6 text-muted">Open more paths to good jobs</h3>
+          <ul>
+            <li>Reduce <strong>barriers to entry</strong>: reform excessive licensing/certification costs; accept equivalent experience where safe; expand apprenticeships and paid earn-while-you-learn pathways.</li>
+            <li>Support community colleges and trades programs aligned to local employer demand.</li>
+          </ul>
+
+          <h3 class="h6 text-muted">Link to the CSR Tax</h3>
+          <p>The CSR Tax (above) ties consequences to harmful practices and rewards firms that raise wages, cut injuries, narrow pay gaps, and invest in people.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sources -->
+    <div class="divider"></div>
+    <section id="sources" class="pt-3">
+      <h3 class="h6 section-title">Sources</h3>
+      <ul class="small">
+        <!-- Health / OECD / Outcomes -->
+        <li><a href="https://www.oecd.org/en/topics/health-inequality-and-universal-health-coverage.html" target="_blank" rel="noopener">OECD: Universal coverage comparison and health outcomes</a></li>
+        <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022" target="_blank" rel="noopener">Commonwealth Fund: U.S. Health Care in Global Perspective (2022)</a></li>
+
+        <!-- Campaign finance -->
+        <li><a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">City of Seattle: Democracy Voucher Program</a></li>
+
+        <!-- Wages / OSHA / CEO pay -->
+        <li><a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor: Minimum Wage History</a></li>
+        <li><a href="https://www.epi.org" target="_blank" rel="noopener">Economic Policy Institute: CEO pay and worker pay ratio research</a></li>
+
+        <!-- Taxes -->
+        <li><a href="https://itep.org" target="_blank" rel="noopener">Institute on Taxation and Economic Policy (ITEP): Corporate tax and minimum tax analyses</a></li>
+
+        <!-- Prices / CPI / Food -->
+        <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener">Bureau of Labor Statistics: Consumer Price Index (energy, food, overall)</a></li>
+        <li><a href="https://www.ers.usda.gov/topics/food-markets-prices/food-prices-outlook/" target="_blank" rel="noopener">USDA ERS: Food Prices Outlook</a></li>
+
+        <!-- Childcare -->
+        <li><a href="https://www.childcareaware.org" target="_blank" rel="noopener">Child Care Aware: Childcare cost and availability data</a></li>
+      </ul>
+    </section>
+
+  </div>
+</main>
 
 <footer class="py-4 bg-white border-top text-center">
   <div class="container">
-    <p class="small text-muted mb-1">
-      © <span id="yr"></span> Adam Neil Arafat for Congress
-    </p>
-    <p class="small text-muted mb-1">
-      Paid for by Adam Neil Arafat for Congress
-    </p>
-    <p class="small text-muted mb-1">
-      2007 197th St Ct E, Spanaway, WA 98387
-    </p>
-    <p class="small text-muted mb-1">
-      Treasurer: Adam Neil Arafat
-    </p>
-    <p class="small text-muted mb-3">
-      Not authorized by any other candidate or candidate’s committee.
-    </p>
-    <div class="mb-3">
-      <a class="me-3" href="about.html">About</a>
-      <a class="me-3" href="issues.html">Issues</a>
-      <a class="me-3" href="contact.html">Contact</a>
-      <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
+    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="issues.html" aria-current="page">Issues</a>
+      <a href="contrast.html">What Sets Me Apart from the Current Representative</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
     </div>
   </div>
 </footer>
@@ -217,13 +369,6 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 </script>
-
-
-
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
 </body>
 </html>
