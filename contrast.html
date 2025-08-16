@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
-  </script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>What Sets Me Apart — Adam Neil Arafat for Congress</title>
+  <title>Adam Neil Arafat for Congress — Washington District 10</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="A clear, factual comparison between Adam Neil Arafat and the incumbent. Strickland isn’t working. Arafat will." />
+  <meta name="description" content="Trust is built, not bought. This campaign is about our quality of life and a better future for our kids and grandkids." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -24,51 +16,38 @@
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
 
     /* Social top bar */
-    .social-top {
-      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
-      color: #fff;
-    }
-    .social-pill {
-      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
-      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
-      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
-      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
-    }
+    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color: #fff; }
+    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none; background: rgba(255,255,255,.08); backdrop-filter: blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
     /* Header break */
-    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.8rem 1rem; }
-    .header-break small { font-weight:500; opacity:.95; display:block; }
+    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.65rem 1rem; }
 
     /* Navbar */
-    .navbar .nav-link {
-      position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600;
-    }
+    .navbar .nav-link { position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600; }
     .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after {
-      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background: currentColor; border-radius:2px; transition: width .18s ease;
-    }
+    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
     .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
     .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
     .navbar .btn-donate:hover { filter: brightness(.95); }
 
-    /* Sections */
-    .section-title { color: var(--primary); }
-    .border-top { border-top:1px solid #e9ecef !important; }
-    .border-bottom { border-bottom:1px solid #e9ecef !important; }
-    .lead-tight { font-size:1.05rem; }
+    /* Hero */
+    .hero-card { position: relative; border-radius:14px; overflow:hidden; }
+    .hero-card img { width:100%; height:100%; object-fit:cover; aspect-ratio:16/10; display:block; }
+    .hero-overlay { position:absolute; left:0; right:0; bottom:0; padding:1rem 1.1rem; color:#fff; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.7) 100%); }
+    .hero-title { margin:0; font-weight:800; font-size:1.15rem; line-height:1.2; }
+    .hero-sub { margin:.25rem 0 0; font-size:.95rem; opacity:.95; }
 
-    /* Comparison table */
-    .table td, .table th { vertical-align: middle; }
-    .check { color:#0b6e4f; font-weight:700; }
-    .xmark { color:#b11e2d; font-weight:700; }
-    .tag { display:inline-block; font-size:.8rem; background:#e6f0f8; color:#0d3b66; border-radius:999px; padding:.2rem .6rem; font-weight:700; }
+    /* CTA pill */
+    .btn-contrast { border-radius:999px; padding:.85rem 1.3rem; font-weight:700; border:1px solid var(--primary); color:var(--primary); background:#fff; transition: all .18s ease; }
+    .btn-contrast:hover { background: var(--primary); color:#fff; box-shadow:0 8px 18px rgba(13,59,102,.18); }
 
-    /* Quick cards (reuse) */
-    .quick-card { border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3;
-      box-shadow:0 6px 18px rgba(13,59,102,.06); transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; height:100%; }
+    /* About */
+    .about-photo { width:100%; max-width:520px; aspect-ratio:4/5; object-fit:cover; border-radius:14px; box-shadow:0 10px 26px rgba(0,0,0,.18); }
+
+    /* Quick cards */
+    .quick-card { border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3; box-shadow:0 6px 18px rgba(13,59,102,.06); transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; height:100%; }
     .quick-card:hover { transform: translateY(-2px); box-shadow:0 12px 28px rgba(13,59,102,.12); border-color:#d8e4ee; }
     .quick-card a { display:flex; align-items:center; gap:.65rem; text-decoration:none; font-weight:700; color:#10324f; }
     .quick-card a i { font-size:1.05rem; color:var(--primary); }
@@ -79,118 +58,106 @@
 <!-- SOCIAL BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
-      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
-    </a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
-      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
-      <span>Bluesky</span>
-    </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
-      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
-    </a>
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank"><i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span></a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank"><svg class="bsky-icon" viewBox="0 0 600 600"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> <span>Bluesky</span></a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
   </div>
 </section>
 
-<!-- HEADER BREAK -->
 <div class="header-break">
-  <div class="container">
-    <strong>Strickland isn’t working. Arafat will.</strong>
-    <small>Trust is built, not bought. People first. No corporate PACs.</small>
-  </div>
+  <strong>Trust is built, not bought.</strong><br>
+  This campaign is about our quality of life and a better future for our kids and grandkids.
 </div>
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Digging Into The Issues</a></li>
-        <li class="nav-item"><a class="nav-link" aria-current="page" href="contrast.html">What Sets Me Apart</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item ms-lg-2">
-          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank">Donate</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- PAGE INTRO -->
-<section class="py-5 border-bottom">
-  <div class="container">
-    <h1 class="h3 section-title mb-3">What Sets Me Apart</h1>
-    <p class="lead-tight">
-      This is a people-powered campaign. I refuse corporate PAC and lobbyist money because I want to answer only to voters.
-      The incumbent chose a different path. That choice shows up in who funds her, who gets access, and which priorities move first.
-    </p>
-  </div>
-</section>
-
-<!-- COMPARISON TABLE -->
-<section class="py-5 border-bottom">
-  <div class="container">
-    <h2 class="h5 text-uppercase text-muted mb-3">Clear Differences</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered align-middle text-center">
-        <thead class="table-light">
-          <tr>
-            <th>Issue</th>
-            <th>Adam Neil Arafat</th>
-            <th>Marilyn Strickland</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Corporate PACs</td>
-            <td class="check">✓ No corporate PAC or lobbyist money <span class="tag">People-powered</span></td>
-            <td class="xmark">✗ Significant PAC funding reported</td>
-          </tr>
-          <tr>
-            <td>Special Interests</td>
-            <td class="check">✓ Independent voice, accountable to voters</td>
-            <td class="xmark">✗ Accepted funds linked to powerful national groups</td>
-          </tr>
-          <tr>
-            <td>Healthcare</td>
-            <td class="check">✓ Universal healthcare to lower costs and expand access</td>
-            <td class="xmark">✗ Supports the status quo system</td>
-          </tr>
-          <tr>
-            <td>Housing & Homelessness</td>
-            <td class="check">✓ Corporate social responsibility approach so big winners help fund solutions</td>
-            <td class="xmark">✗ Backed repeal of Seattle’s head tax after industry pressure</td>
-          </tr>
-          <tr>
-            <td>Ethics</td>
-            <td class="check">✓ Clean record, transparent financing</td>
-            <td class="xmark">✗ Prior ethics reprimand reported in Tacoma</td>
-          </tr>
-        </tbody>
-      </table>
+<!-- HERO GRID -->
+<section class="container py-5">
+  <div class="row g-4">
+    <!-- Hero items -->
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4339.jpeg" alt="Universal healthcare and women's rights" />
+        <div class="hero-overlay"><h3 class="hero-title">Universal Healthcare & Women’s Rights</h3><p class="hero-sub">Healthcare is a human right!</p></div>
+      </div>
     </div>
-    <p class="small text-muted mt-2">
-      Details and citations are listed in Sources below. This table summarizes publicly reported differences.
-    </p>
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living" />
+        <div class="hero-overlay"><h3 class="hero-title">Lowering the Cost of Living</h3><p class="hero-sub">When the working class thrives, America thrives!</p></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4344.jpeg" alt="End corruption and special interests" />
+        <div class="hero-overlay"><h3 class="hero-title">End Corruption & Special Interests</h3><p class="hero-sub">Voters over donors!</p></div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- WHY IT MATTERS -->
-<section id="why-it-matters" class="py-5 border-bottom">
+<section id="why-it-matters" class="py-5 border-top border-bottom">
   <div class="container">
     <h2 class="section-title mb-3">Why It Matters</h2>
-    <p class="lead-tight">
-      Leadership choices have consequences. If funding comes from corporate PACs and national lobbying operations, those interests set the agenda.
-      I fund this campaign with people, not PACs, so my priorities stay where they belong: healthcare you can afford, a lower cost of living, and a government that works for you.
+    <p class="lead">Our country is at a crossroads. The old guard has had decades to lead, but
+      clinging to the status quo has left too many families struggling. It’s
+      time to pass the torch to the next generation of leaders so our nation
+      can move forward and begin to heal.
     </p>
-    <p class="lead-tight">
-      The future of Washington’s 10th needs independent leadership that is free to say no to special interests and yes to families, workers, and small businesses.
-      That is the difference on this ballot.
+    <p>
+      What the far right has branded as “progressive” policies are only progressive 
+      if you measure them against a broken system stuck in the past. When you
+      measure against the rest of the world, these aren’t radical ideas at all,
+      they’re simply us trying to catch up. Healthcare for all, affordable
+      living, and ending corruption are not leaps ahead, they are the basics
+      modern nations already provide their people. America shouldn’t lag behind, 
+      we should lead.
     </p>
+    <p>
+      Adam believes change starts with leaders grounded in our communities, 
+      working-class Americans who aren’t beholden to foreign interests, corporate
+      sponsors, or lobbyists. It’s time to stop waiting and start building a
+      future led by integrity, optimism, and results.
+    </p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-5 border-bottom">
+  <div class="container">
+    <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
+    <div class="row g-4 align-items-center">
+      <div class="col-12 col-md-5">
+        <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" />
+      </div>
+      <div class="col-12 col-md-7">
+        <p>Adam served this country for two decades in the U.S. Army, leading aviation maintenance programs and managing airfield operations around the world. His career taught him discipline, accountability, and the value of putting people before politics.</p>
+        <p>At home in Spanaway, Adam and his wife are raising their kids in local public schools. Like so many families in Washington’s 10th District, they know the pressures of rising costs, healthcare challenges, and the need for safe, thriving communities.</p>
+        <p>Today, Adam continues his public service as a project manager in King County’s Wastewater Treatment Division, where he oversees complex infrastructure programs that keep essential services running for hundreds of thousands of people. He brings the same focus on results, efficiency, and transparency that he will take to Congress.</p>
+        <p>His campaign is rooted in working-class values — integrity, fairness, and accountability. Adam believes Washington, D.C. has been captured by corporate PACs, lobbyists, and foreign interests. That’s why he takes no corporate PAC money and answers only to the people of this district.</p>
+        <p>For Adam, this race isn’t about a political career. It’s about fighting for affordable healthcare, lowering the cost of living, and ending corruption so that the next generation has a brighter future. Trust is built, not bought — and that’s the foundation of his campaign.</p>
+      </div>
+    </div>
+    <!-- Removed the 'What Sets Me Apart...' button per your request -->
   </div>
 </section>
 
@@ -198,43 +165,35 @@
 <section class="py-5">
   <div class="container">
     <div class="row g-3">
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-6 col-lg-3">
         <div class="quick-card">
           <div class="small text-muted mb-1">Learn</div>
           <a href="digging-into-the-issues.html"><i class="fa-solid fa-list-check"></i> Digging Into the Issues</a>
-          <p class="mb-0 mt-2 text-muted">How I will lower costs, expand care, and clean up corruption.</p>
+          <p class="mb-0 mt-2 text-muted">What I’ll do to lower costs, expand care, and clean up corruption.</p>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Compare</div>
+          <a href="contrast.html"><i class="fa-solid fa-scale-balanced"></i> What Sets Me Apart</a>
+          <p class="mb-0 mt-2 text-muted">See the side-by-side differences with the incumbent.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
         <div class="quick-card">
           <div class="small text-muted mb-1">Get in touch</div>
           <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
           <p class="mb-0 mt-2 text-muted">Reach out, volunteer, or request a yard sign.</p>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-6 col-lg-3">
         <div class="quick-card">
           <div class="small text-muted mb-1">Support</div>
-          <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Donate</a>
+          <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank"><i class="fa-solid fa-heart"></i> Donate</a>
           <p class="mb-0 mt-2 text-muted">People-powered. Every dollar helps.</p>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- SOURCES -->
-<section id="sources" class="py-4 border-top">
-  <div class="container">
-    <h2 class="h6 section-title mb-2">Sources</h2>
-    <ul class="small">
-      <li>Campaign finance snapshots and PAC share: OpenSecrets member profile for Marilyn Strickland.</li>
-      <li>Seattle head tax and repeal context after industry pressure: local and national reporting from 2018.</li>
-      <li>Tacoma ethics reprimand reporting: reputable local press coverage.</li>
-    </ul>
-    <p class="small text-muted">
-      Note: If you want direct links visible on this page, I can add the exact article URLs or a “Read sources” modal.
-    </p>
   </div>
 </section>
 
@@ -247,9 +206,7 @@
   </div>
 </footer>
 
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
