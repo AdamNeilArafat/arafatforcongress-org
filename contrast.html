@@ -3,57 +3,104 @@
 <head>
   <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TSHYRZVZ97');</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
+  </script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Strickland Isn’t Working. Arafat Will. — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Side-by-side contrast: funding sources, priorities, and community ties in WA-10." />
   <meta name="theme-color" content="#0d3b66" />
-  <meta property="og:title" content="Strickland Isn’t Working. Arafat Will." />
-  <meta property="og:description" content="Clear, sourced differences between Adam Neil Arafat and the incumbent in WA-10." />
-  <meta property="og:type" content="website" />
+  <meta name="description" content="Clear, sourced differences between Adam Neil Arafat and the incumbent. Four out of five dollars backing the incumbent come from outside WA-10. Adam won’t take corporate PAC money." />
 
+  <!-- Open Graph -->
+  <meta property="og:title" content="Strickland Isn’t Working. Arafat Will." />
+  <meta property="og:description" content="Clear, sourced differences. Four out of five dollars backing the incumbent come from outside WA-10. Adam won’t take corporate PAC money." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/IMG_4323.jpeg" />
+
+  <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; }
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
+
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
 
     /* Social top bar */
-    .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
-    .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .social-top {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color: #fff;
+    }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
-    /* Header band */
-    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.75rem 1rem; }
+    /* Header break */
+    .header-break { background:#0d3b66; color:#fff; text-align:center; padding:.75rem 1rem; font-weight:700; }
 
-    /* Nav */
-    .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
-    .navbar .nav-link:hover { color:#0d3b66; }
-    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .btn-donate:hover { filter:brightness(.95); }
+    /* Navbar */
+    .navbar .nav-link {
+      position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600;
+    }
+    .navbar .nav-link:hover { color: var(--link); }
+    .navbar .nav-link::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .navbar .btn-donate:hover { filter: brightness(.95); }
 
-    /* Sections */
-    .section-title { color:var(--primary); }
-    .card-lite { border:1px solid #e9eef3; border-radius:14px; box-shadow:0 6px 16px rgba(13,59,102,.06); }
-    .badge-chip { background:#e6f0f8; color:#0d3b66; font-weight:700; border-radius:999px; padding:.25rem .5rem; }
-    .check { color:#0b6e4f; font-weight:700; }
-    .xmark { color:#b11e2d; font-weight:700; }
+    /* Section titles */
+    .section-kicker { letter-spacing:.08em; font-weight:800; color:#0b6e4f; font-size:.8rem; text-transform:uppercase; }
+    .section-title { color: var(--primary); }
 
-    /* Progress bars */
-    .progress { height:12px; background:#eef3f7; border-radius:999px; }
-    .progress-bar { background:var(--accent); }
-    .progress-bar.out { background:#b11e2d; }
+    /* By the numbers */
+    .meter { height:14px; background:#eef2f6; border-radius:10px; overflow:hidden; }
+    .meter > span { display:block; height:100%; background:linear-gradient(90deg,#0b6e4f,#0d3b66); }
+    .stat-chip { display:inline-flex; align-items:center; gap:.5rem; border:1px solid #e5ecf3; padding:.4rem .6rem; border-radius:999px; background:#fff; font-weight:600; }
+    .tiny { font-size:.85rem; color:#6b7280; }
 
-    /* Small footer links underline */
-    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
-    footer a:hover { color:#0d3b66; }
-    footer a::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    footer a:hover::after { width:100%; }
+    /* Comparison grid */
+    .compare-card {
+      border:1px solid #e9eef3; border-radius:14px; padding:1rem; height:100%;
+      box-shadow:0 6px 16px rgba(13,59,102,.06);
+    }
+    .compare-row { display:grid; grid-template-columns: 1fr; gap:.6rem; }
+    @media (min-width: 768px) {
+      .compare-row { grid-template-columns: 1fr 1fr; }
+    }
+    .good { color:#0b6e4f; font-weight:700; }
+    .warn { color:#b11e2d; font-weight:700; }
+    .proof { margin:.15rem 0 0; color:#475569; font-size:.95rem; }
+
+    /* Footer links underline */
+    footer a {
+      position:relative; color:#1c2b3a; text-decoration:none; font-weight:600;
+    }
+    footer a:hover { color: var(--link); }
+    footer a::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    footer a:hover::after, footer a:focus::after { width:100%; }
+
+    /* Sticky mobile donate */
+    .sticky-donate {
+      position: fixed; bottom: 16px; right: 16px; z-index: 1030;
+      display: none;
+    }
+    @media (max-width: 576px) {
+      .sticky-donate { display: block; }
+    }
   </style>
 </head>
 <body>
@@ -61,153 +108,179 @@
 <!-- SOCIAL BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" aria-label="Reddit"><i class="fa-brands fa-reddit-alien"></i><span>Reddit</span></a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" aria-label="Bluesky">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
       <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
       <span>Bluesky</span>
     </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i><span>TikTok</span></a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
   </div>
 </section>
 
 <div class="header-break">
-  <strong>Strickland isn’t working. I will.</strong><br>
-  Washington District 10
+  Strickland isn’t working. Arafat will.
 </div>
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Digging Into The Issues</a></li>
         <li class="nav-item"><a class="nav-link" aria-current="page" href="contrast.html">What Sets Me Apart</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item ms-lg-2"><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<main>
+<!-- WHY IT MATTERS (short, top) -->
+<section class="py-5 border-bottom">
+  <div class="container">
+    <div class="section-kicker">Why it matters</div>
+    <h1 class="section-title h3 mt-1 mb-3">Choose a representative who is accountable to WA-10</h1>
+    <p class="lead mb-2">
+      I live in WA-10 and my kids go to school here. You deserve a representative funded by neighbors, not national lobby networks.
+    </p>
+    <p class="mb-0 tiny">
+      Note: All contributions mentioned are lawful and do not prove quid pro quo. This page highlights alignment and incentives. <a href="#sources">See sources and methods</a>.
+    </p>
+  </div>
+</section>
 
-  <!-- WHY IT MATTERS (short, top) -->
-  <section class="py-5 border-bottom">
-    <div class="container">
-      <h2 class="section-title mb-3">Why this choice matters</h2>
-      <p class="lead mb-2">
-        I live in WA-10 and my kids go to school here. You deserve a member of Congress whose priorities match the people who live and work here, not the big PACs and D.C. networks that fund politics as usual.
-      </p>
-      <p class="mb-0 small text-muted">All contributions cited below are lawful and do not prove quid pro quo. They do show alignment and incentives.</p>
-    </div>
-  </section>
+<!-- BY THE NUMBERS -->
+<section class="py-5 border-bottom">
+  <div class="container">
+    <div class="section-kicker">By the numbers</div>
+    <h2 class="section-title h4 mt-1 mb-4">Who funds the incumbent</h2>
 
-  <!-- BY THE NUMBERS -->
-  <section class="py-5">
-    <div class="container">
-      <h3 class="h5 section-title mb-3">By the numbers</h3>
-
-      <div class="row g-3">
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">Out of district</span><span class="fw-semibold">81.7%</span></div>
-            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:81.7%"></div></div>
-            <div class="d-flex justify-content-between mb-1"><span>In district</span><span>14.9%</span></div>
-            <div class="progress mb-2"><div class="progress-bar" role="progressbar" style="width:14.9%"></div></div>
-            <div class="d-flex justify-content-between mb-1"><span>Unknown</span><span>3.5%</span></div>
-            <div class="progress"><div class="progress-bar" role="progressbar" style="width:3.5%"></div></div>
-            <p class="small mt-2 mb-0">Incumbent 2024 in-district vs out-of-district share. Source in footnotes.</p>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="p-3 border rounded-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <strong>In-district vs out-of-district dollars</strong>
+            <span class="stat-chip"><span id="pctOut">—</span> outside WA-10</span>
+          </div>
+          <div class="meter mb-2" aria-label="Funding split meter">
+            <span id="splitBar" style="width:0%;"></span>
+          </div>
+          <div class="tiny">
+            Method: WA-10 proxy uses ZIP prefixes <strong>984</strong> and <strong>985</strong>. This slightly undercounts or overcounts at the edges but gives a fair picture.
           </div>
         </div>
 
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">From PACs</span><span class="fw-semibold">44%</span></div>
-            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:44%"></div></div>
-            <p class="small mb-1">AIPAC PAC is a top contributor and Pro-Israel is a top listed industry for the incumbent in 2024.</p>
-            <p class="small mb-0">Method note: PAC share is OpenSecrets “From PACs” for the 2024 cycle.</p>
-          </div>
-        </div>
-      </div>
-
-      <p class="small text-muted mt-3 mb-0">Methodology: Geography figures are from OpenSecrets “Geography” for WA-10’s incumbent. “In district” and “out of district” come from OpenSecrets’ FEC-based categorization.</p>
-    </div>
-  </section>
-
-  <!-- COMPARISON GRID -->
-  <section class="py-4 border-top border-bottom">
-    <div class="container">
-      <h3 class="h5 section-title mb-3">Side by side</h3>
-
-      <div class="row g-3">
-        <!-- Funding alignment -->
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="mb-1"><span class="badge-chip">Funding alignment</span></div>
-            <p class="mb-2"><span class="check">✓</span> I rely on people, not corporate PACs.</p>
-            <p class="mb-2"><span class="xmark">✘</span> Incumbent’s funding is dominated by out-of-district dollars and a large PAC share, including AIPAC PAC and Pro-Israel industry support. <a href="#sources" class="small">See sources</a></p>
-          </div>
-        </div>
-
-        <!-- Healthcare approach -->
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="mb-1"><span class="badge-chip">Healthcare</span></div>
-            <p class="mb-2"><span class="check">✓</span> I support universal coverage with automatic enrollment and lower drug costs.</p>
-            <p class="mb-2"><span class="xmark">✘</span> Incumbent backs a public option approach, not Medicare for All. <a href="#sources" class="small">See sources</a></p>
-          </div>
-        </div>
-
-        <!-- Housing and accountability -->
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="mb-1"><span class="badge-chip">Housing and corporate accountability</span></div>
-            <p class="mb-2"><span class="check">✓</span> I support a Corporate Social Responsibility Tax so bad actors do not undercut responsible employers.</p>
-            <p class="mb-2"><span class="xmark">✘</span> As CEO of the Seattle Metropolitan Chamber, the incumbent opposed Seattle’s 2018 head tax intended to fund homelessness and affordable housing. <a href="#sources" class="small">See sources</a></p>
-          </div>
-        </div>
-
-        <!-- Community ties -->
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="mb-1"><span class="badge-chip">Community ties</span></div>
-            <p class="mb-2"><span class="check">✓</span> I live in WA-10 and my kids attend local public schools.</p>
-            <p class="mb-0"><span class="xmark">✘</span> Too much of the incumbent’s money comes from D.C. area, New York finance, and other outside networks. <a href="#sources" class="small">See sources</a></p>
-          </div>
+        <div class="p-3 border rounded-3 mt-3">
+          <strong>Where outside dollars cluster</strong>
+          <ul class="mb-0 mt-2 tiny" id="topStates">
+            <li>Loading…</li>
+          </ul>
         </div>
       </div>
 
-      <div class="alert alert-secondary mt-3 mb-0 small" role="note">
-        Note: “AIPAC” in sources refers to AIPAC PAC and bundled individual donors reported in federal filings. Claims relate to alignment and incentives, not illegality.
+      <div class="col-lg-5">
+        <div class="p-3 border rounded-3 h-100">
+          <strong>Inside WA-10: who gives</strong>
+          <ul class="mb-0 mt-2">
+            <li><span id="inIndiv">—</span> from Individuals</li>
+            <li><span id="inCommittees">—</span> from Committees (PAC/party)</li>
+          </ul>
+          <p class="tiny mt-2 mb-0">
+            Committees include PACs and party committees. Corporate PACs are PACs funded by employees/shareholders of a corporation.
+          </p>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- CALL TO ACTION -->
-  <section class="py-5 text-center">
-    <div class="container">
-      <a class="btn btn-donate btn-lg" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart me-1"></i>Donate</a>
+    <div class="mt-3 tiny">
+      CSV: <code>assets/csv/incumbent_donors_full.csv</code>. You can replace with the latest FEC “Schedule A” export to update the numbers.
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SOURCES -->
-  <section id="sources" class="py-4 border-top">
-    <div class="container">
-      <h3 class="h6 section-title">Sources and methods</h3>
-      <ul class="small mb-2">
-        <li>OpenSecrets — 2023–2024 Summary for the incumbent: “From PACs” 44.03 percent and amounts, plus top contributor and industry lines. :contentReference[oaicite:0]{index=0}</li>
-        <li>OpenSecrets — 2024 Geography: In-district 14.87 percent, Out-of-district 81.66 percent, and Top Metros list showing Washington-Arlington-Alexandria. :contentReference[oaicite:1]{index=1}</li>
-        <li>Indivisible Tacoma 2020 questionnaire — Incumbent supports a public option, open to lowering Medicare age, and “health care for all” as a goal. :contentReference[oaicite:2]{index=2}</li>
-        <li>Seattle head tax repeal context and the Chamber’s opposition. :contentReference[oaicite:3]{index=3}</li>
-        <li>WA-10 district includes much of eastern Tacoma and Joint Base Lewis-McChord. :contentReference[oaicite:4]{index=4}</li>
-      </ul>
-      <p class="small text-muted mb-0">Method note: “In district” and “out of district” are OpenSecrets/FEC categories. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
+<!-- COMPARISON GRID -->
+<section class="py-5 border-bottom">
+  <div class="container">
+    <div class="section-kicker">Side by side</div>
+    <h2 class="section-title h4 mt-1 mb-4">Adam vs the incumbent</h2>
+
+    <div class="compare-card">
+      <div class="compare-row">
+        <!-- Adam side -->
+        <div>
+          <div class="good"><i class="fa-solid fa-check"></i> No corporate PAC money</div>
+          <p class="proof">I refuse corporate PAC and lobbyist contributions. Accountability starts with funding.</p>
+
+          <div class="good mt-3"><i class="fa-solid fa-check"></i> Live and raise my family in WA-10</div>
+          <p class="proof">I live in the district and my kids attend local public schools.</p>
+
+          <div class="good mt-3"><i class="fa-solid fa-check"></i> Universal healthcare, lower costs</div>
+          <p class="proof">Back universal coverage, drug price negotiation, faster housing permits, fair markets.</p>
+        </div>
+
+        <!-- Incumbent side -->
+        <div>
+          <div class="warn"><i class="fa-solid fa-xmark"></i> Heavy dependence on national networks</div>
+          <p class="proof">Four out of five dollars come from outside WA-10. Source: FEC Schedule A analysis in this page.</p>
+
+          <div class="warn mt-3"><i class="fa-solid fa-xmark"></i> Serious PAC reliance</div>
+          <p class="proof">Corporate and other PACs are a significant share of her funding. See Sources for FEC links.</p>
+
+          <div class="warn mt-3"><i class="fa-solid fa-xmark"></i> Status quo on healthcare and cost of living</div>
+          <p class="proof">Backs existing frameworks that leave many families behind. See voting and issue summaries in Sources.</p>
+        </div>
+      </div>
     </div>
-  </section>
 
-</main>
+    <p class="tiny mt-3 mb-0">
+      Notes: AIPAC totals are commonly cited as PACs plus bundled individual donations connected to the network. All contributions are lawful; the issue is alignment and incentives.
+    </p>
+  </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="py-5">
+  <div class="container text-center">
+    <h3 class="h5 section-title mb-2">This seat belongs to WA-10</h3>
+    <p class="mb-3">If you agree we should put neighbors before lobbyists, join us and help spread the word.</p>
+    <a class="btn btn-donate btn-lg" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">
+      <i class="fa-solid fa-heart me-1"></i> Donate
+    </a>
+  </div>
+</section>
+
+<!-- SOURCES & METHODS -->
+<section id="sources" class="py-5 border-top">
+  <div class="container">
+    <div class="section-kicker">Sources & methodology</div>
+    <h2 class="section-title h5 mt-1 mb-3">Check our work</h2>
+    <ul class="small">
+      <li>Federal Election Commission Candidate Page (Financials & CSV downloads): 
+        <a href="https://www.fec.gov/data/candidate/H0WA10091" target="_blank" rel="noopener">Incumbent Financial Summary</a>.
+      </li>
+      <li>CSV methodology: this page uses FEC Schedule A “Receipts” CSV. In-district is approximated by ZIP prefixes 984 and 985 for WA-10. Committee receipts are treated as PAC/party. We will publish processing notes alongside CSV releases.</li>
+      <li>Public financing example for context: 
+        <a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">Seattle Democracy Voucher Program</a>.
+      </li>
+      <li>General wage floor context: 
+        <a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor, Minimum Wage</a>.
+      </li>
+    </ul>
+    <p class="tiny mb-0">
+      Residence and local ties: we will add a public record source link for residence districts in the next update. Statements about my residence and family are my own.
+    </p>
+  </div>
+</section>
 
 <footer class="py-4 bg-white border-top text-center">
   <div class="container">
@@ -218,7 +291,170 @@
   </div>
 </footer>
 
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<!-- Sticky donate (mobile) -->
+<a class="btn btn-donate sticky-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener" aria-label="Quick donate">
+  <i class="fa-solid fa-heart"></i>
+</a>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ---- CSV LOADER for incumbent (Schedule A) ----
+  // File path: assets/csv/incumbent_donors_full.csv
+  const CSV_URL = 'assets/csv/incumbent_donors_full.csv';
+
+  // Basic, robust CSV parser (no external libs)
+  function parseCSV(text) {
+    // Handle quoted fields and commas
+    const rows = [];
+    let row = [], col = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i], next = text[i+1];
+      if (ch === '"' ) {
+        if (inQuotes && next === '"') { col += '"'; i++; }
+        else { inQuotes = !inQuotes; }
+      } else if (ch === ',' && !inQuotes) {
+        row.push(col); col = '';
+      } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+        if (col.length || row.length) { row.push(col); rows.push(row); row = []; col = ''; }
+      } else {
+        col += ch;
+      }
+    }
+    if (col.length || row.length) { row.push(col); rows.push(row); }
+    return rows;
+  }
+
+  function toRecords(rows) {
+    if (!rows.length) return [];
+    const header = rows[0].map(h => h.trim().toLowerCase());
+    return rows.slice(1).map(r => {
+      const obj = {};
+      header.forEach((h, idx) => obj[h] = (r[idx] || '').trim());
+      return obj;
+    });
+  }
+
+  function pick(obj, keys) {
+    for (const k of keys) {
+      const found = Object.keys(obj).find(h => h === k || h.endsWith(k));
+      if (found && obj[found]) return obj[found];
+    }
+    return '';
+  }
+
+  function dollars(v) {
+    const n = +v;
+    if (!isFinite(n)) return 0;
+    return n;
+  }
+
+  function fmtMoney(n) {
+    if (!isFinite(n)) return '—';
+    return n.toLocaleString(undefined, { style:'currency', currency:'USD', maximumFractionDigits:0 });
+  }
+
+  function isInDistrict(zip) {
+    if (!zip) return false;
+    const z = zip.toString().replace(/[^0-9]/g,'').slice(0,3);
+    return z === '984' || z === '985';
+  }
+
+  function getState(obj) {
+    const s = pick(obj, ['contributor_state','state']);
+    return s || '';
+  }
+
+  function getZip(obj) {
+    return pick(obj, ['contributor_zip','zip']);
+  }
+
+  function getAmount(obj) {
+    // FEC Schedule A headers commonly: 'contribution_receipt_amount'
+    const a = pick(obj, ['contribution_receipt_amount','amount','total']);
+    return dollars(a);
+  }
+
+  function isCommittee(obj) {
+    // Heuristic: entity type or contributor type
+    const t = (pick(obj, ['entity_type','contributor_type','committee_type']) || '').toUpperCase();
+    // Common codes: IND for individual, COM for committee
+    if (t.includes('COM') || t.includes('PAC') || t.includes('PTY')) return true;
+    if (t.includes('IND')) return false;
+    // Fallback: if contributor_name looks like a committee (optional)
+    const name = (pick(obj, ['committee_name','contributor_name']) || '').toUpperCase();
+    if (name.includes('PAC') || name.includes('COMMITTEE') || name.includes('ASSOCIATION') || name.includes('FUND')) return true;
+    return false;
+  }
+
+  async function loadNumbers() {
+    try {
+      const res = await fetch(CSV_URL, { cache: 'no-store' });
+      if (!res.ok) throw new Error('CSV not found');
+      const text = await res.text();
+      const records = toRecords(parseCSV(text));
+
+      let inSum = 0, outSum = 0;
+      let inIndiv = 0, inComm = 0;
+      const outStates = new Map();
+
+      for (const r of records) {
+        const amt = getAmount(r);
+        if (!amt) continue;
+        const zip = getZip(r);
+        const state = getState(r);
+        const committee = isCommittee(r);
+
+        if (isInDistrict(zip)) {
+          inSum += amt;
+          if (committee) inComm += amt; else inIndiv += amt;
+        } else {
+          outSum += amt;
+          if (state) {
+            outStates.set(state, (outStates.get(state) || 0) + amt);
+          }
+        }
+      }
+
+      const total = inSum + outSum;
+      const pctOut = total ? Math.round(outSum / total * 100) : 0;
+      const pctIn = 100 - pctOut;
+
+      // Update meter
+      document.getElementById('splitBar').style.width = pctOut + '%';
+      document.getElementById('pctOut').textContent = pctOut + '%';
+      
+      // In-district breakdown
+      document.getElementById('inIndiv').textContent = fmtMoney(inIndiv) + ' from Individuals';
+      document.getElementById('inCommittees').textContent = fmtMoney(inComm) + ' from Committees';
+
+      // Top outside states
+      const top = [...outStates.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5);
+      const ul = document.getElementById('topStates');
+      ul.innerHTML = '';
+      if (!top.length) {
+        ul.innerHTML = '<li>No outside-state entries detected</li>';
+      } else {
+        top.forEach(([st, val]) => {
+          const li = document.createElement('li');
+          li.textContent = st + ': ' + fmtMoney(val);
+          ul.appendChild(li);
+        });
+      }
+    } catch (e) {
+      // Graceful fallback
+      document.getElementById('pctOut').textContent = '—';
+      document.getElementById('splitBar').style.width = '0%';
+      document.getElementById('inIndiv').textContent = '—';
+      document.getElementById('inCommittees').textContent = '—';
+      const ul = document.getElementById('topStates');
+      ul.innerHTML = '<li>CSV not found. Add assets/csv/incumbent_donors_full.csv to enable this chart.</li>';
+      console.warn('CSV load error:', e);
+    }
+  }
+
+  loadNumbers();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
