@@ -43,23 +43,8 @@
     .btn-contrast { border-radius:999px; padding:.85rem 1.3rem; font-weight:700; border:1px solid var(--primary); color:var(--primary); background:#fff; transition: all .18s ease; }
     .btn-contrast:hover { background: var(--primary); color:#fff; box-shadow:0 8px 18px rgba(13,59,102,.18); }
 
-    /* About photo focal point adjusted */
-    .about-photo {
-      width:100%;
-      max-width:520px;
-      aspect-ratio:3/4;
-      object-fit:cover;
-      object-position:50% 5%; /* lift ~15% */
-      border-radius:14px;
-      box-shadow:0 10px 26px rgba(0,0,0,.18);
-    }
-
-    @media (max-width: 576px){
-      .about-photo{
-        aspect-ratio: 2.6/3.6;
-        object-position:50% 0%; /* lift more on mobile */
-      }
-    }
+    /* About */
+    .about-photo { width:100%; max-width:520px; aspect-ratio:4/5; object-fit:cover; border-radius:14px; box-shadow:0 10px 26px rgba(0,0,0,.18); }
 
     /* Quick cards */
     .quick-card { border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3; box-shadow:0 6px 18px rgba(13,59,102,.06); transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; height:100%; }
@@ -104,6 +89,46 @@
   </div>
 </nav>
 
+<!-- HERO GRID -->
+<section class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4339.jpeg" alt="Universal healthcare and women's rights" />
+        <div class="hero-overlay"><h3 class="hero-title">Universal Healthcare & Women’s Rights</h3><p class="hero-sub">Healthcare is a human right!</p></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living" />
+        <div class="hero-overlay"><h3 class="hero-title">Lowering the Cost of Living</h3><p class="hero-sub">When the working class thrives, America thrives!</p></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4344.jpeg" alt="End corruption and special interests" />
+        <div class="hero-overlay"><h3 class="hero-title">End Corruption & Special Interests</h3><p class="hero-sub">Voters over donors!</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY IT MATTERS -->
+<section id="why-it-matters" class="py-5 border-top border-bottom">
+  <div class="container">
+    <h2 class="section-title mb-3">Why It Matters</h2>
+    <p>
+      Our country is at a crossroads. The old guard has had decades to lead, but holding on to the status quo has left too many families struggling. It’s time to pass the torch so our nation can move forward.
+    </p>
+    <p>
+      Policies branded as “progressive” are only progressive compared to a broken system. Measured against the rest of the world, they are common sense. Universal healthcare, affordable living, and fair government are the basics modern nations already provide. America should not lag behind, we should lead.
+    </p>
+    <p>
+      I believes real change starts with leaders rooted in community — working-class Americans who are not beholden to corporate PACs, lobbyists, or foreign interests. It is time to build a future guided by integrity, optimism, and results.
+    </p>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section id="about" class="py-5 border-bottom">
   <div class="container">
@@ -113,7 +138,48 @@
         <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" />
       </div>
       <div class="col-12 col-md-7">
-        <p>Adam served this country for two decades in the U.S. Army, leading aviation maintenance programs and managing airfield operations across the globe...</p>
+        <p>Adam served this country for two decades in the U.S. Army, leading aviation maintenance programs and managing airfield operations across the globe. His service instilled discipline, accountability, and the importance of putting people before politics.</p>
+<p>At home in Spanaway, WA, Adam and his family are raising their children in the local community. His kids attend public schools, play on local sports teams, and take part in community events and programs. Like many families in Washington’s 10th District, they understand the pressures of rising costs, healthcare challenges, and the need for safe, thriving neighborhoods where children can grow and succeed.</p>
+<p>Today, Adam works in public service with the county, overseeing infrastructure programs that provide essential services for hundreds of thousands of people. He brings the same focus on results, efficiency, and transparency that he will take to Congress.</p>
+<p>Adam’s campaign is rooted in working-class values: integrity, fairness, and accountability. Rejecting corporate PAC money, lobbyists, and foreign influence, he is committed to answering only to the people of this district.</p>
+<p>This race is not about a political career for Adam. It’s about fighting for affordable healthcare, lowering the cost of living, and ending corruption so the next generation has a brighter future. Trust is built, not bought—that is the foundation of his campaign.</p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK LINKS -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Learn</div>
+          <a href="digging-into-the-issues.html"><i class="fa-solid fa-list-check"></i> Digging Into the Issues</a>
+          <p class="mb-0 mt-2 text-muted">What I’ll do to lower costs, expand care, and clean up corruption.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Compare</div>
+          <a href="contrast.html"><i class="fa-solid fa-scale-balanced"></i> What Sets Me Apart</a>
+          <p class="mb-0 mt-2 text-muted">See the side-by-side differences with the incumbent.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Get in touch</div>
+          <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+          <p class="mb-0 mt-2 text-muted">Reach out, volunteer, or request a yard sign.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Support</div>
+          <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank"><i class="fa-solid fa-heart"></i> Donate</a>
+          <p class="mb-0 mt-2 text-muted">People-powered. Every dollar helps.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -127,8 +193,8 @@
     <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
   </div>
 </footer>
-
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
