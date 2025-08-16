@@ -2,198 +2,298 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adam Neil Arafat for Congress</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adam Neil Arafat for Congress — Washington District 10</title>
+  <meta name="theme-color" content="#0d3b66" />
+  <meta name="description" content="Trust is built, not bought. This campaign is about our quality of life and a better future for our kids and grandkids." />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
   <style>
-    body { font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
-    .hero {
-      position: relative;
-      background: url('images/hero-bg.jpg') center/cover no-repeat;
-      color: white;
-      text-align: center;
-      padding: 7rem 1rem;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.55);
-    }
-    .hero .content {
-      position: relative;
-      z-index: 2;
-    }
-    .hero h1 { font-size: 3rem; font-weight: 700; }
-    .hero p { font-size: 1.25rem; }
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
 
-    .social-bar {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 0.5rem;
-    }
-    .social-bar a {
-      color: white;
-      margin: 0 0.75rem;
-      font-size: 1.3rem;
-      transition: color 0.3s ease;
-      text-decoration: none;
-    }
-    .social-bar a:hover { color: #0d6efd; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
 
-    .navbar {
-      background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-    .navbar-nav .nav-link {
-      font-weight: 600;
-      margin: 0 0.5rem;
-    }
-
-    .section-title {
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    .about-photo {
-      width: 100%;
-      border-radius: 12px; /* Square with rounded edges */
-    }
-    .fancy-link {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background: #0d6efd;
-      color: white;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s ease;
-    }
-    .fancy-link:hover {
-      background: #084298;
+    /* Top social bar */
+    .social-top {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
       color: #fff;
     }
-    .divider {
-      text-align: center;
-      padding: 2rem 1rem;
-      background: #f8f9fa;
-      font-size: 1.4rem;
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+
+    /* Header break band */
+    .header-break {
+      background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.65rem 1rem;
+    }
+
+    /* Pretty nav links: subtle animated underline */
+    .navbar .nav-link {
+      position: relative;
+      padding: .25rem .5rem;
+      color: #1c2b3a;
       font-weight: 600;
     }
+    .navbar .nav-link:hover { color: var(--link); }
+    .navbar .nav-link::after {
+      content:"";
+      position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .navbar .btn-donate:hover { filter: brightness(.95); }
+
+    /* Hero grid images with overlay */
+    .hero-card {
+      position: relative; border-radius:14px; overflow:hidden;
+    }
+    .hero-card img {
+      width:100%; height:100%; object-fit:cover; aspect-ratio:16/10; display:block;
+    }
+    .hero-overlay {
+      position:absolute; left:0; right:0; bottom:0;
+      padding:1rem 1.1rem;
+      color:#fff;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.7) 100%);
+    }
+    .hero-title { margin:0; font-weight:800; font-size:1.15rem; line-height:1.2; }
+    .hero-sub { margin: .25rem 0 0; font-size:.95rem; opacity:.95; }
+
+    /* Big CTA pill */
+    .btn-contrast {
+      border-radius:999px; padding:.85rem 1.3rem; font-weight:700;
+      border:1px solid var(--primary); color:var(--primary); background:#fff;
+      transition: all .18s ease;
+    }
+    .btn-contrast:hover { background: var(--primary); color:#fff; box-shadow:0 8px 18px rgba(13,59,102,.18); }
+
+    /* Section titles */
+    .section-title { color: var(--primary); }
+
+    /* About */
+    .about-photo {
+      width:100%; max-width:520px; aspect-ratio:4/5; object-fit:cover;
+      border-radius:14px; /* square with rounded edges, no frame */
+      box-shadow:0 10px 26px rgba(0,0,0,.18);
+    }
+
+    /* “Quick Links” cards */
+    .quick-card {
+      border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3;
+      box-shadow:0 6px 18px rgba(13,59,102,.06);
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      height:100%;
+    }
+    .quick-card:hover {
+      transform: translateY(-2px);
+      box-shadow:0 12px 28px rgba(13,59,102,.12);
+      border-color:#d8e4ee;
+    }
+    .quick-card a {
+      display:flex; align-items:center; gap:.65rem; text-decoration:none; font-weight:700;
+      color:#10324f;
+    }
+    .quick-card a i { font-size:1.05rem; color:var(--primary); }
+
+    /* Footer links underline */
+    footer a {
+      position:relative; color:#1c2b3a; text-decoration:none; font-weight:600;
+    }
+    footer a:hover { color: var(--link); }
+    footer a::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    footer a:hover::after, footer a:focus::after { width:100%; }
   </style>
 </head>
 <body>
 
-  <!-- Social Bar -->
-  <div class="social-bar">
-    <a href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank"><i class="fab fa-reddit"></i> Reddit</a>
-    <a href="https://bsky.app/profile/adamneila.bsky.social" target="_blank"><i class="fa-solid fa-cloud"></i> Bluesky</a>
-    <a href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+<!-- SOCIAL MEDIA BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
   </div>
+</section>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Adam Arafat</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navmenu">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#issues">Issues</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contrast">What Sets Me Apart</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-      </div>
+<!-- HEADER BREAK -->
+<div class="header-break">Trust is built, not bought.</div>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html" aria-current="page">Adam Neil Arafat</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart from the Current Representative</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+        </li>
+      </ul>
     </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="content">
-      <h1>Adam Neil Arafat for Congress</h1>
-      <p>A voice for working families, not corporate interests.</p>
-      <a href="#contrast" class="fancy-link mt-3">What Sets Me Apart from the Current Representative</a>
-    </div>
-  </section>
-
-  <!-- Divider -->
-  <div class="divider">
-    Trust is built, not bought.
   </div>
+</nav>
 
-  <!-- About -->
-  <section id="about" class="py-5 border-bottom">
-    <div class="container">
-      <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
-      <div class="row g-4 align-items-center">
-        <div class="col-12 col-md-5">
-          <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" loading="lazy" />
-        </div>
-        <div class="col-12 col-md-7">
-          <p>
-            Adam served this country for two decades, including time overseas where he saw firsthand how other nations structure healthcare, education, and public services. That perspective fuels his belief that America can and should deliver better for working families.
-          </p>
-          <p>
-            At home, Adam and his wife have kids in local public schools. They both participate in the PTA and volunteer at school and community events. He understands the everyday challenges families face and brings that lived experience to the work.
-          </p>
-          <p>
-            Today, Adam continues his public service as a project manager supporting the county’s essential infrastructure—work that keeps our communities safe and running.
-          </p>
-          <p>
-            His campaign is rooted in working-class values: fair taxation, affordable healthcare, housing families can afford, and a government that answers to people—not special interests.
-          </p>
-          <p>
-            Money in politics is one of the biggest problems we face. As long as campaigns are fueled by corporate PACs and big donors, policies will serve those funders—not the public. When lobbyists and special interests pay the bills, everyday people pay the price.
-          </p>
-          <p>
-            Adam takes no corporate PAC money because trust should be earned, not bought. He believes government must belong to the people, and that accountability starts with who funds the campaign.
-          </p>
+<!-- HERO GRID WITH OVERLAYS -->
+<section class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4339.jpeg" alt="Universal healthcare and women's rights" loading="lazy" />
+        <div class="hero-overlay">
+          <h3 class="hero-title">Universal Healthcare & Women’s Rights</h3>
+          <p class="hero-sub">Healthcare is a human right!</p>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- Issues -->
-  <section id="issues" class="py-5 bg-light border-bottom">
-    <div class="container">
-      <h2 class="section-title">Issues</h2>
-      <p class="text-center">
-        Here you can outline Adam’s policy priorities: fair taxation, universal healthcare, housing families can afford, protecting workers’ rights, and safeguarding democracy.  
-        <br><br>
-        Each issue can expand here with a short description or link to a PDF/extended policy page later.
-      </p>
-    </div>
-  </section>
-
-  <!-- Contrast -->
-  <section id="contrast" class="py-5">
-    <div class="container">
-      <h2 class="section-title">What Sets Me Apart from the Current Representative</h2>
-      <p class="text-center">
-        Adam doesn’t take PAC money or corporate donations. He’s accountable to voters, not special interests.  
-        <br><br>
-        The incumbent has consistently sided with corporate lobbyists and watered-down reforms. Adam will fight for working families without compromise.
-      </p>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="py-5 bg-light">
-    <div class="container">
-      <h2 class="section-title">Contact</h2>
-      <p class="text-center">
-        Want to get in touch, volunteer, or share your ideas? Reach out here.
-      </p>
-      <div class="text-center">
-        <a href="mailto:info@adamforcongress.com" class="fancy-link">Email Adam</a>
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living" loading="lazy" />
+        <div class="hero-overlay">
+          <h3 class="hero-title">Lowering the Cost of Living</h3>
+          <p class="hero-sub">When the working class thrives, America thrives!</p>
+        </div>
       </div>
     </div>
-  </section>
+    <div class="col-md-4">
+      <div class="hero-card">
+        <img src="images/IMG_4344.jpeg" alt="End corruption and special interests" loading="lazy" />
+        <div class="hero-overlay">
+          <h3 class="hero-title">End Corruption & Special Interests</h3>
+          <p class="hero-sub">Voters over donors!</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="text-center mt-3">
+    <a href="contrast.html" class="btn btn-contrast">What Sets Me Apart from the Current Representative</a>
+  </div>
+</section>
+
+<!-- WHY IT MATTERS -->
+<section id="why-it-matters" class="py-5 border-top border-bottom">
+  <div class="container">
+    <h2 class="section-title mb-3">Why It Matters</h2>
+    <p class="lead">
+      Our country is at a crossroads. Our children deserve a future, not a failing system run by career politicians who prefer the status quo.
+      Adam believes change starts with leaders grounded in our communities—working-class Americans who aren’t beholden to foreign interests, corporate sponsors, or lobbyists.
+      It’s time to stop waiting and start building a future led by integrity, optimism, and results.
+    </p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-5 border-bottom">
+  <div class="container">
+    <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
+    <div class="row g-4 align-items-center">
+      <div class="col-12 col-md-5">
+        <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" loading="lazy" />
+      </div>
+      <div class="col-12 col-md-7">
+        <p>
+          Adam served this country for two decades, including time overseas where he saw firsthand how other nations structure healthcare, education, and public services.
+          That perspective fuels his belief that America can and should deliver better for working families.
+        </p>
+        <p>
+          At home, Adam and his wife have kids in local public schools. They both participate in the PTA and volunteer at school and community events.
+          He understands the everyday challenges families face and brings that lived experience to the work.
+        </p>
+        <p>
+          Today, Adam continues his public service as a project manager supporting the county’s essential infrastructure—work that keeps our communities safe and running.
+        </p>
+        <p>
+          His campaign is rooted in working-class values: fair taxation, affordable healthcare, housing families can afford, and a government that answers to people—not special interests.
+        </p>
+        <p>
+          Money in politics is one of the biggest problems we face. As long as campaigns are fueled by corporate PACs and big donors, policies will serve those funders—not the public. When lobbyists and special interests pay the bills, everyday people pay the price.
+        </p>
+        <p>
+          Adam takes no corporate PAC money because trust should be earned, not bought. He believes government must belong to the people, and that accountability starts with who funds the campaign.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK LINKS -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Learn</div>
+          <a href="issues.html"><i class="fa-solid fa-list-check"></i> Issues</a>
+          <p class="mb-0 mt-2 text-muted">What I’ll do to lower costs, expand care, and clean up corruption.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Compare</div>
+          <a href="contrast.html"><i class="fa-solid fa-scale-balanced"></i> What Sets Me Apart from the Current Representative</a>
+          <p class="mb-0 mt-2 text-muted">See the side-by-side differences with the incumbent.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Get in touch</div>
+          <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+          <p class="mb-0 mt-2 text-muted">Reach out, volunteer, or request a yard sign.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="quick-card">
+          <div class="small text-muted mb-1">Support</div>
+          <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Donate</a>
+          <p class="mb-0 mt-2 text-muted">People-powered. Every dollar helps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-4 bg-white border-top text-center">
+  <div class="container">
+    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
+    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="issues.html">Issues</a>
+      <a href="contrast.html">What Sets Me Apart from the Current Representative</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
