@@ -3,30 +3,21 @@
 <head>
   <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TSHYRZVZ97');</script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Strickland Isn’t Working. Arafat Will. — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Side-by-side contrast for WA-10 with live funding data and clear sources." />
+  <title>Strickland Isn’t Working. I Will. — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Side-by-side contrast: funding sources, priorities, and community ties in WA-10." />
   <meta name="theme-color" content="#0d3b66" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Strickland Isn’t Working. Arafat Will." />
-  <meta property="og:description" content="Clear, sourced differences. Four out of five dollars backing the incumbent come from outside WA-10. Adam won’t take corporate PAC money." />
+  <meta property="og:title" content="Strickland Isn’t Working. I Will." />
+  <meta property="og:description" content="Clear, sourced differences in WA-10." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/IMG_4323.jpeg" />
 
-  <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --link:#0d3b66; }
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
 
     /* Social top bar */
@@ -40,44 +31,29 @@
 
     /* Nav */
     .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
-    .navbar .nav-link:hover { color:var(--link); }
+    .navbar .nav-link:hover { color:#0d3b66; }
     .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
     .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
     .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
     .btn-donate:hover { filter:brightness(.95); }
 
     /* Sections */
-    .section-kicker { letter-spacing:.08em; font-weight:800; color:#0b6e4f; font-size:.8rem; text-transform:uppercase; }
     .section-title { color:var(--primary); }
     .card-lite { border:1px solid #e9eef3; border-radius:14px; box-shadow:0 6px 16px rgba(13,59,102,.06); }
     .badge-chip { background:#e6f0f8; color:#0d3b66; font-weight:700; border-radius:999px; padding:.25rem .5rem; }
     .check { color:#0b6e4f; font-weight:700; }
     .xmark { color:#b11e2d; font-weight:700; }
 
-    /* Meters */
-    .meter { height:14px; background:#eef2f6; border-radius:10px; overflow:hidden; }
-    .meter > span { display:block; height:100%; background:linear-gradient(90deg,#0b6e4f,#0d3b66); }
-    .stat-chip { display:inline-flex; align-items:center; gap:.5rem; border:1px solid #e5ecf3; padding:.35rem .6rem; border-radius:999px; background:#fff; font-weight:600; }
-
-    .tiny { font-size:.85rem; color:#6b7280; }
-
-    /* Comparison grid */
-    .compare-card { border:1px solid #e9eef3; border-radius:14px; padding:1rem; box-shadow:0 6px 16px rgba(13,59,102,.06); }
-    .compare-row { display:grid; grid-template-columns: 1fr; gap:1rem; }
-    @media (min-width: 768px) { .compare-row { grid-template-columns: 1fr 1fr; } }
-    .good { color:#0b6e4f; font-weight:700; }
-    .warn { color:#b11e2d; font-weight:700; }
-    .proof { margin:.15rem 0 0; color:#475569; }
+    /* Progress bars */
+    .progress { height:12px; background:#eef3f7; border-radius:999px; }
+    .progress-bar { background:var(--accent); }
+    .progress-bar.out { background:#b11e2d; }
 
     /* Footer links underline */
     footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
     footer a:hover { color:#0d3b66; }
     footer a::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
     footer a:hover::after { width:100%; }
-
-    /* Sticky mobile donate */
-    .sticky-donate { position: fixed; bottom: 16px; right: 16px; z-index: 1030; display: none; }
-    @media (max-width: 576px) { .sticky-donate { display: inline-flex; align-items:center; gap:.5rem; } }
   </style>
 </head>
 <body>
@@ -94,7 +70,6 @@
   </div>
 </section>
 
-<!-- HEADER -->
 <div class="header-break">
   <strong>Strickland isn’t working. I will.</strong><br>
   Washington District 10
@@ -121,138 +96,96 @@
   <!-- WHY IT MATTERS -->
   <section class="py-5 border-bottom">
     <div class="container">
-      <div class="section-kicker">Why it matters</div>
-      <h1 class="section-title h3 mt-1 mb-3">Choose a representative accountable to WA-10</h1>
+      <h2 class="section-title mb-3">Why this choice matters</h2>
       <p class="lead mb-2">
-        I live in WA-10 and my kids go to school here. You deserve a representative funded by neighbors, not national lobby networks.
+        I live in WA-10 and my kids go to school here. You deserve a member of Congress whose priorities match the people who live and work here, not the big PACs and D.C. networks that fund politics as usual.
       </p>
-      <p class="mb-0 tiny">All contributions cited are lawful and do not prove quid pro quo. This page highlights alignment and incentives. <a href="#sources">See sources and methods</a>.</p>
+      <p class="mb-0 small text-muted">All contributions cited below are lawful and do not prove quid pro quo. They show alignment and incentives.</p>
     </div>
   </section>
 
-  <!-- BY THE NUMBERS (dynamic CSV) -->
-  <section class="py-5 border-bottom">
+  <!-- BY THE NUMBERS (STATIC) -->
+  <section class="py-5">
     <div class="container">
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-        <div>
-          <div class="section-kicker">By the numbers</div>
-          <h2 class="section-title h4 mt-1 mb-0">Who funds the incumbent</h2>
-        </div>
-        <span class="stat-chip"><i class="fa-solid fa-database"></i> Live from FEC CSV</span>
-      </div>
+      <h3 class="h5 section-title mb-3">By the numbers</h3>
 
-      <div class="row g-4 mt-3">
-        <div class="col-lg-7">
-          <div class="p-3 border rounded-3">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-              <strong>In-district vs out-of-district dollars</strong>
-              <span class="stat-chip"><span id="pctOut">—</span> outside WA-10</span>
-            </div>
-            <div class="meter mb-2" aria-label="Funding split meter"><span id="splitBar" style="width:0%;"></span></div>
-            <div class="tiny">
-              Method: WA-10 proxy uses ZIP prefixes <strong>984</strong> and <strong>985</strong>. This may slightly undercount or overcount at the edges.
-            </div>
-
-            <div class="mt-3 d-flex flex-wrap gap-2">
-              <a class="btn btn-outline-primary btn-sm" href="assets/csv/incumbent_donors_full.csv" download><i class="fa-solid fa-download me-1"></i>Download CSV we used</a>
-              <a class="btn btn-outline-secondary btn-sm" href="https://www.fec.gov/data/candidate/H0WA10091" target="_blank" rel="noopener"><i class="fa-solid fa-up-right-from-square me-1"></i>FEC candidate page</a>
-            </div>
-          </div>
-
-          <div class="p-3 border rounded-3 mt-3">
-            <strong>Where outside dollars cluster</strong>
-            <ul class="mb-0 mt-2 tiny" id="topStates"><li>Loading…</li></ul>
-          </div>
-        </div>
-
-        <div class="col-lg-5">
-          <div class="p-3 border rounded-3 h-100">
-            <strong>Inside WA-10: who gives</strong>
-            <ul class="mb-0 mt-2">
-              <li><span id="inIndiv">—</span> from Individuals</li>
-              <li><span id="inCommittees">—</span> from Committees (PAC/party)</li>
-            </ul>
-            <p class="tiny mt-2 mb-0">Committees include PACs and party committees. Corporate PACs are PACs funded by employees or shareholders of a corporation.</p>
-          </div>
-        </div>
-      </div>
-
-      <p class="tiny mt-3 mb-0">To refresh, replace <code>assets/csv/incumbent_donors_full.csv</code> with the latest FEC Schedule A export.</p>
-    </div>
-  </section>
-
-  <!-- QUICK STATIC SNAPSHOT (optional visible context) -->
-  <section class="py-4">
-    <div class="container">
-      <h3 class="h6 section-title mb-3">Snapshot from public trackers</h3>
       <div class="row g-3">
         <div class="col-md-6">
           <div class="card-lite p-3 h-100">
-            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">Out of district</span><span class="fw-semibold">~80%+</span></div>
-            <div class="meter mb-2" aria-hidden="true"><span style="width:81%"></span></div>
-            <div class="d-flex justify-content-between mb-1"><span>In district</span><span>~15%</span></div>
-            <div class="meter" aria-hidden="true"><span style="width:15%"></span></div>
-            <p class="small mt-2 mb-0">Indicative based on OpenSecrets geography for WA-10 incumbent. Exact share updates with FEC CSV above.</p>
+            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">Out of district</span><span class="fw-semibold">81.7%</span></div>
+            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:81.7%"></div></div>
+            <div class="d-flex justify-content-between mb-1"><span>In district</span><span>14.9%</span></div>
+            <div class="progress mb-2"><div class="progress-bar" role="progressbar" style="width:14.9%"></div></div>
+            <div class="d-flex justify-content-between mb-1"><span>Unknown</span><span>3.5%</span></div>
+            <div class="progress"><div class="progress-bar" role="progressbar" style="width:3.5%"></div></div>
+            <p class="small mt-2 mb-0">Incumbent 2024 in-district vs out-of-district share. See sources.</p>
           </div>
         </div>
+
         <div class="col-md-6">
           <div class="card-lite p-3 h-100">
-            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">From PACs</span><span class="fw-semibold">~44%</span></div>
-            <div class="meter mb-2" aria-hidden="true"><span style="width:44%"></span></div>
-            <p class="small mb-1">OpenSecrets “From PACs” 2024 cycle. See Sources below.</p>
+            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">From PACs</span><span class="fw-semibold">44%</span></div>
+            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:44%"></div></div>
+            <p class="small mb-1">AIPAC PAC is a top contributor and Pro-Israel is a listed top industry for the incumbent in 2024.</p>
+            <p class="small mb-0">Method note: PAC share reflects OpenSecrets “From PACs” for the 2024 cycle.</p>
           </div>
         </div>
       </div>
+
+      <p class="small text-muted mt-3 mb-0">Geography figures mirror OpenSecrets “Geography” for the incumbent. “In district” and “out of district” follow their FEC-based categorization.</p>
     </div>
   </section>
 
-  <!-- COMPARISON GRID -->
+  <!-- COMPARISON GRID (YOUR ORIGINAL LAYOUT, FIRST-PERSON) -->
   <section class="py-4 border-top border-bottom">
     <div class="container">
-      <div class="section-kicker">Side by side</div>
-      <h3 class="section-title h5 mt-1 mb-3">What sets me apart</h3>
+      <h3 class="h5 section-title mb-3">Side by side</h3>
 
-      <div class="compare-card">
-        <div class="compare-row">
-          <!-- Adam -->
-          <div>
-            <div class="good"><i class="fa-solid fa-check"></i> No corporate PAC money</div>
-            <p class="proof">I refuse corporate PAC and lobbyist contributions. Accountability starts with funding.</p>
-
-            <div class="good mt-3"><i class="fa-solid fa-check"></i> Live and raise my family in WA-10</div>
-            <p class="proof">I live here and my kids attend local public schools.</p>
-
-            <div class="good mt-3"><i class="fa-solid fa-check"></i> Universal healthcare, lower costs</div>
-            <p class="proof">Back universal coverage with automatic enrollment and lower drug costs.</p>
-
-            <div class="good mt-3"><i class="fa-solid fa-check"></i> Fair markets and housing</div>
-            <p class="proof">Support a Corporate Social Responsibility tax so bad actors don’t undercut responsible employers.</p>
+      <div class="row g-3">
+        <!-- Funding alignment -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Funding alignment</span></div>
+            <p class="mb-2"><span class="check">✓</span> I rely on people, not corporate PACs.</p>
+            <p class="mb-2"><span class="xmark">✘</span> The incumbent’s funding is dominated by out-of-district dollars and a large PAC share, including AIPAC PAC and Pro-Israel industry support. <a href="#sources" class="small">See sources</a></p>
           </div>
+        </div>
 
-          <!-- Incumbent -->
-          <div>
-            <div class="warn"><i class="fa-solid fa-xmark"></i> Heavy dependence on national networks</div>
-            <p class="proof">About four out of five dollars come from outside WA-10. See FEC CSV and OpenSecrets.</p>
+        <!-- Healthcare approach -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Healthcare</span></div>
+            <p class="mb-2"><span class="check">✓</span> I support universal coverage with automatic enrollment and lower drug costs.</p>
+            <p class="mb-2"><span class="xmark">✘</span> The incumbent backs a public option approach, not Medicare for All. <a href="#sources" class="small">See sources</a></p>
+          </div>
+        </div>
 
-            <div class="warn mt-3"><i class="fa-solid fa-xmark"></i> Serious PAC reliance</div>
-            <p class="proof">PAC share near mid-forties in 2024 cycle. See Sources below.</p>
+        <!-- Housing and accountability -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Housing and corporate accountability</span></div>
+            <p class="mb-2"><span class="check">✓</span> I support a Corporate Social Responsibility Tax so bad actors do not undercut responsible employers.</p>
+            <p class="mb-2"><span class="xmark">✘</span> As CEO of the Seattle Metropolitan Chamber, the incumbent opposed Seattle’s 2018 head tax intended to fund homelessness and affordable housing. <a href="#sources" class="small">See sources</a></p>
+          </div>
+        </div>
 
-            <div class="warn mt-3"><i class="fa-solid fa-xmark"></i> Public option, not Medicare for All</div>
-            <p class="proof">Stated support for a public option approach. See Sources.</p>
-
-            <div class="warn mt-3"><i class="fa-solid fa-xmark"></i> Chamber opposition to Seattle head tax</div>
-            <p class="proof">As Chamber CEO, opposed the 2018 head tax aimed at homelessness and housing. See Sources.</p>
+        <!-- Community ties -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Community ties</span></div>
+            <p class="mb-2"><span class="check">✓</span> I live in WA-10 and my kids attend local public schools.</p>
+            <p class="mb-0"><span class="xmark">✘</span> Too much of the incumbent’s money comes from the D.C. area, New York finance, and other outside networks. <a href="#sources" class="small">See sources</a></p>
           </div>
         </div>
       </div>
 
       <div class="alert alert-secondary mt-3 mb-0 small" role="note">
-        “AIPAC” references mean AIPAC PAC and bundled individual donors reported in federal filings. Claims speak to alignment and incentives, not illegality.
+        “AIPAC” here refers to AIPAC PAC and bundled individual donors reported in federal filings. This is about alignment and incentives, not illegality.
       </div>
     </div>
   </section>
 
-  <!-- CALL TO ACTION -->
+   <!-- CALL TO ACTION -->
   <section class="py-5 text-center">
     <div class="container">
       <h3 class="h5 section-title mb-2">This seat belongs to WA-10</h3>
@@ -261,54 +194,17 @@
     </div>
   </section>
 
-  <!-- SOURCES -->
+  <!-- SOURCES (static text list you can keep or trim) -->
   <section id="sources" class="py-4 border-top">
     <div class="container">
       <h3 class="h6 section-title">Sources and methods</h3>
       <ul class="small mb-2">
-        <li>OpenSecrets — 2023–2024 summary for the incumbent, including “From PACs” and top contributors/industries.</li>
-        <li>OpenSecrets — 2024 Geography for incumbent: in-district vs out-of-district and top metros.</li>
-        <li>Indivisible Tacoma 2020 questionnaire — stated support for a public option, lowering Medicare age, and “health care for all” as a goal.</li>
-        <li>Seattle head tax repeal context and Seattle Metropolitan Chamber opposition (2018 reporting).</li>
-        <li>FEC candidate page for the incumbent: Schedule A downloads and finance summary.</li>
+        <li>Public trackers’ geography and PAC-share snapshots (OpenSecrets summary and geography views for the 2024 cycle).</li>
+        <li>Indivisible Tacoma 2020 questionnaire (healthcare posture).</li>
+        <li>Seattle head tax repeal coverage and the Seattle Metropolitan Chamber’s position (2018 reporting).</li>
+        <li>FEC candidate page and filings for the incumbent (finance summary, Schedule A).</li>
       </ul>
-      <p class="small text-muted mb-2">Method note: “In district” and “out of district” reflect OpenSecrets/FEC categories. CSV method here uses ZIP 984 and 985 as a WA-10 proxy. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
-
-      <!-- Optional FAQ accordion (kept concise) -->
-      <div class="accordion mt-3" id="faqAccordion">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="faqOneH">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">What does “AIPAC network” mean?</button>
-          </h2>
-          <div id="faqOne" class="accordion-collapse collapse" aria-labelledby="faqOneH" data-bs-parent="#faqAccordion">
-            <div class="accordion-body small">
-              Shorthand used by some analysts for PACs and bundled individual contributions aligned with AIPAC’s policy goals. All contributions are domestic and lawful. The point is alignment and incentives.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="faqTwoH">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo">Which PACs are counted in that bucket?</button>
-          </h2>
-          <div id="faqTwo" class="accordion-collapse collapse" aria-labelledby="faqTwoH" data-bs-parent="#faqAccordion">
-            <div class="accordion-body small">
-              Examples often cited by public trackers include United Democracy Project, Pro-Israel America PAC, and NORPAC. If you publish totals, list the exact PAC names from your CSV.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="faqThreeH">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree">Does this prove quid pro quo?</button>
-          </h2>
-          <div id="faqThree" class="accordion-collapse collapse" aria-labelledby="faqThreeH" data-bs-parent="#faqAccordion">
-            <div class="accordion-body small">
-              No. It shows patterns and incentives. We link sources and provide a CSV method so anyone can check the data.
-            </div>
-          </div>
-        </div>
-      </div>
+      <p class="small text-muted mb-0">Method note: “In district” and “out of district” mirror common tracker categories. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
     </div>
   </section>
 
@@ -330,141 +226,6 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // ---- CSV LOADER for incumbent (Schedule A) ----
-  // Expected file path: assets/csv/incumbent_donors_full.csv
-  const CSV_URL = 'assets/csv/incumbent_donors_full.csv';
-
-  // Lightweight CSV parser
-  function parseCSV(text) {
-    const rows = [];
-    let row = [], col = '', inQuotes = false;
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i], next = text[i+1];
-      if (ch === '"') {
-        if (inQuotes && next === '"') { col += '"'; i++; }
-        else { inQuotes = !inQuotes; }
-      } else if (ch === ',' && !inQuotes) {
-        row.push(col); col = '';
-      } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
-        if (col.length || row.length) { row.push(col); rows.push(row); row = []; col = ''; }
-      } else {
-        col += ch;
-      }
-    }
-    if (col.length || row.length) { row.push(col); rows.push(row); }
-    return rows;
-  }
-
-  function toRecords(rows) {
-    if (!rows.length) return [];
-    const header = rows[0].map(h => h.trim().toLowerCase());
-    return rows.slice(1).map(r => {
-      const obj = {};
-      header.forEach((h, idx) => obj[h] = (r[idx] || '').trim());
-      return obj;
-    });
-  }
-
-  // Helpers to pick common FEC headings robustly
-  function pick(obj, keys) {
-    for (const k of keys) {
-      const found = Object.keys(obj).find(h => h === k || h.endsWith(k));
-      if (found && obj[found]) return obj[found];
-    }
-    return '';
-  }
-
-  function dollars(v) {
-    const n = +v;
-    return isFinite(n) ? n : 0;
-  }
-
-  function fmtMoney(n) {
-    return isFinite(n) ? n.toLocaleString(undefined, { style:'currency', currency:'USD', maximumFractionDigits:0 }) : '—';
-  }
-
-  function isInDistrict(zip) {
-    if (!zip) return false;
-    const z = zip.toString().replace(/[^0-9]/g,'').slice(0,3);
-    return z === '984' || z === '985';
-  }
-
-  function getState(obj) { return pick(obj, ['contributor_state','state']); }
-  function getZip(obj)   { return pick(obj, ['contributor_zip','zip']); }
-  function getAmount(obj){ return dollars(pick(obj, ['contribution_receipt_amount','amount','total'])); }
-
-  function isCommittee(obj) {
-    const t = (pick(obj, ['entity_type','contributor_type','committee_type']) || '').toUpperCase();
-    if (t.includes('COM') || t.includes('PAC') || t.includes('PTY')) return true;
-    if (t.includes('IND')) return false;
-    const name = (pick(obj, ['committee_name','contributor_name']) || '').toUpperCase();
-    if (name.includes('PAC') || name.includes('COMMITTEE') || name.includes('ASSOCIATION') || name.includes('FUND')) return true;
-    return false;
-  }
-
-  async function loadNumbers() {
-    try {
-      const res = await fetch(CSV_URL, { cache: 'no-store' });
-      if (!res.ok) throw new Error('CSV not found');
-      const text = await res.text();
-      const records = toRecords(parseCSV(text));
-
-      let inSum = 0, outSum = 0;
-      let inIndiv = 0, inComm = 0;
-      const outStates = new Map();
-
-      for (const r of records) {
-        const amt = getAmount(r);
-        if (!amt) continue;
-        const zip = getZip(r);
-        const state = getState(r);
-        const committee = isCommittee(r);
-
-        if (isInDistrict(zip)) {
-          inSum += amt;
-          if (committee) inComm += amt; else inIndiv += amt;
-        } else {
-          outSum += amt;
-          if (state) outStates.set(state, (outStates.get(state) || 0) + amt);
-        }
-      }
-
-      const total = inSum + outSum;
-      const pctOut = total ? Math.round(outSum / total * 100) : 0;
-
-      // Update UI
-      document.getElementById('splitBar').style.width = pctOut + '%';
-      document.getElementById('pctOut').textContent = pctOut + '%';
-      document.getElementById('inIndiv').textContent = fmtMoney(inIndiv);
-      document.getElementById('inCommittees').textContent = fmtMoney(inComm);
-
-      // Top outside states
-      const top = [...outStates.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5);
-      const ul = document.getElementById('topStates');
-      ul.innerHTML = '';
-      if (!top.length) {
-        ul.innerHTML = '<li>No outside-state entries detected</li>';
-      } else {
-        top.forEach(([st, val]) => {
-          const li = document.createElement('li');
-          li.textContent = st + ': ' + fmtMoney(val);
-          ul.appendChild(li);
-        });
-      }
-    } catch (e) {
-      // Fallback UI
-      document.getElementById('pctOut').textContent = '—';
-      document.getElementById('splitBar').style.width = '0%';
-      document.getElementById('inIndiv').textContent = '—';
-      document.getElementById('inCommittees').textContent = '—';
-      const ul = document.getElementById('topStates');
-      ul.innerHTML = '<li>CSV not found. Add assets/csv/incumbent_donors_full.csv to enable this chart.</li>';
-      console.warn('CSV load error:', e);
-    }
-  }
-
-  loadNumbers();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
