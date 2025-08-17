@@ -23,62 +23,63 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root{
-      --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f;
-      --soft:#f6f9fc; --amber:#f4a300; --red:#b11e2d; --blue:#0d3b66;
-    }
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
-    a{text-decoration:none}
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --soft:#f6f9fc; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    a { text-decoration: none; }
 
     /* Social top bar */
-    .social-top{background:linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%);color:#fff}
-    .social-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:999px;border:1px solid rgba(255,255,255,.25);color:#fff;background:rgba(255,255,255,.08);backdrop-filter:blur(4px);transition:transform .08s,background .15s,box-shadow .15s}
-    .social-pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.16);box-shadow:0 6px 16px rgba(0,0,0,.15);color:#fff}
-    .bsky-icon{width:18px;height:18px;vertical-align:-2px}
+    .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
+    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
+    .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
     /* Header band */
-    .header-break{background:#0d3b66;color:#fff;font-weight:700;text-align:center;padding:.8rem 1rem}
-    .header-break .sub{opacity:.95;font-weight:600}
+    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem; }
+    .header-break .sub { opacity:.95; font-weight:600; }
 
     /* Nav */
-    .navbar .nav-link{position:relative;padding:.25rem .5rem;color:#1c2b3a;font-weight:600}
-    .navbar .nav-link:hover{color:#0d3b66}
-    .navbar .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
-    .navbar .nav-link:hover::after,.navbar .nav-link[aria-current="page"]::after{width:100%}
-    .btn-donate{background:var(--donate);color:#fff;border:none;border-radius:999px;padding:.45rem .9rem}
-    .btn-donate:hover{filter:brightness(.95);color:#fff}
+    .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
+    .navbar .nav-link:hover { color:#0d3b66; }
+    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
+    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .btn-donate:hover { filter:brightness(.95); color:#fff; }
 
     /* Sections and cards */
-    .section-title{color:var(--primary)}
-    .card-lite{border:1px solid #e9eef3;border-radius:14px;box-shadow:0 6px 16px rgba(13,59,102,.06);background:#fff}
-    .badge-chip{background:#e6f0f8;color:#0d3b66;font-weight:700;border-radius:999px;padding:.25rem .5rem}
-    .check{color:#0b6e4f;font-weight:700}
-    .xmark{color:#b11e2d;font-weight:700}
+    .section-title { color:var(--primary); }
 
-    /* KPI tiles */
-    .kpi{color:#fff;border-radius:14px;padding:1.1rem;text-align:center;height:100%;box-shadow:0 8px 18px rgba(13,59,102,.15)}
-    .kpi h3{margin:0;font-size:2.2rem;font-weight:800;letter-spacing:.2px}
-    .kpi p{margin:.35rem 0 0;opacity:.95;font-weight:600}
+    .fineprint { font-size:.8rem; opacity:.75; }
 
-    /* Funding */
-    .fund-hero{background:#fff;border:1px solid #e6edf5;border-radius:14px;padding:1rem 1.1rem;box-shadow:0 6px 14px rgba(13,59,102,.06)}
-    .fund-card{border-radius:14px;border:1px solid #e6edf5;background:#fff;text-align:center;padding:1.1rem;height:100%;box-shadow:0 6px 14px rgba(13,59,102,.06)}
-    .fund-card h3{margin:0;font-size:1.75rem;font-weight:800;color:#0d3b66}
-    .fund-card .pct{color:#10324f;font-weight:700}
+    /* KPI tiles (smaller) */
+    .kpi { background:#0d3b66; color:#fff; border-radius:12px; padding:.9rem; text-align:center; height:100%; box-shadow:0 6px 16px rgba(13,59,102,.15); }
+    .kpi h3 { margin:0; font-size:1.75rem; font-weight:800; letter-spacing:.2px; }
+    .kpi p { margin:.25rem 0 0; opacity:.95; font-weight:600; font-size:.9rem; }
+    .kpi.amber { background:#c78b00; } /* 48 */
+    .kpi.amber2 { background:#c76a00; } /* 4 */
+    .kpi.red { background:#b11e2d; }   /* High or Low badges as requested */
 
-    /* Side-by-side tint */
-    .side-by-side{background:#f8fafc}
-    .side-by-side .card-lite{background:#fff}
+    /* Funding cards */
+    .fund-card { border-radius:14px; border:1px solid #e6edf5; background:#fff; text-align:center; padding:1rem; height:100%; box-shadow:0 6px 14px rgba(13,59,102,.06); }
+    .fund-card h3 { margin:0; font-size:1.6rem; font-weight:800; color:#0d3b66; }
+    .fund-card .pct { color:#10324f; font-weight:700; }
 
-    /* Sticky donate */
-    .sticky-donate{position:fixed;right:16px;bottom:16px;z-index:1030;border-radius:999px;padding:.75rem .9rem;box-shadow:0 6px 16px rgba(0,0,0,.25)}
-    @media (min-width:992px){.sticky-donate{display:none}}
+    /* Comparison table */
+    .compare-wrap { background:#f8fafc; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
+    .table.compare { background:#fff; border:1px solid #e9eef3; border-radius:12px; overflow:hidden; }
+    .table.compare th { background:#0d3b66; color:#fff; font-weight:700; }
+    .table.compare td, .table.compare th { vertical-align:top; }
+    .ok { color:#0b6e4f; font-weight:700; }
+    .no { color:#b11e2d; font-weight:700; }
+
+    /* Sticky donate (mobile) */
+    .sticky-donate { position: fixed; right:16px; bottom:16px; z-index:1030; border-radius:999px; padding:.75rem .9rem; box-shadow:0 6px 16px rgba(0,0,0,.25); }
+    @media (min-width: 992px){ .sticky-donate { display:none; } }
 
     /* Footer underline */
-    footer a{position:relative;color:#1c2b3a;text-decoration:none;font-weight:600}
-    footer a:hover{color:#0d3b66}
-    footer a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
-    footer a:hover::after{width:100%}
+    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
+    footer a:hover { color:#0d3b66; }
+    footer a::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
+    footer a:hover::after { width:100%; }
   </style>
 </head>
 <body>
@@ -96,7 +97,7 @@
 </section>
 
 <div class="header-break">
-  <div>Strickland isn’t working. I will.</div>
+  <div>I live here. WA-10 doesn’t need seat warmers; it needs a fighter for real change.</div>
   <div>Washington District 10</div>
   <div class="sub small mt-1">For Working Families. For WA-10.</div>
 </div>
@@ -125,8 +126,8 @@
   <section class="py-5 border-bottom">
     <div class="container">
       <h2 class="section-title mb-3">Why this choice matters</h2>
-      <p class="lead mb-2">WA-10 needs a worker, not a placeholder. My kids go to school here. I will fight the hard wins because our future is at stake.</p>
-      <p class="mb-0 small text-muted">All items below use public sources. They show patterns and incentives. They do not allege illegality.</p>
+      <p class="lead mb-2">WA-10 needs results, not coasting. My kids go to school here. I will fight the hard wins because our future is on the line.</p>
+      <p class="fineprint mb-0">All items below use public sources. They show patterns and incentives. They do not allege illegality.</p>
     </div>
   </section>
 
@@ -136,31 +137,34 @@
       <h3 class="h5 section-title mb-3">Performance at a glance</h3>
       <div class="row g-3">
         <div class="col-md-3 col-6">
-          <div class="kpi" style="background:var(--amber);color:#111;">
+          <div class="kpi amber">
             <h3>48</h3>
             <p>Bills sponsored*</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
-          <div class="kpi" style="background:var(--amber);color:#111;">
+          <div class="kpi amber2">
             <h3>4</h3>
             <p>Became law*</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
-          <div class="kpi" style="background:var(--red);">
+          <div class="kpi red">
             <h3>High</h3>
-            <p>Bipartisan votes on routine items</p>
+            <p>Bipartisan on routine items</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
-          <div class="kpi" style="background:var(--red);">
+          <div class="kpi red">
             <h3>Low</h3>
             <p>Visible leadership on hard fights</p>
           </div>
         </div>
       </div>
-      <p class="small mt-2 mb-1"><strong>Most bipartisan items are non-controversial</strong> such as defense reauthorizations, local designations, or post office namings. Big fights are where leadership shows.</p>
+      <div class="alert alert-secondary small mt-3 mb-0" role="note">
+        Most bipartisan items in Congress are non-controversial such as defense reauthorizations, local designations, or post office namings. Big fights are where leadership shows.
+      </div>
+      <p class="fineprint mt-2 mb-0">*Approximate for this term from public trackers. Typical freshman enacted bills are often 2 to 5. Verify on Congress.gov for final numbers.</p>
     </div>
   </section>
 
@@ -168,14 +172,7 @@
   <section class="py-5" style="background:var(--soft);">
     <div class="container">
       <h3 class="h5 section-title mb-3">Funding snapshot</h3>
-
-      <div class="fund-hero mb-3">
-        <strong>96%</strong> of the incumbent’s money comes from <strong>PACs + high-dollar donors</strong>.
-        <span class="text-muted">This is about incentives and alignment.</span>
-      </div>
-
-      <p class="mb-3"><strong>4 of 5 dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>. <strong>44%</strong> of all funds come from <strong>PACs</strong>.</p>
-
+      <p class="mb-3"><strong>4 of 5 dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>. <strong>44%</strong> come from <strong>PACs</strong>. Estimated <strong>96%</strong> from PACs plus high-dollar donors.</p>
       <div class="row g-3">
         <div class="col-md-6">
           <div class="fund-card h-100">
@@ -192,73 +189,105 @@
           </div>
         </div>
       </div>
-
       <div class="alert alert-secondary small mt-3 mb-0">
-        AIPAC PAC shows as a top contributor and Pro-Israel as a listed top industry in 2024 trackers. This is about incentives and alignment. See sources.
+        AIPAC PAC is cited among notable supporters in 2024 trackers. This speaks to incentives and alignment. See sources.
       </div>
     </div>
   </section>
 
-  <!-- SIDE BY SIDE -->
-  <section class="py-5 side-by-side">
+  <!-- COMPARISON TABLE -->
+  <section class="compare-wrap py-5">
     <div class="container">
-      <h3 class="section-title mb-4 text-center">Side by side</h3>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <div class="card-lite p-4 h-100">
-            <h4 class="mb-3">Adam Neil Arafat <span class="badge-chip">Builder</span></h4>
-            <ul class="list-unstyled mb-0">
-              <li class="mb-2"><span class="check">✔</span> I will work the hard wins. Write, negotiate, and move bills that matter for working families.</li>
-              <li class="mb-2"><span class="check">✔</span> Medicare for All with automatic enrollment and lower drug costs.</li>
-              <li class="mb-2"><span class="check">✔</span> Lower costs, more housing, and tougher accountability for bad actors.</li>
-              <li class="mb-2"><span class="check">✔</span> Open town halls and public accountability.</li>
-              <li><span class="check">✔</span> People powered. No corporate PAC money.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card-lite p-4 h-100">
-            <h4 class="mb-3">Status quo pattern <span class="badge-chip">Playing it safe</span></h4>
-            <ul class="list-unstyled mb-0">
-              <li class="mb-2"><span class="xmark">✘</span> Focus on low-conflict and ceremonial items.</li>
-              <li class="mb-2"><span class="xmark">✘</span> Relies on bipartisan safe lanes like military and first-responder measures instead of big fights.</li>
-              <li class="mb-2"><span class="xmark">✘</span> 4 enacted laws out of about 48 sponsored.</li>
-              <li class="mb-2"><span class="xmark">✘</span> 81.7% of funds from outside WA-10 and 44% from PACs.</li>
-              <li><span class="xmark">✘</span> More ties to national networks than to local needs. <a href="#sources" class="small">See sources</a></li>
-            </ul>
-          </div>
-        </div>
+      <h3 class="section-title mb-3 text-center">Side by side</h3>
+      <div class="table-responsive">
+        <table class="table compare align-middle">
+          <thead>
+            <tr>
+              <th style="width:48%">Adam Neil Arafat</th>
+              <th style="width:52%">Status quo pattern</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="ok">✔</span> I will work the hard wins. Write, negotiate, and move bills that matter for working families.</td>
+              <td><span class="no">✘</span> Focus on low-conflict and ceremonial items. Plays it safe instead of taking on big fights.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Medicare for All with automatic enrollment and lower drug costs.</td>
+              <td><span class="no">✘</span> Prefers public option over Medicare for All.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Lower costs and more housing with accountability for bad actors.</td>
+              <td><span class="no">✘</span> Opposed Seattle’s 2018 head tax intended to fund homelessness and affordable housing.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> People powered. No corporate PAC money. Open town halls and public accountability.</td>
+              <td><span class="no">✘</span> 81.7% of funds from outside WA-10 and 44% from PACs. Heavily tied to national donor networks.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> I live here and will show up for WA-10.</td>
+              <td><span class="no">✘</span> Low visible leadership on hard fights even with high bipartisan scores on routine items.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <p class="fineprint mt-2 mb-0">Figures reflect public tracker categories and rounded estimates consistent with reported shares.</p>
     </div>
   </section>
 
-  <!-- EXPLANATIONS -->
+  <!-- EXPLANATIONS / ROLL-UP -->
   <section class="py-4">
     <div class="container">
-      <h3 class="h6 section-title mb-3">Explanations</h3>
-      <div class="accordion" id="explain">
+      <h3 class="h6 section-title mb-3">Notes and methods</h3>
+      <div class="accordion" id="notes">
         <div class="accordion-item">
-          <h2 class="accordion-header" id="exp1h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
-              What the funding picture means
+          <h2 class="accordion-header" id="n1h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n1" aria-expanded="false" aria-controls="n1">
+              Funding context
             </button>
           </h2>
-          <div id="exp1" class="accordion-collapse collapse" aria-labelledby="exp1h" data-bs-parent="#explain">
+          <div id="n1" class="accordion-collapse collapse" aria-labelledby="n1h" data-bs-parent="#notes">
             <div class="accordion-body small">
-              When most money comes from outside WA-10 and from PACs it creates incentives that do not always match local needs. Transparency lets voters decide who their member answers to.
+              Percentages use OpenSecrets style categories for geography and PAC share. Out-of-district means donations tied to ZIPs outside WA-10. PAC share includes corporate, trade, labor, and issue PACs. High-dollar donors refers to larger individual contributions in FEC itemized data. Estimates round to illustrate scale.
             </div>
           </div>
         </div>
 
         <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="exp2h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp2" aria-expanded="false" aria-controls="exp2">
-              Why leadership on hard fights matters
+          <h2 class="accordion-header" id="n2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n2" aria-expanded="false" aria-controls="n2">
+              AIPAC shorthand
             </button>
           </h2>
-          <div id="exp2" class="accordion-collapse collapse" aria-labelledby="exp2h" data-bs-parent="#explain">
+          <div id="n2" class="accordion-collapse collapse" aria-labelledby="n2h" data-bs-parent="#notes">
             <div class="accordion-body small">
-              Routine bipartisan votes are common. The test is whether a representative shows up and leads on tough issues like healthcare for all and housing affordability. That is the work I will do.
+              “AIPAC” refers to AIPAC PAC and aligned bundled individual giving reported in federal filings and trackers. Mention here signals alignment and incentives. It does not allege illegality or foreign money.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n3h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n3" aria-expanded="false" aria-controls="n3">
+              Bipartisan votes vs leadership
+            </button>
+          </h2>
+          <div id="n3" class="accordion-collapse collapse" aria-labelledby="n3h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              Bipartisan index scores reward cross-party cosponsorship and votes which often center on uncontroversial items like defense reauthorizations or ceremonial measures. Leadership on hard fights shows up in initiating, organizing, and moving contested policy to the finish line.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n4h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n4" aria-expanded="false" aria-controls="n4">
+              Sources
+            </button>
+          </h2>
+          <div id="n4" class="accordion-collapse collapse" aria-labelledby="n4h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              OpenSecrets 2024 candidate summary and geography. FEC itemized receipts. Congress.gov bill sponsorships and enacted laws summary. Lugar Center Bipartisan Index methodology notes for context.
             </div>
           </div>
         </div>
@@ -272,20 +301,6 @@
       <h3 class="h5 section-title mb-2">This seat belongs to WA-10</h3>
       <p class="mb-3">If you want neighbors before lobbyists, join me. I will fight for the hard wins for our kids and the generations after them.</p>
       <a class="btn btn-donate btn-lg" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart me-1"></i> Join the people-powered campaign</a>
-    </div>
-  </section>
-
-  <!-- SOURCES -->
-  <section id="sources" class="py-4 border-top">
-    <div class="container">
-      <h3 class="h6 section-title">Sources and methods</h3>
-      <ul class="small mb-2">
-        <li>OpenSecrets 2024 summary and geography views for the incumbent.</li>
-        <li>FEC candidate filings for the 2024 cycle.</li>
-        <li>Congress.gov bill sponsorships and enacted laws summary.</li>
-        <li>Lugar Center Bipartisan Index methodology for context.</li>
-      </ul>
-      <p class="small text-muted mb-0">Percentages reflect public tracker categories. Dollar amounts are rounded estimates that align with reported shares. Verify with the linked sources for final figures.</p>
     </div>
   </section>
 
