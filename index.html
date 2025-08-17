@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adam Neil Arafat for Congress — Washington District 10</title>
+  <title>Adam Neil Arafat for Congress — Washington’s 10th District</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="Trust is built, not bought. This campaign is about our quality of life and a better future for our kids and grandkids." />
+  <meta name="description" content="Trust is built, not bought. A people-powered, working-families campaign built by neighbors—not PACs—to deliver healthcare for all, lower costs, and end corruption in WA-10." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -14,23 +14,29 @@
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    a { text-decoration: none; }
 
     /* Social top bar */
-    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color: #fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none; background: rgba(255,255,255,.08); backdrop-filter: blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
+    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
+    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background: rgba(255,255,255,.08); backdrop-filter: blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
-    /* Header break */
-    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.65rem 1rem; }
+    /* Header rally */
+    .header-break { background:#0d3b66; color:#fff; text-align:center; padding:.95rem 1rem; }
+    .header-break .h1line { font-weight:800; letter-spacing:.2px; margin:0; }
+    .header-break .tagline { opacity:.95; margin:.35rem 0 0; }
+    .header-break .rallies { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:.5rem 0 0; font-weight:700; }
+    .header-break .rallies span { background: rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:.25rem .6rem; border-radius:999px; }
+    .header-break .cta-wrap { margin-top:.7rem; }
 
     /* Navbar */
-    .navbar .nav-link { position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600; }
+    .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
     .navbar .nav-link:hover { color: var(--link); }
     .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .navbar .btn-donate:hover { filter: brightness(.95); }
+    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .btn-donate:hover { filter: brightness(.95); color:#fff; }
 
     /* Hero */
     .hero-card { position: relative; border-radius:14px; overflow:hidden; }
@@ -39,55 +45,66 @@
     .hero-title { margin:0; font-weight:800; font-size:1.15rem; line-height:1.2; }
     .hero-sub { margin:.25rem 0 0; font-size:.95rem; opacity:.95; }
 
-    /* CTA pill */
-    .btn-contrast { border-radius:999px; padding:.85rem 1.3rem; font-weight:700; border:1px solid var(--primary); color:var(--primary); background:#fff; transition: all .18s ease; }
-    .btn-contrast:hover { background: var(--primary); color:#fff; box-shadow:0 8px 18px rgba(13,59,102,.18); }
-
-    /* About — updated focal point + crop */
+    /* About — focal point + crop */
     .about-photo{
       width:100%;
       max-width:520px;
-      aspect-ratio:3/4;          /* tighter crop than 4/5 */
-      object-fit:cover;          /* crop without distortion */
-      object-position:50% 5%;    /* lift focal point ~15% */
+      aspect-ratio:3/4;
+      object-fit:cover;
+      object-position:50% 5%;
       border-radius:14px;
       box-shadow:0 10px 26px rgba(0,0,0,.18);
     }
     @media (max-width:576px){
-      .about-photo{
-        aspect-ratio:2.6/3.6;    /* a touch taller on small screens */
-        object-position:50% 0%;  /* lift a bit more on mobile */
-      }
+      .about-photo{ aspect-ratio:2.6/3.6; object-position:50% 0%; }
     }
 
     /* Quick cards */
-    .quick-card { border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3; box-shadow:0 6px 18px rgba(13,59,102,.06); transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; height:100%; }
+    .quick-card { border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3; box-shadow:0 6px 18px rgba(13,59,102,.06); transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; height:100%; background:#fff; }
     .quick-card:hover { transform: translateY(-2px); box-shadow:0 12px 28px rgba(13,59,102,.12); border-color:#d8e4ee; }
-    .quick-card a { display:flex; align-items:center; gap:.65rem; text-decoration:none; font-weight:700; color:#10324f; }
+    .quick-card a { display:flex; align-items:center; gap:.65rem; font-weight:700; color:#10324f; }
     .quick-card a i { font-size:1.05rem; color:var(--primary); }
+
+    .section-title { color: var(--primary); }
   </style>
 </head>
 <body>
+<a class="visually-hidden-focusable" href="#main">Skip to content</a>
 
 <!-- SOCIAL BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank"><i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span></a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank"><svg class="bsky-icon" viewBox="0 0 600 600"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> <span>Bluesky</span></a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener"><i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span></a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
   </div>
 </section>
 
+<!-- RALLY / HEADER -->
 <div class="header-break">
-  <strong>Trust is built, not bought.</strong><br>
-  This campaign is about our quality of life and a better future for our kids and grandkids.
+  <p class="h1line">Trust is built, not bought.</p>
+  <p class="tagline">A people-powered movement built by neighbors, not PACs.</p>
+  <div class="rallies" aria-label="Rally lines">
+    <span>People over PACs.</span>
+    <span>Families over lobbyists.</span>
+    <span>Built for Families. Built for WA-10.</span>
+    <span>People. Not PACs.</span>
+    <span>Built together. Built to last.</span>
+  </div>
+  <div class="cta-wrap">
+    <a class="btn btn-light btn-sm me-2" href="contact.html">Help Build the Movement</a>
+    <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Chip In</a>
+  </div>
 </div>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Primary">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress — WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
@@ -96,107 +113,127 @@
         <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item ms-lg-2">
-          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank">Donate</a>
+          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- HERO GRID -->
-<section class="container py-5">
-  <div class="row g-4">
-    <div class="col-md-4">
-      <div class="hero-card">
-        <img src="images/IMG_4339.jpeg" alt="Universal healthcare and women's rights" />
-        <div class="hero-overlay"><h3 class="hero-title">Universal Healthcare & Women’s Rights</h3><p class="hero-sub">Healthcare is a human right!</p></div>
+<main id="main">
+  <!-- HERO GRID -->
+  <section class="container py-5">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="hero-card">
+          <img src="images/IMG_4339.jpeg" alt="Healthcare for all and reproductive rights in WA-10" loading="lazy" />
+          <div class="hero-overlay">
+            <h3 class="hero-title">Healthcare for All</h3>
+            <p class="hero-sub">Healthcare is a human right—no exceptions.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="hero-card">
+          <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living for WA-10 families" loading="lazy" />
+          <div class="hero-overlay">
+            <h3 class="hero-title">Lower Cost of Living</h3>
+            <p class="hero-sub">When working families thrive, America thrives.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="hero-card">
+          <img src="images/IMG_4344.jpeg" alt="Ending corruption and special interests" loading="lazy" />
+          <div class="hero-overlay">
+            <h3 class="hero-title">End Corruption</h3>
+            <p class="hero-sub">Voters over donors. People over PACs.</p>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="hero-card">
-        <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living" />
-        <div class="hero-overlay"><h3 class="hero-title">Lowering the Cost of Living</h3><p class="hero-sub">When the working class thrives, America thrives!</p></div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="hero-card">
-        <img src="images/IMG_4344.jpeg" alt="End corruption and special interests" />
-        <div class="hero-overlay"><h3 class="hero-title">End Corruption & Special Interests</h3><p class="hero-sub">Voters over donors!</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- WHY IT MATTERS -->
-<section id="why-it-matters" class="py-5 border-top border-bottom">
-  <div class="container">
-    <h2 class="section-title mb-3">Why It Matters</h2>
-    <p>
-      Our country is at a crossroads. The old guard has had decades to lead, but holding on to the status quo has left too many families struggling. It’s time to pass the torch so our nation can move forward.
-    </p>
-    <p>
-      Policies branded as “progressive” are only progressive compared to a broken system. Measured against the rest of the world, they are common sense. Universal healthcare, affordable living, and fair government are the basics modern nations already provide. America should not lag behind, we should lead.
-    </p>
-    <p>
-      I believes real change starts with leaders rooted in community, working-class Americans who are not beholden to corporate PACs, lobbyists, or foreign interests. It is time to build a future guided by integrity, optimism, and results.
-    </p>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about" class="py-5 border-bottom">
-  <div class="container">
-    <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
-    <div class="row g-4 align-items-center">
-      <div class="col-12 col-md-5">
-        <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" />
-      </div>
-      <div class="col-12 col-md-7">
-        <p>Adam served this country for two decades in the U.S. Army, leading aviation maintenance programs and managing airfield operations across the globe. His service instilled discipline, accountability, and the importance of putting people before politics.</p>
-        <p>At home in Spanaway, WA, Adam and his family are raising their children in the local community. His kids attend public schools, play on local sports teams, and take part in community events and programs. Like many families in Washington’s 10th District, they understand the pressures of rising costs, healthcare challenges, and the need for safe, thriving neighborhoods where children can grow and succeed.</p>
-        <p>Today, Adam works in public service with the county, overseeing infrastructure programs that provide essential services for hundreds of thousands of people. He brings the same focus on results, efficiency, and transparency that he will take to Congress.</p>
-        <p>Adam’s campaign is rooted in working-class values: integrity, fairness, and accountability. Rejecting corporate PAC money, lobbyists, and foreign influence, he is committed to answering only to the people of this district.</p>
-        <p>This race is not about a political career for Adam. It’s about fighting for affordable healthcare, lowering the cost of living, and ending corruption so the next generation has a brighter future. Trust is built, not bought, is the foundation of his campaign.</p>
+  <!-- WHY IT MATTERS -->
+  <section id="why-it-matters" class="py-5 border-top border-bottom">
+    <div class="container">
+      <h2 class="section-title mb-3">Why It Matters</h2>
+      <p>
+        Our country is at a crossroads. The old guard has had decades to lead, but holding on to the status quo has left too many families struggling. It’s time to pass the torch so our nation can move forward.
+      </p>
+      <p>
+        Policies branded as “progressive” are only progressive compared to a broken system. Measured against the rest of the world, they’re common sense. Universal healthcare, affordable living, and fair government are basics modern nations already provide. America shouldn’t lag behind—we should lead.
+      </p>
+      <p>
+        I believe real change starts with leaders rooted in community—working-class Americans who aren’t beholden to corporate PACs, lobbyists, or foreign interests. It’s time to <strong>build a future guided by integrity, optimism, and results.</strong>
+      </p>
+      <div class="mt-3">
+        <a class="btn btn-outline-primary me-2" href="digging-into-the-issues.html">See the Plan</a>
+        <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Chip In</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- QUICK LINKS -->
-<section class="py-5">
-  <div class="container">
-    <div class="row g-3">
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="quick-card">
-          <div class="small text-muted mb-1">Learn</div>
-          <a href="digging-into-the-issues.html"><i class="fa-solid fa-list-check"></i> Digging Into the Issues</a>
-          <p class="mb-0 mt-2 text-muted">What I’ll do to lower costs, expand care, and clean up corruption.</p>
+  <!-- ABOUT -->
+  <section id="about" class="py-5 border-bottom">
+    <div class="container">
+      <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-md-5">
+          <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" loading="lazy" />
         </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="quick-card">
-          <div class="small text-muted mb-1">Compare</div>
-          <a href="contrast.html"><i class="fa-solid fa-scale-balanced"></i> What Sets Me Apart</a>
-          <p class="mb-0 mt-2 text-muted">See the side-by-side differences with the incumbent.</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="quick-card">
-          <div class="small text-muted mb-1">Get in touch</div>
-          <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
-          <p class="mb-0 mt-2 text-muted">Reach out, volunteer, or request a yard sign.</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="quick-card">
-          <div class="small text-muted mb-1">Support</div>
-          <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank"><i class="fa-solid fa-heart"></i> Donate</a>
-          <p class="mb-0 mt-2 text-muted">People-powered. Every dollar helps.</p>
+        <div class="col-12 col-md-7">
+          <p><strong>Serving abroad for 20 years. Now building WA-10’s future.</strong></p>
+          <p>Adam served this country in the U.S. Army, <strong>building aviation maintenance programs</strong> and managing airfield operations across the globe. His service instilled discipline, accountability, and the importance of putting people before politics.</p>
+          <p><strong>He has built infrastructure that kept communities moving—now he’s building futures here at home.</strong> In Spanaway, Adam and his family are raising their children in Washington’s 10th District. Like many families here, they feel the pressure of rising costs and healthcare uncertainty—and they want safe, thriving neighborhoods where kids can grow and succeed.</p>
+          <p>Today, Adam works in public service with the county, <strong>building and overseeing infrastructure programs</strong> that provide essential services to hundreds of thousands of people. He brings the same focus on results, efficiency, and transparency that he’ll take to Congress.</p>
+          <p><strong>Unity means building a district where no pocket is left behind—working families, veterans, independent voices—all together.</strong> He rejects corporate PAC money, lobbyists, and foreign influence—answering only to the people of WA-10.</p>
+          <p><strong>Trust is built, not bought.</strong> That’s the foundation of this people-powered campaign—and how we’ll deliver healthcare for all, lower the cost of living, and end corruption.</p>
+          <div class="mt-3">
+            <a class="btn btn-outline-primary me-2" href="contrast.html">What Sets Me Apart</a>
+            <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Help Build WA-10’s Future</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- QUICK LINKS -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="quick-card">
+            <div class="small text-muted mb-1">Learn</div>
+            <a href="digging-into-the-issues.html"><i class="fa-solid fa-list-check"></i> Digging Into the Issues</a>
+            <p class="mb-0 mt-2 text-muted">How we’ll build a fair system: lower costs, expand care, clean up corruption.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="quick-card">
+            <div class="small text-muted mb-1">Compare</div>
+            <a href="contrast.html"><i class="fa-solid fa-scale-balanced"></i> What Sets Me Apart</a>
+            <p class="mb-0 mt-2 text-muted">See the side-by-side differences with the incumbent.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="quick-card">
+            <div class="small text-muted mb-1">Get in touch</div>
+            <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+            <p class="mb-0 mt-2 text-muted">Reach out, volunteer, or request a yard sign.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="quick-card">
+            <div class="small text-muted mb-1">Support</div>
+            <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Donate</a>
+            <p class="mb-0 mt-2 text-muted">People-powered. Every dollar helps.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer class="py-4 bg-white border-top text-center">
   <div class="container">
@@ -206,8 +243,8 @@
     <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
   </div>
 </footer>
+
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
