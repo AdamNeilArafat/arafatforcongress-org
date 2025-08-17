@@ -3,397 +3,225 @@
 <head>
   <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TSHYRZVZ97');</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TSHYRZVZ97');
+  </script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Strickland Isn’t Working. I Will. — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Side-by-side contrast: funding sources, performance metrics, priorities, and ties to WA-10." />
+  <meta name="description" content="Clear, sourced contrast between Adam Arafat and Marilyn Strickland in WA-10." />
   <meta name="theme-color" content="#0d3b66" />
   <meta property="og:title" content="Strickland Isn’t Working. I Will." />
-  <meta property="og:description" content="Clear, sourced differences in WA-10." />
+  <meta property="og:description" content="See the record. See the difference. WA-10 deserves better." />
   <meta property="og:type" content="website" />
 
+  <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    a { text-decoration: none; }
+    a { text-decoration: none; color: var(--primary); }
 
-    /* Social top bar */
-    .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
-    .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
-    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+    .hero { position: relative; text-align: center; color: #fff; }
+    .hero img { width: 100%; height: 320px; object-fit: cover; filter: brightness(0.55); }
+    .hero .overlay { position: absolute; top:0; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; padding:2rem; }
+    .hero h1 { font-size:2.2rem; font-weight:700; line-height:1.2; }
 
-    /* Header band */
-    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.75rem 1rem; }
-    .header-break .sub { opacity:.9; }
+    .section-title { color: var(--ink); font-weight:700; }
 
-    /* Nav */
-    .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
-    .navbar .nav-link:hover { color:#0d3b66; }
-    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .btn-donate:hover { filter:brightness(.95); }
+    .metric { background:#f8f9fa; border-radius:8px; padding:1.2rem; text-align:center; }
+    .metric .big { font-size:2rem; font-weight:700; color:var(--primary); }
+    .metric .lbl { font-size:.95rem; margin-top:.4rem; }
 
-    /* Sections & cards */
-    .section-title { color:var(--primary); }
-    .card-lite { border:1px solid #e9eef3; border-radius:14px; box-shadow:0 6px 16px rgba(13,59,102,.06); background:#fff; }
-    .badge-chip { background:#e6f0f8; color:#0d3b66; font-weight:700; border-radius:999px; padding:.25rem .5rem; }
-    .check { color:#0b6e4f; font-weight:700; }
-    .xmark { color:#b11e2d; font-weight:700; }
+    .contrast-box { background:rgba(13,59,102,0.9); color:#fff; border-radius:8px; padding:1.5rem; margin-top:1.5rem; }
+    .contrast-box h3 { color:#fff; }
 
-    /* Progress bars */
-    .progress { height:12px; background:#eef3f7; border-radius:999px; }
-    .progress-bar { background:var(--accent); }
-    .progress-bar.out { background:#b11e2d; }
+    .set-apart { border:2px solid var(--primary); border-radius:8px; padding:1.5rem; margin-top:2rem; }
+    .set-apart h3 { color:var(--primary); font-weight:700; margin-bottom:1rem; }
+    .set-apart .col { padding:1rem; }
+    .set-apart .bad { color:var(--donate); font-weight:600; }
+    .set-apart .good { color:var(--accent); font-weight:600; }
 
-    /* Tiny meter */
-    .mini-meter { height:10px; background:#eef2f6; border-radius:999px; overflow:hidden; }
-    .mini-meter > span { display:block; height:100%; background:linear-gradient(90deg,#0b6e4f,#0d3b66); }
-
-    /* Side-by-side background tint */
-    .side-by-side-section { background:#f8fafc; }
-    .side-by-side-section .card-lite { background:#fff; }
-
-    /* Metric cards */
-    .metric { display:flex; align-items:center; gap:.75rem; padding:1rem; border:1px solid #e9eef3; border-radius:12px; background:#fff; box-shadow:0 6px 14px rgba(13,59,102,.05); }
-    .metric .icon { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:#e6f0f8; color:#0d3b66; }
-    .metric .big { font-size:1.25rem; font-weight:800; color:#10324f; }
-    .metric .lbl { font-size:.9rem; color:#394b5b; margin:0; }
-    .metric small { color:#6a7b8b; }
-
-    /* Sticky donate */
-    .sticky-donate {
-      position: fixed; right:16px; bottom:16px; z-index:1030;
-      border-radius:999px; padding:.75rem .9rem;
-      box-shadow:0 6px 16px rgba(0,0,0,.25);
-    }
-    @media (min-width: 992px){ .sticky-donate { display:none; } }
-    @media (max-width: 400px){ .progress{height:10px;} .card-lite{padding:1rem;} }
-
-    /* Footer underline */
-    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
-    footer a:hover { color:#0d3b66; }
-    footer a::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    footer a:hover::after { width:100%; }
+    .fw-danger { color: var(--donate); font-weight:700; }
   </style>
 </head>
 <body>
 
-<!-- SOCIAL BAR -->
-<section class="social-top py-2">
-  <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" aria-label="Reddit"><i class="fa-brands fa-reddit-alien"></i><span>Reddit</span></a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" aria-label="Bluesky">
-      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
-      <span>Bluesky</span>
-    </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i><span>TikTok</span></a>
+<!-- Hero -->
+<section class="hero">
+  <img src="assets/img/contrast-hero.jpg" alt="WA-10 contrast">
+  <div class="overlay">
+    <h1>Strickland is Coasting. WA-10 Deserves a Fighter.</h1>
   </div>
 </section>
 
-<div class="header-break">
-  <strong>Strickland isn’t working. I will.</strong><br>
-  Washington District 10
-  <div class="sub small mt-1">For Working Families. For WA-10.</div>
-</div>
-
-<!-- NAV -->
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+<!-- Contrast Narrative -->
+<section class="py-5">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Digging Into The Issues</a></li>
-        <li class="nav-item"><a class="nav-link" aria-current="page" href="contrast.html">What Sets Me Apart</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item ms-lg-2"><a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a></li>
-      </ul>
+    <h2 class="section-title mb-4">The Record vs The Future</h2>
+    <p>
+      Marilyn Strickland has built a career on low ambition and low results. Social posts dropped off after year 1.  
+      Sponsored 48 bills, 4 became law, none of them major. Her bipartisan score sits at −0.52, near the bottom of Congress.  
+      That is not leadership. That is riding out the clock.  
+    </p>
+    <p class="fw-danger">
+      WA-10 deserves more than a seat warmer. I will fight for the hard wins because our kids’ futures are on the line.
+    </p>
+  </div>
+</section>
+
+<!-- Metrics -->
+<section class="py-4 bg-light">
+  <div class="container">
+    <h3 class="h6 section-title mb-3">Performance Metrics</h3>
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="metric">
+          <div class="big">4 of 5</div>
+          <p class="lbl">Dollars raised outside WA-10</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="metric">
+          <div class="big">48</div>
+          <p class="lbl">Bills sponsored</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="metric">
+          <div class="big">4</div>
+          <p class="lbl">Became law — all low stakes</p>
+        </div>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="metric">
+          <div class="big">−0.52</div>
+          <p class="lbl">Bipartisan Index (low ranking)</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="metric">
+          <div class="big">81.7%</div>
+          <p class="lbl">Campaign money from outside district</p>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
+</section>
 
-<main>
-
-  <!-- WHY IT MATTERS -->
-  <section class="py-5 border-bottom">
-    <div class="container">
-      <h2 class="section-title mb-3">Why this choice matters</h2>
-      <p class="lead mb-2">
-        I live in WA-10 and my kids go to school here. You deserve a member of Congress whose priorities match the people who live and work here, not the big PACs and D.C. networks that fund politics as usual.
-      </p>
-      <p class="mb-2">I led teams and managed programs in high-stakes environments. That accountability and focus on results is what I will bring to Congress for WA-10.</p>
-      <p class="mb-0 small text-muted">All contributions cited below are lawful and do not prove quid pro quo. They show alignment and incentives.</p>
-    </div>
-  </section>
-
-  <!-- PERFORMANCE SNAPSHOT -->
-  <section class="py-4">
-    <div class="container">
-      <h3 class="h6 section-title mb-3">Performance snapshot</h3>
-      <div class="row g-3">
-        <div class="col-md-4">
-          <div class="metric">
-            <div class="icon"><i class="fa-solid fa-file-signature"></i></div>
-            <div>
-              <div class="big" id="m-sponsored">TBD</div>
-              <p class="lbl mb-1">Bills sponsored by the incumbent</p>
-              <small>Source: Congress.gov</small>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="metric">
-            <div class="icon"><i class="fa-solid fa-check-double"></i></div>
-            <div>
-              <div class="big" id="m-enacted">TBD</div>
-              <p class="lbl mb-1">Became law</p>
-              <small>Source: Congress.gov</small>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="metric">
-            <div class="icon"><i class="fa-solid fa-people-arrows"></i></div>
-            <div>
-              <div class="big" id="m-bipartisan">TBD</div>
-              <p class="lbl mb-1">Bipartisan Index rank</p>
-              <small>Source: Lugar Center</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="small text-muted mt-2">
-        Note: Most bipartisan items in Congress are non-controversial, like post office namings, defense reauthorizations, or local facilities. Big fights are where leadership shows.
-      </div>
-    </div>
-  </section>
-
-  <!-- BY THE NUMBERS -->
-  <section class="py-5">
-    <div class="container">
-      <h3 class="h5 section-title mb-3">By the numbers</h3>
-
-      <div class="row g-3">
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">Out of district</span><span class="fw-semibold">81.7%</span></div>
-            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:81.7%"></div></div>
-            <div class="d-flex justify-content-between mb-1"><span>In district</span><span>14.9%</span></div>
-            <div class="progress mb-2"><div class="progress-bar" role="progressbar" style="width:14.9%"></div></div>
-            <div class="d-flex justify-content-between mb-1"><span>Unknown</span><span>3.5%</span></div>
-            <div class="progress"><div class="progress-bar" role="progressbar" style="width:3.5%"></div></div>
-            <p class="small mt-2 mb-0">Incumbent 2024 in-district vs out-of-district share. See sources.</p>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">From PACs</span><span class="fw-semibold">44%</span></div>
-            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:44%"></div></div>
-            <p class="small mb-1">AIPAC PAC is a top contributor and Pro-Israel is a listed top industry for the incumbent in 2024.</p>
-            <p class="small mb-0">Method note: PAC share reflects OpenSecrets “From PACs” for the 2024 cycle.</p>
-          </div>
-        </div>
-      </div>
-
-      <p class="lead mt-3">
-        In plain terms, about <strong>four out of every five dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>.
-      </p>
-      <p class="small text-muted mt-3 mb-0">Geography figures mirror OpenSecrets “Geography” for the incumbent. “In district” and “out of district” follow their FEC-based categorization.</p>
-    </div>
-  </section>
-
-  <!-- DEEPER BREAKDOWN -->
-  <section class="py-4 border-top border-bottom">
-    <div class="container">
-      <h3 class="h6 section-title mb-3">Deeper breakdown</h3>
-
-      <div class="row g-3">
-        <!-- Inside WA-10 -->
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="mb-1"><span class="badge-chip">Inside WA-10 (14.9%)</span></div>
-            <div class="d-flex justify-content-between tiny"><span>Individuals</span><span>$ — (placeholder)</span></div>
-            <div class="mini-meter mb-2" role="img" aria-label="Individuals share inside district"><span style="width:85%"></span></div>
-            <div class="d-flex justify-content-between tiny"><span>Committees (PAC/party)</span><span>$ — (placeholder)</span></div>
-            <div class="mini-meter" role="img" aria-label="Committees share inside district"><span style="width:15%"></span></div>
-            <p class="small mt-2 mb-0">Replace the dollar placeholders if you want to publish exact amounts.</p>
-          </div>
-        </div>
-
-        <!-- Outside WA-10 -->
-        <div class="col-md-6">
-          <div class="card-lite p-3 h-100">
-            <div class="mb-1"><span class="badge-chip">Outside WA-10 (81.7%)</span></div>
-            <div class="d-flex justify-content-between tiny"><span>National individual donors</span><span>~$6.5M (illustrative)</span></div>
-            <div class="mini-meter mb-2" role="img" aria-label="National individual donors share"><span style="width:63%"></span></div>
-            <div class="d-flex justify-content-between tiny"><span>Corporate/trade PACs</span><span>~$3.7M (illustrative)</span></div>
-            <div class="mini-meter mb-2" role="img" aria-label="Corporate/trade PACs share"><span style="width:37%"></span></div>
-            <ul class="small mt-2 mb-0">
-              <li>Top clusters: D.C. metro, New York finance, national consultant networks.</li>
-              <li>Industries commonly represented among PACs: finance, insurance, tech, pharma, defense, major trade groups.</li>
-              <li>Includes leadership PACs and national issue networks, including AIPAC PAC.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="alert alert-secondary small mt-3 mb-0" role="note">
-        About <strong>four of every five dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>. Much of this is from <strong>corporate and trade PACs</strong> and national networks. This speaks to incentives and alignment.
-      </div>
-    </div>
-  </section>
-
-  <!-- SIDE-BY-SIDE CARDS -->
-  <section class="py-5 side-by-side-section">
-    <div class="container">
-      <h3 class="section-title mb-4 text-center">Side by side: who really stands with WA-10</h3>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <div class="card-lite p-4 h-100">
-            <h4 class="mb-3">Adam Neil Arafat <span class="badge-chip">Grassroots</span></h4>
-            <ul class="list-unstyled mb-0">
-              <li class="mb-2"><span class="check">✔</span> People powered, not corporate PACs.</li>
-              <li class="mb-2"><span class="check">✔</span> Medicare for All with automatic enrollment and lower drug costs.</li>
-              <li class="mb-2"><span class="check">✔</span> Lower costs, fair housing, accountability for bad actors.</li>
-              <li><span class="check">✔</span> Open town halls and public accountability.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card-lite p-4 h-100">
-            <h4 class="mb-3">Rep. Strickland <span class="badge-chip">Status Quo</span></h4>
-            <ul class="list-unstyled mb-0">
-              <li class="mb-2"><span class="xmark">✘</span> Funding dominated by out-of-district money and PACs.</li>
-              <li class="mb-2"><span class="xmark">✘</span> Public option, not Medicare for All.</li>
-              <li class="mb-2"><span class="xmark">✘</span> Opposed Seattle’s 2018 head tax intended to fund homelessness and housing.</li>
-              <li><span class="xmark">✘</span> Emphasis on low-conflict, bipartisan items while big local issues go unresolved.</li>
-            </ul>
-            <div class="small mt-2"><a href="#sources">See sources</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPLANATIONS -->
-  <section class="py-4">
-    <div class="container">
-      <h3 class="h6 section-title mb-3">Explanations</h3>
-
-      <div class="accordion" id="explain">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="exp1h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
-              What is AIPAC?
-            </button>
-          </h2>
-          <div id="exp1" class="accordion-collapse collapse" aria-labelledby="exp1h" data-bs-parent="#explain">
-            <div class="accordion-body small">
-              AIPAC is a national lobbying organization. In campaign finance discussions, “AIPAC network” is a shorthand some analysts use for PACs and bundled individual contributions aligned with AIPAC’s policy goals. All contributions are domestic and lawful.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="exp2h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp2" aria-expanded="false" aria-controls="exp2">
-              What does this data mean?
-            </button>
-          </h2>
-          <div id="exp2" class="accordion-collapse collapse" aria-labelledby="exp2h" data-bs-parent="#explain">
-            <div class="accordion-body small">
-              These static snapshots show patterns: a high share of out-of-district money and a significant PAC component. That speaks to incentives and alignment, not guilt. It is about who a member of Congress is financially accountable to.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="exp3h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp3" aria-expanded="false" aria-controls="exp3">
-              Why does it matter?
-            </button>
-          </h2>
-          <div id="exp3" class="accordion-collapse collapse" aria-labelledby="exp3h" data-bs-parent="#explain">
-            <div class="accordion-body small">
-              When about <strong>80%</strong> of funding comes from <strong>national PACs and far-away networks</strong>, it creates a strong pull toward those agendas. That risks sidelining WA-10 priorities like housing, healthcare, and fair markets.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="exp4h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp4" aria-expanded="false" aria-controls="exp4">
-              Important note
-            </button>
-          </h2>
-          <div id="exp4" class="accordion-collapse collapse" aria-labelledby="exp4h" data-bs-parent="#explain">
-            <div class="accordion-body small">
-              This page shows <strong>patterns and connections</strong>. It does not allege wrongdoing or illegal activity by any donor or recipient. The point is transparency and accountability.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CALL TO ACTION -->
-  <section class="py-5 text-center">
-    <div class="container">
-      <h3 class="h5 section-title mb-2">This seat belongs to WA-10</h3>
-      <p class="mb-3">If you want neighbors before lobbyists, join me.</p>
-      <a class="btn btn-donate btn-lg" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart me-1"></i> Join the People-Powered Campaign</a>
-    </div>
-  </section>
-
-  <!-- SOURCES -->
-  <section id="sources" class="py-4 border-top">
-    <div class="container">
-      <h3 class="h6 section-title">Sources and methods</h3>
-      <ul class="small mb-2">
-        <li>OpenSecrets summary and geography views for the 2024 cycle.</li>
-        <li>Congress.gov member page for bill sponsorship and enactments.</li>
-        <li>GovTrack bill summaries and status for cross-checking enactments.</li>
-        <li>Seattle head tax repeal coverage and Seattle Metropolitan Chamber position (2018 reporting).</li>
-        <li>Indivisible Tacoma 2020 questionnaire (healthcare posture).</li>
-        <li>Lugar Center Bipartisan Index for bipartisan ranking.</li>
-      </ul>
-      <p class="small text-muted mb-0">“In district” and “out of district” mirror common tracker categories and FEC-derived geography. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
-    </div>
-  </section>
-
-</main>
-
-<footer class="py-4 bg-white border-top text-center">
+<!-- Bar Graph -->
+<section class="py-5">
   <div class="container">
-    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
-    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
+    <h3 class="section-title mb-4">See the Difference</h3>
+    <canvas id="contrastChart"></canvas>
+  </div>
+</section>
+
+<script>
+const ctx = document.getElementById('contrastChart');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Bills Sponsored', 'Became Law', 'Outside Money %', 'Bipartisan Score'],
+    datasets: [
+      {
+        label: 'Strickland',
+        data: [48, 4, 82, -0.52],
+        backgroundColor: '#c1121f'
+      },
+      {
+        label: 'Arafat (Pledge)',
+        data: [0, 0, 0, 0], // Placeholder until elected
+        backgroundColor: '#0d3b66'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' }
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+</script>
+
+<!-- Fighter Framing -->
+<section class="py-5">
+  <div class="container">
+    <div class="contrast-box">
+      <h3>I Will Fight for WA-10</h3>
+      <p>
+        Strickland takes the easy road, pushing only bills that coast through on bipartisan consensus.  
+        I will do the hard work — writing, fighting, and pushing legislation that actually improves lives here at home.  
+        I will work late, sleep in the office if needed, and never stop until WA-10 gets results.
+      </p>
+      <p class="fw-danger">She coasts. I fight.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Set Apart -->
+<section class="py-5">
+  <div class="container">
+    <div class="set-apart">
+      <h3>Set Apart: The Difference is Clear</h3>
+      <div class="row">
+        <div class="col-md-6 bad">
+          <h4>Marilyn Strickland</h4>
+          <ul>
+            <li>48 bills sponsored</li>
+            <li>4 became law, all low stakes</li>
+            <li>82% of campaign money from outside WA-10</li>
+            <li>Bipartisan Index −0.52</li>
+            <li>Stopped engaging after year 1</li>
+          </ul>
+        </div>
+        <div class="col-md-6 good">
+          <h4>Adam Neil Arafat</h4>
+          <ul>
+            <li>Fights for ambitious, meaningful legislation</li>
+            <li>Rejects corporate PAC and outside influence</li>
+            <li>Committed to healthcare, cost of living, accountability</li>
+            <li>Will work relentlessly for WA-10 families</li>
+            <li>Here to lead, not coast</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-4 bg-white border-top">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div>
+      <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+      <p class="small text-muted mb-1">2007 197th St Ct, Spanaway, WA 98387</p>
+      <p class="small text-muted mb-1">Treasurer: Adam Neil Arafat</p>
+      <p class="small text-muted mb-0">Not authorized by any other candidate or candidate’s committee.</p>
+    </div>
+    <div class="mt-3 mt-md-0">
+      <a class="me-3" href="about.html">About</a>
+      <a class="me-3" href="issues.html">Issues</a>
+      <a class="me-3" href="contact.html">Contact</a>
+      <a class="btn btn-donate btn-sm" href="donate.html">Donate</a>
+    </div>
   </div>
 </footer>
 
-<!-- Sticky donate (mobile) -->
-<a class="btn btn-donate sticky-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener" aria-label="Quick donate">
-  <i class="fa-solid fa-heart"></i>
-</a>
-
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // When you have verified counts, set them here:
-  // Example:
-  // document.getElementById('m-sponsored').textContent = 'XX';
-  // document.getElementById('m-enacted').textContent = '4';
-  // document.getElementById('m-bipartisan').textContent = 'House rank: ###';
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
