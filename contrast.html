@@ -24,15 +24,17 @@
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    a { text-decoration: none; }
 
     /* Social top bar */
     .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
+    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
     .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
     /* Header band */
     .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.75rem 1rem; }
+    .header-break .sub { opacity:.9; }
 
     /* Nav */
     .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
@@ -42,7 +44,7 @@
     .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
     .btn-donate:hover { filter:brightness(.95); }
 
-    /* Sections */
+    /* Sections & cards */
     .section-title { color:var(--primary); }
     .card-lite { border:1px solid #e9eef3; border-radius:14px; box-shadow:0 6px 16px rgba(13,59,102,.06); background:#fff; }
     .badge-chip { background:#e6f0f8; color:#0d3b66; font-weight:700; border-radius:999px; padding:.25rem .5rem; }
@@ -58,20 +60,20 @@
     .mini-meter { height:10px; background:#eef2f6; border-radius:999px; overflow:hidden; }
     .mini-meter > span { display:block; height:100%; background:linear-gradient(90deg,#0b6e4f,#0d3b66); }
 
-    /* Sticky donate */
-    .sticky-donate { 
-      position: fixed; right:16px; bottom:16px; z-index:1030;
-      border-radius:999px; padding:.75rem .9rem; 
-      box-shadow:0 6px 16px rgba(0,0,0,.25);
-    }
-    @media (min-width: 992px){ .sticky-donate{ display:none; } }
-    @media (max-width: 400px){ .progress{height:10px;} .card-lite{padding:1rem;} }
-
-    /* Side by side background */
+    /* Side-by-side background tint */
     .side-by-side-section { background:#f8fafc; }
     .side-by-side-section .card-lite { background:#fff; }
-    
-    /* Footer */
+
+    /* Sticky donate */
+    .sticky-donate {
+      position: fixed; right:16px; bottom:16px; z-index:1030;
+      border-radius:999px; padding:.75rem .9rem;
+      box-shadow:0 6px 16px rgba(0,0,0,.25);
+    }
+    @media (min-width: 992px){ .sticky-donate { display:none; } }
+    @media (max-width: 400px){ .progress{height:10px;} .card-lite{padding:1rem;} }
+
+    /* Footer underline */
     footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
     footer a:hover { color:#0d3b66; }
     footer a::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
@@ -95,7 +97,7 @@
 <div class="header-break">
   <strong>Strickland isn’t working. I will.</strong><br>
   Washington District 10
-  <div class="small mt-1" style="opacity:.9">For Working Families. For WA-10.</div>
+  <div class="sub small mt-1">For Working Families. For WA-10.</div>
 </div>
 
 <!-- NAV -->
@@ -115,6 +117,7 @@
 </nav>
 
 <main>
+
   <!-- WHY IT MATTERS -->
   <section class="py-5 border-bottom">
     <div class="container">
@@ -129,7 +132,84 @@
     </div>
   </section>
 
-  <!-- SIDE BY SIDE -->
+  <!-- BY THE NUMBERS -->
+  <section class="py-5">
+    <div class="container">
+      <h3 class="h5 section-title mb-3">By the numbers</h3>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">Out of district</span><span class="fw-semibold">81.7%</span></div>
+            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:81.7%"></div></div>
+            <div class="d-flex justify-content-between mb-1"><span>In district</span><span>14.9%</span></div>
+            <div class="progress mb-2"><div class="progress-bar" role="progressbar" style="width:14.9%"></div></div>
+            <div class="d-flex justify-content-between mb-1"><span>Unknown</span><span>3.5%</span></div>
+            <div class="progress"><div class="progress-bar" role="progressbar" style="width:3.5%"></div></div>
+            <p class="small mt-2 mb-0">Incumbent 2024 in-district vs out-of-district share. See sources.</p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">From PACs</span><span class="fw-semibold">44%</span></div>
+            <div class="progress mb-2"><div class="progress-bar out" role="progressbar" style="width:44%"></div></div>
+            <p class="small mb-1">AIPAC PAC is a top contributor and Pro-Israel is a listed top industry for the incumbent in 2024.</p>
+            <p class="small mb-0">Method note: PAC share reflects OpenSecrets “From PACs” for the 2024 cycle.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="lead mt-3">
+        In plain terms, about <strong>four out of every five dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>.
+      </p>
+      <p class="small text-muted mt-3 mb-0">Geography figures mirror OpenSecrets “Geography” for the incumbent. “In district” and “out of district” follow their FEC-based categorization.</p>
+    </div>
+  </section>
+
+  <!-- DEEPER BREAKDOWN -->
+  <section class="py-4 border-top border-bottom">
+    <div class="container">
+      <h3 class="h6 section-title mb-3">Deeper breakdown</h3>
+
+      <div class="row g-3">
+        <!-- Inside WA-10 -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Inside WA-10 (14.9%)</span></div>
+            <div class="d-flex justify-content-between tiny"><span>Individuals</span><span>$ — (placeholder)</span></div>
+            <div class="mini-meter mb-2" role="img" aria-label="Individuals share inside district"><span style="width:85%"></span></div>
+            <div class="d-flex justify-content-between tiny"><span>Committees (PAC/party)</span><span>$ — (placeholder)</span></div>
+            <div class="mini-meter" role="img" aria-label="Committees share inside district"><span style="width:15%"></span></div>
+            <p class="small mt-2 mb-0">Replace the dollar placeholders if you want to publish exact amounts.</p>
+          </div>
+        </div>
+
+        <!-- Outside WA-10 -->
+        <div class="col-md-6">
+          <div class="card-lite p-3 h-100">
+            <div class="mb-1"><span class="badge-chip">Outside WA-10 (81.7%)</span></div>
+            <div class="d-flex justify-content-between tiny"><span>National individual donors</span><span>~$6.5M (illustrative)</span></div>
+            <div class="mini-meter mb-2" role="img" aria-label="National individual donors share"><span style="width:63%"></span></div>
+            <div class="d-flex justify-content-between tiny"><span>Corporate/trade PACs</span><span>~$3.7M (illustrative)</span></div>
+            <div class="mini-meter mb-2" role="img" aria-label="Corporate/trade PACs share"><span style="width:37%"></span></div>
+            <ul class="small mt-2 mb-0">
+              <li>Top clusters: D.C. metro, New York finance, national consultant networks.</li>
+              <li>Industries commonly represented among PACs: finance/insurance, tech, pharma/health, defense, and major trade associations.</li>
+              <li>Includes support routed through leadership PACs and national issue groups, e.g., AIPAC PAC.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-secondary small mt-3 mb-0" role="note">
+        Key point: About <strong>four of every five dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>.
+        Much of this is from <strong>corporate and trade PACs</strong> (finance, insurance, tech, pharma, defense) and national networks like <strong>AIPAC PAC</strong>. This speaks to incentives and alignment.
+      </div>
+    </div>
+  </section>
+
+  <!-- SIDE-BY-SIDE CARDS (with tint) -->
   <section class="py-5 side-by-side-section">
     <div class="container">
       <h3 class="section-title mb-4 text-center">Side by side: Who really stands with WA-10</h3>
@@ -138,10 +218,10 @@
           <div class="card-lite p-4 h-100">
             <h4 class="mb-3">Adam Neil Arafat <span class="badge-chip">Grassroots</span></h4>
             <ul class="list-unstyled mb-0">
-              <li><span class="check">✔</span> No PAC or corporate money</li>
-              <li><span class="check">✔</span> Medicare for All and lower drug prices</li>
-              <li><span class="check">✔</span> Living wages and affordable housing</li>
-              <li><span class="check">✔</span> Public accountability and open town halls</li>
+              <li class="mb-2"><span class="check">✔</span> I rely on people, not corporate PACs.</li>
+              <li class="mb-2"><span class="check">✔</span> Medicare for All with automatic enrollment and lower drug costs.</li>
+              <li class="mb-2"><span class="check">✔</span> Living wages, affordable housing, and accountability for bad actors.</li>
+              <li><span class="check">✔</span> Public accountability and open town halls.</li>
             </ul>
           </div>
         </div>
@@ -149,11 +229,73 @@
           <div class="card-lite p-4 h-100">
             <h4 class="mb-3">Rep. Strickland <span class="badge-chip">Status Quo</span></h4>
             <ul class="list-unstyled mb-0">
-              <li><span class="xmark">✘</span> Heavy PAC and corporate donations</li>
-              <li><span class="xmark">✘</span> Weak record on housing and costs</li>
-              <li><span class="xmark">✘</span> Voted with GOP on spending priorities</li>
-              <li><span class="xmark">✘</span> Dodges real constituent engagement</li>
+              <li class="mb-2"><span class="xmark">✘</span> Funding dominated by out-of-district money and PACs (including corporate/trade and AIPAC PAC).</li>
+              <li class="mb-2"><span class="xmark">✘</span> Prefers public option over Medicare for All.</li>
+              <li class="mb-2"><span class="xmark">✘</span> Opposed Seattle’s 2018 head tax intended to fund homelessness and affordable housing.</li>
+              <li><span class="xmark">✘</span> Too many ties to D.C. and national donor networks.</li>
             </ul>
+            <div class="small mt-2"><a href="#sources">See sources</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLANATIONS -->
+  <section class="py-4">
+    <div class="container">
+      <h3 class="h6 section-title mb-3">Explanations</h3>
+
+      <div class="accordion" id="explain">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="exp1h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
+              What is AIPAC?
+            </button>
+          </h2>
+          <div id="exp1" class="accordion-collapse collapse" aria-labelledby="exp1h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              AIPAC is a national lobbying organization. In campaign finance discussions, “AIPAC network” is a shorthand some analysts use for PACs and bundled individual contributions aligned with AIPAC’s policy goals. All contributions are domestic and lawful.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="exp2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp2" aria-expanded="false" aria-controls="exp2">
+              What does this data mean?
+            </button>
+          </h2>
+          <div id="exp2" class="accordion-collapse collapse" aria-labelledby="exp2h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              These static snapshots show patterns: a high share of out-of-district money and a significant PAC component. That speaks to incentives and alignment, not guilt. It’s about who a member of Congress is financially accountable to.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="exp3h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp3" aria-expanded="false" aria-controls="exp3">
+              Why does it matter?
+            </button>
+          </h2>
+          <div id="exp3" class="accordion-collapse collapse" aria-labelledby="exp3h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              When about <strong>80%</strong> of funding comes from <strong>national PACs and far-away networks</strong>, it creates a strong pull toward those agendas. That risks sidelining WA-10’s priorities — housing, healthcare, and fair markets — in favor of national donor interests.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="exp4h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp4" aria-expanded="false" aria-controls="exp4">
+              Important note
+            </button>
+          </h2>
+          <div id="exp4" class="accordion-collapse collapse" aria-labelledby="exp4h" data-bs-parent="#explain">
+            <div class="accordion-body small">
+              This page shows <strong>patterns and connections</strong>. It does not allege wrongdoing or illegal activity by any donor or recipient. The point is transparency and accountability.
+            </div>
           </div>
         </div>
       </div>
@@ -168,6 +310,21 @@
       <a class="btn btn-donate btn-lg" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart me-1"></i> Join the People-Powered Campaign</a>
     </div>
   </section>
+
+  <!-- SOURCES -->
+  <section id="sources" class="py-4 border-top">
+    <div class="container">
+      <h3 class="h6 section-title">Sources and methods</h3>
+      <ul class="small mb-2">
+        <li>OpenSecrets summary and geography views for the 2024 cycle.</li>
+        <li>Indivisible Tacoma 2020 questionnaire (healthcare posture).</li>
+        <li>Seattle head tax repeal coverage and Seattle Metropolitan Chamber position (2018 reporting).</li>
+        <li>FEC candidate page and filings for the incumbent (finance summary, Schedule A).</li>
+      </ul>
+      <p class="small text-muted mb-0">“In district” and “out of district” mirror common tracker categories and FEC-derived geography. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
+    </div>
+  </section>
+
 </main>
 
 <footer class="py-4 bg-white border-top text-center">
