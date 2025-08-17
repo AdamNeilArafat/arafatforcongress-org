@@ -3,17 +3,12 @@
 <head>
   <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js',new Date());
-    gtag('config','G-TSHYRZVZ97');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TSHYRZVZ97');</script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Strickland Isn’t Working. I Will. — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Side-by-side contrast: funding sources, priorities, and community ties in WA-10." />
+  <meta name="description" content="Side-by-side contrast: funding sources, performance metrics, priorities, and ties to WA-10." />
   <meta name="theme-color" content="#0d3b66" />
   <meta property="og:title" content="Strickland Isn’t Working. I Will." />
   <meta property="og:description" content="Clear, sourced differences in WA-10." />
@@ -63,6 +58,13 @@
     /* Side-by-side background tint */
     .side-by-side-section { background:#f8fafc; }
     .side-by-side-section .card-lite { background:#fff; }
+
+    /* Metric cards */
+    .metric { display:flex; align-items:center; gap:.75rem; padding:1rem; border:1px solid #e9eef3; border-radius:12px; background:#fff; box-shadow:0 6px 14px rgba(13,59,102,.05); }
+    .metric .icon { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:#e6f0f8; color:#0d3b66; }
+    .metric .big { font-size:1.25rem; font-weight:800; color:#10324f; }
+    .metric .lbl { font-size:.9rem; color:#394b5b; margin:0; }
+    .metric small { color:#6a7b8b; }
 
     /* Sticky donate */
     .sticky-donate {
@@ -125,10 +127,51 @@
       <p class="lead mb-2">
         I live in WA-10 and my kids go to school here. You deserve a member of Congress whose priorities match the people who live and work here, not the big PACs and D.C. networks that fund politics as usual.
       </p>
-      <p class="mb-2">
-        I led teams and managed programs in high-stakes environments. That accountability and focus on results is what I will bring to Congress for WA-10.
-      </p>
+      <p class="mb-2">I led teams and managed programs in high-stakes environments. That accountability and focus on results is what I will bring to Congress for WA-10.</p>
       <p class="mb-0 small text-muted">All contributions cited below are lawful and do not prove quid pro quo. They show alignment and incentives.</p>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE SNAPSHOT -->
+  <section class="py-4">
+    <div class="container">
+      <h3 class="h6 section-title mb-3">Performance snapshot</h3>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="metric">
+            <div class="icon"><i class="fa-solid fa-file-signature"></i></div>
+            <div>
+              <div class="big" id="m-sponsored">TBD</div>
+              <p class="lbl mb-1">Bills sponsored by the incumbent</p>
+              <small>Source: Congress.gov</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="metric">
+            <div class="icon"><i class="fa-solid fa-check-double"></i></div>
+            <div>
+              <div class="big" id="m-enacted">TBD</div>
+              <p class="lbl mb-1">Became law</p>
+              <small>Source: Congress.gov</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="metric">
+            <div class="icon"><i class="fa-solid fa-people-arrows"></i></div>
+            <div>
+              <div class="big" id="m-bipartisan">TBD</div>
+              <p class="lbl mb-1">Bipartisan Index rank</p>
+              <small>Source: Lugar Center</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="small text-muted mt-2">
+        Note: Most bipartisan items in Congress are non-controversial, like post office namings, defense reauthorizations, or local facilities. Big fights are where leadership shows.
+      </div>
     </div>
   </section>
 
@@ -195,33 +238,32 @@
             <div class="mini-meter mb-2" role="img" aria-label="Corporate/trade PACs share"><span style="width:37%"></span></div>
             <ul class="small mt-2 mb-0">
               <li>Top clusters: D.C. metro, New York finance, national consultant networks.</li>
-              <li>Industries commonly represented among PACs: finance/insurance, tech, pharma/health, defense, and major trade associations.</li>
-              <li>Includes support routed through leadership PACs and national issue groups, e.g., AIPAC PAC.</li>
+              <li>Industries commonly represented among PACs: finance, insurance, tech, pharma, defense, major trade groups.</li>
+              <li>Includes leadership PACs and national issue networks, including AIPAC PAC.</li>
             </ul>
           </div>
         </div>
       </div>
 
       <div class="alert alert-secondary small mt-3 mb-0" role="note">
-        Key point: About <strong>four of every five dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>.
-        Much of this is from <strong>corporate and trade PACs</strong> (finance, insurance, tech, pharma, defense) and national networks like <strong>AIPAC PAC</strong>. This speaks to incentives and alignment.
+        About <strong>four of every five dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>. Much of this is from <strong>corporate and trade PACs</strong> and national networks. This speaks to incentives and alignment.
       </div>
     </div>
   </section>
 
-  <!-- SIDE-BY-SIDE CARDS (with tint) -->
+  <!-- SIDE-BY-SIDE CARDS -->
   <section class="py-5 side-by-side-section">
     <div class="container">
-      <h3 class="section-title mb-4 text-center">Side by side: Who really stands with WA-10</h3>
+      <h3 class="section-title mb-4 text-center">Side by side: who really stands with WA-10</h3>
       <div class="row g-4">
         <div class="col-md-6">
           <div class="card-lite p-4 h-100">
             <h4 class="mb-3">Adam Neil Arafat <span class="badge-chip">Grassroots</span></h4>
             <ul class="list-unstyled mb-0">
-              <li class="mb-2"><span class="check">✔</span> I rely on people, not corporate PACs.</li>
+              <li class="mb-2"><span class="check">✔</span> People powered, not corporate PACs.</li>
               <li class="mb-2"><span class="check">✔</span> Medicare for All with automatic enrollment and lower drug costs.</li>
-              <li class="mb-2"><span class="check">✔</span> Living wages, affordable housing, and accountability for bad actors.</li>
-              <li><span class="check">✔</span> Public accountability and open town halls.</li>
+              <li class="mb-2"><span class="check">✔</span> Lower costs, fair housing, accountability for bad actors.</li>
+              <li><span class="check">✔</span> Open town halls and public accountability.</li>
             </ul>
           </div>
         </div>
@@ -229,10 +271,10 @@
           <div class="card-lite p-4 h-100">
             <h4 class="mb-3">Rep. Strickland <span class="badge-chip">Status Quo</span></h4>
             <ul class="list-unstyled mb-0">
-              <li class="mb-2"><span class="xmark">✘</span> Funding dominated by out-of-district money and PACs (including corporate/trade and AIPAC PAC).</li>
-              <li class="mb-2"><span class="xmark">✘</span> Prefers public option over Medicare for All.</li>
-              <li class="mb-2"><span class="xmark">✘</span> Opposed Seattle’s 2018 head tax intended to fund homelessness and affordable housing.</li>
-              <li><span class="xmark">✘</span> Too many ties to D.C. and national donor networks.</li>
+              <li class="mb-2"><span class="xmark">✘</span> Funding dominated by out-of-district money and PACs.</li>
+              <li class="mb-2"><span class="xmark">✘</span> Public option, not Medicare for All.</li>
+              <li class="mb-2"><span class="xmark">✘</span> Opposed Seattle’s 2018 head tax intended to fund homelessness and housing.</li>
+              <li><span class="xmark">✘</span> Emphasis on low-conflict, bipartisan items while big local issues go unresolved.</li>
             </ul>
             <div class="small mt-2"><a href="#sources">See sources</a></div>
           </div>
@@ -268,7 +310,7 @@
           </h2>
           <div id="exp2" class="accordion-collapse collapse" aria-labelledby="exp2h" data-bs-parent="#explain">
             <div class="accordion-body small">
-              These static snapshots show patterns: a high share of out-of-district money and a significant PAC component. That speaks to incentives and alignment, not guilt. It’s about who a member of Congress is financially accountable to.
+              These static snapshots show patterns: a high share of out-of-district money and a significant PAC component. That speaks to incentives and alignment, not guilt. It is about who a member of Congress is financially accountable to.
             </div>
           </div>
         </div>
@@ -281,7 +323,7 @@
           </h2>
           <div id="exp3" class="accordion-collapse collapse" aria-labelledby="exp3h" data-bs-parent="#explain">
             <div class="accordion-body small">
-              When about <strong>80%</strong> of funding comes from <strong>national PACs and far-away networks</strong>, it creates a strong pull toward those agendas. That risks sidelining WA-10’s priorities — housing, healthcare, and fair markets — in favor of national donor interests.
+              When about <strong>80%</strong> of funding comes from <strong>national PACs and far-away networks</strong>, it creates a strong pull toward those agendas. That risks sidelining WA-10 priorities like housing, healthcare, and fair markets.
             </div>
           </div>
         </div>
@@ -317,9 +359,11 @@
       <h3 class="h6 section-title">Sources and methods</h3>
       <ul class="small mb-2">
         <li>OpenSecrets summary and geography views for the 2024 cycle.</li>
-        <li>Indivisible Tacoma 2020 questionnaire (healthcare posture).</li>
+        <li>Congress.gov member page for bill sponsorship and enactments.</li>
+        <li>GovTrack bill summaries and status for cross-checking enactments.</li>
         <li>Seattle head tax repeal coverage and Seattle Metropolitan Chamber position (2018 reporting).</li>
-        <li>FEC candidate page and filings for the incumbent (finance summary, Schedule A).</li>
+        <li>Indivisible Tacoma 2020 questionnaire (healthcare posture).</li>
+        <li>Lugar Center Bipartisan Index for bipartisan ranking.</li>
       </ul>
       <p class="small text-muted mb-0">“In district” and “out of district” mirror common tracker categories and FEC-derived geography. Percentages may not sum to 100 due to unknown ZIPs or rounding.</p>
     </div>
@@ -343,6 +387,12 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // When you have verified counts, set them here:
+  // Example:
+  // document.getElementById('m-sponsored').textContent = 'XX';
+  // document.getElementById('m-enacted').textContent = '4';
+  // document.getElementById('m-bipartisan').textContent = 'House rank: ###';
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
