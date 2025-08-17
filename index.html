@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adam Neil Arafat for Congress - Washington's 10th District</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="Trust is built, not bought. A people-powered, working-families campaign built by neighbors, not PACs, to deliver healthcare for all, lower costs, and end corruption in WA-10." />
+  <meta name="description" content="Meet Adam Neil Arafat, a veteran and public servant running a people-powered campaign for WA-10: healthcare for all, lower costs, and honest government." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -39,10 +39,7 @@
     /* Navbar */
     .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
     .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after {
-      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background: currentColor; border-radius:2px; transition: width .18s ease;
-    }
+    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
     .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
     .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
     .btn-donate:hover { filter: brightness(.95); color:#fff; }
@@ -55,38 +52,36 @@
     }
     .hero-card img.health { object-position:50% 40%; }
     .hero-card img.costs { object-position:50% 50%; }
-    .hero-card img.corruption { object-position:50% 42%; } /* better centering for IMG_4480.png */
+    .hero-card img.corruption { object-position:50% 45%; }
 
     .hero-overlay { position:absolute; inset:auto 0 0 0; padding:1rem 1.1rem; color:#fff; display:flex; flex-direction:column; gap:.25rem; }
     .overlay-box {
-      background: rgba(16, 50, 79, .78);
-      border: 1px solid rgba(255,255,255,.15);
+      background: rgba(16,50,79,.78);
+      border:1px solid rgba(255,255,255,.15);
       border-radius:10px;
       padding:.6rem .75rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,.25);
-      backdrop-filter: blur(2px);
-      display:inline-block; max-width:92%;
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
+      backdrop-filter:blur(2px);
+      display:inline-block;
+      max-width:92%;
     }
     .hero-title { margin:0; font-weight:800; font-size:1.15rem; line-height:1.2; }
     .hero-sub { margin:0; font-size:.95rem; opacity:.97; }
 
-    /* About portrait crop */
+    /* Meet Adam image crop */
     .about-photo{
-      width:100%; max-width:520px; aspect-ratio:3/4;
-      object-fit:cover; object-position:50% 10%; /* tighter head-and-shoulders crop */
+      width:100%; max-width:520px; aspect-ratio:3/4; object-fit:cover; object-position:50% 5%;
       border-radius:14px; box-shadow:0 10px 26px rgba(0,0,0,.18);
     }
     @media (max-width:576px){
-      .about-photo{ aspect-ratio:2.6/3.6; object-position:50% 10%; }
+      .about-photo{ aspect-ratio:2.6/3.6; object-position:50% 0%; }
     }
 
-    /* Quick cards */
-    .quick-card { border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3; box-shadow:0 6px 18px rgba(13,59,102,.06); transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; height:100%; background:#fff; }
-    .quick-card:hover { transform: translateY(-2px); box-shadow:0 12px 28px rgba(13,59,102,.12); border-color:#d8e4ee; }
-    .quick-card a { display:flex; align-items:center; gap:.65rem; font-weight:700; color:#10324f; }
-    .quick-card a i { font-size:1.05rem; color:var(--primary); }
-
+    /* Sections */
     .section-title { color: var(--primary); }
+    .section-pad { padding:3rem 0; }
+    .section-alt { background:#f8f9fa; }
+
   </style>
 </head>
 <body>
@@ -104,11 +99,10 @@
   </div>
 </section>
 
-<!-- RALLY / HEADER -->
+<!-- HEADER -->
 <div class="header-break">
   <p class="h1line">Trust is built, not bought.</p>
-  <p class="tagline">20 years serving America. Now serving WA-10 families.</p>
-  <p class="urgency">If we do not fix healthcare and affordability now, another generation will struggle.</p>
+  <p class="tagline">20 years serving America. Now building WA-10’s future.</p>
   <div class="rallies" aria-label="Rally lines">
     <span>For Working Families. For WA-10.</span>
     <span>People. Not PACs.</span>
@@ -141,8 +135,24 @@
 </nav>
 
 <main id="main">
-  <!-- HERO GRID -->
-  <section class="container py-5">
+
+  <!-- WHY IT MATTERS (now at the top) -->
+  <section id="why-it-matters" class="section-pad border-bottom">
+    <div class="container">
+      <h2 class="section-title mb-3">Why it matters</h2>
+      <p class="lead mb-2">
+        Status quo politics leave families behind. WA-10 deserves community-driven leadership delivering healthcare for all, lower costs, and honest government.
+      </p>
+      <p class="mb-0"><strong>For Working Families. For WA-10.</strong></p>
+      <div class="mt-3">
+        <a class="btn btn-outline-primary me-2" href="digging-into-the-issues.html">See the Plan</a>
+        <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Chip In</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMAGE HERO GRID -->
+  <section class="container section-pad">
     <div class="row g-4">
       <div class="col-md-4">
         <div class="hero-card">
@@ -180,37 +190,24 @@
     </div>
   </section>
 
-  <!-- WHY IT MATTERS (your new copy) -->
-  <section id="why-it-matters" class="py-5 border-top border-bottom">
+  <!-- MEET ADAM -->
+  <section id="meet-adam" class="section-pad section-alt border-top">
     <div class="container">
-      <h2 class="section-title mb-3">Why It Matters</h2>
-      <p>
-        Status quo politics leave families behind. WA-10 deserves community-driven leadership delivering healthcare for all, lower costs, and honest government. For Working Families. For WA-10.
-      </p>
-      <div class="mt-3">
-        <a class="btn btn-outline-primary me-2" href="digging-into-the-issues.html">See the Plan</a>
-        <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Chip In</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT (your tightened copy) -->
-  <section id="about" class="py-5 border-bottom">
-    <div class="container">
-      <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
+      <h2 class="section-title mb-4">Meet Adam</h2>
       <div class="row g-4 align-items-center">
         <div class="col-12 col-md-5">
+          <!-- Use the same portrait; crop controlled via CSS to match your screenshot -->
           <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" loading="lazy" />
         </div>
         <div class="col-12 col-md-7">
-          <p><strong>About me — 20 years serving America. Now building WA-10’s future.</strong></p>
+          <p><strong>20 years serving America. Now building WA-10’s future.</strong></p>
           <p>Adam served in the U.S. Army, running aviation maintenance and airfield operations worldwide. That experience built discipline, accountability, and a drive to put people before politics.</p>
           <p>Now in Spanaway, Adam and his family face the same rising costs, healthcare struggles, and need for safe neighborhoods as families across WA-10.</p>
           <p>He works in public service with the county, managing infrastructure that serves hundreds of thousands. In Congress, he will bring the same focus on results, efficiency, and transparency.</p>
           <p>Adam rejects corporate PAC money and special interests. This campaign is powered by people to deliver healthcare for all, lower costs, and end corruption.</p>
           <div class="mt-3">
             <a class="btn btn-outline-primary me-2" href="contrast.html">What Sets Me Apart</a>
-            <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Help Build WA-10's Future</a>
+            <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Help Build WA-10’s Future</a>
           </div>
         </div>
       </div>
@@ -218,40 +215,41 @@
   </section>
 
   <!-- QUICK LINKS -->
-  <section class="py-5">
+  <section class="section-pad">
     <div class="container">
       <div class="row g-3">
         <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
+          <div class="border rounded-4 p-3 h-100">
             <div class="small text-muted mb-1">Learn</div>
-            <a href="digging-into-the-issues.html"><i class="fa-solid fa-list-check"></i> Digging Into the Issues</a>
+            <a class="fw-bold d-flex align-items-center gap-2" href="digging-into-the-issues.html"><i class="fa-solid fa-list-check text-primary"></i> Digging Into the Issues</a>
             <p class="mb-0 mt-2 text-muted">How we will build a fair system, lower costs, expand care, and clean up corruption.</p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
+          <div class="border rounded-4 p-3 h-100">
             <div class="small text-muted mb-1">Compare</div>
-            <a href="contrast.html"><i class="fa-solid fa-scale-balanced"></i> What Sets Me Apart</a>
+            <a class="fw-bold d-flex align-items-center gap-2" href="contrast.html"><i class="fa-solid fa-scale-balanced text-primary"></i> What Sets Me Apart</a>
             <p class="mb-0 mt-2 text-muted">See the side by side differences with the incumbent.</p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
+          <div class="border rounded-4 p-3 h-100">
             <div class="small text-muted mb-1">Get in touch</div>
-            <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+            <a class="fw-bold d-flex align-items-center gap-2" href="contact.html"><i class="fa-solid fa-envelope text-primary"></i> Contact</a>
             <p class="mb-0 mt-2 text-muted">Reach out, volunteer, or request a yard sign.</p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
+          <div class="border rounded-4 p-3 h-100">
             <div class="small text-muted mb-1">Support</div>
-            <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Donate</a>
+            <a class="fw-bold d-flex align-items-center gap-2" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart text-primary"></i> Donate</a>
             <p class="mb-0 mt-2 text-muted">People powered. Every dollar helps.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
+
 </main>
 
 <footer class="py-4 bg-white border-top text-center">
