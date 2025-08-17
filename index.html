@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adam Neil Arafat for Congress — Washington’s 10th District</title>
+  <title>Digging Into the Issues — Adam Neil Arafat</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="Trust is built, not bought. A people-powered, working-families campaign built by neighbors—not PACs—to deliver healthcare for all, lower costs, and end corruption in WA-10." />
+  <meta name="description" content="Adam Neil Arafat’s plans to deliver universal healthcare, lower costs, end special-interest influence, enact fair taxation, and hold corporations accountable." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -13,104 +21,110 @@
 
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    a { text-decoration: none; }
 
-    /* Social top bar */
-    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background: rgba(255,255,255,.08); backdrop-filter: blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+
+    /* Top social bar */
+    .social-top {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color: #fff;
+    }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    }
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
-    /* Header rally */
-    .header-break { background:#0d3b66; color:#fff; text-align:center; padding:.95rem 1rem; }
-    .header-break .h1line { font-weight:800; letter-spacing:.2px; margin:0; }
-    .header-break .tagline { opacity:.95; margin:.35rem 0 0; }
-    .header-break .rallies { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:.5rem 0 0; font-weight:700; }
-    .header-break .rallies span { background: rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:.25rem .6rem; border-radius:999px; }
-    .header-break .cta-wrap { margin-top:.7rem; }
+    /* Header break band */
+    .header-break {
+      background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem;
+    }
+    .header-break p { margin:.25rem 0 0; font-weight:500; opacity:.95; }
 
-    /* Navbar */
-    .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
+    /* Pretty nav links: subtle animated underline */
+    .navbar .nav-link {
+      position: relative;
+      padding: .25rem .5rem;
+      color: #1c2b3a;
+      font-weight: 600;
+    }
     .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .btn-donate:hover { filter: brightness(.95); color:#fff; }
-
-    /* Hero */
-    .hero-card { position: relative; border-radius:14px; overflow:hidden; }
-    .hero-card img { width:100%; height:100%; object-fit:cover; aspect-ratio:16/10; display:block; }
-    .hero-overlay { position:absolute; left:0; right:0; bottom:0; padding:1rem 1.1rem; color:#fff; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.7) 100%); }
-    .hero-title { margin:0; font-weight:800; font-size:1.15rem; line-height:1.2; }
-    .hero-sub { margin:.25rem 0 0; font-size:.95rem; opacity:.95; }
-
-    /* About — focal point + crop */
-    .about-photo{
-      width:100%;
-      max-width:520px;
-      aspect-ratio:3/4;
-      object-fit:cover;
-      object-position:50% 5%;
-      border-radius:14px;
-      box-shadow:0 10px 26px rgba(0,0,0,.18);
+    .navbar .nav-link::after {
+      content:"";
+      position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
     }
-    @media (max-width:576px){
-      .about-photo{ aspect-ratio:2.6/3.6; object-position:50% 0%; }
-    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .navbar .btn-donate:hover { filter: brightness(.95); }
 
-    /* Quick cards */
-    .quick-card { border-radius:16px; padding:1.1rem 1.1rem; border:1px solid #e9eef3; box-shadow:0 6px 18px rgba(13,59,102,.06); transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; height:100%; background:#fff; }
-    .quick-card:hover { transform: translateY(-2px); box-shadow:0 12px 28px rgba(13,59,102,.12); border-color:#d8e4ee; }
-    .quick-card a { display:flex; align-items:center; gap:.65rem; font-weight:700; color:#10324f; }
-    .quick-card a i { font-size:1.05rem; color:var(--primary); }
-
+    /* Utility */
+    .issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; }
     .section-title { color: var(--primary); }
+    .divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
+    .issue-nav { padding:1rem; background:#f8f9fa; border-radius:14px; margin-bottom:2rem; border:1px solid #e9eef3; }
+    .issue-nav h5 { margin-bottom:.5rem; font-weight:800; color:#0d3b66; }
+    .issue-nav ul { padding-left:1rem; margin-bottom:0; }
+    .badge-kicker { background:#e6f0f8; color:#0d3b66; font-weight:700; }
+    .lead-small { font-size:1.05rem; }
+    .muted { color:#6b7280; }
+
+    /* Footer links underline */
+    footer a {
+      position:relative; color:#1c2b3a; text-decoration:none; font-weight:600;
+    }
+    footer a:hover { color: var(--link); }
+    footer a::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    footer a:hover::after, footer a:focus::after { width:100%; }
   </style>
 </head>
 <body>
-<a class="visually-hidden-focusable" href="#main">Skip to content</a>
 
-<!-- SOCIAL BAR -->
+<!-- SOCIAL MEDIA BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener"><i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span></a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
       <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
       <span>Bluesky</span>
     </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
   </div>
 </section>
 
-<!-- RALLY / HEADER -->
+<!-- HEADER BREAK -->
 <div class="header-break">
-  <p class="h1line">Trust is built, not bought.</p>
-  <p class="tagline">A people-powered movement built by neighbors, not PACs.</p>
-  <div class="rallies" aria-label="Rally lines">
-    <span>People over PACs.</span>
-    <span>Families over lobbyists.</span>
-    <span>Built for Families. Built for WA-10.</span>
-    <span>People. Not PACs.</span>
-    <span>Built together. Built to last.</span>
-  </div>
-  <div class="cta-wrap">
-    <a class="btn btn-light btn-sm me-2" href="contact.html">Help Build the Movement</a>
-    <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Chip In</a>
+  <div class="container">
+    <div class="row align-items-center g-2">
+      <div class="col-12 text-center">
+        <div class="h5 m-0 text-uppercase">Digging Into the Issues</div>
+        <p class="mb-0">Trust is built, not bought. Every plan here puts people over special interests.</p>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Primary">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress — WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+       <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Digging Into The Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html" aria-current="page">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart from the Current Representative</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item ms-lg-2">
           <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
@@ -120,119 +134,243 @@
   </div>
 </nav>
 
-<main id="main">
-  <!-- HERO GRID -->
-  <section class="container py-5">
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="hero-card">
-          <img src="images/IMG_4339.jpeg" alt="Healthcare for all and reproductive rights in WA-10" loading="lazy" />
-          <div class="hero-overlay">
-            <h3 class="hero-title">Healthcare for All</h3>
-            <p class="hero-sub">Healthcare is a human right—no exceptions.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="hero-card">
-          <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living for WA-10 families" loading="lazy" />
-          <div class="hero-overlay">
-            <h3 class="hero-title">Lower Cost of Living</h3>
-            <p class="hero-sub">When working families thrive, America thrives.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="hero-card">
-          <img src="images/IMG_4344.jpeg" alt="Ending corruption and special interests" loading="lazy" />
-          <div class="hero-overlay">
-            <h3 class="hero-title">End Corruption</h3>
-            <p class="hero-sub">Voters over donors. People over PACs.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<main class="py-5">
+  <div class="container px-4">
 
-  <!-- WHY IT MATTERS -->
-  <section id="why-it-matters" class="py-5 border-top border-bottom">
-    <div class="container">
-      <h2 class="section-title mb-3">Why It Matters</h2>
-      <p>
-        Our country is at a crossroads. The old guard has had decades to lead, but holding on to the status quo has left too many families struggling. It’s time to pass the torch so our nation can move forward.
-      </p>
-      <p>
-        Policies branded as “progressive” are only progressive compared to a broken system. Measured against the rest of the world, they’re common sense. Universal healthcare, affordable living, and fair government are basics modern nations already provide. America shouldn’t lag behind—we should lead.
-      </p>
-      <p>
-        I believe real change starts with leaders rooted in community—working-class Americans who aren’t beholden to corporate PACs, lobbyists, or foreign interests. It’s time to <strong>build a future guided by integrity, optimism, and results.</strong>
-      </p>
-      <div class="mt-3">
-        <a class="btn btn-outline-primary me-2" href="digging-into-the-issues.html">See the Plan</a>
-        <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Chip In</a>
-      </div>
+    <!-- Quick Nav -->
+    <div class="issue-nav">
+      <h5>Jump to a section</h5>
+      <ul>
+        <li><a href="#universal-healthcare">1) Universal Healthcare</a></li>
+        <li><a href="#cost-of-living">2) Lowering the Cost of Living</a></li>
+        <li><a href="#end-corruption">3) End Corruption & Special Interests</a></li>
+        <li><a href="#fair-taxation">Fair Taxation</a></li>
+        <li><a href="#corporate-accountability">Corporate Accountability</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ul>
     </div>
-  </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="py-5 border-bottom">
-    <div class="container">
-      <h2 class="section-title mb-4">Meet Adam Neil Arafat</h2>
+    <!-- #1 Universal Healthcare -->
+    <section id="universal-healthcare" class="mb-5">
+      <div class="divider"></div>
       <div class="row g-4 align-items-center">
-        <div class="col-12 col-md-5">
-          <img src="images/IMG_4323.jpeg" class="about-photo" alt="Photo of Adam Neil Arafat" loading="lazy" />
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
         </div>
-        <div class="col-12 col-md-7">
-          <p><strong>Serving abroad for 20 years. Now building WA-10’s future.</strong></p>
-          <p>Adam served this country in the U.S. Army, <strong>building aviation maintenance programs</strong> and managing airfield operations across the globe. His service instilled discipline, accountability, and the importance of putting people before politics.</p>
-          <p><strong>He has built infrastructure that kept communities moving—now he’s building futures here at home.</strong> In Spanaway, Adam and his family are raising their children in Washington’s 10th District. Like many families here, they feel the pressure of rising costs and healthcare uncertainty—and they want safe, thriving neighborhoods where kids can grow and succeed.</p>
-          <p>Today, Adam works in public service with the county, <strong>building and overseeing infrastructure programs</strong> that provide essential services to hundreds of thousands of people. He brings the same focus on results, efficiency, and transparency that he’ll take to Congress.</p>
-          <p><strong>Unity means building a district where no pocket is left behind—working families, veterans, independent voices—all together.</strong> He rejects corporate PAC money, lobbyists, and foreign influence—answering only to the people of WA-10.</p>
-          <p><strong>Trust is built, not bought.</strong> That’s the foundation of this people-powered campaign—and how we’ll deliver healthcare for all, lower the cost of living, and end corruption.</p>
-          <div class="mt-3">
-            <a class="btn btn-outline-primary me-2" href="contrast.html">What Sets Me Apart</a>
-            <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Help Build WA-10’s Future</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
+          <h2 class="h4 section-title">Universal healthcare</h2>
+          <p class="lead-small">Healthcare is a fundamental right. Yet the United States stands alone among wealthy OECD nations in lacking universal coverage, despite spending more per person on healthcare than any of its peers.</p>
 
-  <!-- QUICK LINKS -->
-  <section class="py-5">
-    <div class="container">
-      <div class="row g-3">
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
-            <div class="small text-muted mb-1">Learn</div>
-            <a href="digging-into-the-issues.html"><i class="fa-solid fa-list-check"></i> Digging Into the Issues</a>
-            <p class="mb-0 mt-2 text-muted">How we’ll build a fair system: lower costs, expand care, clean up corruption.</p>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
-            <div class="small text-muted mb-1">Compare</div>
-            <a href="contrast.html"><i class="fa-solid fa-scale-balanced"></i> What Sets Me Apart</a>
-            <p class="mb-0 mt-2 text-muted">See the side-by-side differences with the incumbent.</p>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
-            <div class="small text-muted mb-1">Get in touch</div>
-            <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
-            <p class="mb-0 mt-2 text-muted">Reach out, volunteer, or request a yard sign.</p>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="quick-card">
-            <div class="small text-muted mb-1">Support</div>
-            <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Donate</a>
-            <p class="mb-0 mt-2 text-muted">People-powered. Every dollar helps.</p>
-          </div>
+          <h3 class="h6 text-muted mt-3">The U.S. Healthcare System, By the Numbers</h3>
+          <ul>
+            <li><strong>Spending:</strong> about $13,000 per person in 2022. That is nearly 2x the OECD average.</li>
+            <li><strong>Outcomes:</strong> lower life expectancy and higher infant mortality than peer nations.</li>
+            <li><strong>Access:</strong> uninsured reached record lows in 2023 then rose in 2024 with Medicaid unwinding. Millions remain uninsured or underinsured.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Plan: cover everyone and align policy with health</h3>
+          <ul>
+            <li><strong>Automatic universal enrollment.</strong> A national benefits floor for all. Supplemental options can remain for add-ons.</li>
+            <li><strong>Prescription drugs.</strong> Expand Medicare price negotiation. End patent gaming. Cap out-of-pocket costs for essential medicines at $2,000 per year for Part D enrollees starting 2025 and seek similar protections broadly.</li>
+            <li><strong>Reproductive freedom.</strong> Keep medical decisions between patients and doctors.</li>
+            <li><strong>Mental health parity.</strong> Enforce equal access, networks, and reimbursement.</li>
+            <li><strong>Primary care first.</strong> Invest in clinics and workforce in underserved areas to catch problems early and locally.</li>
+            <li><strong>Health in all policies.</strong> Use national health goals to steer food, water, air, and workplace rules in the same direction.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">How we will get there</h3>
+          <ul>
+            <li><strong>Step 1:</strong> Pass universal coverage with automatic enrollment and a defined national benefits floor.</li>
+            <li><strong>Step 2:</strong> Expand drug negotiation authority and tighten patent rules to curb evergreening.</li>
+            <li><strong>Step 3:</strong> Target grants to primary care and mental health clinics and training programs in shortage areas.</li>
+            <li><strong>Step 4:</strong> Tie food, water, air, and workplace safety targets to national health metrics across agencies.</li>
+          </ul>
+
+          <p class="small"><a href="#sources">See sources</a></p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- #2 Cost of Living -->
+    <section id="cost-of-living" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4349.jpeg" alt="Cost of living">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
+          <h2 class="h4 section-title">Lowering the cost of living</h2>
+          <p class="lead-small">Families are under financial strain from housing and groceries to childcare and utilities. Relief must be real, lasting, and meaningful. No new taxes on working people.</p>
+
+          <h3 class="h6 text-muted mt-3">What is driving the strain</h3>
+          <ul>
+            <li><strong>Housing:</strong> limited supply and slow permitting push up the price to rent.</li>
+            <li><strong>Groceries:</strong> consolidation and opaque fees weaken competition and transparency.</li>
+            <li><strong>Childcare:</strong> costs rival in-state college tuition in many states.</li>
+            <li><strong>Utilities:</strong> energy bills remain elevated compared with pre 2020 levels.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Plan: more homes, fair markets, smaller monthly bills</h3>
+          <ul>
+            <li><strong>Housing supply and permitting speed.</strong>
+              <ul>
+                <li>Federal incentives for states and localities to streamline permitting timelines with modern digital approvals and clear service level targets.</li>
+                <li>Support zoning flexibility near jobs and transit to add missing middle housing.</li>
+                <li>Expand support for modular and industrialized construction to cut time and cost.</li>
+                <li>Prioritize infrastructure grants for communities that publish and meet predictable permit targets.</li>
+              </ul>
+            </li>
+            <li><strong>First home affordability.</strong> Create a First Home Mortgage Facility based on proven state housing finance models to buy down rates toward about 3 percent for income eligible first time buyers. Make the subsidy explicit and budgeted. Pair with down payment help that reflects local costs.</li>
+            <li><strong>Groceries.</strong> Enforce antitrust laws. Require standardized disclosure of fees and contracts across the supply chain. Strengthen regional food hubs and targeted farm supports that stabilize prices while protecting small and mid size farms.</li>
+            <li><strong>Childcare.</strong> Expand and refund the Child and Dependent Care Tax Credit. Use supply grants so providers can add seats without lowering quality.</li>
+            <li><strong>Lower monthly bills.</strong> Bigger rebates for weatherization, heat pumps, and community solar. Streamline LIHEAP enrollment and use data matching for auto enrollment where possible.</li>
+            <li><strong>Reduce barriers to entry.</strong> Prune excessive licensing and certification costs. Recognize equivalent experience where safe. Expand apprenticeships and paid earn while you learn pathways.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">How we will get there</h3>
+          <ul>
+            <li><strong>Step 1:</strong> Pass a Housing Supply and Permitting Modernization Act that unlocks federal incentives for faster, digital permitting with transparent targets.</li>
+            <li><strong>Step 2:</strong> Stand up the First Home Mortgage Facility and scale it with federal credit support and bonds.</li>
+            <li><strong>Step 3:</strong> Direct DOJ and FTC to prioritize food supply chain competition and require standardized grocery fee and contract disclosures.</li>
+            <li><strong>Step 4:</strong> Expand energy savings rebates and community solar access with simplified eligibility and automatic enrollment where data allows.</li>
+            <li><strong>Step 5:</strong> Launch a federal Open Doors to Work initiative that partners with states to right size licenses and scale apprenticeships with local employers.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- #3 End Corruption & Special Interests -->
+    <section id="end-corruption" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <!-- UPDATED IMAGE -->
+          <img class="issue-img" src="images/IMG_4480.png" alt="End corruption and special interests">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #3</span>
+          <h2 class="h4 section-title">End corruption and special interests</h2>
+          <p class="lead-small">Politics should serve people, not donors. I will not take corporate PAC money. Let us end pay to play and put voters first.</p>
+
+          <h3 class="h6 text-muted">Plan: clean elections, real transparency, strong enforcement</h3>
+          <ul>
+            <li><strong>Ban corporate PAC and lobbyist contributions</strong> to campaigns and ban lobbyist bundling. Tighten coordination rules.</li>
+            <li><strong>Public financing with voter vouchers.</strong> One voucher per voter. Campaigns rely on small donations plus vouchers.</li>
+            <li><strong>Near real time disclosure.</strong> Every campaign dollar reported within days in machine readable form with strong penalties.</li>
+            <li><strong>Close dark money loopholes.</strong> Beneficial ownership and pass through disclosure for political spending.</li>
+            <li><strong>Stronger FEC.</strong> Balanced quorum rules, faster enforcement timelines, and clear referral authority for willful violations.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">How we will get there</h3>
+          <ul>
+            <li><strong>Step 1:</strong> Introduce a Clean Campaigns Act that bans corporate PAC donations and lobbyist bundling and mandates near real time reporting.</li>
+            <li><strong>Step 2:</strong> Pilot a federal voter voucher program modeled on Seattle with state opt in.</li>
+            <li><strong>Step 3:</strong> Tie disclosure rules to IRS and SEC filings and require beneficial owner reporting for political spend.</li>
+            <li><strong>Step 4:</strong> Modernize the FEC with clear coordination rules, swift penalties, and streamlined referrals to DOJ for willful misconduct.</li>
+          </ul>
+
+          <p class="small"><a href="#sources">See sources</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fair Taxation -->
+    <section id="fair-taxation" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4346.jpeg" alt="Fair taxation">
+        </div>
+        <div class="col-md-7">
+          <h2 class="h4 section-title">Fair taxation</h2>
+          <p class="lead-small">Close loopholes so working families do not subsidize the largest corporations and the ultra wealthy.</p>
+
+          <h3 class="h6 text-muted mt-3">Plan: simple, enforceable, pro worker</h3>
+          <ul>
+            <li><strong>Strengthen the corporate minimum tax on book profits.</strong> If you report it to shareholders you pay it.</li>
+            <li><strong>Anti offshoring rules.</strong> Align treatment of foreign profits to end shell games and profit shifting.</li>
+            <li><strong>Targeted relief.</strong> Expand the Child Tax Credit and EITC. Simplify small business expensing and compliance.</li>
+            <li><strong>Near real time transparency.</strong> Modernized electronic filing and public dashboards for large filers.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Corporate Social Responsibility Tax</h3>
+          <p class="muted mb-1"><em>Make exploitation more expensive than fairness. Reward firms that treat workers and communities well.</em></p>
+          <ul>
+            <li><strong>Triggers:</strong> extreme CEO to worker pay ratios, chronic wage theft, repeat OSHA violations, layoffs during record profits, and repeat environmental harm.</li>
+            <li><strong>Mechanics:</strong> a surtax that scales with harm and phases down as firms improve practices.</li>
+            <li><strong>Disclosure:</strong> standardized reporting on pay ratios, injury rates, and community impacts.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Corporate Accountability -->
+    <section id="corporate-accountability" class="mb-3">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4345.png" alt="Corporate accountability">
+        </div>
+        <div class="col-md-7">
+          <h2 class="h4 section-title">Corporate accountability</h2>
+          <p class="lead-small">Good jobs and safe workplaces should be the norm. Responsible companies should never be undercut by bad actors.</p>
+
+          <h3 class="h6 text-muted">Work, pay, and safety</h3>
+          <ul>
+            <li><strong>Stronger penalties</strong> for wage theft and repeat OSHA violators. Use criminal referrals for egregious harm.</li>
+            <li><strong>Incentives</strong> for firms that create living wage jobs, invest in training, and demonstrate low injury rates.</li>
+            <li><strong>Transparency</strong> on CEO to median worker pay, injury rates, and community impacts in a common comparable format.</li>
+          </ul>
+
+          <h3 class="h6 text-muted">Private equity and local communities</h3>
+          <ul>
+            <li>Address debt loading models that strip assets, slash jobs and benefits, and leave communities with closures.</li>
+            <li>Condition favorable tax treatment on employment stability, pension protection, and post acquisition safety outcomes.</li>
+          </ul>
+
+          <h3 class="h6 text-muted">Open more paths to good jobs</h3>
+          <ul>
+            <li>Reduce barriers to entry. Right size licensing and certification costs. Accept equivalent experience where safe. Expand apprenticeships and paid earn while you learn pathways.</li>
+            <li>Support community colleges and trades programs aligned to local employer demand.</li>
+          </ul>
+
+          <h3 class="h6 text-muted">Link to the CSR Tax</h3>
+          <p>The CSR Tax ties consequences to harmful practices and rewards firms that raise wages, cut injuries, narrow pay gaps, and invest in people.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sources -->
+    <div class="divider"></div>
+    <section id="sources" class="pt-3">
+      <h3 class="h6 section-title">Sources</h3>
+      <ul class="small">
+        <!-- Health / OECD / Outcomes -->
+        <li><a href="https://www.oecd.org/en/topics/health-inequality-and-universal-health-coverage.html" target="_blank" rel="noopener">OECD: Universal coverage and health outcomes</a></li>
+        <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022" target="_blank" rel="noopener">Commonwealth Fund: U.S. health care in global perspective</a></li>
+
+        <!-- Campaign finance -->
+        <li><a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">City of Seattle: Democracy Voucher Program</a></li>
+
+        <!-- Wages / OSHA / CEO pay -->
+        <li><a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor: Minimum wage history</a></li>
+        <li><a href="https://www.epi.org" target="_blank" rel="noopener">Economic Policy Institute: CEO to worker pay ratio</a></li>
+
+        <!-- Taxes -->
+        <li><a href="https://itep.org" target="_blank" rel="noopener">Institute on Taxation and Economic Policy: Corporate tax analyses</a></li>
+
+        <!-- Prices / CPI / Food -->
+        <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener">Bureau of Labor Statistics: CPI</a></li>
+        <li><a href="https://www.ers.usda.gov/topics/food-markets-prices/food-prices-outlook/" target="_blank" rel="noopener">USDA ERS: Food Prices Outlook</a></li>
+
+        <!-- Childcare -->
+        <li><a href="https://www.childcareaware.org" target="_blank" rel="noopener">Child Care Aware: Cost and availability</a></li>
+      </ul>
+    </section>
+
+  </div>
 </main>
 
 <footer class="py-4 bg-white border-top text-center">
@@ -241,10 +379,13 @@
     <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
     <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
     <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
+    </div>
   </div>
 </footer>
 
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
