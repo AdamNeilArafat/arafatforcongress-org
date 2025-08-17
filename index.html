@@ -18,7 +18,12 @@
 
     /* Social top bar */
     .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background: rgba(255,255,255,.08); backdrop-filter: blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    }
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
@@ -34,17 +39,43 @@
     /* Navbar */
     .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
     .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
+    .navbar .nav-link::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
     .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
     .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
     .btn-donate:hover { filter: brightness(.95); color:#fff; }
 
-    /* Hero */
+    /* HERO CARDS */
     .hero-card { position: relative; border-radius:14px; overflow:hidden; }
-    .hero-card img { width:100%; height:100%; object-fit:cover; aspect-ratio:16/10; display:block; }
-    .hero-overlay { position:absolute; left:0; right:0; bottom:0; padding:1rem 1.1rem; color:#fff; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.7) 100%); }
+    .hero-card img {
+      width:100%; height:100%; object-fit:cover; aspect-ratio:16/10; display:block;
+      /* default center crop */
+      object-position:50% 50%;
+    }
+    /* specific image tweaks for better crop */
+    .hero-card img.health { object-position:50% 40%; }
+    .hero-card img.costs { object-position:50% 50%; }
+    .hero-card img.corruption { object-position:50% 45%; } /* helps keep Lady Justice centered and readable */
+
+    .hero-overlay {
+      position:absolute; inset:auto 0 0 0; padding:1rem 1.1rem; color:#fff;
+      display:flex; flex-direction:column; gap:.25rem;
+    }
+    /* semi-transparent box for text contrast */
+    .overlay-box {
+      background: rgba(16, 50, 79, .78); /* dark blue, mostly transparent */
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius:10px;
+      padding:.6rem .75rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+      backdrop-filter: blur(2px);
+      display:inline-block;
+      max-width: 92%;
+    }
     .hero-title { margin:0; font-weight:800; font-size:1.15rem; line-height:1.2; }
-    .hero-sub { margin:.25rem 0 0; font-size:.95rem; opacity:.95; }
+    .hero-sub { margin:0; font-size:.95rem; opacity:.97; }
 
     /* About */
     .about-photo{
@@ -121,47 +152,54 @@
     <div class="row g-4">
       <div class="col-md-4">
         <div class="hero-card">
-          <img src="images/IMG_4339.jpeg" alt="Healthcare for all and reproductive rights in WA-10" loading="lazy" />
+          <img class="health" src="images/IMG_4339.jpeg" alt="Healthcare for all and reproductive rights in WA-10" loading="lazy" />
           <div class="hero-overlay">
-            <h3 class="hero-title">Healthcare for All</h3>
-            <p class="hero-sub">Healthcare is a human right, no exceptions.</p>
+            <div class="overlay-box">
+              <h3 class="hero-title">Healthcare for All</h3>
+              <p class="hero-sub">Healthcare is a human right. No exceptions.</p>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="hero-card">
-          <img src="images/IMG_4349.jpeg" alt="Lowering the cost of living for WA-10 families" loading="lazy" />
+          <img class="costs" src="images/IMG_4349.jpeg" alt="Lowering the cost of living for WA-10 families" loading="lazy" />
           <div class="hero-overlay">
-            <h3 class="hero-title">Lower Cost of Living</h3>
-            <p class="hero-sub">When working families thrive, America thrives.</p>
+            <div class="overlay-box">
+              <h3 class="hero-title">Lower Cost of Living</h3>
+              <p class="hero-sub">When working families thrive, America thrives.</p>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="hero-card">
-          <img src="images/IMG_4480.png" alt="Ending corruption and special interests" loading="lazy" />
+          <img class="corruption" src="images/IMG_4480.png" alt="Ending corruption and special interests" loading="lazy" />
           <div class="hero-overlay">
-            <h3 class="hero-title">End Corruption</h3>
-            <p class="hero-sub">Voters over donors. People over PACs.</p>
+            <div class="overlay-box">
+              <h3 class="hero-title">End Corruption</h3>
+              <p class="hero-sub">Voters over donors. People over PACs.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHY IT MATTERS -->
+  <!-- WHY IT MATTERS (shortened copy) -->
   <section id="why-it-matters" class="py-5 border-top border-bottom">
     <div class="container">
       <h2 class="section-title mb-3">Why It Matters</h2>
       <p>
-        Our country is at a crossroads. The old guard has had decades to lead, but holding on to the status quo has left too many families struggling. It is time to pass the torch so our nation can move forward.
+        Our country is at a crossroads. The old guard had decades to lead, but the status quo has left too many families struggling. It is time to pass the torch so our nation can move forward.
       </p>
       <p>
-        Policies branded as progressive are only progressive compared to a broken system. Measured against the rest of the world, they are common sense. Universal healthcare, affordable living, and fair government are basics modern nations already provide. America should not lag behind, we should lead.
+        What is called “progressive” here is just common sense everywhere else: universal healthcare, affordable living, and fair government. These are basics modern nations already provide. America should not lag behind. We should lead.
       </p>
       <p>
-        Real change starts with leaders rooted in community, working-class Americans who are not beholden to corporate PACs, lobbyists, or foreign interests. It is time to build a future guided by integrity, optimism, and results.
+        Real change starts with leaders rooted in community and working families, not corporate PACs or lobbyists. It is time to build a future guided by integrity, optimism, and results.
       </p>
+      <p><strong>For Working Families. For WA-10.</strong></p>
       <div class="mt-3">
         <a class="btn btn-outline-primary me-2" href="digging-into-the-issues.html">See the Plan</a>
         <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Chip In</a>
@@ -180,9 +218,9 @@
         <div class="col-12 col-md-7">
           <p><strong>20 years serving America. Now building WA-10's future.</strong></p>
           <p>Adam served this country in the U.S. Army, building aviation maintenance programs and managing airfield operations across the globe. His service instilled discipline, accountability, and the importance of putting people before politics.</p>
-          <p><strong>He has built infrastructure that kept communities moving, now he is building futures here at home.</strong> In Spanaway, Adam and his family are raising their children in Washington's 10th District. Like many families here, they feel the pressure of rising costs and healthcare uncertainty, and they want safe, thriving neighborhoods where kids can grow and succeed.</p>
+          <p><strong>He has built infrastructure that kept communities moving. Now he is building futures here at home.</strong> In Spanaway, Adam and his family are raising their children in Washington's 10th District. Like many families here, they feel the pressure of rising costs and healthcare uncertainty and they want safe, thriving neighborhoods where kids can grow and succeed.</p>
           <p>Today, Adam works in public service with the county, building and overseeing infrastructure programs that provide essential services to hundreds of thousands of people. He brings the same focus on results, efficiency, and transparency that he will take to Congress.</p>
-          <p><strong>Unity means building a district where no pocket is left behind, working families, veterans, independent voices, all together.</strong> He rejects corporate PAC money, lobbyists, and foreign influence, answering only to the people of WA-10.</p>
+          <p><strong>Unity means building a district where no pocket is left behind.</strong> Working families, veterans, and independent voices move forward together. He rejects corporate PAC money, lobbyists, and foreign influence, answering only to the people of WA-10.</p>
           <p><strong>Trust is built, not bought.</strong> That is the foundation of this people-powered campaign and how we will deliver healthcare for all, lower the cost of living, and end corruption.</p>
           <div class="mt-3">
             <a class="btn btn-outline-primary me-2" href="contrast.html">What Sets Me Apart</a>
