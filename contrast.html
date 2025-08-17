@@ -23,58 +23,62 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --soft:#f6f9fc; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    a { text-decoration: none; }
+    :root{
+      --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f;
+      --soft:#f6f9fc; --amber:#f4a300; --red:#b11e2d; --blue:#0d3b66;
+    }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
+    a{text-decoration:none}
 
     /* Social top bar */
-    .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
-    .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
-    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+    .social-top{background:linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%);color:#fff}
+    .social-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:999px;border:1px solid rgba(255,255,255,.25);color:#fff;background:rgba(255,255,255,.08);backdrop-filter:blur(4px);transition:transform .08s,background .15s,box-shadow .15s}
+    .social-pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.16);box-shadow:0 6px 16px rgba(0,0,0,.15);color:#fff}
+    .bsky-icon{width:18px;height:18px;vertical-align:-2px}
 
     /* Header band */
-    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.8rem 1rem; }
-    .header-break .sub { opacity:.95; font-weight:600; }
+    .header-break{background:#0d3b66;color:#fff;font-weight:700;text-align:center;padding:.8rem 1rem}
+    .header-break .sub{opacity:.95;font-weight:600}
 
     /* Nav */
-    .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
-    .navbar .nav-link:hover { color:#0d3b66; }
-    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .btn-donate:hover { filter:brightness(.95); color:#fff; }
+    .navbar .nav-link{position:relative;padding:.25rem .5rem;color:#1c2b3a;font-weight:600}
+    .navbar .nav-link:hover{color:#0d3b66}
+    .navbar .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
+    .navbar .nav-link:hover::after,.navbar .nav-link[aria-current="page"]::after{width:100%}
+    .btn-donate{background:var(--donate);color:#fff;border:none;border-radius:999px;padding:.45rem .9rem}
+    .btn-donate:hover{filter:brightness(.95);color:#fff}
 
     /* Sections and cards */
-    .section-title { color:var(--primary); }
-    .card-lite { border:1px solid #e9eef3; border-radius:14px; box-shadow:0 6px 16px rgba(13,59,102,.06); background:#fff; }
-    .badge-chip { background:#e6f0f8; color:#0d3b66; font-weight:700; border-radius:999px; padding:.25rem .5rem; }
-    .check { color:#0b6e4f; font-weight:700; }
-    .xmark { color:#b11e2d; font-weight:700; }
+    .section-title{color:var(--primary)}
+    .card-lite{border:1px solid #e9eef3;border-radius:14px;box-shadow:0 6px 16px rgba(13,59,102,.06);background:#fff}
+    .badge-chip{background:#e6f0f8;color:#0d3b66;font-weight:700;border-radius:999px;padding:.25rem .5rem}
+    .check{color:#0b6e4f;font-weight:700}
+    .xmark{color:#b11e2d;font-weight:700}
 
     /* KPI tiles */
-    .kpi { background:#0d3b66; color:#fff; border-radius:14px; padding:1.1rem; text-align:center; height:100%; box-shadow:0 8px 18px rgba(13,59,102,.15); }
-    .kpi h3 { margin:0; font-size:2.2rem; font-weight:800; letter-spacing:.2px; }
-    .kpi p { margin:.35rem 0 0; opacity:.95; font-weight:600; }
+    .kpi{color:#fff;border-radius:14px;padding:1.1rem;text-align:center;height:100%;box-shadow:0 8px 18px rgba(13,59,102,.15)}
+    .kpi h3{margin:0;font-size:2.2rem;font-weight:800;letter-spacing:.2px}
+    .kpi p{margin:.35rem 0 0;opacity:.95;font-weight:600}
 
-    /* Funding cards */
-    .fund-card { border-radius:14px; border:1px solid #e6edf5; background:#fff; text-align:center; padding:1.1rem; height:100%; box-shadow:0 6px 14px rgba(13,59,102,.06); }
-    .fund-card h3 { margin:0; font-size:1.75rem; font-weight:800; color:#0d3b66; }
-    .fund-card .pct { color:#10324f; font-weight:700; }
+    /* Funding */
+    .fund-hero{background:#fff;border:1px solid #e6edf5;border-radius:14px;padding:1rem 1.1rem;box-shadow:0 6px 14px rgba(13,59,102,.06)}
+    .fund-card{border-radius:14px;border:1px solid #e6edf5;background:#fff;text-align:center;padding:1.1rem;height:100%;box-shadow:0 6px 14px rgba(13,59,102,.06)}
+    .fund-card h3{margin:0;font-size:1.75rem;font-weight:800;color:#0d3b66}
+    .fund-card .pct{color:#10324f;font-weight:700}
 
-    /* Side-by-side background tint */
-    .side-by-side { background:#f8fafc; }
-    .side-by-side .card-lite { background:#fff; }
+    /* Side-by-side tint */
+    .side-by-side{background:#f8fafc}
+    .side-by-side .card-lite{background:#fff}
 
-    /* Sticky donate (mobile) */
-    .sticky-donate { position: fixed; right:16px; bottom:16px; z-index:1030; border-radius:999px; padding:.75rem .9rem; box-shadow:0 6px 16px rgba(0,0,0,.25); }
-    @media (min-width: 992px){ .sticky-donate { display:none; } }
+    /* Sticky donate */
+    .sticky-donate{position:fixed;right:16px;bottom:16px;z-index:1030;border-radius:999px;padding:.75rem .9rem;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+    @media (min-width:992px){.sticky-donate{display:none}}
 
     /* Footer underline */
-    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
-    footer a:hover { color:#0d3b66; }
-    footer a::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    footer a:hover::after { width:100%; }
+    footer a{position:relative;color:#1c2b3a;text-decoration:none;font-weight:600}
+    footer a:hover{color:#0d3b66}
+    footer a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
+    footer a:hover::after{width:100%}
   </style>
 </head>
 <body>
@@ -132,55 +136,56 @@
       <h3 class="h5 section-title mb-3">Performance at a glance</h3>
       <div class="row g-3">
         <div class="col-md-3 col-6">
-          <div class="kpi">
+          <div class="kpi" style="background:var(--amber);color:#111;">
             <h3>48</h3>
             <p>Bills sponsored*</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
-          <div class="kpi">
+          <div class="kpi" style="background:var(--amber);color:#111;">
             <h3>4</h3>
             <p>Became law*</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
-          <div class="kpi" style="background:#0b6e4f;">
+          <div class="kpi" style="background:var(--red);">
             <h3>High</h3>
             <p>Bipartisan votes on routine items</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
-          <div class="kpi" style="background:#10324f;">
+          <div class="kpi" style="background:var(--red);">
             <h3>Low</h3>
             <p>Visible leadership on hard fights</p>
           </div>
         </div>
       </div>
-      <p class="small text-muted mt-2 mb-0">*Approximate for this term based on public trackers. Typical freshman enacted bills are often 2 to 5. Verify with Congress.gov for final numbers.</p>
+      <p class="small mt-2 mb-1"><strong>Most bipartisan items are non-controversial</strong> such as defense reauthorizations, local designations, or post office namings. Big fights are where leadership shows.</p>
+      <p class="small text-muted mb-0">*Approximate for this term from public trackers. Typical freshman enacted bills are often 2 to 5. Verify with Congress.gov for final numbers.</p>
     </div>
   </section>
 
-  <!-- FUNDING SNAPSHOT WITH DOLLARS -->
+  <!-- FUNDING SNAPSHOT -->
   <section class="py-5" style="background:var(--soft);">
     <div class="container">
       <h3 class="h5 section-title mb-3">Funding snapshot</h3>
-      <p class="mb-3"><strong>4 of 5 dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>, and <strong>44%</strong> come from <strong>PACs</strong>.</p>
+
+      <div class="fund-hero mb-3">
+        <strong>96%</strong> of the incumbent’s money comes from <strong>PACs + high-dollar donors</strong>.
+        <span class="text-muted">This is about incentives and alignment.</span>
+      </div>
+
+      <p class="mb-3"><strong>4 of 5 dollars</strong> backing the incumbent come from <strong>outside WA-10</strong>. <strong>44%</strong> of all funds come from <strong>PACs</strong>.</p>
+
       <div class="row g-3">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="fund-card h-100">
             <h3>$2.29M</h3>
             <div class="pct">81.7% outside WA-10</div>
             <div class="small text-muted mt-1">2024 cycle share. See sources.</div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="fund-card h-100">
-            <h3>$417K</h3>
-            <div class="pct">14.9% inside WA-10</div>
-            <div class="small text-muted mt-1">Resident support in district.</div>
-          </div>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="fund-card h-100">
             <h3>$1.23M</h3>
             <div class="pct">44% from PACs</div>
@@ -188,6 +193,7 @@
           </div>
         </div>
       </div>
+
       <div class="alert alert-secondary small mt-3 mb-0">
         AIPAC PAC shows as a top contributor and Pro-Israel as a listed top industry in 2024 trackers. This is about incentives and alignment. See sources.
       </div>
@@ -216,16 +222,13 @@
             <h4 class="mb-3">Status quo pattern <span class="badge-chip">Playing it safe</span></h4>
             <ul class="list-unstyled mb-0">
               <li class="mb-2"><span class="xmark">✘</span> Focus on low-conflict and ceremonial items.</li>
-              <li class="mb-2"><span class="xmark">✘</span> Relies on bipartisan safe lanes like military and first-responder measures while avoiding big fights.</li>
-              <li class="mb-2"><span class="xmark">✘</span> 4 enacted laws out of about 48 sponsored. Mostly routine items.</li>
+              <li class="mb-2"><span class="xmark">✘</span> Relies on bipartisan safe lanes like military and first-responder measures instead of big fights.</li>
+              <li class="mb-2"><span class="xmark">✘</span> 4 enacted laws out of about 48 sponsored.</li>
               <li class="mb-2"><span class="xmark">✘</span> 81.7% of funds from outside WA-10 and 44% from PACs.</li>
               <li><span class="xmark">✘</span> More ties to national networks than to local needs. <a href="#sources" class="small">See sources</a></li>
             </ul>
           </div>
         </div>
-      </div>
-      <div class="alert alert-secondary small mt-3 mb-0" role="note">
-        Most bipartisan items in Congress are non-controversial such as defense reauthorizations, local designations, or post office namings. Big fights are where leadership shows.
       </div>
     </div>
   </section>
