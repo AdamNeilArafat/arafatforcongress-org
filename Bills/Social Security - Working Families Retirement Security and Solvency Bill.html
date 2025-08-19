@@ -1,386 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
-  </script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digging Into the Issues — Adam Neil Arafat</title>
+  <title>Tax Fairness &amp; Relief Bill (2026) — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Legislative blueprint for the Tax Fairness & Relief Bill (2026). A fair tax code that supports working families and holds corporations accountable." />
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="How we deliver universal healthcare, lower costs, end special-interest influence, and pass Tax Fairness, CSR accountability, and Good Jobs legislation in WA-10." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
-
+    :root { --primary:#0d3b66; --accent:#0b6e4f; --link:#0d3b66; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    a { text-decoration: none; }
-
-    /* Top social bar */
-    .social-top {
-      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
-      color: #fff;
+    .text-primary { color: var(--primary)!important; }
+    .btn-primary { background: var(--primary); border-color: var(--primary); }
+    .hero {
+      background: linear-gradient(180deg, #0d3b66 0%, #0b3157 100%);
+      color:#fff; padding: 4rem 0 3rem;
     }
-    .social-pill {
-      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
-      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
-      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
-      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    .hero h1 { font-weight: 800; }
+    .badge-soft {
+      background: rgba(255,255,255,.08); color:#fff;
+      border:1px solid rgba(255,255,255,.25); font-weight:700;
     }
-    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
-    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
-
-    /* Header break band */
-    .header-break {
-      background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem;
+    .roi-chip {
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.08);
+      color: #fff; border-radius: .75rem; padding: .5rem .75rem;
+      display: inline-flex; align-items:center; gap:.5rem; white-space: nowrap;
     }
-    .header-break p { margin:.25rem 0 0; font-weight:500; opacity:.95; }
-
-    /* Pretty nav links */
-    .navbar .nav-link {
-      position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600;
-    }
-    .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after {
-      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background: currentColor; border-radius:2px; transition: width .18s ease;
-    }
-    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .navbar .btn-donate:hover { filter: brightness(.95); }
-
-    /* Utility */
-    .issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; }
-    .section-title { color: var(--primary); }
-    .divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
-    .issue-nav { padding:1rem; background:#f8f9fa; border-radius:14px; margin-bottom:2rem; border:1px solid #e9eef3; }
-    .issue-nav h5 { margin-bottom:.5rem; font-weight:800; color:#0d3b66; }
-    .issue-nav ul { padding-left:1rem; margin-bottom:0; }
-    .badge-kicker { background:#e6f0f8; color:#0d3b66; font-weight:700; }
-    .lead-small { font-size:1.05rem; }
-    .muted { color:#6b7280; }
-
-    /* Footer links underline */
-    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
-    footer a:hover { color: var(--link); }
-    footer a::after {
-      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background: currentColor; border-radius:2px; transition: width .18s ease;
-    }
-    footer a:hover::after, footer a:focus::after { width:100%; }
+    .roi-wrap { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .rule { border-top: 1px solid rgba(13,59,102,0.12); }
+    .section-title { font-weight: 800; letter-spacing: -0.01em; }
+    .explain { font-size: .95rem; color: #475569; }
+    a { color: var(--link); }
+    a:hover { color:#0a2d52; }
+    .memo-card .card-header { background: rgba(13,59,102,.08); border-bottom: 1px solid rgba(13,59,102,.15); }
   </style>
 </head>
 <body>
 
-<!-- SOCIAL MEDIA BAR -->
-<section class="social-top py-2">
-  <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
-      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
-    </a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
-      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
-      <span>Bluesky</span>
-    </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
-      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
-    </a>
-  </div>
-</section>
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <span class="badge badge-soft px-3 py-2 mb-3">
+        <i class="fa-solid fa-scale-balanced me-2"></i>Bill Blueprint
+      </span>
+      <h1 class="display-5 mb-2">Tax Fairness &amp; Relief Bill (2026)</h1>
+      <p class="lead mb-4">A fair tax code that supports working families and holds corporations accountable.</p>
 
-<!-- HEADER BREAK -->
-<div class="header-break">
-  <div class="container">
-    <div class="row align-items-center g-2">
-      <div class="col-12 text-center">
-        <div class="h5 m-0">Digging Into the Issues</div>
-        <p class="mb-0">Trust is built, not bought. Every plan here puts people over special interests.</p>
+      <!-- Outcomes at a glance -->
+      <div class="roi-wrap">
+        <span class="roi-chip"><i class="fa-solid fa-child-reaching"></i> No New Taxes on Working Families</span>
+        <span class="roi-chip"><i class="fa-solid fa-building-columns"></i> Corporate Book-Minimum</span>
+        <span class="roi-chip"><i class="fa-solid fa-globe"></i> End Offshoring Games</span>
+        <span class="roi-chip"><i class="fa-solid fa-hand-holding-heart"></i> Bigger CTC &amp; EITC</span>
+        <span class="roi-chip"><i class="fa-solid fa-chart-simple"></i> Transparent &amp; Simple</span>
       </div>
     </div>
-  </div>
-</div>
+  </header>
 
-<!-- NAV -->
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html" aria-current="page">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item ms-lg-2">
-          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+  <!-- Main -->
+  <main class="py-5">
+    <div class="container">
+
+      <!-- Section 1 -->
+      <h2 class="section-title h4 mb-3">Section 1. Short Title</h2>
+      <p>“This <strong>Bill</strong> may be cited as the <em>Tax Fairness &amp; Relief Bill (2026)</em>.”</p>
+
+      <!-- Section 2 -->
+      <h2 class="section-title h4 mt-5 mb-3">Section 2. Findings</h2>
+      <ul>
+        <li>The wealthiest 1% and large corporations exploit loopholes to avoid taxes, while working families shoulder unfair burdens.<br>
+          <span class="explain"><strong>Explanation:</strong> Some high‑profit firms pay lower effective rates than typical workers. This bill corrects that so regular families aren’t subsidizing the ultra‑wealthy.</span>
+        </li>
+        <li>No household earning under $400,000 shall face higher taxes under this Bill.<br>
+          <span class="explain"><strong>Explanation:</strong> Guarantees working and middle‑class families won’t pay more. New revenue comes from closing loopholes at the top.</span>
+        </li>
+        <li>Revenues from this Bill will fund job creation, community investment, and deficit reduction.<br>
+          <span class="explain"><strong>Explanation:</strong> Instead of giveaways to the top, new revenue strengthens local economies and reduces debt.</span>
         </li>
       </ul>
-    </div>
-  </div>
-</nav>
 
-<main class="py-5">
-  <div class="container px-4">
-
-    <!-- Quick Nav -->
-    <div class="issue-nav">
-      <h5>Jump to a section</h5>
+      <!-- Section 3 -->
+      <h2 class="section-title h4 mt-5 mb-3">Section 3. Corporate Minimum Tax on Book Profits</h2>
       <ul>
-        <li><a href="#universal-healthcare">1) Universal Healthcare</a></li>
-        <li><a href="#cost-of-living">2) Lowering the Cost of Living</a></li>
-        <li><a href="#end-corruption">3) End Corruption & Special Interests</a></li>
-        <li><a href="#fair-taxation">4) Tax Fairness, CSR & Good Jobs</a></li>
-        <li><a href="#sources">Sources</a></li>
+        <li>Corporations with annual profits over $1 billion shall pay no less than a 15% tax on book income (profits reported to shareholders).<br>
+          <span class="explain"><strong>Explanation:</strong> Ensures highly profitable firms contribute fairly, regardless of loopholes.</span>
+        </li>
+        <li>Prevents “zero‑tax” outcomes for profitable multinationals by limiting preferential adjustments that erase liability.<br>
+          <span class="explain"><strong>Explanation:</strong> Levels the playing field so small businesses and workers aren’t carrying the load.</span>
+        </li>
       </ul>
+
+      <!-- Section 4 -->
+      <h2 class="section-title h4 mt-5 mb-3">Section 4. Stop Offshoring &amp; Profit Shifting</h2>
+      <ul>
+        <li>Align U.S. taxation of foreign profits with OECD Pillar Two (15% global minimum), applied on a jurisdiction‑by‑jurisdiction basis.<br>
+          <span class="explain"><strong>Explanation:</strong> Ends the race to the bottom and discourages shifting profits to tax havens.</span>
+        </li>
+        <li>Strengthen rules so profits are taxed where economic activity occurs; curb the use of shell subsidiaries.<br>
+          <span class="explain"><strong>Explanation:</strong> Encourages investment and jobs at home instead of paper profits abroad.</span>
+        </li>
+      </ul>
+
+      <!-- Section 5 -->
+      <h2 class="section-title h4 mt-5 mb-3">Section 5. Targeted Relief for Families &amp; Small Business</h2>
+      <ul>
+        <li>Expand the Child Tax Credit (refundable up to $3,600 per child) and strengthen the Earned Income Tax Credit for low‑ and middle‑income workers.<br>
+          <span class="explain"><strong>Explanation:</strong> Proven tools to reduce poverty and boost household income.</span>
+        </li>
+        <li>Simplify small‑business expensing up to $5 million annually.<br>
+          <span class="explain"><strong>Explanation:</strong> Helps Main Street reinvest and grow without red tape.</span>
+        </li>
+      </ul>
+
+      <!-- Section 6 -->
+      <h2 class="section-title h4 mt-5 mb-3">Section 6. Tax Fairness Credit</h2>
+      <p>Replace select high‑end itemized deductions with a flat, capped credit available to all taxpayers.</p>
+      <p class="explain"><strong>Explanation:</strong> Ends perks tilted toward the wealthy; delivers a simpler, fairer benefit for everyone.</p>
+
+      <!-- Section 7 -->
+      <h2 class="section-title h4 mt-5 mb-3">Section 7. Transparency &amp; Accountability</h2>
+      <ul>
+        <li>Require an annual public dashboard showing effective tax rates of large corporations.<br>
+          <span class="explain"><strong>Explanation:</strong> Sunlight on corporate tax bills keeps the system honest.</span>
+        </li>
+        <li>Modernize e‑filing for universal adoption and faster processing.<br>
+          <span class="explain"><strong>Explanation:</strong> Cuts filing costs and reduces backlogs.</span>
+        </li>
+      </ul>
+
+      <!-- Section 8 -->
+      <h2 class="section-title h4 mt-5 mb-3">Section 8. Enforcement</h2>
+      <ul>
+        <li>Enhance IRS enforcement against high‑income evasion; no increase in audit rates for households under $400,000.<br>
+          <span class="explain"><strong>Explanation:</strong> Collects what’s owed at the top while protecting middle‑class filers.</span>
+        </li>
+      </ul>
+
+      <hr class="rule my-5" />
+
+      <!-- Results & ROI -->
+      <div class="card memo-card shadow-sm border-0">
+        <div class="card-header">
+          <h2 class="h5 mb-0"><i class="fa-solid fa-chart-line me-2"></i>Results &amp; ROI</h2>
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li><strong>Fair Share from Big Corporations:</strong> Book‑minimum stops “zero‑tax” outcomes on large profits.</li>
+            <li><strong>Relief for Working Families:</strong> Bigger CTC/EITC and a simple, capped Tax Fairness Credit.</li>
+            <li><strong>Less Offshoring:</strong> Tightened international rules keep profits aligned with real activity.</li>
+            <li><strong>Simpler Filing &amp; More Trust:</strong> Public dashboards and universal e‑file improve accountability.</li>
+            <li><strong>Deficit Reduction:</strong> New revenue from the top helps pay for priorities without new taxes on working people.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="rule my-5" />
+
+      <!-- Back to Bills -->
+      <div class="text-center">
+        <a href="Bills/Bills.html" class="btn btn-outline-primary">
+          <i class="fa-solid fa-arrow-left me-2"></i>Back to All Bills
+        </a>
+      </div>
+
     </div>
+  </main>
 
-    <!-- #1 Universal Healthcare -->
-    <section id="universal-healthcare" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
-        </div>
-        <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
-          <h2 class="h4 section-title">Universal healthcare</h2>
-          <p class="lead-small">Healthcare is a fundamental right. The U.S. spends more per person than peer nations yet leaves millions uninsured or underinsured. It’s time to cover everyone with a simple, automatic system that puts patients first.</p>
-
-          <h3 class="h6 text-muted mt-3">The U.S. healthcare system, by the numbers</h3>
-          <ul>
-            <li><strong>Spending:</strong> about $13,000 per person in 2022, nearly double the OECD average.</li>
-            <li><strong>Outcomes:</strong> lower life expectancy and higher infant mortality than peers.</li>
-            <li><strong>Access:</strong> uninsured hit a low in 2023 then rose in 2024 with Medicaid unwinding. Millions still fall through the cracks.</li>
-          </ul>
-
-          <h3 class="h6 text-muted mt-3">Plan: cover everyone and align policy with health</h3>
-          <ul>
-            <li><strong>Automatic universal enrollment.</strong> A national benefits floor for all. Supplemental options can remain for add-ons.</li>
-            <li><strong>Reproductive freedom.</strong> Keep medical decisions between patients and doctors.</li>
-            <li><strong>Prescription drugs.</strong> Expand Medicare negotiation, end patent gaming, and extend out-of-pocket protections more broadly.</li>
-            <li><strong>Mental health parity.</strong> Enforce equal access, networks, and reimbursement.</li>
-            <li><strong>Primary care first.</strong> Invest in clinics and workforce in underserved areas to catch problems early and locally.</li>
-            <li><strong>Health in all policies.</strong> Use national health goals to steer food, water, air, and workplace standards in the same direction.</li>
-          </ul>
-
-          <h3 class="h6 text-muted mt-3">How we will get there</h3>
-          <ul>
-            <li><strong>Step 1:</strong> Pass universal coverage with automatic enrollment and a defined national benefits floor.</li>
-            <li><strong>Step 2:</strong> Expand drug negotiation authority and tighten patent rules to curb evergreening.</li>
-            <li><strong>Step 3:</strong> Target grants to primary care and mental health clinics and training programs in shortage areas.</li>
-            <li><strong>Step 4:</strong> Tie food, water, air, and workplace safety targets to national health metrics across agencies.</li>
-          </ul>
-
-          <p class="small"><a href="#sources">See sources</a></p>
+  <!-- Footer (no privacy/terms links) -->
+  <footer class="py-5 border-top">
+    <div class="container small">
+      <div class="row g-3 align-items-center">
+        <div class="col-12">
+          <strong>Adam Neil Arafat for Congress — WA-10</strong><br/>
+          <span class="text-muted">Paid for by Arafat for Congress. No corporate PAC money.</span>
         </div>
       </div>
-    </section>
+    </div>
+  </footer>
 
-    <!-- #2 Cost of Living -->
-    <section id="cost-of-living" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4349.jpeg" alt="Lowering the cost of living">
-        </div>
-        <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
-          <h2 class="h4 section-title">Lowering the cost of living</h2>
-          <p class="lead-small">From housing to groceries and childcare, families need real relief that lasts. No new taxes on working people.</p>
-
-          <h3 class="h6 text-muted mt-3">What is driving the strain</h3>
-          <ul>
-            <li><strong>Housing:</strong> limited supply and slow, paper-heavy permitting keep rents and prices high.</li>
-            <li><strong>Groceries:</strong> consolidation, long-term contracts, and hidden fees weaken competition and transparency.</li>
-            <li><strong>Childcare:</strong> costs rival in-state tuition in many states, with too few available seats.</li>
-            <li><strong>Utilities:</strong> energy bills remain elevated versus pre-2020, and upgrades can be hard to access.</li>
-          </ul>
-
-          <h3 class="h6 text-muted mt-3">Plan: more homes, fair markets, smaller monthly bills</h3>
-          <ul>
-            <li><strong>Housing supply and permitting speed.</strong>
-              <ul>
-                <li>Federal incentives for modern, digital approvals with clear 30-, 60-, and 90-day service targets.</li>
-                <li>Flexible zoning near jobs and transit to add missing-middle housing.</li>
-                <li>Support modular and industrialized construction to cut time and cost.</li>
-                <li>Prioritize infrastructure grants for communities that publish and meet predictable permit timelines.</li>
-              </ul>
-            </li>
-            <li><strong>First-home affordability.</strong> Create a First Home Mortgage Facility to buy down rates toward ~3% for income-eligible first-time buyers, with transparent budgeting and paired down-payment help.</li>
-            <li><strong>Groceries.</strong> Enforce antitrust, curb junk fees and most-favored-nation clauses, require standardized disclosure of retailer fees and supplier contracts, and strengthen regional competition and food hubs. Protect SNAP EBT from surcharge abuses.</li>
-            <li><strong>Childcare.</strong> Expand and refund the Child and Dependent Care Tax Credit and invest in supply grants so providers can add seats without lowering quality.</li>
-            <li><strong>Lower monthly bills.</strong> Bigger rebates for weatherization, heat pumps, and community solar. Streamline LIHEAP with data matching to auto-enroll eligible households.</li>
-            <li><strong>Open doors to work.</strong> Reduce excessive licensing costs, recognize equivalent experience where safe, and expand apprenticeships and paid earn-while-you-learn pathways.</li>
-          </ul>
-
-          <h3 class="h6 text-muted mt-3">How we will get there</h3>
-          <ul>
-            <li><strong>Step 1:</strong> Pass a Housing Supply and Permitting Modernization Act to unlock incentives for faster, digital permitting.</li>
-            <li><strong>Step 2:</strong> Stand up the First Home Mortgage Facility with federal credit support and bonds.</li>
-            <li><strong>Step 3:</strong> Direct DOJ and FTC to prioritize food-chain competition and enforce standardized disclosure of fees and contracts.</li>
-            <li><strong>Step 4:</strong> Expand energy savings rebates and community solar with simplified eligibility and automatic enrollment where data allows.</li>
-            <li><strong>Step 5:</strong> Launch a federal Open Doors to Work initiative with states and employers.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- #3 End Corruption & Special Interests -->
-    <section id="end-corruption" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4480.png" alt="End corruption and special interests">
-        </div>
-        <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #3</span>
-          <h2 class="h4 section-title">End corruption and special interests</h2>
-          <p class="lead-small">Politics should serve people, not donors. I will not take corporate PAC money. End pay-to-play and put voters first.</p>
-
-          <h3 class="h6 text-muted">Plan: clean elections, real transparency, strong enforcement</h3>
-          <ul>
-            <li><strong>Ban corporate PAC and lobbyist contributions</strong> to campaigns and ban lobbyist bundling. Tighten coordination rules.</li>
-            <li><strong>Public financing with voter vouchers.</strong> One voucher per voter. Campaigns rely on small donations plus vouchers.</li>
-            <li><strong>Near real-time disclosure.</strong> Every campaign dollar reported within days in machine-readable form with strong penalties.</li>
-            <li><strong>Close dark-money loopholes.</strong> Beneficial ownership and pass-through disclosure for political spending.</li>
-            <li><strong>Stronger FEC.</strong> Balanced quorum rules, faster enforcement timelines, and clear referral authority for willful violations.</li>
-          </ul>
-
-          <h3 class="h6 text-muted mt-3">How we will get there</h3>
-          <ul>
-            <li><strong>Step 1:</strong> Introduce a Clean Campaigns Act that bans corporate PAC donations and lobbyist bundling and mandates near real-time reporting.</li>
-            <li><strong>Step 2:</strong> Pilot a federal voter-voucher program modeled on Seattle with state opt-in.</li>
-            <li><strong>Step 3:</strong> Tie disclosure rules to IRS and SEC filings and require beneficial-owner reporting for political spend.</li>
-            <li><strong>Step 4:</strong> Modernize the FEC with clear coordination rules, swift penalties, and streamlined referrals to DOJ for willful misconduct.</li>
-          </ul>
-
-          <p class="small"><a href="#sources">See sources</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- #4 Tax Fairness, CSR & Good Jobs -->
-    <section id="fair-taxation" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4346.jpeg" alt="Tax fairness, corporate responsibility, and good jobs">
-        </div>
-        <div class="col-md-7">
-          <h2 class="h4 section-title">Tax Fairness, CSR, and Good Jobs</h2>
-          <p class="lead-small">Three bills. One goal: make the economy work for working people. Close loopholes, hold chronic violators accountable, and open real paths to good-paying work.</p>
-
-          <!-- Bill 1 -->
-          <h3 class="h6 text-muted mt-3">
-            <a href="Bills/Tax Fairness.html" class="text-decoration-none">
-              Tax Fairness & Relief Act — <span class="fw-semibold">Bill 1: Tax Code Reform</span>
-            </a>
-          </h3>
-          <p class="muted mb-2">Make the tax code work for working families, not corporate accountants. Everyone plays by the same rules.</p>
-          <ul>
-            <li><strong>Corporate minimum on book profits.</strong> If you report profits to shareholders, you pay taxes on them.</li>
-            <li><strong>Stop offshoring games.</strong> Align foreign-profit treatment to end shell companies and profit shifting.</li>
-            <li><strong>Targeted relief.</strong> Expand the Child Tax Credit and EITC; simplify small-business expensing and compliance.</li>
-            <li><strong>Tax Fairness Credit.</strong> Replace select high-end itemized breaks with a simple, capped credit for all filers.</li>
-            <li><strong>Real-time transparency.</strong> Modern e-filing and public dashboards so people can see what the biggest firms really pay.</li>
-          </ul>
-
-          <!-- Bill 2 -->
-          <h3 class="h6 text-muted mt-3">
-            <a href="Bills/Corporate Responsibility CSR.html" class="text-decoration-none">
-              CSR Accountability Act — <span class="fw-semibold">Bill 2: Corporate Responsibility & Penalties</span>
-            </a>
-          </h3>
-          <p class="muted mb-2">Make exploitation more expensive than fairness. Reward good actors. Penalize chronic harm.</p>
-          <ul>
-            <li><strong>Corporate Responsibility Surtax.</strong> Triggers include extreme CEO-to-worker pay gaps, wage theft, repeat OSHA violations, layoffs during record profits, and repeat environmental harm. Surtax scales with severity and history, and phases down as firms improve.</li>
-            <li><strong>Disclosure.</strong> Standardized public reporting on pay ratios, injury rates, and community impacts.</li>
-            <li><strong>Work, pay, and safety.</strong> Escalating penalties for wage theft and repeat OSHA violators; criminal referrals for egregious harm; credits for raising wages, retaining jobs, and investing in safety; uniform data across industries.</li>
-            <li><strong>Private equity & communities.</strong> Curb debt-loading models that strip assets and jobs; tie favorable tax treatment to job stability, pension protection, and post-acquisition safety.</li>
-          </ul>
-
-          <!-- Bill 3 -->
-          <h3 class="h6 text-muted mt-3">
-            <a href="Bills/Good Jobs & Skills Act.html" class="text-decoration-none">
-              Good Jobs & Skills Act — <span class="fw-semibold">Bill 3: Workforce Pathways</span>
-            </a>
-          </h3>
-          <p class="muted mb-2">Open more paths to good-paying work. Break down barriers while keeping standards strong.</p>
-          <ul>
-            <li><strong>Right-size licensing.</strong> Reduce unnecessary costs; accept equivalent experience where safe.</li>
-            <li><strong>Expand apprenticeships.</strong> Paid earn-while-you-learn programs that lead directly to careers.</li>
-            <li><strong>Support community colleges and trades.</strong> Align training with real employer demand.</li>
-            <li><strong>Training incentives.</strong> Encourage employers to upskill workers and build career ladders.</li>
-          </ul>
-
-          <!-- Roadmap -->
-          <h3 class="h6 text-muted mt-3">How we will get there</h3>
-          <ul>
-            <li><strong>Step 1:</strong> Strengthen book-minimum and foreign-profit rules; launch transparency dashboards. <span class="muted">(Bill 1)</span></li>
-            <li><strong>Step 2:</strong> Enact the CSR surtax with standardized disclosures. <span class="muted">(Bill 2)</span></li>
-            <li><strong>Step 3:</strong> Raise penalties for wage theft and repeat OSHA violations; criminal referrals where warranted. <span class="muted">(Bill 2)</span></li>
-            <li><strong>Step 4:</strong> Tie private-equity tax treatment to jobs, pensions, and safety outcomes. <span class="muted">(Bill 2)</span></li>
-            <li><strong>Step 5:</strong> Expand apprenticeships, licensing reform, and training pipelines. <span class="muted">(Bill 3)</span></li>
-          </ul>
-
-          <p class="small"><a href="#sources">See sources</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sources -->
-    <div class="divider"></div>
-    <section id="sources" class="pt-3">
-      <h3 class="h6 section-title">Sources</h3>
-      <ul class="small">
-        <!-- Health / OECD / Outcomes -->
-        <li><a href="https://www.oecd.org/en/topics/health-inequality-and-universal-health-coverage.html" target="_blank" rel="noopener">OECD: Universal coverage and health outcomes</a></li>
-        <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022" target="_blank" rel="noopener">Commonwealth Fund: U.S. health care in global perspective</a></li>
-
-        <!-- Campaign finance -->
-        <li><a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">City of Seattle: Democracy Voucher Program</a></li>
-
-        <!-- Wages / OSHA / CEO pay -->
-        <li><a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor: Minimum wage history</a></li>
-        <li><a href="https://www.epi.org" target="_blank" rel="noopener">Economic Policy Institute: CEO-to-worker pay ratio</a></li>
-
-        <!-- Taxes -->
-        <li><a href="https://itep.org" target="_blank" rel="noopener">Institute on Taxation and Economic Policy: Corporate tax analyses</a></li>
-
-        <!-- Prices / CPI / Food -->
-        <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener">Bureau of Labor Statistics: CPI</a></li>
-        <li><a href="https://www.ers.usda.gov/topics/food-markets-prices/food-prices-outlook/" target="_blank" rel="noopener">USDA ERS: Food Prices Outlook</a></li>
-
-        <!-- Childcare -->
-        <li><a href="https://www.childcareaware.org" target="_blank" rel="noopener">Child Care Aware: Cost and availability</a></li>
-      </ul>
-    </section>
-
-  </div>
-</main>
-
-<footer class="py-4 bg-white border-top text-center">
-  <div class="container">
-    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
-    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
-  </div>
-</footer>
-
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
