@@ -16,6 +16,24 @@
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     .text-primary { color: var(--primary)!important; }
     .btn-primary { background: var(--primary); border-color: var(--primary); }
+
+    /* NEW: Evergreen Pact header */
+    .evergreen-header {
+      background: linear-gradient(90deg, var(--accent) 0%, #0a5c41 100%);
+      color: #fff;
+      padding: .75rem 0;
+      border-bottom: 1px solid rgba(0,0,0,.1);
+    }
+    .evergreen-title {
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      font-size: 1.1rem;
+    }
+    @media (min-width: 992px) {
+      .evergreen-title { font-size: 1.25rem; }
+    }
+
     .hero {
       background: linear-gradient(180deg,#0d3b66 0%,#0b3157 100%);
       color:#fff; padding: 4rem 0 3rem;
@@ -31,16 +49,28 @@
     .card { border: 1px solid rgba(13,59,102,0.12); border-radius: 1rem; }
     .updated { font-size:.9rem; color:#6b7280; }
     .search-input { max-width: 560px; }
+    .table thead th { white-space: nowrap; }
+    .table td, .table th { vertical-align: top; }
   </style>
 </head>
 <body>
+
+  <!-- Evergreen Pact header (added) -->
+  <header class="evergreen-header" role="banner" aria-label="The Evergreen Pact">
+    <div class="container d-flex align-items-center gap-2">
+      <i class="fa-solid fa-tree"></i>
+      <h1 class="evergreen-title">
+        The Evergreen Pact: Grounded in Washington, Rooted in the People, Growing for Generations
+      </h1>
+    </div>
+  </header>
 
   <!-- Hero -->
   <header class="hero">
     <div class="container">
       <span class="badge badge-soft px-3 py-2 mb-3"><i class="fa-solid fa-folder-tree me-2"></i>Bill Library</span>
       <h1 class="display-5 mb-3">Legislative Blueprints</h1>
-      <p class="lead mb-4">Straightforward, pay‑for plans that lower costs, raise standards, and put working families first.</p>
+      <p class="lead mb-4">Clear, practical bills that lower costs and raise standards — with no new taxes on working families.</p>
 
       <div class="input-group search-input">
         <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
@@ -69,8 +99,7 @@
                     </h3>
                     <span class="badge text-bg-light border">Updated</span>
                   </div>
-                  <p class="mb-2">Requires Members to publish standardized, factual justifications for final votes; adds a single‑subject rule to stop rider “Christmas trees.”</p>
-                  <div class="updated"><i class="fa-regular fa-clock me-1"></i>Updated 3 minutes ago</div>
+                  <p class="mb-0">Requires Members to publish standardized, factual justifications for final votes; adds a single-subject rule to stop rider “Christmas trees.”</p>
                 </div>
               </div>
             </div>
@@ -87,8 +116,7 @@
                     </h3>
                     <span class="badge text-bg-light border">Updated</span>
                   </div>
-                  <p class="mb-2">Surtax for wage theft, extreme CEO pay gaps, repeat OSHA/EPA violations, and mass layoffs; credits for good actors.</p>
-                  <div class="updated"><i class="fa-regular fa-clock me-1"></i>Updated 8 minutes ago</div>
+                  <p class="mb-0">Surtax for wage theft, extreme CEO pay gaps, repeat OSHA/EPA violations, and mass layoffs; credits for good actors.</p>
                 </div>
               </div>
             </div>
@@ -100,13 +128,12 @@
                   <div class="d-flex justify-content-between align-items-start">
                     <h3 class="h5 mb-2">
                       <a href="Bills/First-Time Homebuyer 3% Mortgage Act.html" class="stretched-link">
-                        First‑Time Homebuyer 3% Mortgage Act (2025)
+                        First-Time Homebuyer 3% Mortgage Act (2025)
                       </a>
                     </h3>
                     <span class="badge text-bg-light border">Updated</span>
                   </div>
-                  <p class="mb-2">Federally backed 3% fixed mortgages for first‑time buyers with strong fiscal guardrails and oversight.</p>
-                  <div class="updated"><i class="fa-regular fa-clock me-1"></i>Updated 6 minutes ago</div>
+                  <p class="mb-0">Federally backed 3% fixed mortgages for first-time buyers with strong fiscal guardrails and oversight.</p>
                 </div>
               </div>
             </div>
@@ -123,8 +150,7 @@
                     </h3>
                     <span class="badge text-bg-light border">Updated</span>
                   </div>
-                  <p class="mb-2">Cuts red tape on licensing, expands apprenticeships, and aligns training with real local jobs.</p>
-                  <div class="updated"><i class="fa-regular fa-clock me-1"></i>Updated 10 minutes ago</div>
+                  <p class="mb-0">Cuts red tape on licensing, expands apprenticeships, and aligns training with real local jobs.</p>
                 </div>
               </div>
             </div>
@@ -141,8 +167,7 @@
                     </h3>
                     <span class="badge text-bg-success">New</span>
                   </div>
-                  <p class="mb-2">Ends benefit taxes for middle‑income retirees; fair top‑end contributions to keep checks safe, no new taxes on working families.</p>
-                  <div class="updated"><i class="fa-regular fa-clock me-1"></i>Created just now</div>
+                  <p class="mb-0">Ends benefit taxes for middle-income retirees; fair top-end contributions to keep checks safe — no new taxes on working families.</p>
                 </div>
               </div>
             </div>
@@ -159,13 +184,74 @@
                     </h3>
                     <span class="badge text-bg-light border">Updated</span>
                   </div>
-                  <p class="mb-2">15% book‑profit floor, anti‑offshoring rules, CTC/EITC expansion, universal fairness credit, and corporate tax transparency.</p>
-                  <div class="updated"><i class="fa-regular fa-clock me-1"></i>Updated 15 minutes ago</div>
+                  <p class="mb-0">15% book-profit floor, anti-offshoring rules, CTC/EITC expansion, universal fairness credit, and corporate tax transparency.</p>
                 </div>
               </div>
             </div>
 
           </div>
+
+          <!-- At-a-Glance Comparison -->
+          <section class="mt-5">
+            <h2 class="h4 mb-3">At-a-Glance Comparison</h2>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                    <th>Bill</th>
+                    <th>What it does</th>
+                    <th>Pros</th>
+                    <th>Tradeoffs / Risks</th>
+                    <th>Funding approach</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="Bills/Tax Fairness.html">Tax Fairness &amp; Relief</a></td>
+                    <td>15% book-profit minimum; anti-offshoring; expand CTC/EITC; universal fairness credit; corporate tax transparency.</td>
+                    <td>Levels the playing field; raises revenue from avoidance; direct relief for families and small biz.</td>
+                    <td>Complex rulemaking; multinational compliance friction.</td>
+                    <td>Revenue from corporate minimums/anti-avoidance; no new taxes on working families.</td>
+                  </tr>
+                  <tr>
+                    <td><a href="Bills/Corporate Responsibility CSR.html">CSR Accountability</a></td>
+                    <td>Surtax tied to wage theft, extreme pay gaps, repeat OSHA/EPA violations, mass layoffs; credits for good actors.</td>
+                    <td>Rewards responsible firms; deters harmful practices.</td>
+                    <td>Industry pushback; must calibrate to avoid over-penalizing edge cases.</td>
+                    <td>Net positive via surtaxes; credits offset for compliance improvements.</td>
+                  </tr>
+                  <tr>
+                    <td><a href="Bills/Good Jobs & Skills Act.html">Good Jobs &amp; Skills</a></td>
+                    <td>Licensing reform & reciprocity; expand apprenticeships; align community college training with jobs.</td>
+                    <td>Lower consumer prices; faster entry to good jobs; bipartisan appeal.</td>
+                    <td>State coordination needed; quality control for new programs.</td>
+                    <td>Modest federal grants/credits; can be covered by savings/new revenues from Tax Fairness.</td>
+                  </tr>
+                  <tr>
+                    <td><a href="Bills/First-Time Homebuyer 3% Mortgage Act.html">First-Time Homebuyer 3%</a></td>
+                    <td>Federally backed 3% fixed mortgages for first-time buyers with price caps and oversight.</td>
+                    <td>Improves affordability; builds middle-class wealth; stabilizes communities.</td>
+                    <td>Must guard against price inflation; requires strong underwriting.</td>
+                    <td>Program fees, reallocations, and existing housing tools; budget-neutral design.</td>
+                  </tr>
+                  <tr>
+                    <td><a href="Bills/Congressional Vote Justification Act.html">Vote Justification</a></td>
+                    <td>Requires standardized, factual vote explanations; adds single-subject rule.</td>
+                    <td>Radical transparency; better deliberation; less logrolling.</td>
+                    <td>Member workload; risk of boilerplate responses.</td>
+                    <td>Administrative; uses existing Congressional processes.</td>
+                  </tr>
+                  <tr>
+                    <td><a href="Bills/Social Security - Working Families Retirement Security and Solvency Act.html">Social Security Solvency</a></td>
+                    <td>Ends benefit taxes for middle-income retirees; contributions resume above $400k; add investment/estate support.</td>
+                    <td>Protects checks; closes solvency gap; no new taxes on working families.</td>
+                    <td>Top-end contributors pay more; requires coordination across agencies.</td>
+                    <td>High-earner wage & investment contributions; estate receipts dedicated to trust funds.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
         </div>
 
         <!-- Activity / Notes -->
@@ -177,27 +263,21 @@
             </div>
             <div class="list-group list-group-flush">
               <div class="list-group-item">
-                <div class="small text-muted">3 minutes ago</div>
                 <div><a href="Bills/Congressional Vote Justification Act.html">Congressional Vote Justification Act</a> — <span class="text-muted">Updated</span></div>
               </div>
               <div class="list-group-item">
-                <div class="small text-muted">8 minutes ago</div>
                 <div><a href="Bills/Corporate Responsibility CSR.html">Corporate Responsibility CSR</a> — <span class="text-muted">Updated</span></div>
               </div>
               <div class="list-group-item">
-                <div class="small text-muted">6 minutes ago</div>
-                <div><a href="Bills/First-Time Homebuyer 3% Mortgage Act.html">First‑Time Homebuyer 3% Mortgage Act</a> — <span class="text-muted">Updated</span></div>
+                <div><a href="Bills/First-Time Homebuyer 3% Mortgage Act.html">First-Time Homebuyer 3% Mortgage Act</a> — <span class="text-muted">Updated</span></div>
               </div>
               <div class="list-group-item">
-                <div class="small text-muted">10 minutes ago</div>
                 <div><a href="Bills/Good Jobs & Skills Act.html">Good Jobs &amp; Skills Act</a> — <span class="text-muted">Updated</span></div>
               </div>
               <div class="list-group-item">
-                <div class="small text-muted">now</div>
                 <div><a href="Bills/Social Security - Working Families Retirement Security and Solvency Act.html">Social Security — Working Families…</a> — <span class="text-success">Created</span></div>
               </div>
               <div class="list-group-item">
-                <div class="small text-muted">15 minutes ago</div>
                 <div><a href="Bills/Tax Fairness.html">Tax Fairness &amp; Relief Act</a> — <span class="text-muted">Updated</span></div>
               </div>
             </div>
@@ -206,9 +286,7 @@
           <div class="card mt-4 border-0 shadow-sm">
             <div class="card-body">
               <h5 class="card-title mb-2"><i class="fa-solid fa-circle-info me-2"></i>About These Bills</h5>
-              <p class="mb-2">Each blueprint includes a plain‑language summary, line‑by‑line explanations, and simple funding notes. No new taxes on working families.</p>
-              <a href="/donate" class="btn btn-primary btn-sm me-2"><i class="fa-solid fa-heart me-1"></i>Donate</a>
-              <a href="/volunteer" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-user-check me-1"></i>Volunteer</a>
+              <p class="mb-0">Each blueprint pairs plain-language summaries with line-by-line explanations and clear funding notes — focused on lowering costs and raising standards without new taxes on working families.</p>
             </div>
           </div>
         </aside>
@@ -220,13 +298,9 @@
   <footer class="py-5 border-top">
     <div class="container small">
       <div class="row g-3 align-items-center">
-        <div class="col-md-8">
-          <strong>Adam Neil Arafat for Congress — WA‑10</strong><br/>
+        <div class="col-12">
+          <strong>Adam Neil Arafat for Congress — WA-10</strong><br/>
           <span class="text-muted">Paid for by Arafat for Congress. No corporate PAC money.</span>
-        </div>
-        <div class="col-md-4 text-md-end">
-          <a href="/privacy" class="me-3">Privacy</a>
-          <a href="/terms">Terms</a>
         </div>
       </div>
     </div>
