@@ -11,7 +11,7 @@
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact — Adam Neil Arafat for Congress</title>
+  <title>Contact - Adam Neil Arafat for Congress</title>
   <meta name="theme-color" content="#0d3b66" />
   <meta name="description" content="Reach the campaign. Join the team building WA-10. Share your story. We read every message." />
 
@@ -62,8 +62,6 @@
       background: currentColor; border-radius:2px; transition: width .18s ease;
     }
     .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .navbar .btn-donate:hover { filter: brightness(.95); color:#fff; }
 
     /* Utility + page sections */
     .section-title { color: var(--primary); }
@@ -150,17 +148,24 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Primary">
   <div class="container">
     <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
-        <li class="nav-item"><a class="nav-link" aria-current="page" href="contact.html">Contact</a></li>
-        <li class="nav-item ms-lg-2">
-          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
+        <li class="nav-item">
+          <a class="nav-link" href="digging-into-the-issues.html">Issues</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1"></i>Evergreen Pact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contrast.html">Record & Contrast</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="contact.html">Contact</a>
+        </li>
+        <!-- No Donate button in the nav; Donate appears as a CTA at the bottom -->
       </ul>
     </div>
   </div>
@@ -307,14 +312,14 @@
     <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
     <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
     <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
-    <p class="small text-muted mb-0">Not authorized by any other candidate or candidate’s committee.</p>
+    <p class="small text-muted mb-0">Not authorized by any other candidate or candidate's committee.</p>
   </div>
 </footer>
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Mailto composer for "Share Your Story" — no external form or service.
+  // Mailto composer for "Share Your Story" - no external form or service.
   function sendStoryEmail(e){
     e.preventDefault();
     const name = document.getElementById('storyName').value.trim();
@@ -323,7 +328,7 @@
     const message = document.getElementById('storyMessage').value.trim();
 
     const to = 'info@arafatforcongress.org';
-    const subject = encodeURIComponent(`Story: ${topic}${name ? ' — ' + name : ''}`);
+    const subject = encodeURIComponent(`Story: ${topic}${name ? ' - ' + name : ''}`);
     const bodyLines = [];
 
     if (name) bodyLines.push(`Name: ${name}`);
@@ -333,7 +338,7 @@
     bodyLines.push('Story:');
     bodyLines.push(message || '(Your story here)');
 
-    const body = encodeURIComponent(bodyLines.join('\\n'));
+    const body = encodeURIComponent(bodyLines.join('\n'));
     const href = `mailto:${to}?subject=${subject}&body=${body}`;
     window.location.href = href;
     return false;
