@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bill 1 – Tax Fairness & Relief Act — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Legislative blueprint for the Tax Fairness & Relief Act of 2026. A fair tax code that supports working families and holds corporations accountable." />
+  <title>Tax Fairness &amp; Relief Bill (2026) — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Legislative blueprint for the Tax Fairness & Relief Bill (2026). A fair tax code that supports working families and holds corporations accountable." />
   <meta name="theme-color" content="#0d3b66" />
 
   <!-- Bootstrap + Icons -->
@@ -13,23 +12,38 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root {
-      --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66;
-    }
+    :root { --primary:#0d3b66; --accent:#0b6e4f; --link:#0d3b66; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     .text-primary { color: var(--primary)!important; }
     .btn-primary { background: var(--primary); border-color: var(--primary); }
-    .btn-donate { background: var(--donate); border-color: var(--donate); }
+
     .hero {
       background: linear-gradient(180deg, #0d3b66 0%, #0b3157 100%);
       color:#fff; padding: 4rem 0 3rem;
     }
     .hero h1 { font-weight: 800; }
+    .badge-soft {
+      background: rgba(255,255,255,.08); color:#fff;
+      border:1px solid rgba(255,255,255,.25); font-weight:700;
+    }
+
+    .roi-chip {
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.08);
+      color: #fff; border-radius: .75rem; padding: .5rem .75rem;
+      display: inline-flex; align-items:center; gap:.5rem; white-space: nowrap;
+    }
+    .roi-wrap { display:flex; flex-wrap:wrap; gap:.5rem; }
+
     .rule { border-top: 1px solid rgba(13,59,102,0.12); }
     .section-title { font-weight: 800; letter-spacing: -0.01em; }
     .explain { font-size: .95rem; color: #475569; }
     a { color: var(--link); }
     a:hover { color:#0a2d52; }
+
+    .memo-card .card-header {
+      background: rgba(13,59,102,.08); border-bottom: 1px solid rgba(13,59,102,.15);
+    }
   </style>
 </head>
 <body>
@@ -37,8 +51,20 @@
   <!-- Hero -->
   <header class="hero">
     <div class="container">
-      <h1 class="display-5 mb-3">Bill 1 – Tax Fairness & Relief Act</h1>
-      <p class="lead mb-0">Legislative Blueprint with Explanations</p>
+      <span class="badge badge-soft px-3 py-2 mb-3">
+        <i class="fa-solid fa-scale-balanced me-2"></i>Bill Blueprint
+      </span>
+      <h1 class="display-5 mb-2">Tax Fairness &amp; Relief Bill (2026)</h1>
+      <p class="lead mb-4">A fair tax code that supports working families and holds corporations accountable.</p>
+
+      <!-- Outcomes at a glance -->
+      <div class="roi-wrap">
+        <span class="roi-chip"><i class="fa-solid fa-child-reaching"></i> No New Taxes on Working Families</span>
+        <span class="roi-chip"><i class="fa-solid fa-building-columns"></i> 15% Book-Minimum</span>
+        <span class="roi-chip"><i class="fa-solid fa-globe"></i> End Profit Shifting</span>
+        <span class="roi-chip"><i class="fa-solid fa-hand-holding-heart"></i> Bigger CTC &amp; EITC</span>
+        <span class="roi-chip"><i class="fa-solid fa-chart-simple"></i> Transparent &amp; Simple</span>
+      </div>
     </div>
   </header>
 
@@ -48,19 +74,19 @@
 
       <!-- Section 1 -->
       <h2 class="section-title h4 mb-3">Section 1. Short Title</h2>
-      <p>“This Act may be cited as the Tax Fairness & Relief Act of 2026.”</p>
+      <p>“This <strong>Bill</strong> may be cited as the <em>Tax Fairness &amp; Relief Bill (2026)</em>.”</p>
 
       <!-- Section 2 -->
       <h2 class="section-title h4 mt-5 mb-3">Section 2. Findings</h2>
       <ul>
         <li>The wealthiest 1% and large corporations exploit loopholes to avoid taxes, while working families shoulder unfair burdens.<br>
-          <span class="explain"><strong>Explanation:</strong> Many billionaires and big firms pay lower effective tax rates than nurses or truck drivers. This bill corrects that imbalance so regular families aren’t subsidizing the ultra-wealthy.</span>
+          <span class="explain"><strong>Explanation:</strong> Many high‑profit firms pay lower effective tax rates than typical workers. This bill corrects that imbalance so regular families aren’t subsidizing the ultra‑wealthy.</span>
         </li>
-        <li>No household earning under $400,000 shall face higher taxes under this Act.<br>
-          <span class="explain"><strong>Explanation:</strong> Guarantees that working and middle-class families won’t pay more. All new revenue comes from corporations and high earners exploiting loopholes.</span>
+        <li>No household earning under $400,000 shall face higher taxes under this <strong>Bill</strong>.<br>
+          <span class="explain"><strong>Explanation:</strong> Guarantees working and middle‑class families won’t pay more. New revenue comes from closing loopholes at the top.</span>
         </li>
-        <li>Revenues from this Act will fund job creation, community investment, and deficit reduction.<br>
-          <span class="explain"><strong>Explanation:</strong> Instead of giveaways to the top, new revenue will strengthen local economies, build infrastructure, and reduce debt.</span>
+        <li>Revenues from this <strong>Bill</strong> will fund job creation, community investment, and deficit reduction.<br>
+          <span class="explain"><strong>Explanation:</strong> Instead of giveaways to the top, new revenue strengthens local economies and reduces debt.</span>
         </li>
       </ul>
 
@@ -68,64 +94,82 @@
       <h2 class="section-title h4 mt-5 mb-3">Section 3. Corporate Minimum Tax on Book Profits</h2>
       <ul>
         <li>Corporations with annual profits over $1 billion shall pay no less than a 15% tax on book income (profits reported to shareholders).<br>
-          <span class="explain"><strong>Explanation:</strong> Some large firms report huge profits to Wall Street but pay $0 to the IRS. A 15% book minimum makes sure they contribute fairly, regardless of loopholes.</span>
+          <span class="explain"><strong>Explanation:</strong> Ensures highly profitable firms contribute fairly, regardless of loopholes.</span>
         </li>
-        <li>Ensures firms like Amazon and Netflix, which report profits but pay minimal federal tax, contribute fairly.<br>
-          <span class="explain"><strong>Explanation:</strong> Levels the playing field so small businesses and workers aren’t carrying the load while mega-firms free ride.</span>
+        <li>Prevents “zero‑tax” outcomes for profitable multinationals by limiting preferential adjustments that erase liability.<br>
+          <span class="explain"><strong>Explanation:</strong> Levels the playing field so small businesses and workers aren’t carrying the load.</span>
         </li>
       </ul>
 
       <!-- Section 4 -->
-      <h2 class="section-title h4 mt-5 mb-3">Section 4. Stop Offshoring & Profit Shifting</h2>
+      <h2 class="section-title h4 mt-5 mb-3">Section 4. Stop Offshoring &amp; Profit Shifting</h2>
       <ul>
-        <li>Align U.S. taxation of foreign profits with OECD Pillar Two 15% global minimum.<br>
-          <span class="explain"><strong>Explanation:</strong> Ends the “race to the bottom” by making multinationals pay a fair minimum tax abroad and at home. Keeps jobs and investment in the U.S.</span>
+        <li>Align U.S. taxation of foreign profits with OECD Pillar Two (15% global minimum), applied on a jurisdiction‑by‑jurisdiction basis.<br>
+          <span class="explain"><strong>Explanation:</strong> Ends the race to the bottom and discourages shifting profits to tax havens.</span>
         </li>
-        <li>Strengthen Global Intangible Low-Taxed Income (GILTI) rules to tax profits where they’re earned, ending the use of shell subsidiaries.<br>
-          <span class="explain"><strong>Explanation:</strong> Stops companies from parking profits in tax havens like Bermuda or the Caymans. Closes a major corporate loophole.</span>
+        <li>Strengthen rules so profits are taxed where economic activity occurs; curb the use of shell subsidiaries.<br>
+          <span class="explain"><strong>Explanation:</strong> Encourages investment and jobs at home instead of paper profits abroad.</span>
         </li>
       </ul>
 
       <!-- Section 5 -->
-      <h2 class="section-title h4 mt-5 mb-3">Section 5. Targeted Relief for Families & Small Business</h2>
+      <h2 class="section-title h4 mt-5 mb-3">Section 5. Targeted Relief for Families &amp; Small Business</h2>
       <ul>
-        <li>Expand the Child Tax Credit (refundable up to $3,600/child) and the Earned Income Tax Credit for low- and middle-income workers.<br>
-          <span class="explain"><strong>Explanation:</strong> Proven tools to reduce poverty and boost household income. The 2021 CTC expansion cut child poverty nearly in half.</span>
+        <li>Expand the Child Tax Credit (refundable up to $3,600 per child) and strengthen the Earned Income Tax Credit for low‑ and middle‑income workers.<br>
+          <span class="explain"><strong>Explanation:</strong> Proven tools to reduce poverty and boost household income.</span>
         </li>
-        <li>Simplify small-business expensing up to $5 million annually.<br>
-          <span class="explain"><strong>Explanation:</strong> Makes it easier for small businesses to reinvest and grow without drowning in IRS paperwork. Helps Main Street, not Wall Street.</span>
+        <li>Simplify small‑business expensing up to $5 million annually.<br>
+          <span class="explain"><strong>Explanation:</strong> Helps Main Street reinvest and grow without red tape.</span>
         </li>
       </ul>
 
       <!-- Section 6 -->
       <h2 class="section-title h4 mt-5 mb-3">Section 6. Tax Fairness Credit</h2>
-      <p>Replace high-end itemized deductions (e.g., mortgage interest on luxury homes, certain state/local write-offs) with a flat, capped credit available to all taxpayers.</p>
-      <p class="explain"><strong>Explanation:</strong> Ends tax perks tilted toward the wealthy. Everyone gets the same fair credit, middle-class filers benefit most.</p>
+      <p>Replace select high‑end itemized deductions with a flat, capped credit available to all taxpayers.</p>
+      <p class="explain"><strong>Explanation:</strong> Ends perks tilted toward the wealthy; delivers a simpler, fairer benefit for everyone.</p>
 
       <!-- Section 7 -->
-      <h2 class="section-title h4 mt-5 mb-3">Section 7. Transparency & Accountability</h2>
+      <h2 class="section-title h4 mt-5 mb-3">Section 7. Transparency &amp; Accountability</h2>
       <ul>
-        <li>Require the IRS to publish an annual public dashboard showing effective tax rates of large corporations.<br>
-          <span class="explain"><strong>Explanation:</strong> Sunlight on corporate tax bills keeps the system honest. Voters and investors can see who pays their share.</span>
+        <li>Require an annual public dashboard showing effective tax rates of large corporations.<br>
+          <span class="explain"><strong>Explanation:</strong> Sunlight on corporate tax bills keeps the system honest.</span>
         </li>
-        <li>Modernize e-filing for universal adoption.<br>
-          <span class="explain"><strong>Explanation:</strong> Cuts filing costs and reduces IRS backlogs. Easier for small businesses and households.</span>
+        <li>Modernize e‑filing for universal adoption and faster processing.<br>
+          <span class="explain"><strong>Explanation:</strong> Cuts filing costs and reduces backlogs.</span>
         </li>
       </ul>
 
       <!-- Section 8 -->
       <h2 class="section-title h4 mt-5 mb-3">Section 8. Enforcement</h2>
       <ul>
-        <li>Enhanced IRS enforcement authority against high-income evasion; no new audits for households under $400K.<br>
-          <span class="explain"><strong>Explanation:</strong> The wealthy hide trillions through loopholes and offshore accounts. Strengthening enforcement collects what’s owed — but shields middle-class families from extra audits.</span>
+        <li>Enhance IRS enforcement against high‑income evasion; no increase in audit rates for households under $400,000.<br>
+          <span class="explain"><strong>Explanation:</strong> Collects what’s owed at the top while protecting middle‑class filers.</span>
         </li>
       </ul>
 
       <hr class="rule my-5" />
 
+      <!-- Results & ROI -->
+      <div class="card memo-card shadow-sm border-0">
+        <div class="card-header">
+          <h2 class="h5 mb-0"><i class="fa-solid fa-chart-line me-2"></i>Results &amp; ROI</h2>
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li><strong>Fair Share from Big Corporations:</strong> Book‑minimum stops “zero‑tax” outcomes on large profits.</li>
+            <li><strong>Relief for Working Families:</strong> Bigger CTC/EITC and a simple, capped Tax Fairness Credit.</li>
+            <li><strong>Less Offshoring:</strong> Tightened international rules keep profits aligned with real activity.</li>
+            <li><strong>Simpler Filing &amp; More Trust:</strong> Public dashboards and universal e‑file improve accountability.</li>
+            <li><strong>Deficit Reduction:</strong> New revenue from the top helps pay for priorities without new taxes on working people.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="rule my-5" />
+
       <!-- Back to Bills -->
       <div class="text-center">
-        <a href="Bills.html" class="btn btn-outline-primary">
+        <a href="Bills/Bills.html" class="btn btn-outline-primary">
           <i class="fa-solid fa-arrow-left me-2"></i>Back to All Bills
         </a>
       </div>
@@ -133,17 +177,13 @@
     </div>
   </main>
 
-  <!-- Footer -->
+  <!-- Footer (no privacy/terms links) -->
   <footer class="py-5 border-top">
     <div class="container small">
       <div class="row g-3 align-items-center">
-        <div class="col-md-8">
+        <div class="col-12">
           <strong>Adam Neil Arafat for Congress — WA-10</strong><br/>
           <span class="text-muted">Paid for by Arafat for Congress. No corporate PAC money.</span>
-        </div>
-        <div class="col-md-4 text-md-end">
-          <a href="/privacy" class="me-3">Privacy</a>
-          <a href="/terms">Terms</a>
         </div>
       </div>
     </div>
