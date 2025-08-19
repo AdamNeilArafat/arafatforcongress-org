@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Digging Into the Issues — Adam Neil Arafat</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="High‑level breakdowns of our plans to deliver universal healthcare, lower costs, end special‑interest influence, and pass Tax Fairness, CSR accountability, Good Jobs, and Social Security legislation for WA‑10." />
+  <meta name="description" content="High-level breakdowns of our plans to deliver universal healthcare, lower costs, end special-interest influence, and pass Tax Fairness, CSR accountability, Good Jobs, and Social Security legislation for WA-10." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -55,8 +55,6 @@
       background: currentColor; border-radius:2px; transition: width .18s ease;
     }
     .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .navbar .btn-donate:hover { filter: brightness(.95); }
 
     /* Utility */
     .issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; }
@@ -81,6 +79,26 @@
     /* CTA links under bullets */
     .cta-links a { display:inline-flex; align-items:center; gap:.4rem; margin-right:.75rem; margin-top:.25rem; }
     .cta-links .fa-file-lines { opacity:.8; }
+
+    /* Pact one-liner */
+    .pact-note {
+      background:#f6f9fc; border:1px solid #e9eef3; border-radius:14px;
+      padding:.9rem 1rem; margin:1.25rem 0 2rem; font-weight:600; color:#0d3b66;
+      display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; justify-content:center;
+    }
+    .pact-note a { text-decoration: underline; }
+
+    /* Bottom CTA band */
+    .cta-band {
+      background:#f8f9fa; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3;
+    }
+    .cta-band .btn {
+      border-radius:999px; padding:.6rem 1rem; font-weight:700;
+    }
+    .btn-donate { background: var(--donate); color:#fff; border:none; }
+    .btn-donate:hover { filter: brightness(.95); }
+    .btn-ghost { background:#fff; border:1px solid #cfd8e3; color:#0d3b66; }
+    .btn-ghost:hover { background:#eef3f8; }
   </style>
 </head>
 <body>
@@ -113,7 +131,7 @@
   </div>
 </div>
 
-<!-- NAV -->
+<!-- NAV (aligned with Index and Bills) -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
@@ -125,22 +143,16 @@
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html" aria-current="page">Issues</a></li>
 
-        <!-- Evergreen Pact (Bills hub) -->
         <li class="nav-item">
-          <a class="nav-link"
-             href="Bills/Bills.html"
-             title="The Bills — Evergreen Pact: Grounded in Washington, Rooted in the People, Growing for Generations">
+          <a class="nav-link" href="Bills/Bills.html" title="Evergreen Pact">
             <i class="fa-solid fa-tree me-1" aria-hidden="true"></i>
-            <span class="d-inline d-xl-none">Evergreen Pact</span>
-            <span class="d-none d-xl-inline">Evergreen Pact — Grounded in Washington, Rooted in the People, Growing for Generations</span>
+            <span>Evergreen Pact</span>
           </a>
         </li>
 
-        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item ms-lg-2">
-          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
-        </li>
+        <!-- No Donate button here to match Index and Bills nav -->
       </ul>
     </div>
   </div>
@@ -149,19 +161,25 @@
 <main class="py-5">
   <div class="container px-4">
 
+    <!-- Evergreen Pact one-liner -->
+    <div class="pact-note">
+      <span>Every issue here pairs with a ready to file bill in the Evergreen Pact.</span>
+      <a href="Bills/Bills.html">Explore the Pact</a>
+    </div>
+
     <!-- Quick Nav -->
     <div class="issue-nav">
       <h5>Jump to a section</h5>
       <ul>
         <li><a href="#universal-healthcare">1) Universal Healthcare</a></li>
         <li><a href="#cost-of-living">2) Lowering the Cost of Living</a></li>
-        <li><a href="#end-corruption">3) End Corruption & Special Interests</a></li>
-        <li><a href="#fair-taxation">4) Tax Fairness, CSR & Good Jobs</a></li>
+        <li><a href="#end-corruption">3) End Corruption &amp; Special Interests</a></li>
+        <li><a href="#fair-taxation">4) Tax Fairness, CSR &amp; Good Jobs</a></li>
         <li><a href="#sources">Sources</a></li>
       </ul>
     </div>
 
-    <!-- #1 Universal Healthcare (higher-level) -->
+    <!-- #1 Universal Healthcare -->
     <section id="universal-healthcare" class="mb-5">
       <div class="divider"></div>
       <div class="row g-4 align-items-center">
@@ -176,7 +194,7 @@
           <ul class="mt-3">
             <li><strong>Automatic coverage:</strong> a national benefits floor so no one falls through the cracks.</li>
             <li><strong>Lower drug prices:</strong> expand negotiation and stop patent gaming.</li>
-            <li><strong>Parity & access:</strong> enforce mental‑health parity; grow clinics and workforce where care is scarce.</li>
+            <li><strong>Parity &amp; access:</strong> enforce mental-health parity; grow clinics and workforce where care is scarce.</li>
             <li><strong>Health in all policies:</strong> align food, water, air, and workplace standards to health goals.</li>
           </ul>
 
@@ -189,7 +207,7 @@
       </div>
     </section>
 
-    <!-- #2 Cost of Living (higher-level + Social Security) -->
+    <!-- #2 Cost of Living -->
     <section id="cost-of-living" class="mb-5">
       <div class="divider"></div>
       <div class="row g-4 align-items-center">
@@ -199,31 +217,31 @@
         <div class="col-md-7">
           <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
           <h2 class="h4 section-title">Lowering the Cost of Living</h2>
-          <p class="lead-small">Make housing and childcare attainable, groceries fair, utilities affordable — and safeguard Social Security — with no new taxes on working families.</p>
+          <p class="lead-small">Make housing and childcare attainable, groceries fair, utilities affordable, and safeguard Social Security, with no new taxes on working families.</p>
 
           <ul class="mt-3">
-            <li><strong>Housing supply & permitting:</strong> faster digital approvals, flexible zoning near jobs/transit, support modular builds.
+            <li><strong>Housing supply &amp; permitting:</strong> faster digital approvals, flexible zoning near jobs and transit, support modular builds.
               <div class="cta-links">
-                <a href="Bills/Housing Supply and Permitting Modernization Bill.html"><i class="fa-regular fa-file-lines"></i><span>Housing Supply & Permitting Bill</span></a>
-                <a href="Bills/First-Time Homebuyer 3% Mortgage Bill.html"><i class="fa-regular fa-file-lines"></i><span>First‑Time Homebuyer 3% Mortgage Bill</span></a>
+                <a href="Bills/Housing Supply and Permitting Modernization Bill.html"><i class="fa-regular fa-file-lines"></i><span>Housing Supply &amp; Permitting Bill</span></a>
+                <a href="Bills/First-Time Homebuyer 3% Mortgage Bill.html"><i class="fa-regular fa-file-lines"></i><span>First-Time Homebuyer 3% Mortgage Bill</span></a>
               </div>
             </li>
-            <li class="mt-2"><strong>Groceries & fair markets:</strong> crack down on junk fees/MFNs, standardize fee & contract disclosures, strengthen regional competition.
+            <li class="mt-2"><strong>Groceries &amp; fair markets:</strong> crack down on junk fees and MFNs, standardize fee and contract disclosures, strengthen regional competition.
               <div class="cta-links">
-                <a href="Bills/Fair Food and Grocery Competition Bill.html"><i class="fa-regular fa-file-lines"></i><span>Fair Food & Grocery Competition Bill</span></a>
+                <a href="Bills/Fair Food and Grocery Competition Bill.html"><i class="fa-regular fa-file-lines"></i><span>Fair Food &amp; Grocery Competition Bill</span></a>
               </div>
             </li>
-            <li class="mt-2"><strong>Childcare you can find & afford:</strong> expand/refund the CDCTC, invest in quality seat supply.
+            <li class="mt-2"><strong>Childcare you can find and afford:</strong> expand and refund the CDCTC, invest in quality seat supply.
               <div class="cta-links">
-                <a href="Bills/Affordable Child and Dependent Care Bill.html"><i class="fa-regular fa-file-lines"></i><span>Affordable Child & Dependent Care Bill</span></a>
+                <a href="Bills/Affordable Child and Dependent Care Bill.html"><i class="fa-regular fa-file-lines"></i><span>Affordable Child &amp; Dependent Care Bill</span></a>
               </div>
             </li>
             <li class="mt-2"><strong>Lower monthly utility bills:</strong> bigger rebates for weatherization, heat pumps, and community solar; streamline LIHEAP.
               <div class="cta-links">
-                <a href="Bills/Energy Savings and Lower Bill.html"><i class="fa-regular fa-file-lines"></i><span>Energy Savings & Lower Bills</span></a>
+                <a href="Bills/Energy Savings and Lower Bill.html"><i class="fa-regular fa-file-lines"></i><span>Energy Savings &amp; Lower Bills</span></a>
               </div>
             </li>
-            <li class="mt-2"><strong>Protect Social Security checks:</strong> end benefit taxes for most retirees; fair top‑end contributions; strengthen trust‑fund solvency.
+            <li class="mt-2"><strong>Protect Social Security checks:</strong> end benefit taxes for most retirees; fair top-end contributions; strengthen trust-fund solvency.
               <div class="cta-links">
                 <a href="Bills/Social Security - Working Families Retirement Security and Solvency Bill.html"><i class="fa-regular fa-file-lines"></i><span>Social Security — Working Families Solvency Bill</span></a>
               </div>
@@ -231,9 +249,9 @@
           </ul>
 
           <ul class="mt-3">
-            <li><strong>Open doors to work:</strong> right‑size licensing, universal reciprocity, expand apprenticeships & paid earn‑while‑you‑learn.
+            <li><strong>Open doors to work:</strong> right-size licensing, universal reciprocity, expand apprenticeships and paid earn-while-you-learn.
               <div class="cta-links">
-                <a href="Bills/Good Jobs & Skills Bill.html"><i class="fa-regular fa-file-lines"></i><span>Good Jobs & Skills Bill</span></a>
+                <a href="Bills/Good Jobs & Skills Bill.html"><i class="fa-regular fa-file-lines"></i><span>Good Jobs &amp; Skills Bill</span></a>
               </div>
             </li>
           </ul>
@@ -241,7 +259,7 @@
       </div>
     </section>
 
-    <!-- #3 End Corruption & Special Interests (higher-level) -->
+    <!-- #3 End Corruption & Special Interests -->
     <section id="end-corruption" class="mb-5">
       <div class="divider"></div>
       <div class="row g-4 align-items-center">
@@ -250,19 +268,19 @@
         </div>
         <div class="col-md-7">
           <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #3</span>
-          <h2 class="h4 section-title">End Corruption & Special Interests</h2>
-          <p class="lead-small">Stop pay‑to‑play. Make elections people‑powered with real‑time transparency and strong enforcement.</p>
+          <h2 class="h4 section-title">End Corruption &amp; Special Interests</h2>
+          <p class="lead-small">Stop pay to play. Make elections people powered with real-time transparency and strong enforcement.</p>
 
           <ul class="mt-3">
-            <li><strong>Ban corporate PAC & lobbyist bundling;</strong> tighten coordination rules.</li>
-            <li><strong>Voter vouchers + small donations</strong> to center campaigns on people, not big money.</li>
-            <li><strong>Near real‑time, machine‑readable reporting</strong> with strong penalties for violators.</li>
-            <li><strong>Close dark‑money loopholes</strong> with beneficial‑owner & pass‑through disclosure.</li>
+            <li><strong>Ban corporate PAC and lobbyist bundling;</strong> tighten coordination rules.</li>
+            <li><strong>Voter vouchers and small donations</strong> to center campaigns on people, not big money.</li>
+            <li><strong>Near real-time, machine-readable reporting</strong> with strong penalties for violators.</li>
+            <li><strong>Close dark-money loopholes</strong> with beneficial owner and pass-through disclosure.</li>
             <li><strong>Modernize the FEC</strong> for timely, enforceable decisions and referrals.</li>
           </ul>
 
           <div class="cta-links mt-2">
-            <a href="Bills/Clean Campaigns and Elections Bill.html"><i class="fa-regular fa-file-lines"></i><span>See the Clean Campaigns & Elections Bill</span></a>
+            <a href="Bills/Clean Campaigns and Elections Bill.html"><i class="fa-regular fa-file-lines"></i><span>See the Clean Campaigns &amp; Elections Bill</span></a>
             <a href="Bills/Congressional Vote Justification Bill.Html"><i class="fa-regular fa-file-lines"></i><span>See the Congressional Vote Justification Bill</span></a>
           </div>
 
@@ -271,7 +289,7 @@
       </div>
     </section>
 
-    <!-- #4 Tax Fairness, CSR & Good Jobs (higher-level) -->
+    <!-- #4 Tax Fairness, CSR & Good Jobs -->
     <section id="fair-taxation" class="mb-5">
       <div class="divider"></div>
       <div class="row g-4 align-items-center">
@@ -280,22 +298,22 @@
         </div>
         <div class="col-md-7">
           <h2 class="h4 section-title">Tax Fairness, CSR, and Good Jobs</h2>
-          <p class="lead-small">Make the economy work for working people: close loopholes at the top, hold chronic violators accountable, and open more paths to good‑paying work.</p>
+          <p class="lead-small">Make the economy work for working people. Close loopholes at the top, hold chronic violators accountable, and open more paths to good-paying work.</p>
 
           <ul class="mt-3">
-            <li><strong>Fair tax rules:</strong> 15% book‑profit minimum; end offshoring games; expand CTC/EITC; simple fairness credit.
+            <li><strong>Fair tax rules:</strong> 15% book-profit minimum; end offshoring games; expand CTC and EITC; simple fairness credit.
               <div class="cta-links">
-                <a href="Bills/Tax Fairness Bill.html"><i class="fa-regular fa-file-lines"></i><span>Tax Fairness & Relief Bill</span></a>
+                <a href="Bills/Tax Fairness Bill.html"><i class="fa-regular fa-file-lines"></i><span>Tax Fairness &amp; Relief Bill</span></a>
               </div>
             </li>
-            <li class="mt-2"><strong>Corporate responsibility:</strong> surtax for wage theft/extreme pay gaps/repeat OSHA‑EPA harm; credits for good actors; standardized disclosures.
+            <li class="mt-2"><strong>Corporate responsibility:</strong> surtax for wage theft, extreme pay gaps, repeat OSHA and EPA harm; credits for good actors; standardized disclosures.
               <div class="cta-links">
                 <a href="Bills/Corporate Responsibility CSR Bill.html"><i class="fa-regular fa-file-lines"></i><span>Corporate Responsibility (CSR) Bill</span></a>
               </div>
             </li>
-            <li class="mt-2"><strong>Good jobs & skills:</strong> licensing reciprocity; apprenticeships; community‑college/employer alignment; training incentives.
+            <li class="mt-2"><strong>Good jobs &amp; skills:</strong> licensing reciprocity; apprenticeships; community college and employer alignment; training incentives.
               <div class="cta-links">
-                <a href="Bills/Good Jobs & Skills Bill.html"><i class="fa-regular fa-file-lines"></i><span>Good Jobs & Skills Bill</span></a>
+                <a href="Bills/Good Jobs & Skills Bill.html"><i class="fa-regular fa-file-lines"></i><span>Good Jobs &amp; Skills Bill</span></a>
               </div>
             </li>
           </ul>
@@ -312,7 +330,7 @@
         <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022" target="_blank" rel="noopener">Commonwealth Fund: U.S. health care in global perspective</a></li>
         <li><a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">City of Seattle: Democracy Voucher Program</a></li>
         <li><a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor: Minimum wage history</a></li>
-        <li><a href="https://www.epi.org" target="_blank" rel="noopener">Economic Policy Institute: CEO‑to‑worker pay ratio</a></li>
+        <li><a href="https://www.epi.org" target="_blank" rel="noopener">Economic Policy Institute: CEO-to-worker pay ratio</a></li>
         <li><a href="https://itep.org" target="_blank" rel="noopener">Institute on Taxation and Economic Policy</a></li>
         <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener">Bureau of Labor Statistics: CPI</a></li>
         <li><a href="https://www.ers.usda.gov/topics/food-markets-prices/food-prices-outlook/" target="_blank" rel="noopener">USDA ERS: Food Prices Outlook</a></li>
@@ -322,6 +340,21 @@
 
   </div>
 </main>
+
+<!-- Bottom CTA band (consistent Donate + Volunteer) -->
+<section class="cta-band py-4">
+  <div class="container text-center">
+    <h3 class="h5 mb-3">Power people, not PACs</h3>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">
+        <i class="fa-solid fa-heart me-1"></i> Chip in
+      </a>
+      <a class="btn btn-ghost" href="contact.html">
+        <i class="fa-solid fa-people-group me-1"></i> I will volunteer
+      </a>
+    </div>
+  </div>
+</section>
 
 <footer class="py-4 bg-white border-top text-center">
   <div class="container">
