@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adam Neil Arafat for Congress - Washington's 10th District</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="A people-powered campaign for WA-10: Medicare for All, lower costs and more housing, and honest government without corporate PAC money." />
+  <meta name="description" content="A people-powered campaign for WA-10 — Medicare for All, lower costs and more housing, and honest government without corporate PAC money" />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; --soft:#f6f9fc; }
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --accent-dark:#084a35; --link:#0d3b66; --soft:#f6f9fc; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     a { text-decoration: none; }
 
@@ -27,14 +27,14 @@
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
-    /* Evergreen Pact badge strip */
-    .evergreen-strip { background:linear-gradient(90deg, var(--accent) 0%, #0a5c41 100%); color:#fff; }
+    /* Evergreen Pact badge strip — improved contrast */
+    .evergreen-strip { background:linear-gradient(90deg, var(--accent-dark) 0%, #073b2a 100%); color:#fff; }
     .evergreen-badge {
-      display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .65rem; border-radius:999px;
-      border:1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.12);
-      font-weight:700;
+      display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .8rem; border-radius:999px;
+      border:1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.10);
+      font-weight:800; color:#fff;
     }
-    .evergreen-badge i { font-size:.9rem; }
+    .evergreen-badge i { font-size:.95rem; color:#fff; }
 
     /* Header */
     .header-break { background:#0d3b66; color:#fff; text-align:center; padding:1rem 1rem; }
@@ -42,7 +42,6 @@
     .header-break .tagline { opacity:.95; margin:.35rem 0 0; }
     .header-break .rallies { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:.5rem 0 0; font-weight:700; }
     .header-break .rallies span { background: rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:.25rem .6rem; border-radius:999px; }
-    .header-break .cta-wrap { margin-top:.7rem; }
 
     /* Navbar */
     .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
@@ -63,19 +62,14 @@
 
     /* About photo */
     .about-photo{
-      display:block;
-      max-width:100%;
-      width:100%;
-      height:auto;
-      border-radius:12px;
-      box-shadow:0 8px 20px rgba(13,59,102,.10);
+      display:block; max-width:100%; width:100%; height:auto;
+      border-radius:12px; box-shadow:0 8px 20px rgba(13,59,102,.10);
     }
 
-    /* Teaser stat strip */
-    .teaser { background:var(--soft); border-top:1px solid #e8eef5; border-bottom:1px solid #e8eef5; }
-    .teaser .box { border:1px solid #e6edf5; background:#fff; border-radius:12px; padding:1rem; text-align:center; box-shadow:0 6px 14px rgba(13,59,102,.06); }
-    .teaser .box h3 { margin:0; font-size:1.25rem; font-weight:800; color:#0d3b66; }
-    .teaser a { font-weight:700; }
+    /* CTA panel bottom */
+    .cta-bottom { background:#0d3b66; color:#fff; }
+    .cta-bottom .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.6rem 1.1rem; font-weight:800; }
+    .cta-bottom .btn-donate:hover { filter: brightness(.95); color:#fff; }
 
     /* Small utilities */
     .muted { color:#6b7280; }
@@ -96,7 +90,7 @@
   </div>
 </section>
 
-<!-- EVERGREEN PACT BADGE STRIP -->
+<!-- EVERGREEN PACT BADGE STRIP — high contrast -->
 <section class="evergreen-strip py-2">
   <div class="container d-flex justify-content-center">
     <a class="evergreen-badge" href="Bills/Bills.html" title="Evergreen Pact — Bill Blueprints" aria-label="Evergreen Pact — Bill Blueprints">
@@ -108,29 +102,27 @@
 
 <!-- HEADER -->
 <div class="header-break">
-  <p class="h1line">Trust is built, not bought. WA-10 deserves a fighter who delivers for working families.</p>
-  <p class="tagline">20 years serving America. Now building WA-10’s future.</p>
+  <p class="h1line">Trust is built, not bought — WA‑10 deserves a fighter who delivers for working families</p>
+  <p class="tagline">20 years serving America — now building WA‑10’s future</p>
   <div class="rallies" aria-label="Rally lines">
-    <span>For Working Families. For WA-10.</span>
-    <span>Built together. Built to last.</span>
-  </div>
-  <div class="cta-wrap">
-    <a class="btn btn-light btn-sm me-2" href="contact.html">Join the Team</a>
+    <span>For Working Families — For WA‑10</span>
+    <span>Power People — Not PACs</span>
+    <span>Built together — Built to last</span>
   </div>
 </div>
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Primary">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress — WA‑10</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Digging Into The Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html" title="Evergreen Pact — Bill Blueprints"><i class="fa-solid fa-tree me-1" aria-hidden="true"></i> Evergreen Pact (Bills)</a></li>
-        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html" title="Evergreen Pact — Bill Blueprints"><i class="fa-solid fa-tree me-1" aria-hidden="true"></i> Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
       </ul>
     </div>
@@ -142,27 +134,22 @@
   <!-- WHY IT MATTERS -->
   <section id="why-it-matters" class="hero-lean">
     <div class="container">
-      <h1 class="mb-3">Power People, Not PACs.</h1>
-      <ul class="mb-3">
-        <li><strong>Too much outside money.</strong> The incumbent’s funding leans heavily outside WA-10— that’s influence, not independence.</li>
-        <li><strong>Too few hard wins.</strong> Lots of bills filed, few substantive victories on healthcare, housing, or costs.</li>
-        <li><strong>We put neighbors first.</strong> No corporate PAC money. Local voices set the agenda.</li>
+      <h1 class="mb-3">Power People — Not PACs</h1>
+      <ul class="mb-0">
+        <li><strong>Too much outside money</strong> the incumbent’s funding leans heavily outside WA‑10 — that’s influence not independence</li>
+        <li><strong>Too few hard wins</strong> lots of bills filed — few real victories on healthcare housing or costs</li>
+        <li><strong>We put neighbors first</strong> no corporate PAC money — local voices set the agenda</li>
       </ul>
-      <div class="mt-3">
-        <a class="btn btn-primary btn-sm me-2" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1"></i> Explore the Evergreen Pact</a>
-        <a class="btn btn-outline-primary btn-sm" href="contrast.html">See the Contrast</a>
-      </div>
     </div>
   </section>
 
-  <!-- EVERGREEN PACT: STRATEGIC BLUEPRINTS -->
+  <!-- EVERGREEN PACT: BUILT TO DELIVER CHANGE -->
   <section class="section-pad section-alt">
     <div class="container text-center">
       <h2 class="section-title mb-3">Built to Deliver Change</h2>
-      <p class="lead mb-2">
-        The Evergreen Pact is a set of bill blueprints showing voters that reform isn’t random—it’s structured. Each win builds momentum for the next, stacking change until the biggest reforms become possible.
+      <p class="lead mb-0">
+        The Evergreen Pact is a strategically ordered set of bill blueprints designed to show voters that reform isn’t random — it’s structured — each bill is a step in a ladder of change stacking momentum so early wins make tougher reforms possible
       </p>
-      <a class="btn btn-donate mt-2" href="Bills/Bills.html">See the Bill Blueprints</a>
     </div>
   </section>
 
@@ -176,62 +163,35 @@
         </div>
         <div class="col-md-7">
           <p>
-            20 years serving America. I served in the U.S. Army, building aviation maintenance programs and managing airfield operations worldwide. Service taught me discipline, accountability, and to put people first.
+            20 years serving America — I served in the U.S. Army building aviation maintenance programs and managing airfield operations worldwide — service taught me discipline accountability and to put people first
           </p>
           <p>
-            Today I work in public service with the county, delivering infrastructure that hundreds of thousands rely on. My family and I live in Spanaway—this is our home.
+            Today I work in public service with the county delivering infrastructure that hundreds of thousands rely on — my family and I live in Spanaway — this is our home
           </p>
           <p class="mb-2"><strong>Values</strong></p>
-          <p class="mb-2">
-            I refuse corporate PAC money and answer only to the people of WA-10. I will protect constitutional rights and fight for Medicare for All, lower costs and more housing, and honest, people-powered government.
+          <p class="mb-3">
+            I refuse corporate PAC money and answer only to the people of WA‑10 — I will protect constitutional rights and fight for Medicare for All lower costs and more housing and honest people‑powered government
           </p>
-          <p class="mb-0 muted">Built together. Built to last.</p>
+
+          <!-- Moved action buttons here -->
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-sm" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1"></i> Explore the Evergreen Pact</a>
+            <a class="btn btn-outline-primary btn-sm" href="contrast.html">Record &amp; Contrast</a>
+          </div>
+
+          <p class="mb-0 mt-3 muted">Built together — built to last</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- QUICK LINKS -->
-  <section class="section-pad">
-    <div class="container">
-      <div class="row g-3">
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="border rounded-4 p-3 h-100">
-            <div class="small text-muted mb-1">Evergreen Pact</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="Bills/Bills.html">
-              <i class="fa-solid fa-tree text-primary"></i> Bill Blueprints (Bills)
-            </a>
-            <p class="mb-0 mt-2 text-muted">Lower costs, expand healthcare, clean up politics.</p>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="border rounded-4 p-3 h-100">
-            <div class="small text-muted mb-1">Learn the Plan</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="digging-into-the-issues.html">
-              <i class="fa-solid fa-list-check text-primary"></i> Digging Into the Issues
-            </a>
-            <p class="mb-0 mt-2 text-muted">High-level issues and solutions.</p>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="border rounded-4 p-3 h-100">
-            <div class="small text-muted mb-1">See the Contrast</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="contrast.html">
-              <i class="fa-solid fa-scale-balanced text-primary"></i> What Sets Me Apart
-            </a>
-            <p class="mb-0 mt-2 text-muted">Funding sources and record—side by side.</p>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="border rounded-4 p-3 h-100">
-            <div class="small text-muted mb-1">Join the Team</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="contact.html">
-              <i class="fa-solid fa-envelope text-primary"></i> Contact
-            </a>
-            <p class="mb-0 mt-2 text-muted">Volunteer, reach out, or request a yard sign.</p>
-          </div>
-        </div>
-      </div>
+  <!-- BOTTOM DONATE CTA -->
+  <section class="cta-bottom py-4">
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+      <h3 class="m-0 fw-bold">Power People — not PACs</h3>
+      <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">
+        Chip in to fuel this people‑powered campaign
+      </a>
     </div>
   </section>
 
@@ -242,7 +202,7 @@
     <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
     <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
     <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
-    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate's committee.</p>
+    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate's committee</p>
   </div>
 </footer>
 
