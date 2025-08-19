@@ -27,6 +27,15 @@
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
+    /* Evergreen Pact badge strip */
+    .evergreen-strip { background:linear-gradient(90deg, var(--accent) 0%, #0a5c41 100%); color:#fff; }
+    .evergreen-badge {
+      display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .65rem; border-radius:999px;
+      border:1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.12);
+      font-weight:700;
+    }
+    .evergreen-badge i { font-size:.9rem; }
+
     /* Header */
     .header-break { background:#0d3b66; color:#fff; text-align:center; padding:1rem 1rem; }
     .header-break .h1line { font-weight:800; letter-spacing:.2px; margin:0; }
@@ -43,49 +52,25 @@
     .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
     .btn-donate:hover { filter: brightness(.95); color:#fff; }
 
-    /* HERO CARDS */
-    .hero-card { position: relative; border-radius:14px; overflow:hidden; }
-    .hero-card img {
-      width:100%; height:100%; object-fit:cover; aspect-ratio:16/10; display:block;
-      object-position:50% 50%;
-    }
-    .hero-card img.health { object-position:50% 40%; }
-    .hero-card img.costs { object-position:50% 50%; }
-    .hero-card img.corruption { object-position:50% 35%; }
-
-    .hero-overlay { position:absolute; inset:auto 0 0 0; padding:1rem 1.1rem; color:#fff; display:flex; flex-direction:column; gap:.25rem; }
-    .overlay-box {
-      background: rgba(16,50,79,.78);
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:10px;
-      padding:.6rem .75rem;
-      box-shadow:0 8px 20px rgba(0,0,0,.25);
-      backdrop-filter:blur(2px);
-      display:inline-block;
-      max-width:92%;
-    }
-    .hero-title { margin:0; font-weight:800; font-size:1.15rem; line-height:1.2; }
-    .hero-sub { margin:0; font-size:.95rem; opacity:.97; }
-
-    /* Meet Adam image crop */
-    .about-photo{
-      width:100%; max-width:520px; aspect-ratio:3/4; object-fit:cover; object-position:50% 5%;
-      border-radius:14px; box-shadow:0 10px 26px rgba(0,0,0,.18);
-    }
-    @media (max-width:576px){
-      .about-photo{ aspect-ratio:2.6/3.6; object-position:50% 0%; }
-    }
-
     /* Sections */
     .section-title { color: var(--primary); }
     .section-pad { padding:3rem 0; }
     .section-alt { background:#f8f9fa; }
 
+    /* Lean hero content */
+    .hero-lean { padding: 2.25rem 0; background: var(--soft); border-bottom:1px solid #e8eef5; }
+    .hero-lean h1 { font-weight:800; letter-spacing:.2px; color:#0d3b66; }
+    .hero-lean ul { margin: 1rem 0 0; }
+    .hero-lean li { margin:.35rem 0; font-size:1.07rem; }
+
     /* Teaser stat strip */
     .teaser { background:var(--soft); border-top:1px solid #e8eef5; border-bottom:1px solid #e8eef5; }
     .teaser .box { border:1px solid #e6edf5; background:#fff; border-radius:12px; padding:1rem; text-align:center; box-shadow:0 6px 14px rgba(13,59,102,.06); }
-    .teaser .box h3 { margin:0; font-size:1.4rem; font-weight:800; color:#0d3b66; }
+    .teaser .box h3 { margin:0; font-size:1.25rem; font-weight:800; color:#0d3b66; }
     .teaser a { font-weight:700; }
+
+    /* Small utilities */
+    .muted { color:#6b7280; }
   </style>
 </head>
 <body>
@@ -100,6 +85,16 @@
       <span>Bluesky</span>
     </a>
     <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+  </div>
+</section>
+
+<!-- EVERGREEN PACT BADGE STRIP -->
+<section class="evergreen-strip py-2">
+  <div class="container d-flex justify-content-center">
+    <a class="evergreen-badge" href="Bills/Bills.html" title="Evergreen Pact — Bill Blueprints">
+      <i class="fa-solid fa-tree" aria-hidden="true"></i>
+      <span>Evergreen Pact (Bills)</span>
+    </a>
   </div>
 </section>
 
@@ -128,6 +123,7 @@
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Digging Into The Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html" title="Evergreen Pact — Bill Blueprints"><i class="fa-solid fa-tree me-1" aria-hidden="true"></i> Evergreen Pact (Bills)</a></li>
         <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item ms-lg-2">
@@ -140,92 +136,30 @@
 
 <main id="main">
 
-  <!-- WHY IT MATTERS -->
-  <section id="why-it-matters" class="section-pad border-bottom">
+  <!-- WHY IT MATTERS (short + aligned with Contrast) -->
+  <section id="why-it-matters" class="hero-lean">
     <div class="container">
-      <h2 class="section-title mb-3">Why it matters</h2>
-      <p class="lead mb-2">
-        Too many in Congress work for PACs and donors, not the people they represent. In 2024, four out of five dollars backing the incumbent came from outside WA-10. Nearly half came from PACs. That’s not independence—that’s influence.
-      </p>
-      <p class="lead mb-2">
-        On paper, 48 bills were sponsored. Only 4 became law. Most were routine or ceremonial. When it comes to the hard fights—healthcare, housing, and costs—WA-10 has lacked visible leadership.
-      </p>
-      <p class="lead mb-2">
-        I refuse corporate PAC money. I will fight for Medicare for All, lower costs and more housing, and honest government. I live here, I’ve served, and I’m ready to deliver.
-      </p>
-      <p class="mb-0"><strong>Power People, Not PACs. For Working Families. For WA-10.</strong></p>
-    </div>
-  </section>
-
-  <!-- TEASER STAT STRIP linking to contrast -->
-  <section class="teaser py-4">
-    <div class="container">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <div class="box h-100">
-            <h3>81.7% of funds from outside WA-10</h3>
-            <p class="mb-2 text-muted">Incumbent’s 2024 cycle share. See full breakdown.</p>
-            <a href="contrast.html">See the contrast →</a>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="box h-100">
-            <h3>48 bills sponsored, 4 became law</h3>
-            <p class="mb-2 text-muted">Routine items aren’t leadership. Hard wins are.</p>
-            <a href="contrast.html">See the record →</a>
-          </div>
-        </div>
+      <h1 class="mb-3">Power People, Not PACs.</h1>
+      <ul class="mb-3">
+        <li><strong>Too much outside money.</strong> The incumbent’s funding leans heavily outside WA‑10 — that’s influence, not independence.</li>
+        <li><strong>Too few hard wins.</strong> Lots of bills filed, few substantive victories on healthcare, housing, or costs.</li>
+        <li><strong>We put neighbors first.</strong> No corporate PAC money. Local voices set the agenda.</li>
+      </ul>
+      <div class="mt-3">
+        <a class="btn btn-primary btn-sm me-2" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1"></i> Explore the Evergreen Pact</a>
+        <a class="btn btn-outline-primary btn-sm" href="contrast.html">See the Contrast</a>
       </div>
     </div>
   </section>
 
-  <!-- HERO CARDS (unified language) -->
-  <section class="container section-pad">
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="hero-card">
-          <img class="health" src="images/IMG_4339.jpeg" alt="Medicare for All and reproductive rights in WA-10" loading="lazy" />
-          <div class="hero-overlay">
-            <div class="overlay-box">
-              <h3 class="hero-title">Medicare for All</h3>
-              <p class="hero-sub">Everyone in. No exceptions.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="hero-card">
-          <img class="costs" src="images/IMG_4349.jpeg" alt="Lower costs and more housing for WA-10 families" loading="lazy" />
-          <div class="hero-overlay">
-            <div class="overlay-box">
-              <h3 class="hero-title">Lower Costs & More Housing</h3>
-              <p class="hero-sub">Build faster. Hold bad actors accountable.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="hero-card">
-          <img class="corruption" src="images/IMG_4480.png" alt="No corporate PAC money—honest government" loading="lazy" />
-          <div class="hero-overlay">
-            <div class="overlay-box">
-              <h3 class="hero-title">No Corporate PAC Money</h3>
-              <p class="hero-sub">People over PACs. Every time.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DAY ONE READY -->
+  <!-- SHOW UP BATTLE-READY -->
   <section class="section-pad section-alt">
     <div class="container text-center">
-      <h2 class="section-title mb-3">Day One Ready</h2>
+      <h2 class="section-title mb-3">Show Up Battle‑Ready</h2>
       <p class="lead mb-2">
-        For months, I’ve been building blueprints to action—draft bills to lower costs, expand healthcare, and end corporate PAC influence. I’m not running to learn on the job. I’m running to fight for WA-10 from the first day.
+        The Evergreen Pact is a set of detailed bill blueprints to hit the ground running: lower costs, expand healthcare, and end corporate PAC influence.
       </p>
-      <a class="btn btn-donate mt-2" href="digging-into-the-issues.html">See the bill blueprints</a>
+      <a class="btn btn-donate mt-2" href="Bills/Bills.html">See the bill blueprints</a>
     </div>
   </section>
 
@@ -239,53 +173,59 @@
         </div>
         <div class="col-md-7">
           <p>
-            20 years serving America. Now building WA-10’s future. I served in the U.S. Army, building aviation maintenance programs and managing airfield operations worldwide. Service taught me discipline, accountability, and to put people first.
+            20 years serving America. I served in the U.S. Army, building aviation maintenance programs and managing airfield operations worldwide. Service taught me discipline, accountability, and to put people first.
           </p>
           <p>
             Today I work in public service with the county, delivering infrastructure that hundreds of thousands rely on. My family and I live in Spanaway—this is our home.
           </p>
           <p class="mb-2"><strong>Values</strong></p>
           <p class="mb-2">
-            I refuse corporate PAC money and outside influence. I answer only to the people of Washington’s 10th District. I will protect constitutional rights, including the Second Amendment, because freedom and quality of life go together.
+            I refuse corporate PAC money and answer only to the people of WA‑10. I will protect constitutional rights and fight for Medicare for All, lower costs and more housing, and honest, people‑powered government.
           </p>
-          <p class="mb-0">
-            The same discipline that guided me in uniform guides my fight now—for Medicare for All, lower costs and more housing, and honest, people-powered government.
-          </p>
+          <p class="mb-0 muted">Built together. Built to last.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- QUICK LINKS (action-driven) -->
+  <!-- QUICK LINKS -->
   <section class="section-pad">
     <div class="container">
       <div class="row g-3">
         <div class="col-12 col-md-6 col-lg-3">
           <div class="border rounded-4 p-3 h-100">
+            <div class="small text-muted mb-1">Evergreen Pact</div>
+            <a class="fw-bold d-flex align-items-center gap-2" href="Bills/Bills.html">
+              <i class="fa-solid fa-tree text-primary"></i> Bill Blueprints (Bills)
+            </a>
+            <p class="mb-0 mt-2 text-muted">Lower costs, expand healthcare, clean up politics.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="border rounded-4 p-3 h-100">
             <div class="small text-muted mb-1">Learn the Plan</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="digging-into-the-issues.html"><i class="fa-solid fa-list-check text-primary"></i> Digging Into the Issues</a>
-            <p class="mb-0 mt-2 text-muted">How we deliver Medicare for All, lower costs, more housing, and clean government.</p>
+            <a class="fw-bold d-flex align-items-center gap-2" href="digging-into-the-issues.html">
+              <i class="fa-solid fa-list-check text-primary"></i> Digging Into the Issues
+            </a>
+            <p class="mb-0 mt-2 text-muted">High‑level issues and solutions.</p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
           <div class="border rounded-4 p-3 h-100">
             <div class="small text-muted mb-1">See the Contrast</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="contrast.html"><i class="fa-solid fa-scale-balanced text-primary"></i> What Sets Me Apart</a>
-            <p class="mb-0 mt-2 text-muted">Funding sources, record, and leadership—side by side.</p>
+            <a class="fw-bold d-flex align-items-center gap-2" href="contrast.html">
+              <i class="fa-solid fa-scale-balanced text-primary"></i> What Sets Me Apart
+            </a>
+            <p class="mb-0 mt-2 text-muted">Funding sources and record—side by side.</p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
           <div class="border rounded-4 p-3 h-100">
             <div class="small text-muted mb-1">Join the Team</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="contact.html"><i class="fa-solid fa-envelope text-primary"></i> Contact</a>
+            <a class="fw-bold d-flex align-items-center gap-2" href="contact.html">
+              <i class="fa-solid fa-envelope text-primary"></i> Contact
+            </a>
             <p class="mb-0 mt-2 text-muted">Volunteer, reach out, or request a yard sign.</p>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="border rounded-4 p-3 h-100">
-            <div class="small text-muted mb-1">Fuel the Fight</div>
-            <a class="fw-bold d-flex align-items-center gap-2" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener"><i class="fa-solid fa-heart text-primary"></i> Power People, Not PACs</a>
-            <p class="mb-0 mt-2 text-muted">Every dollar helps neighbors—not lobbyists—set the agenda.</p>
           </div>
         </div>
       </div>
