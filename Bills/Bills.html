@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bills — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Browse legislative blueprints: Tax Fairness, CSR Accountability, Good Jobs & Skills, First-Time Homebuyer 3% Mortgage, Congressional Vote Justification, Universal Healthcare, Social Security Solvency, Housing Supply & Permitting, Child & Dependent Care, Clean Campaigns, Energy Savings, and Fair Food & Grocery Competition." />
+  <title>🌲 Evergreen Pact — Bill Blueprints | Adam Neil Arafat for Congress</title>
+  <meta name="description" content="The Evergreen Pact: a ladder of change built from bill blueprints that stack success — quick wins, deeper relief, accountability, system reform, and long-term guarantees." />
   <meta name="theme-color" content="#0d3b66" />
 
   <!-- Bootstrap + Icons -->
@@ -12,682 +12,161 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    a { color: var(--link); text-decoration: none; }
-    a:hover { color:#0a2d52; }
-
-    /* Evergreen Pact header */
-    .evergreen-header {
-      background: linear-gradient(90deg, var(--accent) 0%, #0a5c41 100%);
-      color: #fff; padding: .75rem 0; border-bottom: 1px solid rgba(0,0,0,.1);
-    }
-    .evergreen-title { margin: 0; font-weight: 800; letter-spacing: -0.01em; font-size: 1.1rem; }
-    @media (min-width: 992px) { .evergreen-title { font-size: 1.25rem; } }
-
-    /* Navbar */
-    .navbar .nav-link {
-      position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600;
-    }
-    .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after {
-      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background: currentColor; border-radius:2px; transition: width .18s ease;
-    }
-    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link.active::after { width:100%; }
-    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
-    .navbar .btn-donate:hover { filter: brightness(.95); }
-
-    /* Hero & cards */
-    .hero { background: linear-gradient(180deg,#0d3b66 0%,#0b3157 100%); color:#fff; padding: 4rem 0 3rem; }
-    .hero h1 { font-weight: 800; }
-    .badge-soft { background: rgba(255,255,255,.85); color: #0d3b66; border: 1px solid rgba(13,59,102,.15); font-weight: 700; }
-    .card { border: 1px solid rgba(13,59,102,0.12); border-radius: 1rem; }
-    .card:hover { box-shadow: 0 8px 28px rgba(13,59,102,.12); transform: translateY(-1px); transition: .18s ease; }
-    .updated { font-size:.9rem; color:#6b7280; }
-    .search-input { max-width: 560px; }
-    .rule { border-top: 1px solid rgba(13,59,102,0.12); }
-    .table thead th { white-space: nowrap; }
-    .table td, .table th { vertical-align: top; }
-
-    /* Mobile accordion refinement */
-    .accordion-button { font-weight: 700; }
-    .accordion .list-label { width: 9rem; color:#475569; font-weight:600; display:inline-block; }
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; --soft:#f6f9fc; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--soft); color:#222; }
+    h1,h2,h3,h4 { color:var(--primary); }
+    a { color:var(--link); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .ladder-step { border-left:4px solid var(--primary); padding-left:1rem; margin-bottom:1.5rem; }
+    footer { background:#0d3b66; color:#fff; padding:1.5rem 0; }
   </style>
 </head>
 <body>
 
-  <!-- Evergreen Pact header -->
-  <header class="evergreen-header" role="banner" aria-label="The Evergreen Pact">
-    <div class="container d-flex align-items-center gap-2">
-      <i class="fa-solid fa-tree"></i>
-      <h1 class="evergreen-title">The Evergreen Pact: Grounded in Washington, Rooted in the People, Growing for Generations</h1>
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="../index.html">Adam Neil Arafat for Congress — WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="../digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link active" href="Bills.html" aria-current="page"><i class="fa-solid fa-tree me-1"></i>Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contrast.html">Record & Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
+      </ul>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <!-- NAV (relative to Bills/Bills.html) -->
-  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../index.html">Adam Neil Arafat for Congress - WA-10</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="../digging-into-the-issues.html">Issues</a></li>
-          <li class="nav-item"><a class="nav-link" href="../contrast.html">What Sets Me Apart</a></li>
-          <li class="nav-item"><a class="nav-link active" href="Bills.html" aria-current="page">Bills</a></li>
-          <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
-          <li class="nav-item ms-lg-2">
-            <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
-          </li>
-        </ul>
-      </div>
+<!-- HERO -->
+<header class="py-5 text-center">
+  <div class="container">
+    <h1 class="fw-bold">🌲 The Evergreen Pact</h1>
+    <p class="lead">Bill blueprints that stack success. Quick wins build trust, bigger reforms build power, and the final goals lock in security.</p>
+  </div>
+</header>
+
+<!-- LADDER INTRO -->
+<section class="container mb-5">
+  <h2 class="mb-3">What It Is</h2>
+  <p>The Evergreen Pact is a strategically ordered set of bill blueprints designed to prove reform isn’t random — it’s structured. Each bill is a rung on a ladder of change. Early wins make harder reforms possible, and every success stacks momentum toward long-term guarantees for working families.</p>
+</section>
+
+<!-- STRATEGIC SEQUENCING -->
+<section class="container mb-5">
+  <h2 class="mb-4">Strategic Sequencing: The Ladder of Change</h2>
+  <div class="ladder-step">
+    <h3>Tier 1 — Quick Wins</h3>
+    <ul>
+      <li><a href="Energy Savings and Lower Bills.html">Energy Savings & Lower Bills</a></li>
+      <li><a href="Fair Food and Grocery Competition Bill.html">Fair Food & Grocery Competition</a></li>
+      <li><a href="Good Jobs & Skills Bill.html">Good Jobs & Skills</a></li>
+    </ul>
+    <p>Broad bipartisan appeal. Immediate relief for households. Builds credibility fast.</p>
+  </div>
+
+  <div class="ladder-step">
+    <h3>Tier 2 — Relief & Stability</h3>
+    <ul>
+      <li><a href="Affordable Child and Dependent Care Act.html">Affordable Child & Dependent Care</a></li>
+      <li><a href="Housing Supply and Permitting Modernization Bill.html">Housing Supply & Permitting Modernization</a></li>
+      <li><a href="First-Time Homebuyer 3% Mortgage Bill.html">First-Time Homebuyer 3% Mortgage</a></li>
+    </ul>
+    <p>Deeper relief and structural fixes. Trust from Tier 1 makes these more feasible.</p>
+  </div>
+
+  <div class="ladder-step">
+    <h3>Tier 3 — Accountability</h3>
+    <ul>
+      <li><a href="Tax Fairness Bill.html">Tax Fairness</a></li>
+      <li><a href="Corporate Responsibility CSR Bill.html">Corporate Responsibility (CSR)</a></li>
+    </ul>
+    <p>Cost-of-living wins make it harder for lobbyists to block these accountability reforms.</p>
+  </div>
+
+  <div class="ladder-step">
+    <h3>Tier 4 — System Reform</h3>
+    <ul>
+      <li><a href="Clean Campaigns and Elections Bill.html">Clean Campaigns & Elections</a></li>
+      <li><a href="Congressional Vote Justification Bill.html">Congressional Vote Justification</a></li>
+    </ul>
+    <p>Changing the rules of the game — possible only after credibility and pressure are built.</p>
+  </div>
+
+  <div class="ladder-step">
+    <h3>Tier 5 — Long-Term Guarantees</h3>
+    <ul>
+      <li><a href="Universal Healthcare Bill.html">Universal Healthcare</a></li>
+      <li><a href="Social Security - Working Families Retirement Security and Solvency Bill.html">Social Security Solvency</a></li>
+    </ul>
+    <p>The biggest lifts. Positioned as destination goals that only become realistic after earlier wins are banked.</p>
+  </div>
+</section>
+
+<!-- SIDE BY SIDE -->
+<section class="container mb-5">
+  <h2 class="mb-4">Chances of Passage: House & Senate</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>If Democrats Flip the House & Senate</h4>
+      <ul>
+        <li><strong>Tier 1:</strong> 75–85% chance</li>
+        <li><strong>Tier 2:</strong> 55–70% chance</li>
+        <li><strong>Tier 3:</strong> 40–55% chance</li>
+        <li><strong>Tier 4:</strong> 25–40% chance</li>
+        <li><strong>Tier 5:</strong> 10–20% chance</li>
+      </ul>
     </div>
-  </nav>
-
-  <!-- Hero -->
-  <header class="hero">
-    <div class="container">
-      <span class="badge badge-soft px-3 py-2 mb-3"><i class="fa-solid fa-folder-tree me-2"></i>Bill Library</span>
-      <h1 class="display-5 mb-3">Legislative Blueprints</h1>
-      <p class="lead mb-4">Clear, practical bills that lower costs and raise standards — with no new taxes on working families.</p>
-
-      <div class="input-group search-input">
-        <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-        <input id="billSearch" type="search" class="form-control" placeholder="Search bills (e.g., Social Security, mortgage, CSR, tax, housing, childcare)..." />
-      </div>
+    <div class="col-md-6">
+      <h4>If Democrats Don’t Flip</h4>
+      <ul>
+        <li><strong>Tier 1:</strong> 40–50% chance</li>
+        <li><strong>Tier 2:</strong> 20–35% chance</li>
+        <li><strong>Tier 3:</strong> 10–20% chance</li>
+        <li><strong>Tier 4:</strong> <5% chance</li>
+        <li><strong>Tier 5:</strong> <2% chance</li>
+      </ul>
     </div>
-  </header>
+  </div>
+  <p class="mt-3"><em>These are blueprint bills. Percentages are illustrative, based on current and projected partisan makeup.</em></p>
+</section>
 
-  <!-- Main -->
-  <main class="py-5">
-    <div class="container">
-      <div class="row g-5">
-        <!-- Bill Cards -->
-        <div class="col-lg-8">
-          <div id="billGrid" class="row g-4">
-
-            <!-- Affordable Child and Dependent Care -->
-            <div class="col-md-6 bill-card" data-keywords="childcare child care dependent care affordability working parents">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Affordable Child and Dependent Care Bill.html" class="stretched-link">
-                        Affordable Child &amp; Dependent Care Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-success">New</span>
-                  </div>
-                  <p class="mb-0">Cuts childcare costs and expands seat supply so parents can work and kids thrive.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Clean Campaigns and Elections -->
-            <div class="col-md-6 bill-card" data-keywords="clean campaigns elections transparency dark money vouchers">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Clean Campaigns and Elections Bill.html" class="stretched-link">
-                        Clean Campaigns &amp; Elections Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">Bans corporate PAC money, boosts disclosure, and pilots voter vouchers.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Congressional Vote Justification -->
-            <div class="col-md-6 bill-card" data-keywords="congressional vote justification transparency ethics rules single subject">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Congressional Vote Justification Bill.Html" class="stretched-link">
-                        Congressional Vote Justification Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">Requires standardized, factual justifications for key votes; adds single‑subject rule.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Corporate Responsibility CSR -->
-            <div class="col-md-6 bill-card" data-keywords="csr corporate responsibility wage theft pay ratio osha epa private equity">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Corporate Responsibility CSR Bill.html" class="stretched-link">
-                        Corporate Responsibility (CSR) Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">Surtax for wage theft, extreme pay gaps, and repeat OSHA/EPA violations; credits for good actors.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Energy Savings and Lower Bills -->
-            <div class="col-md-6 bill-card" data-keywords="energy bills utilities rebates weatherization heat pumps community solar">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Energy Savings and Lower Bill.html" class="stretched-link">
-                        Energy Savings &amp; Lower Bills (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-success">New</span>
-                  </div>
-                  <p class="mb-0">Bigger rebates and simpler programs to cut utility costs and monthly bills.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Fair Food and Grocery Competition -->
-            <div class="col-md-6 bill-card" data-keywords="grocery competition price gouging mfns junk fees regional food hubs">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Fair Food and Grocery Competition Bill.html" class="stretched-link">
-                        Fair Food &amp; Grocery Competition Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-success">New</span>
-                  </div>
-                  <p class="mb-0">Cracks down on junk fees and anti‑competitive contracts; strengthens regional competition.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- First-Time Homebuyer 3% -->
-            <div class="col-md-6 bill-card" data-keywords="housing mortgage first time homebuyer 3 percent hud fha">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="First-Time Homebuyer 3% Mortgage Bill.html" class="stretched-link">
-                        First‑Time Homebuyer 3% Mortgage Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">Federally backed ~3% fixed mortgages for first‑time buyers with strong guardrails.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Good Jobs & Skills -->
-            <div class="col-md-6 bill-card" data-keywords="jobs skills licensing reciprocity apprenticeships community college training">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Good Jobs & Skills Bill.html" class="stretched-link">
-                        Good Jobs &amp; Skills Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">Right‑sizes licensing, expands apprenticeships, and aligns training with local jobs.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Housing Supply & Permitting Modernization -->
-            <div class="col-md-6 bill-card" data-keywords="housing supply permitting modernization zoning missing middle modular approvals">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Housing Supply and Permitting Modernization Bill.html" class="stretched-link">
-                        Housing Supply &amp; Permitting Modernization Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">Incentivizes faster, digital permitting and adds homes near jobs and transit.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Social Security -->
-            <div class="col-md-6 bill-card" data-keywords="social security retirement solvency benefits estate payroll investment income">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Social Security - Working Families Retirement Security and Solvency Bill.html" class="stretched-link">
-                        Social Security — Working Families Retirement Security &amp; Solvency Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-success">New</span>
-                  </div>
-                  <p class="mb-0">Ends benefit taxes for most retirees; fair top‑end contributions keep checks safe.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tax Fairness -->
-            <div class="col-md-6 bill-card" data-keywords="tax fairness relief book minimum offshore child tax credit eitc transparency">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Tax Fairness Bill.html" class="stretched-link">
-                        Tax Fairness &amp; Relief Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">15% book‑profit floor, anti‑offshoring rules, CTC/EITC expansion, and transparency.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Universal Healthcare -->
-            <div class="col-md-6 bill-card" data-keywords="universal healthcare coverage drug prices mental health primary care">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h3 class="h5 mb-2">
-                      <a href="Universal Healthcare Bill.html" class="stretched-link">
-                        Universal Healthcare Bill (2026)
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-light border">Updated</span>
-                  </div>
-                  <p class="mb-0">Automatic coverage, national benefits floor, lower drug costs, and parity for mental health.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- At-a-Glance Comparison -->
-          <section class="mt-5">
-            <h2 class="h4 mb-3">At‑a‑Glance Comparison</h2>
-
-            <!-- Desktop table -->
-            <div class="table-responsive d-none d-lg-block">
-              <table class="table align-middle">
-                <thead>
-                  <tr>
-                    <th>Bill</th>
-                    <th>What it does</th>
-                    <th>Pros</th>
-                    <th>Tradeoffs / Risks</th>
-                    <th>Funding approach</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a href="Tax Fairness Bill.html">Tax Fairness &amp; Relief</a></td>
-                    <td>15% book‑profit minimum; anti‑offshoring; expand CTC/EITC; fairness credit; transparency.</td>
-                    <td>Levels the playing field; raises revenue from avoidance; direct relief for families/small biz.</td>
-                    <td>Complex rulemaking; multinational compliance friction.</td>
-                    <td>Corporate minimums and anti‑avoidance; no new taxes on working families.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Corporate Responsibility CSR Bill.html">Corporate Responsibility (CSR)</a></td>
-                    <td>Surtax tied to wage theft, extreme pay gaps, repeat OSHA/EPA violations; credits for good actors.</td>
-                    <td>Rewards responsible firms; deters harmful practices.</td>
-                    <td>Industry pushback; careful calibration needed.</td>
-                    <td>Net‑positive via surtaxes; credits offset for compliance improvements.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Good Jobs & Skills Bill.html">Good Jobs &amp; Skills</a></td>
-                    <td>Licensing reform &amp; reciprocity; expand apprenticeships; align training with jobs.</td>
-                    <td>Lower prices; faster entry to good jobs; bipartisan appeal.</td>
-                    <td>State coordination; quality control for programs.</td>
-                    <td>Modest grants/credits; can be covered by Tax Fairness revenues.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Housing Supply and Permitting Modernization Bill.html">Housing Supply &amp; Permitting</a></td>
-                    <td>Digital permitting with service targets; zoning flexibility; modular/industrialized construction.</td>
-                    <td>More homes faster; predictability for builders; lower costs.</td>
-                    <td>Local adoption/IT lift; change management.</td>
-                    <td>Targeted incentives; prioritizes compliant jurisdictions.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Affordable Child and Dependent Care Bill.html">Child &amp; Dependent Care</a></td>
-                    <td>Reduce childcare costs; expand seats; support providers without cutting quality.</td>
-                    <td>Higher workforce participation; better early outcomes.</td>
-                    <td>Supply ramp‑up time; oversight for quality.</td>
-                    <td>Targeted credits/grants; coordination with states.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Fair Food and Grocery Competition Bill.html">Fair Food &amp; Grocery</a></td>
-                    <td>Antitrust enforcement; curb MFNs &amp; junk fees; supplier/fee transparency.</td>
-                    <td>Fairer markets; lower grocery prices.</td>
-                    <td>Litigation risk; retailer resistance.</td>
-                    <td>Enforcement‑driven; modest admin costs.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Energy Savings and Lower Bill.html">Energy Savings &amp; Lower Bills</a></td>
-                    <td>Bigger rebates for weatherization/heat pumps; community solar; simplify LIHEAP.</td>
-                    <td>Lower monthly bills; cleaner, safer homes.</td>
-                    <td>Program delivery capacity; contractor availability.</td>
-                    <td>Rebate funding + utility/community partnerships.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="First-Time Homebuyer 3% Mortgage Bill.html">First‑Time Homebuyer 3%</a></td>
-                    <td>Federally backed ~3% mortgages for first‑time buyers with price caps and oversight.</td>
-                    <td>Improves affordability; builds middle‑class wealth.</td>
-                    <td>Guard against price inflation; strong underwriting needed.</td>
-                    <td>Program fees, reallocations, existing housing tools; budget‑neutral design.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Clean Campaigns and Elections Bill.html">Clean Campaigns &amp; Elections</a></td>
-                    <td>Ban corporate PAC money; near real‑time disclosure; pilot voter vouchers.</td>
-                    <td>Transparency; people‑powered campaigns.</td>
-                    <td>Legal challenges; implementation complexity.</td>
-                    <td>Administrative; leverages existing agencies.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Congressional Vote Justification Bill.Html">Vote Justification</a></td>
-                    <td>Standardized, factual vote explanations; single‑subject rule.</td>
-                    <td>Radical transparency; better deliberation.</td>
-                    <td>Member workload; risk of boilerplate.</td>
-                    <td>Administrative; within existing processes.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Universal Healthcare Bill.html">Universal Healthcare</a></td>
-                    <td>Automatic enrollment; national benefits floor; lower drug costs; mental health parity.</td>
-                    <td>Universal coverage; lower per‑capita spend over time.</td>
-                    <td>Transition planning; provider capacity.</td>
-                    <td>Fair top‑end contributions + savings; no new taxes on working families.</td>
-                  </tr>
-                  <tr>
-                    <td><a href="Social Security - Working Families Retirement Security and Solvency Bill.html">Social Security Solvency</a></td>
-                    <td>End benefit taxes for most; contributions resume above $400k; add investment/estate support.</td>
-                    <td>Protects checks; closes solvency gap.</td>
-                    <td>High‑earner contributions; inter‑agency coordination.</td>
-                    <td>Dedicated receipts to trust funds.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Mobile accordion -->
-            <div class="accordion d-lg-none" id="billAccordion">
-              <!-- Item template, repeat per bill -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-taxfairness">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-taxfairness" aria-expanded="false" aria-controls="col-taxfairness">
-                    Tax Fairness & Relief
-                  </button>
-                </h2>
-                <div id="col-taxfairness" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-taxfairness">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> 15% book‑profit minimum; anti‑offshoring; expand CTC/EITC; fairness credit; transparency.</p>
-                    <p><span class="list-label">Pros:</span> Levels the playing field; raises revenue; direct relief for families/small biz.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Complex rulemaking; multinational compliance friction.</p>
-                    <p><span class="list-label">Funding:</span> Corporate minimums & anti‑avoidance (no new taxes on working families).</p>
-                    <a href="Tax Fairness Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-csr">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-csr" aria-expanded="false" aria-controls="col-csr">
-                    Corporate Responsibility (CSR)
-                  </button>
-                </h2>
-                <div id="col-csr" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-csr">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Surtax on wage theft, extreme pay gaps, repeat OSHA/EPA harm; credits for good actors.</p>
-                    <p><span class="list-label">Pros:</span> Rewards responsibility; deters harmful practices.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Industry pushback; careful calibration needed.</p>
-                    <p><span class="list-label">Funding:</span> Net‑positive via surtaxes; credits offset for improvements.</p>
-                    <a href="Corporate Responsibility CSR Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-jobs">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-jobs" aria-expanded="false" aria-controls="col-jobs">
-                    Good Jobs & Skills
-                  </button>
-                </h2>
-                <div id="col-jobs" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-jobs">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Licensing reciprocity; apprenticeships; align training with jobs; employer incentives.</p>
-                    <p><span class="list-label">Pros:</span> Lower prices; faster entry to good jobs; bipartisan appeal.</p>
-                    <p><span class="list-label">Tradeoffs:</span> State coordination; program quality control.</p>
-                    <p><span class="list-label">Funding:</span> Modest grants/credits; coverable via Tax Fairness revenue.</p>
-                    <a href="Good Jobs & Skills Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-housing">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-housing" aria-expanded="false" aria-controls="col-housing">
-                    Housing Supply & Permitting
-                  </button>
-                </h2>
-                <div id="col-housing" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-housing">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Digital permitting targets; flexible zoning; modular/industrialized construction.</p>
-                    <p><span class="list-label">Pros:</span> More homes faster; predictability; lower costs.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Local adoption/IT lift; change management.</p>
-                    <p><span class="list-label">Funding:</span> Targeted incentives; prioritizes compliant jurisdictions.</p>
-                    <a href="Housing Supply and Permitting Modernization Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-childcare">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-childcare" aria-expanded="false" aria-controls="col-childcare">
-                    Child & Dependent Care
-                  </button>
-                </h2>
-                <div id="col-childcare" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-childcare">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Reduce costs; expand seats; support providers without cutting quality.</p>
-                    <p><span class="list-label">Pros:</span> Higher workforce participation; better early outcomes.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Supply ramp‑up time; quality oversight.</p>
-                    <p><span class="list-label">Funding:</span> Targeted credits/grants; state coordination.</p>
-                    <a href="Affordable Child and Dependent Care Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-food">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-food" aria-expanded="false" aria-controls="col-food">
-                    Fair Food & Grocery
-                  </button>
-                </h2>
-                <div id="col-food" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-food">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Antitrust; curb MFNs & junk fees; supplier/fee transparency.</p>
-                    <p><span class="list-label">Pros:</span> Fairer markets; lower grocery prices.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Litigation risk; retailer resistance.</p>
-                    <p><span class="list-label">Funding:</span> Enforcement‑driven; modest admin costs.</p>
-                    <a href="Fair Food and Grocery Competition Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-energy">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-energy" aria-expanded="false" aria-controls="col-energy">
-                    Energy Savings & Lower Bills
-                  </button>
-                </h2>
-                <div id="col-energy" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-energy">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Bigger rebates; community solar; simplify LIHEAP.</p>
-                    <p><span class="list-label">Pros:</span> Lower monthly bills; cleaner, safer homes.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Delivery capacity; contractor availability.</p>
-                    <p><span class="list-label">Funding:</span> Rebates + utility/community partnerships.</p>
-                    <a href="Energy Savings and Lower Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-homebuyer">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-homebuyer" aria-expanded="false" aria-controls="col-homebuyer">
-                    First‑Time Homebuyer 3%
-                  </button>
-                </h2>
-                <div id="col-homebuyer" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-homebuyer">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> ~3% fixed mortgages for first‑time buyers with caps and oversight.</p>
-                    <p><span class="list-label">Pros:</span> Improves affordability; builds middle‑class wealth.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Guard against price inflation; strong underwriting.</p>
-                    <p><span class="list-label">Funding:</span> Program fees, reallocations, existing tools (budget‑neutral).</p>
-                    <a href="First-Time Homebuyer 3% Mortgage Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-clean">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-clean" aria-expanded="false" aria-controls="col-clean">
-                    Clean Campaigns & Elections
-                  </button>
-                </h2>
-                <div id="col-clean" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-clean">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Ban corporate PAC money; near real‑time disclosure; voter vouchers pilot.</p>
-                    <p><span class="list-label">Pros:</span> Transparency; people‑powered campaigns.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Legal challenges; implementation complexity.</p>
-                    <p><span class="list-label">Funding:</span> Administrative; leverages existing agencies.</p>
-                    <a href="Clean Campaigns and Elections Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-justify">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-justify" aria-expanded="false" aria-controls="col-justify">
-                    Vote Justification
-                  </button>
-                </h2>
-                <div id="col-justify" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-justify">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Standardized, factual vote explanations; single‑subject rule.</p>
-                    <p><span class="list-label">Pros:</span> Radical transparency; better deliberation.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Member workload; risk of boilerplate.</p>
-                    <p><span class="list-label">Funding:</span> Administrative; existing processes.</p>
-                    <a href="Congressional Vote Justification Bill.Html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-uhc">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-uhc" aria-expanded="false" aria-controls="col-uhc">
-                    Universal Healthcare
-                  </button>
-                </h2>
-                <div id="col-uhc" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-uhc">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> Automatic enrollment; benefits floor; lower drug costs; mental‑health parity.</p>
-                    <p><span class="list-label">Pros:</span> Universal coverage; lower per‑capita spend over time.</p>
-                    <p><span class="list-label">Tradeoffs:</span> Transition planning; provider capacity.</p>
-                    <p><span class="list-label">Funding:</span> Fair top‑end contributions + savings.</p>
-                    <a href="Universal Healthcare Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="acc-ss">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-ss" aria-expanded="false" aria-controls="col-ss">
-                    Social Security Solvency
-                  </button>
-                </h2>
-                <div id="col-ss" class="accordion-collapse collapse" data-bs-parent="#billAccordion" aria-labelledby="acc-ss">
-                  <div class="accordion-body">
-                    <p><span class="list-label">What it does:</span> End benefit taxes for most; fair top‑end contributions; investment/estate support.</p>
-                    <p><span class="list-label">Pros:</span> Protects checks; closes solvency gap.</p>
-                    <p><span class="list-label">Tradeoffs:</span> High‑earner contributions; agency coordination.</p>
-                    <p><span class="list-label">Funding:</span> Dedicated receipts to trust funds.</p>
-                    <a href="Social Security - Working Families Retirement Security and Solvency Bill.html" class="btn btn-sm btn-outline-primary">Open Bill</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+<!-- VOLUNTEER + DONATE CTA -->
+<section class="py-5 mt-5" style="background:#f8f9fa;">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <!-- Volunteer -->
+      <div class="col-md-6">
+        <div class="p-4 h-100 rounded" style="background:#0b6e4f; color:white;">
+          <h2 class="h4 fw-bold mb-2">✊ Join the Fight</h2>
+          <p class="mb-3">This campaign runs on people, not PACs. Knock doors, spread the word, and help us win real change.</p>
+          <a href="../volunteer.html" class="btn btn-light fw-bold">I’ll Volunteer</a>
         </div>
-
-        <!-- Activity / Notes -->
-        <aside class="col-lg-4">
-          <div class="card shadow-sm border-0">
-            <div class="card-header d-flex align-items-center">
-              <i class="fa-regular fa-bell me-2"></i>
-              <strong>Recent Activity</strong>
-            </div>
-            <div class="list-group list-group-flush">
-              <div class="list-group-item"><div><a href="Clean Campaigns and Elections Bill.html">Clean Campaigns &amp; Elections Bill</a> — <span class="text-muted">Updated</span></div></div>
-              <div class="list-group-item"><div><a href="Corporate Responsibility CSR Bill.html">Corporate Responsibility (CSR) Bill</a> — <span class="text-muted">Updated</span></div></div>
-              <div class="list-group-item"><div><a href="First-Time Homebuyer 3% Mortgage Bill.html">First‑Time Homebuyer 3% Mortgage Bill</a> — <span class="text-muted">Updated</span></div></div>
-              <div class="list-group-item"><div><a href="Good Jobs & Skills Bill.html">Good Jobs &amp; Skills Bill</a> — <span class="text-muted">Updated</span></div></div>
-              <div class="list-group-item"><div><a href="Social Security - Working Families Retirement Security and Solvency Bill.html">Social Security — Working Families…</a> — <span class="text-success">Created</span></div></div>
-              <div class="list-group-item"><div><a href="Tax Fairness Bill.html">Tax Fairness &amp; Relief Bill</a> — <span class="text-muted">Updated</span></div></div>
-              <div class="list-group-item"><div><a href="Housing Supply and Permitting Modernization Bill.html">Housing Supply &amp; Permitting Modernization Bill</a> — <span class="text-muted">Updated</span></div></div>
-              <div class="list-group-item"><div><a href="Affordable Child and Dependent Care Bill.html">Affordable Child &amp; Dependent Care Bill</a> — <span class="text-success">New</span></div></div>
-              <div class="list-group-item"><div><a href="Fair Food and Grocery Competition Bill.html">Fair Food &amp; Grocery Competition Bill</a> — <span class="text-success">New</span></div></div>
-              <div class="list-group-item"><div><a href="Energy Savings and Lower Bill.html">Energy Savings &amp; Lower Bills</a> — <span class="text-success">New</span></div></div>
-            </div>
-          </div>
-
-          <div class="card mt-4 border-0 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title mb-2"><i class="fa-solid fa-circle-info me-2"></i>About These Bills</h5>
-              <p class="mb-0">Each blueprint pairs plain‑language summaries with line‑by‑line explanations and clear funding notes — focused on lowering costs and raising standards without new taxes on working families.</p>
-            </div>
-          </div>
-        </aside>
       </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="py-5 border-top">
-    <div class="container small">
-      <div class="row g-3 align-items-center">
-        <div class="col-12">
-          <strong>Adam Neil Arafat for Congress — WA-10</strong><br/>
-          <span class="text-muted">Paid for by Arafat for Congress. No corporate PAC money.</span>
+      <!-- Donate -->
+      <div class="col-md-6">
+        <div class="p-4 h-100 rounded" style="background:#c1121f; color:white;">
+          <h2 class="h4 fw-bold mb-2">💵 Power the Pact</h2>
+          <p class="mb-3">We take no corporate PAC money. Every dollar fuels this movement for working families.</p>
+          <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener" class="btn btn-light fw-bold">Chip In</a>
+          <div class="small mt-2 text-light">Secure via ActBlue. People-powered only.</div>
         </div>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // Client-side filter for bill cards
-    (function(){
-      const q = document.getElementById('billSearch');
-      const cards = Array.from(document.querySelectorAll('.bill-card'));
-      if (!q) return;
-      q.addEventListener('input', () => {
-        const term = q.value.toLowerCase().trim();
-        cards.forEach(c => {
-          const text = (c.innerText || '').toLowerCase() + ' ' + (c.dataset.keywords || '');
-          c.style.display = text.includes(term) ? '' : 'none';
-        });
-      });
-    })();
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- FOOTER -->
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
