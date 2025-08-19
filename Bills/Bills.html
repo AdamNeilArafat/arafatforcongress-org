@@ -12,16 +12,82 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; --soft:#f6f9fc; }
+    :root {
+      --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; --soft:#f6f9fc;
+      --tier1:#0b6e4f; --tier2:#0d3b66; --tier3:#7a3e9d; --tier4:#1f6feb; --tier5:#c1121f;
+    }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--soft); color:#222; }
     h1,h2,h3,h4 { color:var(--primary); }
     a { color:var(--link); text-decoration:none; }
     a:hover { text-decoration:underline; }
-    .ladder-step { border-left:4px solid var(--primary); padding-left:1rem; margin-bottom:1.75rem; background:#ffffff; border-radius:.25rem; }
-    .ladder-step h3 { margin-top:.75rem; }
-    .ladder-step ol { margin-bottom:.5rem; }
-    .ladder-step ul { margin-top:.25rem; margin-bottom:1rem; }
-    .ladder-step li + li { margin-top:.35rem; }
+
+    /* Nav underline */
+    .navbar .nav-link{ position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
+    .navbar .nav-link::after{ content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s ease; }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link.active::after{ width:100%; }
+
+    /* Hero */
+    .hero { background: linear-gradient(180deg,#0d3b66 0%,#0b3157 100%); color:#fff; }
+    .hero .lead { opacity:.95; }
+
+    /* Tier header cards */
+    .tier-header {
+      border-radius:18px; padding:1rem 1.25rem; color:#fff;
+      display:flex; align-items:center; gap:.75rem; margin-bottom:1rem;
+      box-shadow:0 10px 24px rgba(0,0,0,.12);
+    }
+    .tier-header .badge-xl {
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,.15);
+      font-weight:800; font-size:1.05rem;
+    }
+    .tier-header h3 { color:#fff; margin:0; font-weight:800; letter-spacing:.2px; }
+    .tier-sub { margin:0; opacity:.95; }
+
+    /* Bill cards */
+    .bill-card {
+      border:1px solid rgba(13,59,102,.10); border-radius:16px; background:#fff;
+      box-shadow:0 6px 24px rgba(13,59,102,.08); height:100%;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .bill-card:hover { transform: translateY(-3px); box-shadow:0 14px 40px rgba(13,59,102,.18); border-color: rgba(13,59,102,.20); }
+    .bill-card .card-body { padding:1rem 1rem 1.1rem; }
+    .bill-meta {
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:.35rem;
+    }
+    .num-badge {
+      display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem;
+      border-radius:999px; padding:.25rem .6rem; letter-spacing:.2px; color:#fff;
+    }
+    .bill-title a { font-weight:800; font-size:1.05rem; letter-spacing:.1px; }
+    .bill-desc { color:#374151; margin:.5rem 0 .9rem; }
+
+    /* Color accents per tier */
+    .t1 .tier-header{ background:linear-gradient(90deg,var(--tier1) 0%, #0a5c41 100%); }
+    .t2 .tier-header{ background:linear-gradient(90deg,var(--tier2) 0%, #0a3157 100%); }
+    .t3 .tier-header{ background:linear-gradient(90deg,var(--tier3) 0%, #572d70 100%); }
+    .t4 .tier-header{ background:linear-gradient(90deg,var(--tier4) 0%, #174ea6 100%); }
+    .t5 .tier-header{ background:linear-gradient(90deg,var(--tier5) 0%, #8f0d16 100%); }
+
+    .t1 .num-badge{ background:var(--tier1); }
+    .t2 .num-badge{ background:var(--tier2); }
+    .t3 .num-badge{ background:var(--tier3); }
+    .t4 .num-badge{ background:var(--tier4); }
+    .t5 .num-badge{ background:var(--tier5); }
+
+    .btn-blueprint { border-radius:999px; font-weight:700; }
+    .btn-outline-tier { border-width:2px; }
+    .t1 .btn-outline-tier{ border-color:var(--tier1); color:var(--tier1); }
+    .t1 .btn-outline-tier:hover{ background:var(--tier1); color:#fff; }
+    .t2 .btn-outline-tier{ border-color:var(--tier2); color:var(--tier2); }
+    .t2 .btn-outline-tier:hover{ background:var(--tier2); color:#fff; }
+    .t3 .btn-outline-tier{ border-color:var(--tier3); color:var(--tier3); }
+    .t3 .btn-outline-tier:hover{ background:var(--tier3); color:#fff; }
+    .t4 .btn-outline-tier{ border-color:var(--tier4); color:var(--tier4); }
+    .t4 .btn-outline-tier:hover{ background:var(--tier4); color:#fff; }
+    .t5 .btn-outline-tier{ border-color:var(--tier5); color:var(--tier5); }
+    .t5 .btn-outline-tier:hover{ background:var(--tier5); color:#fff; }
+
     footer { background:#0d3b66; color:#fff; padding:1.5rem 0; }
   </style>
 </head>
@@ -46,7 +112,7 @@
 </nav>
 
 <!-- HERO -->
-<header class="py-5 text-center">
+<header class="py-5 text-center hero">
   <div class="container">
     <h1 class="fw-bold">🌲 The Evergreen Pact</h1>
     <p class="lead">Bill blueprints that stack success. Quick wins build trust, bigger reforms build power, and the final goals lock in security.</p>
@@ -54,129 +120,226 @@
 </header>
 
 <!-- LADDER INTRO -->
-<section class="container mb-5">
+<section class="container my-5">
   <h2 class="mb-3">What It Is</h2>
-  <p>The Evergreen Pact is a strategically ordered set of bill blueprints designed to prove reform is not random, it is structured. Each bill is a rung on a ladder of change. Early wins make harder reforms possible, and every success stacks momentum toward long-term guarantees for working families.</p>
+  <p>The Evergreen Pact is a strategically ordered set of bill blueprints designed to prove reform is not random, it is structured. Each bill is a rung on a ladder of change. Early wins make harder reforms possible, and every success stacks momentum toward long term guarantees for working families.</p>
 </section>
 
-<!-- STRATEGIC SEQUENCING -->
+<!-- TIERS AS CARDS -->
 <section class="container mb-5">
   <h2 class="mb-4">Strategic Sequencing: The Ladder of Change</h2>
 
-  <div class="ladder-step p-3">
-    <h3>Tier 1: Quick Wins</h3>
-    <ol>
-      <li>
-        <a href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings &amp; Lower Bills</a>
-        <ul>
-          <li>Bigger rebates and simpler local programs that cut utility bills with weatherization, efficient appliances, and community solar.</li>
-        </ul>
-      </li>
-      <li>
-        <a href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food &amp; Grocery Competition</a>
-        <ul>
-          <li>Cracks down on junk fees and anti competitive contracts so grocery markets are fair and families pay less at checkout.</li>
-        </ul>
-      </li>
-      <li>
-        <a href="Good%20Jobs%20%26%20Skills%20Bill.html">Good Jobs &amp; Skills</a>
-        <ul>
-          <li>Right sizes licensing, expands apprenticeships, and aligns training with local employers so people get into good jobs faster.</li>
-        </ul>
-      </li>
-    </ol>
-    <p class="mb-0">Broad bipartisan appeal with immediate relief that builds credibility fast.</p>
+  <!-- Tier 1 -->
+  <div class="t1 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T1</span>
+      <div>
+        <h3>Quick Wins</h3>
+        <p class="tier-sub">Broad bipartisan appeal. Immediate relief that builds credibility fast.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta">
+              <span class="num-badge">T1.1</span>
+            </div>
+            <div class="bill-title">
+              <a href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings and Lower Bills</a>
+            </div>
+            <p class="bill-desc">Bigger rebates and simpler local programs that cut utility bills with weatherization, efficient appliances, and community solar.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Energy%20Savings%20and%20Lower%20Bill.html">
+              Open blueprint
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta">
+              <span class="num-badge">T1.2</span>
+            </div>
+            <div class="bill-title">
+              <a href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food and Grocery Competition</a>
+            </div>
+            <p class="bill-desc">Cracks down on junk fees and anti competitive contracts so grocery markets are fair and families pay less at checkout.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">
+              Open blueprint
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta">
+              <span class="num-badge">T1.3</span>
+            </div>
+            <div class="bill-title">
+              <a href="Good%20Jobs%20%26%20Skills%20Bill.html">Good Jobs and Skills</a>
+            </div>
+            <p class="bill-desc">Right sizes licensing, expands apprenticeships, and aligns training with local employers so people get into good jobs faster.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Good%20Jobs%20%26%20Skills%20Bill.html">
+              Open blueprint
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="ladder-step p-3">
-    <h3>Tier 2: Relief &amp; Stability</h3>
-    <ol>
-      <li>
-        <a href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Affordable Child &amp; Dependent Care</a>
-        <ul>
-          <li>Lowers childcare costs and expands seat supply while supporting providers so parents can work and kids thrive.</li>
-        </ul>
-      </li>
-      <li>
-        <a href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Housing Supply &amp; Permitting Modernization</a>
-        <ul>
-          <li>Speeds up digital permitting, adds homes near jobs and transit, and supports modular building to lower costs.</li>
-        </ul>
-      </li>
-      <li>
-        <a href="First-Time%20Homebuyer%203%25%20Mortgage%20Bill.html">First Time Homebuyer 3% Mortgage</a>
-        <ul>
-          <li>Offers federally backed around 3 percent fixed mortgages for first time buyers with strong guardrails and oversight.</li>
-        </ul>
-      </li>
-    </ol>
-    <p class="mb-0">Deeper household relief and structural fixes powered by trust earned in Tier 1.</p>
+  <!-- Tier 2 -->
+  <div class="t2 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T2</span>
+      <div>
+        <h3>Relief and Stability</h3>
+        <p class="tier-sub">Deeper household relief and structural fixes powered by trust earned in Tier 1.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T2.1</span></div>
+            <div class="bill-title"><a href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Affordable Child and Dependent Care</a></div>
+            <p class="bill-desc">Lowers childcare costs and expands seat supply while supporting providers so parents can work and kids thrive.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T2.2</span></div>
+            <div class="bill-title"><a href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Housing Supply and Permitting Modernization</a></div>
+            <p class="bill-desc">Speeds up digital permitting, adds homes near jobs and transit, and supports modular building to lower costs.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T2.3</span></div>
+            <div class="bill-title"><a href="First-Time%20Homebuyer%203%25%20Mortgage%20Bill.html">First Time Homebuyer 3% Mortgage</a></div>
+            <p class="bill-desc">Offers federally backed around 3 percent fixed mortgages for first time buyers with strong guardrails and oversight.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="First-Time%20Homebuyer%203%25%20Mortgage%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="ladder-step p-3">
-    <h3>Tier 3: Accountability</h3>
-    <ol>
-      <li>
-        <a href="Tax%20Fairness%20Bill.html">Tax Fairness</a>
-        <ul>
-          <li>Sets a 15 percent book profit minimum, closes offshoring loopholes, expands CTC and EITC, and improves transparency without new taxes on working families.</li>
-        </ul>
-      </li>
-      <li>
-        <a href="Corporate%20Responsibility%20CSR%20Bill.html">Corporate Responsibility (CSR)</a>
-        <ul>
-          <li>Applies surtaxes tied to wage theft, extreme pay gaps, and repeat OSHA or EPA violations and rewards good actors with credits.</li>
-        </ul>
-      </li>
-    </ol>
-    <p class="mb-0">Cost of living wins make it harder for lobbyists to block fairness and responsibility.</p>
+  <!-- Tier 3 -->
+  <div class="t3 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T3</span>
+      <div>
+        <h3>Accountability</h3>
+        <p class="tier-sub">Cost of living wins make it harder for lobbyists to block fairness and responsibility.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T3.1</span></div>
+            <div class="bill-title"><a href="Tax%20Fairness%20Bill.html">Tax Fairness</a></div>
+            <p class="bill-desc">Sets a 15 percent book profit minimum, closes offshoring loopholes, expands CTC and EITC, and improves transparency without new taxes on working families.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Tax%20Fairness%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T3.2</span></div>
+            <div class="bill-title"><a href="Corporate%20Responsibility%20CSR%20Bill.html">Corporate Responsibility (CSR)</a></div>
+            <p class="bill-desc">Applies surtaxes tied to wage theft, extreme pay gaps, and repeat OSHA or EPA violations and rewards good actors with credits.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Corporate%20Responsibility%20CSR%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="ladder-step p-3">
-    <h3>Tier 4: System Reform</h3>
-    <ol>
-      <li>
-        <a href="Clean%20Campaigns%20and%20Elections%20Bill.html">Clean Campaigns &amp; Elections</a>
-        <ul>
-          <li>Bans corporate PAC money, speeds disclosure to near real time, and pilots voter vouchers so campaigns answer to people.</li>
-        </ul>
-      </li>
-      <li>
-        <a href="Congressional%20Vote%20Justification%20Bill.html">Congressional Vote Justification</a>
-        <ul>
-          <li>Requires standardized factual explanations for key votes and enforces a single subject rule for clearer lawmaking.</li>
-        </ul>
-      </li>
-    </ol>
-    <p class="mb-0">Change the rules after credibility and pressure are built by earlier tiers.</p>
+  <!-- Tier 4 -->
+  <div class="t4 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T4</span>
+      <div>
+        <h3>System Reform</h3>
+        <p class="tier-sub">Change the rules after credibility and pressure are built by earlier tiers.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T4.1</span></div>
+            <div class="bill-title"><a href="Clean%20Campaigns%20and%20Elections%20Bill.html">Clean Campaigns and Elections</a></div>
+            <p class="bill-desc">Bans corporate PAC money, speeds disclosure to near real time, and pilots voter vouchers so campaigns answer to people.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Clean%20Campaigns%20and%20Elections%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T4.2</span></div>
+            <div class="bill-title"><a href="Congressional%20Vote%20Justification%20Bill.html">Congressional Vote Justification</a></div>
+            <p class="bill-desc">Requires standardized factual explanations for key votes and enforces a single subject rule for clearer lawmaking.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Congressional%20Vote%20Justification%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="ladder-step p-3">
-    <h3>Tier 5: Long Term Guarantees</h3>
-    <ol>
-      <li>
-        <a href="Universal%20Healthcare%20Bill.html">Universal Healthcare</a>
-        <ul>
-          <li>Delivers automatic coverage with a national benefits floor, lower drug costs, and mental health parity.</li>
-        </ul>
-      </li>
-      <li>
-        <a href="Social%20Security%20-%20Working%20Families%20Retirement%20Security%20and%20Solvency%20Bill.html">Social Security Solvency</a>
-        <ul>
-          <li>Ends benefit taxes for most retirees and restores fair top end contributions so checks stay secure for the long haul.</li>
-        </ul>
-      </li>
-    </ol>
-    <p class="mb-0">The biggest lifts come last and become realistic after earlier wins are banked.</p>
+  <!-- Tier 5 -->
+  <div class="t5 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T5</span>
+      <div>
+        <h3>Long Term Guarantees</h3>
+        <p class="tier-sub">The biggest lifts come last and become realistic after earlier wins are banked.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T5.1</span></div>
+            <div class="bill-title"><a href="Universal%20Healthcare%20Bill.html">Universal Healthcare</a></div>
+            <p class="bill-desc">Delivers automatic coverage with a national benefits floor, lower drug costs, and mental health parity.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Universal%20Healthcare%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T5.2</span></div>
+            <div class="bill-title"><a href="Social%20Security%20-%20Working%20Families%20Retirement%20Security%20and%20Solvency%20Bill.html">Social Security Solvency</a></div>
+            <p class="bill-desc">Ends benefit taxes for most retirees and restores fair top end contributions so checks stay secure for the long haul.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Social%20Security%20-%20Working%20Families%20Retirement%20Security%20and%20Solvency%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
 </section>
 
-<!-- SIDE BY SIDE -->
+<!-- CHANCES OF PASSAGE -->
 <section class="container mb-5">
-  <h2 class="mb-4">Chances of Passage: House &amp; Senate</h2>
+  <h2 class="mb-4">Chances of Passage: House and Senate</h2>
   <div class="row">
     <div class="col-md-6">
-      <h4>If Democrats Flip the House &amp; Senate</h4>
+      <h4>If Democrats Flip the House and Senate</h4>
       <ul>
         <li><strong>Tier 1:</strong> 75–85% chance</li>
         <li><strong>Tier 2:</strong> 55–70% chance</li>
@@ -197,7 +360,6 @@
     </div>
   </div>
 
-  <!-- Hopeful & Forward-Looking message -->
   <p class="mt-3 fw-bold text-success">
     Why it matters: every election decides whether these reforms stay as blueprints or become law.
     We can choose a future built on working families, not lobbyists. Vote for change, vote for fresh leadership,
