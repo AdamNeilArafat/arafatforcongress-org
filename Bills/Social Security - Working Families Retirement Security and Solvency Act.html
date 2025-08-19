@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Social Security – Working Families Retirement Security and Solvency Act — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Legislative blueprint to keep Social Security rock‑solid: relief for middle‑income retirees, fair contributions from very high earners, investment income, and large estates—without raising taxes on working families." />
+  <title>Digging Into the Issues — Adam Neil Arafat</title>
   <meta name="theme-color" content="#0d3b66" />
+  <meta name="description" content="How we deliver universal healthcare, lower costs, end special-interest influence, and pass Tax Fairness, CSR accountability, and Good Jobs legislation in WA-10." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -13,198 +21,366 @@
 
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
+
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    .text-primary { color: var(--primary)!important; }
-    .btn-primary { background: var(--primary); border-color: var(--primary); }
-    .btn-donate { background: var(--donate); border-color: var(--donate); }
-    .hero {
-      background: linear-gradient(180deg, #0d3b66 0%, #0b3157 100%);
-      color:#fff; padding: 4rem 0 3rem;
+    a { text-decoration: none; }
+
+    /* Top social bar */
+    .social-top {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color: #fff;
     }
-    .hero h1 { font-weight: 800; }
-    .rule { border-top: 1px solid rgba(13,59,102,0.12); }
-    .section-title { font-weight: 800; letter-spacing: -0.01em; }
-    .explain { font-size: .95rem; color: #475569; }
-    a { color: var(--link); }
-    a:hover { color:#0a2d52; }
-    .badge-soft {
-      background: rgba(13,59,102,.08); color: var(--primary);
-      border: 1px solid rgba(13,59,102,.15); font-weight: 600;
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
     }
-    .memo-card .card-header { background: rgba(13,59,102,.08); border-bottom: 1px solid rgba(13,59,102,.15); }
-    .alt-frames li { margin-bottom:.35rem; }
+    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+
+    /* Header break band */
+    .header-break {
+      background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem;
+    }
+    .header-break p { margin:.25rem 0 0; font-weight:500; opacity:.95; }
+
+    /* Pretty nav links */
+    .navbar .nav-link {
+      position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600;
+    }
+    .navbar .nav-link:hover { color: var(--link); }
+    .navbar .nav-link::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .navbar .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .navbar .btn-donate:hover { filter: brightness(.95); }
+
+    /* Utility */
+    .issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; }
+    .section-title { color: var(--primary); }
+    .divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
+    .issue-nav { padding:1rem; background:#f8f9fa; border-radius:14px; margin-bottom:2rem; border:1px solid #e9eef3; }
+    .issue-nav h5 { margin-bottom:.5rem; font-weight:800; color:#0d3b66; }
+    .issue-nav ul { padding-left:1rem; margin-bottom:0; }
+    .badge-kicker { background:#e6f0f8; color:#0d3b66; font-weight:700; }
+    .lead-small { font-size:1.05rem; }
+    .muted { color:#6b7280; }
+
+    /* Footer links underline */
+    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
+    footer a:hover { color: var(--link); }
+    footer a::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    footer a:hover::after, footer a:focus::after { width:100%; }
   </style>
 </head>
 <body>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="container">
-      <span class="badge badge-soft px-3 py-2 mb-3">
-        <i class="fa-solid fa-piggy-bank me-2"></i>Bill Blueprint
-      </span>
-      <h1 class="display-5 mb-3">Social Security – Working Families Retirement Security and Solvency Act</h1>
-      <p class="lead mb-0">Legislative Blueprint with Explanations</p>
+<!-- SOCIAL MEDIA BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
+  </div>
+</section>
+
+<!-- HEADER BREAK -->
+<div class="header-break">
+  <div class="container">
+    <div class="row align-items-center g-2">
+      <div class="col-12 text-center">
+        <div class="h5 m-0">Digging Into the Issues</div>
+        <p class="mb-0">Trust is built, not bought. Every plan here puts people over special interests.</p>
+      </div>
     </div>
-  </header>
+  </div>
+</div>
 
-  <!-- Main -->
-  <main class="py-5">
-    <div class="container">
-
-      <!-- SECTION 1 -->
-      <h2 class="section-title h4 mb-3">SECTION 1. SHORT TITLE.</h2>
-      <p>This Act may be cited as the “Social Security – Working Families Retirement Security and Solvency Act.”<br>
-        <span class="explain"><strong>Explanation:</strong> The title signals two priorities: helping working families and guaranteeing the program stays strong for decades to come.</span>
-      </p>
-
-      <!-- SEC. 2 -->
-      <h2 class="section-title h4 mt-5 mb-3">SEC. 2. FINDINGS AND PURPOSE.</h2>
-      <ul>
-        <li>Trustees report a 75-year actuarial shortfall of 3.82 percent of taxable payroll, threatening a reduction in earned benefits beginning in 2034.<br>
-          <span class="explain"><strong>Explanation:</strong> Without action, retirement checks would shrink by about 20% in less than a decade.</span>
-        </li>
-        <li>Working families earning under $400,000 annually should not face new payroll tax burdens.<br>
-          <span class="explain"><strong>Explanation:</strong> Keeps everyday workers safe from higher taxes while strengthening the system at the top.</span>
-        </li>
-        <li>Earned benefits are currently taxed as income, reducing net retirement checks for millions of middle-class seniors.<br>
-          <span class="explain"><strong>Explanation:</strong> Fixes the “double taxation” problem and lets retirees keep more of what they’ve paid in.</span>
-        </li>
-        <li>Reforms should end benefit taxation for the middle class, keep benefits secure for current and future generations, and close the solvency gap with modest contributions from very high earners, investment income, and large estates.<br>
-          <span class="explain"><strong>Explanation:</strong> Shifts the burden upward instead of cutting checks for seniors or raising taxes on working families.</span>
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html" aria-current="page">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">What Sets Me Apart</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-donate btn-sm" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">Donate</a>
         </li>
       </ul>
+    </div>
+  </div>
+</nav>
 
-      <!-- TITLE I -->
-      <h2 class="section-title h4 mt-5 mb-3">TITLE I — RETIREMENT CHECK RELIEF</h2>
+<main class="py-5">
+  <div class="container px-4">
 
-      <h3 class="h5 mb-2">SEC. 101. ELIMINATION OF TAXATION ON BENEFITS FOR MIDDLE-INCOME RETIREES.</h3>
+    <!-- Quick Nav -->
+    <div class="issue-nav">
+      <h5>Jump to a section</h5>
       <ul>
-        <li>Social Security checks will no longer be taxed for households under $250,000 (joint) or $125,000 (single).<br>
-          <span class="explain"><strong>Explanation:</strong> Nearly 40% of retirees now pay federal tax on their benefits. This change restores the promise of a full, untaxed retirement check for almost all seniors.</span>
-        </li>
-        <li>Households above those thresholds may still pay tax on a portion of benefits.<br>
-          <span class="explain"><strong>Explanation:</strong> Keeps fairness by applying benefit taxation only at the very top of the income scale.</span>
-        </li>
+        <li><a href="#universal-healthcare">1) Universal Healthcare</a></li>
+        <li><a href="#cost-of-living">2) Lowering the Cost of Living</a></li>
+        <li><a href="#end-corruption">3) End Corruption & Special Interests</a></li>
+        <li><a href="#fair-taxation">4) Tax Fairness, CSR & Good Jobs</a></li>
+        <li><a href="#sources">Sources</a></li>
       </ul>
+    </div>
 
-      <!-- TITLE II -->
-      <h2 class="section-title h4 mt-5 mb-3">TITLE II — FAIR CONTRIBUTIONS ABOVE $400,000</h2>
-
-      <h3 class="h5 mb-2">SEC. 201. PAYROLL TAX DOUGHNUT ABOVE $400,000.</h3>
-      <ul>
-        <li>Applies the 6.2% Social Security contribution again on wages above $400,000.<br>
-          <span class="explain"><strong>Explanation:</strong> Right now, a CEO stops paying in after about $168,600. Restarting above $400K makes sure the top keeps paying their share to keep the program strong.</span>
-        </li>
-        <li>Credits those earnings toward benefits, but with progressive adjustments.<br>
-          <span class="explain"><strong>Explanation:</strong> Ensures fairness: high earners paying more in still get credit, but the formula stays tilted to protect average workers.</span>
-        </li>
-      </ul>
-
-      <h3 class="h5 mb-2">SEC. 202. CONTRIBUTION ON NET INVESTMENT INCOME ABOVE $400,000.</h3>
-      <ul>
-        <li>Adds a 12.4% contribution on capital gains, dividends, and other investment income above $400,000 (joint) / $200,000 (single).<br>
-          <span class="explain"><strong>Explanation:</strong> Extends contributions beyond wages so wealthy households with large portfolios also help lock in retirement security.</span>
-        </li>
-        <li>Coordinates with the existing 3.8% investment surtax.<br>
-          <span class="explain"><strong>Explanation:</strong> Prevents double taxation by adjusting IRS rules so the taxes don’t stack unfairly.</span>
-        </li>
-      </ul>
-
-      <!-- TITLE III -->
-      <h2 class="section-title h4 mt-5 mb-3">TITLE III — ESTATE AND GIFT TAX FAIRNESS</h2>
-
-      <h3 class="h5 mb-2">SEC. 301. RESTORATION OF 2009 ESTATE AND GIFT TAX PARAMETERS; DEDICATION OF RECEIPTS.</h3>
-      <ul>
-        <li>Restores estate and gift tax exemptions and rates to 2009 levels.<br>
-          <span class="explain"><strong>Explanation:</strong> The current $13M+ exemption shields nearly all fortunes. Rolling back to $3.5M ensures ultra‑wealthy estates contribute to keeping the promise of Social Security.</span>
-        </li>
-        <li>Sends all estate and gift tax receipts directly into the trust funds.<br>
-          <span class="explain"><strong>Explanation:</strong> Ties intergenerational wealth transfers directly to strengthening intergenerational retirement security.</span>
-        </li>
-      </ul>
-
-      <!-- TITLE IV -->
-      <h2 class="section-title h4 mt-5 mb-3">TITLE IV — COVERAGE AND ADMINISTRATION</h2>
-
-      <h3 class="h5 mb-2">SEC. 401. COVERAGE OF NEWLY HIRED STATE AND LOCAL EMPLOYEES.</h3>
-      <ul>
-        <li>Requires new state and local employees (starting 2027) to be covered by Social Security.<br>
-          <span class="explain"><strong>Explanation:</strong> Broadens the contributor base so the system is stronger for everyone.</span>
-        </li>
-      </ul>
-
-      <h3 class="h5 mb-2">SEC. 402. CONFORMING AMENDMENTS.</h3>
-      <ul>
-        <li>Directs Treasury and SSA to update regulations and reconcile with prior laws.<br>
-          <span class="explain"><strong>Explanation:</strong> Ensures smooth integration and avoids conflicts with older statutes.</span>
-        </li>
-      </ul>
-
-      <!-- TITLE V -->
-      <h2 class="section-title h4 mt-5 mb-3">TITLE V — EFFECTIVE DATES</h2>
-
-      <h3 class="h5 mb-2">SEC. 501. EFFECTIVE DATES.</h3>
-      <ul>
-        <li>Benefit tax relief (Title I) applies beginning 2027.<br>
-          <span class="explain"><strong>Explanation:</strong> Retirees see a bigger check almost immediately.</span>
-        </li>
-        <li>Payroll, investment, and estate provisions (Titles II–III) start in 2027.<br>
-          <span class="explain"><strong>Explanation:</strong> Gives time for high earners and estates to plan ahead.</span>
-        </li>
-        <li>State/local coverage (Title IV) begins Jan. 1, 2027.<br>
-          <span class="explain"><strong>Explanation:</strong> Aligns with the tax year for easy administration.</span>
-        </li>
-      </ul>
-
-      <hr class="rule my-5" />
-
-      <!-- Policy Memo / Messaging -->
-      <div class="card memo-card shadow-sm border-0">
-        <div class="card-header">
-          <h2 class="h5 mb-0"><i class="fa-solid fa-memo-circle-info me-2"></i>Messaging Alternatives</h2>
+    <!-- #1 Universal Healthcare -->
+    <section id="universal-healthcare" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
         </div>
-        <div class="card-body">
-          <p class="mb-3">Cooler framing options instead of “protect Social Security”:</p>
-          <ul class="alt-frames mb-0">
-            <li><strong>Keep the promise of Social Security</strong></li>
-            <li><strong>Guarantee retirement security</strong></li>
-            <li><strong>Lock in earned benefits</strong></li>
-            <li><strong>Make Social Security rock‑solid</strong></li>
-            <li><strong>Keep your retirement check safe</strong></li>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
+          <h2 class="h4 section-title">Universal healthcare</h2>
+          <p class="lead-small">Healthcare is a fundamental right. The U.S. spends more per person than peer nations yet leaves millions uninsured or underinsured. It’s time to cover everyone with a simple, automatic system that puts patients first.</p>
+
+          <h3 class="h6 text-muted mt-3">The U.S. healthcare system, by the numbers</h3>
+          <ul>
+            <li><strong>Spending:</strong> about $13,000 per person in 2022, nearly double the OECD average.</li>
+            <li><strong>Outcomes:</strong> lower life expectancy and higher infant mortality than peers.</li>
+            <li><strong>Access:</strong> uninsured hit a low in 2023 then rose in 2024 with Medicaid unwinding. Millions still fall through the cracks.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Plan: cover everyone and align policy with health</h3>
+          <ul>
+            <li><strong>Automatic universal enrollment.</strong> A national benefits floor for all. Supplemental options can remain for add-ons.</li>
+            <li><strong>Reproductive freedom.</strong> Keep medical decisions between patients and doctors.</li>
+            <li><strong>Prescription drugs.</strong> Expand Medicare negotiation, end patent gaming, and extend out-of-pocket protections more broadly.</li>
+            <li><strong>Mental health parity.</strong> Enforce equal access, networks, and reimbursement.</li>
+            <li><strong>Primary care first.</strong> Invest in clinics and workforce in underserved areas to catch problems early and locally.</li>
+            <li><strong>Health in all policies.</strong> Use national health goals to steer food, water, air, and workplace standards in the same direction.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">How we will get there</h3>
+          <ul>
+            <li><strong>Step 1:</strong> Pass universal coverage with automatic enrollment and a defined national benefits floor.</li>
+            <li><strong>Step 2:</strong> Expand drug negotiation authority and tighten patent rules to curb evergreening.</li>
+            <li><strong>Step 3:</strong> Target grants to primary care and mental health clinics and training programs in shortage areas.</li>
+            <li><strong>Step 4:</strong> Tie food, water, air, and workplace safety targets to national health metrics across agencies.</li>
+          </ul>
+
+          <p class="small"><a href="#sources">See sources</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- #2 Cost of Living -->
+    <section id="cost-of-living" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4349.jpeg" alt="Lowering the cost of living">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
+          <h2 class="h4 section-title">Lowering the cost of living</h2>
+          <p class="lead-small">From housing to groceries and childcare, families need real relief that lasts. No new taxes on working people.</p>
+
+          <h3 class="h6 text-muted mt-3">What is driving the strain</h3>
+          <ul>
+            <li><strong>Housing:</strong> limited supply and slow, paper-heavy permitting keep rents and prices high.</li>
+            <li><strong>Groceries:</strong> consolidation, long-term contracts, and hidden fees weaken competition and transparency.</li>
+            <li><strong>Childcare:</strong> costs rival in-state tuition in many states, with too few available seats.</li>
+            <li><strong>Utilities:</strong> energy bills remain elevated versus pre-2020, and upgrades can be hard to access.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">Plan: more homes, fair markets, smaller monthly bills</h3>
+          <ul>
+            <li><strong>Housing supply and permitting speed.</strong>
+              <ul>
+                <li>Federal incentives for modern, digital approvals with clear 30-, 60-, and 90-day service targets.</li>
+                <li>Flexible zoning near jobs and transit to add missing-middle housing.</li>
+                <li>Support modular and industrialized construction to cut time and cost.</li>
+                <li>Prioritize infrastructure grants for communities that publish and meet predictable permit timelines.</li>
+              </ul>
+            </li>
+            <li><strong>First-home affordability.</strong> Create a First Home Mortgage Facility to buy down rates toward ~3% for income-eligible first-time buyers, with transparent budgeting and paired down-payment help.</li>
+            <li><strong>Groceries.</strong> Enforce antitrust, curb junk fees and most-favored-nation clauses, require standardized disclosure of retailer fees and supplier contracts, and strengthen regional competition and food hubs. Protect SNAP EBT from surcharge abuses.</li>
+            <li><strong>Childcare.</strong> Expand and refund the Child and Dependent Care Tax Credit and invest in supply grants so providers can add seats without lowering quality.</li>
+            <li><strong>Lower monthly bills.</strong> Bigger rebates for weatherization, heat pumps, and community solar. Streamline LIHEAP with data matching to auto-enroll eligible households.</li>
+            <li><strong>Open doors to work.</strong> Reduce excessive licensing costs, recognize equivalent experience where safe, and expand apprenticeships and paid earn-while-you-learn pathways.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">How we will get there</h3>
+          <ul>
+            <li><strong>Step 1:</strong> Pass a Housing Supply and Permitting Modernization Act to unlock incentives for faster, digital permitting.</li>
+            <li><strong>Step 2:</strong> Stand up the First Home Mortgage Facility with federal credit support and bonds.</li>
+            <li><strong>Step 3:</strong> Direct DOJ and FTC to prioritize food-chain competition and enforce standardized disclosure of fees and contracts.</li>
+            <li><strong>Step 4:</strong> Expand energy savings rebates and community solar with simplified eligibility and automatic enrollment where data allows.</li>
+            <li><strong>Step 5:</strong> Launch a federal Open Doors to Work initiative with states and employers.</li>
           </ul>
         </div>
       </div>
+    </section>
 
-      <hr class="rule my-5" />
-
-      <!-- Back to Bills -->
-      <div class="text-center">
-        <a href="../Bills.html" class="btn btn-outline-primary">
-          <i class="fa-solid fa-arrow-left me-2"></i>Back to All Bills
-        </a>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="py-5 border-top">
-    <div class="container small">
-      <div class="row g-3 align-items-center">
-        <div class="col-md-8">
-          <strong>Adam Neil Arafat for Congress — WA-10</strong><br/>
-          <span class="text-muted">Paid for by Arafat for Congress. No corporate PAC money.</span>
+    <!-- #3 End Corruption & Special Interests -->
+    <section id="end-corruption" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4480.png" alt="End corruption and special interests">
         </div>
-        <div class="col-md-4 text-md-end">
-          <a href="/privacy" class="me-3">Privacy</a>
-          <a href="/terms">Terms</a>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #3</span>
+          <h2 class="h4 section-title">End corruption and special interests</h2>
+          <p class="lead-small">Politics should serve people, not donors. I will not take corporate PAC money. End pay-to-play and put voters first.</p>
+
+          <h3 class="h6 text-muted">Plan: clean elections, real transparency, strong enforcement</h3>
+          <ul>
+            <li><strong>Ban corporate PAC and lobbyist contributions</strong> to campaigns and ban lobbyist bundling. Tighten coordination rules.</li>
+            <li><strong>Public financing with voter vouchers.</strong> One voucher per voter. Campaigns rely on small donations plus vouchers.</li>
+            <li><strong>Near real-time disclosure.</strong> Every campaign dollar reported within days in machine-readable form with strong penalties.</li>
+            <li><strong>Close dark-money loopholes.</strong> Beneficial ownership and pass-through disclosure for political spending.</li>
+            <li><strong>Stronger FEC.</strong> Balanced quorum rules, faster enforcement timelines, and clear referral authority for willful violations.</li>
+          </ul>
+
+          <h3 class="h6 text-muted mt-3">How we will get there</h3>
+          <ul>
+            <li><strong>Step 1:</strong> Introduce a Clean Campaigns Act that bans corporate PAC donations and lobbyist bundling and mandates near real-time reporting.</li>
+            <li><strong>Step 2:</strong> Pilot a federal voter-voucher program modeled on Seattle with state opt-in.</li>
+            <li><strong>Step 3:</strong> Tie disclosure rules to IRS and SEC filings and require beneficial-owner reporting for political spend.</li>
+            <li><strong>Step 4:</strong> Modernize the FEC with clear coordination rules, swift penalties, and streamlined referrals to DOJ for willful misconduct.</li>
+          </ul>
+
+          <p class="small"><a href="#sources">See sources</a></p>
         </div>
       </div>
-    </div>
-  </footer>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- #4 Tax Fairness, CSR & Good Jobs -->
+    <section id="fair-taxation" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4346.jpeg" alt="Tax fairness, corporate responsibility, and good jobs">
+        </div>
+        <div class="col-md-7">
+          <h2 class="h4 section-title">Tax Fairness, CSR, and Good Jobs</h2>
+          <p class="lead-small">Three bills. One goal: make the economy work for working people. Close loopholes, hold chronic violators accountable, and open real paths to good-paying work.</p>
+
+          <!-- Bill 1 -->
+          <h3 class="h6 text-muted mt-3">
+            <a href="Bills/Tax Fairness.html" class="text-decoration-none">
+              Tax Fairness & Relief Act — <span class="fw-semibold">Bill 1: Tax Code Reform</span>
+            </a>
+          </h3>
+          <p class="muted mb-2">Make the tax code work for working families, not corporate accountants. Everyone plays by the same rules.</p>
+          <ul>
+            <li><strong>Corporate minimum on book profits.</strong> If you report profits to shareholders, you pay taxes on them.</li>
+            <li><strong>Stop offshoring games.</strong> Align foreign-profit treatment to end shell companies and profit shifting.</li>
+            <li><strong>Targeted relief.</strong> Expand the Child Tax Credit and EITC; simplify small-business expensing and compliance.</li>
+            <li><strong>Tax Fairness Credit.</strong> Replace select high-end itemized breaks with a simple, capped credit for all filers.</li>
+            <li><strong>Real-time transparency.</strong> Modern e-filing and public dashboards so people can see what the biggest firms really pay.</li>
+          </ul>
+
+          <!-- Bill 2 -->
+          <h3 class="h6 text-muted mt-3">
+            <a href="Bills/Corporate Responsibility CSR.html" class="text-decoration-none">
+              CSR Accountability Act — <span class="fw-semibold">Bill 2: Corporate Responsibility & Penalties</span>
+            </a>
+          </h3>
+          <p class="muted mb-2">Make exploitation more expensive than fairness. Reward good actors. Penalize chronic harm.</p>
+          <ul>
+            <li><strong>Corporate Responsibility Surtax.</strong> Triggers include extreme CEO-to-worker pay gaps, wage theft, repeat OSHA violations, layoffs during record profits, and repeat environmental harm. Surtax scales with severity and history, and phases down as firms improve.</li>
+            <li><strong>Disclosure.</strong> Standardized public reporting on pay ratios, injury rates, and community impacts.</li>
+            <li><strong>Work, pay, and safety.</strong> Escalating penalties for wage theft and repeat OSHA violators; criminal referrals for egregious harm; credits for raising wages, retaining jobs, and investing in safety; uniform data across industries.</li>
+            <li><strong>Private equity & communities.</strong> Curb debt-loading models that strip assets and jobs; tie favorable tax treatment to job stability, pension protection, and post-acquisition safety.</li>
+          </ul>
+
+          <!-- Bill 3 -->
+          <h3 class="h6 text-muted mt-3">
+            <a href="Bills/Good Jobs & Skills Act.html" class="text-decoration-none">
+              Good Jobs & Skills Act — <span class="fw-semibold">Bill 3: Workforce Pathways</span>
+            </a>
+          </h3>
+          <p class="muted mb-2">Open more paths to good-paying work. Break down barriers while keeping standards strong.</p>
+          <ul>
+            <li><strong>Right-size licensing.</strong> Reduce unnecessary costs; accept equivalent experience where safe.</li>
+            <li><strong>Expand apprenticeships.</strong> Paid earn-while-you-learn programs that lead directly to careers.</li>
+            <li><strong>Support community colleges and trades.</strong> Align training with real employer demand.</li>
+            <li><strong>Training incentives.</strong> Encourage employers to upskill workers and build career ladders.</li>
+          </ul>
+
+          <!-- Roadmap -->
+          <h3 class="h6 text-muted mt-3">How we will get there</h3>
+          <ul>
+            <li><strong>Step 1:</strong> Strengthen book-minimum and foreign-profit rules; launch transparency dashboards. <span class="muted">(Bill 1)</span></li>
+            <li><strong>Step 2:</strong> Enact the CSR surtax with standardized disclosures. <span class="muted">(Bill 2)</span></li>
+            <li><strong>Step 3:</strong> Raise penalties for wage theft and repeat OSHA violations; criminal referrals where warranted. <span class="muted">(Bill 2)</span></li>
+            <li><strong>Step 4:</strong> Tie private-equity tax treatment to jobs, pensions, and safety outcomes. <span class="muted">(Bill 2)</span></li>
+            <li><strong>Step 5:</strong> Expand apprenticeships, licensing reform, and training pipelines. <span class="muted">(Bill 3)</span></li>
+          </ul>
+
+          <p class="small"><a href="#sources">See sources</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sources -->
+    <div class="divider"></div>
+    <section id="sources" class="pt-3">
+      <h3 class="h6 section-title">Sources</h3>
+      <ul class="small">
+        <!-- Health / OECD / Outcomes -->
+        <li><a href="https://www.oecd.org/en/topics/health-inequality-and-universal-health-coverage.html" target="_blank" rel="noopener">OECD: Universal coverage and health outcomes</a></li>
+        <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022" target="_blank" rel="noopener">Commonwealth Fund: U.S. health care in global perspective</a></li>
+
+        <!-- Campaign finance -->
+        <li><a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">City of Seattle: Democracy Voucher Program</a></li>
+
+        <!-- Wages / OSHA / CEO pay -->
+        <li><a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor: Minimum wage history</a></li>
+        <li><a href="https://www.epi.org" target="_blank" rel="noopener">Economic Policy Institute: CEO-to-worker pay ratio</a></li>
+
+        <!-- Taxes -->
+        <li><a href="https://itep.org" target="_blank" rel="noopener">Institute on Taxation and Economic Policy: Corporate tax analyses</a></li>
+
+        <!-- Prices / CPI / Food -->
+        <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener">Bureau of Labor Statistics: CPI</a></li>
+        <li><a href="https://www.ers.usda.gov/topics/food-markets-prices/food-prices-outlook/" target="_blank" rel="noopener">USDA ERS: Food Prices Outlook</a></li>
+
+        <!-- Childcare -->
+        <li><a href="https://www.childcareaware.org" target="_blank" rel="noopener">Child Care Aware: Cost and availability</a></li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<footer class="py-4 bg-white border-top text-center">
+  <div class="container">
+    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
+    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
