@@ -31,12 +31,17 @@
     .navbar .nav-link{position:relative;padding:.25rem .5rem;font-weight:600;color:#122133}
     .navbar .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
     .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
+
+    /* hero */
     .hero{position:relative;background:#0b3157;color:#fff}
     .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.35))}
     .hero .container{position:relative;z-index:1}
     .hero h1{font-weight:900;letter-spacing:.3px;text-shadow:0 2px 10px rgba(0,0,0,.4)}
     .overview-btn{border-width:2px;font-weight:800}
+    .btn-pill{border-radius:999px;padding:.55rem 1rem}
+    .btn-icon i{margin-right:.5rem}
 
+    /* tiers and cards */
     .nav-pills .nav-link{font-weight:700}
     .tier-header{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0 .75rem 0;color:#fff;border-radius:14px;padding:.75rem 1rem;box-shadow:0 8px 18px rgba(0,0,0,.12)}
     .badge-xl{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.18);font-weight:800}
@@ -100,8 +105,18 @@
   <div class="container text-center">
     <h1 class="display-5 mb-2">🌲 The Evergreen Pact</h1>
     <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
+
+    <!-- Polished controls -->
     <div class="d-flex justify-content-center gap-2 flex-wrap">
-      <a class="btn btn-light fw-bold overview-btn" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open one-slide overview in a new tab">Open overview in a new tab</a>
+      <a class="btn btn-light btn-pill fw-bold overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open one-slide overview in a new tab">
+        <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i> Open Overview
+      </a>
+      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="evergreen-pact-overview-2027.pdf" target="_blank" rel="noopener noreferrer" aria-label="Download overview as a PDF">
+        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF
+      </a>
+      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="overview-print.html" target="_blank" rel="noopener noreferrer" aria-label="Open print-optimized overview">
+        <i class="fa-solid fa-print" aria-hidden="true"></i> Print view
+      </a>
     </div>
   </div>
 </header>
@@ -123,12 +138,9 @@
       <h2 class="h4">How to use this page</h2>
       <p class="mb-2">You will see the current step only. Click Pass or Fail. The next active items appear and the displayed chances update. Each card shows two things in plain language:</p>
       <ul class="mb-0">
-        <li><strong>For working people</strong> explains lower costs, better wages, or better services without new taxes on working families.</li>
-        <li><strong>Checks on executive power</strong> explains the guardrails, transparency, and review that prevent unilateral action.</li>
-      </ul>
-    </div>
-  </div>
-</section>
+        <li><strong
+```
+
 
 <!-- NoScript fallback -->
 <noscript>
