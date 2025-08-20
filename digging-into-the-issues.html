@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Digging Into the Issues — Adam Neil Arafat</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="High-level breakdowns of our plans to deliver universal healthcare, lower costs, end special-interest influence, and pass Tax Fairness, CSR accountability, Good Jobs, and Social Security legislation for WA-10." />
+  <meta name="description" content="High-level breakdowns of our plans to deliver universal healthcare, lower costs, end special‑interest influence, and pass Tax Fairness, CSR accountability, Good Jobs, and Social Security legislation for WA‑10." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,29 +26,38 @@
     a { text-decoration: none; }
 
     /* Top social bar */
-    .social-top {
-      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
-      color: #fff;
-    }
+    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color: #fff; }
+    .social-wrap { gap:.5rem; }
     .social-pill {
-      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
-      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
+      display:inline-flex; align-items:center; gap:.55rem; padding:.55rem 1rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.22); color:#fff;
       background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
-      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+      transition: transform .12s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
+      font-weight:700; letter-spacing:.1px;
     }
-    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
-    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+    .social-pill i, .social-pill svg { width:18px; height:18px; }
+    .social-pill:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.16);
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+      border-color: rgba(255,255,255,.35);
+      color:#fff;
+    }
+    /* subtle brand tints */
+    .pill-reddit { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,69,0,.18)); }
+    .pill-reddit:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,69,0,.26)); }
+    .pill-bsky  { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(0,159,255,.18)); }
+    .pill-bsky:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(0,159,255,.26)); }
+    .pill-tiktok{ background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,0,80,.18)); }
+    .pill-tiktok:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,0,80,.26)); }
+    .bsky-icon { vertical-align:-2px; }
 
     /* Header break band */
-    .header-break {
-      background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem;
-    }
-    .header-break p { margin:.25rem 0 0; font-weight:500; opacity:.95; }
+    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.95rem 1rem; }
+    .header-break p { margin:.25rem 0 0; font-weight:600; opacity:.98; line-height:1.35; }
 
     /* Pretty nav links */
-    .navbar .nav-link {
-      position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600;
-    }
+    .navbar .nav-link { position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600; }
     .navbar .nav-link:hover { color: var(--link); }
     .navbar .nav-link::after {
       content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
@@ -89,12 +98,8 @@
     .pact-note a { text-decoration: underline; }
 
     /* Bottom CTA band */
-    .cta-band {
-      background:#f8f9fa; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3;
-    }
-    .cta-band .btn {
-      border-radius:999px; padding:.6rem 1rem; font-weight:700;
-    }
+    .cta-band { background:#f8f9fa; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
+    .cta-band .btn { border-radius:999px; padding:.6rem 1rem; font-weight:700; }
     .btn-donate { background: var(--donate); color:#fff; border:none; }
     .btn-donate:hover { filter: brightness(.95); }
     .btn-ghost { background:#fff; border:1px solid #cfd8e3; color:#0d3b66; }
@@ -105,16 +110,16 @@
 
 <!-- SOCIAL MEDIA BAR -->
 <section class="social-top py-2">
-  <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
-      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+  <div class="container d-flex flex-wrap justify-content-center social-wrap">
+    <a class="social-pill pill-reddit" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien" aria-hidden="true"></i> <span>Reddit</span>
     </a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
-      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+    <a class="social-pill pill-bsky" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" role="img" aria-label="Bluesky logo"><path fill="#ffffff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
       <span>Bluesky</span>
     </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
-      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    <a class="social-pill pill-tiktok" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok" aria-hidden="true"></i> <span>TikTok</span>
     </a>
   </div>
 </section>
@@ -125,7 +130,7 @@
     <div class="row align-items-center g-2">
       <div class="col-12 text-center">
         <div class="h5 m-0">Digging Into the Issues</div>
-        <p class="mb-0">Trust is built, not bought. Every plan here puts people over special interests.</p>
+        <p class="mb-0">Trust is built, not bought.<br/>Every plan here puts people over special interests.</p>
       </div>
     </div>
   </div>
@@ -142,14 +147,12 @@
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html" aria-current="page">Issues</a></li>
-
         <li class="nav-item">
           <a class="nav-link" href="Bills/Bills.html" title="Evergreen Pact">
             <i class="fa-solid fa-tree me-1" aria-hidden="true"></i>
             <span>Evergreen Pact</span>
           </a>
         </li>
-
         <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <!-- No Donate button here to match Index and Bills nav -->
@@ -171,43 +174,15 @@
     <div class="issue-nav">
       <h5>Jump to a section</h5>
       <ul>
-        <li><a href="#universal-healthcare">1) Universal Healthcare</a></li>
-        <li><a href="#cost-of-living">2) Lowering the Cost of Living</a></li>
+        <li><a href="#cost-of-living">1) Lowering the Cost of Living</a></li>
+        <li><a href="#universal-healthcare">2) Universal Healthcare</a></li>
         <li><a href="#end-corruption">3) End Corruption &amp; Special Interests</a></li>
         <li><a href="#fair-taxation">4) Tax Fairness, CSR &amp; Good Jobs</a></li>
         <li><a href="#sources">Sources</a></li>
       </ul>
     </div>
 
-    <!-- #1 Universal Healthcare -->
-    <section id="universal-healthcare" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
-        </div>
-        <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
-          <h2 class="h4 section-title">Universal Healthcare</h2>
-          <p class="lead-small">Cover everyone automatically, lower drug costs, treat mental health like health, and invest in primary care close to home.</p>
-
-          <ul class="mt-3">
-            <li><strong>Automatic coverage:</strong> a national benefits floor so no one falls through the cracks.</li>
-            <li><strong>Lower drug prices:</strong> expand negotiation and stop patent gaming.</li>
-            <li><strong>Parity &amp; access:</strong> enforce mental-health parity; grow clinics and workforce where care is scarce.</li>
-            <li><strong>Health in all policies:</strong> align food, water, air, and workplace standards to health goals.</li>
-          </ul>
-
-          <div class="cta-links mt-2">
-            <a href="Bills/Universal Healthcare Bill.html"><i class="fa-regular fa-file-lines"></i><span>See the Universal Healthcare Bill (2026)</span></a>
-          </div>
-
-          <p class="small mt-2"><a href="#sources">See sources</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- #2 Cost of Living -->
+    <!-- #1 Cost of Living -->
     <section id="cost-of-living" class="mb-5">
       <div class="divider"></div>
       <div class="row g-4 align-items-center">
@@ -215,7 +190,7 @@
           <img class="issue-img" src="images/IMG_4349.jpeg" alt="Lowering the cost of living">
         </div>
         <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
           <h2 class="h4 section-title">Lowering the Cost of Living</h2>
           <p class="lead-small">Make housing and childcare attainable, groceries fair, utilities affordable, and safeguard Social Security, with no new taxes on working families.</p>
 
@@ -233,12 +208,14 @@
             </li>
             <li class="mt-2"><strong>Childcare you can find and afford:</strong> expand and refund the CDCTC, invest in quality seat supply.
               <div class="cta-links">
-                <a href="Bills/Affordable Child and Dependent Care Bill.html"><i class="fa-regular fa-file-lines"></i><span>Affordable Child &amp; Dependent Care Bill</span></a>
+                <!-- Filename aligned to your repo list (Act) -->
+                <a href="Bills/Affordable Child and Dependent Care Act.html"><i class="fa-regular fa-file-lines"></i><span>Affordable Child &amp; Dependent Care</span></a>
               </div>
             </li>
             <li class="mt-2"><strong>Lower monthly utility bills:</strong> bigger rebates for weatherization, heat pumps, and community solar; streamline LIHEAP.
               <div class="cta-links">
-                <a href="Bills/Energy Savings and Lower Bill.html"><i class="fa-regular fa-file-lines"></i><span>Energy Savings &amp; Lower Bills</span></a>
+                <!-- Plural Bills per your repo list -->
+                <a href="Bills/Energy Savings and Lower Bills.html"><i class="fa-regular fa-file-lines"></i><span>Energy Savings &amp; Lower Bills</span></a>
               </div>
             </li>
             <li class="mt-2"><strong>Protect Social Security checks:</strong> end benefit taxes for most retirees; fair top-end contributions; strengthen trust-fund solvency.
@@ -255,6 +232,34 @@
               </div>
             </li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- #2 Universal Healthcare -->
+    <section id="universal-healthcare" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
+          <h2 class="h4 section-title">Universal Healthcare</h2>
+          <p class="lead-small">Cover everyone automatically, lower drug costs, treat mental health like health, and invest in primary care close to home.</p>
+
+          <ul class="mt-3">
+            <li><strong>Automatic coverage:</strong> a national benefits floor so no one falls through the cracks.</li>
+            <li><strong>Lower drug prices:</strong> expand negotiation and stop patent gaming.</li>
+            <li><strong>Parity &amp; access:</strong> enforce mental-health parity; grow clinics and workforce where care is scarce.</li>
+            <li><strong>Health in all policies:</strong> align food, water, air, and workplace standards to health goals.</li>
+          </ul>
+
+          <div class="cta-links mt-2">
+            <a href="Bills/Universal Healthcare Bill.html"><i class="fa-regular fa-file-lines"></i><span>See the Universal Healthcare Bill (2026)</span></a>
+          </div>
+
+          <p class="small mt-2"><a href="#sources">See sources</a></p>
         </div>
       </div>
     </section>
@@ -280,8 +285,9 @@
           </ul>
 
           <div class="cta-links mt-2">
-            <a href="Bills/Clean Campaigns and Elections Bill.html"><i class="fa-regular fa-file-lines"></i><span>See the Clean Campaigns &amp; Elections Bill</span></a>
-            <a href="Bills/Congressional Vote Justification Bill.Html"><i class="fa-regular fa-file-lines"></i><span>See the Congressional Vote Justification Bill</span></a>
+            <a href="Bills/Clean Campaigns and Elections Bill.html"><i class="fa-regular fa-file-lines"></i><span>Clean Campaigns &amp; Elections Bill</span></a>
+            <!-- normalize extension to .html -->
+            <a href="Bills/Congressional Vote Justification Bill.html"><i class="fa-regular fa-file-lines"></i><span>Congressional Vote Justification Bill</span></a>
           </div>
 
           <p class="small mt-2"><a href="#sources">See sources</a></p>
