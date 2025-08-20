@@ -21,14 +21,12 @@
     .navbar .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
     .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
 
-    /* hero */
     .hero{position:relative;background:#0b3157;color:#fff}
     .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.35))}
     .hero .container{position:relative;z-index:1}
     .hero h1{font-weight:900;letter-spacing:.3px;text-shadow:0 2px 10px rgba(0,0,0,.4)}
     .overview-btn{border-width:2px;font-weight:800}
 
-    /* tiers and cards */
     .nav-pills .nav-link{font-weight:700}
     .tier-header{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0 .75rem 0;color:#fff;border-radius:14px;padding:.75rem 1rem;box-shadow:0 8px 18px rgba(0,0,0,.12)}
     .badge-xl{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.18);font-weight:800}
@@ -41,12 +39,8 @@
     .mini{font-size:.92rem;color:#334155}
     .btn-outline-dark{border-width:2px}
     .nextBox{background:#f7fafc;border:1px solid #e6ebf2;border-radius:12px;padding:.6rem .75rem}
-    .path-wrap{background:#fff;border:1px solid #e6ebf2;border-radius:16px;padding:1rem}
-
-    /* hide until unlocked */
     .locked{display:none !important}
 
-    /* effect panel rollup */
     .effect-panel{background:#f8fbff;border:1px solid #dbe7f5;border-radius:12px}
     .effect-header{padding:.55rem .75rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
     .effect-title{font-weight:700;font-size:.95rem;color:#0d3b66;margin:0}
@@ -55,7 +49,6 @@
     .highlight{outline:3px solid #f5c542; box-shadow:0 0 0 6px rgba(245,197,66,.25)}
     footer{background:#0d3b66;color:#fff;padding:1.25rem 0}
 
-    /* tier colors */
     .t0{background:linear-gradient(90deg,var(--t0),#1d3b4f)}
     .t1{background:linear-gradient(90deg,var(--t1),#0a5c41)}
     .t2{background:linear-gradient(90deg,var(--t2),#0a3157)}
@@ -89,129 +82,38 @@
   <div class="container text-center">
     <h1 class="display-5 mb-2">🌲 The Evergreen Pact</h1>
     <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
-    <button class="btn btn-outline-light overview-btn" data-bs-toggle="modal" data-bs-target="#overviewModal">
-      One-slide overview
-    </button>
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+      <a class="btn btn-light fw-bold overview-btn" href="Overview.html" target="_blank" rel="noopener">Open overview in a new tab</a>
+      <a class="btn btn-outline-light fw-bold" href="Evergreen_Pact_Playbook_2027.doc" download>Download Word doc</a>
+    </div>
   </div>
 </header>
 
-<!-- PUNCHY EXPLANATION -->
+<!-- PACT EXPLANATION UNDER HERO -->
 <section class="container my-4">
-  <div class="row g-4">
-    <div class="col-lg-8">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
       <h2 class="h4">What the Evergreen Pact is</h2>
       <p class="mb-2"><strong>The Evergreen Pact is a plan you can climb.</strong> We win fast relief, we lock down the rules so no one can abuse the system, then we build the bigger reforms. No new taxes on working families. Clear guardrails from the start.</p>
       <ul>
-        <li><strong>Lower costs first.</strong> Energy bills, grocery prices, job training that leads to real paychecks.</li>
+        <li><strong>Lower costs first.</strong> Energy bills, grocery prices, and job training that leads to paychecks.</li>
         <li><strong>Guardrails always on.</strong> Publication rules, transparency, and quick court review when needed.</li>
         <li><strong>Never stall.</strong> If a step fails, the fallback starts and we move to the next step. Momentum stays high.</li>
       </ul>
     </div>
-    <div class="col-lg-4">
-      <div class="path-wrap">
-        <svg viewBox="0 0 600 120" role="img" aria-label="Clean 2027 path">
-          <rect x="0" y="30" width="580" height="6" fill="#dbe7f5"></rect>
-          <rect x="0" y="30" width="140" height="6" fill="#0d3b66"></rect>
-          <rect x="140" y="30" width="140" height="6" fill="#0b6e4f"></rect>
-          <rect x="280" y="30" width="140" height="6" fill="#7a3e9d"></rect>
-          <rect x="420" y="30" width="140" height="6" fill="#1f6feb"></rect>
-          <g fill="#0d3b66" font-size="12">
-            <circle cx="0" cy="33" r="6"/><text x="0" y="60" text-anchor="start">January 2027</text>
-            <circle cx="140" cy="33" r="6"/><text x="140" y="60" text-anchor="middle">February 2027</text>
-            <circle cx="280" cy="33" r="6"/><text x="280" y="60" text-anchor="middle">March to April 2027</text>
-            <circle cx="420" cy="33" r="6"/><text x="420" y="60" text-anchor="middle">May to June 2027</text>
-            <circle cx="560" cy="33" r="6"/><text x="560" y="60" text-anchor="end">After June 2027</text>
-          </g>
-        </svg>
-      </div>
-    </div>
   </div>
 </section>
-
-<!-- ONE-SLIDE OVERVIEW (modal) -->
-<div class="modal fade" id="overviewModal" tabindex="-1" aria-labelledby="overviewLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="overviewLabel">Evergreen Pact — One slide overview for 2027</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row g-3">
-          <div class="col-lg-6">
-            <div class="path-wrap">
-              <h6 class="mb-2">Path A: House and Senate</h6>
-              <ul class="mb-3">
-                <li><strong>Tier 0, Guardrails:</strong> Implementation Safeguards → Communications and Seals → Defense emergency approval to spend pilot → Continuity expansion</li>
-                <li><strong>Tier 1, Quick wins:</strong> Energy savings → Fair food and grocery competition → Good jobs and skills</li>
-                <li><strong>Tier 2, Relief and stability:</strong> Child and dependent care → Housing permitting modernization → First time homebuyer three percent mortgage</li>
-                <li><strong>Tier 3, Fairness:</strong> Tax fairness → Corporate responsibility</li>
-                <li><strong>Tier 4, System reform:</strong> Clean campaigns and elections → Congressional vote justification</li>
-                <li><strong>Tier 5, Long term guarantees:</strong> Universal healthcare → Social Security solvency</li>
-              </ul>
-              <div class="small">Blueprint links: 
-                <a target="_blank" rel="noopener" href="1)%20Minibus%201_%20Implementation%20Safeguards%20Act.html">Safeguards</a> ·
-                <a target="_blank" rel="noopener" href="3)%20FSGG%20package_Communications%20and%20Authentication%20Integrity%20Act.html">Communications and Seals</a> ·
-                <a target="_blank" rel="noopener" href="2)%20NDAA%20window_Emergency%20Powers%20Approval-to-Spend%20Pilot%20(DoD-Only).html">Defense emergency pilot</a> ·
-                <a target="_blank" rel="noopener" href="4)%20Round-Two%20Clean-Up_%20Continuity%20Integrity%20Expansion%20Act.html">Continuity expansion</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="path-wrap">
-              <h6 class="mb-2">Path B: House only</h6>
-              <ul class="mb-3">
-                <li><strong>Tier 0, Guardrails and pressure:</strong> Safeguard riders → Administrative standards → Congressional Review Act disapprovals</li>
-                <li><strong>Tier 1, Quick wins and pilots:</strong> Energy savings marker → Fair food and grocery competition marker → Good jobs and skills marker</li>
-                <li class="small">House continues with permitting and mortgage pilots, childcare stabilization, fairness markers, and rules based reform.</li>
-              </ul>
-              <div class="small">Blueprint links: 
-                <a target="_blank" rel="noopener" href="5)%20If%20pieces%20die%20in%20the%20Senate%20or%20in%20conference_fallback%20toolkit.html">Rider and standards kit</a> ·
-                <a target="_blank" rel="noopener" href="Energy%20Savings%20and%20Lower%20Bill.html">Energy savings</a> ·
-                <a target="_blank" rel="noopener" href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair food</a> ·
-                <a target="_blank" rel="noopener" href="Good%20Jobs%20%26%20Skills%20Bill.html">Good jobs</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr class="my-3">
-        <div class="small">Tip: In the main view, only the current step is visible. Click Pass or Fail to reveal what is next. The effect panel under each card rolls up and down and shows what changes.</div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-bs-dismiss="modal">Close overview</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- HOW IT WORKS -->
 <section class="container my-4">
   <div class="row g-4">
-    <div class="col-lg-7">
+    <div class="col-lg-12">
       <h2 class="h4">How to use this page</h2>
       <p class="mb-2">You will see the current step only. Click Pass or Fail. The next active items appear and the displayed odds update. Every card explains two things in plain language.</p>
       <ul class="mb-0">
         <li><strong>For working people</strong> shows how the step lowers costs, raises wages, or improves services without raising taxes on working families.</li>
         <li><strong>Checks on executive power</strong> shows how the step prevents unilateral action and forces transparency and review.</li>
       </ul>
-    </div>
-    <div class="col-lg-5">
-      <div class="path-wrap">
-        <svg viewBox="0 0 600 120" role="img" aria-label="Clean 2027 path">
-          <rect x="0" y="30" width="580" height="6" fill="#dbe7f5"></rect>
-          <rect x="0" y="30" width="140" height="6" fill="#0d3b66"></rect>
-          <rect x="140" y="30" width="140" height="6" fill="#0b6e4f"></rect>
-          <rect x="280" y="30" width="140" height="6" fill="#7a3e9d"></rect>
-          <rect x="420" y="30" width="140" height="6" fill="#1f6feb"></rect>
-          <g fill="#0d3b66" font-size="12">
-            <circle cx="0" cy="33" r="6"/><text x="0" y="60" text-anchor="start">January 2027</text>
-            <circle cx="140" cy="33" r="6"/><text x="140" y="60" text-anchor="middle">February 2027</text>
-            <circle cx="280" cy="33" r="6"/><text x="280" y="60" text-anchor="middle">March to April 2027</text>
-            <circle cx="420" cy="33" r="6"/><text x="420" y="60" text-anchor="middle">May to June 2027</text>
-            <circle cx="560" cy="33" r="6"/><text x="560" y="60" text-anchor="end">After June 2027</text>
-          </g>
-        </svg>
-      </div>
     </div>
   </div>
 </section>
@@ -630,24 +532,26 @@
         <!-- Corporate Responsibility (LOCKED) -->
         <div class="col-md-6 locked" id="A-F2">
           <div class="card card-step">
-            <div class="card-body">
-              <div class="d-flex justify-content-between"><span class="chip">Item 12</span><span class="mini">When: March to June 2027</span></div>
-              <h4 class="h5 mt-2">Corporate Responsibility</h4>
-              <p class="mini mb-2"><strong>For working people:</strong> penalizes wage theft and extreme pay gaps. Rewards honest employers. Does not raise taxes on working families.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> makes repeat offender penalties automatic and public, so the executive branch cannot bury cases.</p>
-              <p class="mini mb-2"><strong>How to move it:</strong> finance and tax committees.</p>
-              <div class="odds mb-2">
-                <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="35–50%" data-pass="40–55%" data-fail="35–50%">35–50%</span></div>
-                <div><strong>Paired with Tax Fairness:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="55–65%" data-fail-b="45–55%">55–65%</span></div>
-              </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Corporate%20Responsibility%20CSR%20Bill.html" target="_blank" rel="noopener">Open blueprint</a>
-                <button class="btn btn-success btn-sm branch" data-pass="#A-S1" data-pass-effects='["Corporate Responsibility passed. Move to system reform."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#A-S1" data-fail-effects='["Corporate Responsibility failed. Use repeat offender riders and public lists. Move to system reform."]'>Fail</button>
-              </div>
-              <div class="collapse effect-panel mt-2" id="eff-A-F2">
-                <div class="effect-header" data-target="#eff-A-F2"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
-                <div class="effect-body"></div>
+            <div class="card body">
+              <div class="card-body">
+                <div class="d-flex justify-content-between"><span class="chip">Item 12</span><span class="mini">When: March to June 2027</span></div>
+                <h4 class="h5 mt-2">Corporate Responsibility</h4>
+                <p class="mini mb-2"><strong>For working people:</strong> penalizes wage theft and extreme pay gaps. Rewards honest employers. Does not raise taxes on working families.</p>
+                <p class="mini mb-2"><strong>Checks on executive power:</strong> makes repeat offender penalties automatic and public, so the executive branch cannot bury cases.</p>
+                <p class="mini mb-2"><strong>How to move it:</strong> finance and tax committees.</p>
+                <div class="odds mb-2">
+                  <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="35–50%" data-pass="40–55%" data-fail="35–50%">35–50%</span></div>
+                  <div><strong>Paired with Tax Fairness:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="55–65%" data-fail-b="45–55%">55–65%</span></div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                  <a class="btn btn-outline-dark btn-sm" href="Corporate%20Responsibility%20CSR%20Bill.html" target="_blank" rel="noopener">Open blueprint</a>
+                  <button class="btn btn-success btn-sm branch" data-pass="#A-S1" data-pass-effects='["Corporate Responsibility passed. Move to system reform."]'>Pass</button>
+                  <button class="btn btn-danger btn-sm branch" data-fail="#A-S1" data-fail-effects='["Corporate Responsibility failed. Use repeat offender riders and public lists. Move to system reform."]'>Fail</button>
+                </div>
+                <div class="collapse effect-panel mt-2" id="eff-A-F2">
+                  <div class="effect-header" data-target="#eff-A-F2"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
+                  <div class="effect-body"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -811,7 +715,7 @@
           </div>
         </div>
 
-        <!-- B3 CRA (LOCKED) -->
+        <!-- B3 Congressional Review Act (LOCKED) -->
         <div class="col-md-6 locked" id="B-G3">
           <div class="card card-step">
             <div class="card-body">
@@ -938,7 +842,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Reveal helper
   function revealTargets(selectors){
     if(!selectors) return;
     selectors.split(',').forEach(sel=>{
@@ -951,7 +854,6 @@
     });
   }
 
-  // Update displayed odds in a given card based on pass or fail
   function updateOdds(container, passed){
     container.querySelectorAll('.odds-now').forEach(span=>{
       const passStandalone = span.dataset.pass;
@@ -976,7 +878,6 @@
     });
   }
 
-  // Single rollup panel per card. No stacking.
   function setEffect(card, title, lines){
     const box = card.querySelector('.effect-panel');
     const body = card.querySelector('.effect-panel .effect-body');
@@ -987,7 +888,6 @@
     c.show();
   }
 
-  // Click on Details header toggles the panel
   document.addEventListener('click', (e)=>{
     const header = e.target.closest('.effect-header');
     if(!header) return;
@@ -997,35 +897,28 @@
     c.toggle();
   });
 
-  // Branching behavior: hide non active until a click, then reveal the next
   document.querySelectorAll('.branch').forEach(btn=>{
     btn.addEventListener('click', e=>{
       const card = e.target.closest('.card-step');
-      const isPass = e.target.classList.contains('btn-success');
+      const passed = e.target.classList.contains('btn-success');
+      // disable both buttons on this card to prevent stacking clicks
+      card.querySelectorAll('.branch').forEach(b=>b.disabled=true);
 
-      // Prevent rapid double clicks
-      btn.disabled = true; setTimeout(()=>btn.disabled=false, 400);
-
-      // Update odds in this card
-      updateOdds(card, isPass);
-
-      // Effects text from data attributes
-      const passEffects = e.target.dataset.passEffects ? JSON.parse(e.target.dataset.passEffects) : null;
-      const failEffects = e.target.dataset.failEffects ? JSON.parse(e.target.dataset.failEffects) : null;
-      if(isPass && passEffects) setEffect(card, 'Effect of passage:', passEffects);
-      if(!isPass && failEffects) setEffect(card, 'Effect of failure:', failEffects);
-
-      // Reveal next targets
-      const targets = isPass ? e.target.dataset.pass : e.target.dataset.fail;
-      revealTargets(targets);
-
-      // Also update odds on revealed target cards if they have dependency deltas encoded
-      if(targets){
-        targets.split(',').forEach(sel=>{
-          const t=document.querySelector(sel.trim());
-          if(t) updateOdds(t, isPass);
-        });
+      // effects text
+      const effects = passed ? e.target.getAttribute('data-pass-effects') : e.target.getAttribute('data-fail-effects');
+      try {
+        const lines = effects ? JSON.parse(effects) : [];
+        setEffect(card, passed ? 'Effects of passage' : 'Effects of failure', lines);
+      } catch(err){
+        setEffect(card, passed ? 'Effects of passage' : 'Effects of failure', []);
       }
+
+      // update local odds display
+      updateOdds(card, passed);
+
+      // reveal next targets
+      const next = passed ? e.target.getAttribute('data-pass') : e.target.getAttribute('data-fail');
+      revealTargets(next);
     });
   });
 </script>
