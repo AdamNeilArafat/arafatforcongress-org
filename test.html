@@ -1,1 +1,659 @@
-123
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🌲 Evergreen Pact – Bill Blueprints & Governance Playbook | Adam Neil Arafat for Congress</title>
+  <meta name="description" content="The Evergreen Pact: bill blueprints sequenced with a day-by-day governance playbook, decision points, branches, timelines, and links to bills." />
+  <meta name="theme-color" content="#0d3b66" />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; --soft:#f6f9fc;
+      --tier1:#0b6e4f; --tier2:#0d3b66; --tier3:#7a3e9d; --tier4:#1f6feb; --tier5:#c1121f;
+    }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--soft); color:#222; }
+    h1,h2,h3,h4 { color:var(--primary); }
+    a { color:var(--link); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .navbar .nav-link{ position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
+    .navbar .nav-link::after{ content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s ease; }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link.active::after{ width:100%; }
+    .hero { background: linear-gradient(180deg,#0d3b66 0%,#0b3157 100%); color:#fff; }
+    .hero .lead { opacity:.95; }
+
+    /* Tier header cards */
+    .tier-header {
+      border-radius:18px; padding:1rem 1.25rem; color:#fff;
+      display:flex; align-items:center; gap:.75rem; margin-bottom:1rem;
+      box-shadow:0 10px 24px rgba(0,0,0,.12);
+    }
+    .tier-header .badge-xl {
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,.15);
+      font-weight:800; font-size:1.05rem;
+    }
+    .tier-header h3 { color:#fff; margin:0; font-weight:800; letter-spacing:.2px; }
+    .tier-sub { margin:0; opacity:.95; }
+
+    /* Bill cards */
+    .bill-card {
+      border:1px solid rgba(13,59,102,.10); border-radius:16px; background:#fff;
+      box-shadow:0 6px 24px rgba(13,59,102,.08); height:100%;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .bill-card:hover { transform: translateY(-3px); box-shadow:0 14px 40px rgba(13,59,102,.18); border-color: rgba(13,59,102,.20); }
+    .bill-card .card-body { padding:1rem 1rem 1.1rem; }
+    .bill-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:.35rem; }
+    .num-badge {
+      display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem;
+      border-radius:999px; padding:.25rem .6rem; letter-spacing:.2px; color:#fff;
+    }
+    .bill-title a { font-weight:800; font-size:1.05rem; letter-spacing:.1px; }
+    .bill-desc { color:#374151; margin:.5rem 0 .9rem; }
+
+    /* Color accents per tier */
+    .t1 .tier-header{ background:linear-gradient(90deg,var(--tier1) 0%, #0a5c41 100%); }
+    .t2 .tier-header{ background:linear-gradient(90deg,var(--tier2) 0%, #0a3157 100%); }
+    .t3 .tier-header{ background:linear-gradient(90deg,var(--tier3) 0%, #572d70 100%); }
+    .t4 .tier-header{ background:linear-gradient(90deg,var(--tier4) 0%, #174ea6 100%); }
+    .t5 .tier-header{ background:linear-gradient(90deg,var(--tier5) 0%, #8f0d16 100%); }
+    .t1 .num-badge{ background:var(--tier1); } .t2 .num-badge{ background:var(--tier2); }
+    .t3 .num-badge{ background:var(--tier3); } .t4 .num-badge{ background:var(--tier4); }
+    .t5 .num-badge{ background:var(--tier5); }
+    .btn-blueprint { border-radius:999px; font-weight:700; }
+    .btn-outline-tier { border-width:2px; }
+    .t1 .btn-outline-tier{ border-color:var(--tier1); color:var(--tier1); }
+    .t1 .btn-outline-tier:hover{ background:var(--tier1); color:#fff; }
+    .t2 .btn-outline-tier{ border-color:var(--tier2); color:var(--tier2); }
+    .t2 .btn-outline-tier:hover{ background:var(--tier2); color:#fff; }
+    .t3 .btn-outline-tier{ border-color:var(--tier3); color:var(--tier3); }
+    .t3 .btn-outline-tier:hover{ background:var(--tier3); color:#fff; }
+    .t4 .btn-outline-tier{ border-color:var(--tier4); color:var(--tier4); }
+    .t4 .btn-outline-tier:hover{ background:var(--tier4); color:#fff; }
+    .t5 .btn-outline-tier{ border-color:var(--tier5); color:var(--tier5); }
+    .t5 .btn-outline-tier:hover{ background:var(--tier5); color:#fff; }
+    footer { background:#0d3b66; color:#fff; padding:1.5rem 0; }
+
+    /* Playbook styles */
+    .track-tag { font-size:.75rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+    .step-card { border-left:4px solid var(--primary); background:#fff; border-radius:12px; padding:1rem; box-shadow:0 6px 20px rgba(0,0,0,.06); }
+    .when { font-weight:800; color:#0d3b66; }
+    .what { margin:.35rem 0; }
+    .how { color:#374151; }
+    .links a{ margin-right:.35rem; white-space:nowrap; }
+    .matrix th, .matrix td { vertical-align:top; }
+    .pass { color:#0b6e4f; font-weight:700; }
+    .fail { color:#c1121f; font-weight:700; }
+    .tab-pane { padding-top:1rem; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="../index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="../digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link active" href="Bills.html" aria-current="page"><i class="fa-solid fa-tree me-1"></i>Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contrast.html">Record & Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="py-5 text-center hero">
+  <div class="container">
+    <h1 class="fw-bold">🌲 The Evergreen Pact</h1>
+    <p class="lead">Bill blueprints that stack success. Quick wins build trust, bigger reforms build power, and the final goals lock in security.</p>
+  </div>
+</header>
+
+<!-- LADDER INTRO -->
+<section class="container my-5">
+  <h2 class="mb-3">What It Is</h2>
+  <p>The Evergreen Pact is a ladder of change. Each bill is a rung. Early wins make harder reforms possible. Every step stacks momentum toward long term guarantees for working families.</p>
+</section>
+
+<!-- TIERS (unchanged core) -->
+<section class="container mb-5">
+  <h2 class="mb-4">Strategic Sequencing: The Ladder of Change</h2>
+
+  <!-- Tier 1 -->
+  <div class="t1 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T1</span>
+      <div>
+        <h3>Quick Wins</h3>
+        <p class="tier-sub">Broad bipartisan appeal. Immediate relief that builds credibility fast.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T1.1</span></div>
+            <div class="bill-title"><a href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings and Lower Bills</a></div>
+            <p class="bill-desc">Bigger rebates and simpler local programs that cut utility bills with weatherization, efficient appliances, and community solar.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Energy%20Savings%20and%20Lower%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T1.2</span></div>
+            <div class="bill-title"><a href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food and Grocery Competition</a></div>
+            <p class="bill-desc">Cracks down on junk fees and anti competitive contracts so grocery markets are fair and families pay less at checkout.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T1.3</span></div>
+            <div class="bill-title"><a href="Good%20Jobs%20%26%20Skills%20Bill.html">Good Jobs and Skills</a></div>
+            <p class="bill-desc">Right sizes licensing, expands apprenticeships, and aligns training with local employers so people get into good jobs faster.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Good%20Jobs%20%26%20Skills%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tier 2 -->
+  <div class="t2 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T2</span>
+      <div>
+        <h3>Relief and Stability</h3>
+        <p class="tier-sub">Deeper household relief and structural fixes powered by trust earned in Tier 1.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T2.1</span></div>
+            <div class="bill-title"><a href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Affordable Child and Dependent Care</a></div>
+            <p class="bill-desc">Lowers childcare costs and expands seat supply while supporting providers so parents can work and kids thrive.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T2.2</span></div>
+            <div class="bill-title"><a href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Housing Supply and Permitting Modernization</a></div>
+            <p class="bill-desc">Speeds up digital permitting, adds homes near jobs and transit, and supports modular building to lower costs.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T2.3</span></div>
+            <div class="bill-title"><a href="First-Time%20Homebuyer%203%25%20Mortgage%20Bill.html">First Time Homebuyer 3% Mortgage</a></div>
+            <p class="bill-desc">Offers federally backed around 3 percent fixed mortgages for first time buyers with strong guardrails and oversight.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="First-Time%20Homebuyer%203%25%20Mortgage%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tier 3 -->
+  <div class="t3 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T3</span>
+      <div>
+        <h3>Accountability</h3>
+        <p class="tier-sub">Cost of living wins make it harder for lobbyists to block fairness and responsibility.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T3.1</span></div>
+            <div class="bill-title"><a href="Tax%20Fairness%20Bill.html">Tax Fairness</a></div>
+            <p class="bill-desc">Sets a 15 percent book profit minimum, closes offshoring loopholes, expands CTC and EITC, and improves transparency without new taxes on working families.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Tax%20Fairness%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T3.2</span></div>
+            <div class="bill-title"><a href="Corporate%20Responsibility%20CSR%20Bill.html">Corporate Responsibility (CSR)</a></div>
+            <p class="bill-desc">Applies surtaxes tied to wage theft, extreme pay gaps, and repeat OSHA or EPA violations and rewards good actors with credits.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Corporate%20Responsibility%20CSR%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tier 4 -->
+  <div class="t4 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T4</span>
+      <div>
+        <h3>System Reform</h3>
+        <p class="tier-sub">Change the rules after credibility and pressure are built by earlier tiers.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T4.1</span></div>
+            <div class="bill-title"><a href="Clean%20Campaigns%20and%20Elections%20Bill.html">Clean Campaigns and Elections</a></div>
+            <p class="bill-desc">Bans corporate PAC money, speeds disclosure to near real time, and pilots voter vouchers so campaigns answer to people.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Clean%20Campaigns%20and%20Elections%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T4.2</span></div>
+            <div class="bill-title"><a href="Congressional%20Vote%20Justification%20Bill.html">Congressional Vote Justification</a></div>
+            <p class="bill-desc">Requires standardized factual explanations for key votes and enforces a single subject rule for clearer lawmaking.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Congressional%20Vote%20Justification%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tier 5 -->
+  <div class="t5 mb-4">
+    <div class="tier-header">
+      <span class="badge-xl">T5</span>
+      <div>
+        <h3>Long Term Guarantees</h3>
+        <p class="tier-sub">The biggest lifts come last and become realistic after earlier wins are banked.</p>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T5.1</span></div>
+            <div class="bill-title"><a href="Universal%20Healthcare%20Bill.html">Universal Healthcare</a></div>
+            <p class="bill-desc">Delivers automatic coverage with a national benefits floor, lower drug costs, and mental health parity.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Universal%20Healthcare%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="bill-card h-100">
+          <div class="card-body">
+            <div class="bill-meta"><span class="num-badge">T5.2</span></div>
+            <div class="bill-title"><a href="Social%20Security%20-%20Working%20Families%20Retirement%20Security%20and%20Solvency%20Bill.html">Social Security Solvency</a></div>
+            <p class="bill-desc">Ends benefit taxes for most retirees and restores fair top end contributions so checks stay secure.</p>
+            <a class="btn btn-outline-tier btn-blueprint btn-sm" href="Social%20Security%20-%20Working%20Families%20Retirement%20Security%20and%20Solvency%20Bill.html">Open blueprint</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW: GOVERNANCE PLAYBOOK -->
+<section class="container mb-5" id="playbook">
+  <h2 class="mb-3">Governing Playbook: Time-Based Plan, Branches, and Decision Points</h2>
+
+  <!-- Scenario Tabs -->
+  <ul class="nav nav-tabs" id="scenarioTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="tab-a" data-bs-toggle="tab" data-bs-target="#scenario-a" type="button" role="tab" aria-controls="scenario-a" aria-selected="true">
+        Scenario A: Flip House + Senate
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-b" data-bs-toggle="tab" data-bs-target="#scenario-b" type="button" role="tab" aria-controls="scenario-b" aria-selected="false">
+        Scenario B: Flip House Only
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="scenarioContent">
+    <!-- SCENARIO A -->
+    <div class="tab-pane fade show active" id="scenario-a" role="tabpanel" aria-labelledby="tab-a">
+      <div class="row g-3 mt-2">
+        <!-- Day 1 -->
+        <div class="col-lg-4">
+          <div class="step-card h-100">
+            <div class="track-tag">Guardrails + Tier 1</div>
+            <div class="when">Day 1</div>
+            <div class="what">File Implementation Safeguards in Minibus 1. Drop FSGG Comms + Seals title. Open NDAA DoD pilot lane. Introduce Tier 1 bills for quick relief.</div>
+            <div class="how">Use general provisions for publication/clearance condition, certifications, dashboard, expedited court path. Stage suspension votes for Tier 1.</div>
+            <div class="links small">
+              <a class="doc-link" data-doc="1) Minibus 1_ Implementation Safeguards Act">Safeguards</a> •
+              <a class="doc-link" data-doc="3) FSGG package_Communications and Authentication Integrity Act">Comms + Seals</a> •
+              <a class="doc-link" data-doc="2) NDAA window_Emergency Powers Approval-to-Spend Pilot (DoD-Only)">NDAA Pilot</a>
+            </div>
+          </div>
+        </div>
+        <!-- Days 2–10 -->
+        <div class="col-lg-4">
+          <div class="step-card h-100">
+            <div class="track-tag">Parallel</div>
+            <div class="when">Days 2–10</div>
+            <div class="what">Move riders through committee. Run hearings on compliance. Push Tier 1 floor votes.</div>
+            <div class="how">Use tight rules. Publish 30/60/90 day implementation calendars for passed Tier 1.</div>
+            <div class="links small">
+              <a href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings</a> •
+              <a href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food</a> •
+              <a href="Good%20Jobs%20%26%20Skills%20Bill.html">Jobs & Skills</a>
+            </div>
+          </div>
+        </div>
+        <!-- Days 11–30 -->
+        <div class="col-lg-4">
+          <div class="step-card h-100">
+            <div class="track-tag">Waterfall begins</div>
+            <div class="when">Days 11–30</div>
+            <div class="what">Advance CRA disapprovals if applicable. Bring Tier 2: childcare, permitting, then 3% mortgage.</div>
+            <div class="how">Put digital permitting grants first, then file First-Time Homebuyer within 10 days of passage.</div>
+            <div class="links small">
+              <a href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Child & Dependent Care</a> •
+              <a href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Permitting</a> •
+              <a href="First-Time%20Homebuyer%203%25%20Mortgage%20Bill.html">3% Mortgage</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Days 31–100 -->
+        <div class="col-lg-6">
+          <div class="step-card h-100">
+            <div class="track-tag">Fairness + Funding</div>
+            <div class="when">Days 31–100</div>
+            <div class="what">Pair Tax Fairness with CSR Accountability. Move NDAA pilot to conference. Prepare Continuity Expansion follow-on.</div>
+            <div class="how">Use offsets and enforcement to fund relief. Keep watchdog deadlines. Collect GAO findings for expansion.</div>
+            <div class="links small">
+              <a href="Tax%20Fairness%20Bill.html">Tax Fairness</a> •
+              <a href="Corporate%20Responsibility%20CSR%20Bill.html">CSR</a> •
+              <a class="doc-link" data-doc="4) Round-Two Clean-Up_ Continuity Integrity Expansion Act">Continuity Expansion</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- After Day 100 -->
+        <div class="col-lg-6">
+          <div class="step-card h-100">
+            <div class="track-tag">System + T5</div>
+            <div class="when">After Day 100</div>
+            <div class="what">Move Clean Campaigns and Vote Justification. Begin Tier 5 groundwork.</div>
+            <div class="how">If system bills stall, run voucher pilots and disclosure riders. Start scoring and transition grants for UHC and Social Security.</div>
+            <div class="links small">
+              <a href="Clean%20Campaigns%20and%20Elections%20Bill.html">Clean Campaigns</a> •
+              <a href="Congressional%20Vote%20Justification%20Bill.html">Vote Justification</a> •
+              <a href="Universal%20Healthcare%20Bill.html">Universal Healthcare</a> •
+              <a href="Social%20Security%20-%20Working%20Families%20Retirement%20Security%20and%20Solvency%20Bill.html">Social Security</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decision Matrix A -->
+      <div class="mt-4">
+        <h4>Decision Matrix (Scenario A)</h4>
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered matrix">
+            <thead class="table-light">
+              <tr>
+                <th>Item</th>
+                <th>Vehicle</th>
+                <th>Pass path</th>
+                <th>Fail branch</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Implementation Safeguards</td>
+                <td>Minibus 1 general provisions</td>
+                <td class="pass">Lock status quo; publish dashboard; enforce 3-judge fast lane</td>
+                <td class="fail">Re-file riders; OFR/OIRA/GPO standards; Holman as leverage; <a class="doc-link" data-doc="5) If pieces die in the Senate or in conference_fallback toolkit">Fallback toolkit</a></td>
+              </tr>
+              <tr>
+                <td>DoD Emergency Approval-to-Spend</td>
+                <td>NDAA pilot</td>
+                <td class="pass">Run pilot; gather GAO report; expand govt-wide</td>
+                <td class="fail">NEA termination votes; fence emergency transfer accounts</td>
+              </tr>
+              <tr>
+                <td>Comms + Seals Integrity</td>
+                <td>FSGG title</td>
+                <td class="pass">OFR/GSA authentication standards govern daily workflow</td>
+                <td class="fail">OFR handbook update; GPO hosting rules; targeted riders</td>
+              </tr>
+              <tr>
+                <td>Permitting → 3% Mortgage</td>
+                <td>THUD + Banking/HUD</td>
+                <td class="pass">Announce dates; open application windows</td>
+                <td class="fail">Grants first; 3% metro pilot; report language criteria</td>
+              </tr>
+              <tr>
+                <td>Tax Fairness + CSR</td>
+                <td>Finance/WTM package</td>
+                <td class="pass">Bank offsets; scale enforcement</td>
+                <td class="fail">Transparency then phase rates; move recidivist penalties</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO B -->
+    <div class="tab-pane fade" id="scenario-b" role="tabpanel" aria-labelledby="tab-b">
+      <div class="row g-3 mt-2">
+        <!-- Day 1 -->
+        <div class="col-lg-4">
+          <div class="step-card h-100">
+            <div class="track-tag">House riders</div>
+            <div class="when">Day 1</div>
+            <div class="what">Drop publication/clearance riders, certifications, dashboard. Expect Senate to strip. Prepare report directives and GAO hooks.</div>
+            <div class="how">Aim at OFR, OIRA, OMB, GPO, OPM lines in FSGG and general provisions.</div>
+            <div class="links small">
+              <a class="doc-link" data-doc="1) Minibus 1_ Implementation Safeguards Act">Safeguards riders</a> •
+              <a class="doc-link" data-doc="3) FSGG package_Communications and Authentication Integrity Act">Comms + Seals riders</a>
+            </div>
+          </div>
+        </div>
+        <!-- Days 2–10 -->
+        <div class="col-lg-4">
+          <div class="step-card h-100">
+            <div class="track-tag">Force votes</div>
+            <div class="when">Days 2–10</div>
+            <div class="what">Use CRA on late rules. File NEA and War Powers privileged resolutions.</div>
+            <div class="how">No filibuster on CRA. Public floor pressure narrows the window for abuse.</div>
+            <div class="links small">
+              <a class="doc-link" data-doc="5) If pieces die in the Senate or in conference_fallback toolkit">CRA + NEA templates</a>
+            </div>
+          </div>
+        </div>
+        <!-- Days 11–30 -->
+        <div class="col-lg-4">
+          <div class="step-card h-100">
+            <div class="track-tag">Relief markers</div>
+            <div class="when">Days 11–30</div>
+            <div class="what">Pass Tier 1 in the House. If Senate strips, keep the bones in report language and pilots.</div>
+            <div class="how">Write grant criteria and dashboards into committee reports tied to line items.</div>
+            <div class="links small">
+              <a href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings</a> •
+              <a href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food</a> •
+              <a href="Good%20Jobs%20%26%20Skills%20Bill.html">Jobs & Skills</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Days 31–100 -->
+        <div class="col-lg-6">
+          <div class="step-card h-100">
+            <div class="track-tag">Oversight + litigation</div>
+            <div class="when">Days 31–100</div>
+            <div class="what">Investigate impeached-period actions. File APA suits on any unlawful rules. Keep House Holman pressure ready.</div>
+            <div class="how">Weekly hearings. TRO/PI requests. Targeted salary or line cuts to force negotiations.</div>
+            <div class="links small">
+              <a class="doc-link" data-doc="5) If pieces die in the Senate or in conference_fallback toolkit">Holman + litigation kit</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="step-card h-100">
+            <div class="track-tag">Kitchen-table cover</div>
+            <div class="when">Days 31–100</div>
+            <div class="what">Keep relief front and center while guardrails move by rider or admin standards.</div>
+            <div class="how">Permitting grants, childcare stabilization, consumer junk fee enforcement where jurisdiction allows.</div>
+            <div class="links small">
+              <a href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Permitting</a> •
+              <a href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Childcare</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decision Matrix B -->
+      <div class="mt-4">
+        <h4>Decision Matrix (Scenario B)</h4>
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered matrix">
+            <thead class="table-light">
+              <tr>
+                <th>Item</th>
+                <th>Vehicle</th>
+                <th>Pass path</th>
+                <th>Fail branch</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Publication/clearance riders</td>
+                <td>CR/Minibus (House)</td>
+                <td class="pass">If any stick in conference, workflow friction slows abuse</td>
+                <td class="fail">Report directives to OFR/GPO/OMB; IT standards; dashboard anyway</td>
+              </tr>
+              <tr>
+                <td>CRA disapprovals</td>
+                <td>Privileged resolution</td>
+                <td class="pass">Rule nullified; no “substantially the same” reissue</td>
+                <td class="fail">Re-file; litigate; use oversight to deter</td>
+              </tr>
+              <tr>
+                <td>Tier 1 relief</td>
+                <td>House suspension</td>
+                <td class="pass">Show visible wins at home</td>
+                <td class="fail">Approps pilots and metrics in report language</td>
+              </tr>
+              <tr>
+                <td>NDAA pilot</td>
+                <td>NDAA subtitle</td>
+                <td class="pass">If Senate allows a narrow pilot, expand later</td>
+                <td class="fail">NEA terminations and fences on emergency accounts</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CHANCES OF PASSAGE -->
+<section class="container mb-5">
+  <h2 class="mb-3">Chances of Passage: House and Senate</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>If Democrats Flip the House and Senate</h4>
+      <ul>
+        <li><strong>Tier 1:</strong> 75–85% chance</li>
+        <li><strong>Tier 2:</strong> 55–70% chance</li>
+        <li><strong>Tier 3:</strong> 40–55% chance</li>
+        <li><strong>Tier 4:</strong> 25–40% chance</li>
+        <li><strong>Tier 5:</strong> 10–20% chance</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <h4>If Democrats Do Not Flip</h4>
+      <ul>
+        <li><strong>Tier 1:</strong> 40–50% chance</li>
+        <li><strong>Tier 2:</strong> 20–35% chance</li>
+        <li><strong>Tier 3:</strong> 10–20% chance</li>
+        <li><strong>Tier 4:</strong> &lt;5% chance</li>
+        <li><strong>Tier 5:</strong> &lt;2% chance</li>
+      </ul>
+    </div>
+  </div>
+  <p class="mt-3 fw-bold text-success">
+    Why it matters: every election decides whether these reforms stay as blueprints or become law.
+  </p>
+</section>
+
+<!-- VOLUNTEER + DONATE CTA -->
+<section class="py-5 mt-5" style="background:#f8f9fa;">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-md-6">
+        <div class="p-4 h-100 rounded" style="background:#0b6e4f; color:white;">
+          <h2 class="h4 fw-bold mb-2">✊ Join the Fight</h2>
+          <p class="mb-3">This campaign runs on people, not PACs. Knock doors, spread the word, and help us win real change.</p>
+          <a href="../contact.html" class="btn btn-light fw-bold">I will Volunteer</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-4 h-100 rounded" style="background:#c1121f; color:white;">
+          <h2 class="h4 fw-bold mb-2">💵 Power the Pact</h2>
+          <p class="mb-3">We take no corporate PAC money. Every dollar fuels this movement for working families.</p>
+          <a href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener" class="btn btn-light fw-bold">Chip In</a>
+          <div class="small mt-2 text-light">Secure via ActBlue. People powered only.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Turn data-doc="...name..." into hrefs that drop the leading number and parenthesis, keep the name, and add .html
+  // Example: '1) Minibus 1_ Implementation Safeguards Act' => 'Minibus%201_%20Implementation%20Safeguards%20Act.html'
+  (function() {
+    const docLinks = document.querySelectorAll('a.doc-link[data-doc]');
+    docLinks.forEach(a => {
+      let raw = a.getAttribute('data-doc') || '';
+      raw = raw.replace(/^\\s*\\d+\\)\\s*/, ''); // drop leading "1) "
+      const href = encodeURI(raw.trim()) + '.html';
+      a.setAttribute('href', href);
+    });
+  })();
+</script>
+</body>
+</html>
