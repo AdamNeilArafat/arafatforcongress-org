@@ -106,16 +106,10 @@
     <h1 class="display-5 mb-2">🌲 The Evergreen Pact</h1>
     <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
 
-    <!-- Polished controls -->
+    <!-- Single control per request: keep only "Download PDF" and link it to Overview.html -->
     <div class="d-flex justify-content-center gap-2 flex-wrap">
-      <a class="btn btn-light btn-pill fw-bold overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open one-slide overview in a new tab">
-        <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i> Open Overview
-      </a>
-      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="evergreen-pact-overview-2027.pdf" target="_blank" rel="noopener noreferrer" aria-label="Download overview as a PDF">
+      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Download overview PDF (opens Overview.html)">
         <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF
-      </a>
-      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="overview-print.html" target="_blank" rel="noopener noreferrer" aria-label="Open print-optimized overview">
-        <i class="fa-solid fa-print" aria-hidden="true"></i> Print view
       </a>
     </div>
   </div>
@@ -138,9 +132,12 @@
       <h2 class="h4">How to use this page</h2>
       <p class="mb-2">You will see the current step only. Click Pass or Fail. The next active items appear and the displayed chances update. Each card shows two things in plain language:</p>
       <ul class="mb-0">
-        <li><strong
-```
-
+        <li><strong>For working people</strong> — the near-term benefit at home.</li>
+        <li><strong>Checks on executive power</strong> — how it restores balance.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
 <!-- NoScript fallback -->
 <noscript>
@@ -179,7 +176,7 @@
 
 <div class="tab-content">
 
-  <!-- PATH A -->
+  <!-- ================= PATH A (unchanged) ================= -->
   <section class="tab-pane fade show active" id="pathA" role="tabpanel" aria-labelledby="tabA" data-path="A">
     <div class="container">
       <!-- Progress -->
@@ -265,6 +262,7 @@
               <div class="d-flex gap-2 flex-wrap">
                 <a class="btn btn-outline-dark btn-sm" href="5)%20If%20pieces%20die%20in%20the%20Senate%20or%20in%20conference_fallback%20toolkit.html" target="_blank" rel="noopener noreferrer">Open fallback kit</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Apply fallback to proceed" data-pass="#A-G2" data-pass-effects='["Fallback in place. Continue to Communications and Seals."]'>Applied</button>
+                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Skip fallback" data-fail="#A-G2" data-fail-effects='["Fallback skipped. Proceed to Communications and Seals; litigation posture stays ready."]'>Skip</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-G1R">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-G1R" aria-controls="eff-A-G1R" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -746,7 +744,7 @@
     </div>
   </section>
 
-  <!-- PATH B -->
+  <!-- ================= PATH B (House-only; updated with 12 cards) ================= -->
   <section class="tab-pane fade" id="pathB" role="tabpanel" aria-labelledby="tabB" data-path="B">
     <div class="container">
       <!-- Progress -->
@@ -758,71 +756,268 @@
       </div>
 
       <!-- T0 -->
-      <div class="tier-header t0"><span class="badge-xl">T0</span><div><h3 class="tier-title mb-0">House only guardrails and pressure</h3><div>January to September 2027</div></div></div>
+      <div class="tier-header t0"><span class="badge-xl">T0</span><div><h3 class="tier-title mb-0">House-only guardrails and pressure</h3><div>January to September 2027</div></div></div>
       <div class="row g-3">
-        <!-- B1 -->
-        <div class="col-md-6" id="B-G1">
-          <div class="card card-step" data-step="B-G1" tabindex="-1" aria-labelledby="B-G1-title">
+        <!-- B-H1: House rules package upgrades -->
+        <div class="col-md-6" id="B-H1">
+          <div class="card card-step" data-step="B-H1" tabindex="-1" aria-labelledby="B-H1-title">
             <div class="card-body">
               <div class="crumb">Path B → Tier 0 → Item B1</div>
-              <div class="d-flex justify-content-between"><span class="chip">Item B1</span><span class="mini">When: January 2027</span></div>
-              <h4 class="h5 mt-2" id="B-G1-title">Safeguard riders</h4>
-              <p class="mini mb-2"><strong>For working people:</strong> keeps programs stable while courts sort out disputes. No new taxes on working families.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> blocks publication and authentication of non compliant actions. Requires certifications and a public dashboard by instruction.</p>
-              <div class="odds mb-2">
-                <div><strong>House passage:</strong> <span class="odds-now" data-standalone="65–80%">65–80%</span></div>
-                <div><strong>Survives in final package:</strong> <span class="odds-now" data-bundled="30–50%">30–50%</span></div>
-              </div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B1</span><span class="mini">When: Day one</span></div>
+              <h4 class="h5 mt-2" id="B-H1-title">House rules package upgrades</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> faster disclosure and cleaner process keep bills honest.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> privileged consideration for impeachment-period guardrails; stronger deposition authority.</p>
+              <div class="odds mb-2"><strong>Pass odds in House:</strong> <span class="odds-now">High</span></div>
               <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="5)%20If%20pieces%20die%20in%20the%20Senate%20or%20in%20conference_fallback%20toolkit.html" target="_blank" rel="noopener noreferrer">Open rider kit</a>
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item B1 as Passed" data-pass="#B-K1,#B-G2" data-pass-effects='["Riders adopted. Start quick wins and standards."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item B1 as Failed" data-fail="#B-G2" data-fail-effects='["Riders failed. Move to administrative standards and litigation."]'>Fail</button>
-              </div>
-              <div class="collapse effect-panel mt-2" id="eff-B-G1">
-                <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-G1" aria-controls="eff-B-G1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
-                <div class="effect-body"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- B2 -->
-        <div class="col-md-6 locked" id="B-G2">
-          <div class="card card-step" data-step="B-G2" tabindex="-1" aria-labelledby="B-G2-title">
-            <div class="card-body">
-              <div class="crumb">Path B → Tier 0 → Item B2</div>
-              <div class="d-flex justify-content-between"><span class="chip">Item B2</span><span class="mini">When: January 2027</span></div>
-              <h4 class="h5 mt-2" id="B-G2-title">Administrative standards</h4>
-              <p class="mini mb-2"><strong>For working people:</strong> creates predictable rules so families and small businesses are not blindsided.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> updates the Federal Register handbook and Government Publishing Office hosting rules. Directs the Office of Management and Budget to keep a public dashboard.</p>
-              <div class="odds mb-2">
-                <div><strong>Effect on workflow:</strong> <span class="odds-now" data-standalone="80–90%">80–90%</span></div>
-              </div>
-              <button type="button" class="btn btn-success btn-sm branch" aria-label="Apply Administrative Standards" data-pass="#B-K1" data-pass-effects='["Standards in place. Begin quick wins."]'>Applied</button>
-              <div class="collapse effect-panel mt-2" id="eff-B-G2">
-                <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-G2" aria-controls="eff-B-G2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
-                <div class="effect-body"></div>
+                <button type="button" class="btn btn-success btn-sm branch" aria-label="Rules upgrades passed"
+                  data-pass="#B-H3,#B-H4,#B-H8"
+                  data-pass-effects='[
+                    "Rules in force: faster disclosure clocks and privileged guardrails.",
+                    "Open oversight (resolutions) and admin standards tracks immediately.",
+                    "Stand up committee directive work with GAO follow-up."
+                  ]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Rules upgrades failed"
+                  data-fail="#B-H3,#B-H5,#B-H8"
+                  data-fail-effects='[
+                    "Rules failed. Shift weight to litigation posture and directives.",
+                    "Begin admin standards push to create friction without statute."
+                  ]'>Fail</button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- B3 -->
-        <div class="col-md-6 locked" id="B-G3">
-          <div class="card card-step" data-step="B-G3" tabindex="-1" aria-labelledby="B-G3-title">
+        <!-- B-H3: Committee report directives + GAO -->
+        <div class="col-md-6 locked" id="B-H3">
+          <div class="card card-step" data-step="B-H3" tabindex="-1" aria-labelledby="B-H3-title">
             <div class="card-body">
               <div class="crumb">Path B → Tier 0 → Item B3</div>
-              <div class="d-flex justify-content-between"><span class="chip">Item B3</span><span class="mini">When: 2027 ongoing windows</span></div>
-              <h4 class="h5 mt-2" id="B-G3-title">Congressional Review Act disapprovals</h4>
-              <p class="mini mb-2"><strong>For working people:</strong> removes harmful late rules that increase costs.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> simple majority vote to nullify a rule. The rule cannot be reissued in substantially the same form.</p>
-              <div class="odds mb-2">
-                <div><strong>Pass with a Republican Senate:</strong> <span class="odds-now" data-standalone="25–45%">25–45%</span></div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B3</span><span class="mini">Window: Approps reports</span></div>
+              <h4 class="h5 mt-2" id="B-H3-title">Committee directives with GAO follow-up</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> forces usable public dashboards and clear exceptions for life and safety.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> instructs publication/hosting standards; OMB compliance dashboard; GAO review.</p>
+              <div class="odds mb-2"><strong>Effect on real behavior:</strong> <span class="odds-now">Medium–High</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Directives adopted"
+                  data-pass="#B-H8,#B-H9"
+                  data-pass-effects='[
+                    "Directives adopted. OMB dashboard and agency certifications stand up.",
+                    "Proceed to standards push and scoped no-funds riders."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Directives blocked"
+                  data-fail="#B-H8,#B-H9"
+                  data-fail-effects='[
+                    "Directives blocked. Lean harder on admin standards and scoped riders."
+                  ]'>Fail</button>
               </div>
-              <button type="button" class="btn btn-success btn-sm branch" aria-label="Record Congressional Review Act usage" data-pass="#B-K1" data-pass-effects='["Use wins to deter future abuses. Continue quick wins."]'>Use</button>
-              <div class="collapse effect-panel mt-2" id="eff-B-G3">
-                <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-G3" aria-controls="eff-B-G3" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
-                <div class="effect-body"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H8: Administrative standards push -->
+        <div class="col-md-6 locked" id="B-H8">
+          <div class="card card-step" data-step="B-H8" tabindex="-1" aria-labelledby="B-H8-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B8</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B8</span><span class="mini">When: January 2027</span></div>
+              <h4 class="h5 mt-2" id="B-H8-title">Administrative standards on publication/authentication</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> predictable rule rollouts; fewer whiplash surprises.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> OFR/GPO refuse non-compliant docs; update Document Drafting Handbook.</p>
+              <div class="odds mb-2"><strong>Effect on workflow:</strong> <span class="odds-now">High</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Standards applied"
+                  data-pass="#B-H2,#B-H6"
+                  data-pass-effects='[
+                    "Standards live. Shift to Holman targeting and CRA menu prep."
+                  ]'>Apply</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Standards stalled"
+                  data-fail="#B-H2,#B-H6"
+                  data-fail-effects='[
+                    "Standards stalled. Move to Holman pressure and CRA menu anyway."
+                  ]'>Skip</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H9: Targeted no-funds riders (life & safety scoped) -->
+        <div class="col-md-6 locked" id="B-H9">
+          <div class="card card-step" data-step="B-H9" tabindex="-1" aria-labelledby="B-H9-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B9</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B9</span><span class="mini">When: Appropriations</span></div>
+              <h4 class="h5 mt-2" id="B-H9-title">Scoped “no funds” riders</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> avoids shutdown risk while blocking abusive implementations.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> bans spending to publish/host/authenticate impeached-period actions lacking a compliance ID; narrow life-and-safety carve-out.</p>
+              <div class="odds mb-2"><strong>Survive the Senate:</strong> <span class="odds-now">Medium if tightly framed</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Riders adopted"
+                  data-pass="#B-H2,#B-H4"
+                  data-pass-effects='[
+                    "Scoped riders in place. Turn to Holman amendments and oversight."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Riders fail"
+                  data-fail="#B-H2,#B-H4"
+                  data-fail-effects='[
+                    "Riders fail. Escalate Holman pressure and oversight to compensate."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H2: Holman amendments, salary/line-item cuts -->
+        <div class="col-md-6 locked" id="B-H2">
+          <div class="card card-step" data-step="B-H2" tabindex="-1" aria-labelledby="B-H2-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B2</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B2</span><span class="mini">When: Floor on approps</span></div>
+              <h4 class="h5 mt-2" id="B-H2-title">Holman amendments, salary and line-item cuts</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> targets waste and abuse instead of broad cuts.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> pinpoints desks like OIRA intake or OFR pre-publication to force compliance.</p>
+              <div class="odds mb-2"><strong>Survive the Senate:</strong> <span class="odds-now">Low–Medium, but strong leverage</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Holman adopted"
+                  data-pass="#B-H4,#B-H7"
+                  data-pass-effects='[
+                    "Targeted cuts adopted. Pair with subpoenas and War Powers votes for maximum daylight."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Holman blocked"
+                  data-fail="#B-H4,#B-H7"
+                  data-fail-effects='[
+                    "Holman blocked. Increase oversight tempo and bring War Powers questions to the floor."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H4: Resolutions of inquiry + subpoena-backed oversight -->
+        <div class="col-md-6 locked" id="B-H4">
+          <div class="card card-step" data-step="B-H4" tabindex="-1" aria-labelledby="B-H4-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B4</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B4</span><span class="mini">When: Immediate</span></div>
+              <h4 class="h5 mt-2" id="B-H4-title">Resolutions of inquiry + subpoenas</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> fast sunlight on decisions that raise costs.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> forces document delivery; sets up public hearings quickly.</p>
+              <div class="odds mb-2"><strong>Odds in House:</strong> <span class="odds-now">High</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Oversight escalated"
+                  data-pass="#B-H5"
+                  data-pass-effects='[
+                    "Documents in hand. Move to litigation posture where needed."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Oversight delayed"
+                  data-fail="#B-H5"
+                  data-fail-effects='[
+                    "If committees stall, jump to litigation posture to compel compliance."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H5: Litigation posture resolution -->
+        <div class="col-md-6 locked" id="B-H5">
+          <div class="card card-step" data-step="B-H5" tabindex="-1" aria-labelledby="B-H5-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B5</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B5</span><span class="mini">When: ASAP</span></div>
+              <h4 class="h5 mt-2" id="B-H5-title">Litigation posture resolution</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> courts can halt harmful actions fast.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> authorizes House Counsel to seek TROs and back state APA suits.</p>
+              <div class="odds mb-2"><strong>Odds in House:</strong> <span class="odds-now">High</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Litigation authorized"
+                  data-pass="#B-H6"
+                  data-pass-effects='[
+                    "Litigation authority active. Ready CRA disapprovals."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Litigation denied"
+                  data-fail="#B-H6"
+                  data-fail-effects='[
+                    "Authority denied. Use state AG partners and CRA pressure."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H6: Congressional Review Act menu -->
+        <div class="col-md-6 locked" id="B-H6">
+          <div class="card card-step" data-step="B-H6" tabindex="-1" aria-labelledby="B-H6-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B6</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B6</span><span class="mini">When: CRA windows</span></div>
+              <h4 class="h5 mt-2" id="B-H6-title">CRA targeting menu</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> remove late-term rules that raise costs.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> simple-majority nullification; no “substantially the same” reissue.</p>
+              <div class="odds mb-2"><strong>Odds with a Republican Senate:</strong> <span class="odds-now">Low–Medium</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="CRA used"
+                  data-pass="#B-H7"
+                  data-pass-effects='[
+                    "Use CRA where votes exist. Move to War Powers/Emergencies votes."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="CRA not used"
+                  data-fail="#B-H7"
+                  data-fail-effects='[
+                    "If CRA votes aren’t there, escalate War Powers/Emergencies to force records."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H7: War Powers & National Emergencies votes -->
+        <div class="col-md-6 locked" id="B-H7">
+          <div class="card card-step" data-step="B-H7" tabindex="-1" aria-labelledby="B-H7-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B7</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B7</span><span class="mini">When: As needed</span></div>
+              <h4 class="h5 mt-2" id="B-H7-title">War Powers + National Emergencies votes</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> reduces risky unilateral moves that raise costs or threaten safety.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> recorded votes to terminate/limit emergencies and unauthorized deployments.</p>
+              <div class="odds mb-2"><strong>Policy change odds w/ GOP Senate:</strong> <span class="odds-now">Low; pressure value High</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Votes held"
+                  data-pass="#B-H11,#B-H12,#B-K1"
+                  data-pass-effects='[
+                    "Votes on record. Move to House-led transparency and marker bills.",
+                    "Also start quick wins so families see relief."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Votes blocked"
+                  data-fail="#B-H11,#B-H12,#B-K1"
+                  data-fail-effects='[
+                    "If blocked, publish refusals and pivot to transparency/markers and quick wins."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H11: Legislative branch procurement & data transparency -->
+        <div class="col-md-6 locked" id="B-H11">
+          <div class="card card-step" data-step="B-H11" tabindex="-1" aria-labelledby="B-H11-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 0 → Item B11</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B11</span><span class="mini">When: House admin</span></div>
+              <h4 class="h5 mt-2" id="B-H11-title">Leg branch procurement + data transparency</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> shows taxpayers where dollars go; models clean practices.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> leads by example; arms oversight with dashboards and disclosure.</p>
+              <div class="odds mb-2"><strong>Odds in House:</strong> <span class="odds-now">High</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Transparency adopted"
+                  data-pass="#B-H10,#B-K1,#B-K2"
+                  data-pass-effects='[
+                    "Transparency live. Add state AG support and quick wins."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Transparency stalled"
+                  data-fail="#B-H10,#B-K1,#B-K2"
+                  data-fail-effects='[
+                    "If stalled, publish House commitments anyway; move to state AG support and quick wins."
+                  ]'>Fail</button>
               </div>
             </div>
           </div>
@@ -830,9 +1025,61 @@
       </div>
 
       <!-- T1 -->
-      <div class="tier-header t1"><span class="badge-xl">T1</span><div><h3 class="tier-title mb-0">Quick wins, House markers and pilots</h3><div>January to February 2027</div></div></div>
+      <div class="tier-header t1"><span class="badge-xl">T1</span><div><h3 class="tier-title mb-0">Quick wins, House markers, pilots</h3><div>January to February 2027</div></div></div>
       <div class="row g-3">
-        <!-- B7 -->
+        <!-- B-H10: State attorney general support language -->
+        <div class="col-md-6 locked" id="B-H10">
+          <div class="card card-step" data-step="B-H10" tabindex="-1" aria-labelledby="B-H10-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 1 → Item B10</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B10</span><span class="mini">When: Early HHS/Commerce</span></div>
+              <h4 class="h5 mt-2" id="B-H10-title">State AG support language</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> strengthens competition and consumer protection that lowers costs.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> builds a state-level shield even if the Senate blocks federal action.</p>
+              <div class="odds mb-2"><strong>Likely effect:</strong> <span class="odds-now">Medium</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="AG support added"
+                  data-pass="#B-H12,#B-K1"
+                  data-pass-effects='[
+                    "AG support in place. Pair with marker bills and energy savings."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="AG support blocked"
+                  data-fail="#B-H12,#B-K1"
+                  data-fail-effects='[
+                    "If blocked, re-route through grant guidance while filing markers."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- B-H12: Messaging “marker” bills with fallback -->
+        <div class="col-md-6 locked" id="B-H12">
+          <div class="card card-step" data-step="B-H12" tabindex="-1" aria-labelledby="B-H12-title">
+            <div class="card-body">
+              <div class="crumb">Path B → Tier 1 → Item B12</div>
+              <div class="d-flex justify-content-between"><span class="chip">Item B12</span><span class="mini">When: Continuous</span></div>
+              <h4 class="h5 mt-2" id="B-H12-title">Marker bills with built-in fallback</h4>
+              <p class="mini mb-2"><strong>For working people:</strong> keeps pressure on cost-cutting and fairness items.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> automatic fallback to report directives and litigation if Senate ignores.</p>
+              <div class="odds mb-2"><strong>Odds in House:</strong> <span class="odds-now">High</span></div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm branch" aria-label="Markers filed"
+                  data-pass="#B-K1,#B-K2,#B-K3"
+                  data-pass-effects='[
+                    "Markers filed. Advance quick wins: energy, groceries, jobs."
+                  ]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch" aria-label="Markers deferred"
+                  data-fail="#B-K1,#B-K2,#B-K3"
+                  data-fail-effects='[
+                    "If deferred, attach fallbacks in reports and proceed to quick wins anyway."
+                  ]'>Fail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Existing quick wins (B-K1..B-K3) -->
         <div class="col-md-4 locked" id="B-K1">
           <div class="card card-step" data-step="B-K1" tabindex="-1" aria-labelledby="B-K1-title">
             <div class="card-body">
@@ -847,7 +1094,7 @@
               </div>
               <div class="d-flex gap-2 flex-wrap">
                 <a class="btn btn-outline-dark btn-sm" href="Energy%20Savings%20and%20Lower%20Bill.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item B7 as Passed" data-pass="#B-K2,#B-G3" data-pass-effects='["Energy marker passed. Push food competition and keep Congressional Review Act moves ready."]'>Pass</button>
+                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item B7 as Passed" data-pass="#B-K2,#B-H6" data-pass-effects='["Energy marker passed. Push food competition and keep CRA moves ready."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item B7 as Failed" data-fail="#B-K2" data-fail-effects='["Energy marker failed. Keep pilots in reports. Move on."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-K1">
@@ -858,15 +1105,14 @@
           </div>
         </div>
 
-        <!-- B8 -->
         <div class="col-md-4 locked" id="B-K2">
           <div class="card card-step" data-step="B-K2" tabindex="-1" aria-labelledby="B-K2-title">
             <div class="card-body">
               <div class="crumb">Path B → Tier 1 → Item B8</div>
               <div class="d-flex justify-content-between"><span class="chip">Item B8</span><span class="mini">When: January 2027</span></div>
               <h4 class="h5 mt-2" id="B-K2-title">Fair Food and Grocery Competition</h4>
-              <p class="mini mb-2"><strong>For working people:</strong> same goal as Path A. Lower checkout costs.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> forces enforcement reporting and state grants by instruction.</p>
+              <p class="mini mb-2"><strong>For working people:</strong> lower checkout costs via fair dealing and fee limits.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> enforcement reporting and state AG grants by instruction.</p>
               <div class="odds mb-2">
                 <div><strong>House passage:</strong> <span class="odds-now" data-standalone="55–70%">55–70%</span></div>
                 <div><strong>Survives in final package:</strong> <span class="odds-now" data-bundled="25–45%">25–45%</span></div>
@@ -880,7 +1126,6 @@
           </div>
         </div>
 
-        <!-- B9 -->
         <div class="col-md-4 locked" id="B-K3">
           <div class="card card-step" data-step="B-K3" tabindex="-1" aria-labelledby="B-K3-title">
             <div class="card-body">
@@ -888,7 +1133,7 @@
               <div class="d-flex justify-content-between"><span class="chip">Item B9</span><span class="mini">When: February 2027</span></div>
               <h4 class="h5 mt-2" id="B-K3-title">Good Jobs and Skills</h4>
               <p class="mini mb-2"><strong>For working people:</strong> more apprenticeships and faster paths into good jobs.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> directs outcome bonus rules by report so changes are public.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> outcome bonus rules via report to keep changes public.</p>
               <div class="odds mb-2">
                 <div><strong>House passage:</strong> <span class="odds-now" data-standalone="60–75%">60–75%</span></div>
                 <div><strong>Survives in final package:</strong> <span class="odds-now" data-bundled="30–45%">30–45%</span></div>
@@ -901,9 +1146,10 @@
             </div>
           </div>
         </div>
+
       </div>
 
-      <div class="mt-3 mini">Path B continues with permitting and first time buyer pilots, childcare stabilization, tax fairness and corporate responsibility markers, and system steps the House can drive with rules and pilots. Use the same Pass or Fail flow to open the next branch.</div>
+      <div class="mt-3 mini">Path B now carries a full House-driven toolkit (B1–B12) plus quick wins. Use Pass/Fail to reveal the next best move. Reset to try different branches.</div>
     </div>
   </section>
 
@@ -942,7 +1188,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
   // ------- helpers
-  const STORE_KEY = 'evergreen_plan_v1';
+  const STORE_KEY = 'evergreen_plan_v2'; // bump key to reset ordering/state per update
 
   function saveState(obj){
     localStorage.setItem(STORE_KEY, JSON.stringify(obj));
@@ -1045,6 +1291,19 @@
     const effTxt = passed ? btn.getAttribute('data-pass-effects') : btn.getAttribute('data-fail-effects');
     let lines = [];
     try { lines = effTxt ? JSON.parse(effTxt) : []; } catch(e){ lines = []; }
+    // Add panel lazily if missing
+    if(!card.querySelector('.effect-panel')){
+      const panel = document.createElement('div');
+      panel.className = 'collapse effect-panel mt-2';
+      const panelId = 'eff-'+stepId;
+      panel.id = panelId;
+      panel.innerHTML = `
+        <div class="effect-header" role="button" tabindex="0" data-target="#${panelId}" aria-controls="${panelId}" aria-expanded="false">
+          <p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </div>
+        <div class="effect-body"></div>`;
+      card.querySelector('.card-body').appendChild(panel);
+    }
     setEffect(card, passed ? 'Effects of passage' : 'Effects of failure', lines);
 
     // Buttons and odds
@@ -1057,7 +1316,7 @@
       saveState(state);
     }
 
-    // Reveal next targets, but do not auto-focus when restoring state to avoid jumpiness
+    // Reveal next targets
     revealTargets(nextSel, true);
 
     // Update progress bars
@@ -1069,7 +1328,12 @@
       const scope = document.querySelector('[data-path="'+path+'"]');
       if(!scope) return;
       const all = scope.querySelectorAll('.card-step');
-      const decided = scope.querySelectorAll('.card-step .branch[disabled]').length / 2; // each card usually has 2 branch buttons
+      // decided = number of cards where at least one branch button got disabled
+      let decided = 0;
+      all.forEach(c=>{
+        const disabled = c.querySelectorAll('.branch[disabled]').length;
+        if(disabled > 0) decided += 1;
+      });
       const totalCards = all.length;
       const bar = document.getElementById('progress'+path);
       const count = document.getElementById('count'+path);
@@ -1130,7 +1394,6 @@
     if(!activePane) return;
     const showAll = e.target.checked;
     activePane.querySelectorAll('.col-md-4.locked, .col-md-6.locked').forEach(el=>{
-      el.style.display = showAll ? '' : '';
       if(showAll){
         el.classList.remove('locked');
       } else {
@@ -1154,12 +1417,10 @@
   // Restore decisions on load
   function restoreState(){
     const state = loadState();
-    // We apply in a deterministic order: order by DOM appearance of cards
     const allCards = Array.from(document.querySelectorAll('.card-step')).map(c=>c.parentElement.id).filter(Boolean);
     allCards.forEach(id=>{
       if(state[id]){
         const passed = state[id] === 'pass';
-        // When restoring, avoid refocusing every reveal for smoother load
         applyDecision(id, passed, false);
       }
     });
