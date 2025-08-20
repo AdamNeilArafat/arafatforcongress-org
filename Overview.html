@@ -13,8 +13,8 @@
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--soft);color:var(--ink)}
     a{color:var(--primary);text-decoration:none}
     a:hover{text-decoration:underline}
-    .hdr{background:linear-gradient(180deg,#0d3b66,#0a3157);color:#fff;position:relative}
-    .print-btn{position:absolute;top:1rem;right:1rem}
+    .hdr{background:linear-gradient(180deg,#0d3b66,#0a3157);color:#fff;position:relative;}
+    .print-btn{position:absolute;top:1rem;right:1rem;}
     .tier{border-radius:14px;padding:.6rem .8rem;color:#fff;margin:.75rem 0}
     .t0{background:linear-gradient(90deg,var(--t0),#1d3b4f)}
     .t1{background:linear-gradient(90deg,var(--t1),#0a5c41)}
@@ -24,23 +24,15 @@
     .t5{background:linear-gradient(90deg,var(--t5),#8f0d16)}
     .card{border:1px solid rgba(0,0,0,.06);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
     .mini{color:#334155}
-
-    /* Print tweaks */
-    @media print {
-      .hdr { background: #fff !important; color: #000 !important; }
-      .hdr .container p { color:#333 !important; }
-      .print-btn { display:none !important; }
-      footer { color:#000 !important; background:#fff !important; }
-      a[href^="http"]:after { content:" (" attr(href) ")"; font-size:90%; }
-      body { background:#fff !important; }
-    }
   </style>
 </head>
 <body>
 <header class="hdr py-4">
-  <div class="container position-relative">
+  <div class="container">
     <h1 class="h3 mb-1">Evergreen Pact — Static Overview for 2027</h1>
     <p class="mb-0">Two ladders. Each step helps working people without new taxes on working families and adds checks on executive power.</p>
+
+    <!-- Print / Save as PDF button -->
     <button class="btn btn-light btn-sm print-btn" onclick="window.print()">
       <i class="fa-solid fa-print me-1"></i> Print / PDF
     </button>
