@@ -8,8 +8,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
   <style>
-    :root{ --primary:#0d3b66; --soft:#f6f9fc; --ink:#1b2634;
-           --t0:#284b63; --t1:#0b6e4f; --t2:#0d3b66; --t3:#7a3e9d; --t4:#1f6feb; --t5:#c1121f; }
+    :root{
+      --primary:#0d3b66; --soft:#f6f9fc; --ink:#1b2634;
+      --t0:#284b63; --t1:#0b6e4f; --t2:#0d3b66; --t3:#7a3e9d; --t4:#1f6feb; --t5:#c1121f;
+    }
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--soft);color:var(--ink)}
     a{color:var(--primary);text-decoration:none}
     a:hover{text-decoration:underline}
@@ -23,134 +25,83 @@
     .t5{background:linear-gradient(90deg,var(--t5),#8f0d16)}
     .card{border:1px solid rgba(0,0,0,.06);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
     .mini{color:#334155}
+    .break{page-break-before:always}
 
+    /* Print header/footer with page numbers */
+    .print-header,.print-footer{display:none}
+    @page{
+      size: Letter;
+      margin: 0.6in;
+    }
     @media print{
-      .no-print{display:none !important}
       body{background:#fff}
+      .no-print{display:none !important}
       .card{box-shadow:none;border:1px solid #ddd}
-      a{text-decoration:none;color:#000}
+      /* Lighter tiers for print */
+      .tier{color:#111;background:#e9eef5 !important; border:1px solid #d7dee8}
+      /* Show link URLs on paper */
+      a[href]::after{content:" (" attr(href) ")"; font-size:85%; color:#555}
+      /* Running header/footer */
+      .print-header,.print-footer{
+        display:block; position:fixed; left:0; right:0; color:#444; font-size:12px;
+      }
+      .print-header{top:0; border-bottom:1px solid #ddd; padding:.35rem .2in}
+      .print-footer{bottom:0; border-top:1px solid #ddd; padding:.35rem .2in}
+      body{margin-top:1.1in; margin-bottom:0.9in}
+      .page-num:after{content: counter(page) " of " counter(pages)}
+      /* Page breaks */
+      .path-break{page-break-after:always}
+      .tier-break{page-break-inside:avoid}
     }
   </style>
 </head>
 <body>
-<header class="hdr py-4">
-  <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
-    <div>
-      <h1 class="h3 mb-1">Evergreen Pact — Static Overview for 2027</h1>
-      <p class="mb-0">Two ladders. Each step helps working people without new taxes on working families and adds checks on executive power.</p>
-    </div>
-    <div class="no-print d-flex gap-2">
-      <button class="btn btn-light btn-sm" onclick="window.print()" type="button" aria-label="Download as PDF">Download as PDF</button>
-      <button class="btn btn-outline-light btn-sm" id="openAll" type="button" aria-label="Open all blueprints in new tabs">Open all blueprints</button>
-    </div>
+  <!-- Print running header/footer -->
+  <div class="print-header">
+    Evergreen Pact — Static Overview (2027)
   </div>
-</header>
+  <div class="print-footer d-flex justify-content-between">
+    <span>adamforwa.com</span>
+    <span>Page <span class="page-num"></span></span>
+  </div>
 
-<main class="container my-4">
-  <div class="row g-4">
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="h5 mb-2"><i class="fa-solid fa-tree text-success me-1" aria-hidden="true"></i> Path A: House and Senate</h2>
-
-          <div class="tier t0"><strong>Tier 0, Guardrails first (January to June 2027)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="1)%20Minibus%201_%20Implementation%20Safeguards%20Act.html">Implementation Safeguards</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="3)%20FSGG%20package_Communications%20and%20Authentication%20Integrity%20Act.html">Communications and Seals Integrity</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="2)%20NDAA%20window_Emergency%20Powers%20Approval-to-Spend%20Pilot%20(DoD-Only).html">Defense emergency approval to spend pilot</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="4)%20Round-Two%20Clean-Up_%20Continuity%20Integrity%20Expansion%20Act.html">Continuity expansion, government wide</a></li>
-          </ul>
-
-          <div class="tier t1"><strong>Tier 1, Quick wins (January to February 2027)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings and Lower Bills</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food and Grocery Competition</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Good%20Jobs%20%26%20Skills%20Bill.html">Good Jobs and Skills</a></li>
-          </ul>
-
-          <div class="tier t2"><strong>Tier 2, Relief and stability (February to April 2027)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Child and Dependent Care</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Housing%20Supply%20and%20Permitting%20Modernization%20Bill.html">Housing Permitting Modernization</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="First-Time%20Homebuyer%203%25%20Mortgage%20Bill.html">First time homebuyer three percent mortgage</a></li>
-          </ul>
-
-          <div class="tier t3"><strong>Tier 3, Fairness (March to June 2027)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="Tax%20Fairness%20Bill.html">Tax Fairness</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Corporate%20Responsibility%20CSR%20Bill.html">Corporate Responsibility</a></li>
-          </ul>
-
-          <div class="tier t4"><strong>Tier 4, System reform (June to September 2027)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="Clean%20Campaigns%20and%20Elections%20Bill.html">Clean Campaigns and Elections</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Congressional%20Vote%20Justification%20Bill.html">Congressional Vote Justification</a></li>
-          </ul>
-
-          <div class="tier t5"><strong>Tier 5, Long term guarantees (Late 2027 and beyond)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="Universal%20Healthcare%20Bill.html">Universal Healthcare</a></li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Social%20Security%20-%20Working%20Families%20Retirement%20Security%20and%20Solvency%20Bill.html">Social Security solvency</a></li>
-          </ul>
-        </div>
+  <header class="hdr py-4">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <h1 class="h3 mb-1">Evergreen Pact — Static Overview for 2027</h1>
+        <p class="mb-0">Two ladders. Each step helps working people without new taxes on working families and adds checks on executive power.</p>
+      </div>
+      <div class="no-print d-flex gap-2">
+        <button class="btn btn-light btn-sm" id="btnPrint" type="button" aria-label="Download as PDF">Download as PDF</button>
+        <button class="btn btn-outline-light btn-sm" id="openAll" type="button" aria-label="Open all blueprints in new tabs">Open all blueprints</button>
       </div>
     </div>
+  </header>
 
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="h5 mb-2"><i class="fa-solid fa-tree text-success me-1" aria-hidden="true"></i> Path B: House only</h2>
+  <main class="container my-4">
+    <div class="row g-4">
+      <!-- PATH A -->
+      <div class="col-lg-6 tier-break">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="h5 mb-2"><i class="fa-solid fa-tree text-success me-1" aria-hidden="true"></i> Path A: House and Senate</h2>
 
-          <div class="tier t0"><strong>Tier 0, Guardrails and pressure (January to September 2027)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="5)%20If%20pieces%20die%20in%20the%20Senate%20or%20in%20conference_fallback%20toolkit.html">Safeguard riders and administrative standards</a></li>
-            <li>Congressional Review Act disapprovals of harmful late rules</li>
-          </ul>
+            <div class="tier t0"><strong>Tier 0, Guardrails first (January to June 2027)</strong></div>
+            <ul class="mini">
+              <li><a target="_blank" rel="noopener noreferrer" href="1)%20Minibus%201_%20Implementation%20Safeguards%20Act.html">Implementation Safeguards</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="3)%20FSGG%20package_Communications%20and%20Authentication%20Integrity%20Act.html">Communications and Seals Integrity</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="2)%20NDAA%20window_Emergency%20Powers%20Approval-to-Spend%20Pilot%20(DoD-Only).html">Defense emergency approval to spend pilot</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="4)%20Round-Two%20Clean-Up_%20Continuity%20Integrity%20Expansion%20Act.html">Continuity expansion, government wide</a></li>
+            </ul>
 
-          <div class="tier t1"><strong>Tier 1, Quick wins and pilots (January to February 2027)</strong></div>
-          <ul class="mini">
-            <li><a target="_blank" rel="noopener noreferrer" href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings and Lower Bills</a> (House marker)</li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food and Grocery Competition</a> (House marker)</li>
-            <li><a target="_blank" rel="noopener noreferrer" href="Good%20Jobs%20%26%20Skills%20Bill.html">Good Jobs and Skills</a> (House marker)</li>
-          </ul>
+            <div class="tier t1"><strong>Tier 1, Quick wins (January to February 2027)</strong></div>
+            <ul class="mini">
+              <li><a target="_blank" rel="noopener noreferrer" href="Energy%20Savings%20and%20Lower%20Bill.html">Energy Savings and Lower Bills</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="Fair%20Food%20and%20Grocery%20Competition%20Bill.html">Fair Food and Grocery Competition</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="Good%20Jobs%20%26%20Skills%20Bill.html">Good Jobs and Skills</a></li>
+            </ul>
 
-          <div class="tier t2"><strong>Tier 2, Relief and stability</strong></div>
-          <ul class="mini">
-            <li>Permitting modernization pilots and grants</li>
-            <li>Childcare stabilization and seat supply grants</li>
-            <li>First time homebuyer pilot</li>
-          </ul>
-
-          <div class="tier t3"><strong>Tier 3, Fairness</strong></div>
-          <ul class="mini">
-            <li>Tax transparency and enforcement first</li>
-            <li>Repeat offender penalties through report and rider language</li>
-          </ul>
-
-          <div class="tier t4"><strong>Tier 4, System reform</strong></div>
-          <ul class="mini">
-            <li>House rules changes and publication standards</li>
-          </ul>
-
-          <div class="tier t5"><strong>Tier 5, Long term guarantees</strong></div>
-          <ul class="mini">
-            <li>Drug pricing and auto enrollment pilots</li>
-            <li>Retirement security commission with action triggers</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</main>
-
-<script>
-  document.getElementById('openAll')?.addEventListener('click', ()=>{
-    const links = Array.from(document.querySelectorAll('a[target="_blank"]')).map(a=>a.href);
-    links.forEach((href,i)=>{
-      setTimeout(()=>window.open(href,'_blank','noopener,noreferrer'), i*120);
-    });
-  });
-</script>
-</body>
-</html>
+            <div class="tier t2"><strong>Tier 2, Relief and stability (February to April 2027)</strong></div>
+            <ul class="mini">
+              <li><a target="_blank" rel="noopener noreferrer" href="Affordable%20Child%20and%20Dependent%20Care%20Bill.html">Child and Dependent Care</a></li>
+              <li><a target="_
