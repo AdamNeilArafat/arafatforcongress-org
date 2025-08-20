@@ -1,3 +1,4 @@
+# .github/workflows/deploy.yml
 name: Deploy Jekyll site to Pages
 
 on:
@@ -19,13 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Configure the Pages environment (sets up the correct output dir, etc.)
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      # Build the site with Jekyll so layouts/_includes are applied
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
-      # Upload the built site from _site/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
