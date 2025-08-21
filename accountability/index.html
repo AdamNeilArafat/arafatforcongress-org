@@ -50,7 +50,18 @@
     @media (min-width:1200px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr));} }
     .skeleton{background:linear-gradient(90deg,#eceff3 25%,#f5f7fa 37%,#eceff3 63%); background-size:400% 100%; animation:sheen 1.2s infinite; border-radius:12px; height:280px}
     @keyframes sheen{0%{background-position:100% 0} 100%{background-position:0 0}}
-    .avatar{width:100%; aspect-ratio:4/5; object-fit:cover; background:#e6edf3}
+.avatar{
+  width:80px;
+  height:auto;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  background:#e6edf3;
+  display:block;
+  margin:.5rem auto;
+  border-radius:8px;
+}
+
+
     .btn-icon i{margin-right:.5rem}
 
     .modal .award{font-weight:900; color:#8f0d16}
@@ -152,9 +163,23 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
 /** ---------------------------------------------------------
- *  DATA LOADERS
+ *  DATA LOADERS + HELPERS
  *  --------------------------------------------------------- */
 function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+
+function normalizeParty(p){
+  const s = (p||'').trim().toUpperCase();
+  if (s.startsWith('D')) return 'D';
+  if (s.startsWith('R')) return 'R';
+  if (s.startsWith('I')) return 'I';
+  return '';
+}
+function partyLabel(code){
+  return code==='D' ? 'Democrat'
+       : code==='R' ? 'Republican'
+       : code==='I' ? 'Independent'
+       : '';
+}
 
 async function loadMembers(){
   // 1) local mirror (fast, versioned)
@@ -166,10 +191,12 @@ async function loadMembers(){
       for(const m of local){
         const bioguide = m.bioguide || m.id?.bioguide;
         if(!bioguide) continue;
+        const pCode = normalizeParty(m.party || '');
         norm[bioguide] = {
           bioguide,
           name: m.name || `${m.first||m.name_first||''} ${m.last||m.name_last||''}`.trim(),
-          party: m.party || '',
+          partyCode: pCode,
+          partyLabel: partyLabel(pCode),
           chamber: m.chamber || '',
           state: m.state || '',
           district: m.district || '',
@@ -187,10 +214,12 @@ async function loadMembers(){
   for(const m of raw){
     const bioguide = m.id?.bioguide; if(!bioguide) continue;
     const t = (m.terms||[]).slice(-1)[0] || {};
+    const pCode = normalizeParty(t.party || '');
     byBio[bioguide] = {
       bioguide,
       name: `${m.name?.first||''} ${m.name?.last||''}`.trim(),
-      party: t.party || '',
+      partyCode: pCode,
+      partyLabel: partyLabel(pCode),
       chamber: (t.type==='sen')?'senate':'house',
       state: t.state || '',
       district: (t.type==='rep') ? (t.district||'') : '',
@@ -247,14 +276,18 @@ function cardHTML(o){
   const encodedHref = isOffender ? encodeURI(o.href||'#') : '#';
 
   return `
-  <article class="card-person" data-bill="${o.billKey||''}" data-party="${o.party}" data-state="${o.state}" data-name="${o.name.toLowerCase()}">
+  <article class="card-person"
+           data-bill="${o.billKey||''}"
+           data-party="${o.partyCode||''}"
+           data-state="${o.state}"
+           data-name="${o.name.toLowerCase()}">
     ${isOffender && award ? `<span class="badge-award" title="${award}">${award}</span>` : ``}
     ${isOffender ? `<span class="stamp">RECEIPT</span>` : ``}
     <img class="avatar" src="${o.photo}" alt="${o.name}" loading="lazy"
          onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22375%22><rect width=%22300%22 height=%22375%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22>NO IMAGE</text></svg>'"/>
     <div class="body">
       <div class="name">${o.name}</div>
-      <div class="meta">${o.chamber==='senate'?'Senate':'House'} • ${o.state}${o.district?('-'+o.district):''} • ${o.party}</div>
+      <div class="meta">${o.chamber==='senate'?'Senate':'House'} • ${o.state}${o.district?('-'+o.district):''} • ${o.partyLabel||''}</div>
       ${isOffender && harm ? `<div class="harm">${harm}</div>` : ``}
       ${isOffender ? `
         <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -286,8 +319,10 @@ function joinData(){
   // 1) Everyone (neutral)
   for(const m of Object.values(MEMBERS)){
     INDEX.push({
-      billKey: '', billTitle:'', billShort:'', href:'', award:'', meaning:'', vote:'',
-      bioguide: m.bioguide, name: m.name, party: m.party, chamber: m.chamber, state: m.state, district: m.district, photo: m.photo
+      billKey:'', billTitle:'', billShort:'', href:'', award:'', meaning:'', vote:'',
+      bioguide:m.bioguide, name:m.name,
+      partyCode:m.partyCode, partyLabel:m.partyLabel,
+      chamber:m.chamber, state:m.state, district:m.district, photo:m.photo
     });
   }
 
@@ -299,22 +334,21 @@ function joinData(){
       if(!m) continue;
       INDEX.push({
         billKey,
-        billTitle: b.title,
-        billShort: (b.short||b.title),
-        href: b.href,
-        award: b.award,
-        meaning: b.meaning,
-        vote: row.vote || 'NO',
-        bioguide: m.bioguide, name: m.name, party: m.party, chamber: m.chamber, state: m.state, district: m.district, photo: m.photo
+        billTitle:b.title,
+        billShort:(b.short||b.title),
+        href:b.href,
+        award:b.award,
+        meaning:b.meaning,
+        vote:row.vote || 'NO',
+        bioguide:m.bioguide, name:m.name,
+        partyCode:m.partyCode, partyLabel:m.partyLabel,
+        chamber:m.chamber, state:m.state, district:m.district, photo:m.photo
       });
     }
   }
 
-  // Optional: sort so offenders float first when no bill filter (keeps “spicy” at top)
-  INDEX.sort((a,b)=>{
-    if (!!b.billKey - !!a.billKey) return 1; // offenders before neutrals
-    return a.name.localeCompare(b.name);
-  });
+  // Optional: offenders first, then A→Z by name
+  INDEX.sort((a,b)=> ((b.billKey?1:0) - (a.billKey?1:0)) || a.name.localeCompare(b.name));
 }
 
 function render(){
@@ -323,7 +357,7 @@ function render(){
   // filters
   const q = wfSearch.value.trim().toLowerCase();
   const bill = wfBill.value;
-  const party = wfParty.value;
+  const party = wfParty.value; // '', 'D', 'R', 'I'
   const state = wfState.value;
 
   const pass = INDEX.filter(o=>{
@@ -331,10 +365,10 @@ function render(){
       // when bill is selected, show offenders for that bill only
       if(o.billKey !== bill) return false;
     }
-    if(party && o.party!==party) return false;
+    if(party && o.partyCode !== party) return false;
     if(state && o.state!==state) return false;
     if(q){
-      const hay = `${o.name} ${o.state}-${o.district} ${o.party} ${o.billTitle} ${o.award} ${o.meaning}`.toLowerCase();
+      const hay = `${o.name} ${o.state}-${o.district} ${o.partyLabel} ${o.billTitle} ${o.award} ${o.meaning}`.toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
@@ -362,7 +396,8 @@ function openReceipt(bio, billKey){
   img.src = m.photo; img.alt = m.name;
 
   document.getElementById('receiptName').textContent = m.name;
-  document.getElementById('receiptMeta').textContent = `${m.chamber==='senate'?'Senate':'House'} • ${m.state}${m.district?('-'+m.district):''} • ${m.party}`;
+  document.getElementById('receiptMeta').textContent =
+    `${m.chamber==='senate'?'Senate':'House'} • ${m.state}${m.district?('-'+m.district):''} • ${m.partyLabel||''}`;
   document.getElementById('receiptAward').textContent = b.award || '';
   document.getElementById('receiptHarm').textContent  = b.meaning || '';
   const billLink = document.getElementById('receiptBill');
@@ -439,5 +474,3 @@ document.getElementById('resetFilters').addEventListener('click', ()=>{
   handleDeepLink();
 })();
 </script>
-</body>
-</html>
