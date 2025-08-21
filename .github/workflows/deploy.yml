@@ -2,7 +2,16 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main ]          # change if your default branch differs
+    branches: [ main ]
+    paths:
+      - 'index.html'
+      - 'Overview.html'
+      - 'Bills/**'
+      - 'accountability/**'
+      - 'assets/**'
+      - 'styles.css'
+      - 'data/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -10,12 +19,10 @@ permissions:
   pages: write
   id-token: write
 
+# Cancel stale runs so only the latest deploys
 concurrency:
   group: "pages-${{ github.ref }}"
-  cancel-in-progress: true      # cancel older queued runs; keep the latest
-
-env:
-  SITE_DIR: .                   # change to your build output (e.g., dist) if you build
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -24,29 +31,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # If you build, do it here:
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-      # - name: Install & Build
-      #   run: |
-      #     npm ci
-      #     npm run build
-      #   # and set SITE_DIR: dist (or your output dir) above
+      # If you add a build later (e.g., npm run build), do it here and update the upload path below.
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Ensure CNAME and .nojekyll
         run: |
-          echo "ArafatForCongress.org" > "${SITE_DIR}/CNAME"
-          touch "${SITE_DIR}/.nojekyll"
+          mkdir -p "./"
+          echo "ArafatForCongress.org" > "./CNAME"
+          touch "./.nojekyll"
 
+      # Upload ONLY what the site needs (fast artifact)
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.SITE_DIR }}
+          path: |
+            index.html
+            Overview.html
+            Bills
+            accountability
+            assets
+            styles.css
+            data
+            CNAME
+            .nojekyll
 
   deploy:
     runs-on: ubuntu-latest
