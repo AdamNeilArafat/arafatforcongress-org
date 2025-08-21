@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Analytics (optional) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Press Release — Evergreen Accountability — {{BILL_SHORT}} | Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Press release for Evergreen Pact accountability when a bill fails. Names NO voters, frames impact on families, and provides assets for press pickup." />
+  <meta name="theme-color" content="#0d3b66" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Press Release — Evergreen Accountability — {{BILL_SHORT}}" />
+  <meta property="og:description" content="Holding NO-voters accountable for blocking {{BILL_SHORT}}." />
+  <meta property="og:type" content="article" />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{ --primary:#0d3b66; --accent:#0b6e4f; --ink:#1b2634; --soft:#f6f9fc; --danger:#c1121f; }
+    body{ font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--ink); }
+    .hero-bar{ background:var(--soft); border-bottom:1px solid #e6edf3; }
+    .kicker{ letter-spacing:.06em; font-size:.85rem; color:#0b6e4f; text-transform:uppercase; }
+    .btn-print{ border-color:#ced4da; }
+    article h1{ color:var(--primary); }
+    .badge-evg{ background:var(--primary); }
+    .press-meta{ font-size:.95rem; color:#5b6b7a; }
+    .callout{ border-left:4px solid var(--accent); padding-left:1rem; background:#f8fbf9; }
+    .shame-list li{ margin-bottom:.25rem; }
+    /* Word export: ensure links & lists look right */
+    #export-source h1, #export-source h2, #export-source h3{ margin:0 0 .4rem 0; }
+    #export-source p{ margin:0 0 .6rem 0; line-height:1.45; }
+    #export-source ul, #export-source ol{ margin:.4rem 0 .6rem 1.2rem; }
+    #export-source a{ color:#0d3b66; text-decoration:none; }
+    #export-source .hr{ border-top:1px solid #d8dee4; margin:1rem 0; }
+  </style>
+</head>
+<body>
+  <header class="hero-bar">
+    <nav class="container d-flex align-items-center justify-content-between py-3">
+      <div class="d-flex align-items-center gap-2">
+        <i class="fa-solid fa-tree text-success"></i>
+        <strong>Evergreen Pact — Accountability</strong>
+        <span class="badge badge-evg ms-2 text-bg-primary">Press Release</span>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-print" onclick="window.print()">
+          <i class="fa-solid fa-print me-1"></i> Print / PDF
+        </button>
+        <button id="exportDocxBtn" class="btn btn-primary">
+          <i class="fa-solid fa-file-word me-1"></i> Export to Word (.docx)
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container my-4">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/Bills/Bills.html">Evergreen Pact Bills</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Press Release — {{BILL_SHORT}}</li>
+      </ol>
+    </nav>
+
+    <!-- ARTICLE CONTENT (this is what exports) -->
+    <article id="export-source" class="mx-auto" style="max-width: 860px;">
+      <p class="kicker mb-1">FOR IMMEDIATE RELEASE</p>
+      <h1 class="mb-2">Rep. {{TARGET_LASTNAME}} Votes to Keep {{ISSUE_SUMMARY}} High — Blocks {{BILL_SHORT}}</h1>
+      <div class="press-meta mb-3">
+        <span><i class="fa-regular fa-calendar me-1"></i>{{RELEASE_DATE}}</span>
+        <span class="mx-2">•</span>
+        <span><i class="fa-solid fa-location-dot me-1"></i>Washington, DC</span>
+      </div>
+
+      <p><strong>Washington, D.C.</strong> — Today, Rep. {{TARGET_FULLNAME}} voted <strong>NO</strong> on the {{BILL_SHORT}}, siding with corporate interests over working families. This vote denies relief on {{ONE_LINE_IMPACT}} and keeps costs high for households across {{DISTRICT_OR_STATE}}.</p>
+
+      <div class="callout my-3">
+        <p class="mb-1"><strong>What Rep. {{TARGET_LASTNAME}} blocked:</strong></p>
+        <ul class="mb-0">
+          <li>{{BULLET_1_IMPACT}}</li>
+          <li>{{BULLET_2_IMPACT}}</li>
+          <li>{{BULLET_3_IMPACT}}</li>
+        </ul>
+      </div>
+
+      <p>“{{PULL_QUOTE}}” said <strong>Adam Neil Arafat</strong>. “{{QUOTE_CONTINUATION}}”</p>
+
+      <h2 class="mt-4">Who Voted Against {{BILL_SHORT}}</h2>
+      <p>The following Members voted to keep {{ISSUE_SUMMARY}} high:</p>
+      <ul class="shame-list">
+        <!-- Replace with real names or generate via script -->
+        <li>{{NO_VOTER_1}} ({{STATE_1}})</li>
+        <li>{{NO_VOTER_2}} ({{STATE_2}})</li>
+        <li>{{NO_VOTER_3}} ({{STATE_3}})</li>
+        <!-- ... -->
+      </ul>
+
+      <h2 class="mt-4">Who Stood with Families</h2>
+      <p>Thanks to the following Members who supported {{BILL_SHORT}}:</p>
+      <ul>
+        <li>{{YES_VOTER_1}} ({{STATE_A}})</li>
+        <li>{{YES_VOTER_2}} ({{STATE_B}})</li>
+        <!-- ... -->
+      </ul>
+
+      <div class="hr"></div>
+
+      <h3 class="mt-3">About the {{BILL_SHORT}}</h3>
+      <p>{{BILL_BLURB_PARAGRAPH}}</p>
+
+      <h3 class="mt-3">Media Contact</h3>
+      <p><strong>Adam Neil Arafat for Congress — Comms</strong><br>
+         <a href="mailto:press@arafatforcongress.org">press@arafatforcongress.org</a> · (253) 224‑9087 · <a href="https://arafatforcongress.org" target="_blank" rel="noopener">arafatforcongress.org</a></p>
+
+      <!-- Hidden inline CSS for Word export to preserve core look -->
+      <template id="word-inline-style">
+        <style>
+          body { font-family: Calibri, Arial, sans-serif; color:#1b2634; }
+          h1 { color:#0d3b66; font-size:22pt; margin:0 0 8pt; }
+          h2 { color:#0d3b66; font-size:16pt; margin:14pt 0 6pt; }
+          h3 { color:#0d3b66; font-size:13pt; margin:12pt 0 6pt; }
+          p { font-size:11pt; line-height:1.35; margin:0 0 8pt; }
+          ul { margin:0 0 8pt 18pt; }
+          .callout { border-left:4pt solid #0b6e4f; padding-left:10pt; background:#f8fbf9; }
+          .press-meta { color:#5b6b7a; font-size:10pt; }
+          .hr { border-top:1pt solid #d8dee4; height:0; margin:10pt 0; }
+          a { color:#0d3b66; text-decoration:none; }
+        </style>
+      </template>
+    </article>
+
+    <!-- Quick actions -->
+    <div class="my-4 d-flex gap-2">
+      <a class="btn btn-outline-primary" href="/Bills/Bills.html"><i class="fa-solid fa-arrow-left-long me-1"></i> Back to All Bills</a>
+      <a class="btn btn-success" href="/Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill.html" target="_blank" rel="noopener">
+        <i class="fa-solid fa-file-lines me-1"></i> View Bill Blueprint
+      </a>
+    </div>
+  </main>
+
+  <!-- Dependencies for export -->
+  <!-- html-docx-js converts HTML + inline styles to a .docx blob in the browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js" integrity="sha512-HI0V2hfnvC05c0rju8QY5VvqJ0Zq97s4idXhlvQXbE9SxP3YkzdzH96aF7Yb7b/pb8l2o1Q3hxr7Qf2qf4S8Jw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    // Builds a clean HTML document string with inline styles for Word
+    function buildWordHtml() {
+      const src = document.getElementById('export-source').cloneNode(true);
+
+      // Inject inline styles that Word will respect
+      const styleTemplate = document.getElementById('word-inline-style');
+      if (styleTemplate) {
+        const styleEl = styleTemplate.content.cloneNode(true);
+        // Wrap export content in a container that includes inline CSS
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(styleEl);
+        wrapper.appendChild(src);
+        return '<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>' + wrapper.innerHTML + '</body></html>';
+      }
+
+      return '<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>' + src.innerHTML + '</body></html>';
+    }
+
+    document.getElementById('exportDocxBtn').addEventListener('click', function() {
+      const docHtml = buildWordHtml();
+      // Default filename pulls from title with a fallback
+      const safeTitle = (document.title || 'Press_Release').replace(/[^\w\-]+/g, '_');
+      const blob = window.htmlDocx.asBlob(docHtml, { orientation: 'portrait', margins: { top: 720, right: 720, bottom: 720, left: 720 } }); // margins in twips (~0.5")
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = safeTitle.replace(/\s+/g, '_') + '.docx';
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(url);
+      a.remove();
+    });
+  </script>
+</body>
+</html>
