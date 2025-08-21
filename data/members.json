@@ -1,47 +1,24 @@
 [
   {
-    "id": { "bioguide": "A000374" },
-    "name": { "first": "Alma", "last": "Adams" },
-    "terms": [
-      {
-        "type": "rep",
-        "start": "2014-11-12",
-        "end": "2017-01-03",
-        "state": "NC",
-        "district": "12",
-        "party": "Democrat"
-      },
-      {
-        "type": "rep",
-        "start": "2023-01-03",
-        "end": "2025-01-03",
-        "state": "NC",
-        "district": "12",
-        "party": "Democrat"
-      }
-    ]
+    "bioguide": "A000360",
+    "first": "Jane",
+    "last": "Doe",
+    "name": "Jane Doe",
+    "party": "D",
+    "chamber": "house",
+    "state": "WA",
+    "district": "10",
+    "photo": "https://unitedstates.github.io/images/congress/225x275/A000360.jpg"
   },
   {
-    "id": { "bioguide": "B001288" },
-    "name": { "first": "Nanette", "last": "Barragán" },
-    "terms": [
-      {
-        "type": "rep",
-        "start": "2017-01-03",
-        "end": "2019-01-03",
-        "state": "CA",
-        "district": "44",
-        "party": "Democrat"
-      },
-      {
-        "type": "rep",
-        "start": "2023-01-03",
-        "end": "2025-01-03",
-        "state": "CA",
-        "district": "44",
-        "party": "Democrat"
-      }
-    ]
+    "bioguide": "B001234",
+    "first": "John",
+    "last": "Smith",
+    "name": "John Smith",
+    "party": "R",
+    "chamber": "house",
+    "state": "TX",
+    "district": "21",
+    "photo": "https://unitedstates.github.io/images/congress/225x275/B001234.jpg"
   }
-  // ... continues for every sitting Representative and Senator
 ]
