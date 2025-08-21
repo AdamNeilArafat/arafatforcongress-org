@@ -1,0 +1,38 @@
+name: FEC Data Build
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs once daily at 7 AM UTC (midnight PT)
+    - cron: "0 7 * * *"
+  push:
+    branches:
+      - main
+
+jobs:
+  build-fec-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build FEC pipeline
+        run: node scripts/fec-build.js
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+
+      - name: Commit and push JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/*.json
+          git commit -m "chore: update FEC data [skip ci]" || echo "No changes"
+          git push
