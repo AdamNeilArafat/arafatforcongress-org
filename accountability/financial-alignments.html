@@ -1,7 +1,7 @@
 <!-- financial-alignments.html — FULL, DROP‑IN PAGE
      - Uses pipeline JSON if present: data/members.json, data/donors-by-member.json, data/member-awards.json, data/vote-alignments.json
-     - Also ships with inline demo data as a fallback so it renders out of the box.
-     - Extras: client‑side filters, column sorting, CSV export, robust error handling, a11y tweaks. -->
+     - Inline demo data fallback so it renders out of the box.
+     - Adds: deep-link filters, a11y, member details modal (overview/money/votes/receipts), CSV export, sorting, perf tweaks. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +10,10 @@
   <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
   <meta name="description" content="PAC vs small donors, in‑district vs out‑district, industry breakdowns, and vote alignment indicators."/>
   <meta name="theme-color" content="#0d3b66"/>
+
+  <!-- Perf: preconnect to CDNs actually used -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -45,12 +49,16 @@
     .chip-danger{background:#ffecec; border-color:#ffd0d0; color:#8d0a0a}
     .chip-warn{background:#fff8e6; border-color:#ffe5a3; color:#7a5200}
     .chip-ok{background:#e9f7ef; border-color:#cfe9d8; color:#0b6e4f}
-    .avatar{width:28px;height:28px;object-fit:cover;border-radius:50%;border:1px solid var(--ring-strong)}
+    .avatar{width:36px;height:36px;object-fit:cover;border-radius:50%;border:1px solid var(--ring-strong)}
 
     .tools .btn{white-space:nowrap}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
+
+    /* Row hover to suggest “click for details” */
+    #fa-table tr[data-mid]{transition:background .12s}
+    #fa-table tr[data-mid]:hover{background:#f9fbfe; cursor:pointer}
   </style>
 </head>
 <body>
@@ -123,7 +131,7 @@
         <button id="fa-reset" class="btn btn-outline-secondary">Reset</button>
       </div>
     </div>
-    <div class="tools d-flex gap-2 mt-3">
+    <div class="tools d-flex flex-wrap gap-2 mt-3">
       <button id="btn-export" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
       <span id="load-status" class="small text-muted" role="status" aria-live="polite">Loading…</span>
     </div>
@@ -161,7 +169,7 @@
     </div>
   </div>
 
-  <!-- Chart placeholders -->
+  <!-- Chart placeholders (keep for future; safe to remove) -->
   <div class="row g-3">
     <div class="col-lg-6">
       <div class="cardish p-3">
@@ -207,7 +215,7 @@
   <div class="cardish p-3 mt-4">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
       <h2 class="h6 mb-0">Detail Table</h2>
-      <span class="small text-muted">Each row indicates which badges were triggered</span>
+      <span class="small text-muted">Click a row for details. Each row lists triggered badges.</span>
     </div>
     <div class="table-responsive mt-2">
       <table class="table table-sm align-middle" id="fa-table-el">
@@ -238,6 +246,40 @@
   </div>
 </footer>
 
+<!-- Member Details Modal (mirrors Wall UX: overview • money • votes • receipts) -->
+<div class="modal fade" id="memberModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="memberTitle" class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs mb-3" role="tablist">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-overview" type="button">Overview</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-money" type="button">Money</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-votes" type="button">Votes</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-receipts" type="button">Receipts</button></li>
+        </ul>
+        <div class="tab-content">
+          <div id="tab-overview" class="tab-pane fade show active"><div id="overview-body"></div></div>
+          <div id="tab-money" class="tab-pane fade"><div id="money-body"></div></div>
+          <div id="tab-votes" class="tab-pane fade"><div id="votes-body"></div></div>
+          <div id="tab-receipts" class="tab-pane fade"><div id="receipts-body"></div></div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <div class="small text-muted" id="memberMeta"></div>
+        <div class="d-flex gap-2">
+          <a id="shareX" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener">Share</a>
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
 <!-- Inline demo data fallback so the page renders even if /data is missing -->
@@ -250,7 +292,7 @@
 </script>
 <script id="demo-donors" type="application/json">
 {
-  "D000001": {"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000}},
+  "D000001": {"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000}, "receipts":[{"title":"FEC report (Demo)","url":"https://www.fec.gov/data/"}]},
   "R000002": {"pac_pct":0.31,"in_state_dollars":210000,"out_state_dollars":150000,"industries":{"oil":120000,"finance":50000}},
   "S000003": {"pac_pct":0.12,"in_state_dollars":400000,"out_state_dollars":220000,"industries":{"tech":140000,"aipac":20000}}
 }
@@ -263,14 +305,14 @@
 </script>
 <script id="demo-align" type="application/json">
 {
-  "D000001":{"donor_alignment_index":0.91},
+  "D000001":{"donor_alignment_index":0.91, "votes":[{"bill":"Energy Savings Bill (2027)","date":"2027-03-12","position":"No","url":"./Bills/energy-savings-and-lower-bills-bill-2027.html"}]},
   "R000002":{"donor_alignment_index":0.76},
   "S000003":{"donor_alignment_index":0.62}
 }
 </script>
 
 <script>
-/* Financial Alignments — loader, filters, sorting, CSV export (no external JS required) */
+/* Financial Alignments — loader, filters, sorting, CSV export, modal */
 (async function(){
   const $ = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
@@ -303,9 +345,10 @@
   ]);
   $('#load-status').textContent = 'Data loaded.';
 
-  function pct(n){ return Math.round((n||0)*100); }
-  function money(n){ return '$' + (Math.round(n||0)).toLocaleString(); }
-  function resolveMember(mid){ return members?.[mid] || null; }
+  // Utilities
+  const pct = n => Math.round((n||0)*100);
+  const money = n => '$' + (Math.round(n||0)).toLocaleString();
+  const resolveMember = mid => members?.[mid] || null;
 
   function topIndustry(d){
     if(!d || !d.industries) return {key:'—', share:0};
@@ -317,7 +360,7 @@
     return {key, share:(amt||0)/total};
   }
 
-  function computeBadges(mid, dRec, aRec, vRec){
+  function computeChips(dRec, aRec, vRec){
     const chips=[];
     const pacPct = dRec?.pac_pct ?? 0;
     if(pacPct >= THRESH.PAC_FLAG){ chips.push(['chip-danger','fa-hand-holding-dollar',`High PAC: ${pct(pacPct)}%`]); }
@@ -337,7 +380,7 @@
     return chips;
   }
 
-  // Headline metrics (take the first member with donor data)
+  // Headline metrics (just show the first donor record for a quick at-a-glance)
   (function setHeadline(){
     const mids = Object.keys(donorsByMember||{});
     if(!mids.length) return;
@@ -351,7 +394,7 @@
     $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
   })();
 
-  // Row builder
+  // Build table rows
   const tbody = $('#fa-table');
   function rowData(mid){
     const m = resolveMember(mid) || {};
@@ -361,8 +404,9 @@
     const ti = topIndustry(d);
     const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
     const in$ = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
-    const chips = computeBadges(mid, d, a, v);
+    const chips = computeChips(d, a, v);
 
+    // Image handling with blur-up placeholder
     const photo = m.photo || m.image || '';
     const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
 
@@ -376,18 +420,23 @@
       photo: photo || ph,
       pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
       align: (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null,
-      chips
+      chips,
+      votes: (v && v.votes) || [],
+      receipts: (d && d.receipts) || []
     };
   }
 
-  function rowHTML(d){
-    const chipsHTML = d.chips.map(([cls,icon,label]) =>
+  function chipHTML(chips){
+    return chips.map(([cls,icon,label]) =>
       `<span class="badge-chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`
     ).join(' ');
+  }
+
+  function rowHTML(d){
     return `<tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}">
       <td>
         <div class="d-flex align-items-center gap-2">
-          <img class="avatar" src="${d.photo}" alt="${d.name} headshot" loading="lazy">
+          <img class="avatar" src="${d.photo}" alt="${d.name} headshot" loading="lazy" width="36" height="36">
           <div><div class="fw-bold">${d.name}</div><div class="text-muted small">${d.party}</div></div>
         </div>
       </td>
@@ -397,7 +446,7 @@
       <td data-val="${d.in$ - d.out$}">${money(d.in$)} / ${money(d.out$)}</td>
       <td data-val="${d.topIndustryShare}">${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</td>
       <td data-val="${d.align ?? -1}">${d.align===null ? '—' : d.align+'%'}</td>
-      <td style="min-width:280px">${chipsHTML}</td>
+      <td style="min-width:280px">${chipHTML(d.chips)}</td>
     </tr>`;
   }
 
@@ -406,10 +455,14 @@
     if(!mids.length){ tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`; return; }
     const rows = mids.map(mid => rowData(mid));
     tbody.innerHTML = rows.map(rowHTML).join('');
+    // Row → modal
+    $$('#fa-table tr[data-mid]').forEach(tr=>{
+      tr.addEventListener('click', ()=> openModal(tr.getAttribute('data-mid')));
+    });
   }
   rebuildTable();
 
-  // Filters
+  // Filters with deep-link support (?q=&chamber=&industry=)
   const qInput = $('#fa-member'), chamberSel = $('#fa-chamber'), industrySel = $('#fa-industry'), resetBtn = $('#fa-reset');
 
   function passesIndustryFilter(mid, wanted){
@@ -420,11 +473,11 @@
     return keys.includes(wanted.toLowerCase());
   }
 
-  function applyFilters(){
+  function applyFilters(pushState=true){
     const q = (qInput.value || '').trim().toLowerCase();
     const ch = (chamberSel.value || '').toLowerCase();
     const ind = (industrySel.value || '').toLowerCase();
-    const rows = $$('#fa-table tr');
+    const rows = $$('#fa-table tr[data-mid]');
     let visible = 0;
     rows.forEach(tr=>{
       const mid = tr.getAttribute('data-mid');
@@ -440,17 +493,40 @@
       if(show) visible++;
     });
     $('#load-status').textContent = `Showing ${visible} row(s).`;
+
+    if(pushState){
+      const p = new URLSearchParams();
+      if(q) p.set('q', q);
+      if(ch) p.set('chamber', ch);
+      if(ind) p.set('industry', ind);
+      const qs = p.toString();
+      const url = qs ? `${location.pathname}?${qs}` : location.pathname;
+      history.replaceState({}, '', url);
+    }
   }
 
-  qInput.addEventListener('input', applyFilters);
-  chamberSel.addEventListener('change', applyFilters);
-  industrySel.addEventListener('change', applyFilters);
-  resetBtn.addEventListener('click', ()=>{ qInput.value=''; chamberSel.value=''; industrySel.value=''; applyFilters(); });
+  // Init filters from URL
+  (function syncFromURL(){
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q') || '';
+    const ch = params.get('chamber') || '';
+    const ind = params.get('industry') || '';
+    if(q) qInput.value = q;
+    if(ch) chamberSel.value = ch;
+    if(ind) industrySel.value = ind;
+  })();
+
+  qInput.addEventListener('input', ()=>applyFilters());
+  chamberSel.addEventListener('change', ()=>applyFilters());
+  industrySel.addEventListener('change', ()=>applyFilters());
+  resetBtn.addEventListener('click', ()=>{
+    qInput.value=''; chamberSel.value=''; industrySel.value='';
+    applyFilters();
+  });
 
   // Column sorting
   let sortState = { key:null, dir:1 };
-  const head = $('#fa-table-el thead');
-  head.addEventListener('click', (e)=>{
+  $('#fa-table-el thead').addEventListener('click', (e)=>{
     const th = e.target.closest('th[data-sort]');
     if(!th) return;
     const key = th.getAttribute('data-sort');
@@ -460,7 +536,10 @@
     $$('#fa-table-el thead th').forEach(h=>h.classList.remove('sorted-asc','sorted-desc'));
     th.classList.add(dir>0 ? 'sorted-asc' : 'sorted-desc');
 
-    const rows = $$('#fa-table tr').filter(tr=>tr.style.display!=='none');
+    const allRows = $$('#fa-table tr[data-mid]');
+    const visible = allRows.filter(tr=>tr.style.display!=='none');
+    const hidden = allRows.filter(tr=>tr.style.display==='none');
+
     const valGetter = {
       name: tr => (tr.querySelector('td .fw-bold')?.textContent || '').toLowerCase(),
       seat: tr => (tr.children[1]?.textContent || '').toLowerCase(),
@@ -471,24 +550,22 @@
       align: tr => Number(tr.children[6]?.getAttribute('data-val')||-1)
     }[key];
 
-    rows.sort((a,b)=>{
+    visible.sort((a,b)=>{
       const va = valGetter(a), vb = valGetter(b);
       if(typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
       return String(va).localeCompare(String(vb)) * dir;
     });
 
-    // Re-append in sorted order (only visible rows — hidden keep position)
     const frag = document.createDocumentFragment();
-    const hidden = $$('#fa-table tr').filter(tr=>tr.style.display==='none');
-    rows.forEach(r=>frag.appendChild(r));
-    hidden.forEach(h=>frag.appendChild(h));
+    visible.forEach(r=>frag.appendChild(r));
+    hidden.forEach(h=>frag.appendChild(h)); // keep hidden at end (stable)
     $('#fa-table').innerHTML = '';
     $('#fa-table').appendChild(frag);
   });
 
   // CSV Export (visible rows only)
   $('#btn-export').addEventListener('click', ()=>{
-    const rows = $$('#fa-table tr').filter(tr=>tr.style.display!=='none');
+    const rows = $$('#fa-table tr[data-mid]').filter(tr=>tr.style.display!=='none');
     if(!rows.length) return;
     const esc = s => `"${String(s).replace(/"/g,'""')}"`;
     const header = ['Member','Seat','PAC %','Small %','In $','Out $','Top Industry','Vote Align','Badges'];
@@ -512,8 +589,77 @@
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Initial apply filters (in case query params or defaults are set)
-  applyFilters();
+  // Modal rendering
+  function openModal(mid){
+    const m = resolveMember(mid) || {};
+    const d = donorsByMember[mid] || {};
+    const v = voteAlignByMember[mid] || {};
+    const a = awardsByMember[mid] || {};
+    const ti = topIndustry(d);
+
+    const name = m.name || mid;
+    const seat = m.seat || (m.state || '');
+    const party = m.party || '';
+    const photo = m.photo || m.image || '';
+
+    // Title/meta
+    $('#memberTitle').textContent = `${name} — ${seat}${party ? ' ('+party+')' : ''}`;
+    $('#memberMeta').textContent = `Top industry: ${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`} • PAC: ${pct(d.pac_pct||0)}% • Vote align: ${typeof v.donor_alignment_index==='number'?pct(v.donor_alignment_index)+'%':'—'}`;
+
+    // Overview
+    const chips = computeChips(d, a, v);
+    $('#overview-body').innerHTML = `
+      <div class="row g-3">
+        <div class="col-md-4">
+          <img src="${photo || 'assets/members/placeholder.jpg'}" class="w-100 rounded" alt="${name} headshot" loading="lazy">
+        </div>
+        <div class="col-md-8">
+          <p class="mb-2"><strong>Badges:</strong> ${chips.length ? chipHTML(chips) : 'None yet'}</p>
+          <p class="mini mb-2">Hover a badge for its trigger. Every claim should link to receipts.</p>
+          <ul class="mb-0">
+            <li>PAC share: <strong>${pct(d.pac_pct||0)}%</strong> (small donors: <strong>${100-pct(d.pac_pct||0)}%</strong>)</li>
+            <li>In vs Out: <strong>${money(d.in_state_dollars||0)}</strong> in / <strong>${money(d.out_state_dollars||0)}</strong> out</li>
+            <li>Top industry: <strong>${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`}</strong></li>
+            <li>Vote alignment with donors: <strong>${typeof v.donor_alignment_index==='number'?pct(v.donor_alignment_index)+'%':'—'}</strong></li>
+          </ul>
+        </div>
+      </div>`;
+
+    // Money
+    const inds = Object.entries(d.industries||{}).sort((a,b)=>b[1]-a[1]);
+    $('#money-body').innerHTML = `
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead>
+          <tbody>${inds.length ? inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('') : `<tr><td colspan="2" class="text-muted">No sector detail available.</td></tr>`}</tbody>
+        </table>
+      </div>
+      <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>`;
+
+    // Votes
+    const votes = (v && v.votes) || [];
+    $('#votes-body').innerHTML = `
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead>
+          <tbody>${votes.length ? votes.map(x=>`<tr><td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('') : `<tr><td colspan="4" class="text-muted">No tracked votes yet.</td></tr>`}</tbody>
+        </table>
+      </div>`;
+
+    // Receipts
+    const receipts = (d && d.receipts) || [];
+    $('#receipts-body').innerHTML = receipts.length
+      ? `<ul class="list-unstyled mb-0">${receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
+      : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
+
+    // Share button (X)
+    $('#shareX').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${name} — ${seat} ${party? '('+party+') ':''}• PAC ${pct(d.pac_pct||0)}% • Top: ${ti.key==='—'?'—':ti.key}`)}&url=${encodeURIComponent(location.href)}`;
+
+    new bootstrap.Modal(document.getElementById('memberModal')).show();
+  }
+
+  // Initial filter pass
+  applyFilters(false);
 })();
 </script>
 </body>
