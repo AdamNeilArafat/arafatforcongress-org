@@ -1,1 +1,4 @@
-ArafatForCongress.org
+- name: Ensure CNAME and .nojekyll
+  run: |
+    echo "ArafatForCongress.org" > "${SITE_DIR}/CNAME"
+    touch "${SITE_DIR}/.nojekyll"
