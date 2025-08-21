@@ -11,7 +11,7 @@
   <meta property="og:title" content="Evergreen Pact — Two Paths, Clear Steps" />
   <meta property="og:description" content="Two ladders for 2027. Each step helps working people without raising their taxes and restores checks and balances to the full legal extent." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="../assets/evergreen-tree.png" />
+  <meta property="og:image" content="assets/evergreen-tree.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Evergreen Pact — Two Paths, Clear Steps" />
   <meta name="twitter:description" content="Two ladders for 2027. Each step helps working people without raising their taxes and restores checks and balances." />
@@ -76,6 +76,11 @@
     .progress-wrap{display:flex;align-items:center;gap:.5rem}
     .progress{height:.75rem;border-radius:999px}
     .search{max-width:380px}
+
+    /* Quiet accountability link */
+    .acct-link{font-size:.78rem;color:#6b7280}
+    .acct-link i{margin-right:.35rem}
+    .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
   </style>
 </head>
 <body>
@@ -83,16 +88,16 @@
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="../index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="../digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
         <li class="nav-item"><a class="nav-link active" href="Bills/Bills.html" aria-current="page"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
-        <li class="nav-item"><a class="nav-link" href="../contrast.html">Record &amp; Contrast</a></li>
-        <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
       </ul>
     </div>
   </div>
@@ -104,9 +109,9 @@
     <h1 class="display-5 mb-2">🌲 The Evergreen Pact</h1>
     <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
 
-    <!-- Header button points to Overview.html (in /Bills) -->
+    <!-- Open the actual root Overview.html from your repo -->
     <div class="d-flex justify-content-center gap-2 flex-wrap">
-      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="Bills/Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open overview PDF (Overview.html)">
+      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open overview PDF (Overview.html)">
         <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF
       </a>
     </div>
@@ -140,7 +145,7 @@
 <noscript>
   <section class="container my-4">
     <div class="alert alert-warning">
-      This interactive plan needs JavaScript to reveal steps. You can still open the <a href="Bills/Overview.html" target="_blank" rel="noopener noreferrer">static overview</a>.
+      This interactive plan needs JavaScript to reveal steps. You can still open the <a href="Overview.html" target="_blank" rel="noopener noreferrer">static overview</a>.
     </div>
   </section>
 </noscript>
@@ -196,39 +201,18 @@
               </div>
               <h4 class="h5 mt-2" id="A-G1-title">Implementation Safeguards</h4>
               <p class="mini mb-2"><strong>For working people:</strong> protects services families rely on by preventing rushed, unvetted executive actions that disrupt programs and raise costs. No new taxes on working families.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> defines funds to include staff time, supplies, facilities, vehicles, and information technology. Requires a hold at the Office of Information and Regulatory Affairs and the Office of the Federal Register. Creates a public compliance dashboard at the Office of Management and Budget. Provides fast three judge court review.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> defines funds to include staff time, supplies, facilities, vehicles, and information technology. Requires a hold at OIRA and the Office of the Federal Register. Creates a public compliance dashboard at OMB. Provides fast three judge court review.</p>
               <p class="mini mb-2"><strong>How we pass it:</strong> place it in the first government funding bill.</p>
               <p class="mini mb-2"><span class="chip chip-parallel" aria-hidden="true">Parallel step</span> This does not replace Items 2 to 4. They continue while Tier 1 starts so working families see savings right away.</p>
               <div class="odds mb-2">
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="55–65%">55–65%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="75–85%">75–85%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/minibus-implementation-safeguards-bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
-
-                <button
-                  type="button"
-                  class="btn btn-success btn-sm branch"
-                  aria-label="Mark Item 1 as Passed"
-                  data-pass="#A-G2,#A-K1"
-                  data-pass-effects='[
-                    "Foundation in place. Agencies must use the compliance identifier and hold new actions for review.",
-                    "Two tracks start now. Guardrails Track continues with Item 2. Cost of Living Track starts with Energy Savings and Lower Bills.",
-                    "Courts can move fast through the three judge path. Programs people rely on stay steady."
-                  ]'
-                >Mark as Passed</button>
-
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm branch"
-                  aria-label="Mark Item 1 as Failed"
-                  data-fail="#A-G1R,#A-G2,#A-K1"
-                  data-fail-effects='[
-                    "Fallback active. Riders, handbook updates, and hosting rules restrict non compliant documents.",
-                    "We still move to Item 2 to harden publication and seals, and we start Energy Savings so households see relief now.",
-                    "Litigation posture is ready if an improper document slips through."
-                  ]'
-                >Mark as Failed</button>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/minibus-implementation-safeguards-bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <!-- No award mapping for T0 admin items -->
+                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 1 as Passed" data-pass="#A-G2,#A-K1" data-pass-effects='["Foundation in place. Agencies must use the compliance identifier and hold new actions for review.","Two tracks start now. Guardrails Track continues with Item 2. Cost of Living Track starts with Energy Savings and Lower Bills.","Courts can move fast through the three judge path. Programs people rely on stay steady."]'>Mark as Passed</button>
+                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 1 as Failed" data-fail="#A-G1R,#A-G2,#A-K1" data-fail-effects='["Fallback active. Riders, handbook updates, and hosting rules restrict non compliant documents.","We still move to Item 2 to harden publication and seals, and we start Energy Savings so households see relief now.","Litigation posture is ready if an improper document slips through."]'>Mark as Failed</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-G1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-G1" aria-controls="eff-A-G1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -255,8 +239,9 @@
                 <div><strong>Riders that stick:</strong> <span class="odds-now" data-rider="55–70%">55–70%</span></div>
                 <div><strong>Standards effect:</strong> <span class="odds-now" data-std="80–90%">80–90%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/fallback-oversight-toolkit-bill (2027).html" target="_blank" rel="noopener noreferrer">Open fallback kit</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/fallback-oversight-toolkit-bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open fallback kit</a>
+                <!-- No award mapping for T0 admin items -->
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Apply fallback to proceed" data-pass="#A-G2" data-pass-effects='["Fallback in place. Continue to Communications and Seals."]'>Applied</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Skip fallback" data-fail="#A-G2" data-fail-effects='["Fallback skipped. Proceed to Communications and Seals; litigation posture stays ready."]'>Skip</button>
               </div>
@@ -280,37 +265,15 @@
               <p class="mini mb-2"><strong>For working people:</strong> stops misleading rollouts and keeps rules clear so families and small businesses are not whipsawed by sudden changes.</p>
               <p class="mini mb-2"><strong>Checks on executive power:</strong> no Federal Register publication, no official hosting, and no use of official seals for new actions without a compliance identifier. Limits mass personnel moves that start during an impeachment period. Requires fast notice on pardons.</p>
               <p class="mini mb-2"><strong>How we pass it:</strong> Financial Services and General Government title in appropriations.</p>
-                            <div class="odds mb-2">
+              <div class="odds mb-2">
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="45–55%" data-pass="55–65%" data-fail="50–60%">45–55%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="65–75%" data-pass-b="75–85%" data-fail-b="70–80%">65–75%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
+              <div class="btn-row">
                 <a class="btn btn-outline-dark btn-sm" href="Bills/communications-integrity-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
-
-                <button
-                  type="button"
-                  class="btn btn-success btn-sm branch"
-                  aria-label="Mark Item 2 as Passed"
-                  data-pass="#A-G3"
-                  data-pass-effects='[
-                    "Official publication, hosting, and seal rules are in force. Non compliant documents do not post on the Federal Register or official sites.",
-                    "Mass personnel moves that begin during an impeachment period require a written certification that fits the life and safety standard.",
-                    "Twenty four hour notice on pardons is live, so Congress and the public see grants immediately.",
-                    "Proceed to the defense emergency pilot on schedule."
-                  ]'
-                >Mark as Passed</button>
-
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm branch"
-                  aria-label="Mark Item 2 as Failed"
-                  data-fail="#A-G3"
-                  data-fail-effects='[
-                    "We rely on handbook and hosting standards adopted under Item 1 or Item 1R to block most non compliant documents.",
-                    "If a questionable document slips through, we file suit at once and seek a temporary restraining order.",
-                    "Proceed to the defense emergency pilot on schedule."
-                  ]'
-                >Mark as Failed</button>
+                <!-- No direct award mapping -->
+                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 2 as Passed" data-pass="#A-G3" data-pass-effects='["Official publication, hosting, and seal rules are in force. Non compliant documents do not post on the Federal Register or official sites.","Mass personnel moves that begin during an impeachment period require a written certification that fits the life and safety standard.","Twenty four hour notice on pardons is live, so Congress and the public see grants immediately.","Proceed to the defense emergency pilot on schedule."]'>Mark as Passed</button>
+                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 2 as Failed" data-fail="#A-G3" data-fail-effects='["We rely on handbook and hosting standards adopted under Item 1 or Item 1R to block most non compliant documents.","If a questionable document slips through, we file suit at once and seek a temporary restraining order.","Proceed to the defense emergency pilot on schedule."]'>Mark as Failed</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-G2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-G2" aria-controls="eff-A-G2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -330,38 +293,17 @@
               </div>
               <h4 class="h5 mt-2" id="A-G3-title">Defense emergency approval to spend pilot</h4>
               <p class="mini mb-2"><strong>For working people:</strong> keeps emergency powers from being used as a backdoor to bypass Congress. Protects readiness and safety with clear carve outs.</p>
-              <p class="mini mb-2"><strong>Checks on executive power:</strong> if a national emergency is declared during an impeachment period, the Department of Defense cannot spend under it unless Congress approves within seven legislative days. Exceptions for life and safety. Two year sunset.</p>
+              <p class="mini mb-2"><strong>Checks on executive power:</strong> if a national emergency is declared during an impeachment period, DoD cannot spend under it unless Congress approves within seven legislative days. Exceptions for life and safety. Two year sunset.</p>
               <p class="mini mb-2"><strong>How we pass it:</strong> add as a narrow subtitle to the annual defense authorization law.</p>
               <div class="odds mb-2">
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="35–45%" data-pass="45–55%" data-fail="35–45%">35–45%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="60–70%" data-fail-b="55–65%">55–65%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
+              <div class="btn-row">
                 <a class="btn btn-outline-dark btn-sm" href="Bills/emergency-powers-spend-pilot-dod-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
-
-                <button
-                  type="button"
-                  class="btn btn-success btn-sm branch"
-                  aria-label="Mark Item 3 as Passed"
-                  data-pass="#A-G4"
-                  data-pass-effects='[
-                    "New emergency spending during an impeachment period at the Department of Defense needs an approval vote within seven legislative days.",
-                    "Life and safety actions can proceed, but they must be narrowly certified and expire on schedule.",
-                    "This strengthens the case for government wide expansion next."
-                  ]'
-                >Mark as Passed</button>
-
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm branch"
-                  aria-label="Mark Item 3 as Failed"
-                  data-fail="#A-G4"
-                  data-fail-effects='[
-                    "There is no approval to spend rule at the Department of Defense yet. We immediately file termination votes under the National Emergencies Act.",
-                    "We fence emergency transfer accounts in appropriations to prevent workarounds.",
-                    "We prepare a tighter pilot for the next defense bill and continue the schedule."
-                  ]'
-                >Mark as Failed</button>
+                <!-- No direct award mapping -->
+                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 3 as Passed" data-pass="#A-G4" data-pass-effects='["New emergency spending during an impeachment period at the Department of Defense needs an approval vote within seven legislative days.","Life and safety actions can proceed, but they must be narrowly certified and expire on schedule.","This strengthens the case for government wide expansion next."]'>Mark as Passed</button>
+                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 3 as Failed" data-fail="#A-G4" data-fail-effects='["There is no approval to spend rule at the Department of Defense yet. We immediately file termination votes under the National Emergencies Act.","We fence emergency transfer accounts in appropriations to prevent workarounds.","We prepare a tighter pilot for the next defense bill and continue the schedule."]'>Mark as Failed</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-G3">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-G3" aria-controls="eff-A-G3" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -386,8 +328,9 @@
               <div class="odds mb-2">
                 <div><strong>Base:</strong> <span class="odds-now" data-standalone="35–50%" data-pass="50–60%" data-fail="35–50%">35–50%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
+              <div class="btn-row">
                 <a class="btn btn-outline-dark btn-sm" href="Bills/continuity-integrity-expansion-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <!-- No direct award mapping -->
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 4 as Passed" data-pass="#A-K1" data-pass-effects='["Expansion passed. Continue with cost of living wins."]'>Mark as Passed</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 4 as Failed" data-fail="#A-K1" data-fail-effects='["Expansion failed. Keep the pilot running and try again with tighter carve outs while continuing cost of living wins."]'>Mark as Failed</button>
               </div>
@@ -417,8 +360,9 @@
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="70–80%" data-pass="75–85%" data-fail="65–75%">70–80%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="80–90%" data-pass-b="85–95%" data-fail-b="75–85%">80–90%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Energy Savings and Lower Bills Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Energy%20Savings%20and%20Lower%20Bills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=energy&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Energy Savings and Lower Bills"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 5 as Passed" data-pass="#A-K2" data-pass-effects='["Energy passed. Proceed to grocery fees reform."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 5 as Failed" data-fail="#A-K2" data-fail-effects='["Energy failed. Convert to grant criteria and keep the tracker public. Move on."]'>Fail</button>
               </div>
@@ -444,8 +388,9 @@
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="55–65%" data-pass="60–70%" data-fail="50–60%">55–65%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="65–75%" data-pass-b="70–80%" data-fail-b="60–70%">65–75%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Fair Food and Grocery Competition Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=grocery&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Fair Food and Grocery Competition"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 6 as Passed" data-pass="#A-K3" data-pass-effects='["Grocery reform passed. Move to apprenticeships and skills."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 6 as Failed" data-fail="#A-K3" data-fail-effects='["Grocery reform failed. Use transparency riders and state attorney general grants. Move on."]'>Fail</button>
               </div>
@@ -471,8 +416,9 @@
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="60–70%" data-pass="65–75%" data-fail="55–65%">60–70%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="70–80%" data-pass-b="75–85%" data-fail-b="65–75%">70–80%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Good Jobs & Skills Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Good%20Jobs%20%26%20Skills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=jobs&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Good Jobs and Skills"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 7 as Passed" data-pass="#A-R1,#A-R2" data-pass-effects='["Jobs passed. Start Tier 2 in parallel."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 7 as Failed" data-fail="#A-R1,#A-R2" data-fail-effects='["Jobs failed. Use guidance and bonus criteria by instruction. Start Tier 2 anyway."]'>Fail</button>
               </div>
@@ -502,8 +448,9 @@
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="45–55%" data-pass="50–60%" data-fail="45–55%">45–55%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="60–70%" data-fail-b="55–65%">55–65%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Affordable Child and Dependent Care Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Affordable%20Child%20and%20Dependent%20Care%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=childcare&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Child and Dependent Care"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 8 as Passed" data-pass="#A-R2" data-pass-effects='["Childcare passed. Move permitting."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 8 as Failed" data-fail="#A-R2" data-fail-effects='["Childcare failed. Run supply grants first, then permitting."]'>Fail</button>
               </div>
@@ -529,8 +476,9 @@
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="55–65%" data-pass="60–70%" data-fail="55–65%">55–65%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="70–80%" data-pass-b="75–85%" data-fail-b="70–80%">70–80%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Housing Supply and Permitting Modernization Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Housing%20Supply%20and%20Permitting%20Modernization%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=housing&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Housing Permitting Modernization"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 9 as Passed" data-pass="#A-R3" data-pass-effects='["Permitting passed. File first time buyer plan in ten days."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 9 as Failed" data-fail="#A-R3" data-fail-effects='["Permitting failed. Run grants only and still file the pilot mortgage."]'>Fail</button>
               </div>
@@ -551,13 +499,14 @@
               <h4 class="h5 mt-2" id="A-R3-title">First time homebuyer three percent mortgage</h4>
               <p class="mini mb-2"><strong>For working people:</strong> a stable low rate with fraud analytics and strong guardrails helps renters become owners.</p>
               <p class="mini mb-2"><strong>Checks on executive power:</strong> requires public oversight and prohibits off budget workarounds.</p>
-              <p class="mini mb-2"><strong>How we pass it:</strong> banking and housing authorizing bill or pilot direction to the Federal Housing Finance Agency.</p>
+              <p class="mini mb-2"><strong>How we pass it:</strong> banking and housing authorizing bill or pilot direction to the FHFA.</p>
               <div class="odds mb-2">
                 <div><strong>Full program:</strong> <span class="odds-now" data-standalone="40–55%" data-pass="50–65%" data-fail="40–55%">40–55%</span></div>
                 <div><strong>Pilot:</strong> <span class="odds-now" data-rider="60–70%" data-pass-r="65–75%" data-fail-r="60–70%">60–70%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/First-Time Homebuyer 3% Mortgage Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/First-Time%20Homebuyer%203%25%20Mortgage%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=mortgage&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for First time homebuyer 3 percent mortgage"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 10 as Passed" data-pass="#A-F1,#A-F2" data-pass-effects='["Mortgage passed. Prepare fairness bills."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 10 as Failed" data-fail="#A-F1,#A-F2" data-fail-effects='["Mortgage failed. Launch five metro pilot for first generation buyers. Continue to fairness bills."]'>Fail</button>
               </div>
@@ -580,15 +529,16 @@
               <div class="crumb">Path A → Tier 3 → Item 11</div>
               <div class="d-flex justify-content-between"><span class="chip">Item 11</span><span class="mini">When: March to June 2027</span></div>
               <h4 class="h5 mt-2" id="A-F1-title">Tax Fairness</h4>
-              <p class="mini mb-2"><strong>For working people:</strong> a fifteen percent minimum on large book profits and closing offshoring loopholes funds childcare and housing without raising taxes on working families. Expands the Child Tax Credit and the Earned Income Tax Credit.</p>
+              <p class="mini mb-2"><strong>For working people:</strong> a fifteen percent minimum on large book profits and closing offshoring loopholes funds childcare and housing without raising taxes on working families. Expands CTC and EITC.</p>
               <p class="mini mb-2"><strong>Checks on executive power:</strong> puts clear tax rules in statute and requires timely public data so the executive branch cannot delay enforcement silently.</p>
               <p class="mini mb-2"><strong>How we pass it:</strong> finance and tax committees.</p>
               <div class="odds mb-2">
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="40–55%" data-pass="45–60%" data-fail="35–50%">40–55%</span></div>
                 <div><strong>Paired with Corporate Responsibility:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="60–70%" data-fail-b="50–60%">55–65%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Tax Fairness Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Tax%20Fairness%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=tax&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Tax Fairness"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 11 as Passed" data-pass="#A-F2,#A-S1" data-pass-effects='["Tax fairness passed. Pair Corporate Responsibility and begin system reform."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 11 as Failed" data-fail="#A-F2" data-fail-effects='["Tax fairness failed. Move transparency and enforcement first. Keep rates for next bill."]'>Fail</button>
               </div>
@@ -615,8 +565,9 @@
                   <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="35–50%" data-pass="40–55%" data-fail="35–50%">35–50%</span></div>
                   <div><strong>Paired with Tax Fairness:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="55–65%" data-fail-b="45–55%">55–65%</span></div>
                 </div>
-                <div class="d-flex gap-2 flex-wrap">
-                  <a class="btn btn-outline-dark btn-sm" href="Bills/Corporate Responsibility (CSR) Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <div class="btn-row">
+                  <a class="btn btn-outline-dark btn-sm" href="Bills/Corporate%20Responsibility%20(CSR)%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                  <a class="acct-link" href="accountability/index.html#awards?bill=csr&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Corporate Responsibility"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                   <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 12 as Passed" data-pass="#A-S1" data-pass-effects='["Corporate Responsibility passed. Move to system reform."]'>Pass</button>
                   <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 12 as Failed" data-fail="#A-S1" data-fail-effects='["Corporate Responsibility failed. Use repeat offender riders and public lists. Move to system reform."]'>Fail</button>
                 </div>
@@ -647,8 +598,9 @@
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="25–40%">25–40%</span></div>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="40–50%">40–50%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Clean Campaigns and Elections Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Clean%20Campaigns%20and%20Elections%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=clean-elections&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Clean Campaigns and Elections"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 13 as Passed" data-pass="#A-S2" data-pass-effects='["Clean Campaigns passed. Pair with vote justification."]'>Pass</button>
                 <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 13 as Failed" data-fail="#A-S2" data-fail-effects='["Clean Campaigns failed. Run voucher pilots and disclosure riders. Move to vote justification."]'>Fail</button>
               </div>
@@ -675,25 +627,11 @@
                 <div><strong>Senate rules:</strong> <span class="odds-now" data-rider="30–45%">30–45%</span></div>
                 <div><strong>Statute:</strong> <span class="odds-now" data-bundled="35–50%">35–50%</span></div>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
-                <!-- FIXED: lowercase .html to match file name on Pages -->
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Congressional Vote Justification Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
-
-                <button
-                  type="button"
-                  class="btn btn-success btn-sm branch"
-                  aria-label="Mark Item 14 as Passed"
-                  data-pass="#A-L1,#A-L2"
-                  data-pass-effects='["Vote justification passed. Begin long-term guarantees."]'
-                >Pass</button>
-
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm branch"
-                  aria-label="Mark Item 14 as Failed"
-                  data-fail="#A-L1,#A-L2"
-                  data-fail-effects='["Vote justification failed. Proceed to long-term guarantees with House-rules changes only."]'
-                >Fail</button>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Congressional%20Vote%20Justification%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=justify&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Congressional Vote Justification"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
+                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 14 as Passed" data-pass="#A-L1,#A-L2" data-pass-effects='["Vote justification passed. Begin long-term guarantees."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 14 as Failed" data-fail="#A-L1,#A-L2" data-fail-effects='["Vote justification failed. Proceed to long-term guarantees with House-rules changes only."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-S2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-S2" aria-controls="eff-A-S2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -720,7 +658,10 @@
                 <div><strong>Phased start:</strong> <span class="odds-now" data-standalone="15–25%">15–25%</span></div>
                 <div><strong>Drug pricing plus auto enrollment pilots:</strong> <span class="odds-now" data-bundled="40–55%">40–55%</span></div>
               </div>
-              <a class="btn btn-outline-dark btn-sm" href="Bills/Universal Healthcare Bill (2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Universal%20Healthcare%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=uhc&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Universal Healthcare"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
+              </div>
               <div class="collapse effect-panel mt-2" id="eff-A-L1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-L1" aria-controls="eff-A-L1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
                 <div class="effect-body"></div>
@@ -742,7 +683,10 @@
                 <div><strong>Full package with contribution changes:</strong> <span class="odds-now" data-standalone="20–35%">20–35%</span></div>
                 <div><strong>Commission with action triggers:</strong> <span class="odds-now" data-bundled="40–60%">40–60%</span></div>
               </div>
-              <a class="btn btn-outline-dark btn-sm" href="Bills/Social Security Solvency Bill (2027)" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <div class="btn-row">
+                <a class="btn btn-outline-dark btn-sm" href="Bills/Social%20Security%20Solvency%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="acct-link" href="accountability/index.html#awards?bill=social-security&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Open accountability details for Social Security Solvency"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
+              </div>
               <div class="collapse effect-panel mt-2" id="eff-A-L2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-L2" aria-controls="eff-A-L2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
                 <div class="effect-body"></div>
@@ -757,8 +701,7 @@
 
   <!-- ================= PATH B (House-only) ================= -->
   <section class="tab-pane fade" id="pathB" role="tabpanel" aria-labelledby="tabB" data-path="B">
-    <!-- [Path B content unchanged from your draft, included above in full build] -->
-    <!-- Ensure any internal blueprint links here also match the file names in /Bills exactly. -->
+    <!-- Keep path B content; add the same tiny accountability links per bill where applicable -->
   </section>
 
 </div>
@@ -771,7 +714,7 @@
         <div class="p-4 h-100 rounded" style="background:#0b6e4f;color:#fff">
           <h2 class="h5 fw-bold mb-2">Join the fight</h2>
           <p class="mb-3">This campaign runs on people, not corporate political action committee money.</p>
-          <a href="../contact.html" class="btn btn-light fw-bold" target="_blank" rel="noopener noreferrer">I will volunteer</a>
+          <a href="contact.html" class="btn btn-light fw-bold" target="_blank" rel="noopener noreferrer">I will volunteer</a>
         </div>
       </div>
       <div class="col-md-6">
@@ -796,7 +739,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
   // ------- helpers
-  const STORE_KEY = 'evergreen_plan_v2'; // bump key to reset ordering/state per update
+  const STORE_KEY = 'evergreen_plan_v2';
 
   function saveState(obj){ localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }
   function loadState(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
@@ -1011,3 +954,5 @@
     updateProgress();
   });
 </script>
+</body>
+</html>
