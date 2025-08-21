@@ -1,458 +1,420 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wall of Shame — Who Voted Against You | Adam Neil Arafat for Congress</title>
-  <meta name="description" content="See which Members voted against working families. Filter by bill, state, or party. Share receipts.">
-  <meta name="theme-color" content="#0d3b66" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Wall of Shame — Faces, Votes, Receipts | Adam Neil Arafat for Congress</title>
+  <meta name="description" content="These Members voted against working families. Every face has a receipt. Filter by bill, state, or party; open the receipts; share the evidence."/>
+  <meta name="theme-color" content="#0d3b66"/>
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Wall of Shame — Who Voted Against You">
-  <meta property="og:description" content="Filter by bill, state, or party. Every face has a receipt.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/share-wall.png">
+  <meta property="og:title" content="Wall of Shame — Faces, Votes, Receipts"/>
+  <meta property="og:description" content="Filter by bill, state, or party. Every face has a receipt you can share."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="assets/share-wall.png"/>
 
-  <!-- CSS/JS -->
+  <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
   <style>
     :root{
-      --ink:#16222f; --muted:#5b748f; --soft:#f6f9fc; --brand:#0d3b66; --bad:#c1121f; --ok:#0b6e4f;
-      --chip:#eef6ff; --chipTxt:#0d3b66;
+      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
+      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
     }
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--soft);color:var(--ink)}
-    a{color:var(--brand);text-decoration:none}
-    a:hover{text-decoration:underline}
-
-    .navbar .nav-link{position:relative;padding:.25rem .5rem;font-weight:600;color:#122133}
-    .navbar .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
+    html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
+    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
+    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
     .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
 
-    header.hero{background:linear-gradient(180deg,#0d3b66,#0b3157);color:#fff}
-    .hero h1{font-weight:900;letter-spacing:.3px;text-shadow:0 2px 10px rgba(0,0,0,.35)}
-    .tools{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center}
-    .tools .form-select,.tools .form-control{min-width:160px}
-    .tools .search{min-width:240px;max-width:380px}
+    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2.5rem 0}
+    .hero h1{font-weight:900; letter-spacing:.3px}
+    .hero p.lead{opacity:.95}
 
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    @media (min-width:600px){ .grid{grid-template-columns:repeat(3,1fr)} }
-    @media (min-width:992px){ .grid{grid-template-columns:repeat(5,1fr)} }
+    .tools{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center}
+    .search{max-width:380px}
+    .badge-award{position:absolute; left:.5rem; top:.5rem; background:var(--danger); color:#fff; border-radius:999px; font-weight:800; font-size:.7rem; padding:.25rem .5rem}
+    .stamp{position:absolute; right:-14px; bottom:6px; transform:rotate(-6deg); font-weight:900; font-size:.9rem; color:#b3262a; opacity:.16; letter-spacing:.08em}
+    .card-person{position:relative; background:var(--card); border:1px solid var(--ring); border-radius:14px; overflow:hidden; transition:box-shadow .16s, transform .16s, border-color .16s}
+    .card-person:hover{box-shadow:0 14px 40px rgba(13,59,102,.16); border-color:var(--ring-strong); transform:translateY(-2px)}
+    .card-person .body{padding:.75rem .9rem}
+    .name{font-weight:800}
+    .meta{color:var(--muted); font-size:.9rem}
+    .chip{font-size:.7rem; font-weight:800; border-radius:999px; padding:.2rem .5rem; display:inline-block; background:#eef6ff; color:#0d3b66}
+    .chip.no{background:#ffecec; color:#b42318; margin-left:.25rem}
+    .harm{margin:.4rem 0 .6rem; color:#334155; font-size:.92rem}
+    .grid{display:grid; grid-template-columns:repeat(1,minmax(0,1fr)); gap:.8rem}
+    @media (min-width:576px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @media (min-width:992px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
+    @media (min-width:1200px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr));} }
+    .skeleton{background:linear-gradient(90deg,#eceff3 25%,#f5f7fa 37%,#eceff3 63%); background-size:400% 100%; animation:sheen 1.2s infinite; border-radius:12px; height:280px}
+    @keyframes sheen{0%{background-position:100% 0} 100%{background-position:0 0}}
+    .avatar{width:100%; aspect-ratio:4/5; object-fit:cover; background:#e6edf3}
+    .btn-icon i{margin-right:.5rem}
 
-    .card-face{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.06);transition:transform .15s,box-shadow .15s;border-top:3px solid transparent}
-    .card-face:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(0,0,0,.12)}
-    .card-face .pic{aspect-ratio:225/275;background:#e6edf3;display:block;position:relative}
-    .card-face img{width:100%;height:100%;object-fit:cover;display:block}
-    .badge-award{position:absolute;left:8px;bottom:8px;background:rgba(193,18,31,.9);color:#fff;font-weight:800;border-radius:999px;padding:.18rem .5rem;font-size:.72rem}
-    .body{padding:.6rem .7rem}
-    .name{font-weight:800;font-size:1rem}
-    .meta{font-size:.86rem;color:var(--muted)}
-    .smallline{font-size:.8rem;color:#334155}
-    .chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.35rem}
-    .chip{font-size:.72rem;font-weight:800;padding:.2rem .5rem;border-radius:999px;background:var(--chip);color:var(--chipTxt)}
-    .actions{display:flex;gap:.4rem;margin-top:.5rem}
-    .btn-xs{--bs-btn-padding-y:.25rem;--bs-btn-padding-x:.45rem;--bs-btn-font-size:.78rem;border-radius:999px;font-weight:700}
-    .skeleton{background:linear-gradient(90deg,#edf2f7, #f7fafc 50%, #edf2f7);background-size:200% 100%;animation:shimmer 1.2s infinite}
-    .sk-card{height:320px;border-radius:14px}
-    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
-    .empty{background:#fff;border:1px dashed #cbd5e1;border-radius:12px;padding:1rem;text-align:center;color:#334155}
-    footer{background:#0d3b66;color:#fff;padding:1.25rem 0}
+    .modal .award{font-weight:900; color:#8f0d16}
+    .modal .muted{color:#475569}
+    footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
   </style>
 </head>
 <body>
-  <!-- NAV -->
-  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
-          <li class="nav-item"><a class="nav-link" href="Bills/Overview.html"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
-          <li class="nav-item"><a class="nav-link" href="contrast.html">Record & Contrast</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        </ul>
-      </div>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link active" href="./index.html" aria-current="page">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <header class="py-5 hero">
-    <div class="container text-center">
-      <h1 class="display-5 mb-2">Wall of Shame</h1>
-      <p class="lead mb-0">Faces of the Members who voted against working families. Every card has a receipt.</p>
+<!-- HERO -->
+<header class="hero">
+  <div class="container text-center">
+    <h1 class="mb-2">Wall of Shame</h1>
+    <p class="lead mb-3">These Members voted against working families. Every face has a receipt.</p>
+    <div class="tools justify-content-center">
+      <div class="input-group input-group-sm search">
+        <span class="input-group-text" id="basic-addon1" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="search" id="wfSearch" class="form-control" placeholder="Search name, state, bill…" aria-label="Search wall"/>
+      </div>
+      <select id="wfBill" class="form-select form-select-sm" aria-label="Filter by bill"></select>
+      <select id="wfState" class="form-select form-select-sm" aria-label="Filter by state"></select>
+      <select id="wfParty" class="form-select form-select-sm" aria-label="Filter by party">
+        <option value="">All parties</option>
+        <option value="D">Democrat</option>
+        <option value="R">Republican</option>
+        <option value="I">Independent</option>
+      </select>
+      <button id="resetFilters" class="btn btn-outline-secondary btn-sm">Reset</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- TOOLS -->
-  <section class="container my-3">
-    <div class="tools">
-      <div class="d-flex align-items-center gap-2">
-        <label class="form-label mb-0 me-1" for="filterBill">Bill</label>
-        <select id="filterBill" class="form-select form-select-sm" aria-label="Filter by bill"></select>
+<!-- GRID -->
+<main class="container my-4">
+  <div id="grid" class="grid" aria-live="polite" aria-busy="true">
+    <!-- skeletons -->
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+  </div>
+  <p id="emptyState" class="text-center text-muted mt-3" hidden>No matches. Try clearing filters.</p>
+</main>
+
+<!-- RECEIPT MODAL -->
+<div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="receiptTitle">Receipt</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <div class="d-flex align-items-center gap-2">
-        <label class="form-label mb-0 me-1" for="filterState">State</label>
-        <select id="filterState" class="form-select form-select-sm" aria-label="Filter by state">
-          <option value="">All</option>
-        </select>
-      </div>
-
-      <div class="d-flex align-items-center gap-2">
-        <label class="form-label mb-0 me-1" for="filterParty">Party</label>
-        <select id="filterParty" class="form-select form-select-sm" aria-label="Filter by party">
-          <option value="">All</option>
-          <option value="D">Democrat</option>
-          <option value="R">Republican</option>
-          <option value="I">Independent</option>
-        </select>
-      </div>
-
-      <div class="ms-auto d-flex align-items-center gap-2">
-        <label for="search" class="visually-hidden">Search</label>
-        <input id="search" class="form-control form-control-sm search" type="search" placeholder="Search name, award…" aria-label="Search"/>
-        <button id="clear" class="btn btn-outline-secondary btn-sm">Clear</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- GRID -->
-  <section class="container mb-5" id="wall">
-    <div id="grid" class="grid" aria-live="polite" aria-busy="true"></div>
-    <div id="empty" class="empty mt-3 d-none">No matches. Try a different bill, state, or party.</div>
-  </section>
-
-  <!-- RECEIPT MODAL -->
-  <div class="modal fade" id="receiptModal" tabindex="-1" aria-hidden="true" aria-labelledby="receiptTitle">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 id="receiptTitle" class="modal-title">Vote Receipt</h5>
-          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+        <div class="d-flex gap-3 align-items-start">
+          <img id="receiptPhoto" src="" alt="" class="rounded" width="120" height="150" loading="lazy"/>
+          <div>
+            <div class="name h4 mb-0" id="receiptName"></div>
+            <div class="meta" id="receiptMeta"></div>
+            <div class="award mt-2" id="receiptAward"></div>
+            <div class="harm mt-2 mb-2" id="receiptHarm"></div>
+            <div class="small muted"><span class="fw-semibold">Bill:</span> <a id="receiptBill" href="#" target="_blank" rel="noopener"></a></div>
+          </div>
         </div>
-        <div class="modal-body">
-          <div id="receiptBody" class="small"></div>
-        </div>
-        <div class="modal-footer">
-          <a id="receiptLink" class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener">Open bill blueprint</a>
-          <button id="shareBtn" class="btn btn-primary btn-sm"><i class="fa-solid fa-share-nodes me-1"></i>Share</button>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        <div class="d-flex gap-2">
+          <button id="shareBtn" class="btn btn-outline-dark btn-sm btn-icon" type="button"><i class="fa-solid fa-share-nodes"></i>Share</button>
+          <a id="openBlueprint" class="btn btn-danger btn-sm btn-icon" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- CTA -->
-  <section class="py-5" style="background:#f8f9fa;">
-    <div class="container">
-      <div class="row g-4 text-center">
-        <div class="col-md-6">
-          <div class="p-4 h-100 rounded" style="background:#0b6e4f;color:#fff">
-            <h2 class="h5 fw-bold mb-2">Join the fight</h2>
-            <p class="mb-3">This campaign runs on people, not corporate PAC money.</p>
-            <a href="contact.html" class="btn btn-light fw-bold">I will volunteer</a>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="p-4 h-100 rounded" style="background:#c1121f;color:#fff">
-            <h2 class="h5 fw-bold mb-2">Power the wall</h2>
-            <p class="mb-3">Help us keep the receipts public and updated.</p>
-            <a href="https://secure.actblue.com/donate/adam-arafat-1" class="btn btn-light fw-bold" target="_blank" rel="noopener">Chip in</a>
-            <div class="small mt-2 text-light">Secure via ActBlue. People powered only.</div>
-          </div>
-        </div>
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<script>
+/** ---------------------------------------------------------
+ *  DATA LOADERS
+ *  - members: prefer local data/members.json, fallback to live
+ *  - votes:   data/votes.json; render empty state if missing
+ *  --------------------------------------------------------- */
+
+function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+
+async function loadMembers(){
+  // 1) local mirror (fast, versioned)
+  try{
+    const r = await fetch('data/members.json', {cache:'no-store'});
+    if(r.ok){
+      const local = await r.json();
+      const norm = {};
+      for(const m of local){
+        const bioguide = m.bioguide || m.id?.bioguide;
+        if(!bioguide) continue;
+        norm[bioguide] = {
+          bioguide,
+          name: m.name || `${m.first||m.name_first||''} ${m.last||m.name_last||''}`.trim(),
+          party: m.party || '',
+          chamber: m.chamber || '',
+          state: m.state || '',
+          district: m.district || '',
+          photo: m.photo || `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+        };
+      }
+      return norm;
+    }
+  }catch(e){ /* swallow */ }
+
+  // 2) live fallback (GitHub-hosted JSON)
+  const url = 'https://raw.githubusercontent.com/unitedstates/congress-legislators/gh-pages/legislators-current.json';
+  const raw = await fetch(url, {cache:'no-store'}).then(r=>r.json());
+  const byBio = {};
+  for(const m of raw){
+    const bioguide = m.id?.bioguide; if(!bioguide) continue;
+    const t = (m.terms||[]).slice(-1)[0] || {};
+    byBio[bioguide] = {
+      bioguide,
+      name: `${m.name?.first||''} ${m.name?.last||''}`.trim(),
+      party: t.party || '',
+      chamber: (t.type==='sen')?'senate':'house',
+      state: t.state || '',
+      district: (t.type==='rep') ? (t.district||'') : '',
+      photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+    };
+  }
+  return byBio;
+}
+
+async function loadVotes(){
+  try{
+    const r = await fetch('data/votes.json', {cache:'no-store'});
+    if(!r.ok) throw new Error('no votes file');
+    return await r.json();
+  }catch(e){
+    console.warn('votes.json not found; rendering empty wall');
+    return {}; // { billKey: {title, href, award, meaning, offenders:[{bioguide, vote}] } }
+  }
+}
+
+/** ---------------------------------------------------------
+ *  RENDERING
+ *  --------------------------------------------------------- */
+
+const grid = document.getElementById('grid');
+const emptyState = document.getElementById('emptyState');
+const wfSearch = document.getElementById('wfSearch');
+const wfBill   = document.getElementById('wfBill');
+const wfState  = document.getElementById('wfState');
+const wfParty  = document.getElementById('wfParty');
+
+let MEMBERS = {};
+let VOTES = {};
+let INDEX = []; // flattened offenders array with joins
+
+function buildFilters(){
+  // Bills
+  const billOptions = ['<option value="">All bills</option>']
+  Object.entries(VOTES).forEach(([key, b])=>{
+    billOptions.push(`<option value="${key}">${b.title}</option>`);
+  });
+  wfBill.innerHTML = billOptions.join('');
+
+  // States from visible offenders only
+  const states = new Set();
+  INDEX.forEach(o=>{ if(o.state) states.add(o.state); });
+  const stateList = Array.from(states).sort();
+  wfState.innerHTML = ['<option value="">All states</option>', ...stateList.map(s=>`<option value="${s}">${s}</option>`)].join('');
+}
+
+function cardHTML(o){
+  const award = o.award || '';
+  const harm  = o.meaning || '';
+  // IMPORTANT: use encodeURI on existing filenames with spaces/&/parens
+  const encodedHref = encodeURI(o.href||'#');
+
+  return `
+  <article class="card-person" data-bill="${o.billKey}" data-party="${o.party}" data-state="${o.state}" data-name="${o.name.toLowerCase()}">
+    <span class="badge-award" title="${award}">${award}</span>
+    <span class="stamp">RECEIPT</span>
+    <img class="avatar" src="${o.photo}" alt="${o.name}" loading="lazy"
+         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22375%22><rect width=%22300%22 height=%22375%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22>NO IMAGE</text></svg>'"/>
+    <div class="body">
+      <div class="name">${o.name}</div>
+      <div class="meta">${o.chamber==='senate'?'Senate':'House'} • ${o.state}${o.district?('-'+o.district):''} • ${o.party}</div>
+      <div class="harm">${harm}</div>
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <span class="chip">Bill: ${o.billShort}</span><span class="chip no">${o.vote||'NO'} vote</span>
+      </div>
+      <div class="mt-2 d-flex gap-2">
+        <button class="btn btn-outline-dark btn-sm btn-icon" type="button"
+                data-open-receipt='${JSON.stringify({bio:o.bioguide,bill:o.billKey}).replace(/"/g,"&quot;")}'><i class="fa-solid fa-receipt"></i>View receipt</button>
+        <a class="btn btn-danger btn-sm btn-icon" href="${encodedHref}" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>
       </div>
     </div>
-  </section>
+  </article>`;
+}
 
-  <footer>
-    <div class="container text-center small">
-      <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
-      <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-  <script>
-    // ---------- Config
-    const CONFIG = { 
-      imageBase: "https://unitedstates.github.io/images/congress/225x275/",
-      billBase:  "Bills/",
-      membersURL: "data/members.json",
-      votesURL:   "data/votes.json"
-    };
-
-    // ---------- Utilities
-    function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
-    function $(q,root=document){ return root.querySelector(q); }
-    function $all(q,root=document){ return Array.from(root.querySelectorAll(q)); }
-
-    // Accessible fallback badge image
-    function fallbackSVG(name){
-      const s = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='225' height='275'><rect width='100%' height='100%' fill='#e6edf3'/><text x='50%' y='52%' text-anchor='middle' font-family='Arial' font-size='14' fill='#666'>${name?name.replace(/&/g,'&amp;'): 'NO IMG'}</text></svg>`);
-      return `data:image/svg+xml;utf8,${s}`;
+function joinData(){
+  INDEX = [];
+  for(const [billKey, b] of Object.entries(VOTES)){
+    const offenders = b.offenders || [];
+    for(const row of offenders){
+      const m = MEMBERS[row.bioguide] || null;
+      if(!m) continue;
+      INDEX.push({
+        billKey,
+        billTitle: b.title,
+        billShort: (b.short||b.title),
+        href: b.href, // will be URL-encoded on render
+        award: b.award,
+        meaning: b.meaning,
+        vote: row.vote || 'NO',
+        // member
+        bioguide: m.bioguide, name: m.name, party: m.party, chamber: m.chamber, state: m.state, district: m.district, photo: m.photo
+      });
     }
+  }
+}
 
-    // ---------- Skeleton first paint
-    function renderSkeleton(n=15){
-      const grid = $('#grid'); grid.setAttribute('aria-busy','true'); grid.innerHTML='';
-      for(let i=0;i<n;i++){
-        const sk = document.createElement('div'); sk.className='sk-card skeleton'; grid.appendChild(sk);
-      }
+function render(){
+  grid.setAttribute('aria-busy','true');
+
+  // filters
+  const q = wfSearch.value.trim().toLowerCase();
+  const bill = wfBill.value;
+  const party = wfParty.value;
+  const state = wfState.value;
+
+  const pass = INDEX.filter(o=>{
+    if(bill && o.billKey!==bill) return false;
+    if(party && o.party!==party) return false;
+    if(state && o.state!==state) return false;
+    if(q){
+      const hay = `${o.name} ${o.state}-${o.district} ${o.party} ${o.billTitle} ${o.award} ${o.meaning}`.toLowerCase();
+      if(!hay.includes(q)) return false;
     }
+    return true;
+  });
 
-    // ---------- Load data
-    async function loadMembers(){
-      try{
-        const r = await fetch(CONFIG.membersURL, {cache:'no-store'});
-        if(!r.ok) throw 0;
-        const raw = await r.json();
-        const map = {};
-        for(const m of raw){
-          if(!m.bioguide) continue;
-          const name = m.name || `${m.first||''} ${m.last||''}`.trim();
-          map[m.bioguide] = {
-            bioguide:m.bioguide, name,
-            party:m.party||'', chamber:m.chamber||'',
-            state:m.state||'', district:m.district||'',
-            photo: m.photo || (CONFIG.imageBase + m.bioguide + '.jpg')
-          };
-        }
-        return map;
-      }catch{
-        // Hard fallback: blank map
-        console.warn('members.json missing; wall will show empty state until provided.');
-        return {};
-      }
-    }
+  if(pass.length===0){
+    grid.innerHTML = '';
+    emptyState.hidden = false;
+  }else{
+    emptyState.hidden = true;
+    grid.innerHTML = pass.map(cardHTML).join('');
+  }
+  grid.removeAttribute('aria-busy');
+}
 
-    async function loadVotes(){
-      try{
-        const r = await fetch(CONFIG.votesURL, {cache:'no-store'});
-        if(!r.ok) throw 0;
-        return await r.json();
-      }catch{
-        console.warn('votes.json missing; rendering empty state.');
-        return {};
-      }
-    }
+function openReceipt(bio, billKey){
+  const b = VOTES[billKey];
+  const m = MEMBERS[bio];
+  if(!b || !m) return;
 
-    // ---------- Build filter options
-    function buildFilterOptions(votes){
-      const billSelect = $('#filterBill');
-      const states = new Set(); states.add('');
-      const stateSelect = $('#filterState');
+  const encodedHref = encodeURI(b.href||'#');
 
-      // Bills
-      const bills = Object.keys(votes);
-      billSelect.innerHTML = '';
-      if(!bills.length){
-        billSelect.innerHTML = '<option value="">No bills configured</option>';
+  document.getElementById('receiptTitle').textContent = 'Receipt';
+  const img = document.getElementById('receiptPhoto');
+  img.src = m.photo; img.alt = m.name;
+
+  document.getElementById('receiptName').textContent = m.name;
+  document.getElementById('receiptMeta').textContent = `${m.chamber==='senate'?'Senate':'House'} • ${m.state}${m.district?('-'+m.district):''} • ${m.party}`;
+  document.getElementById('receiptAward').textContent = b.award || '';
+  document.getElementById('receiptHarm').textContent  = b.meaning || '';
+  const billLink = document.getElementById('receiptBill');
+  billLink.textContent = b.title || '';
+  billLink.href = encodedHref;
+
+  const openBtn = document.getElementById('openBlueprint');
+  openBtn.href = encodedHref;
+
+  const modal = new bootstrap.Modal(document.getElementById('receiptModal'));
+  modal.show();
+
+  // set share handler
+  const url = new URL(location.href);
+  url.hash = '';
+  url.search = '';
+  url.pathname = location.pathname; // keep same page
+  const deeplink = `/#?bill=${encodeURIComponent(billKey)}&bio=${encodeURIComponent(bio)}`;
+  const shareBtn = document.getElementById('shareBtn');
+  shareBtn.onclick = async () => {
+    const shareUrl = url.origin + url.pathname + deeplink;
+    try{
+      if(navigator.share){
+        await navigator.share({title:'Wall of Shame — Receipt', text:`${m.name} — ${b.award}`, url: shareUrl});
       }else{
-        billSelect.innerHTML = '<option value="">All bills</option>' + bills.map(slug=>{
-          const t = votes[slug]?.title || slug;
-          return `<option value="${slug}">${t}</option>`;
-        }).join('');
+        await navigator.clipboard.writeText(shareUrl);
+        shareBtn.textContent = 'Link copied';
+        setTimeout(()=> shareBtn.innerHTML = '<i class="fa-solid fa-share-nodes"></i>Share', 1200);
       }
+    }catch(e){}
+  };
+}
 
-      // States (filled after we know members; we’ll also fill at render time)
-      stateSelect.innerHTML = '<option value="">All</option>';
+function handleDeepLink(){
+  const [hash, qs] = location.hash.split('?');
+  if(qs){
+    const p = new URLSearchParams(qs);
+    const bill = p.get('bill'); const bio = p.get('bio');
+    if(bill){ wfBill.value = bill; }
+    render();
+    if(bill && bio){
+      // slight delay to allow grid paint
+      setTimeout(()=> openReceipt(bio, bill), 50);
     }
+  }
+}
 
-    // ---------- Merge & render
-    function card(member, ctx){
-      const award = ctx.award || '';
-      const meaning = ctx.meaning || '';
-      const billSlug = ctx.slug;
-      const billTitle = ctx.title || '';
-      const photo = member.photo;
-      const id = member.bioguide;
-      const name = member.name;
-      const district = member.chamber==='house' ? `${member.state}-${member.district}` : `${member.state}`;
-      const party = member.party || '';
-      const vote = ctx.vote || 'NO';
+/** ---------------------------------------------------------
+ *  EVENTS
+ *  --------------------------------------------------------- */
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-open-receipt]');
+  if(!btn) return;
+  try{
+    const data = JSON.parse(btn.getAttribute('data-open-receipt'));
+    openReceipt(data.bio, data.bill);
+  }catch(e){}
+});
 
-      return `
-      <article class="card-face" data-bio="${id}" data-bill="${billSlug}" data-state="${member.state}" data-party="${party}">
-        <a href="javascript:void(0)" class="pic" data-open="${id}" aria-label="Open receipt for ${name}">
-          <img src="${photo}" alt="${name}" loading="lazy"
-               onerror="this.onerror=null;this.src='${fallbackSVG(name)}'">
-          ${award ? `<span class="badge-award" title="${award}">${award}</span>` : ''}
-        </a>
-        <div class="body">
-          <div class="name">${name}</div>
-          <div class="meta">${district} • ${party.toUpperCase()} ${member.chamber==='house'?'• House':'• Senate'}</div>
-          ${meaning ? `<div class="smallline mt-1">${meaning}</div>` : ''}
-          <div class="chips">
-            <span class="chip">${vote} vote</span>
-            ${billTitle ? `<span class="chip" title="${billTitle}">Bill</span>`:''}
-          </div>
-          <div class="actions">
-            <button class="btn btn-outline-dark btn-xs" data-open="${id}" data-bill="${billSlug}">View receipt</button>
-            <button class="btn btn-outline-secondary btn-xs" data-share="${id}" data-bill="${billSlug}"><i class="fa-solid fa-share-nodes"></i></button>
-          </div>
-        </div>
-      </article>`;
-    }
+const rerender = debounce(render, 160);
+wfSearch.addEventListener('input', rerender);
+[wfBill, wfState, wfParty].forEach(el => el.addEventListener('change', render));
+document.getElementById('resetFilters').addEventListener('click', ()=>{
+  wfSearch.value=''; wfBill.value=''; wfState.value=''; wfParty.value='';
+  render();
+});
 
-    function filterAndRender(members, votes){
-      const billSel = $('#filterBill').value.trim();
-      const stateSel = $('#filterState').value.trim();
-      const partySel = $('#filterParty').value.trim();
-      const term = $('#search').value.trim().toLowerCase();
-
-      const grid = $('#grid'); const empty = $('#empty');
-      grid.innerHTML='';
-
-      // Build candidate set from votes
-      let entries = [];
-      const billKeys = billSel ? [billSel] : Object.keys(votes);
-      for(const slug of billKeys){
-        const v = votes[slug]; if(!v) continue;
-        const offenders = v.offenders||[];
-        for(const o of offenders){
-          const m = members[o.bioguide];
-          if(!m) continue;
-          entries.push({
-            m, slug, title:v.title||slug, award:v.award||'', meaning:v.meaning||'', vote:o.vote||'NO'
-          });
-        }
-      }
-
-      // Unique by bioguide per bill combination
-      const seen = new Set();
-      entries = entries.filter(e=>{
-        const key = e.m.bioguide + '|' + e.slug;
-        if(seen.has(key)) return false; seen.add(key); return true;
-      });
-
-      // Fill states dropdown if empty
-      if($('#filterState').options.length <= 1){
-        const st = new Set(['']);
-        entries.forEach(e=>st.add(e.m.state));
-        $('#filterState').innerHTML = Array.from(st).map(s=>`<option value="${s}">${s? s : 'All'}</option>`).join('');
-      }
-
-      // Apply filters
-      const out = entries.filter(e=>{
-        if(stateSel && e.m.state !== stateSel) return false;
-        if(partySel && e.m.party !== partySel) return false;
-        if(term){
-          const hay = (e.m.name + ' ' + e.award + ' ' + e.meaning + ' ' + e.title + ' ' + e.m.state + ' ' + e.m.district).toLowerCase();
-          if(!hay.includes(term)) return false;
-        }
-        return true;
-      });
-
-      if(!out.length){
-        empty.classList.remove('d-none'); grid.setAttribute('aria-busy','false'); return;
-      } else empty.classList.add('d-none');
-
-      // Render
-      grid.innerHTML = out.map(e=>card(e.m, e)).join('');
-      grid.setAttribute('aria-busy','false');
-    }
-
-    // ---------- Receipt modal + share
-    function openReceipt(bioguide, billSlug, members, votes){
-      const m = members[bioguide]; if(!m) return;
-      const v = votes[billSlug]; if(!v) return;
-      const title = v.title || billSlug;
-      const link = CONFIG.billBase + (v.href || (title.toLowerCase().replace(/[^a-z0-9]+/g,'-') + '.html'));
-      const district = m.chamber==='house' ? `${m.state}-${m.district}` : m.state;
-
-      $('#receiptTitle').textContent = `${m.name} — ${v.award||'Receipt'}`;
-      $('#receiptBody').innerHTML = `
-        <div class="d-flex gap-2 align-items-start">
-          <img src="${m.photo}" alt="${m.name}" width="64" height="78" style="object-fit:cover;border-radius:6px"
-               onerror="this.onerror=null;this.src='${fallbackSVG(m.name)}'">
-          <div>
-            <div class="fw-bold">${m.name}</div>
-            <div class="text-muted small">${district} • ${m.party.toUpperCase()} • ${m.chamber==='house'?'House':'Senate'}</div>
-          </div>
-        </div>
-        <hr>
-        <div class="small"><strong>Bill:</strong> ${title}</div>
-        ${v.meaning ? `<div class="small mt-1"><strong>Why it matters:</strong> ${v.meaning}</div>`:''}
-      `;
-      $('#receiptLink').href = link;
-
-      // share
-      $('#shareBtn').onclick = async ()=>{
-        const text = `${m.name} earned "${v.award}" for voting NO on: ${title}`;
-        const url = location.origin + location.pathname + '#?bill=' + encodeURIComponent(billSlug) + '&bio=' + encodeURIComponent(m.bioguide);
-        if(navigator.share){
-          try{ await navigator.share({title:'Wall of Shame', text, url}); }catch(e){}
-        } else {
-          await navigator.clipboard.writeText(`${text} ${url}`);
-          const btn = $('#shareBtn'); const old = btn.textContent;
-          btn.textContent = 'Link copied'; setTimeout(()=>btn.textContent=old, 1200);
-        }
-      };
-
-      bootstrap.Modal.getOrCreateInstance($('#receiptModal')).show();
-    }
-
-    // ---------- URL state
-    function readHashParams(){
-      if(!location.hash.startsWith('#?')) return {};
-      const qs = location.hash.substring(2);
-      const p = new URLSearchParams(qs);
-      return Object.fromEntries(p.entries());
-    }
-    function writeHash(params){
-      const p = new URLSearchParams(params);
-      location.hash = '?' + p.toString();
-    }
-
-    // ---------- Main
-    (async function init(){
-      renderSkeleton(15);
-      const [members, votes] = await Promise.all([loadMembers(), loadVotes()]);
-      buildFilterOptions(votes);
-
-      // Handle deep link
-      const hp = readHashParams();
-      if(hp.bill && votes[hp.bill]) $('#filterBill').value = hp.bill;
-
-      // Initial render
-      filterAndRender(members, votes);
-
-      // Events
-      const refilter = debounce(()=>{ 
-        const bill = $('#filterBill').value.trim();
-        writeHash({bill});
-        filterAndRender(members, votes);
-      }, 120);
-
-      $('#filterBill').addEventListener('change', refilter);
-      $('#filterState').addEventListener('change', refilter);
-      $('#filterParty').addEventListener('change', refilter);
-      $('#search').addEventListener('input', debounce(()=>filterAndRender(members, votes), 150));
-      $('#clear').addEventListener('click', ()=>{ $('#search').value=''; filterAndRender(members, votes); });
-
-      // Click handlers (event delegation)
-      document.body.addEventListener('click', e=>{
-        const openBtn = e.target.closest('[data-open]');
-        if(openBtn){
-          const bio = openBtn.getAttribute('data-open');
-          const bill = openBtn.getAttribute('data-bill') || $('#filterBill').value.trim() || Object.keys(votes)[0];
-          openReceipt(bio, bill, members, votes);
-          return;
-        }
-        const shareBtn = e.target.closest('[data-share]');
-        if(shareBtn){
-          const bio = shareBtn.getAttribute('data-share');
-          const bill = shareBtn.getAttribute('data-bill') || $('#filterBill').value.trim() || Object.keys(votes)[0];
-          openReceipt(bio, bill, members, votes);
-          return;
-        }
-      });
-    })();
-  </script>
+/** ---------------------------------------------------------
+ *  BOOT
+ *  --------------------------------------------------------- */
+(async function init(){
+  MEMBERS = await loadMembers();
+  VOTES   = await loadVotes();
+  joinData();
+  buildFilters();
+  render();
+  handleDeepLink();
+})();
+</script>
 </body>
 </html>
