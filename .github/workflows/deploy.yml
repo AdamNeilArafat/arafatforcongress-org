@@ -2,17 +2,16 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main ]   # change if your default branch is not "main"
-  workflow_dispatch:      # lets you run it manually from the Actions tab
+    branches: [ main ]         # change if your default branch differs
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Queue deployments for the same branch instead of canceling
 concurrency:
-  group: pages-${{ github.ref }}
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
@@ -22,13 +21,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # If you have a build step, add it here (npm ci && npm run build)
-      # For a plain static site, just upload the repo contents.
+      # If you build, do it here (uncomment and adjust):
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      # - name: Install & Build
+      #   run: |
+      #     npm ci
+      #     npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .         # deploy the whole repo. change to "dist" if you build to dist/
+          path: .              # change to your build output (e.g., dist) if you build
 
   deploy:
     needs: build
