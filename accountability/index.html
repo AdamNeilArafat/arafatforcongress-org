@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Evergreen Reckoning — Awards • Wall • Countdowns • Press</title>
-  <meta name="description" content="Evergreen Reckoning hub: awards for NO voters, wall-by-bill tracker, live countdowns, and press-kit tools."/>
+  <title>Evergreen Reckoning — Awards • Wall • Countdowns</title>
+  <meta name="description" content="Awards tied to specific bills, a filterable vote wall, and live countdowns. Hardened for static hosting."/>
   <meta name="theme-color" content="#0d3b66"/>
 
   <!-- Bootstrap + Icons -->
@@ -12,356 +12,356 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 
   <style>
-    :root{ --primary:#0d3b66; --accent:#0b6e4f; --danger:#c1121f; --ink:#1b2634; --soft:#f6f9fc; }
-    body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--soft); }
-    header.hero{ background:#fff; border-bottom:1px solid #e6edf3; }
-    .kicker{ letter-spacing:.06em; font-size:.84rem; color:var(--accent); text-transform:uppercase; }
-    .pillbar .nav-link{ border-radius:999px; }
-    .section{ background:#fff; border:1px solid #e6edf3; border-radius:1rem; padding:1.25rem; }
-    .award-card{ border:2px solid var(--primary); border-radius:1rem; padding:1rem; height:100%; }
-    .award-title{ color:var(--danger); font-weight:800; font-size:1.05rem; }
-    .award-meaning{ font-style:italic; color:#3b4856; }
-    .clock-card{ background:#fff; border:2px solid var(--primary); border-radius:1rem; padding:1rem; text-align:center; }
-    .clock-days{ font-size:2rem; font-weight:800; color:var(--danger); }
-    /* Wall */
-    .face-card{ border:1px solid #e6edf3; border-radius:.75rem; padding:.75rem; background:#fff; height:100%; }
-    .chip{ display:flex; gap:.75rem; align-items:center; }
-    .chip img{ width:56px; height:68px; object-fit:cover; border-radius:.4rem; border:1px solid #dfe6ee; }
-    .bill-heading{ border-bottom:1px solid #e6edf3; padding-bottom:.25rem; margin-bottom:.75rem; }
-    @media print{ .no-print{ display:none !important; } .section{ border:none; padding:0; } body{ background:#fff; } }
+    :root{ --primary:#0d3b66; --accent:#0b6e4f; --ink:#1b2634; --soft:#f6f9fc; }
+    body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:#122; background:#fff; }
+    header{ background:linear-gradient(180deg,#0d3b66 0%,#0b5aa1 100%); color:#fff; }
+    .hero h1{ font-weight:800; letter-spacing:.2px; }
+    .nav-tabs .nav-link{ font-weight:600; }
+    .tab-pane{ padding-top:1rem; }
+    .card-award{ border:1px solid #e6edf3; border-radius:16px; }
+    .badge-soft{ background:#e6f2ea; color:#0b6e4f; }
+    .chip{ display:flex; gap:.6rem; align-items:center; padding:.4rem .6rem; border:1px solid #e6edf3; border-radius:999px; background:#fff; }
+    .chip img{ width:32px; height:39px; object-fit:cover; border-radius:6px; }
+    .filters .form-select,.filters .form-control{ min-width:160px; }
+    .wall-item{ border-bottom:1px solid #eef2f7; padding:12px 0; }
+    .clock{ font-variant-numeric: tabular-nums; }
+    .small-muted{ font-size:.875rem; color:#5b6b7b; }
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <nav class="container d-flex align-items-center justify-content-between py-3">
-      <div class="d-flex align-items-center gap-2">
-        <i class="fa-solid fa-tree text-success"></i>
-        <strong class="me-2">Evergreen Reckoning</strong>
-        <span class="badge text-bg-primary">Accountability Hub</span>
-      </div>
-      <div class="d-flex gap-2 no-print">
-        <button class="btn btn-outline-secondary" onclick="window.print()"><i class="fa-solid fa-print me-1"></i> Print / PDF</button>
-      </div>
-    </nav>
+  <header class="py-4">
+    <div class="container hero">
+      <h1 class="h2 mb-1">Evergreen Reckoning</h1>
+      <p class="mb-0">Awards tied to real bills. A live wall of votes. Countdowns that stay accurate.</p>
+    </div>
   </header>
 
-  <main class="container py-4">
+  <main class="container my-4">
     <!-- Tabs -->
-    <ul class="nav nav-pills pillbar gap-2 mb-3 no-print">
-      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#awards">Awards</a></li>
-      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#wall">Wall of Shame</a></li>
-      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#countdowns">Countdowns</a></li>
-      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#presskit">Press Kit</a></li>
+    <ul class="nav nav-tabs" id="mainTabs" role="tablist" aria-label="Sections">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="awards-tab" data-bs-toggle="tab" data-bs-target="#awards" type="button" role="tab" aria-controls="awards" aria-selected="true">Awards</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="wall-tab" data-bs-toggle="tab" data-bs-target="#wall" type="button" role="tab" aria-controls="wall" aria-selected="false">Wall</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="countdowns-tab" data-bs-toggle="tab" data-bs-target="#countdowns" type="button" role="tab" aria-controls="countdowns" aria-selected="false">Countdowns</button>
+      </li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content" id="tabContent">
       <!-- AWARDS -->
-      <section id="awards" class="tab-pane fade show active section">
-        <div class="d-flex justify-content-between align-items-end">
-          <div>
-            <p class="kicker mb-1">Evergreen Shame Awards</p>
-            <h1 class="h4 mb-2">Awards for NO Voters</h1>
-          </div>
-          <div class="no-print">
-            <a class="btn btn-outline-primary" href="#wall"><i class="fa-solid fa-table-list me-1"></i> View Wall</a>
-          </div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 mt-1" id="awardsGrid"></div>
+      <section class="tab-pane fade show active" id="awards" role="tabpanel" aria-labelledby="awards-tab">
+        <h2 class="h4 mt-3">Bill-linked Awards</h2>
+        <div id="awardsWrap" class="row g-3"></div>
       </section>
 
       <!-- WALL -->
-      <section id="wall" class="tab-pane fade section">
-        <div class="d-flex justify-content-between align-items-end">
+      <section class="tab-pane fade" id="wall" role="tabpanel" aria-labelledby="wall-tab">
+        <h2 class="h4 mt-3">Vote Wall</h2>
+        <div class="filters d-flex flex-wrap gap-2 align-items-end mb-3">
           <div>
-            <p class="kicker mb-1">All Seats • NO Votes • Awards • Timers</p>
-            <h2 class="h4 mb-2">Wall of Shame (535-seat ledger)</h2>
-            <div class="text-muted small">Filter by chamber, party, state, or name.</div>
-          </div>
-        </div>
-        <!-- Filters -->
-        <div class="row g-2 mt-2 no-print">
-          <div class="col-md-2">
-            <select id="wfChamber" class="form-select form-select-sm">
-              <option value="">All Chambers</option>
+            <label for="wfChamber" class="form-label">Chamber</label>
+            <select id="wfChamber" class="form-select" aria-label="Filter by chamber">
+              <option value="">All</option>
               <option value="house">House</option>
               <option value="senate">Senate</option>
             </select>
           </div>
-          <div class="col-md-2">
-            <select id="wfParty" class="form-select form-select-sm">
-              <option value="">All Parties</option>
-              <option value="D">Democrat</option>
+          <div>
+            <label for="wfParty" class="form-label">Party</label>
+            <select id="wfParty" class="form-select" aria-label="Filter by party">
+              <option value="">All</option>
+              <option value="D">Democratic</option>
               <option value="R">Republican</option>
               <option value="I">Independent</option>
             </select>
           </div>
-          <div class="col-md-2"><input id="wfState" class="form-control form-control-sm" placeholder="State (e.g., WA)"/></div>
-          <div class="col-md-3"><input id="wfSearch" class="form-control form-control-sm" placeholder="Search name"/></div>
-          <div class="col-md-3">
-            <select id="wfSort" class="form-select form-select-sm">
-              <option value="last">Sort: Last Name</option>
-              <option value="party">Sort: Party</option>
-              <option value="state">Sort: State</option>
-              <option value="chamber">Sort: Chamber</option>
+          <div>
+            <label for="wfState" class="form-label">State</label>
+            <input id="wfState" class="form-control" placeholder="WA, CA, TX…" aria-label="Filter by state"/>
+          </div>
+          <div class="flex-fill">
+            <label for="wfSearch" class="form-label">Search</label>
+            <input id="wfSearch" class="form-control" placeholder="Name, bill, keyword" aria-label="Search text"/>
+          </div>
+          <div>
+            <label for="wfSort" class="form-label">Sort</label>
+            <select id="wfSort" class="form-select" aria-label="Sort order">
+              <option value="recent">Most recent</option>
+              <option value="name">Name A→Z</option>
+              <option value="state">State</option>
             </select>
           </div>
         </div>
-        <div id="wallMount" class="mt-3"></div>
+        <div id="wallList"></div>
+        <p id="wallEmpty" class="small-muted mt-3" hidden>No votes to display. Add <code>data/votes.json</code> or adjust your filters.</p>
       </section>
 
       <!-- COUNTDOWNS -->
-      <section id="countdowns" class="tab-pane fade section">
-        <div class="d-flex justify-content-between align-items-end">
-          <div>
-            <p class="kicker mb-1">Days Since Their NO Vote</p>
-            <h2 class="h4 mb-2">Accountability Countdowns</h2>
-          </div>
-        </div>
-        <ul class="nav nav-tabs mt-3" id="cdTabs" role="tablist"></ul>
-        <div class="tab-content border border-top-0 rounded-bottom p-3 bg-white" id="cdTabContent"></div>
-      </section>
-
-      <!-- PRESS KIT -->
-      <section id="presskit" class="tab-pane fade section">
-        <p class="kicker mb-1">Tools & Templates</p>
-        <h2 class="h4 mb-3">Press Kit & Assets</h2>
-        <div class="row g-3" id="pressLinks"></div>
+      <section class="tab-pane fade" id="countdowns" role="tabpanel" aria-labelledby="countdowns-tab">
+        <h2 class="h4 mt-3">Live Countdowns</h2>
+        <div id="countWrap" class="row g-3"></div>
       </section>
     </div>
   </main>
 
+  <footer class="container py-4 small-muted">
+    <div>Local data paths used when available: <code>data/members.json</code>, <code>data/votes.json</code>. Remote fallbacks kick in automatically.</div>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-    // ---------- Bills (linked to your /Bills/ files) ----------
-    const BILLS = [
-      // Cost-of-living
-      { id:'grocery',    bill:'Fair Food and Grocery Competition Bill (2027)',            href:'../Bills/Fair Food and Grocery Competition Bill (2027).html', award:'The Empty Fridge Award',    meaning:'They protected price-fixers, leaving families to choose between groceries or rent.' },
-      { id:'childcare',  bill:'Affordable Child and Dependent Care Bill (2027)',          href:'../Bills/Affordable Child and Dependent Care Bill (2027).html', award:'The Parent Punisher Award', meaning:'They voted to keep childcare unaffordable and push parents out of work.' },
-      { id:'jobs',       bill:'Good Jobs & Skills Bill (2027)',                            href:'../Bills/Good Jobs & Skills Bill (2027).html', award:'The Paycheck Pickpocket Award', meaning:'They sided with corporate bosses to keep wages down and hours insecure.' },
-      { id:'housing',    bill:'First-Time Homebuyer 3% Mortgage Bill (2027)',             href:'../Bills/First-Time Homebuyer 3% Mortgage Bill (2027).html', award:'The Rent Raiser Award',      meaning:'They blocked families from buying homes and left renters at the mercy of landlords.' },
+  // -----------------------------
+  // 1) Hardened Bill Link Catalog
+  // -----------------------------
+  const BILLS = [
+    { id:'grocery',  bill:'Fair Food and Grocery Competition Bill (2027)',          href:'../Bills/fair-food-and-grocery-competition-bill-2027.html',  award:'The Empty Fridge Award',       meaning:'They protected price-fixers, leaving families to choose between groceries or rent.' },
+    { id:'childcare',bill:'Affordable Child and Dependent Care Bill (2027)',        href:'../Bills/affordable-child-and-dependent-care-bill-2027.html',award:'The Parent Punisher Award',     meaning:'They voted to keep childcare unaffordable and push parents out of work.' },
+    { id:'jobs',     bill:'Good Jobs & Skills Bill (2027)',                         href:'../Bills/good-jobs-and-skills-bill-2027.html',               award:'The Paycheck Pickpocket Award',meaning:'They sided with corporate bosses to keep wages down and hours insecure.' },
+    { id:'housing',  bill:'First-Time Homebuyer 3% Mortgage Bill (2027)',           href:'../Bills/first-time-homebuyer-3-percent-mortgage-bill-2027.html', award:'The Rent Raiser Award', meaning:'They blocked families from buying homes and left renters at the mercy of landlords.' },
+    { id:'justify',  bill:'Congressional Vote Justification Bill (2027)',           href:'../Bills/congressional-vote-justification-bill-2027.html',   award:'The Coward’s Mask Award',      meaning:'They voted against explaining themselves, hiding their real loyalties.' }
+  ];
 
-      // Retirement & health
-      { id:'socialsec',  bill:'Social Security Solvency Bill (2027)',                     href:'../Bills/Social Security Solvency Bill (2027).html', award:'The Senior Starver Award',  meaning:'They gambled away retirement checks and put seniors on the chopping block.' },
-      { id:'health',     bill:'Universal Healthcare Bill (2027)',                         href:'../Bills/Universal Healthcare Bill (2027).html', award:'The Hospital Evictor Award', meaning:'They voted to keep healthcare out of reach and push families into medical debt.' },
-
-      // Tax & spending guardrails
-      { id:'minibus',    bill:'Minibus Implementation Safeguards Bill (2027)',            href:'../Bills/minibus-implementation-safeguards-bill-2027.html', award:'The Swamp Rat Award',       meaning:'They voted to keep waste and insider deals flowing.' },
-      { id:'csr',        bill:'Corporate Responsibility (CSR) Bill (2027)',               href:'../Bills/Corporate Responsibility (CSR) Bill (2027).html', award:'The Greed Defender Award',  meaning:'They protected exploiters who gouge workers and poison communities.' },
-      { id:'taxfair',    bill:'Tax Fairness Bill (2027)',                                 href:'../Bills/Tax Fairness Bill (2027).html', award:'The Wallet Raider Award',   meaning:'They kept loopholes for the rich while draining working families dry.' },
-
-      // Democracy & oversight
-      { id:'comms',      bill:'Communications Integrity Bill (2027)',                     href:'../Bills/communications-integrity-bill-2027.html', award:'The Truth Killer Award',    meaning:'They voted to shield government lies and bury the facts.' },
-      { id:'justify',    bill:'Congressional Vote Justification Bill (2027)',             href:'../Bills/Congressional Vote Justification Bill (2027).Html', award:'The Coward’s Mask Award',   meaning:'They voted against explaining themselves, hiding their real loyalties.' },
-      { id:'impeach',    bill:'Impeachment Continuity and Accountability Bill (2027)',    href:'../Bills/Impeachment Continuity and Accountability Bill (2027).html', award:'The Sellout Shield Award',  meaning:'They let corrupt officials keep perks and power during impeachment.' },
-      { id:'emerg',      bill:'Emergency Powers Spend Pilot (DoD, 2027)',                 href:'../Bills/emergency-powers-spend-pilot-dod-bill-2027.html', award:'The Blank Check Award',     meaning:'They handed over taxpayer money with no oversight.' },
-      { id:'holman',     bill:'Surgical Riders — Holman Templates (2027)',                href:'../Bills/surgical-riders-holman-templates-2027.html', award:'The Bureaucrat Bodyguard Award', meaning:'They protected the worst swamp desks from any accountability.' },
-      { id:'gaodash',    bill:'Committee Report Directives Templates (2027)',             href:'../Bills/committee-report-directives-templates-2027.html', award:'The Cover-Up Award',      meaning:'They blocked watchdogs and let agencies run wild.' },
-
-      // Energy / elections
-      { id:'clean',      bill:'Energy Savings and Lower Bills Bill (2027)',               href:'../Bills/Energy Savings and Lower Bills Bill (2027).html', award:'The Polluter’s Pet Award',  meaning:'They kept dirty energy handouts and gutted protections.' },
-      { id:'elections',  bill:'Clean Campaigns and Elections Bill (2027)',                href:'../Bills/Clean Campaigns and Elections Bill (2027).html', award:'The Dark Money’s Best Friend Award', meaning:'They protected the money pipeline over voters.' }
-      // Add water when you create it in /Bills/
-    ];
-
-    // ---------- Member roster (Bioguide + photos) ----------
-    async function loadMembers() {
-      const url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/refs/heads/gh-pages/legislators-current.json";
-      const data = await fetch(url, { cache: "no-store" }).then(r => r.json());
-      const byBio = {};
-      for (const m of data) {
-        const bioguide = m.id?.bioguide;
-        if (!bioguide) continue;
-        const lastTerm = (m.terms || []).slice(-1)[0] || {};
-        byBio[bioguide] = {
-          bioguide,
-          first: m.name?.first || "",
-          last: m.name?.last || "",
-          name: `${m.name?.first || ""} ${m.name?.last || ""}`.trim(),
-          party: lastTerm.party || "",
-          chamber: lastTerm.type === "sen" ? "senate" : "house",
-          state: lastTerm.state || "",
-          district: lastTerm.type === "rep" ? (lastTerm.district || "") : "",
-          photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
-        };
-      }
-      return byBio;
-    }
-    const seat = m => m.chamber==='house' ? `${m.state}-${m.district}` : m.state;
-    const chip = m => `
-      <div class="chip">
-        <img src="${m.photo}" alt="${m.name}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2268%22><rect width=%2256%22 height=%2268%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2210%22 fill=%22%23666%22>NO IMG</text></svg>'"/>
-        <div>
-          <div class="fw-semibold">${m.name}</div>
-          <div class="small text-muted">${seat(m)}, ${m.party.toUpperCase()} • ${m.chamber}</div>
-        </div>
-      </div>`;
-
-    // ---------- Awards grid ----------
-    const awardsGrid = document.getElementById('awardsGrid');
-    BILLS.forEach(b=>{
-      const col = document.createElement('div');
-      col.className = 'col';
-      col.innerHTML = `
-        <div class="award-card anchor" id="award-${b.id}">
-          <div class="text-muted small mb-1">${b.href ? `<a href="${b.href}" target="_blank" rel="noopener">${b.bill}</a>` : b.bill}</div>
-          <div class="award-title">🏆 ${b.award}</div>
-          <div class="award-meaning">${b.meaning}</div>
-        </div>`;
-      awardsGrid.appendChild(col);
+  // ------------------------------------
+  // 2) TZ-safe day counter for countdowns
+  // ------------------------------------
+  function parseYMDLocal(s){
+    // "YYYY-MM-DD" → local noon to avoid DST/UTC midnight drift
+    const [y,m,d] = s.split('-').map(Number);
+    return new Date(y, m-1, d, 12, 0, 0, 0);
+  }
+  function updateClocks(){
+    document.querySelectorAll('.clock-days[data-date]').forEach(el=>{
+      const s = (el.dataset.date||'').trim();
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(s)){ el.textContent='—'; return; }
+      const d = parseYMDLocal(s);
+      const days = Math.max(0, Math.floor((Date.now() - d.getTime())/86400000));
+      el.textContent = `${days} days`;
     });
+  }
 
-    // ---------- Countdowns ----------
-    const tabs = document.getElementById('cdTabs');
-    const panes = document.getElementById('cdTabContent');
-    BILLS.forEach((b,i)=>{
-      tabs.insertAdjacentHTML('beforeend', `
-        <li class="nav-item" role="presentation">
-          <button class="nav-link ${i===0?'active':''}" data-bs-toggle="tab" data-bs-target="#tab-${b.id}" type="button" role="tab">${b.bill}</button>
-        </li>`);
-      panes.insertAdjacentHTML('beforeend', `
-        <div class="tab-pane fade ${i===0?'show active':''}" id="tab-${b.id}" role="tabpanel">
-          <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3" id="cards-${b.id}"></div>
-        </div>`);
-    });
-
-    function updateClocks(){
-      document.querySelectorAll('.clock-days[data-date]').forEach(el=>{
-        const d = new Date(el.dataset.date);
-        if (isNaN(d)) { el.textContent='—'; return; }
-        const days = Math.floor((Date.now()-d.getTime())/86400000);
-        el.textContent = `${days} days`;
-      });
+  // ------------------------------------
+  // 3) Faster, resilient member directory
+  // ------------------------------------
+  async function loadMembers(){
+    const local = await fetch('data/members.json', {cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+    const raw = local || await fetch('https://raw.githubusercontent.com/unitedstates/congress-legislators/refs/heads/gh-pages/legislators-current.json',{cache:'no-store'}).then(r=>r.json());
+    const byBio = {};
+    for (const m of raw){
+      const bioguide = m.id?.bioguide || m.bioguide;
+      if(!bioguide) continue;
+      const t = (m.terms||[]).slice(-1)[0] || m.term || {};
+      const first = m.name?.first || m.first_name || '';
+      const last  = m.name?.last  || m.last_name  || '';
+      const chamber = (t.type==='sen' || m.chamber==='senate') ? 'senate' : 'house';
+      const state = t.state || m.state || '';
+      const district = (chamber==='house') ? (t.district||m.district||'') : '';
+      const party = (t.party || m.party || '').toUpperCase();
+      byBio[bioguide] = {
+        bioguide, first, last,
+        name: `${first} ${last}`.trim(),
+        party, chamber, state, district,
+        photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+      };
     }
+    return byBio;
+  }
+  const chip = m => `
+    <div class="chip">
+      <img src="${m.photo}" alt="${m.name}" loading="lazy"
+           onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2268%22><rect width=%2256%22 height=%2268%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2210%22 fill=%22%23666%22>NO IMG</text></svg>'"/>
+      <div>
+        <div class="fw-semibold">${m.name}</div>
+        <div class="small text-muted">${m.chamber==='house'?`${m.state}-${m.district}`:m.state} • ${m.party}</div>
+      </div>
+    </div>`;
 
-    // ---------- Filters for wall ----------
-    function applyFilters(m, f){
-      if (f.chamber && m.chamber!==f.chamber) return false;
-      if (f.party && m.party!==f.party) return false;
-      if (f.state && m.state!==f.state) return false;
-      if (f.q && !m.name.toLowerCase().includes(f.q)) return false;
-      return true;
+  // -----------------------------
+  // 4) Safe votes.json loader
+  // -----------------------------
+  async function safeLoadVotes(){
+    try{
+      const r = await fetch('data/votes.json',{cache:'no-store'});
+      if(!r.ok) throw 0;
+      return await r.json();
+    }catch{
+      console.warn('votes.json not found; rendering empty state');
+      return [];
     }
+  }
 
-    // ---------- Init (load votes + members, render all) ----------
-    async function init(){
-      const MEMBERS = await loadMembers();
-      const votes = await fetch('data/votes.json').then(r=>r.json());
-      const noVotes = votes.filter(v=>v.vote==='NO');
+  // -----------------------------
+  // 5) Debounce utility
+  // -----------------------------
+  function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
 
-      // Group by bill
-      const byBill = {};
-      for (const v of noVotes) (byBill[v.bill_id] ||= []).push(v);
-
-      // COUNTDOWNS
-      BILLS.forEach(b=>{
-        const container = document.getElementById(`cards-${b.id}`);
-        if (!container) return;
-        const rows = (byBill[b.id]||[]).sort((a,b2)=>{
-          const A = MEMBERS[a.member_id]?.last || "";
-          const B = MEMBERS[b2.member_id]?.last || "";
-          return A.localeCompare(B);
-        });
-        container.innerHTML = rows.length ? rows.map(v=>{
-          const m = MEMBERS[v.member_id];
-          return `
-            <div class="col">
-              <div class="clock-card">
-                ${m ? chip(m) : `<div class="fw-semibold">${v.member_id}</div>`}
-                <div class="small mt-2 text-muted">${BILLS.find(x=>x.id===v.bill_id)?.bill || ''}</div>
-                <div class="clock-days mt-1" data-date="${v.vote_date}">0</div>
-                ${v.nickname ? `<div class="mt-1"><span class="badge text-bg-danger">${v.nickname}</span></div>` : ``}
-              </div>
-            </div>`;
-        }).join('') : `<div class="text-muted">No recorded NO votes yet.</div>`;
-      });
-      updateClocks();
-
-      // WALL
-      const wallMount = document.getElementById('wallMount');
-      function renderWall(){
-        const f = {
-          chamber: document.getElementById('wfChamber').value,
-          party: document.getElementById('wfParty').value,
-          state: document.getElementById('wfState').value.toUpperCase().trim(),
-          q: document.getElementById('wfSearch').value.toLowerCase().trim(),
-          sort: document.getElementById('wfSort').value
-        };
-        wallMount.innerHTML = BILLS.map(b=>{
-          const rows = (byBill[b.id]||[])
-            .filter(v => {
-              const m = MEMBERS[v.member_id];
-              return m ? applyFilters(m,f) : true;
-            })
-            .sort((a,b2)=>{
-              const A = MEMBERS[a.member_id]; const B = MEMBERS[b2.member_id];
-              if (f.sort==='party') return (A?.party||'').localeCompare(B?.party||'') || (A?.last||'').localeCompare(B?.last||'');
-              if (f.sort==='state') return (A?.state||'').localeCompare(B?.state||'') || (A?.last||'').localeCompare(B?.last||'');
-              if (f.sort==='chamber') return (A?.chamber||'').localeCompare(B?.chamber||'') || (A?.last||'').localeCompare(B?.last||'');
-              return (A?.last||'').localeCompare(B?.last||'');
-            })
-            .map(v=>{
-              const m = MEMBERS[v.member_id];
-              return `
-                <div class="col">
-                  <div class="face-card">
-                    ${m ? chip(m) : `<div class="fw-semibold">${v.member_id}</div>`}
-                    <div class="small text-muted mt-1">Voted NO: ${v.vote_date}</div>
-                    ${v.nickname ? `<div class="mt-1"><span class="badge text-bg-danger">${v.nickname}</span></div>` : ``}
-                  </div>
-                </div>`;
-            }).join('') || `<div class="text-muted">No recorded NO votes.</div>`;
-
-          const link = b.href ? `<a href="${b.href}" target="_blank" rel="noopener">${b.bill}</a>` : b.bill;
-          return `
-            <div class="mb-4">
-              <h3 class="h6 bill-heading">${link}</h3>
-              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2">${rows}</div>
-            </div>`;
-        }).join('');
-      }
-
-      ['wfChamber','wfParty','wfState','wfSearch','wfSort'].forEach(id=>{
-        const el = document.getElementById(id);
-        el.addEventListener('input', renderWall);
-        el.addEventListener('change', renderWall);
-      });
-      renderWall();
-
-      // Deep link support: #wall?bill=grocery
-      if (location.hash.startsWith('#wall')) {
-        const tabTrigger = document.querySelector('[href="#wall"]');
-        if (tabTrigger) new bootstrap.Tab(tabTrigger).show();
-        const q = new URLSearchParams(location.hash.split('?')[1] || '');
-        const bill = q.get('bill');
-        if (bill) {
-          const el = document.getElementById(`award-${bill}`);
-          if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
-        }
-      }
-    }
-
-    // PRESS cards
-    const pressLinks = document.getElementById('pressLinks');
-    pressLinks.innerHTML = `
-      <div class="col-md-6 col-xl-4">
-        <div class="p-3 border rounded">
-          <h3 class="h6">Wall of Shame (Tracker)</h3>
-          <p class="small text-muted mb-2">NO voters by bill with awards.</p>
-          <a class="btn btn-outline-primary w-100" href="#wall"><i class="fa-solid fa-table-list me-1"></i> Jump to Wall</a>
+  // -----------------------------
+  // 6) Render: Awards
+  // -----------------------------
+  function renderAwards(){
+    const wrap = document.getElementById('awardsWrap');
+    wrap.innerHTML = BILLS.map(b => `
+      <div class="col-12 col-md-6 col-lg-4" id="award-${b.id}">
+        <div class="card card-award h-100">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="badge badge-soft">${b.award}</span>
+              <i class="fa-solid fa-trophy ms-2"></i>
+            </div>
+            <h3 class="h6 mb-2">${b.bill}</h3>
+            <p class="mb-3 small">${b.meaning}</p>
+            <div class="mt-auto d-flex gap-2">
+              <a class="btn btn-outline-primary btn-sm" href="${encodeURI(b.href)}" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+              <a class="btn btn-outline-secondary btn-sm" href="#awards?bill=${encodeURIComponent(b.id)}">Link to award</a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-6 col-xl-4">
-        <div class="p-3 border rounded">
-          <h3 class="h6">Countdown Tracker</h3>
-          <p class="small text-muted mb-2">Live clocks by bill/member.</p>
-          <a class="btn btn-outline-primary w-100" href="#countdowns"><i class="fa-solid fa-clock-rotate-left me-1"></i> Jump to Countdowns</a>
+    `).join('');
+  }
+
+  // -----------------------------
+  // 7) Render: Wall
+  // -----------------------------
+  function normalizeState(s){ return (s||'').toUpperCase().slice(0,2); }
+
+  function renderWall(){
+    const list = document.getElementById('wallList');
+    const empty = document.getElementById('wallEmpty');
+    if(!window.__votes || !window.__members){ list.innerHTML=''; empty.hidden=false; return; }
+
+    const chamber = document.getElementById('wfChamber').value;
+    const party   = document.getElementById('wfParty').value.toUpperCase();
+    const state   = normalizeState(document.getElementById('wfState').value);
+    const q       = (document.getElementById('wfSearch').value||'').toLowerCase();
+    const sort    = document.getElementById('wfSort').value;
+
+    let rows = window.__votes.map(v => {
+      // Expected minimal structure: { bioguide, billId, position, ts }
+      const m = window.__members[v.bioguide] || {};
+      const bill = BILLS.find(b=>b.id===v.billId) || {};
+      return {
+        ...v,
+        member: m,
+        billTitle: bill.bill || v.billTitle || v.billId,
+        billHref: bill.href || '#',
+        name: m.name || v.name || '',
+        party: m.party || '',
+        state: m.state || '',
+        chamber: m.chamber || v.chamber || '',
+      };
+    });
+
+    // Filters
+    rows = rows.filter(r =>
+      (!chamber || r.chamber===chamber) &&
+      (!party || r.party===party) &&
+      (!state || normalizeState(r.state)===state) &&
+      (!q || (r.name.toLowerCase().includes(q) || (r.billTitle||'').toLowerCase().includes(q)))
+    );
+
+    // Sort
+    if(sort==='name') rows.sort((a,b)=> (a.name||'').localeCompare(b.name||''));
+    else if(sort==='state') rows.sort((a,b)=> (a.state||'').localeCompare(b.state||''));
+    else rows.sort((a,b)=> (b.ts||0) - (a.ts||0)); // recent
+
+    // Render
+    list.innerHTML = rows.map(r=>`
+      <div class="wall-item">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+          <div class="d-flex gap-2 align-items-center">
+            ${chip(r.member || {})}
+            <span class="badge ${r.position==='No'?'text-bg-danger':'text-bg-success'}">${r.position||'—'}</span>
+          </div>
+          <div class="text-end small">
+            <div class="small-muted">${r.state||''}${r.chamber?` • ${r.chamber}`:''}${r.party?` • ${r.party}`:''}</div>
+            <div class="small-muted">${r.ts ? new Date(r.ts).toLocaleString() : ''}</div>
+          </div>
+        </div>
+        <div class="mt-2">
+          <a href="${encodeURI(r.billHref)}" target="_blank" rel="noopener noreferrer" class="fw-semibold">${r.billTitle}</a>
         </div>
       </div>
-    `;
+    `).join('');
 
-    // Go
-    init();
+    empty.hidden = rows.length>0;
+  }
+
+  // -----------------------------
+  // 8) Render: Countdowns
+  // -----------------------------
+  const COUNT_ITEMS = [
+    // Edit dates as needed (YYYY-MM-DD). Counters stay correct in local TZ.
+    { id:'next-session', label:'Days since 119th Congress began', date:'2025-01-03' },
+    { id:'last-election', label:'Days since General Election',    date:'2024-11-05' }
+  ];
+  function renderCountdowns(){
+    const wrap = document.getElementById('countWrap');
+    wrap.innerHTML = COUNT_ITEMS.map(c => `
+      <div class="col-12 col-md-6 col-lg-4" id="tab-${c.id}">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="small-muted mb-1">${c.label}</div>
+            <div class="h3 clock clock-days" data-date="${c.date}">—</div>
+            <div class="small text-muted">from ${c.date}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    updateClocks();
+  }
+
+  // -----------------------------
+  // 9) Deep-link routing to tabs/awards
+  // -----------------------------
+  function handleHash(){
+    const [hash, qs] = location.hash.split('?');
+    if(!hash) return;
+    const open = sel => { const el=document.querySelector(sel); if(el) new bootstrap.Tab(el).show(); };
+
+    if(hash==='#wall') open('[data-bs-target="#wall"]');
+    if(hash==='#countdowns') open('[data-bs-target="#countdowns"]');
+    if(hash==='#awards') open('[data-bs-target="#awards"]');
+
+    const params = new URLSearchParams(qs||'');
+    const bill = params.get('bill');
+    if(bill){
+      const target = document.getElementById(`award-${bill}`) || document.getElementById(`tab-${bill}`);
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+
+  // -----------------------------
+  // 10) Init
+  // -----------------------------
+  async function init(){
+    // Render static sections first
+    renderAwards();
+    renderCountdowns();
+    updateClocks();
+    setInterval(updateClocks, 60000);
+
+    // Data loads
+    const [members, votes] = await Promise.all([loadMembers(), safeLoadVotes()]);
+    window.__members = members;
+    window.__votes = Array.isArray(votes) ? votes : [];
+
+    // Wire filters (with debounce on search)
+    ['wfChamber','wfParty','wfState','wfSort'].forEach(id=>{
+      document.getElementById(id).addEventListener('input', renderWall);
+      document.getElementById(id).addEventListener('change', renderWall);
+    });
+    document.getElementById('wfSearch').addEventListener('input', debounce(renderWall, 180));
+
+    renderWall();
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
