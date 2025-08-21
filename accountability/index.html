@@ -112,6 +112,169 @@
   </div>
 </header>
 
+<section id="plan" class="container my-4">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h2 class="h4 mb-0">🔥 Accountability &amp; Shame Platform — Unified Plan</h2>
+        <a class="btn btn-outline-secondary btn-sm" href="#grid">Skip to the Wall</a>
+      </div>
+      <p class="text-muted mt-2 mb-3">Expose how <strong>money controls votes</strong> with harsh, visual, data‑driven accountability. Multiple badges per politician—each with a clear trigger.</p>
+
+      <div class="accordion" id="planAcc">
+        <!-- Core Purpose -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-purpose-h">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p-purpose" aria-expanded="true" aria-controls="p-purpose">
+              🎯 Core Purpose
+            </button>
+          </h3>
+          <div id="p-purpose" class="accordion-collapse collapse show" aria-labelledby="p-purpose-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              Expose how <strong>money controls votes</strong> in Congress with <strong>harsh, visual, and data‑driven accountability</strong>. Every politician can receive <strong>multiple badges/awards</strong> showing alignment with donors over constituents.
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Building Blocks -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-blocks-h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p-blocks" aria-expanded="false" aria-controls="p-blocks">
+              🧱 Main Building Blocks
+            </button>
+          </h3>
+          <div id="p-blocks" class="accordion-collapse collapse" aria-labelledby="p-blocks-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              <h4 class="h6">1) Wall of Shame (Landing Page)</h4>
+              <ul class="mb-3">
+                <li><strong>Grid of all 535 seats</strong> (House + Senate).</li>
+                <li>Under each face: earned <strong>badges/awards</strong> (visual first, numbers on hover).</li>
+                <li>Click profile → financials, top industries, vote correlation, and awarded badges with triggers.</li>
+              </ul>
+              <h4 class="h6">2) Badges &amp; Awards System</h4>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">🐕 Control &amp; Capture</div>
+                    <ul class="mb-0">
+                      <li><strong>Leash Held by [PAC/Industry]</strong> → PAC/industry &gt; $20k</li>
+                      <li><strong>Puppet of [X]</strong> → one donor/industry &gt; 50% of PAC $</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">💰 Corruption &amp; Sale</div>
+                    <ul class="mb-0">
+                      <li><strong>Bought &amp; Paid</strong> → single PAC &gt; $50k</li>
+                      <li><strong>Crown of Cash</strong> → total PAC + lobbyist &gt; $100k</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">🔪 Betrayal</div>
+                    <ul class="mb-0">
+                      <li><strong>Backstabber Award</strong> → more $ outside district/state than inside</li>
+                      <li><strong>Judas Award</strong> → vote alignment with donors &gt; 90%</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">🌍 Foreign Policy / AIPAC / Defense / Oil</div>
+                    <ul class="mb-0">
+                      <li><strong>Leash Held by AIPAC</strong> → threshold (e.g., &gt; $20k)</li>
+                      <li><strong>Supporter of Genocide</strong> → AIPAC + Defense &gt; $50k &amp; votes for military aid/occupation bills</li>
+                      <li><strong>Blood Money Badge</strong> → defense contractors &gt; $50k</li>
+                    </ul>
+                    <div class="small text-muted mt-2">Multiple badges per member (e.g., Pharma + Bought &amp; Paid + Backstabber) can co‑exist.</div>
+                  </div>
+                </div>
+              </div>
+
+              <h4 class="h6">3) Financial Alignments Page</h4>
+              <ul class="mb-3">
+                <li>Charts: % PAC vs small donors; % in‑district vs out‑district; industry breakdowns.</li>
+                <li>Map: geographic donor clusters.</li>
+                <li>Each chart/table shows which <strong>badge threshold</strong> it triggered.</li>
+              </ul>
+
+              <h4 class="h6">4) Image Style &amp; UX</h4>
+              <ul class="mb-3">
+                <li><strong>Style:</strong> propaganda‑poster + political cartoon.</li>
+                <li><strong>Palette:</strong> red (betrayal), black/gray (lobbyists), gold (greed).</li>
+                <li><strong>Badges:</strong> circular/shield icons; instant read.</li>
+                <li><strong>Visuals:</strong> marionette strings, leash, knife, throne of money, coins, rubble w/ flags.</li>
+              </ul>
+
+              <h4 class="h6">5) Data → Badge Pipeline</h4>
+              <ol class="mb-3">
+                <li><strong>FEC API</strong> pulls donations.</li>
+                <li><strong>Analysis layer</strong> categorizes donors (Pharma/Defense/Finance/AIPAC), checks thresholds, maps votes → outputs badges.</li>
+                <li><strong>Front‑end Wall</strong> auto‑updates badges on refresh.</li>
+              </ol>
+
+              <h4 class="h6">6) User Flow</h4>
+              <ol class="mb-0">
+                <li>Land on Wall → hover shows badges.</li>
+                <li>Click → profile: donors, votes, correlations, triggers.</li>
+                <li>Badge gallery → definitions + thresholds.</li>
+                <li>One‑click share: pre‑built badge graphics per politician.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deployment Strategy -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-deploy-h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p-deploy" aria-expanded="false" aria-controls="p-deploy">
+              🚀 Deployment Strategy
+            </button>
+          </h3>
+          <div id="p-deploy" class="accordion-collapse collapse" aria-labelledby="p-deploy-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              <ol class="mb-0">
+                <li><strong>Phase 1:</strong> Static mockup of Wall + Badge gallery.</li>
+                <li><strong>Phase 2:</strong> Wire FEC API → DB → analysis to assign badges.</li>
+                <li><strong>Phase 3:</strong> Add profiles with charts/tables.</li>
+                <li><strong>Phase 4:</strong> Social sharing packs (badge + face).</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Why This Works -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-why-h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p-why" aria-expanded="false" aria-controls="p-why">
+              ✅ Why This Works
+            </button>
+          </h3>
+          <div id="p-why" class="accordion-collapse collapse" aria-labelledby="p-why-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              <ul class="mb-0">
+                <li><strong>Visual shame:</strong> instantly understood.</li>
+                <li><strong>Data‑backed:</strong> thresholds tied to FEC records.</li>
+                <li><strong>Dense &amp; viral:</strong> multiple badges per member.</li>
+                <li><strong>Click for proof:</strong> receipts + charts.</li>
+                <li><strong>Scalable:</strong> all 535 seats covered with one system.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-3">
+        <a class="btn btn-danger btn-sm" href="#grid"><i class="fa-solid fa-fire-flame-curved me-1"></i>See the Wall</a>
+        <a class="btn btn-outline-dark btn-sm" href="./financial-alignments.html"><i class="fa-solid fa-chart-pie me-1"></i>Financial Alignments Page</a>
+        <a class="btn btn-outline-dark btn-sm" href="./badges.html"><i class="fa-solid fa-award me-1"></i>Badges &amp; Awards</a>
+      </div>
+    </div>
+  </div>
+</section>
+  
 <!-- GRID -->
 <main class="container my-4">
   <div id="grid" class="grid" aria-live="polite" aria-busy="true">
