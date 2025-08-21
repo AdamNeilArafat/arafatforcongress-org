@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Data-driven donor analysis: PAC vs small donors, in-district vs out-district, industry breakdowns, and vote alignment indicators."/>
+  <meta name="theme-color" content="#0d3b66"/>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
+      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
+    }
+    html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
+    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
+    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
+    .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
+    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2rem 0}
+    .hero h1{font-weight:900; letter-spacing:.3px}
+    .cardish{background:var(--card); border:1px solid var(--ring); border-radius:14px; box-shadow:0 4px 18px rgba(13,59,102,.06)}
+    .metric{font-weight:900; font-size:1.4rem}
+    .mini{color:var(--muted); font-size:.9rem}
+    .chart-box{height:300px; background:#eef4fa; border:1px dashed #b7c6d8; border-radius:12px}
+    .table thead th{background:#f4f7fb}
+    footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="./index.html">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="./financial-alignments.html">Financial Alignments</a></li>
+        <li class="nav-item"><a class="nav-link" href="./badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
+        <p class="mb-0">PAC vs small donors, in‑district vs out‑district, industries, and vote alignment — with clear badge triggers.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="./index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
+        <a class="btn btn-danger btn-sm" href="./badges.html"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container my-4">
+  <!-- Filters -->
+  <div class="cardish p-3 mb-3">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label for="fa-member" class="form-label">Member</label>
+        <input type="search" id="fa-member" class="form-control" placeholder="Search name, state, or seat (e.g., WA-10)"/>
+      </div>
+      <div class="col-md-3">
+        <label for="fa-chamber" class="form-label">Chamber</label>
+        <select id="fa-chamber" class="form-select">
+          <option value="">All</option>
+          <option value="house">House</option>
+          <option value="senate">Senate</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="fa-industry" class="form-label">Industry Focus</label>
+        <select id="fa-industry" class="form-select">
+          <option value="">All industries</option>
+          <option value="pharma">Pharma</option>
+          <option value="defense">Defense</option>
+          <option value="finance">Finance</option>
+          <option value="oil">Oil &amp; Gas</option>
+          <option value="aipac">AIPAC/Israel</option>
+          <option value="tech">Tech</option>
+        </select>
+      </div>
+      <div class="col-md-2 d-grid">
+        <button id="fa-reset" class="btn btn-outline-secondary">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics row -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">PAC vs Small Donors</div>
+        <div class="metric" id="m-pac-small">—</div>
+        <div class="mini">Flagged if PAC &gt;= threshold</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">In‑District vs Out‑District</div>
+        <div class="metric" id="m-geo">—</div>
+        <div class="mini">Flagged if out &gt; in</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">Top Industry</div>
+        <div class="metric" id="m-top-industry">—</div>
+        <div class="mini">Badge if one industry dominates</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">Vote Alignment Index</div>
+        <div class="metric" id="m-vote-align">—</div>
+        <div class="mini">Badge if ≥ 90% donor-aligned</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts row (placeholders) -->
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="cardish p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h6 mb-0">PAC vs Small Donors</h2>
+          <a href="./badges.html#thresholds" class="small">See thresholds</a>
+        </div>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Chart placeholder (PAC % vs Small %)</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="cardish p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h6 mb-0">In‑District vs Out‑District</h2>
+          <a href="./badges.html#thresholds" class="small">See thresholds</a>
+        </div>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Chart placeholder (In vs Out by $)</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="cardish p-3 mt-3">
+        <h2 class="h6 mb-2">Industry Breakdown</h2>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Chart placeholder (Pharma/Defense/Finance/Oil/AIPAC/etc.)</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="cardish p-3 mt-3">
+        <h2 class="h6 mb-2">Donor Geography</h2>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Map placeholder (clusters/heatmap)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data table placeholder -->
+  <div class="cardish p-3 mt-4">
+    <div class="d-flex align-items-center justify-content-between">
+      <h2 class="h6 mb-0">Detail Table</h2>
+      <span class="small text-muted">Each row indicates which badges were triggered</span>
+    </div>
+    <div class="table-responsive mt-2">
+      <table class="table table-sm align-middle">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Seat</th>
+            <th>PAC %</th>
+            <th>Small %</th>
+            <th>In vs Out</th>
+            <th>Top Industry</th>
+            <th>Vote Align</th>
+            <th>Badges</th>
+          </tr>
+        </thead>
+        <tbody id="fa-table">
+          <tr><td colspan="8" class="text-muted">Data populates once pipeline is connected.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<!-- Optional: tiny JS scaffold to wire later -->
+<script>
+/* Placeholder: when you hook your data pipeline, populate metrics, charts, and #fa-table */
+</script>
+</body>
+</html>
