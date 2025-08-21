@@ -106,9 +106,9 @@
     <h1 class="display-5 mb-2">🌲 The Evergreen Pact</h1>
     <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
 
-    <!-- Single control per request: keep only "Download PDF" and link it to Overview.html -->
+    <!-- Header button points to Overview.html -->
     <div class="d-flex justify-content-center gap-2 flex-wrap">
-      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Download overview PDF (opens Overview.html)">
+      <a class="btn btn-outline-light btn-pill fw-bold overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open overview PDF (Overview.html)">
         <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF
       </a>
     </div>
@@ -176,7 +176,7 @@
 
 <div class="tab-content">
 
-  <!-- ================= PATH A (unchanged except blueprint links) ================= -->
+  <!-- ================= PATH A ================= -->
   <section class="tab-pane fade show active" id="pathA" role="tabpanel" aria-labelledby="tabA" data-path="A">
     <div class="container">
       <!-- Progress -->
@@ -208,7 +208,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="75–85%">75–85%</span></div>
               </div>
               <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="1)%20Minibus%201_%20Implementation%20Safeguards%20Act.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="minibus-implementation-safeguards-bill.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
 
                 <button
                   type="button"
@@ -607,7 +607,7 @@
         <!-- A12 -->
         <div class="col-md-6 locked" id="A-F2">
           <div class="card card-step" data-step="A-F2" tabindex="-1" aria-labelledby="A-F2-title">
-            <div class="card body">
+            <div class="card">
               <div class="card-body">
                 <div class="crumb">Path A → Tier 3 → Item 12</div>
                 <div class="d-flex justify-content-between"><span class="chip">Item 12</span><span class="mini">When: March to June 2027</span></div>
@@ -648,8 +648,8 @@
               <p class="mini mb-2"><strong>Checks on executive power:</strong> makes dark money harder to use for pressure on agencies and rulemaking.</p>
               <p class="mini mb-2"><strong>How we pass it:</strong> financial services and general government title.</p>
               <div class="odds mb-2">
-                <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="25–40%" data-pass="31–46%" data-fail="25–40%">25–40%</span></div>
-                <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="40–50%" data-pass-b="46–56%" data-fail-b="40–50%">40–50%</span></div>
+                <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="25–40%">25–40%</span></div>
+                <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="40–50%">40–50%</span></div>
               </div>
               <div class="d-flex gap-2 flex-wrap">
                 <a class="btn btn-outline-dark btn-sm" href="Clean%20Campaigns%20and%20Elections%20Bill.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
@@ -680,9 +680,23 @@
                 <div><strong>Statute:</strong> <span class="odds-now" data-bundled="35–50%">35–50%</span></div>
               </div>
               <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-outline-dark btn-sm" href="Congressional%20Vote%20Justification%20Bill.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 14 as Passed" data-pass="#A-L1,#A-L2"
+                <a class="btn btn-outline-dark btn-sm" href="Congressional%20Vote%20Justification%20Bill.Html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
 
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm branch"
+                  aria-label="Mark Item 14 as Passed"
+                  data-pass="#A-L1,#A-L2"
+                  data-pass-effects='["Vote justification passed. Begin long-term guarantees."]'
+                >Pass</button>
+
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm branch"
+                  aria-label="Mark Item 14 as Failed"
+                  data-fail="#A-L1,#A-L2"
+                  data-fail-effects='["Vote justification failed. Proceed to long-term guarantees with House-rules changes only."]'
+                >Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-S2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-S2" aria-controls="eff-A-S2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -744,7 +758,7 @@
     </div>
   </section>
 
-  <!-- ================= PATH B (House-only; updated with 12 cards) ================= -->
+  <!-- ================= PATH B (House-only) ================= -->
   <section class="tab-pane fade" id="pathB" role="tabpanel" aria-labelledby="tabB" data-path="B">
     <div class="container">
       <!-- Progress -->
@@ -840,7 +854,7 @@
           </div>
         </div>
 
-        <!-- B-H9: Targeted no-funds riders (life & safety scoped) -->
+        <!-- B-H9: Targeted no-funds riders -->
         <div class="col-md-6 locked" id="B-H9">
           <div class="card card-step" data-step="B-H9" tabindex="-1" aria-labelledby="B-H9-title">
             <div class="card-body">
@@ -866,7 +880,7 @@
           </div>
         </div>
 
-        <!-- B-H2: Holman amendments, salary/line-item cuts -->
+        <!-- B-H2: Holman amendments -->
         <div class="col-md-6 locked" id="B-H2">
           <div class="card card-step" data-step="B-H2" tabindex="-1" aria-labelledby="B-H2-title">
             <div class="card-body">
@@ -892,7 +906,7 @@
           </div>
         </div>
 
-        <!-- B-H4: Resolutions of inquiry + subpoena-backed oversight -->
+        <!-- B-H4: Resolutions of inquiry + subpoenas -->
         <div class="col-md-6 locked" id="B-H4">
           <div class="card card-step" data-step="B-H4" tabindex="-1" aria-labelledby="B-H4-title">
             <div class="card-body">
@@ -931,20 +945,16 @@
               <div class="d-flex gap-2 flex-wrap">
                 <button class="btn btn-success btn-sm branch" aria-label="Litigation authorized"
                   data-pass="#B-H6"
-                  data-pass-effects='[
-                    "Litigation authority active. Ready CRA disapprovals."
-                  ]'>Pass</button>
+                  data-pass-effects='[ "Litigation authority active. Ready CRA disapprovals." ]'>Pass</button>
                 <button class="btn btn-danger btn-sm branch" aria-label="Litigation denied"
                   data-fail="#B-H6"
-                  data-fail-effects='[
-                    "Authority denied. Use state AG partners and CRA pressure."
-                  ]'>Fail</button>
+                  data-fail-effects='[ "Authority denied. Use state AG partners and CRA pressure." ]'>Fail</button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- B-H6: Congressional Review Act menu -->
+        <!-- B-H6: CRA menu -->
         <div class="col-md-6 locked" id="B-H6">
           <div class="card card-step" data-step="B-H6" tabindex="-1" aria-labelledby="B-H6-title">
             <div class="card-body">
@@ -1027,7 +1037,7 @@
       <!-- T1 -->
       <div class="tier-header t1"><span class="badge-xl">T1</span><div><h3 class="tier-title mb-0">Quick wins, House markers, pilots</h3><div>January to February 2027</div></div></div>
       <div class="row g-3">
-        <!-- B-H10: State attorney general support language -->
+        <!-- B-H10: State AG support language -->
         <div class="col-md-6 locked" id="B-H10">
           <div class="card card-step" data-step="B-H10" tabindex="-1" aria-labelledby="B-H10-title">
             <div class="card-body">
