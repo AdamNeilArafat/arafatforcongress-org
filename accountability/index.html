@@ -50,18 +50,12 @@
     @media (min-width:1200px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr));} }
     .skeleton{background:linear-gradient(90deg,#eceff3 25%,#f5f7fa 37%,#eceff3 63%); background-size:400% 100%; animation:sheen 1.2s infinite; border-radius:12px; height:280px}
     @keyframes sheen{0%{background-position:100% 0} 100%{background-position:0 0}}
-.avatar{
-  width:80px;
-  height:auto;
-  aspect-ratio:4/5;
-  object-fit:cover;
-  background:#e6edf3;
-  display:block;
-  margin:.5rem auto;
-  border-radius:8px;
-}
-
-
+    /* Thumbnail faces */
+    .avatar{
+      width:80px; height:auto; aspect-ratio:4/5;
+      object-fit:cover; background:#e6edf3;
+      display:block; margin:.5rem auto; border-radius:8px;
+    }
     .btn-icon i{margin-right:.5rem}
 
     .modal .award{font-weight:900; color:#8f0d16}
@@ -81,6 +75,8 @@
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link active" href="./index.html" aria-current="page">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link" href="./financial-alignments.html">Financial Alignments</a></li>
+        <li class="nav-item"><a class="nav-link" href="./badges.html">Badges &amp; Awards</a></li>
         <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
         <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
@@ -108,10 +104,15 @@
         <option value="I">Independent</option>
       </select>
       <button id="resetFilters" class="btn btn-outline-secondary btn-sm">Reset</button>
+
+      <!-- Hero quick jumps -->
+      <a href="#plan" class="btn btn-outline-light btn-sm">View the plan</a>
+      <a href="#grid" class="btn btn-outline-secondary btn-sm">Skip to the Wall</a>
     </div>
   </div>
 </header>
 
+<!-- PLAN (Unified Plan Section) -->
 <section id="plan" class="container my-4">
   <div class="card border-0 shadow-sm">
     <div class="card-body">
@@ -119,7 +120,10 @@
         <h2 class="h4 mb-0">🔥 Accountability &amp; Shame Platform — Unified Plan</h2>
         <a class="btn btn-outline-secondary btn-sm" href="#grid">Skip to the Wall</a>
       </div>
-      <p class="text-muted mt-2 mb-3">Expose how <strong>money controls votes</strong> with harsh, visual, data‑driven accountability. Multiple badges per politician—each with a clear trigger.</p>
+      <p class="text-muted mt-2 mb-3">
+        Expose how <strong>money controls votes</strong> in Congress with <strong>harsh, visual, and data‑driven accountability</strong>.
+        Every politician can receive <strong>multiple badges/awards</strong> showing alignment with donors over constituents.
+      </p>
 
       <div class="accordion" id="planAcc">
         <!-- Core Purpose -->
@@ -205,7 +209,6 @@
                 <li><strong>Style:</strong> propaganda‑poster + political cartoon.</li>
                 <li><strong>Palette:</strong> red (betrayal), black/gray (lobbyists), gold (greed).</li>
                 <li><strong>Badges:</strong> circular/shield icons; instant read.</li>
-                <li><strong>Visuals:</strong> marionette strings, leash, knife, throne of money, coins, rubble w/ flags.</li>
               </ul>
 
               <h4 class="h6">5) Data → Badge Pipeline</h4>
@@ -274,7 +277,7 @@
     </div>
   </div>
 </section>
-  
+
 <!-- GRID -->
 <main class="container my-4">
   <div id="grid" class="grid" aria-live="polite" aria-busy="true">
@@ -470,16 +473,14 @@ function cardHTML(o){
 }
 
 /**
- * Build INDEX as:
- *  1) Neutral row for every Member (no billKey)
- *  2) Offender row for each offender in votes (with billKey + award + harm)
- * Neutral rows allow full-wall roster when no bill filter is selected.
- * Selecting a bill shows only offenders for that bill.
+ * Build INDEX:
+ *  1) Neutral row for every Member
+ *  2) Offender row for each offender in votes
  */
 function joinData(){
   INDEX = [];
 
-  // 1) Everyone (neutral)
+  // Everyone (neutral)
   for(const m of Object.values(MEMBERS)){
     INDEX.push({
       billKey:'', billTitle:'', billShort:'', href:'', award:'', meaning:'', vote:'',
@@ -489,7 +490,7 @@ function joinData(){
     });
   }
 
-  // 2) Offenders (overlay as separate rows)
+  // Offenders
   for(const [billKey, b] of Object.entries(VOTES)){
     const offenders = b.offenders || [];
     for(const row of offenders){
@@ -510,7 +511,7 @@ function joinData(){
     }
   }
 
-  // Optional: offenders first, then A→Z by name
+  // Offenders first, then A→Z by name
   INDEX.sort((a,b)=> ((b.billKey?1:0) - (a.billKey?1:0)) || a.name.localeCompare(b.name));
 }
 
@@ -525,7 +526,6 @@ function render(){
 
   const pass = INDEX.filter(o=>{
     if(bill){
-      // when bill is selected, show offenders for that bill only
       if(o.billKey !== bill) return false;
     }
     if(party && o.partyCode !== party) return false;
@@ -637,3 +637,5 @@ document.getElementById('resetFilters').addEventListener('click', ()=>{
   handleDeepLink();
 })();
 </script>
+</body>
+</html>
