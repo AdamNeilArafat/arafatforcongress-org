@@ -20,7 +20,6 @@ permissions:
   pages: write
   id-token: write
 
-# Cancel stale runs so only the latest deploys
 concurrency:
   group: "pages-${{ github.ref }}"
   cancel-in-progress: true
@@ -32,30 +31,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # If you add a build later (npm/yarn/etc.), run it here and
-      # point the upload "path:" to the build output folder.
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      # Ensure CNAME and .nojekyll exist WITHOUT clobbering repo versions
-      - name: Ensure CNAME and .nojekyll
+      - name: Prepare site folder
         run: |
-          if [ ! -f CNAME ]; then echo "ArafatForCongress.org" > CNAME; fi
-          if [ ! -f .nojekyll ]; then touch .nojekyll; fi
+          set -eu
+          rm -rf _site
+          mkdir -p _site
+          # copy exactly what you want to publish
+          cp -a index.html _site/ || true
+          cp -a Bills accountability assets data _site/ || true
+          cp -a styles.css _site/ || true
+          # keep custom domain + nojekyll (create if missing)
+          if [ -f CNAME ]; then cp -a CNAME _site/; else echo "ArafatForCongress.org" > _site/CNAME; fi
+          if [ -f .nojekyll ]; then cp -a .nojekyll _site/; else touch _site/.nojekyll; fi
+          # sanity: do NOT include Overview.html
+          rm -f _site/Overview.html
 
-      # Upload ONLY what the site needs (fast artifact)
-      - name: Upload site artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: |
-            index.html
-            Bills
-            accountability
-            assets
-            styles.css
-            data
-            CNAME
-            .nojekyll
+          path: _site            # <- single folder
 
   deploy:
     runs-on: ubuntu-latest
