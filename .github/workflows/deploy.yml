@@ -5,12 +5,13 @@ on:
     branches: [ main ]
     paths:
       - 'index.html'
-      - 'Overview.html'
       - 'Bills/**'
       - 'accountability/**'
       - 'assets/**'
       - 'styles.css'
       - 'data/**'
+      - 'CNAME'
+      - '.nojekyll'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
@@ -31,16 +32,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # If you add a build later (e.g., npm run build), do it here and update the upload path below.
-
+      # If you add a build later (npm/yarn/etc.), run it here and
+      # point the upload "path:" to the build output folder.
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      # Ensure CNAME and .nojekyll exist WITHOUT clobbering repo versions
       - name: Ensure CNAME and .nojekyll
         run: |
-          mkdir -p "./"
-          echo "ArafatForCongress.org" > "./CNAME"
-          touch "./.nojekyll"
+          if [ ! -f CNAME ]; then echo "ArafatForCongress.org" > CNAME; fi
+          if [ ! -f .nojekyll ]; then touch .nojekyll; fi
 
       # Upload ONLY what the site needs (fast artifact)
       - name: Upload site artifact
@@ -48,7 +49,6 @@ jobs:
         with:
           path: |
             index.html
-            Overview.html
             Bills
             accountability
             assets
