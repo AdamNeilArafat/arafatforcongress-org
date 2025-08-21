@@ -153,10 +153,7 @@
 <script>
 /** ---------------------------------------------------------
  *  DATA LOADERS
- *  - members: prefer local data/members.json, fallback to live
- *  - votes:   data/votes.json; render empty state if missing
  *  --------------------------------------------------------- */
-
 function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
 
 async function loadMembers(){
@@ -181,7 +178,7 @@ async function loadMembers(){
       }
       return norm;
     }
-  }catch(e){ /* swallow */ }
+  }catch(e){ /* ignore */ }
 
   // 2) live fallback (GitHub-hosted JSON)
   const url = 'https://raw.githubusercontent.com/unitedstates/congress-legislators/gh-pages/legislators-current.json';
@@ -209,7 +206,7 @@ async function loadVotes(){
     if(!r.ok) throw new Error('no votes file');
     return await r.json();
   }catch(e){
-    console.warn('votes.json not found; rendering empty wall');
+    console.warn('votes.json not found; rendering neutral wall');
     return {}; // { billKey: {title, href, award, meaning, offenders:[{bioguide, vote}] } }
   }
 }
@@ -217,7 +214,6 @@ async function loadVotes(){
 /** ---------------------------------------------------------
  *  RENDERING
  *  --------------------------------------------------------- */
-
 const grid = document.getElementById('grid');
 const emptyState = document.getElementById('emptyState');
 const wfSearch = document.getElementById('wfSearch');
@@ -227,71 +223,98 @@ const wfParty  = document.getElementById('wfParty');
 
 let MEMBERS = {};
 let VOTES = {};
-let INDEX = []; // flattened offenders array with joins
+let INDEX = []; // rows to render (neutral + offenders)
 
 function buildFilters(){
   // Bills
-  const billOptions = ['<option value="">All bills</option>']
+  const billOptions = ['<option value="">All bills</option>'];
   Object.entries(VOTES).forEach(([key, b])=>{
     billOptions.push(`<option value="${key}">${b.title}</option>`);
   });
   wfBill.innerHTML = billOptions.join('');
 
-  // States from visible offenders only
+  // States (from everyone)
   const states = new Set();
-  INDEX.forEach(o=>{ if(o.state) states.add(o.state); });
+  Object.values(MEMBERS).forEach(m=>{ if(m.state) states.add(m.state); });
   const stateList = Array.from(states).sort();
   wfState.innerHTML = ['<option value="">All states</option>', ...stateList.map(s=>`<option value="${s}">${s}</option>`)].join('');
 }
 
 function cardHTML(o){
-  const award = o.award || '';
-  const harm  = o.meaning || '';
-  // IMPORTANT: use encodeURI on existing filenames with spaces/&/parens
-  const encodedHref = encodeURI(o.href||'#');
+  const isOffender = !!o.billKey; // offenders have a billKey
+  const award = isOffender ? (o.award || '') : '';
+  const harm  = isOffender ? (o.meaning || '') : '';
+  const encodedHref = isOffender ? encodeURI(o.href||'#') : '#';
 
   return `
-  <article class="card-person" data-bill="${o.billKey}" data-party="${o.party}" data-state="${o.state}" data-name="${o.name.toLowerCase()}">
-    <span class="badge-award" title="${award}">${award}</span>
-    <span class="stamp">RECEIPT</span>
+  <article class="card-person" data-bill="${o.billKey||''}" data-party="${o.party}" data-state="${o.state}" data-name="${o.name.toLowerCase()}">
+    ${isOffender && award ? `<span class="badge-award" title="${award}">${award}</span>` : ``}
+    ${isOffender ? `<span class="stamp">RECEIPT</span>` : ``}
     <img class="avatar" src="${o.photo}" alt="${o.name}" loading="lazy"
          onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22375%22><rect width=%22300%22 height=%22375%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22>NO IMAGE</text></svg>'"/>
     <div class="body">
       <div class="name">${o.name}</div>
       <div class="meta">${o.chamber==='senate'?'Senate':'House'} • ${o.state}${o.district?('-'+o.district):''} • ${o.party}</div>
-      <div class="harm">${harm}</div>
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <span class="chip">Bill: ${o.billShort}</span><span class="chip no">${o.vote||'NO'} vote</span>
-      </div>
+      ${isOffender && harm ? `<div class="harm">${harm}</div>` : ``}
+      ${isOffender ? `
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="chip">Bill: ${o.billShort}</span><span class="chip no">${o.vote||'NO'} vote</span>
+        </div>` : ``}
       <div class="mt-2 d-flex gap-2">
-        <button class="btn btn-outline-dark btn-sm btn-icon" type="button"
-                data-open-receipt='${JSON.stringify({bio:o.bioguide,bill:o.billKey}).replace(/"/g,"&quot;")}'><i class="fa-solid fa-receipt"></i>View receipt</button>
-        <a class="btn btn-danger btn-sm btn-icon" href="${encodedHref}" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>
+        ${isOffender ? `
+          <button class="btn btn-outline-dark btn-sm btn-icon" type="button"
+                  data-open-receipt='${JSON.stringify({bio:o.bioguide,bill:o.billKey}).replace(/"/g,"&quot;")}'><i class="fa-solid fa-receipt"></i>View receipt</button>
+          <a class="btn btn-danger btn-sm btn-icon" href="${encodedHref}" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>
+        ` : `
+          <button class="btn btn-outline-secondary btn-sm" type="button" disabled title="No receipt for this Member">No receipt</button>
+        `}
       </div>
     </div>
   </article>`;
 }
 
+/**
+ * Build INDEX as:
+ *  1) Neutral row for every Member (no billKey)
+ *  2) Offender row for each offender in votes (with billKey + award + harm)
+ * Neutral rows allow full-wall roster when no bill filter is selected.
+ * Selecting a bill shows only offenders for that bill.
+ */
 function joinData(){
   INDEX = [];
+
+  // 1) Everyone (neutral)
+  for(const m of Object.values(MEMBERS)){
+    INDEX.push({
+      billKey: '', billTitle:'', billShort:'', href:'', award:'', meaning:'', vote:'',
+      bioguide: m.bioguide, name: m.name, party: m.party, chamber: m.chamber, state: m.state, district: m.district, photo: m.photo
+    });
+  }
+
+  // 2) Offenders (overlay as separate rows)
   for(const [billKey, b] of Object.entries(VOTES)){
     const offenders = b.offenders || [];
     for(const row of offenders){
-      const m = MEMBERS[row.bioguide] || null;
+      const m = MEMBERS[row.bioguide];
       if(!m) continue;
       INDEX.push({
         billKey,
         billTitle: b.title,
         billShort: (b.short||b.title),
-        href: b.href, // will be URL-encoded on render
+        href: b.href,
         award: b.award,
         meaning: b.meaning,
         vote: row.vote || 'NO',
-        // member
         bioguide: m.bioguide, name: m.name, party: m.party, chamber: m.chamber, state: m.state, district: m.district, photo: m.photo
       });
     }
   }
+
+  // Optional: sort so offenders float first when no bill filter (keeps “spicy” at top)
+  INDEX.sort((a,b)=>{
+    if (!!b.billKey - !!a.billKey) return 1; // offenders before neutrals
+    return a.name.localeCompare(b.name);
+  });
 }
 
 function render(){
@@ -304,7 +327,10 @@ function render(){
   const state = wfState.value;
 
   const pass = INDEX.filter(o=>{
-    if(bill && o.billKey!==bill) return false;
+    if(bill){
+      // when bill is selected, show offenders for that bill only
+      if(o.billKey !== bill) return false;
+    }
     if(party && o.party!==party) return false;
     if(state && o.state!==state) return false;
     if(q){
@@ -349,11 +375,9 @@ function openReceipt(bio, billKey){
   const modal = new bootstrap.Modal(document.getElementById('receiptModal'));
   modal.show();
 
-  // set share handler
+  // share handler
   const url = new URL(location.href);
-  url.hash = '';
-  url.search = '';
-  url.pathname = location.pathname; // keep same page
+  url.hash = ''; url.search = ''; url.pathname = location.pathname;
   const deeplink = `/#?bill=${encodeURIComponent(billKey)}&bio=${encodeURIComponent(bio)}`;
   const shareBtn = document.getElementById('shareBtn');
   shareBtn.onclick = async () => {
@@ -378,7 +402,6 @@ function handleDeepLink(){
     if(bill){ wfBill.value = bill; }
     render();
     if(bill && bio){
-      // slight delay to allow grid paint
       setTimeout(()=> openReceipt(bio, bill), 50);
     }
   }
