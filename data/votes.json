@@ -1,0 +1,16 @@
+[
+  {
+    "member_id": "A000055",
+    "bill_id": "grocery",
+    "vote": "NO",
+    "vote_date": "2025-08-01",
+    "nickname": "Grocery Gouger"
+  },
+  {
+    "member_id": "S001212",
+    "bill_id": "health",
+    "vote": "NO",
+    "vote_date": "2025-06-20",
+    "nickname": "Hospital Evictor"
+  }
+]
