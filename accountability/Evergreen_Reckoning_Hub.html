@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Evergreen Reckoning — Awards • Countdowns • Impacts • Press</title>
+  <meta name="description" content="Evergreen Reckoning hub: awards for NO voters, live countdowns, bill impacts, and press-kit tools."/>
+  <meta name="theme-color" content="#0d3b66"/>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{ --primary:#0d3b66; --accent:#0b6e4f; --danger:#c1121f; --ink:#1b2634; --soft:#f6f9fc; }
+    body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--soft); }
+    header.hero{ background:#fff; border-bottom:1px solid #e6edf3; }
+    .kicker{ letter-spacing:.06em; font-size:.84rem; color:var(--accent); text-transform:uppercase; }
+    .pillbar .nav-link{ border-radius:999px; }
+    .section{ background:#fff; border:1px solid #e6edf3; border-radius:1rem; padding:1.25rem; }
+    .award-card{ border:2px solid var(--primary); border-radius:1rem; padding:1rem; height:100%; }
+    .award-title{ color:var(--danger); font-weight:800; font-size:1.05rem; }
+    .award-meaning{ font-style:italic; color:#3b4856; }
+    .clock-card{ background:#fff; border:2px solid var(--primary); border-radius:1rem; padding:1rem; text-align:center; }
+    .clock-days{ font-size:2.2rem; font-weight:800; color:var(--danger); }
+    .impact-box{ border:1px dashed #cfd7df; border-radius:.75rem; padding:.75rem; }
+    .anchor{ scroll-margin-top: 100px; }
+    @media print{
+      .no-print{ display:none !important; }
+      .section{ border:none; padding:0; }
+      body{ background:#fff; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <nav class="container d-flex align-items-center justify-content-between py-3">
+      <div class="d-flex align-items-center gap-2">
+        <i class="fa-solid fa-tree text-success"></i>
+        <strong class="me-2">Evergreen Reckoning</strong>
+        <span class="badge text-bg-primary">Accountability Hub</span>
+      </div>
+      <div class="d-flex gap-2 no-print">
+        <button class="btn btn-outline-secondary" onclick="window.print()"><i class="fa-solid fa-print me-1"></i> Print / PDF</button>
+        <button id="exportDocx" class="btn btn-primary"><i class="fa-solid fa-file-word me-1"></i> Export Page (.docx)</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container py-4">
+
+    <!-- Top pill nav -->
+    <ul class="nav nav-pills pillbar gap-2 mb-3 no-print">
+      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#awards">Awards</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#countdowns">Countdowns</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#impacts">Impacts</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#presskit">Press Kit</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <!-- ============ AWARDS ============ -->
+      <section id="awards" class="tab-pane fade show active section">
+        <div class="d-flex justify-content-between align-items-end">
+          <div>
+            <p class="kicker mb-1">Evergreen Shame Awards</p>
+            <h1 class="h4 mb-2">Awards for NO Voters</h1>
+          </div>
+          <div class="no-print">
+            <a class="btn btn-outline-primary" href="#countdowns"><i class="fa-solid fa-clock me-1"></i> View Countdowns</a>
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 mt-1" id="awardsGrid">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+
+      <!-- ============ COUNTDOWNS ============ -->
+      <section id="countdowns" class="tab-pane fade section">
+        <div class="d-flex justify-content-between align-items-end">
+          <div>
+            <p class="kicker mb-1">Days Since Their NO Vote</p>
+            <h2 class="h4 mb-2">Accountability Countdowns</h2>
+            <div class="text-muted small">Tip: click a tab to see NO-voter cards for that bill. Set dates inline.</div>
+          </div>
+          <div class="no-print">
+            <a class="btn btn-outline-primary" href="#impacts"><i class="fa-solid fa-list-check me-1"></i> Edit Impacts</a>
+          </div>
+        </div>
+
+        <!-- Tabs for all bills -->
+        <ul class="nav nav-tabs mt-3" id="cdTabs" role="tablist">
+          <!-- Filled by JS -->
+        </ul>
+        <div class="tab-content border border-top-0 rounded-bottom p-3 bg-white" id="cdTabContent">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+
+      <!-- ============ IMPACTS ============ -->
+      <section id="impacts" class="tab-pane fade section">
+        <div class="d-flex justify-content-between align-items-end">
+          <div>
+            <p class="kicker mb-1">What Families Lost When They Voted NO</p>
+            <h2 class="h4 mb-2">Impact Notes (Exportable)</h2>
+          </div>
+          <div class="no-print">
+            <button class="btn btn-primary" onclick="exportImpactsDocx()"><i class="fa-solid fa-file-word me-1"></i> Export Impacts (.docx)</button>
+          </div>
+        </div>
+
+        <div class="accordion mt-2" id="impactsAcc">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+
+      <!-- ============ PRESS KIT ============ -->
+      <section id="presskit" class="tab-pane fade section">
+        <p class="kicker mb-1">Tools & Templates</p>
+        <h2 class="h4 mb-3">Press Kit & Assets</h2>
+        <div class="row g-3">
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">Press Release Template</h3>
+              <p class="small text-muted mb-2">Auto Word export, placeholders for names, dates, districts.</p>
+              <a class="btn btn-outline-primary w-100" href="Press_Release_Template.html" target="_blank" rel="noopener"><i class="fa-solid fa-bullhorn me-1"></i> Open</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">Branding Assets</h3>
+              <p class="small text-muted mb-2">Nicknames & downloadable badges (SVG/PNG) + Word brief.</p>
+              <a class="btn btn-outline-primary w-100" href="Branding_Assets.html" target="_blank" rel="noopener"><i class="fa-solid fa-badge-check me-1"></i> Open</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">District Flyer Generator</h3>
+              <p class="small text-muted mb-2">Printable handouts + Word export.</p>
+              <a class="btn btn-outline-primary w-100" href="District_Flyer.html" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines me-1"></i> Open</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">Op‑Ed / LTE Template</h3>
+              <p class="small text-muted mb-2">Live preview + Word export.</p>
+              <a class="btn btn-outline-primary w-100" href="OpEd_Template.html" target="_blank" rel="noopener"><i class="fa-solid fa-pen-nib me-1"></i> Open</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">Visual & Prop Kit</h3>
+              <p class="small text-muted mb-2">Giant receipt + Empty Chair kit.</p>
+              <a class="btn btn-outline-primary w-100" href="Evergreen_Visual_Prop_Kit.html" target="_blank" rel="noopener"><i class="fa-solid fa-chair me-1"></i> Open</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">Awards Certificates</h3>
+              <p class="small text-muted mb-2">One-per-page certificate look.</p>
+              <a class="btn btn-outline-primary w-100" href="Evergreen_Certificates.html" target="_blank" rel="noopener"><i class="fa-solid fa-award me-1"></i> Open</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">Wall of Shame (Tracker)</h3>
+              <p class="small text-muted mb-2">NO voters by bill with awards.</p>
+              <a class="btn btn-outline-primary w-100" href="Evergreen_WallOfShame.html" target="_blank" rel="noopener"><i class="fa-solid fa-table-list me-1"></i> Open</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="p-3 border rounded">
+              <h3 class="h6">Countdown Widget</h3>
+              <p class="small text-muted mb-2">Single-page embeddable clock.</p>
+              <a class="btn btn-outline-primary w-100" href="Countdown_Widget.html" target="_blank" rel="noopener"><i class="fa-solid fa-clock-rotate-left me-1"></i> Open</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- html-docx-js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ======= DATA: ALL BILLS + AWARDS (preloaded) =======
+    const BILLS = [
+      // Kitchen Table / Cost-of-Living
+      { id:'grocery',    bill:'Fair Food & Grocery Competition Bill (2026)',            award:'The Empty Fridge Award',    meaning:'They protected price-fixers, leaving families to choose between groceries or rent.' },
+      { id:'childcare',  bill:'Affordable Child & Dependent Care Bill (2027)',          award:'The Parent Punisher Award', meaning:'They voted to keep childcare unaffordable and push parents out of work.' },
+      { id:'jobs',       bill:'Good Jobs & Fair Pay Bill',                              award:'The Paycheck Pickpocket Award', meaning:'They sided with corporate bosses to keep wages down and hours insecure.' },
+      { id:'housing',    bill:'Housing Affordability / First-Time Buyer Support (3% Mortgage Bill)', award:'The Rent Raiser Award', meaning:'They blocked families from buying homes and left renters at the mercy of landlords.' },
+
+      // Retirement & Safety Net
+      { id:'socialsec',  bill:'Social Security Solvency & Protection Act',              award:'The Senior Starver Award',  meaning:'They gambled away retirement checks and put seniors on the chopping block.' },
+      { id:'health',     bill:'Affordable Care / Universal Health Coverage Bill',       award:'The Hospital Evictor Award', meaning:'They voted to keep healthcare out of reach and push families into medical debt.' },
+
+      // Tax & Spending Guardrails
+      { id:'minibus',    bill:'Minibus Implementation Safeguards Bill (2027)',          award:'The Swamp Rat Award',       meaning:'They voted to keep waste and insider deals flowing.' },
+      { id:'csr',        bill:'Corporate Social Responsibility Tax Bill',                award:'The Greed Defender Award',  meaning:'They protected exploiters who gouge workers and poison communities.' },
+      { id:'taxfair',    bill:'Tax Fairness Bill (no new taxes on working families)',   award:'The Wallet Raider Award',   meaning:'They voted to keep loopholes for the rich while draining working families dry.' },
+
+      // Democracy, Integrity & Oversight
+      { id:'comms',      bill:'Communications Integrity Standards Bill',                award:'The Truth Killer Award',    meaning:'They voted to shield government lies and bury the facts.' },
+      { id:'justify',    bill:'Congressional Vote Justification Bill',                  award:'The Coward’s Mask Award',   meaning:'They voted against explaining themselves, hiding their real loyalties.' },
+      { id:'impeach',    bill:'Impeachment Continuity & Accountability Guardrail',      award:'The Sellout Shield Award',  meaning:'They voted to let corrupt officials keep perks and power during impeachment.' },
+      { id:'emerg',      bill:'Emergency Powers Approval-to-Spend Pilot (DoD only)',    award:'The Blank Check Award',     meaning:'They voted to hand over taxpayer money with no oversight.' },
+      { id:'holman',     bill:'Holman Amendments (salary & line-item cuts on bad actors)', award:'The Bureaucrat Bodyguard Award', meaning:'They protected the worst swamp desks from any accountability.' },
+      { id:'gaodash',    bill:'Committee Report Directives (GAO follow-up, compliance dashboard)', award:'The Cover-Up Award', meaning:'They voted to block watchdogs and let agencies run wild.' },
+
+      // Environmental & Public Interest Riders
+      { id:'clean',      bill:'Clean Energy Jobs / Public Lands Protection Riders',     award:'The Polluter’s Pet Award',  meaning:'They voted to keep dirty energy handouts and gut protections for public lands.' },
+      { id:'water',      bill:'Water & Wastewater Infrastructure Riders (WTD-style)',   award:'The Poison Tap Award',      meaning:'They voted to leave pipes rotting and families drinking lead.' }
+    ];
+
+    // ======= RENDER: AWARDS GRID =======
+    const awardsGrid = document.getElementById('awardsGrid');
+    BILLS.forEach(b => {
+      const col = document.createElement('div');
+      col.className = 'col';
+      col.innerHTML = `
+        <div class="award-card anchor" id="award-${b.id}">
+          <div class="text-muted small mb-1">${b.bill}</div>
+          <div class="award-title">🏆 ${b.award}</div>
+          <div class="award-meaning">${b.meaning}</div>
+          <div class="mt-2 d-flex gap-2">
+            <a class="btn btn-sm btn-outline-primary" href="#countdowns" onclick="openCountdown('${b.id}')"><i class="fa-solid fa-clock me-1"></i> Countdown</a>
+            <a class="btn btn-sm btn-outline-secondary" href="#impacts" onclick="openImpacts('${b.id}')"><i class="fa-solid fa-list-check me-1"></i> Impacts</a>
+            <a class="btn btn-sm btn-outline-dark" href="#award-${b.id}"><i class="fa-solid fa-link me-1"></i> Link</a>
+          </div>
+        </div>`;
+      awardsGrid.appendChild(col);
+    });
+
+    // ======= RENDER: COUNTDOWN TABS =======
+    const cdTabs = document.getElementById('cdTabs');
+    const cdContent = document.getElementById('cdTabContent');
+
+    BILLS.forEach((b, idx) => {
+      // Tab button
+      const li = document.createElement('li');
+      li.className = 'nav-item';
+      li.innerHTML = `
+        <button class="nav-link ${idx===0?'active':''}" id="tab-${b.id}" data-bs-toggle="tab" data-bs-target="#pane-${b.id}" type="button" role="tab">
+          ${shorten(b.bill)}
+        </button>`;
+      cdTabs.appendChild(li);
+
+      // Tab pane with editable cards list
+      const pane = document.createElement('div');
+      pane.className = `tab-pane fade ${idx===0?'show active':''}`;
+      pane.id = `pane-${b.id}`;
+      pane.setAttribute('role','tabpanel');
+
+      // Provide one starter card; staff can duplicate in UI
+      pane.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div><strong>${b.bill}</strong> — <span class="text-danger">${b.award}</span></div>
+          <button class="btn btn-sm btn-outline-primary" onclick="addClockCard('${b.id}')"><i class="fa-solid fa-plus me-1"></i>Add NO‑Voter Card</button>
+        </div>
+        <div id="cards-${b.id}">
+          ${clockCardHTML(b.id,'Rep. Example (STATE)','', b.bill)}
+        </div>
+      `;
+      cdContent.appendChild(pane);
+    });
+
+    function shorten(s){
+      // concise tab label
+      return s.replace(/\s*\(.*?\)\s*/,'').replace(' / ','/').replace('First-Time Buyer Support','First‑Time Buyer').replace('Implementation ','Impl. ');
+    }
+
+    function clockCardHTML(bid, name, date, bill){
+      const safeId = Math.random().toString(36).slice(2,9);
+      return `
+      <div class="clock-card my-2" id="card-${safeId}">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-5">
+            <label class="form-label small mb-0">Member</label>
+            <input class="form-control form-control-sm" value="${name}" oninput="updateClock('${safeId}')" data-field="name">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small mb-0">Vote Date (YYYY-MM-DD)</label>
+            <input class="form-control form-control-sm" value="${date||''}" placeholder="2025-08-01" oninput="updateClock('${safeId}')" data-field="date">
+          </div>
+          <div class="col-md-3 d-flex gap-1">
+            <button class="btn btn-sm btn-outline-secondary mt-4" onclick="printSingle('card-${safeId}')"><i class="fa-solid fa-print"></i></button>
+            <button class="btn btn-sm btn-outline-danger mt-4" onclick="removeCard('card-${safeId}')"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+        <div class="mt-2">
+          <div class="clock-days" data-field="days">—</div>
+          <div class="small">Days since NO on <strong>${bill}</strong></div>
+        </div>
+      </div>`;
+    }
+
+    function addClockCard(bid){
+      const container = document.getElementById(`cards-${bid}`);
+      container.insertAdjacentHTML('beforeend', clockCardHTML(bid,'Rep. Example (STATE)','', BILLS.find(x=>x.id===bid).bill));
+    }
+
+    function removeCard(id){ const el=document.getElementById(id); if(el) el.remove(); }
+
+    function updateAllClocks(){
+      document.querySelectorAll('.clock-card').forEach(card=>{
+        const dateInput = card.querySelector('input[data-field="date"]');
+        const daysEl = card.querySelector('[data-field="days"]');
+        const dateStr = (dateInput?.value||'').trim();
+        if(!dateStr){ daysEl.textContent = '—'; return; }
+        const d = new Date(dateStr+'T00:00:00');
+        if(isNaN(d)){ daysEl.textContent = '—'; return; }
+        const today = new Date();
+        const diff = Math.floor((today - d)/(1000*60*60*24));
+        daysEl.textContent = diff;
+      });
+    }
+    function updateClock(cardId){
+      const card = document.getElementById('card-'+cardId) || document.querySelector(`#${cardId}`);
+      if(!card) return;
+      updateAllClocks();
+    }
+    function printSingle(id){
+      const el=document.getElementById(id).cloneNode(true);
+      const w=window.open('','_blank');
+      w.document.write('<!DOCTYPE html><html><head><title>Print</title><style>body{font-family:system-ui} .clock-days{font-size:2.2rem;font-weight:800;color:#c1121f}</style></head><body>'+el.outerHTML+'</body></html>');
+      w.document.close(); w.focus(); w.print(); w.close();
+    }
+
+    // ======= RENDER: IMPACTS ACCORDION =======
+    const impAcc = document.getElementById('impactsAcc');
+    BILLS.forEach((b, idx)=>{
+      const id = `imp-${b.id}`;
+      const card = document.createElement('div');
+      card.className='accordion-item';
+      card.innerHTML = `
+        <h2 class="accordion-header" id="${id}-h">
+          <button class="accordion-button ${idx===0?'':'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${id}-c">
+            ${b.bill} — <span class="text-danger fw-semibold ms-1">${b.award}</span>
+          </button>
+        </h2>
+        <div id="${id}-c" class="accordion-collapse collapse ${idx===0?'show':''}" data-bs-parent="#impactsAcc">
+          <div class="accordion-body">
+            <div class="row g-3 align-items-start">
+              <div class="col-md-7">
+                <div class="impact-box">
+                  <label class="form-label small">Impact bullets (one per line)</label>
+                  <textarea class="form-control" rows="6" data-imp="${b.id}" placeholder="- Families pay more at checkout
+- Fewer homes within reach for first-time buyers
+- Medical debt rises for working families"></textarea>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="p-3 border rounded">
+                  <div class="small text-muted mb-1">Preview</div>
+                  <div id="imp-prev-${b.id}">
+                    <ul class="mb-0"><li class="text-muted">Start typing bullets…</li></ul>
+                  </div>
+                  <div class="mt-2 d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="printImpact('${b.id}')"><i class="fa-solid fa-print me-1"></i> Print</button>
+                    <button class="btn btn-sm btn-primary" onclick="exportImpactDocx('${b.id}')"><i class="fa-solid fa-file-word me-1"></i> Export</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      impAcc.appendChild(card);
+    });
+
+    // Live preview for impacts
+    document.querySelectorAll('textarea[data-imp]').forEach(t=>{
+      t.addEventListener('input', ()=>{
+        const id=t.getAttribute('data-imp');
+        const box=document.getElementById('imp-prev-'+id);
+        const lines=t.value.split('\n').map(s=>s.trim()).filter(Boolean);
+        box.innerHTML = lines.length ? ('<ul>'+lines.map(s=>'<li>'+escapeHTML(s)+'</li>').join('')+'</ul>') : '<ul><li class="text-muted">Start typing bullets…</li></ul>';
+      });
+    });
+
+    function openCountdown(id){
+      // Switch tab to Countdowns and activate the right pane
+      new bootstrap.Tab(document.querySelector('a[href="#countdowns"]')).show();
+      new bootstrap.Tab(document.querySelector(`#tab-${id}`)).show();
+    }
+    function openImpacts(id){
+      new bootstrap.Tab(document.querySelector('a[href="#impacts"]')).show();
+      const collapse = new bootstrap.Collapse(document.getElementById(`imp-${id}-c`), {toggle:true});
+      // ensure it's shown
+      setTimeout(()=>collapse.show(), 100);
+    }
+
+    function printImpact(id){
+      const b = BILLS.find(x=>x.id===id);
+      const prev = document.getElementById('imp-prev-'+id).innerHTML;
+      const html = `<h3>${escapeHTML(b.bill)} — <span style="color:#c1121f">${escapeHTML(b.award)}</span></h3>${prev}`;
+      const w = window.open('', '_blank');
+      w.document.write('<!DOCTYPE html><html><head><title>Print</title><style>body{font-family:system-ui} h3{color:#0d3b66}</style></head><body>'+html+'</body></html>');
+      w.document.close(); w.focus(); w.print(); w.close();
+    }
+
+    // ======= EXPORTS =======
+    function exportImpactDocx(id){
+      const b = BILLS.find(x=>x.id===id);
+      const list = document.getElementById('imp-prev-'+id).innerHTML;
+      const html = `
+      <!DOCTYPE html><html><head><meta charset="utf-8">
+      <style>
+        body{font-family:Calibri,Arial,sans-serif; color:#1b2634;}
+        h2{color:#0d3b66; font-size:14pt; margin-bottom:8pt;}
+        li{font-size:11pt; line-height:1.35; margin-bottom:4pt;}
+      </style></head><body>
+        <h2>${escapeHTML(b.bill)} — ${escapeHTML(b.award)}</h2>
+        ${list}
+      </body></html>`;
+      const blob = window.htmlDocx.asBlob(html,{margins:{top:720,right:720,bottom:720,left:720}});
+      downloadBlob(blob, `Impacts_${slug(b.bill)}.docx`);
+    }
+
+    function exportImpactsDocx(){
+      let sections = '';
+      BILLS.forEach(b=>{
+        const list = document.getElementById('imp-prev-'+b.id).innerHTML || '<ul><li></li></ul>';
+        sections += `<h2>${escapeHTML(b.bill)} — ${escapeHTML(b.award)}</h2>${list}<hr/>`;
+      });
+      const html = `
+      <!DOCTYPE html><html><head><meta charset="utf-8">
+      <style>
+        body{font-family:Calibri,Arial,sans-serif; color:#1b2634;}
+        h2{color:#0d3b66; font-size:14pt; margin:10pt 0 6pt;}
+        li{font-size:11pt; line-height:1.35; margin-bottom:4pt;}
+        hr{border:0; border-top:1pt solid #d8dee4; margin:8pt 0;}
+      </style></head><body>${sections}</body></html>`;
+      const blob = window.htmlDocx.asBlob(html,{margins:{top:720,right:720,bottom:720,left:720}});
+      downloadBlob(blob, 'Evergreen_Impacts_All.docx');
+    }
+
+    document.getElementById('exportDocx').addEventListener('click', ()=>{
+      const main = document.querySelector('main').cloneNode(true);
+      // Hide nav pills in export
+      main.querySelectorAll('.pillbar').forEach(n=>n.remove());
+      const html = `
+      <!DOCTYPE html><html><head><meta charset="utf-8">
+      <style>
+        body{font-family:Calibri,Arial,sans-serif; color:#1b2634;}
+        h1,h2,h3{color:#0d3b66;}
+        .award-title{color:#c1121f; font-weight:bold;}
+        .award-meaning{font-style:italic;}
+        .clock-days{font-size:18pt; font-weight:800; color:#c1121f;}
+      </style></head><body>${main.innerHTML}</body></html>`;
+      const blob = window.htmlDocx.asBlob(html,{margins:{top:720,right:720,bottom:720,left:720}});
+      downloadBlob(blob, 'Evergreen_Reckoning_Hub.docx');
+    });
+
+    function downloadBlob(blob, filename){
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download=filename;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),500);
+    }
+
+    function escapeHTML(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m])); }
+    function slug(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''); }
+
+    // initial
+    updateAllClocks();
+    // update clocks every minute (covers midnight rollover if left open)
+    setInterval(updateAllClocks, 60000);
+  </script>
+</body>
+</html>
