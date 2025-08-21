@@ -1,325 +1,72 @@
+<!-- badges.html — definitions + thresholds -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Badges & Awards — Accountability System | Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Brutal visual badges with defensible thresholds tied to FEC records. Multiple awards per politician possible."/>
+  <title>Badges & Awards — Triggers & Thresholds | Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Clear triggers for each finance and vote badge. Every badge has a threshold and a receipt."/>
   <meta name="theme-color" content="#0d3b66"/>
-
-  <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-
   <style>
-    :root{
-      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
-      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
-    }
-    html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
-    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
-    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
-    .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
-    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2rem 0}
-    .hero h1{font-weight:900; letter-spacing:.3px}
-    .badge-card{background:var(--card); border:1px solid var(--ring); border-radius:14px; overflow:hidden; box-shadow:0 6px 22px rgba(13,59,102,.06)}
-    .badge-art{height:160px; background:#f6e9ea; display:flex; align-items:center; justify-content:center; font-weight:900; letter-spacing:.08em; color:#8f0d16}
-    .badge-body{padding:1rem}
-    .chip{font-size:.72rem; font-weight:800; padding:.2rem .5rem; border-radius:999px; background:#ffecec; color:#b42318; display:inline-block}
-    .scale-dot{width:9px; height:9px; border-radius:999px; display:inline-block; margin-right:.3rem}
-    .s-low{background:#cde5d3} .s-med{background:#ffd791} .s-high{background:#ffb3a7} .s-ext{background:#e56a64}
-    .table thead th{background:#f4f7fb}
-    footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
+    :root{ --ring:rgba(13,59,102,.14); --ink:#122133; --soft:#f6f9fc; }
+    body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .cardish{background:#fff; border:1px solid var(--ring); border-radius:14px; box-shadow:0 4px 18px rgba(13,59,102,.06)}
+    footer{background:#0d3b66;color:#fff;padding:1.25rem 0;margin-top:2rem}
   </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="./index.html">Wall of Shame</a></li>
         <li class="nav-item"><a class="nav-link" href="./financial-alignments.html">Financial Alignments</a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="./badges.html">Badges &amp; Awards</a></li>
-        <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
-        <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<header class="hero">
+<header class="py-4 bg-dark text-white">
   <div class="container">
-    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-      <div>
-        <h1 class="mb-1">Badges &amp; Awards</h1>
-        <p class="mb-0">Brutal, visual, and defensible — each badge is tied to explicit data thresholds.</p>
-      </div>
-      <div class="d-flex gap-2">
-        <a class="btn btn-outline-light btn-sm" href="./index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
-        <a class="btn btn-danger btn-sm" href="./financial-alignments.html"><i class="fa-solid fa-chart-pie me-1"></i>See Financial Alignments</a>
-      </div>
-    </div>
+    <h1 class="mb-1">Badges &amp; Awards</h1>
+    <p class="mb-0">Every badge has a rule. Cross the line, earn the badge. Receipts included.</p>
   </div>
 </header>
 
 <main class="container my-4">
-
-  <!-- Severity scale -->
-  <div class="alert alert-light border">
-    <strong>Severity Scale:</strong>
-    <span class="ms-2"><span class="scale-dot s-low"></span>Low</span>
-    <span class="ms-3"><span class="scale-dot s-med"></span>Medium</span>
-    <span class="ms-3"><span class="scale-dot s-high"></span>High</span>
-    <span class="ms-3"><span class="scale-dot s-ext"></span>Extreme</span>
-  </div>
-
-  <!-- Badge gallery -->
   <div class="row g-3">
-    <!-- Control & Capture -->
-    <div class="col-12"><h2 class="h5 mt-2">🐕 Control &amp; Capture</h2></div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">LEASH HELD</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Leash Held by [PAC/Industry]</h3>
-            <span class="chip">Control</span>
-          </div>
-          <p class="mb-2">Awarded when PAC/industry donations exceed a defined threshold.</p>
-          <div class="small text-muted">Severity: <span class="scale-dot s-low"></span>Low → <span class="scale-dot s-ext"></span>Extreme as $ increases.</div>
-        </div>
+    <div class="col-lg-6">
+      <div class="cardish p-3 h-100">
+        <h2 class="h5">Finance Badges</h2>
+        <ul class="mb-0">
+          <li><strong><i class="fa-solid fa-hand-holding-dollar me-1 text-danger"></i>High PAC Reliance</strong>: PAC ≥ <code>40%</code> of itemized dollars.</li>
+          <li><strong><i class="fa-solid fa-route me-1 text-warning"></i>Out‑of‑State Heavy</strong>: Out‑of‑state dollars &gt; in‑state dollars (by &gt;5%).</li>
+          <li><strong><i class="fa-solid fa-industry me-1 text-danger"></i>Dominant Industry</strong>: One industry ≥ <code>35%</code> of itemized dollars.</li>
+          <li><strong><i class="fa-solid fa-scale-balanced me-1 text-danger"></i>Donor‑Aligned Voting</strong>: Donor alignment index ≥ <code>90%</code>.</li>
+        </ul>
       </div>
     </div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">PUPPET</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Puppet of [X]</h3>
-            <span class="chip">Control</span>
-          </div>
-          <p class="mb-2">One donor/industry makes up &gt; 50% of total PAC donations.</p>
-          <div class="small text-muted">Severity: Medium–Extreme based on dominance.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Corruption & Sale -->
-    <div class="col-12"><h2 class="h5 mt-3">💰 Corruption &amp; Sale</h2></div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">BOUGHT</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Bought &amp; Paid</h3>
-            <span class="chip">Corruption</span>
-          </div>
-          <p class="mb-2">Single PAC donation exceeds a high-dollar threshold.</p>
-          <div class="small text-muted">Severity: High–Extreme.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">CROWN OF CASH</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Crown of Cash</h3>
-            <span class="chip">Corruption</span>
-          </div>
-          <p class="mb-2">Combined PAC + lobbyist money crosses a total-threshold.</p>
-          <div class="small text-muted">Severity: High–Extreme.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Betrayal -->
-    <div class="col-12"><h2 class="h5 mt-3">🔪 Betrayal</h2></div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">BACKSTABBER</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Backstabber Award</h3>
-            <span class="chip">Betrayal</span>
-          </div>
-          <p class="mb-2">Out‑district (or out‑state) donations exceed in‑district.</p>
-          <div class="small text-muted">Severity: Medium–High based on ratio.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">JUDAS</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Judas Award</h3>
-            <span class="chip">Betrayal</span>
-          </div>
-          <p class="mb-2">Votes align with donor interests ≥ 90%.</p>
-          <div class="small text-muted">Severity: High–Extreme with >95%.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Foreign policy / AIPAC / Defense / Oil -->
-    <div class="col-12"><h2 class="h5 mt-3">🌍 Foreign Policy / AIPAC / Defense / Oil</h2></div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">AIPAC LEASH</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Leash Held by AIPAC</h3>
-            <span class="chip">Foreign‑Policy</span>
-          </div>
-          <p class="mb-2">AIPAC‑linked funding crosses a defined threshold.</p>
-          <div class="small text-muted">Severity: Low–High by $.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">SUPPORTS ATROCITY</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Supporter of Genocide</h3>
-            <span class="chip">Foreign‑Policy</span>
-          </div>
-          <p class="mb-2">AIPAC + Defense exceed threshold and votes favor military aid/occupation bills.</p>
-          <div class="small text-muted">Severity: High–Extreme.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-      <div class="badge-card">
-        <div class="badge-art">BLOOD MONEY</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Blood Money Badge</h3>
-            <span class="chip">Foreign‑Policy</span>
-          </div>
-          <p class="mb-2">Defense/war‑contractor dollars exceed threshold.</p>
-          <div class="small text-muted">Severity: Medium–Extreme.</div>
-        </div>
+    <div class="col-lg-6" id="thresholds">
+      <div class="cardish p-3 h-100">
+        <h2 class="h5">Bill “Receipt” Badges</h2>
+        <p class="mb-2">Assigned per bill page based on vote + justification mismatch.</p>
+        <ul class="mb-0">
+          <li><strong><i class="fa-solid fa-file-invoice-dollar me-1 text-danger"></i>Sold the Vote</strong>: Vote + finance pattern matches beneficiary industry and contradicts stated rationale.</li>
+          <li><strong><i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i>Against Working Families</strong>: “No” on cost‑cutting bills with district benefits documented.</li>
+          <li><strong><i class="fa-solid fa-shield-halved me-1 text-warning"></i>Process Abuse</strong>: Rider/block tactics to kill a clean up‑or‑down vote.</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- Threshold table -->
-  <div id="thresholds" class="card mt-4 border-0 shadow-sm">
-    <div class="card-body">
-      <h2 class="h6 mb-3">Thresholds &amp; Escalation</h2>
-      <div class="table-responsive">
-        <table class="table table-sm align-middle">
-          <thead>
-            <tr>
-              <th>Badge</th>
-              <th>Low</th>
-              <th>Medium</th>
-              <th>High</th>
-              <th>Extreme</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Leash Held by [Industry]</td>
-              <td>&gt; $10k</td>
-              <td>&gt; $20k</td>
-              <td>&gt; $40k</td>
-              <td>&gt; $75k</td>
-            </tr>
-            <tr>
-              <td>Puppet of [X]</td>
-              <td>&gt; 40% of PAC</td>
-              <td>&gt; 50% of PAC</td>
-              <td>&gt; 60% of PAC</td>
-              <td>&gt; 70% of PAC</td>
-            </tr>
-            <tr>
-              <td>Bought &amp; Paid</td>
-              <td>Single PAC &gt; $25k</td>
-              <td>&gt; $50k</td>
-              <td>&gt; $75k</td>
-              <td>&gt; $100k</td>
-            </tr>
-            <tr>
-              <td>Crown of Cash (PAC + Lobbyist)</td>
-              <td>&gt; $50k</td>
-              <td>&gt; $100k</td>
-              <td>&gt; $200k</td>
-              <td>&gt; $400k</td>
-            </tr>
-            <tr>
-              <td>Backstabber Award</td>
-              <td>Out &gt; In by 1.1×</td>
-              <td>1.25×</td>
-              <td>1.5×</td>
-              <td>2×</td>
-            </tr>
-            <tr>
-              <td>Judas Award (Vote Align)</td>
-              <td>≥ 80%</td>
-              <td>≥ 90%</td>
-              <td>≥ 95%</td>
-              <td>≥ 98%</td>
-            </tr>
-            <tr>
-              <td>Leash Held by AIPAC</td>
-              <td>&gt; $10k</td>
-              <td>&gt; $20k</td>
-              <td>&gt; $35k</td>
-              <td>&gt; $60k</td>
-            </tr>
-            <tr>
-              <td>Supporter of Genocide (AIPAC + Defense + Votes)</td>
-              <td>$25k + ≥1 vote</td>
-              <td>$50k + ≥2 votes</td>
-              <td>$75k + ≥3 votes</td>
-              <td>$100k + ≥4 votes</td>
-            </tr>
-            <tr>
-              <td>Blood Money Badge (Defense)</td>
-              <td>&gt; $20k</td>
-              <td>&gt; $50k</td>
-              <td>&gt; $100k</td>
-              <td>&gt; $200k</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="small text-muted mb-0">Numbers are example thresholds — tune to your FEC analysis and legal review.</p>
-    </div>
-  </div>
-
-  <!-- How the pipeline assigns badges -->
-  <div class="card mt-4 border-0 shadow-sm">
-    <div class="card-body">
-      <h2 class="h6 mb-2">Data → Badge Pipeline</h2>
-      <ol class="mb-0">
-        <li>Ingest FEC donations; enrich with industry tags (Pharma/Defense/Finance/Oil/AIPAC/etc.).</li>
-        <li>Compute ratios: PAC vs small, in‑district vs out‑district, dominance by industry.</li>
-        <li>Cross‑reference votes on relevant bills; compute donor‑alignment index.</li>
-        <li>Apply thresholds above → assign badges; publish to Wall/profile pages.</li>
-      </ol>
-    </div>
+  <div class="cardish p-3 mt-3">
+    <h2 class="h6">Where do these numbers come from?</h2>
+    <p class="mb-0">Nightly pipeline pulls FEC data, aggregates by member and industry, and computes alignment indices. See <code>data/*.json</code> in the repo. Finance badges render on both the Wall and the Financial page.</p>
   </div>
 </main>
 
@@ -329,7 +76,6 @@
     <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
   </div>
 </footer>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
