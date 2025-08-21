@@ -1,10 +1,7 @@
-<!-- financial-alignments.html — FULL, DROP‑IN (robust to schema/paths)
-     Improvements:
-     - Diagnostics/status, strict error surfacing
-     - Schema adapter (different field names supported)
-     - ID normalization, flexible data root & cycle via query params
-     - Sort, filter, CSV export preserved
--->
+<!-- financial-alignments.html — FULL, DROP‑IN PAGE
+     - Uses pipeline JSON if present: data/members.json, data/donors-by-member.json, data/member-awards.json, data/vote-alignments.json
+     - Also ships with inline demo data as a fallback so it renders out of the box.
+     - Extras: client‑side filters, column sorting, CSV export, robust error handling, a11y tweaks. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,12 +49,8 @@
 
     .tools .btn{white-space:nowrap}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .status-ok{border-left:6px solid #0b6e4f}
-    .status-warn{border-left:6px solid #e0a800}
-    .status-err{border-left:6px solid #c1121f}
 
     footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
-    .debug-pre{max-height:260px; overflow:auto; background:#0b31570a; border:1px solid var(--ring); border-radius:10px}
   </style>
 </head>
 <body>
@@ -99,31 +92,6 @@
 </header>
 
 <main class="container my-4">
-
-  <!-- Status / Diagnostics -->
-  <div id="diag" class="cardish p-3 mb-3 status-warn">
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-      <div>
-        <strong>Data status:</strong>
-        <span id="diag-msg" class="text-muted">Loading…</span>
-      </div>
-      <div class="d-flex flex-wrap gap-2">
-        <span class="badge text-bg-light" id="k-members">members: —</span>
-        <span class="badge text-bg-light" id="k-donors">donors: —</span>
-        <span class="badge text-bg-light" id="k-awards">awards: —</span>
-        <span class="badge text-bg-light" id="k-align">alignments: —</span>
-        <span class="badge text-bg-light" id="k-overlap">overlap: —</span>
-        <span class="badge text-bg-light" id="k-updated">updated: —</span>
-      </div>
-      <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#debugBox" aria-expanded="false" aria-controls="debugBox">
-        View Debug
-      </button>
-    </div>
-    <div class="collapse mt-3" id="debugBox">
-      <pre class="debug-pre p-2 small" id="debug-pre">—</pre>
-    </div>
-  </div>
-
   <!-- Filters / Tools -->
   <div class="cardish p-3 mb-3">
     <div class="row g-2 align-items-end">
@@ -302,17 +270,11 @@
 </script>
 
 <script>
-/* Financial Alignments — robust loader with schema adapter, diagnostics, filters, sorting, CSV */
+/* Financial Alignments — loader, filters, sorting, CSV export (no external JS required) */
 (async function(){
   const $ = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
-  const qs = new URLSearchParams(location.search);
   const v = Date.now();
-
-  // Allow ?dataRoot=docs/data and ?cycle=2024 (files under dataRoot/cycle/*.json)
-  const dataRoot = (qs.get('dataRoot') || 'data').replace(/\/+$/,'');
-  const cycle    = (qs.get('cycle')    || '').trim();
-  const basePath = cycle ? `${dataRoot}/${cycle}` : dataRoot;
 
   const THRESH = { PAC_FLAG: 0.40, INDUSTRY_DOMINATE: 0.35, ALIGN_HIGH: 0.90 };
 
@@ -320,98 +282,36 @@
     try{ return JSON.parse(document.getElementById(id).textContent.trim()); }catch{ return fallback; }
   };
 
-  async function fetchJSON(path, inlineId){
+  async function tryJSON(path, inlineId){
     try{
       const r = await fetch(`${path}?v=${v}`, {cache:'no-store'});
-      if(!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
-      const ct = r.headers.get('content-type') || '';
-      if(!ct.includes('application/json')) throw new Error(`${path}: not JSON (${ct})`);
+      if(!r.ok) throw new Error('HTTP '+r.status);
       return await r.json();
     }catch(e){
-      console.warn('Falling back to inline for', path, e);
+      console.warn('Falling back to inline data for', path, e);
       return parseInlineJSON(inlineId, {});
     }
   }
 
-  // Try lastUpdated timestamp file if you produce it; fallback to Date.now()
-  async function fetchLastUpdated(){
-    try{
-      const p = `${basePath}/last-updated.json`;
-      const r = await fetch(`${p}?v=${v}`, {cache:'no-store'});
-      if(!r.ok) throw 0;
-      const j = await r.json();
-      return j.last_updated || j.updated || j.time || null;
-    }catch{ return null; }
-  }
-
-  // Load
-  setDiag('Loading data…','warn');
-  const [membersRaw, donorsRaw, awardsRaw, alignRaw, lastUpdated] = await Promise.all([
-    fetchJSON(`${basePath}/members.json`, 'demo-members'),
-    fetchJSON(`${basePath}/donors-by-member.json`, 'demo-donors'),
-    fetchJSON(`${basePath}/member-awards.json`, 'demo-awards'),
-    fetchJSON(`${basePath}/vote-alignments.json`, 'demo-align'),
-    fetchLastUpdated()
+  // Load data (pipeline if present, else demo)
+  $('#load-status').textContent = 'Loading data…';
+  const [members, donorsByMember, awardsByMember, voteAlignByMember] = await Promise.all([
+    tryJSON('data/members.json','demo-members'),
+    tryJSON('data/donors-by-member.json','demo-donors'),
+    tryJSON('data/member-awards.json','demo-awards'),
+    tryJSON('data/vote-alignments.json','demo-align')
   ]);
+  $('#load-status').textContent = 'Data loaded.';
 
-  // Normalize IDs to uppercase (handles bioguide casing)
-  const upperKeys = obj => {
-    const out = {};
-    for(const k of Object.keys(obj||{})){ out[String(k).toUpperCase()] = obj[k]; }
-    return out;
-  };
-  const membersById = upperKeys(membersRaw);
-  const donorsById  = adaptDonorSchema( upperKeys(donorsRaw) );
-  const awardsById  = adaptAwardsSchema( upperKeys(awardsRaw) );
-  const alignById   = adaptAlignSchema( upperKeys(alignRaw) );
+  function pct(n){ return Math.round((n||0)*100); }
+  function money(n){ return '$' + (Math.round(n||0)).toLocaleString(); }
+  function resolveMember(mid){ return members?.[mid] || null; }
 
-  // Diagnostics
-  const kMembers = Object.keys(membersById).length;
-  const kDonors  = Object.keys(donorsById).length;
-  const kAwards  = Object.keys(awardsById).length;
-  const kAlign   = Object.keys(alignById).length;
-  const overlap  = Object.keys(donorsById).filter(k => membersById[k]).length;
-
-  $('#k-members').textContent = `members: ${kMembers}`;
-  $('#k-donors').textContent  = `donors: ${kDonors}`;
-  $('#k-awards').textContent  = `awards: ${kAwards}`;
-  $('#k-align').textContent   = `alignments: ${kAlign}`;
-  $('#k-overlap').textContent = `overlap: ${overlap}`;
-  $('#k-updated').textContent = `updated: ${lastUpdated ? new Date(lastUpdated).toLocaleString() : '—'}`;
-
-  console.table([
-    {file:'members.json', keys:kMembers},
-    {file:'donors-by-member.json', keys:kDonors},
-    {file:'member-awards.json', keys:kAwards},
-    {file:'vote-alignments.json', keys:kAlign},
-    {metric:'donor→member overlap', value:overlap}
-  ]);
-  $('#debug-pre').textContent = JSON.stringify({
-    basePath, cycle: cycle || '(none)', counts:{kMembers,kDonors,kAwards,kAlign,overlap}, sample:{
-      firstDonorKey:Object.keys(donorsById)[0] || null,
-      firstMemberKey:Object.keys(membersById)[0] || null
-    }
-  }, null, 2);
-
-  // Warn/Fail states
-  if(!kDonors){
-    setDiag('No donor records found. Check pipeline output, branch/paths, or FEC key/cycle.', 'err');
-  }else if(!overlap){
-    setDiag('IDs do not match: donors have keys not present in members.json. Normalize to the same ID namespace.', 'err');
-  }else if(kDonors && overlap){
-    setDiag(`Loaded ${kDonors} donor records (${overlap} match members).`, 'ok');
-  }
-
-  // Utilities
-  const pct = n => Math.round((n||0)*100);
-  const money = n => '$' + (Math.round(n||0)).toLocaleString();
-  const resolveMember = mid => membersById?.[mid] || null;
-
-  function topIndustry(rec){
-    const inds = rec?.industries || {};
-    const entries = Object.entries(inds);
+  function topIndustry(d){
+    if(!d || !d.industries) return {key:'—', share:0};
+    const entries = Object.entries(d.industries);
     if(!entries.length) return {key:'—', share:0};
-    const total = entries.reduce((s,[,v])=>s+(v||0),0) || 1;
+    const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
     entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
     const [key, amt] = entries[0];
     return {key, share:(amt||0)/total};
@@ -437,13 +337,13 @@
     return chips;
   }
 
-  // Headline metrics: first donor record that overlaps a member
+  // Headline metrics (take the first member with donor data)
   (function setHeadline(){
-    const mids = Object.keys(donorsById || {}).filter(k=>membersById[k]);
+    const mids = Object.keys(donorsByMember||{});
     if(!mids.length) return;
     const mid = mids[0];
-    const d = donorsById[mid] || {};
-    const va = alignById[mid] || {};
+    const d = donorsByMember[mid] || {};
+    const va = voteAlignByMember[mid] || {};
     const ti = topIndustry(d);
     $('#m-pac-small').textContent = `${pct(d.pac_pct||0)}% PAC / ${100 - pct(d.pac_pct||0)}% small`;
     $('#m-geo').textContent = `${money(d.in_state_dollars||0)} in / ${money(d.out_state_dollars||0)} out`;
@@ -451,22 +351,21 @@
     $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
   })();
 
-  // Build table
+  // Row builder
   const tbody = $('#fa-table');
-
-  const placeholderSVG = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-
   function rowData(mid){
     const m = resolveMember(mid) || {};
-    const d = donorsById[mid] || {};
-    const a = awardsById[mid] || null;
-    const v = alignById[mid] || null;
+    const d = donorsByMember[mid] || {};
+    const a = awardsByMember[mid] || null;
+    const v = voteAlignByMember[mid] || null;
     const ti = topIndustry(d);
     const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
     const in$ = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
     const chips = computeBadges(mid, d, a, v);
 
     const photo = m.photo || m.image || '';
+    const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
+
     return {
       mid,
       name: m.name || mid,
@@ -474,7 +373,7 @@
       party: m.party || '',
       chamber: (m.chamber || '').toLowerCase(),
       state: (m.state || '').toLowerCase(),
-      photo: photo || placeholderSVG,
+      photo: photo || ph,
       pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
       align: (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null,
       chips
@@ -503,13 +402,10 @@
   }
 
   function rebuildTable(){
-    const mids = Object.keys(donorsById||{}).filter(k=>membersById[k]);
-    if(!mids.length){
-      $('#fa-table').innerHTML = `<tr><td colspan="8" class="text-muted">No overlapping donors↔members records. Check IDs.</td></tr>`;
-      return;
-    }
-    const rows = mids.map(rowData);
-    $('#fa-table').innerHTML = rows.map(rowHTML).join('');
+    const mids = Object.keys(donorsByMember||{});
+    if(!mids.length){ tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`; return; }
+    const rows = mids.map(mid => rowData(mid));
+    tbody.innerHTML = rows.map(rowHTML).join('');
   }
   rebuildTable();
 
@@ -518,7 +414,7 @@
 
   function passesIndustryFilter(mid, wanted){
     if(!wanted) return true;
-    const d = donorsById[mid] || {};
+    const d = donorsByMember[mid] || {};
     const inds = d.industries || {};
     const keys = Object.keys(inds).map(k=>k.toLowerCase());
     return keys.includes(wanted.toLowerCase());
@@ -560,6 +456,7 @@
     const key = th.getAttribute('data-sort');
     const dir = (sortState.key===key) ? -sortState.dir : 1;
     sortState = { key, dir };
+    // UI classes
     $$('#fa-table-el thead th').forEach(h=>h.classList.remove('sorted-asc','sorted-desc'));
     th.classList.add(dir>0 ? 'sorted-asc' : 'sorted-desc');
 
@@ -569,7 +466,7 @@
       seat: tr => (tr.children[1]?.textContent || '').toLowerCase(),
       pac: tr => Number(tr.children[2]?.getAttribute('data-val')||0),
       small: tr => Number(tr.children[3]?.getAttribute('data-val')||0),
-      geo: tr => Number(tr.children[4]?.getAttribute('data-val')||0),
+      geo: tr => Number(tr.children[4]?.getAttribute('data-val')||0), // in - out
       industry: tr => Number(tr.children[5]?.getAttribute('data-val')||0),
       align: tr => Number(tr.children[6]?.getAttribute('data-val')||-1)
     }[key];
@@ -580,6 +477,7 @@
       return String(va).localeCompare(String(vb)) * dir;
     });
 
+    // Re-append in sorted order (only visible rows — hidden keep position)
     const frag = document.createDocumentFragment();
     const hidden = $$('#fa-table tr').filter(tr=>tr.style.display==='none');
     rows.forEach(r=>frag.appendChild(r));
@@ -600,7 +498,7 @@
       const seat = tr.children[1]?.textContent || '';
       const pac = tr.children[2]?.textContent || '';
       const small = tr.children[3]?.textContent || '';
-      const inout = tr.children[4]?.textContent || '';
+      const inout = tr.children[4]?.textContent || ''; // "$X / $Y"
       const [inStr='', outStr=''] = inout.split('/').map(s=>s.trim());
       const industry = tr.children[5]?.textContent || '';
       const align = tr.children[6]?.textContent || '';
@@ -614,91 +512,8 @@
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Initial apply filters
+  // Initial apply filters (in case query params or defaults are set)
   applyFilters();
-
-  // -------- Helpers: diagnostics & schema adapters --------
-  function setDiag(msg, level){
-    $('#diag-msg').textContent = msg;
-    const c = $('#diag').classList;
-    c.remove('status-ok','status-warn','status-err');
-    c.add(level==='ok' ? 'status-ok' : level==='err' ? 'status-err' : 'status-warn');
-  }
-
-  // Accepts alternate field names that your FEC/AI pipeline might output
-  function adaptDonorSchema(donors){
-    const out = {};
-    for(const [k, raw] of Object.entries(donors||{})){
-      const r = raw || {};
-      // pac percentage can appear as pac_pct, pacPercent, pac_share, pac
-      const pac_pct = pickNum(r, ['pac_pct','pacPercent','pac_share','pac']) ?? 0;
-      // In/Out dollars can be named variously
-      const in_state  = pickNum(r, ['in_state_dollars','in_district_dollars','in_state','inDistrict','in_district']);
-      const out_state = pickNum(r, ['out_state_dollars','out_district_dollars','out_state','outDistrict','out_district']);
-      // Industries can be an object map or an array of {key, amount}
-      const industries = adaptIndustries(r.industries || r.industry_breakdown || r.top_industries || []);
-      out[k] = {
-        pac_pct: clamp01(pac_pct),
-        in_state_dollars: in_state || 0,
-        out_state_dollars: out_state || 0,
-        industries
-      };
-    }
-    return out;
-  }
-
-  function adaptAwardsSchema(awards){
-    // Expect { ID: { badges: [{key,label}] } }, but allow { ID: ["key",...] }
-    const out = {};
-    for(const [k, v] of Object.entries(awards||{})){
-      if(Array.isArray(v)){
-        out[k] = { badges: v.map(x => typeof x==='string' ? ({key:x,label:x}) : x) };
-      }else if(v && Array.isArray(v.badges)){
-        out[k] = { badges: v.badges.map(x => typeof x==='string' ? ({key:x,label:x}) : x) };
-      }else{
-        out[k] = { badges: [] };
-      }
-    }
-    return out;
-  }
-
-  function adaptAlignSchema(align){
-    // Accept { donor_alignment_index } or { donor_alignment }
-    const out = {};
-    for(const [k, v] of Object.entries(align||{})){
-      const idx = pickNum(v, ['donor_alignment_index','donor_alignment','alignment_index','alignment']);
-      out[k] = { donor_alignment_index: clamp01(idx || 0) };
-    }
-    return out;
-  }
-
-  function adaptIndustries(x){
-    if(!x) return {};
-    // If already a map: { pharma: 12000, tech: 5000 }
-    if(Object.prototype.toString.call(x)==='[object Object]'){
-      const clean = {};
-      for(const [k,v] of Object.entries(x)) clean[String(k).toLowerCase()] = Number(v)||0;
-      return clean;
-    }
-    // If array: [{key:'pharma', amount:12000}] or [{industry:'pharma', dollars:12000}]
-    if(Array.isArray(x)){
-      const m = {};
-      x.forEach(it=>{
-        const key = String(it.key || it.industry || it.name || '').toLowerCase();
-        const val = Number(it.amount || it.dollars || it.total || 0);
-        if(key) m[key] = (m[key]||0) + (val||0);
-      });
-      return m;
-    }
-    return {};
-  }
-
-  function pickNum(obj, keys){
-    for(const k of keys){ if(obj && obj[k] != null){ const n = Number(obj[k]); if(!Number.isNaN(n)) return n; } }
-    return undefined;
-  }
-
-  function clamp01(n){ n = Number(n)||0; if(n<0) return 0; if(n>1) return 1; return n; }
 })();
 </script>
 </body>
