@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Evergreen Reckoning — Awards • Wall • Countdowns • Impacts • Press</title>
-  <meta name="description" content="Evergreen Reckoning hub: awards for NO voters, wall-by-bill tracker, live countdowns, bill impacts, and press-kit tools."/>
+  <title>Evergreen Reckoning — Awards • Wall • Countdowns • Press</title>
+  <meta name="description" content="Evergreen Reckoning hub: awards for NO voters, wall-by-bill tracker, live countdowns, and press-kit tools."/>
   <meta name="theme-color" content="#0d3b66"/>
+
+  <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
   <style>
     :root{ --primary:#0d3b66; --accent:#0b6e4f; --danger:#c1121f; --ink:#1b2634; --soft:#f6f9fc; }
     body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--soft); }
@@ -19,13 +22,11 @@
     .award-title{ color:var(--danger); font-weight:800; font-size:1.05rem; }
     .award-meaning{ font-style:italic; color:#3b4856; }
     .clock-card{ background:#fff; border:2px solid var(--primary); border-radius:1rem; padding:1rem; text-align:center; }
-    .clock-days{ font-size:2.2rem; font-weight:800; color:var(--danger); }
-    .anchor{ scroll-margin-top: 100px; }
+    .clock-days{ font-size:2rem; font-weight:800; color:var(--danger); }
     /* Wall */
     .face-card{ border:1px solid #e6edf3; border-radius:.75rem; padding:.75rem; background:#fff; height:100%; }
     .chip{ display:flex; gap:.75rem; align-items:center; }
     .chip img{ width:56px; height:68px; object-fit:cover; border-radius:.4rem; border:1px solid #dfe6ee; }
-    .seat{ text-transform:uppercase; }
     .bill-heading{ border-bottom:1px solid #e6edf3; padding-bottom:.25rem; margin-bottom:.75rem; }
     @media print{ .no-print{ display:none !important; } .section{ border:none; padding:0; } body{ background:#fff; } }
   </style>
@@ -132,38 +133,38 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // -------- Bills with file links (from your Bills/ folder) --------
+    // ---------- Bills (linked to your /Bills/ files) ----------
     const BILLS = [
       // Cost-of-living
-      { id:'grocery',    bill:'Fair Food and Grocery Competition Bill (2027)', href:'../Bills/Fair Food and Grocery Competition Bill (2027).html', award:'The Empty Fridge Award', meaning:'They protected price-fixers, leaving families to choose between groceries or rent.' },
-      { id:'childcare',  bill:'Affordable Child and Dependent Care Bill (2027)', href:'../Bills/Affordable Child and Dependent Care Bill (2027).html', award:'The Parent Punisher Award', meaning:'They voted to keep childcare unaffordable and push parents out of work.' },
-      { id:'jobs',       bill:'Good Jobs & Skills Bill (2027)', href:'../Bills/Good Jobs & Skills Bill (2027).html', award:'The Paycheck Pickpocket Award', meaning:'They sided with corporate bosses to keep wages down and hours insecure.' },
-      { id:'housing',    bill:'First-Time Homebuyer 3% Mortgage Bill (2027)', href:'../Bills/First-Time Homebuyer 3% Mortgage Bill (2027).html', award:'The Rent Raiser Award', meaning:'They blocked families from buying homes and left renters at the mercy of landlords.' },
+      { id:'grocery',    bill:'Fair Food and Grocery Competition Bill (2027)',            href:'../Bills/Fair Food and Grocery Competition Bill (2027).html', award:'The Empty Fridge Award',    meaning:'They protected price-fixers, leaving families to choose between groceries or rent.' },
+      { id:'childcare',  bill:'Affordable Child and Dependent Care Bill (2027)',          href:'../Bills/Affordable Child and Dependent Care Bill (2027).html', award:'The Parent Punisher Award', meaning:'They voted to keep childcare unaffordable and push parents out of work.' },
+      { id:'jobs',       bill:'Good Jobs & Skills Bill (2027)',                            href:'../Bills/Good Jobs & Skills Bill (2027).html', award:'The Paycheck Pickpocket Award', meaning:'They sided with corporate bosses to keep wages down and hours insecure.' },
+      { id:'housing',    bill:'First-Time Homebuyer 3% Mortgage Bill (2027)',             href:'../Bills/First-Time Homebuyer 3% Mortgage Bill (2027).html', award:'The Rent Raiser Award',      meaning:'They blocked families from buying homes and left renters at the mercy of landlords.' },
 
       // Retirement & health
-      { id:'socialsec',  bill:'Social Security Solvency Bill (2027)', href:'../Bills/Social Security Solvency Bill (2027).html', award:'The Senior Starver Award', meaning:'They gambled away retirement checks and put seniors on the chopping block.' },
-      { id:'health',     bill:'Universal Healthcare Bill (2027)', href:'../Bills/Universal Healthcare Bill (2027).html', award:'The Hospital Evictor Award', meaning:'They voted to keep healthcare out of reach and push families into medical debt.' },
+      { id:'socialsec',  bill:'Social Security Solvency Bill (2027)',                     href:'../Bills/Social Security Solvency Bill (2027).html', award:'The Senior Starver Award',  meaning:'They gambled away retirement checks and put seniors on the chopping block.' },
+      { id:'health',     bill:'Universal Healthcare Bill (2027)',                         href:'../Bills/Universal Healthcare Bill (2027).html', award:'The Hospital Evictor Award', meaning:'They voted to keep healthcare out of reach and push families into medical debt.' },
 
       // Tax & spending guardrails
-      { id:'minibus',    bill:'Minibus Implementation Safeguards Bill (2027)', href:'../Bills/minibus-implementation-safeguards-bill (2027).html', award:'The Swamp Rat Award', meaning:'They voted to keep waste and insider deals flowing.' },
-      { id:'csr',        bill:'Corporate Responsibility (CSR) Bill (2027)', href:'../Bills/Corporate Responsibility (CSR) Bill (2027).html', award:'The Greed Defender Award', meaning:'They protected exploiters who gouge workers and poison communities.' },
-      { id:'taxfair',    bill:'Tax Fairness Bill (2027)', href:'../Bills/Tax Fairness Bill (2027).html', award:'The Wallet Raider Award', meaning:'They kept loopholes for the rich while draining working families dry.' },
+      { id:'minibus',    bill:'Minibus Implementation Safeguards Bill (2027)',            href:'../Bills/minibus-implementation-safeguards-bill-2027.html', award:'The Swamp Rat Award',       meaning:'They voted to keep waste and insider deals flowing.' },
+      { id:'csr',        bill:'Corporate Responsibility (CSR) Bill (2027)',               href:'../Bills/Corporate Responsibility (CSR) Bill (2027).html', award:'The Greed Defender Award',  meaning:'They protected exploiters who gouge workers and poison communities.' },
+      { id:'taxfair',    bill:'Tax Fairness Bill (2027)',                                 href:'../Bills/Tax Fairness Bill (2027).html', award:'The Wallet Raider Award',   meaning:'They kept loopholes for the rich while draining working families dry.' },
 
       // Democracy & oversight
-      { id:'comms',      bill:'Communications Integrity Bill (2027)', href:'../Bills/communications-integrity-bill-2027.html', award:'The Truth Killer Award', meaning:'They voted to shield government lies and bury the facts.' },
-      { id:'justify',    bill:'Congressional Vote Justification Bill (2027)', href:'../Bills/Congressional Vote Justification Bill (2027).Html', award:'The Coward’s Mask Award', meaning:'They voted against explaining themselves, hiding their real loyalties.' },
-      { id:'impeach',    bill:'Impeachment Continuity and Accountability Bill (2027)', href:'../Bills/Impeachment Continuity and Accountability Bill (2027).html', award:'The Sellout Shield Award', meaning:'They let corrupt officials keep perks and power during impeachment.' },
-      { id:'emerg',      bill:'Emergency Powers Spend Pilot (DoD, 2027)', href:'../Bills/emergency-powers-spend-pilot-dod-bill-2027.html', award:'The Blank Check Award', meaning:'They handed over taxpayer money with no oversight.' },
-      { id:'holman',     bill:'Surgical Riders — Holman Templates (2027)', href:'../Bills/surgical-riders-holman-templates-2027.html', award:'The Bureaucrat Bodyguard Award', meaning:'They protected the worst swamp desks from any accountability.' },
-      { id:'gaodash',    bill:'Committee Report Directives Templates (2027)', href:'../Bills/committee-report-directives-templates-2027.html', award:'The Cover-Up Award', meaning:'They blocked watchdogs and let agencies run wild.' },
+      { id:'comms',      bill:'Communications Integrity Bill (2027)',                     href:'../Bills/communications-integrity-bill-2027.html', award:'The Truth Killer Award',    meaning:'They voted to shield government lies and bury the facts.' },
+      { id:'justify',    bill:'Congressional Vote Justification Bill (2027)',             href:'../Bills/Congressional Vote Justification Bill (2027).Html', award:'The Coward’s Mask Award',   meaning:'They voted against explaining themselves, hiding their real loyalties.' },
+      { id:'impeach',    bill:'Impeachment Continuity and Accountability Bill (2027)',    href:'../Bills/Impeachment Continuity and Accountability Bill (2027).html', award:'The Sellout Shield Award',  meaning:'They let corrupt officials keep perks and power during impeachment.' },
+      { id:'emerg',      bill:'Emergency Powers Spend Pilot (DoD, 2027)',                 href:'../Bills/emergency-powers-spend-pilot-dod-bill-2027.html', award:'The Blank Check Award',     meaning:'They handed over taxpayer money with no oversight.' },
+      { id:'holman',     bill:'Surgical Riders — Holman Templates (2027)',                href:'../Bills/surgical-riders-holman-templates-2027.html', award:'The Bureaucrat Bodyguard Award', meaning:'They protected the worst swamp desks from any accountability.' },
+      { id:'gaodash',    bill:'Committee Report Directives Templates (2027)',             href:'../Bills/committee-report-directives-templates-2027.html', award:'The Cover-Up Award',      meaning:'They blocked watchdogs and let agencies run wild.' },
 
-      // Energy / elections (mapped to files present)
-      { id:'clean',      bill:'Energy Savings and Lower Bills Bill (2027)', href:'../Bills/Energy Savings and Lower Bills Bill (2027).html', award:'The Polluter’s Pet Award', meaning:'They kept dirty energy handouts and gutted protections.' },
-      { id:'elections',  bill:'Clean Campaigns and Elections Bill (2027)', href:'../Bills/Clean Campaigns and Elections Bill (2027).html', award:'The Dark Money’s Best Friend Award', meaning:'They protected the money pipeline over voters.' }
-      // If you create a Water/Wastewater page later, add: { id:'water', href:'../Bills/<file>.html', ... }
+      // Energy / elections
+      { id:'clean',      bill:'Energy Savings and Lower Bills Bill (2027)',               href:'../Bills/Energy Savings and Lower Bills Bill (2027).html', award:'The Polluter’s Pet Award',  meaning:'They kept dirty energy handouts and gutted protections.' },
+      { id:'elections',  bill:'Clean Campaigns and Elections Bill (2027)',                href:'../Bills/Clean Campaigns and Elections Bill (2027).html', award:'The Dark Money’s Best Friend Award', meaning:'They protected the money pipeline over voters.' }
+      // Add water when you create it in /Bills/
     ];
 
-    // -------- Member loader (Bioguide + headshots) --------
+    // ---------- Member roster (Bioguide + photos) ----------
     async function loadMembers() {
       const url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/refs/heads/gh-pages/legislators-current.json";
       const data = await fetch(url, { cache: "no-store" }).then(r => r.json());
@@ -189,28 +190,28 @@
     const seat = m => m.chamber==='house' ? `${m.state}-${m.district}` : m.state;
     const chip = m => `
       <div class="chip">
-        <img src="${m.photo}" alt="${m.name}"/>
+        <img src="${m.photo}" alt="${m.name}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2268%22><rect width=%2256%22 height=%2268%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2210%22 fill=%22%23666%22>NO IMG</text></svg>'"/>
         <div>
           <div class="fw-semibold">${m.name}</div>
           <div class="small text-muted">${seat(m)}, ${m.party.toUpperCase()} • ${m.chamber}</div>
         </div>
       </div>`;
 
-    // -------- Awards grid --------
+    // ---------- Awards grid ----------
     const awardsGrid = document.getElementById('awardsGrid');
     BILLS.forEach(b=>{
       const col = document.createElement('div');
       col.className = 'col';
       col.innerHTML = `
         <div class="award-card anchor" id="award-${b.id}">
-          <div class="text-muted small mb-1"><a href="${b.href || '#'}" target="_blank" rel="noopener">${b.bill}</a></div>
+          <div class="text-muted small mb-1">${b.href ? `<a href="${b.href}" target="_blank" rel="noopener">${b.bill}</a>` : b.bill}</div>
           <div class="award-title">🏆 ${b.award}</div>
           <div class="award-meaning">${b.meaning}</div>
         </div>`;
       awardsGrid.appendChild(col);
     });
 
-    // -------- Countdowns tabs --------
+    // ---------- Countdowns ----------
     const tabs = document.getElementById('cdTabs');
     const panes = document.getElementById('cdTabContent');
     BILLS.forEach((b,i)=>{
@@ -233,7 +234,7 @@
       });
     }
 
-    // -------- Wall render with filters --------
+    // ---------- Filters for wall ----------
     function applyFilters(m, f){
       if (f.chamber && m.chamber!==f.chamber) return false;
       if (f.party && m.party!==f.party) return false;
@@ -242,12 +243,13 @@
       return true;
     }
 
+    // ---------- Init (load votes + members, render all) ----------
     async function init(){
       const MEMBERS = await loadMembers();
       const votes = await fetch('data/votes.json').then(r=>r.json());
       const noVotes = votes.filter(v=>v.vote==='NO');
 
-      // group by bill
+      // Group by bill
       const byBill = {};
       for (const v of noVotes) (byBill[v.bill_id] ||= []).push(v);
 
@@ -325,9 +327,21 @@
         el.addEventListener('change', renderWall);
       });
       renderWall();
+
+      // Deep link support: #wall?bill=grocery
+      if (location.hash.startsWith('#wall')) {
+        const tabTrigger = document.querySelector('[href="#wall"]');
+        if (tabTrigger) new bootstrap.Tab(tabTrigger).show();
+        const q = new URLSearchParams(location.hash.split('?')[1] || '');
+        const bill = q.get('bill');
+        if (bill) {
+          const el = document.getElementById(`award-${bill}`);
+          if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      }
     }
 
-    // PRESS LINKS (cards)
+    // PRESS cards
     const pressLinks = document.getElementById('pressLinks');
     pressLinks.innerHTML = `
       <div class="col-md-6 col-xl-4">
