@@ -2,7 +2,7 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main ]         # change if your default branch differs
+    branches: [ main ]          # change if your default branch differs
   workflow_dispatch:
 
 permissions:
@@ -14,6 +14,9 @@ concurrency:
   group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
+env:
+  SITE_DIR: .                   # change to your build output (e.g., dist) if you build
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # If you build, do it here (uncomment and adjust):
+      # If you build, do it here:
       # - name: Setup Node
       #   uses: actions/setup-node@v4
       #   with:
@@ -30,14 +33,20 @@ jobs:
       #   run: |
       #     npm ci
       #     npm run build
+      #   # and set SITE_DIR: dist (or your output dir) above
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Ensure CNAME and .nojekyll
+        run: |
+          echo "ArafatForCongress.org" > "${SITE_DIR}/CNAME"
+          touch "${SITE_DIR}/.nojekyll"
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .              # change to your build output (e.g., dist) if you build
+          path: ${{ env.SITE_DIR }}
 
   deploy:
     needs: build
