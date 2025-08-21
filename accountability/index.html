@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Evergreen Consequences — Holding NO Voters Accountable</title>
+  <meta name="description" content="The Evergreen Consequences hub tracks NO votes, counts the days since obstruction, assigns awards, and gives supporters press and visual tools to fight back."/>
+  <meta name="theme-color" content="#0d3b66"/>
+  <meta property="og:title" content="Evergreen Consequences"/>
+  <meta property="og:description" content="Live countdowns, awards, press kits, and visual tools to hold NO voters accountable."/>
+  <meta property="og:type" content="website"/>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{ --primary:#0d3b66; --accent:#0b6e4f; --danger:#c1121f; --ink:#1b2634; --soft:#f6f9fc; }
+    body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--soft);}
+    header.hero{ background:linear-gradient(135deg,#0d3b66 0%, #0b6e4f 100%); color:#fff; }
+    .hero h1{ font-weight:800; letter-spacing:.2px; }
+    .hero .sub{ opacity:.9; }
+    .kpi{ background:#fff; border-radius:1rem; padding:1rem 1.25rem; border:1px solid #e6edf3; text-align:center; }
+    .kpi .num{ font-size:1.8rem; font-weight:800; color:var(--danger); }
+    .section{ padding:2rem 0; }
+    .card-link{ text-decoration:none; color:inherit; }
+    .card-link:hover .card{ border-color:#0d3b66; transform: translateY(-2px); }
+    .card{ transition:.12s ease; }
+    footer{ background:#0e1a27; color:#c7d1db; }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <header class="hero py-5">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <h1 class="display-5 mb-2"><i class="fa-solid fa-triangle-exclamation me-2"></i>Evergreen Consequences</h1>
+          <p class="sub fs-5 mb-0">When lawmakers vote <strong>NO</strong> on bills that lower costs for families, we make sure the consequences are public, relentless, and unforgettable.</p>
+        </div>
+        <div class="col-lg-4">
+          <div class="row g-3">
+            <div class="col-4">
+              <div class="kpi">
+                <div class="small text-muted">NO Votes</div>
+                <div class="num" id="kpiNo">0</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="kpi">
+                <div class="small text-muted">Days Since</div>
+                <div class="num" id="kpiDays">0</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="kpi">
+                <div class="small text-muted">Districts Hit</div>
+                <div class="num" id="kpiDist">0</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 d-grid gap-2">
+            <a href="countdowns.html" class="btn btn-light btn-lg"><i class="fa-solid fa-clock-rotate-left me-1"></i> Live Countdowns</a>
+            <a href="press/index.html" class="btn btn-outline-light"><i class="fa-solid fa-bullhorn me-1"></i> Press Room</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV SHORTCUTS -->
+  <nav class="bg-white border-bottom">
+    <div class="container py-2 d-flex flex-wrap gap-2">
+      <a class="btn btn-outline-secondary btn-sm" href="#highlights"><i class="fa-solid fa-star me-1"></i> Highlights</a>
+      <a class="btn btn-outline-secondary btn-sm" href="#countdowns"><i class="fa-solid fa-clock me-1"></i> Countdowns</a>
+      <a class="btn btn-outline-secondary btn-sm" href="#awards"><i class="fa-solid fa-trophy me-1"></i> Awards</a>
+      <a class="btn btn-outline-secondary btn-sm" href="#impacts"><i class="fa-solid fa-receipt me-1"></i> Impacts</a>
+      <a class="btn btn-outline-secondary btn-sm" href="#press"><i class="fa-solid fa-bullhorn me-1"></i> Press</a>
+      <a class="btn btn-outline-secondary btn-sm" href="#toolkit"><i class="fa-solid fa-toolbox me-1"></i> Toolkit</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HIGHLIGHTS -->
+    <section id="highlights" class="section">
+      <div class="container">
+        <h2 class="h4 mb-3">This Week’s Highlights</h2>
+        <div class="row g-3">
+          <a class="col-md-4 card-link" href="awards.html#fridge">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="small text-muted mb-1">Award</div>
+                <h3 class="h5">The Empty Fridge Award</h3>
+                <p class="mb-0">Fair Food & Grocery Competition Bill — who protected price‑fixers.</p>
+              </div>
+            </div>
+          </a>
+          <a class="col-md-4 card-link" href="countdowns.html">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="small text-muted mb-1">Countdowns</div>
+                <h3 class="h5">Days Since Their NO</h3>
+                <p class="mb-0">Live clocks by bill and member.</p>
+              </div>
+            </div>
+          </a>
+          <a class="col-md-4 card-link" href="press/Press_Release_Template.html">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="small text-muted mb-1">Press</div>
+                <h3 class="h5">Latest Release</h3>
+                <p class="mb-0">Template you can publish in minutes with names & quotes.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWNS EMBED -->
+    <section id="countdowns" class="section bg-white border-top">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="h4 mb-0"><i class="fa-solid fa-clock me-2 text-danger"></i> Live Countdowns</h2>
+          <a class="btn btn-outline-primary btn-sm" href="countdowns.html">Open full tracker</a>
+        </div>
+        <iframe src="countdowns.html" title="Countdowns" style="width:100%; height:480px; border:1px solid #e6edf3; border-radius:12px; background:#fff;"></iframe>
+      </div>
+    </section>
+
+    <!-- AWARDS EMBED -->
+    <section id="awards" class="section">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="h4 mb-0"><i class="fa-solid fa-trophy me-2 text-warning"></i> Shame Awards</h2>
+          <a class="btn btn-outline-primary btn-sm" href="awards.html">Browse all awards</a>
+        </div>
+        <iframe src="awards.html" title="Awards" style="width:100%; height:520px; border:1px solid #e6edf3; border-radius:12px; background:#fff;"></iframe>
+      </div>
+    </section>
+
+    <!-- IMPACTS (Giant Receipt demo) -->
+    <section id="impacts" class="section bg-white border-top">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="h4 mb-0"><i class="fa-solid fa-receipt me-2"></i> Cost Impacts</h2>
+          <a class="btn btn-outline-primary btn-sm" href="toolkit.html#receipt">Open receipt generator</a>
+        </div>
+        <iframe src="toolkit.html#receipt" title="Receipt" style="width:100%; height:520px; border:1px solid #e6edf3; border-radius:12px; background:#fff;"></iframe>
+      </div>
+    </section>
+
+    <!-- PRESS INDEX -->
+    <section id="press" class="section">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="h4 mb-0"><i class="fa-solid fa-bullhorn me-2"></i> Press Room</h2>
+          <a class="btn btn-outline-primary btn-sm" href="press/index.html">Open press room</a>
+        </div>
+        <div class="row g-3">
+          <a class="col-md-4 card-link" href="press/Press_Release_Template.html">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6 mb-1">Press Release Template</h3>
+                <p class="small mb-0">Export to Word, print, publish.</p>
+              </div>
+            </div>
+          </a>
+          <a class="col-md-4 card-link" href="oped.html">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6 mb-1">Op‑Ed / LTE Generator</h3>
+                <p class="small mb-0">Draft, preview, export to Word.</p>
+              </div>
+            </div>
+          </a>
+          <a class="col-md-4 card-link" href="flyer.html">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6 mb-1">District Flyer</h3>
+                <p class="small mb-0">Handouts for canvass & town halls.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLKIT SHORTCUTS -->
+    <section id="toolkit" class="section bg-white border-top">
+      <div class="container">
+        <h2 class="h4 mb-3"><i class="fa-solid fa-toolbox me-2"></i> Organizer Toolkit</h2>
+        <div class="row g-3">
+          <a class="col-md-4 card-link" href="branding.html">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6 mb-1">Branding & Badges</h3>
+                <p class="small mb-0">Generate nicknames, badges (SVG/PNG), and a Word brief.</p>
+              </div>
+            </div>
+          </a>
+          <a class="col-md-4 card-link" href="toolkit.html#empty-chair">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6 mb-1">Empty Chair Kit</h3>
+                <p class="small mb-0">Placard, run‑of‑show, press advisory – exportable.</p>
+              </div>
+            </div>
+          </a>
+          <a class="col-md-4 card-link" href="wall.html">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6 mb-1">Wall of Shame</h3>
+                <p class="small mb-0">Bill‑by‑bill NO voters with awards.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 mt-4">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between">
+      <div>Paid for by Adam Neil Arafat for Congress · <a class="link-light" href="https://arafatforcongress.org" target="_blank" rel="noopener">arafatforcongress.org</a></div>
+      <div class="small">Press: <a class="link-light" href="mailto:press@arafatforcongress.org">press@arafatforcongress.org</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal KPI demo; wire this to your data if you have it.
+    // For now, we derive from visible iframes once loaded (fallback estimates).
+    window.addEventListener('load', ()=>{
+      // Set placeholder KPIs you can replace server‑side or via JSON later.
+      document.getElementById('kpiNo').textContent = 42;
+      document.getElementById('kpiDays').textContent = 127;
+      document.getElementById('kpiDist').textContent = 18;
+    });
+  </script>
+</body>
+</html>
