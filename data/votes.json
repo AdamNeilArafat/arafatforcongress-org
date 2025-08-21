@@ -1,16 +1,22 @@
-[
-  {
-    "member_id": "A000055",
-    "bill_id": "grocery",
-    "vote": "NO",
-    "vote_date": "2025-08-01",
-    "nickname": "Grocery Gouger"
+{
+  "fair-food-and-grocery-competition-bill-2027": {
+    "title": "Fair Food and Grocery Competition Bill (2027)",
+    "award": "The Empty Fridge Award",
+    "meaning": "They protected price‑fixers; families paid more.",
+    "href": "fair-food-and-grocery-competition-bill-2027.html",
+    "offenders": [
+      {"bioguide": "A000360", "vote": "NO"},
+      {"bioguide": "B001234", "vote": "NO"}
+    ]
   },
-  {
-    "member_id": "S001212",
-    "bill_id": "health",
-    "vote": "NO",
-    "vote_date": "2025-06-20",
-    "nickname": "Hospital Evictor"
+
+  "good-jobs-and-skills-bill-2027": {
+    "title": "Good Jobs & Skills Bill (2027)",
+    "award": "The Paycheck Pickpocket Award",
+    "meaning": "They kept wages down and hours insecure.",
+    "href": "good-jobs-and-skills-bill-2027.html",
+    "offenders": [
+      {"bioguide": "B001234", "vote": "NO"}
+    ]
   }
-]
+}
