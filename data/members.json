@@ -1,24 +1,43 @@
 [
   {
-    "bioguide": "A000360",
-    "first": "Jane",
-    "last": "Doe",
-    "name": "Jane Doe",
+    "bioguide": "A000055",
+    "name": "Alexis Alvarez",
     "party": "D",
     "chamber": "house",
     "state": "WA",
     "district": "10",
-    "photo": "https://unitedstates.github.io/images/congress/225x275/A000360.jpg"
+    "photo": "https://unitedstates.github.io/images/congress/225x275/A000055.jpg"
   },
   {
     "bioguide": "B001234",
-    "first": "John",
-    "last": "Smith",
-    "name": "John Smith",
+    "name": "Brett Collins",
     "party": "R",
     "chamber": "house",
     "state": "TX",
-    "district": "21",
-    "photo": "https://unitedstates.github.io/images/congress/225x275/B001234.jpg"
+    "district": "23"
+  },
+  {
+    "bioguide": "C000880",
+    "name": "Cynthia Drake",
+    "party": "I",
+    "chamber": "senate",
+    "state": "ME",
+    "district": ""
+  },
+  {
+    "bioguide": "D000616",
+    "name": "Daniela Esquivel",
+    "party": "D",
+    "chamber": "house",
+    "state": "CA",
+    "district": "14"
+  },
+  {
+    "bioguide": "E000295",
+    "name": "Evan Foster",
+    "party": "R",
+    "chamber": "senate",
+    "state": "OH",
+    "district": ""
   }
 ]
