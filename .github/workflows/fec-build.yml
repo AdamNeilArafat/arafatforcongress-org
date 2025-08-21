@@ -1,38 +1,31 @@
-name: FEC Data Build
-
+name: Build FEC Finance JSON
 on:
-  workflow_dispatch:
   schedule:
-    # Runs once daily at 7 AM UTC (midnight PT)
-    - cron: "0 7 * * *"
-  push:
-    branches:
-      - main
+    - cron: "17 8 * * *"   # daily 08:17 UTC
+  workflow_dispatch:
 
 jobs:
-  build-fec-data:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build FEC pipeline
-        run: node scripts/fec-build.js
+          python-version: "3.11"
+      - run: python -m venv .venv && . .venv/bin/activate && pip install -r pipeline/requirements.txt
+      - name: Run pipeline
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-
-      - name: Commit and push JSON
+          FEC_CYCLE: "2024"
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/*.json
-          git commit -m "chore: update FEC data [skip ci]" || echo "No changes"
-          git push
+          . .venv/bin/activate
+          python pipeline/build_finance.py
+      - name: Commit updated data
+        run: |
+          if [ -n "$(git status --porcelain data)" ]; then
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git add data/*.json
+            git commit -m "chore(data): refresh FEC finance JSON"
+            git push
+          fi
