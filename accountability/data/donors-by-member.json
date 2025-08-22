@@ -1,14 +1,15 @@
 {
-  "D000001": {
+  "S001213": {
     "cycle": "2026",
     "as_of": "2025-08-01",
-    "pac_pct": 0.42,
-    "in_state_dollars": 125000,
-    "out_state_dollars": 175000,
+    "pac_pct": 0.37,
+    "in_state_dollars": 285000,
+    "out_state_dollars": 210000,
     "industries": {
-      "pharma": 85000,
-      "tech": 40000,
-      "finance": 30000
+      "tech": 90000,
+      "finance": 65000,
+      "health": 52000,
+      "labor": 35000
     },
     "receipts": [
       {
@@ -18,15 +19,17 @@
       }
     ]
   },
-  "R000002": {
+  "M001198": {
     "cycle": "2026",
     "as_of": "2025-08-01",
-    "pac_pct": 0.31,
-    "in_state_dollars": 210000,
-    "out_state_dollars": 150000,
+    "pac_pct": 0.48,
+    "in_state_dollars": 420000,
+    "out_state_dollars": 510000,
     "industries": {
-      "oil": 120000,
-      "finance": 50000
+      "finance": 160000,
+      "defense": 120000,
+      "tech": 80000,
+      "real_estate": 70000
     },
     "receipts": [
       {
@@ -36,19 +39,41 @@
       }
     ]
   },
-  "S000003": {
+  "P000197": {
     "cycle": "2026",
     "as_of": "2025-08-01",
-    "pac_pct": 0.12,
-    "in_state_dollars": 400000,
-    "out_state_dollars": 220000,
+    "pac_pct": 0.29,
+    "in_state_dollars": 510000,
+    "out_state_dollars": 310000,
     "industries": {
       "tech": 140000,
-      "aipac": 20000
+      "labor": 90000,
+      "health": 80000,
+      "finance": 60000
     },
     "receipts": [
       {
         "title": "FEC Candidate Summary",
+        "url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      }
+    ]
+  },
+  "A000374": {
+    "cycle": "2026",
+    "as_of": "2025-08-01",
+    "pac_pct": 0.12,
+    "in_state_dollars": 165000,
+    "out_state_dollars": 95000,
+    "industries": {
+      "grassroots_small": 75000,
+      "tech": 30000,
+      "education": 18000,
+      "labor": 12000
+    },
+    "receipts": [
+      {
+        "title": "FEC Candidate Summary (Campaign)",
         "url": "https://www.fec.gov/data/",
         "as_of": "2025-08-01"
       }
