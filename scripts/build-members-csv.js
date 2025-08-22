@@ -59,7 +59,7 @@ async function main() {
   if (!Array.isArray(data)) throw new Error("Unexpected YAML format (expected array).");
 
   const rows = data.map((leg) => {
-    const ids = leg.ids || {};
+    const ids = leg.id || {};
     const terms = Array.isArray(leg.terms) ? leg.terms : [];
     const latest = terms[terms.length - 1] || {};
     const type = latest.type; // 'rep' or 'sen'
