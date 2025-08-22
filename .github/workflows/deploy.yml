@@ -3,28 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'index.html'
-      - 'Bills/**'
-      - 'accountability/**'
-      - 'assets/**'
-      - 'styles.css'
-      - 'data/**'
-      - 'scripts/**'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'CNAME'
-      - '.nojekyll'
-          - '404.html'
-    - 'Bills.html'
-    - 'Overview.html'
-    - 'contact.html'
-    - 'contrast.html'
-    - 'digging-into-the-issues.html'
-    - 'tesl.html'
-    - 'Webpages/**'
-      - '.github/workflows/deploy.yml'
-  workflow_dispatch:
+   
+      workflow_dispatch:
 
 permissions:
   contents: read
