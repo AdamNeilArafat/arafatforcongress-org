@@ -1,3 +1,26 @@
-[
-  {"bioguide_id":"S000000","name":"Sample Person","state":"WA","district":"10","party":"D","fec_ids":["H0WA00100"]}
-]
+{
+  "AARAFAT": {
+    "id": "AARAFAT",
+    "name": "Adam Neil Arafat",
+    "state": "WA",
+    "seat": "WA-10",
+    "chamber": "house",
+    "party": "D",
+    "bioguide": "A000000",
+    "fec_ids": [
+      "H4WA00123"
+    ]
+  },
+  "S001135": {
+    "id": "S001135",
+    "name": "Marilyn Strickland",
+    "state": "WA",
+    "seat": "WA-10",
+    "chamber": "house",
+    "party": "D",
+    "bioguide": "S001135",
+    "fec_ids": [
+      "H0WA10078"
+    ]
+  }
+}

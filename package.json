@@ -13,9 +13,17 @@
     "yaml": "^2.8.1"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "csv-parse": "^6.1.0"
+=======
+<<<<<<< HEAD
+    "csv-parse": "^5.6.0"
+>>>>>>> 4745b42 (chore(ci): add deploy workflow)
   },
   "engines": {
     "node": ">=20"
+=======
+    "csv-parse": "^6.1.0"
+>>>>>>> be90395 (chore(ci): add deploy workflow)
   }
 }
