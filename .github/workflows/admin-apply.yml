@@ -1,0 +1,106 @@
+name: Admin Apply
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  apply:
+    if: contains(github.event.issue.body, '<!-- ADMIN:VOTES -->') || contains(github.event.issue.body, '<!-- ADMIN:CLEAR_BADGES -->')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse and apply
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || '';
+
+            function extractJson(marker) {
+              if (!body.includes(marker)) return null;
+              const after = body.split(marker)[1] || '';
+              const m = after.match(/```json\s*([\s\S]*?)```/i) || after.match(/```\s*([\s\S]*?)```/i);
+              return m ? m[1].trim() : null;
+            }
+
+            let mode = null;
+            let raw = null;
+
+            if (body.includes('<!-- ADMIN:VOTES -->')) {
+              mode = 'votes';
+              raw = extractJson('<!-- ADMIN:VOTES -->');
+            } else if (body.includes('<!-- ADMIN:CLEAR_BADGES -->')) {
+              mode = 'badges';
+              raw = extractJson('<!-- ADMIN:CLEAR_BADGES -->');
+            } else {
+              core.setFailed('No admin marker found.');
+            }
+
+            if (!raw) core.setFailed('No JSON found after admin marker.');
+
+            let payload;
+            try { payload = JSON.parse(raw); }
+            catch (e) { core.setFailed('Invalid JSON: ' + e.message); }
+
+            const owner = context.repo.owner;
+            const repo  = context.repo.repo;
+
+            async function getFile(path) {
+              try {
+                const { data } = await github.rest.repos.getContent({ owner, repo, path });
+                const content = Buffer.from(data.content, 'base64').toString('utf8');
+                return { sha: data.sha, json: JSON.parse(content) };
+              } catch (e) {
+                if (e.status === 404) return { sha: null, json: path.includes('votes') ? [] : {} };
+                throw e;
+              }
+            }
+
+            async function putFile(path, sha, obj, message) {
+              const content = Buffer.from(JSON.stringify(obj, null, 2), 'utf8').toString('base64');
+              await github.rest.repos.createOrUpdateFileContents({
+                owner, repo, path, message, content, sha
+              });
+            }
+
+            if (mode === 'votes') {
+              const rows = Array.isArray(payload) ? payload : payload.rows;
+              if (!Array.isArray(rows) || rows.length === 0) core.setFailed('No rows in payload.');
+              const path = 'data/votes_append.json';
+              const { sha, json } = await getFile(path);
+              const existing = Array.isArray(json) ? json : [];
+              const key = r => `${r.member_id}|${r.bill_id}|${r.vote_date}`;
+              const seen = new Set(existing.map(key));
+              let appended = 0;
+              for (const r of rows) {
+                if (!r?.member_id || !r?.bill_id || !r?.vote || !r?.vote_date) continue;
+                const k = key(r);
+                if (!seen.has(k)) { existing.push(r); seen.add(k); appended++; }
+              }
+              await putFile(path, sha, existing, `chore(admin): append ${rows.length} vote row(s) (deduped +${appended})`);
+              await github.rest.issues.createComment({ owner, repo, issue_number: issue.number, body: `✅ Appended **${appended}** row(s) to \`data/votes_append.json\`.` });
+              await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed' });
+            } else {
+              const members = Array.isArray(payload) ? payload : payload.members;
+              if (!Array.isArray(members) || members.length === 0) core.setFailed('No members in payload.');
+              const path = 'data/member-awards.json';
+              const { sha, json } = await getFile(path);
+              const awards = (json && typeof json === 'object' && !Array.isArray(json)) ? json : {};
+              let changed = 0;
+              for (const mid of members) {
+                if (!mid) continue;
+                const had = Array.isArray(awards[mid]?.badges) && awards[mid].badges.length > 0;
+                awards[mid] = { badges: [] };
+                if (had) changed++;
+              }
+              await putFile(path, sha, awards, `chore(admin): clear badges for ${members.length} member(s) (changed ${changed})`);
+              await github.rest.issues.createComment({ owner, repo, issue_number: issue.number, body: `✅ Cleared badges for **${members.length}** member(s). Changed: **${changed}**.` });
+              await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed' });
+            }
