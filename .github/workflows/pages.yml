@@ -1,15 +1,12 @@
+# .github/workflows/pages.yml
 name: Deploy Pages
-
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -19,11 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # If you add a build later (npm run build), put it here.
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+
+      - uses: actions/setup-node@v4
         with:
-          path: .  # publish repo root
+          node-version: 20
+          cache: 'npm'
+
+      - run: npm ci --omit=dev || npm ci || npm i
+      - run: npm run build   # ensure this writes static site to ./dist
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist        # or ./public, ./site, etc.
 
   deploy:
     needs: build
@@ -32,6 +36,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
