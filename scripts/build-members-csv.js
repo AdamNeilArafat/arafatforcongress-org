@@ -1,24 +1,14 @@
 #!/usr/bin/env node
 /**
- * Build a complete config/members.csv (House + Senate, ~535 seats)
- * using the maintained "congress-legislators" dataset.
+ * Build config/members.csv (House + Senate).
+ * Source: https://github.com/unitedstates/congress-legislators (legislators-current.yaml)
  *
- * Source: https://github.com/unitedstates/congress-legislators
- * File: legislators-current.yaml (contains BioGuide + FEC IDs)
- *
- * Output CSV columns:
- * bioguide_id,name,state,district,party,fec_ids
- *
- * Notes:
- * - Senators have no district; we leave it blank ("").
- * - Party normalized to D / R / I (others fall through as-is).
- * - Some entries may have multiple FEC IDs; we join by comma.
+ * Output: bioguide_id,name,state,district,party,fec_ids
  */
 
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import fetch from "node-fetch";
 import YAML from "yaml";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,7 +17,7 @@ const ROOT = path.resolve(__dirname, "..");
 const CONFIG_DIR = path.join(ROOT, "config");
 const OUT_CSV = path.join(CONFIG_DIR, "members.csv");
 
-// Raw file on GitHub (master branch)
+// Raw file on GitHub
 const SOURCE_URL =
   "https://raw.githubusercontent.com/unitedstates/congress-legislators/master/legislators-current.yaml";
 
@@ -38,7 +28,7 @@ function normalizeParty(p) {
   if (s.startsWith("dem")) return "D";
   if (s.startsWith("rep")) return "R";
   if (s.startsWith("ind")) return "I";
-  return p; // leave as-is for caucus/other edge cases
+  return p; // leave others as-is
 }
 
 // Prefer official_full if present
@@ -50,25 +40,28 @@ function formatName(nameObj = {}) {
   return parts || "Unknown";
 }
 
-// CSV escape (very light)
+// Light CSV escape
 function csvEscape(v) {
   const s = v == null ? "" : String(v);
-  if (s.includes(",") || s.includes('"') || s.includes("\n")) {
-    return `"${s.replace(/"/g, '""')}"`;
+  return s.includes(",") || s.includes('"') || s.includes("\n")
+    ? `"${s.replace(/"/g, '""')}"`
+    : s;
+}
+
+async function fetchText(url) {
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Fetch failed ${res.status} for ${url}\n${body}`);
   }
-  return s;
+  return res.text();
 }
 
 async function main() {
   fs.mkdirSync(CONFIG_DIR, { recursive: true });
 
   console.log("Fetching current legislators YAML…");
-  const res = await fetch(SOURCE_URL);
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`Failed to fetch legislators-current.yaml: ${res.status}\n${t}`);
-  }
-  const yamlText = await res.text();
+  const yamlText = await fetchText(SOURCE_URL);
   const data = YAML.parse(yamlText);
 
   if (!Array.isArray(data)) {
@@ -100,21 +93,23 @@ async function main() {
     };
   });
 
-  // Filter: keep only current members with a House or Senate term
+  // Keep only current members with a state (i.e., an active latest term)
   const currentMembers = rows.filter((r) => r.state);
 
-  // Sort for sanity: House (by state+district), then Senate (by state)
+  // Sort: House by state/district, then Senate by state
   const house = currentMembers.filter((r) => r.district !== "");
   const senate = currentMembers.filter((r) => r.district === "");
 
   house.sort((a, b) =>
-    a.state === b.state ? Number(a.district || 0) - Number(b.district || 0) : a.state.localeCompare(b.state)
+    a.state === b.state
+      ? Number(a.district || 0) - Number(b.district || 0)
+      : a.state.localeCompare(b.state)
   );
   senate.sort((a, b) => a.state.localeCompare(b.state));
 
   const all = [...house, ...senate];
 
-  // Write CSV header + rows
+  // Write CSV
   const header = "bioguide_id,name,state,district,party,fec_ids";
   const lines = [header].concat(
     all.map((r) =>
@@ -132,10 +127,11 @@ async function main() {
   fs.writeFileSync(OUT_CSV, lines.join("\n"), "utf8");
   console.log(`Wrote ${all.length} rows → ${path.relative(process.cwd(), OUT_CSV)}`);
 
-  // Quick vacancy / missing FEC heads-up
   const missingFEC = all.filter((r) => !r.fec_ids);
   if (missingFEC.length) {
-    console.warn(`Note: ${missingFEC.length} member(s) missing FEC IDs (new appointee/vacancy edge cases). You can fill those later if needed.`);
+    console.warn(
+      `Note: ${missingFEC.length} member(s) missing FEC IDs (new appointee/vacancy edge cases).`
+    );
   }
 }
 
