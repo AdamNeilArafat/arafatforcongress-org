@@ -1,16 +1,11 @@
-<!-- financial-alignments.html — FULL, DROP-IN PAGE
-     - Wall UX: face list with high-level chips; click → modal (overview/money/votes/receipts)
-     - Bottom section is a LIST (name, image, chips). Filters apply. Under the 4 cards.
-     - Share options in modal: X, Reddit, TikTok (copy caption).
-     - Smart profile links (member website/GovTrack/Ballotpedia; fallback to search).
-     - Uses pipeline JSON if present; inline demo data has names & images. -->
+<!-- financial-alignments.html — FULL, DROP-IN PAGE (updated per plan) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="PAC vs small donors, in-district vs out-district, industry breakdowns, and vote alignment indicators."/>
+  <meta name="description" content="PAC vs small donors, in-district vs out-district, industry breakdowns, and vote alignment indicators. Click any face for receipts."/>
   <meta name="theme-color" content="#0d3b66"/>
 
   <!-- Perf: preconnect to CDNs actually used -->
@@ -42,26 +37,23 @@
 
     /* LIST (Wall-like, vertical cards) */
     .list-people{display:flex; flex-direction:column; gap:12px}
-    .person{position:relative; border:1px solid var(--ring); border-radius:16px; overflow:hidden; background:#fff; box-shadow:0 6px 20px rgba(13,59,102,.06)}
+    .person{position:relative; border:1px solid var(--ring); border-radius:16px; overflow:hidden; background:#fff; box-shadow:0 6px 20px rgba(13,59,102,.06); cursor:pointer}
     .person .rowwrap{display:flex; gap:0}
     .thumb{width:140px; min-width:140px; background:#e9eef5; overflow:hidden}
     .thumb img{width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:1/1}
     .pdata{flex:1; padding:.75rem .9rem}
     .name{font-weight:800; line-height:1.1; margin:0}
     .sub{color:var(--muted); font-size:.9rem}
-
     .chips{display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.45rem}
     .chip{display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .55rem; border-radius:999px; border:1px solid var(--ring-strong); font-weight:700; font-size:.75rem}
     .chip i{font-size:.85rem}
     .chip-ok{background:#e9f7ef; border-color:#cfe9d8; color:#0b6e4f}
     .chip-warn{background:#fff8e6; border-color:#ffe5a3; color:#7a5200}
     .chip-danger{background:#ffecec; border-color:#ffd0d0; color:#8d0a0a}
-
     .actions{display:flex; gap:.4rem; flex-wrap:wrap; align-items:center}
-    .actions .btn{white-space:nowrap}
     .person:focus-within, .person:hover{outline:2px solid rgba(13,59,102,.22); outline-offset:2px}
 
-    /* Table (kept as secondary view for power users; hidden by default) */
+    /* Table (secondary view) */
     .table thead th{background:#f4f7fb; white-space:nowrap; user-select:none; cursor:pointer}
     .table thead th[data-sort]:after{content:"  ↕"; color:#90a0b2; font-weight:400}
     .table thead th.sorted-asc:after{content:"  ↑"}
@@ -99,7 +91,7 @@
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
       <div>
         <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
-        <p class="mb-0">Faces first. Each row shows PAC vs small donors, local vs out-of-district, top industry, and donor-vote alignment. Click for receipts.</p>
+        <p class="mb-0">Faces first. Each row shows PAC vs small donors, local vs out‑of‑district, top industry, and donor‑vote alignment. Click for receipts.</p>
       </div>
       <div class="d-flex gap-2">
         <a class="btn btn-outline-light btn-sm" href="./index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
@@ -148,7 +140,7 @@
     </div>
   </div>
 
-  <!-- Headline Metrics (quick pulse) -->
+  <!-- Headline Metrics -->
   <div class="row g-3 mb-3">
     <div class="col-md-3">
       <div class="cardish p-3">
@@ -180,7 +172,7 @@
     </div>
   </div>
 
-  <!-- Charts (placeholders; safe to remove) -->
+  <!-- Charts (placeholders) -->
   <div class="row g-3 mb-3">
     <div class="col-lg-6">
       <div class="cardish p-3">
@@ -206,19 +198,18 @@
     </div>
   </div>
 
-  <!-- BOTTOM LIST (Wall-of-Shame UX) -->
+  <!-- BOTTOM LIST -->
   <section aria-labelledby="listHeading" class="mt-3">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
       <h2 id="listHeading" class="h6 mb-0">Members — Face List</h2>
       <span class="small text-muted">Click a row for details. Filters above apply here.</span>
     </div>
     <div id="fa-list" class="list-people">
-      <!-- JS populates .person rows here -->
       <div class="text-muted">Loading…</div>
     </div>
   </section>
 
-  <!-- (Optional) Data table for power users — collapsed by default -->
+  <!-- (Optional) Data table -->
   <details class="cardish p-3 mt-3">
     <summary class="small fw-semibold">Show data table (advanced)</summary>
     <div class="table-responsive mt-2">
@@ -291,14 +282,15 @@
 <!-- Inline demo data fallback so the page renders even if /data is missing -->
 <script id="demo-members" type="application/json">
 {
-  "D000001": {"id":"D000001","name":"Allison Rivera","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":"assets/members/D000001.jpg","ballotpedia":"https://ballotpedia.org/Allison_Rivera"},
-  "R000002": {"id":"R000002","name":"Marcus Ellison","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":"assets/members/R000002.jpg","ballotpedia":"https://ballotpedia.org/Marcus_Ellison"},
-  "S000003": {"id":"S000003","name":"Jamie Chen","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":"assets/members/S000003.jpg","ballotpedia":"https://ballotpedia.org/Jamie_Chen"}
+  "D000001": {"id":"D000001","bioguide":"D000001","name":"Allison Rivera","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":"assets/members/D000001.jpg"},
+  "R000002": {"id":"R000002","bioguide":"R000002","name":"Marcus Ellison","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":"assets/members/R000002.jpg"},
+  "S000003": {"id":"S000003","bioguide":"S000003","name":"Jamie Chen","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":"assets/members/S000003.jpg"}
 }
 </script>
 <script id="demo-donors" type="application/json">
 {
-  "D000001": {"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000}, "receipts":[{"title":"FEC report (Demo)","url":"https://www.fec.gov/data/"}]},
+  "D000001": {"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000},
+              "fec_receipts":[{"pac":"PHRMA PAC","amount":5000,"date":"2027-02-10","image_number":"202702109876543210"}]},
   "R000002": {"pac_pct":0.31,"in_state_dollars":210000,"out_state_dollars":150000,"industries":{"oil":120000,"finance":50000}},
   "S000003": {"pac_pct":0.12,"in_state_dollars":400000,"out_state_dollars":220000,"industries":{"tech":140000,"aipac":20000}}
 }
@@ -311,14 +303,18 @@
 </script>
 <script id="demo-align" type="application/json">
 {
-  "D000001":{"donor_alignment_index":0.91, "votes":[{"bill":"Energy Savings Bill (2027)","date":"2027-03-12","position":"No","url":"./Bills/energy-savings-and-lower-bills-bill-2027.html"}]},
+  "D000001":{"donor_alignment_index":0.91,
+             "votes":[
+               {"bill":"Energy Savings Bill (2027)","date":"2027-03-12","position":"No",
+                "congress":119,"chamber":"house","session":1,"roll":145}
+             ]},
   "R000002":{"donor_alignment_index":0.76},
   "S000003":{"donor_alignment_index":0.62}
 }
 </script>
 
 <script>
-/* Financial Alignments — Wall-style LIST, filters, CSV, modal (X/Reddit/TikTok) */
+/* Financial Alignments — updated: no external profile links, full-row click, resilient photos, official receipts builders */
 (async function(){
   const $ = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
@@ -351,11 +347,45 @@
   ]);
   $('#load-status').textContent = 'Data loaded.';
 
-  // Utilities
+  // Helpers
   const pct = n => Math.round((n||0)*100);
   const money = n => '$' + (Math.round(n||0)).toLocaleString();
-  const resolveMember = mid => members?.[mid] || null;
   const isURL = s => typeof s === 'string' && /^https?:\/\//i.test(s);
+
+  function resolveMember(mid){ return members?.[mid] || null; }
+
+  // Official receipts URL builders
+  function houseClerkURL({congress, session, roll}){
+    if(!(congress && session && roll)) return null;
+    // Example: https://clerk.house.gov/Votes?year=2027&rollCall=145  (fallback generic)
+    // Preferred (when available): /VoteSummary?Congress=119&Session=1&RollCall=145
+    return `https://clerk.house.gov/Votes/` + `RollCall?Congress=${encodeURIComponent(congress)}&Session=${encodeURIComponent(session)}&RollCall=${encodeURIComponent(roll)}`;
+  }
+  function houseClerkAlt({year, roll}){
+    if(!(year && roll)) return null;
+    return `https://clerk.house.gov/Votes?year=${encodeURIComponent(year)}&rollCall=${encodeURIComponent(roll)}`;
+  }
+  function senateVoteURL({congress, session, roll}){
+    if(!(congress && session && roll)) return null;
+    // CSV/XML listings exist; public “vote” page pattern:
+    return `https://www.senate.gov/legislative/LIS/roll_call_votes/vote${String(congress).padStart(3,'0')}${session === 2 ? '2' : '1'}/vote_${String(congress).padStart(3,'0')}_${session === 2 ? '2' : '1'}_${String(roll).padStart(5,'0')}.htm`;
+  }
+  function fecImageURL(image_number){
+    if(!image_number) return null;
+    return `https://docquery.fec.gov/cgi-bin/fecimg/?${encodeURIComponent(image_number)}`;
+  }
+
+  // Photo resolver with official fallback
+  function resolvePhoto(m){
+    const SILO = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
+    if (isURL(m?.photo)) return m.photo;
+    if (m?.photo) return m.photo;
+    // Try official portrait if bioguide present
+    if (m?.bioguide) return `https://unitedstates.github.io/images/congress/225x275/${m.bioguide}.jpg`;
+    // Else local assets by id
+    if (m?.id) return `assets/members/${m.id}.jpg`;
+    return SILO;
+  }
 
   function topIndustry(d){
     if(!d || !d.industries) return {key:'—', share:0};
@@ -387,25 +417,6 @@
     return chips;
   }
 
-  function candidateProfileLink(m){
-    const urls = [
-      m.url, m.website, m.personal_url, m.house_url, m.senate_url, m.ballotpedia, m.govtrack,
-      (m.bioguide ? `https://bioguide.congress.gov/search/bio/${m.bioguide}` : null)
-    ].filter(Boolean);
-    const first = urls.find(isURL);
-    if(first) return first;
-    // Fallback: Ballotpedia search for best UX
-    return `https://duckduckgo.com/?q=${encodeURIComponent(m.name + ' Ballotpedia')}`;
-  }
-
-  function resolvePhoto(m){
-    const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-    // Prefer explicit 'photo'. Else try assets/members/{id}.jpg. Else placeholder.
-    if (isURL(m.photo) || (typeof m.photo === 'string' && m.photo)) return m.photo;
-    if (m.id) return `assets/members/${m.id}.jpg`;
-    return ph;
-  }
-
   // Headline metrics (quick pulse from first donor record)
   (function setHeadline(){
     const mids = Object.keys(donorsByMember||{});
@@ -420,7 +431,7 @@
     $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
   })();
 
-  // Build LIST rows (bottom section)
+  // DOM build
   const listEl = $('#fa-list');
   const tbody = $('#fa-table');
 
@@ -442,13 +453,13 @@
       party: m.party || '',
       chamber: (m.chamber || '').toLowerCase(),
       state: (m.state || '').toLowerCase(),
+      bioguide: m.bioguide || m.id || '',
       photo: resolvePhoto(m),
       pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
       align: alignPct,
       chips,
       votes: (v && v.votes) || [],
-      receipts: (d && d.receipts) || [],
-      profile: candidateProfileLink(m)
+      fecReceipts: (d && (d.fec_receipts || d.receipts)) || [] // accept either key name
     };
   }
 
@@ -459,9 +470,8 @@
   }
 
   function listHTML(d){
-    // image fallback onerror → placeholder
     const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-    return `<article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}">
+    return `<article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}" tabindex="0" role="button" aria-label="Open details for ${d.name}">
       <div class="rowwrap">
         <div class="thumb">
           <img src="${d.photo}" alt="${d.name} headshot" loading="lazy" onerror="this.onerror=null;this.src='${ph}';">
@@ -474,7 +484,6 @@
               <div class="chips">${chipHTML(d.chips)}</div>
             </div>
             <div class="actions">
-              <a class="btn btn-sm btn-outline-secondary" href="${d.profile}" target="_blank" rel="noopener">Profile</a>
               <button class="btn btn-sm btn-primary open" data-open="${d.mid}" type="button" aria-label="Open details for ${d.name}">
                 <i class="fa-solid fa-circle-info me-1"></i>Details
               </button>
@@ -516,18 +525,23 @@
     const rows = mids.map(mid => rowData(mid));
     // LIST
     listEl.innerHTML = rows.map(listHTML).join('');
-    // Bind list opens
+    // Make entire row clickable + keyboard‑openable
+    $$('#fa-list .person').forEach(el=>{
+      const mid = el.getAttribute('data-mid');
+      el.addEventListener('click', ()=> openModal(mid));
+      el.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openModal(mid); } });
+    });
+    // Bind explicit Details buttons
     $$('#fa-list [data-open]').forEach(btn=>{
-      btn.addEventListener('click', ()=> openModal(btn.getAttribute('data-open')));
+      btn.addEventListener('click', (e)=>{ e.stopPropagation(); openModal(btn.getAttribute('data-open')); });
     });
     // TABLE
     tbody.innerHTML = rows.map(tableRowHTML).join('');
-    // Bind table row opens
     $$('#fa-table tr[data-mid]').forEach(tr=> tr.addEventListener('click', ()=> openModal(tr.getAttribute('data-mid'))));
   }
   rebuildBottom();
 
-  // Filters with deep-link support (?q=&chamber=&industry=)
+  // Filters
   const qInput = $('#fa-member'), chamberSel = $('#fa-chamber'), industrySel = $('#fa-industry'), resetBtn = $('#fa-reset');
 
   function passesIndustryFilter(mid, wanted){
@@ -560,7 +574,7 @@
       if(show) visible++;
     });
 
-    // TABLE rows (for advanced view)
+    // TABLE rows
     $$('#fa-table tr[data-mid]').forEach(tr=>{
       const mid = tr.getAttribute('data-mid');
       const nm = tr.getAttribute('data-name') || '';
@@ -570,8 +584,7 @@
       const textHit = !q || nm.includes(q) || st.includes(q) || seat.includes(q);
       const chamberHit = !ch || chamber === ch;
       const industryHit = passesIndustryFilter(mid, ind);
-      const show = (textHit && chamberHit && industryHit);
-      tr.style.display = show ? '' : 'none';
+      tr.style.display = (textHit && chamberHit && industryHit) ? '' : 'none';
     });
 
     $('#load-status').textContent = `Showing ${visible} row(s).`;
@@ -649,7 +662,7 @@
     const csv = [header.join(',')];
     rows.forEach(row=>{
       const mid = row.getAttribute('data-mid');
-      const d = rowData(mid); // recompute for CSV consistency
+      const d = rowData(mid);
       const badges = d.chips.map(ch => ch[2]).join(' | ');
       csv.push([d.name,d.seat,`${d.pacP}%`,`${d.smlP}%`,money(d.in$),money(d.out$),
                 d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`,
@@ -662,7 +675,7 @@
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Modal rendering + share
+  // Modal rendering + share (official receipts)
   function openModal(mid){
     const m = resolveMember(mid) || {};
     const d = donorsByMember[mid] || {};
@@ -685,11 +698,12 @@
     $('#overview-body').innerHTML = `
       <div class="row g-3">
         <div class="col-md-4">
-          <img src="${photo}" class="w-100 rounded" alt="${name} headshot" loading="lazy">
+          <img src="${photo}" class="w-100 rounded" alt="${name} headshot" loading="lazy"
+               onerror="this.onerror=null;this.src='https://unitedstates.github.io/images/congress/225x275/${m.bioguide||m.id||''}.jpg'">
         </div>
         <div class="col-md-8">
           <p class="mb-2"><strong>Badges:</strong> ${chips.length ? chips.map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ') : 'None yet'}</p>
-          <p class="mini mb-2">Hover a badge for its trigger. Every claim should link to receipts.</p>
+          <p class="mini mb-2">Every claim links to official receipts (Clerk/Senate/FEC).</p>
           <ul class="mb-0">
             <li>PAC share: <strong>${pct(d.pac_pct||0)}%</strong> (small donors: <strong>${100-pct(d.pac_pct||0)}%</strong>)</li>
             <li>In vs Out: <strong>${money(d.in_state_dollars||0)}</strong> in / <strong>${money(d.out_state_dollars||0)}</strong> out</li>
@@ -699,31 +713,77 @@
         </div>
       </div>`;
 
-    // Money
+    // Money (industry table)
     const inds = Object.entries(d.industries||{}).sort((a,b)=>b[1]-a[1]);
-    $('#money-body').innerHTML = `
-      <div class="table-responsive">
-        <table class="table table-sm align-middle">
-          <thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead>
-          <tbody>${inds.length ? inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('') : `<tr><td colspan="2" class="text-muted">No sector detail available.</td></tr>`}</tbody>
-        </table>
-      </div>
-      <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>`;
+    // Money receipts (FEC)
+    const fecRows = (d.fec_receipts || d.receipts || []).map(r=>{
+      const img = r.fec_image_url || fecImageURL(r.image_number);
+      const title = r.title || r.pac || 'FEC filing';
+      const amt = (r.amount!=null) ? ` — ${money(r.amount)}` : '';
+      const date = r.date ? ` • ${r.date}` : '';
+      return img ? `<li class="mb-1"><a href="${img}" target="_blank" rel="noopener">${title}</a>${amt}${date}</li>`
+                 : `<li class="mb-1 text-muted">${title}${amt}${date}</li>`;
+    }).join('');
 
-    // Votes
+    $('#money-body').innerHTML = `
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="table-responsive">
+            <table class="table table-sm align-middle">
+              <thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead>
+              <tbody>${inds.length ? inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('') : `<tr><td colspan="2" class="text-muted">No sector detail available.</td></tr>`}</tbody>
+            </table>
+          </div>
+          <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>
+        </div>
+        <div class="col-md-6">
+          <h6>FEC Filing Images</h6>
+          ${fecRows ? `<ul class="list-unstyled mb-0">${fecRows}</ul>` : `<p class="text-muted mb-0">No itemized filing images linked yet.</p>`}
+        </div>
+      </div>`;
+
+    // Votes (with official receipt links)
     const votes = (v && v.votes) || [];
+    const voteRows = votes.map(x=>{
+      // Accept direct official_url; else construct by chamber/tuple; else fallback to provided url
+      let official = x.official_url || null;
+      if(!official && x.congress && x.roll){
+        if((x.chamber||'').toLowerCase()==='house') official = houseClerkURL(x) || houseClerkAlt(x);
+        else if((x.chamber||'').toLowerCase()==='senate') official = senateVoteURL(x);
+      }
+      const link = official || x.url;
+      return `<tr>
+        <td>${x.bill||''}</td>
+        <td>${x.date||''}</td>
+        <td>${x.position||''}</td>
+        <td>${link?`<a href="${link}" target="_blank" rel="noopener">Open official</a>`:'—'}</td>
+      </tr>`;
+    }).join('');
+
     $('#votes-body').innerHTML = `
       <div class="table-responsive">
         <table class="table table-sm align-middle">
-          <thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead>
-          <tbody>${votes.length ? votes.map(x=>`<tr><td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('') : `<tr><td colspan="4" class="text-muted">No tracked votes yet.</td></tr>`}</tbody>
+          <thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Receipt</th></tr></thead>
+          <tbody>${votes.length ? voteRows : `<tr><td colspan="4" class="text-muted">No tracked votes yet.</td></tr>`}</tbody>
         </table>
       </div>`;
 
-    // Receipts
-    const receipts = (d && d.receipts) || [];
-    $('#receipts-body').innerHTML = receipts.length
-      ? `<ul class="list-unstyled mb-0">${receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
+    // Receipts tab (summary list = union of vote receipts + FEC images)
+    const receiptLinks = [];
+    votes.forEach(x=>{
+      let u = x.official_url || x.url || null;
+      if(!u && x.congress && x.roll){
+        if((x.chamber||'').toLowerCase()==='house') u = houseClerkURL(x) || houseClerkAlt(x);
+        else if((x.chamber||'').toLowerCase()==='senate') u = senateVoteURL(x);
+      }
+      if(u) receiptLinks.push({title: x.bill ? `Vote: ${x.bill}` : 'Vote record', url: u});
+    });
+    (d.fec_receipts || d.receipts || []).forEach(r=>{
+      const u = r.fec_image_url || fecImageURL(r.image_number) || r.url;
+      if(u) receiptLinks.push({title: r.title || r.pac || 'FEC filing', url: u});
+    });
+    $('#receipts-body').innerHTML = receiptLinks.length
+      ? `<ul class="list-unstyled mb-0">${receiptLinks.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a></li>`).join('')}</ul>`
       : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
 
     // Share buttons
