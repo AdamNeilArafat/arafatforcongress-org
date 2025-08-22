@@ -1,10 +1,27 @@
-// scripts/build-members-json.mjs
+// scripts/build-members-json.mjs (replace the seed)
 import fs from 'node:fs/promises';
 
-// TODO: if you already have a members CSV/JSON, read/normalize that here instead.
 const seed = [
-  // Minimal shape. Add fields as you have them (bioguide, fec_ids, website, etc.)
-  // { id:"D000001", name:"Allison Rivera", state:"WA", seat:"WA-10", chamber:"house", party:"D", bioguide:"D000001", fec_ids:["H0WA00123"] },
+  {
+    id: "AARAFAT",
+    name: "Adam Neil Arafat",
+    state: "WA",
+    seat: "WA-10",
+    chamber: "house",
+    party: "D",
+    bioguide: "A000000",
+    fec_ids: ["H4WA00123"] // <- your actual FEC ID when you have it
+  },
+  {
+    id: "S001135",
+    name: "Marilyn Strickland",
+    state: "WA",
+    seat: "WA-10",
+    chamber: "house",
+    party: "D",
+    bioguide: "S001135",
+    fec_ids: ["H0WA10078"]
+  }
 ];
 
 async function main() {
