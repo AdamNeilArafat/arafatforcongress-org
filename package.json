@@ -1,17 +1,13 @@
 {
   "name": "arafatforcongress-org",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:members": "node scripts/build-members-csv.js"
+    "build:members": "node scripts/build-members-json.mjs",
+    "build:financials": "node scripts/build-financials.mjs",
+    "build:awards": "node scripts/annotate-awards.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "yaml": "^2.8.1"
-  },
-  "type": "module"
+    "node-fetch": "^3.3.2"
+  }
 }
