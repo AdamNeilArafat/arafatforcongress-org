@@ -1,1 +1,10 @@
-   # timestamps, schema version, cycles
+{
+  "schema_version": 1,
+  "build_id": "2025-08-21T07:13:00Z",
+  "sources": {
+    "members": "unitedstates/congress-legislators",
+    "photos": "theunitedstates.io/images/congress",
+    "donors": "FEC cycle 2026 (pipeline)",
+    "votes": "House Clerk / Senate LIS (pipeline)"
+  }
+}
