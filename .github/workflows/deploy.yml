@@ -44,7 +44,10 @@ jobs:
             --exclude ".github" \
             --exclude "node_modules" \
             ./ _site/
-
+             touch _site/.nojekyll           # ✅ prevent Jekyll from meddling
+            # quick sanity checks            # ✅ prove data files exist in artifact
+             test -f _site/data/members.json && head -c 120 _site/data/members.json || (echo "missing data/members.json" && exit 1)
+            test -f _site/data/donors-by-member.json || (echo "missing data/donors-by-member.json" && exit 1)
       - name: List artifact (sanity)
         run: |
           echo "Top-level in _site:"
