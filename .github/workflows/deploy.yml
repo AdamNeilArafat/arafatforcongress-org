@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages-${{ github.ref }}"
+  group: "pages-\${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
@@ -33,8 +33,8 @@ jobs:
 
       - name: Build data (JSON used by pages)
         env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FEC_API_KEY: \${{ secrets.FEC_API_KEY }}
+          OPENAI_API_KEY: \${{ secrets.OPENAI_API_KEY }}
         run: npm run build:data
 
       - name: Assemble static site into _site
@@ -42,11 +42,9 @@ jobs:
           set -euo pipefail
           rm -rf _site
           mkdir -p _site
-          # Copy common site assets; ignore if a path doesn't exist
           for p in index.html Bills accountability assets styles.css data CNAME .nojekyll; do
             [ -e "$p" ] && rsync -a "$p" _site/ || true
           done
-          # Ensure .nojekyll exists so underscored dirs aren’t skipped
           touch _site/.nojekyll
 
       - name: Upload Pages artifact
@@ -59,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: \${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
