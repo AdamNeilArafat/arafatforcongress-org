@@ -44,16 +44,11 @@ jobs:
           set -euo pipefail
           rm -rf _site
           mkdir -p _site
-          for p in index.html Bills accountability assets styles.css data CNAME .nojekyll; do
+                  for p in index.html Bills accountability assets styles.css data CNAME .nojekyll *.html; do
           
             if [ -e "$p" ]; then
               rsync -a "$p" _site/
-                      # Copy all root-level HTML files
-        for f in *.html; do
-          if [ -e "$f" ]; then
-            rsync -a "$f" _site/
-          fi
-        done
+    fi                   
       
             
           done
