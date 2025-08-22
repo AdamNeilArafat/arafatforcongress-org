@@ -324,40 +324,121 @@
   };
 
   // ---------- robust data loader with last-good cache ----------
-  const CACHE_KEY = 'faCache-v3';
+  cconst CACHE_KEY = 'faCache-v4';
+const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
 
-  async function fetchJSON(path){
-    const r = await fetch(path, {cache:'no-store'});
-    if(!r.ok) throw new Error(`HTTP ${r.status} ${path}`);
-    return r.json();
-  }
+// Safe parse helper (never throws)
+function safeJSON(s, fallback = null) {
+  try { return JSON.parse(s); } catch { return fallback; }
+}
 
-  async function loadAll(){
-    try{
-      // 1) Try network (prefer pipeline JSON at site root /data)
-      const [members, donors, awards, align] = await Promise.all([
-        fetchJSON('/data/members.json'),
-        fetchJSON('/data/donors-by-member.json'),
-        // allow either filename for badges
-        fetchJSON('/data/member-awards.json').catch(()=>fetchJSON('/data/badges.json')),
-        fetchJSON('/data/vote-alignments.json')
-      ]);
-      const payload = {members, donorsByMember: donors, awardsByMember: awards, voteAlignByMember: align, ts: Date.now()};
-      localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
-      return payload;
-    }catch(e){
-      // 2) fallback to last good cache
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) return JSON.parse(cached);
-      // 3) last resort: inline demo
-      return {
-        members:          parseInlineJSON('demo-members', {}),
-        donorsByMember:   parseInlineJSON('demo-donors', {}),
-        awardsByMember:   parseInlineJSON('demo-awards', {}),
-        voteAlignByMember:parseInlineJSON('demo-align',  {})
-      };
+// Basic shape checks (adjust as needed)
+const isArray = x => Array.isArray(x);
+const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
+
+function isValidPayload(p) {
+  return p
+    && isArray(p.members)
+    && isObj(p.donorsByMember)
+    && isArray(p.awardsByMember)
+    && isObj(p.voteAlignByMember);
+}
+
+// Timeout wrapper for fetch
+function fetchWithTimeout(url, opts = {}, ms = 12000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(t));
+}
+
+async function fetchJSON(path) {
+  const r = await fetchWithTimeout(path, { cache: 'no-store' });
+  if (!r.ok) throw new Error(`HTTP ${r.status} ${path}`);
+  return r.json();
+}
+
+function readCache() {
+  const cached = safeJSON(localStorage.getItem(CACHE_KEY));
+  if (!cached) return null;
+  if (!isValidPayload(cached)) return null;
+  if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null; // expired
+  return cached;
+}
+
+function writeCache(payload) {
+  try {
+    if (isValidPayload(payload)) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 }));
     }
+  } catch {
+    // storage full or disabled — ignore
   }
+}
+
+// Optional: inline JSON helper you already have
+function parseInlineJSON(id, fallback={}) {
+  try { return JSON.parse(document.getElementById(id).textContent.trim()); }
+  catch { return fallback; }
+}
+
+// Returns a payload immediately (cache/demo) and refreshes in background.
+// Usage: const payload = await loadAll(); // fast
+//        loadAll.refresh()?.catch(()=>{}); // optional manual refresh
+async function loadAll() {
+  // 1) Serve cache fast if valid
+  const cached = readCache();
+  if (cached) {
+    // kick a background refresh; don't block UI
+    loadAll.refresh().catch(() => {});
+    return cached;
+  }
+
+  // 2) Try network; if it fails, fall back to demo
+  try {
+    const fresh = await loadAll.fetchNetwork();
+    writeCache(fresh);
+    return fresh;
+  } catch {
+    // 3) Last resort: inline demo
+    const demo = {
+      members:            parseInlineJSON('demo-members', []),
+      donorsByMember:     parseInlineJSON('demo-donors', {}),
+      awardsByMember:     parseInlineJSON('demo-awards', []),
+      voteAlignByMember:  parseInlineJSON('demo-align',  {})
+    };
+    if (isValidPayload(demo)) writeCache(demo);
+    return demo;
+  }
+}
+
+// Background refresh (SWR)
+loadAll.refresh = async function() {
+  const fresh = await loadAll.fetchNetwork();
+  writeCache(fresh);
+  return fresh;
+};
+
+// Actual network fetcher (with awards filename fallback)
+loadAll.fetchNetwork = async function() {
+  const [members, donors, awards, align] = await Promise.all([
+    fetchJSON('/data/members.json'),
+    fetchJSON('/data/donors-by-member.json'),
+    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
+    fetchJSON('/data/vote-alignments.json')
+  ]);
+
+  const payload = {
+    members,
+    donorsByMember: donors,
+    awardsByMember: awards,
+    voteAlignByMember: align,
+    ts: Date.now(),
+    v: 4
+  };
+
+  if (!isValidPayload(payload)) throw new Error('Invalid payload shape');
+  return payload;
+};
 
   // ---------- boot ----------
   $('#load-status').textContent = 'Loading data…';
