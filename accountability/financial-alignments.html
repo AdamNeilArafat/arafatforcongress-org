@@ -1,7 +1,9 @@
-<!-- financial-alignments.html — FULL, DROP‑IN PAGE
-     - Uses pipeline JSON if present: data/members.json, data/donors-by-member.json, data/member-awards.json, data/vote-alignments.json
-     - Inline demo data fallback so it renders out of the box.
-     - Adds: deep-link filters, a11y, member details modal (overview/money/votes/receipts), CSV export, sorting, perf tweaks. -->
+<!-- accountability/financial-alignments.html — FULL, DROP‑IN PAGE
+     - Reads pipeline JSON if present: /data/members.json, /data/donors-by-member.json, /data/member-awards.json, /data/vote-alignments.json
+     - Inline demo JSON fallback so it renders out of the box.
+     - Adds: deep-link filters, a11y, member details modal (overview/money/votes/receipts), CSV export, sorting, perf tweaks.
+     - NEW: absolute data paths, robust headshot resolver (Bioguide → photo → /images/* guesses), crosswalk for votes/receipts.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,17 +16,15 @@
   <!-- Perf: preconnect to CDNs actually used -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://theunitedstates.io" crossorigin>
+  <link rel="preconnect" href="https://theunitedstates.io" crossorigin">
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 
   <style>
-    :root{
-      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
-      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
-    }
+    :root{ --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
+      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22); }
     html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
     a{color:var(--brand); text-decoration:none}
     a:hover{text-decoration:underline}
@@ -56,8 +56,6 @@
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
-
-    /* Row hover to suggest “click for details” */
     #fa-table tr[data-mid]{transition:background .12s}
     #fa-table tr[data-mid]:hover{background:#f9fbfe; cursor:pointer}
   </style>
@@ -67,18 +65,18 @@
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <a class="navbar-brand fw-bold" href="../index.html">Adam Neil Arafat for Congress - WA-10</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="./index.html">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link" href="../index.html">Wall of Shame</a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="./financial-alignments.html">Financial Alignments</a></li>
-        <li class="nav-item"><a class="nav-link" href="./badges.html">Badges &amp; Awards</a></li>
-        <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
-        <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="../badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link" href="../digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
       </ul>
     </div>
   </div>
@@ -93,8 +91,8 @@
         <p class="mb-0">PAC vs small donors, in‑district vs out‑district, industries, and vote alignment — with clear badge triggers.</p>
       </div>
       <div class="d-flex gap-2">
-        <a class="btn btn-outline-light btn-sm" href="./index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
-        <a class="btn btn-danger btn-sm" href="./badges.html#thresholds"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
+        <a class="btn btn-outline-light btn-sm" href="../index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
+        <a class="btn btn-danger btn-sm" href="../badges.html#thresholds"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
       </div>
     </div>
   </div>
@@ -176,7 +174,7 @@
       <div class="cardish p-3">
         <div class="d-flex justify-content-between align-items-center">
           <h2 class="h6 mb-0">PAC vs Small Donors</h2>
-          <a href="./badges.html#thresholds" class="small">See thresholds</a>
+          <a href="../badges.html#thresholds" class="small">See thresholds</a>
         </div>
         <div class="chart-box d-flex align-items-center justify-content-center">
           <span class="text-muted">Chart placeholder (PAC % vs Small %)</span>
@@ -187,7 +185,7 @@
       <div class="cardish p-3">
         <div class="d-flex justify-content-between align-items-center">
           <h2 class="h6 mb-0">In‑District vs Out‑District</h2>
-          <a href="./badges.html#thresholds" class="small">See thresholds</a>
+          <a href="../badges.html#thresholds" class="small">See thresholds</a>
         </div>
         <div class="chart-box d-flex align-items-center justify-content-center">
           <span class="text-muted">Chart placeholder (In vs Out by $)</span>
@@ -286,11 +284,17 @@
 <script>
 /* Financial Alignments — loader, filters, sorting, CSV export, modal */
 (async function(){
-  const $ = (s, el=document)=>el.querySelector(s);
+  const $  = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
-  const v = Date.now();
+  const v  = Date.now();
 
   const THRESH = { PAC_FLAG: 0.40, INDUSTRY_DOMINATE: 0.35, ALIGN_HIGH: 0.90 };
+
+  const PLACEHOLDER = "data:image/svg+xml;utf8,"+encodeURIComponent(
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/>"+
+    "<g fill='#98a5b4'><circle cx='32' cy='24' r='12'/>"+
+    "<rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>"
+  );
 
   const parseInlineJSON = (id, fallback={})=>{
     try{ return JSON.parse(document.getElementById(id).textContent.trim()); }catch{ return fallback; }
@@ -307,18 +311,17 @@
     }
   }
 
-  // Load data (pipeline if present, else demo)
+  // Load data (pipeline if present, else demo) — NOTE: absolute paths
   $('#load-status').textContent = 'Loading data…';
   const [members, donorsByMember, awardsByMember, voteAlignByMember] = await Promise.all([
-  tryJSON('/data/members.json','demo-members'),
-  tryJSON('/data/donors-by-member.json','demo-donors'),
-  tryJSON('/data/member-awards.json','demo-awards'),
-  tryJSON('/data/vote-alignments.json','demo-align')
-]);
+    tryJSON('/data/members.json','demo-members'),
+    tryJSON('/data/donors-by-member.json','demo-donors'),
+    tryJSON('/data/member-awards.json','demo-awards'),
+    tryJSON('/data/vote-alignments.json','demo-align')
+  ]);
   $('#load-status').textContent = 'Data loaded.';
 
-  // ===== BEGIN CROSSWALK / NORMALIZER PATCH =====
-
+  // ===== CROSSWALK / NORMALIZER PATCH =====
   function buildMemberIndex(membersRaw) {
     const index = Object.create(null);
     const list = Array.isArray(membersRaw)
@@ -347,13 +350,7 @@
         fec_ids: fecList
       };
 
-      const keys = new Set([
-        norm.id,
-        norm.bioguide_id,
-        seat,
-        (m.name || "").trim(),
-        ...fecList
-      ].filter(Boolean));
+      const keys = new Set([ norm.id, norm.bioguide_id, seat, (m.name || "").trim(), ...fecList ].filter(Boolean));
       for (const k of keys) index[k] = norm;
     }
     return { index, list };
@@ -374,7 +371,6 @@
   }
 
   const { index: memberIndex } = buildMemberIndex(members);
-
   const donorsRaw = mapByAnyId(donorsByMember);
   const awardsRaw = mapByAnyId(awardsByMember);
   const votesRaw  = mapByAnyId(voteAlignByMember);
@@ -451,40 +447,83 @@
     const seen = new Set();
     return out.filter(r => (seen.has(r.url) ? false : seen.add(r.url)));
   }
-
-  // expose canon maps for rest of script
-  const donorsByCanon = donorsCanon;
-  const awardsByCanon = awardsCanon;
-  const votesByCanon  = votesCanon;
-
   // ===== END CROSSWALK / NORMALIZER PATCH =====
 
   // Utilities
   const pct   = n => Math.round((n||0)*100);
   const money = n => '$' + (Math.round(n||0)).toLocaleString();
 
-  // Headshot resolver (Bioguide CDN → custom photo → SVG)
-  function headshot(m, size='225x275') {
-    const PLACEHOLDER = "data:image/svg+xml;utf8,"+encodeURIComponent(
-      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/>"+
-      "<g fill='#98a5b4'><circle cx='32' cy='24' r='12'/>"+
-      "<rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>"
-    );
-    const bio = (m?.bioguide_id || m?.bioguide || m?.id || '').trim();
+  // ===== ROBUST HEADSHOT LOADER =====
+  function slugifyName(name='') {
+    return String(name).toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-');
+  }
+
+  function headshotCandidates(m, size='225x275') {
+    const cands = [];
+    const bio = (m?.bioguide_id || m?.bioguide || '').trim();
+    const id  = (m?.id || m?.mid || '').trim();
+    const seat = (m?.seat || '').trim();                 // e.g., WA-10
+    const nameSlug = slugifyName(m?.name || '');
+
+    // 1) Bioguide CDN first
     if (bio) {
       const base = "https://theunitedstates.io/images/congress";
-      const primary = `${base}/${size}/${bio}.jpg`;
-      return {
-        src: primary,
+      cands.push({
+        src: `${base}/${size}/${bio}.jpg`,
         srcset: `${base}/100x125/${bio}.jpg 100w, ${base}/225x275/${bio}.jpg 225w`,
-        sizes: "(max-width: 480px) 100px, 36px",
-        alt: `${m?.name || bio} headshot`,
-        placeholder: PLACEHOLDER
-      };
+        sizes: "(max-width: 480px) 100px, 36px"
+      });
     }
-    if (m?.photo) return { src:m.photo, srcset:"", sizes:"", alt:`${m?.name||'Member'} headshot`, placeholder: PLACEHOLDER };
-    return { src: PLACEHOLDER, srcset:"", sizes:"", alt:`${m?.name||'Member'} headshot`, placeholder: PLACEHOLDER };
+
+    // 2) Explicit photo URL from data
+    if (m?.photo) { cands.push({ src: m.photo }); }
+
+    // 3) Local guesses in /images (same origin)
+    const bases = [bio, id, seat, nameSlug].filter(Boolean);
+    const exts  = ['.jpg','.jpeg','.png','.webp'];
+    for (const b of bases) for (const ext of exts) cands.push({ src: `/images/${b}${ext}` });
+
+    // Deduplicate by src
+    const seen = new Set();
+    return cands.filter(x => (seen.has(x.src) ? false : seen.add(x.src)));
   }
+
+  function applyHeadshot(imgEl, m, size='225x275') {
+    const cands = headshotCandidates(m, size);
+    let i = 0;
+
+    function tryNext() {
+      if (i >= cands.length) {
+        imgEl.src = PLACEHOLDER;
+        imgEl.removeAttribute('srcset'); imgEl.removeAttribute('sizes');
+        imgEl.onerror = null;
+        return;
+      }
+      const c = cands[i++];
+      imgEl.src = c.src;
+      if (c.srcset) { imgEl.srcset = c.srcset; imgEl.sizes = c.sizes || ''; }
+      else { imgEl.removeAttribute('srcset'); imgEl.removeAttribute('sizes'); }
+    }
+
+    imgEl.onerror = tryNext;
+    tryNext(); // start with first
+  }
+  // ===== END HEADSHOT LOADER =====
+
+  // Headline metrics (quick glance from first record)
+  (function setHeadline(){
+    const mids = Object.keys(donorsCanon || {});
+    if(!mids.length) return;
+    const mid = mids[0];
+    const d = donorsCanon[mid] || {};
+    const va = normalizeVotes(votesCanon[mid]);
+    const ti = topIndustry(d);
+    $('#m-pac-small').textContent = `${pct(d.pac_pct||0)}% PAC / ${100 - pct(d.pac_pct||0)}% small`;
+    $('#m-geo').textContent = `${money(d.in_state_dollars||0)} in / ${money(d.out_state_dollars||0)} out`;
+    $('#m-top-industry').textContent = ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`;
+    $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
+  })();
 
   function topIndustry(d){
     if(!d || !d.industries) return {key:'—', share:0};
@@ -516,47 +555,31 @@
     return chips;
   }
 
-  // Headline metrics (quick glance from first record)
-  (function setHeadline(){
-    const mids = Object.keys(donorsByCanon||{});
-    if(!mids.length) return;
-    const mid = mids[0];
-    const d = donorsByCanon[mid] || {};
-    const va = normalizeVotes(votesByCanon[mid]);
-    const ti = topIndustry(d);
-    $('#m-pac-small').textContent = `${pct(d.pac_pct||0)}% PAC / ${100 - pct(d.pac_pct||0)}% small`;
-    $('#m-geo').textContent = `${money(d.in_state_dollars||0)} in / ${money(d.out_state_dollars||0)} out`;
-    $('#m-top-industry').textContent = ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`;
-    $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
-  })();
-
-  // Build table
   const tbody = $('#fa-table');
 
   function rowData(mid){
     const m = resolveMember(mid) || {};
-    const d = donorsByCanon[mid] || {};
-    const a = awardsByCanon[mid] || null;
-    const vNorm = normalizeVotes(votesByCanon[mid]);
+    const d = donorsCanon[mid] || {};
+    const a = awardsCanon[mid] || null;
+    const vNorm = normalizeVotes(votesCanon[mid]);
     const ti = topIndustry(d);
     const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
     const in$ = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
     const chips = computeChips(d, a, vNorm);
-    const img = headshot(m);
 
     return {
       mid,
+      m,
       name: m.name || mid,
       seat: m.seat || (m.state || '—'),
       party: m.party || '',
       chamber: (m.chamber || '').toLowerCase(),
       state: (m.state || '').toLowerCase(),
-      img,
       pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
       align: (typeof vNorm.donor_alignment_index==='number') ? pct(vNorm.donor_alignment_index) : null,
       chips,
       votes: vNorm.votes,
-      receipts: normalizeReceipts(d, a, votesByCanon[mid])
+      receipts: normalizeReceipts(d, a, votesCanon[mid])
     };
   }
 
@@ -567,17 +590,11 @@
   }
 
   function rowHTML(d){
+    // image is loaded progressively via JS (applyHeadshot) with multiple fallbacks
     return `<tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}">
       <td>
         <div class="d-flex align-items-center gap-2">
-          <img class="avatar"
-               src="${d.img.src}"
-               srcset="${d.img.srcset}"
-               sizes="${d.img.sizes}"
-               alt="${d.img.alt}"
-               referrerpolicy="no-referrer"
-               loading="lazy" width="36" height="36"
-               onerror="this.onerror=null; this.src='${d.img.placeholder}'; this.removeAttribute('srcset'); this.removeAttribute('sizes');">
+          <img class="avatar js-headshot" alt="${d.name} headshot" referrerpolicy="no-referrer" loading="lazy" width="36" height="36" src="${PLACEHOLDER}">
           <div><div class="fw-bold">${d.name}</div><div class="text-muted small">${d.party}</div></div>
         </div>
       </td>
@@ -592,12 +609,20 @@
   }
 
   function rebuildTable(){
-    const mids = Object.keys(donorsByCanon||{});
+    const mids = Object.keys(donorsCanon||{});
     if(!mids.length){ tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`; return; }
     const rows = mids.map(mid => rowData(mid));
     tbody.innerHTML = rows.map(rowHTML).join('');
+
+    // Load headshots (progressive fallback)
     $$('#fa-table tr[data-mid]').forEach(tr=>{
-      tr.addEventListener('click', ()=> openModal(tr.getAttribute('data-mid')));
+      const mid = tr.getAttribute('data-mid');
+      const m = resolveMember(mid) || {};
+      const img = tr.querySelector('img.js-headshot');
+      applyHeadshot(img, m, '225x275');
+
+      // Row → modal
+      tr.addEventListener('click', ()=> openModal(mid));
     });
   }
   rebuildTable();
@@ -607,7 +632,7 @@
 
   function passesIndustryFilter(mid, wanted){
     if(!wanted) return true;
-    const d = donorsByCanon[mid] || {};
+    const d = donorsCanon[mid] || {};
     const inds = d.industries || {};
     const keys = Object.keys(inds).map(k=>k.toLowerCase());
     return keys.includes(wanted.toLowerCase());
@@ -724,18 +749,17 @@
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Modal “card” rendering (row click)
+  // Modal (row click → card)
   function openModal(mid){
     const m = resolveMember(mid) || {};
-    const d = donorsByCanon[mid] || {};
-    const a = awardsByCanon[mid] || {};
-    const vNorm = normalizeVotes(votesByCanon[mid]);
+    const d = donorsCanon[mid] || {};
+    const a = awardsCanon[mid] || {};
+    const vNorm = normalizeVotes(votesCanon[mid]);
     const ti = topIndustry(d);
 
     const name = m.name || mid;
     const seat = m.seat || (m.state || '');
     const party = m.party || '';
-    const img = headshot(m, '225x275');
 
     $('#memberTitle').textContent = `${name} — ${seat}${party ? ' ('+party+')' : ''}`;
     $('#memberMeta').textContent = `Top industry: ${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`} • PAC: ${pct(d.pac_pct||0)}% • Vote align: ${typeof vNorm.donor_alignment_index==='number'?pct(vNorm.donor_alignment_index)+'%':'—'}`;
@@ -744,15 +768,7 @@
     $('#overview-body').innerHTML = `
       <div class="row g-3">
         <div class="col-md-4">
-          <img
-            src="${img.src}"
-            srcset="${img.srcset}"
-            sizes="(max-width: 768px) 50vw, 225px"
-            class="w-100 rounded"
-            alt="${img.alt}"
-            referrerpolicy="no-referrer"
-            loading="lazy"
-            onerror="this.onerror=null; this.src='${img.placeholder}'; this.removeAttribute('srcset'); this.removeAttribute('sizes');">
+          <img id="memberPhoto" class="w-100 rounded" alt="${name} headshot" referrerpolicy="no-referrer" loading="lazy" src="${PLACEHOLDER}">
         </div>
         <div class="col-md-8">
           <p class="mb-2"><strong>Badges:</strong> ${chips.length ? chipHTML(chips) : 'None yet'}</p>
@@ -765,6 +781,9 @@
           </ul>
         </div>
       </div>`;
+
+    // Apply headshot with fallbacks in the modal as well
+    applyHeadshot($('#memberPhoto'), m, '225x275');
 
     const inds = Object.entries(d.industries||{}).sort((a,b)=>b[1]-a[1]);
     $('#money-body').innerHTML = `
@@ -791,7 +810,7 @@
         </table>
       </div>`;
 
-    const receipts = normalizeReceipts(d, a, votesByCanon[mid]);
+    const receipts = normalizeReceipts(d, a, votesCanon[mid]);
     $('#receipts-body').innerHTML = receipts.length
       ? `<ul class="list-unstyled mb-0">${receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
       : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
