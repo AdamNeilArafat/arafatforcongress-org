@@ -1,26 +1,11 @@
-# from the repo root
-mkdir -p accountability/data
-
-# (temporary) seed with your demo objects so the page renders:
-cat > accountability/data/members.json <<'JSON'
-{"D000001":{"id":"D000001","bioguide":"D000001","name":"Allison Rivera","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":"assets/members/D000001.jpg"},
- "R000002":{"id":"R000002","bioguide":"R000002","name":"Marcus Ellison","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":"assets/members/R000002.jpg"},
- "S000003":{"id":"S000003","bioguide":"S000003","name":"Jamie Chen","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":"assets/members/S000003.jpg"}}
-JSON
-
-cat > accountability/data/donors-by-member.json <<'JSON'
-{"D000001":{"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000}},
- "R000002":{"pac_pct":0.31,"in_state_dollars":210000,"out_state_dollars":150000,"industries":{"oil":120000,"finance":50000}},
- "S000003":{"pac_pct":0.12,"in_state_dollars":400000,"out_state_dollars":220000,"industries":{"tech":140000}}}
-JSON
-
-cat > accountability/data/member-awards.json <<'JSON'
-{"D000001":{"badges":[{"key":"high-pac","label":"High PAC Reliance"}]},
- "R000002":{"badges":[{"key":"dominant-industry","label":"Dominant Industry"}]}}
-JSON
-
-cat > accountability/data/vote-alignments.json <<'JSON'
-{"D000001":{"donor_alignment_index":0.91},
- "R000002":{"donor_alignment_index":0.76},
- "S000003":{"donor_alignment_index":0.62}}
-JSON
+{
+  "S001234": {
+    "id": "S001234",
+    "name": "Member Name",
+    "seat": "WA-10",
+    "state": "WA",
+    "chamber": "house",
+    "party": "D",
+    "photo": "assets/headshots/S001234.jpg"
+  }
+}
