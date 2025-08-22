@@ -299,302 +299,175 @@
 }
 </script>
 
-<script>
-(async function(){
-  // ---------- tiny utils ----------
-  const $  = (s, el=document)=>el.querySelector(s);
-  const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
+<script type="module">
+/* ---------- tiny utils ---------- */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+const pct = (n) => Math.round((Number(n)||0) * 100);
+const money = (n) => (Number(n)||0).toLocaleString('en-US',{style:'currency',currency:'USD'});
+function parseInlineJSON(id, fallback) {
+  const el = document.getElementById(id);
+  if (!el) return fallback;
+  try { return JSON.parse(el.textContent); } catch { return fallback; }
+}
 
-  // THRESHOLDS
-  const THRESH = { PAC_FLAG: 0.40, INDUSTRY_DOMINATE: 0.35, ALIGN_HIGH: 0.90 };
+/* thresholds used in your chip logic; tweak as you like */
+const THRESH = {
+  PAC_FLAG: 0.50,            // 50% PAC or more -> flag
+  INDUSTRY_DOMINATE: 0.40,   // 40%+ single industry share -> dominate
+  ALIGN_HIGH: 0.60           // 60%+ donor-aligned votes -> flag
+};
 
-  const pct   = n => Math.round((n||0)*100);
-  const money = n => '$' + (Math.round(n||0)).toLocaleString();
-  const isURL = s => typeof s === 'string' && /^https?:\/\//i.test(s);
+/* ---------- robust data loader with last-good cache ---------- */
+const CACHE_KEY = 'faCache-v4';
+const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours (stale-while-revalidate)
 
-  const parseInlineJSON = (id, fallback={})=>{
-    try{ return JSON.parse(document.getElementById(id).textContent.trim()); }catch{ return fallback; }
-  };
+const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
 
-  // ---------- robust data loader with last-good cache ----------
-  const CACHE_KEY = 'faCache-v4';
-  const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
-
-  const isArray = x => Array.isArray(x);
-  const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
-
-  // Validate shapes (members & awards are OBJECT maps keyed by member id)
-  function isValidPayload(p) {
-    return p
-      && isObj(p.members)
-      && isObj(p.donorsByMember)
-      && isObj(p.awardsByMember)
-      && isObj(p.voteAlignByMember);
-  }
-
-  function fetchWithTimeout(url, opts = {}, ms = 12000) {
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), ms);
-    return fetch(url, { ...opts, signal: ctrl.signal, cache: 'no-store' })
-      .finally(() => clearTimeout(t));
-  }
-
-  async function fetchJSON(path) {
-    const r = await fetchWithTimeout(path);
-    if (!r.ok) throw new Error(`HTTP ${r.status} ${path}`);
-    return r.json();
-  }
-
-  function readCache() {
-    try {
-      const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
-      if (!cached) return null;
-      if (!isValidPayload(cached)) return null;
-      if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null;
-      return cached;
-    } catch { return null; }
-  }
-
-  function writeCache(payload) {
-    try {
-      if (isValidPayload(payload)) {
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 }));
-      }
-    } catch { /* ignore storage errors */ }
-  }
-
-  async function loadAll() {
-    const cached = readCache();
-    if (cached) {
-      // background refresh (stale-while-revalidate)
-      loadAll.refresh().catch(()=>{});
-      return cached;
+/* Accept arrays or maps and normalize to object maps keyed by member id */
+function toMemberMap(maybeArr) {
+  if (!maybeArr) return {};
+  if (Array.isArray(maybeArr)) {
+    const map = {};
+    for (const row of maybeArr) {
+      const id = row.bioguide_id || row.bioguide || row.id || row.mid;
+      if (id) map[id] = row;
     }
-    try {
-      const fresh = await loadAll.fetchNetwork();
-      writeCache(fresh);
-      return fresh;
-    } catch {
-      const demo = {
-        members:           parseInlineJSON('demo-members', {}),
-        donorsByMember:    parseInlineJSON('demo-donors', {}),
-        awardsByMember:    parseInlineJSON('demo-awards', {}),
-        voteAlignByMember: parseInlineJSON('demo-align',  {})
-      };
-      if (isValidPayload(demo)) writeCache(demo);
-      return demo;
-    }
+    return map;
   }
+  return maybeArr; // assume already a map
+}
+function ensureObj(x) { return isObj(x) ? x : {}; }
 
-  loadAll.refresh = async function() {
+function isValidPayload(p) {
+  return p
+    && isObj(p.members)
+    && isObj(p.donorsByMember)
+    && isObj(p.awardsByMember)
+    && isObj(p.voteAlignByMember);
+}
+
+/* MDN: fetch won't reject on HTTP 404; check res.ok; use AbortSignal timeout */
+async function fetchJSON(path, timeoutMs=12000) {
+  const res = await fetch(path, {
+    signal: AbortSignal.timeout(timeoutMs),      // modern timeout
+    cache: 'no-store'                            // bypass HTTP cache while iterating
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${path}`); /* MDN: check ok */
+  return res.json();
+}
+
+function readCache() {
+  try {
+    const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+    if (!cached || !isValidPayload(cached)) return null;
+    if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null;
+    return cached;
+  } catch { return null; }
+}
+function writeCache(payload) {
+  try {
+    if (isValidPayload(payload)) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 }));
+    }
+  } catch { /* storage might be full/private mode */ }
+}
+
+async function loadAll() {
+  const cached = readCache();
+  if (cached) {
+    // Stale-while-revalidate in background
+    loadAll.refresh().catch(()=>{});
+    return cached;
+  }
+  try {
     const fresh = await loadAll.fetchNetwork();
     writeCache(fresh);
     return fresh;
-  };
-
-  loadAll.fetchNetwork = async function() {
-    const [members, donors, awardsOrBadges, align] = await Promise.all([
-      fetchJSON('/data/members.json'),
-      fetchJSON('/data/donors-by-member.json'),
-      fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
-      fetchJSON('/data/vote-alignments.json')
-    ]);
-    const payload = {
-      members,
-      donorsByMember: donors,
-      awardsByMember: awardsOrBadges,
-      voteAlignByMember: align,
-      ts: Date.now(),
-      v: 4
+  } catch {
+    // Fall back to inline demo blocks if network fails
+    const demo = {
+      members:           toMemberMap(parseInlineJSON('demo-members', [])),
+      donorsByMember:    ensureObj(parseInlineJSON('demo-donors', {})),
+      awardsByMember:    ensureObj(parseInlineJSON('demo-awards', {})),
+      voteAlignByMember: ensureObj(parseInlineJSON('demo-align',  {}))
     };
-    if (!isValidPayload(payload)) throw new Error('Invalid payload shape');
-    return payload;
+    if (isValidPayload(demo)) writeCache(demo);
+    return demo;
+  }
+}
+loadAll.refresh = async function() {
+  const fresh = await loadAll.fetchNetwork();
+  writeCache(fresh);
+  return fresh;
+};
+loadAll.fetchNetwork = async function() {
+  const [membersRaw, donors, awardsOrBadges, align] = await Promise.all([
+    fetchJSON('/data/members.json'),
+    fetchJSON('/data/donors-by-member.json'),
+    // allow either file name to exist
+    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
+    fetchJSON('/data/vote-alignments.json')
+  ]);
+  const payload = {
+    members:           toMemberMap(membersRaw),
+    donorsByMember:    ensureObj(donors),
+    awardsByMember:    ensureObj(awardsOrBadges),
+    voteAlignByMember: ensureObj(align)
   };
+  if (!isValidPayload(payload)) throw new Error('Invalid payload shape');
+  return payload;
+};
 
-  // ---------- boot ----------
-  $('#load-status').textContent = 'Loading data…';
+/* ---------- domain helpers your renderer uses ---------- */
+function topIndustry(d){
+  if(!d || !d.industries) return {key:'—', share:0};
+  const entries = Object.entries(d.industries).filter(([,v])=> (v||0)>0);
+  if(!entries.length) return {key:'—', share:0};
+  const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
+  entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
+  const [key, amt] = entries[0];
+  return {key, share:(amt||0)/total};
+}
+
+/* ---------- boot ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  const setStatus = (t) => { const el = $('#load-status'); if (el) el.textContent = t; };
+  setStatus('Loading data…');
+
   const {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
-  $('#load-status').textContent = 'Data loaded.';
+  setStatus('Data loaded.');
 
-  const resolveMember = mid => members?.[mid] || null;
+  // --- Example: resolve a member + image path ---
+  const resolveMember = (mid) => members?.[mid] || null;
+  const resolvePhoto = (m) => {
+    const id = m?.bioguide || m?.bioguide_id || m?.id || m?.mid;
+    return id ? `/assets/members/${id}.jpg` : '/assets/no-photo.png';
+  };
 
-  function topIndustry(d){
-    if(!d || !d.industries) return {key:'—', share:0};
-    const entries = Object.entries(d.industries).filter(([_,v])=> (v||0)>0);
-    if(!entries.length) return {key:'—', share:0};
-    const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
-    entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
-    const [key, amt] = entries[0];
-    return {key, share:(amt||0)/total};
-  }
+  // TODO: call your real renderer here:
+  // render(members, donorsByMember, awardsByMember, voteAlignByMember);
 
-  function computeChips(dRec, aRec, vRec){
-    const chips=[];
-    const pacPct = dRec?.pac_pct ?? 0;
-    chips.push(pacPct >= THRESH.PAC_FLAG
-      ? ['chip-danger','fa-hand-holding-dollar',`High PAC: ${pct(pacPct)}%`]
-      : ['chip-ok','fa-people-group',`Small donors: ${100-pct(pacPct)}%`]);
-
-    const in$ = dRec?.in_state_dollars || 0, out$ = dRec?.out_state_dollars || 0;
-    chips.push(out$ > in$ * 1.05
-      ? ['chip-warn','fa-route',`Out-of-state heavy (${money(out$)} vs ${money(in$)})`]
-      : ['chip-ok','fa-house-flag',`Local support (${money(in$)})`]);
-
-    const ti = topIndustry(dRec);
-    if(ti.key !== '—' && ti.share >= THRESH.INDUSTRY_DOMINATE){
-      chips.push(['chip-danger','fa-industry','Dominant industry: '+ti.key]);
+  // If you need quick smoke output:
+  const tbody = $('#fa-table'); // optional
+  if (tbody) {
+    const mid = Object.keys(members)[0];
+    if (mid) {
+      const m = resolveMember(mid);
+      const d = donorsByMember[mid] || {};
+      const v = voteAlignByMember[mid] || {};
+      tbody.innerHTML = `
+        <tr>
+          <td><img src="${resolvePhoto(m)}" width="48" height="48" onerror="this.src='/assets/no-photo.png'"></td>
+          <td>${m?.name || mid}</td>
+          <td>${m?.state || '—'}</td>
+          <td>${pct(d.pac_pct||0)}% PAC</td>
+          <td>${v.donor_alignment_index!=null ? pct(v.donor_alignment_index)+'%' : '—'}</td>
+        </tr>`;
     }
-
-    const align = vRec?.donor_alignment_index ?? null;
-    if(align!==null && align >= THRESH.ALIGN_HIGH){
-      chips.push(['chip-danger','fa-scale-balanced',`Donor-aligned votes: ${pct(align)}%`]);
-    }
-
-    if(aRec && Array.isArray(aRec.badges)){
-      aRec.badges.forEach(b=> chips.push(['chip-danger','fa-award', b.label || b.key]));
-    }
-    return chips;
   }
-
-  function candidateProfileLink(m){
-    const urls = [
-      m.url, m.website, m.personal_url, m.house_url, m.senate_url, m.ballotpedia, m.govtrack,
-      (m.bioguide ? `https://bioguide.congress.gov/search/bio/${m.bioguide}` : null)
-    ].filter(Boolean).filter(isURL);
-    return urls[0] || `https://duckduckgo.com/?q=${encodeURIComponent((m.name||'') + ' Ballotpedia')}`;
-  }
-
-  function resolvePhoto(m){
-    const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-    if (typeof m.photo === 'string' && m.photo) return m.photo;
-    const id = m.bioguide || m.bioguide_id || m.id;
-    return id ? `/assets/members/${id}.jpg` : ph;
-  }
-
-  // ---------- data → row model ----------
-  function rowData(mid){
-    const m = resolveMember(mid) || {};
-    const d = donorsByMember[mid] || {};
-    const a = awardsByMember[mid] || null;
-    const v = voteAlignByMember[mid] || null;
-    const ti = topIndustry(d);
-    const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
-    const in$  = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
-    const chips = computeChips(d, a, v);
-    const alignPct = (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null;
-
-    // Receipts: finance receipts + vote links + FEC fallback
-    const receipts = [
-      ...(Array.isArray(d.receipts)?d.receipts:[]),
-      ...(((v&&v.votes)||[]).filter(x=>x.url).map(x=>({title:`Vote: ${x.bill||'Bill'}`, url:x.url})))
-    ];
-    if(!receipts.length){
-      (m.fec_ids||[]).forEach(fid => receipts.push({title:`FEC ${fid}`, url:`https://www.fec.gov/data/candidate/${fid}/?cycle=2024`}));
-      if(!receipts.length && m.name){
-        receipts.push({title:'FEC search', url:`https://www.fec.gov/data/search/?search=${encodeURIComponent(m.name)}`});
-      }
-    }
-
-    return {
-      mid,
-      name: m.name || mid,
-      seat: m.seat || (m.state || '—'),
-      party: m.party || '',
-      chamber: (m.chamber || '').toLowerCase(),
-      state: (m.state || '').toLowerCase(),
-      photo: resolvePhoto(m),
-      pacP, smlP, in$, out$,
-      topIndustryKey: ti.key, topIndustryShare: ti.share,
-      align: alignPct,
-      chips,
-      votes: (v && v.votes) || [],
-      receipts,
-      profile: candidateProfileLink(m)
-    };
-  }
-
-  // ---------- build list + table ----------
-  const listEl = $('#fa-list');
-  const tbody  = $('#fa-table');
-
-  function chipHTML(chips){
-    return chips.map(([cls,icon,label]) =>
-      `<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`
-    ).join(' ');
-  }
-
-  function listHTML(d){
-    const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-    return `<article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}" data-party="${(d.party||'').toUpperCase()}">
-      <div class="rowwrap">
-        <div class="thumb">
-          <img src="${d.photo}" alt="${d.name} headshot" loading="lazy" onerror="this.onerror=null;this.src='${ph}';">
-        </div>
-        <div class="pdata">
-          <div class="d-flex justify-content-between align-items-start gap-2">
-            <div>
-              <h3 class="name">${d.name}</h3>
-              <div class="sub">${d.seat}${d.party ? ' • '+d.party : ''}</div>
-              <div class="chips">${chipHTML(d.chips)}</div>
-            </div>
-            <div class="actions">
-              <label class="btn btn-sm btn-outline-dark mb-0">
-                <input type="checkbox" class="form-check-input me-1 compare-pick" data-pick="${d.mid}"> Compare
-              </label>
-              <a class="btn btn-sm btn-outline-secondary" href="${d.profile}" target="_blank" rel="noopener">Profile</a>
-              <button class="btn btn-sm btn-primary open" data-open="${d.mid}" type="button" aria-label="Open details for ${d.name}">
-                <i class="fa-solid fa-circle-info me-1"></i>Details
-              </button>
-            </div>
-          </div>
-          <div class="mt-2 small text-muted">
-            PAC: <strong>${d.pacP}%</strong> • Small: <strong>${d.smlP}%</strong> • In/Out: <strong>${money(d.in$)}</strong> / <strong>${money(d.out$)}</strong> • Top: <strong>${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</strong> • Align: <strong>${d.align===null?'—':d.align+'%'}</strong>
-          </div>
-        </div>
-      </div>
-    </article>`;
-  }
-
-  function tableRowHTML(d){
-    return `<tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}" data-party="${(d.party||'').toUpperCase()}">
-      <td>
-        <div class="d-flex align-items-center gap-2">
-          <img style="width:36px;height:36px;object-fit:cover;border-radius:50%;border:1px solid var(--ring-strong)" src="${d.photo}" alt="${d.name} headshot" loading="lazy">
-          <div><div class="fw-bold">${d.name}</div><div class="text-muted small">${d.party||''}</div></div>
-        </div>
-      </td>
-      <td>${d.seat}</td>
-      <td data-val="${d.pacP}">${d.pacP}%</td>
-      <td data-val="${d.smlP}">${d.smlP}%</td>
-      <td data-val="${d.in$ - d.out$}">${money(d.in$)} / ${money(d.out$)}</td>
-      <td data-val="${d.topIndustryShare}">${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</td>
-      <td data-val="${d.align ?? -1}">${d.align===null ? '—' : d.align+'%'}</td>
-      <td style="min-width:280px">${chipHTML(d.chips)}</td>
-    </tr>`;
-  }
-
-  function rebuildBottom(){
-    const mids = Object.keys(members||{});
-    if(!mids.length){
-      listEl.innerHTML = `<div class="text-muted">No member data found.</div>`;
-      tbody.innerHTML  = `<tr><td colspan="8" class="text-muted">No member data found.</td></tr>`;
-      return;
-    }
-    const rows = mids.map(mid => rowData(mid));
-    listEl.innerHTML = rows.map(listHTML).join('');
-    tbody.innerHTML  = rows.map(tableRowHTML).join('');
-
-    // Bind opens
-    $$('#fa-list [data-open]').forEach(btn=> btn.addEventListener('click', ()=> openModal(btn.getAttribute('data-open'))));
-    $$('#fa-table tr[data-mid]').forEach(tr=> tr.addEventListener('click', (e)=> {
-      if(e.target.closest('a')) return;
-      openModal(tr.getAttribute('data-mid'));
-    }));
-
-    // Compare pickers
-    $$('#fa-list .compare-pick').forEach(cb=> cb.addEventListener('change', syncCompareBar));
-  }
-  rebuildBottom();
+});
+</script>
 
   // ---------- filters ----------
   const qInput = $('#fa-member'),
