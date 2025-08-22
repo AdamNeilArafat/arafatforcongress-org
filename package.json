@@ -13,7 +13,7 @@
     "yaml": "^2.8.1"
   },
   "devDependencies": {
-    "csv-parse": "^5.6.0"
+    "csv-parse": "^6.1.0"
   },
   "engines": {
     "node": ">=20"
