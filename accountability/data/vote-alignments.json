@@ -1,0 +1,26 @@
+{
+  "D000001": {
+    "as_of": "2025-08-01",
+    "donor_alignment_index": 0.91,
+    "votes": [
+      {
+        "bill": "Energy Savings Bill (2027)",
+        "date": "2027-03-12",
+        "position": "No",
+        "url": "./Bills/energy-savings-and-lower-bills-bill-2027.html",
+        "source": "demo",
+        "rollcall_id": "H-000"
+      }
+    ]
+  },
+  "R000002": {
+    "as_of": "2025-08-01",
+    "donor_alignment_index": 0.76,
+    "votes": []
+  },
+  "S000003": {
+    "as_of": "2025-08-01",
+    "donor_alignment_index": 0.62,
+    "votes": []
+  }
+}
