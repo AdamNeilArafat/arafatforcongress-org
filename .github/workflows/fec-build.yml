@@ -3,7 +3,7 @@ name: Build & publish finance data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 9,21 * * *"   # 2x daily UTC
+    - cron: "0 9,21 * * *"   # twice daily, UTC   (Actions cron is UTC) 
   push:
     paths:
       - "config/**"
@@ -17,57 +17,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+      - name: Install deps
+        run: npm ci || npm i
 
-      - name: Install pipeline deps (Python)
-        if: hashFiles('pipeline/requirements.txt') != ''
-        run: pip install -r pipeline/requirements.txt
-
-      - name: Install JS deps
-        if: hashFiles('package.json') != ''
-        run: npm ci
-
-      # 1) Pull/build FEC → donors-by-member.json, vote-alignments.json, etc.
-      - name: Run finance pipeline
+      - name: Build JSON (FEC → /data)
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
         run: |
-          set -e
-          # Replace these with your real commands/scripts:
-          if [ -f pipeline/build_finance.py ]; then
-            python pipeline/build_finance.py
-          fi
-          if [ -f scripts/build-financials.mjs ]; then
-            node scripts/build-financials.mjs
-          fi
+          node scripts/build-members-json.mjs
+          node scripts/build-financials.mjs
 
-      # 2) (Optional) ChatGPT analysis to produce member-awards.json
-      - name: Analyze & tag with OpenAI (optional)
-        if: env.OPENAI_API_KEY != '' && hashFiles('scripts/annotate-awards.mjs') != ''
+      - name: Analyze with OpenAI (badges, alignment hints)
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: node scripts/annotate-awards.mjs
-
-      # 3) Commit only if /data changed
-      - name: Commit & push data
+          OPENAI_API_KEY: ${{ secrets.OPENAI }}   # <- your secret name
         run: |
-          git config user.name "github-actions[bot]"
+          node scripts/annotate-awards.mjs
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A data
-          if git diff --cached --quiet; then
-            echo "No data changes."
-          else
-            git commit -m "data: refresh finance & analysis"
-            git push
-          fi
+          git add data/*.json || true
+          git diff --cached --quiet || (git commit -m "data: refresh finance & analysis" && git push)
