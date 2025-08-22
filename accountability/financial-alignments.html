@@ -304,16 +304,17 @@
 </script>
 
 <script>
+<script>
 (async function(){
-  const $ = (s, el=document)=>el.querySelector(s);
+  // ---------- tiny utils ----------
+  const $  = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
-  const v = Date.now();
 
-  // THRESHOLDS
+  // THRESHOLDS (unchanged)
   const THRESH = { PAC_FLAG: 0.40, INDUSTRY_DOMINATE: 0.35, ALIGN_HIGH: 0.90 };
 
   // Helpers
-  const pct = n => Math.round((n||0)*100);
+  const pct   = n => Math.round((n||0)*100);
   const money = n => '$' + (Math.round(n||0)).toLocaleString();
   const isURL = s => typeof s === 'string' && /^https?:\/\//i.test(s);
 
@@ -322,27 +323,45 @@
     try{ return JSON.parse(document.getElementById(id).textContent.trim()); }catch{ return fallback; }
   };
 
-  // Absolute paths so they work from /accountability/ too
-  async function tryJSON(path, inlineId){
-    const url = `${path}?v=${v}`;
+  // ---------- robust data loader with last-good cache ----------
+  const CACHE_KEY = 'faCache-v3';
+
+  async function fetchJSON(path){
+    const r = await fetch(path, {cache:'no-store'});
+    if(!r.ok) throw new Error(`HTTP ${r.status} ${path}`);
+    return r.json();
+  }
+
+  async function loadAll(){
     try{
-      const r = await fetch(url, {cache:'no-store'});
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      return await r.json();
+      // 1) Try network (prefer pipeline JSON at site root /data)
+      const [members, donors, awards, align] = await Promise.all([
+        fetchJSON('/data/members.json'),
+        fetchJSON('/data/donors-by-member.json'),
+        // allow either filename for badges
+        fetchJSON('/data/member-awards.json').catch(()=>fetchJSON('/data/badges.json')),
+        fetchJSON('/data/vote-alignments.json')
+      ]);
+      const payload = {members, donorsByMember: donors, awardsByMember: awards, voteAlignByMember: align, ts: Date.now()};
+      localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
+      return payload;
     }catch(e){
-      console.warn('Falling back to inline data for', path, e);
-      return parseInlineJSON(inlineId, {});
+      // 2) fallback to last good cache
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) return JSON.parse(cached);
+      // 3) last resort: inline demo
+      return {
+        members:          parseInlineJSON('demo-members', {}),
+        donorsByMember:   parseInlineJSON('demo-donors', {}),
+        awardsByMember:   parseInlineJSON('demo-awards', {}),
+        voteAlignByMember:parseInlineJSON('demo-align',  {})
+      };
     }
   }
 
-  // Load data (prefer pipeline JSON at site root /data)
+  // ---------- boot ----------
   $('#load-status').textContent = 'Loading data…';
-  const [members, donorsByMember, awardsByMember, voteAlignByMember] = await Promise.all([
-    tryJSON('/data/members.json','demo-members'),
-    tryJSON('/data/donors-by-member.json','demo-donors'),
-    tryJSON('/data/member-awards.json','demo-awards'),
-    tryJSON('/data/vote-alignments.json','demo-align')
-  ]);
+  const {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
   $('#load-status').textContent = 'Data loaded.';
 
   const resolveMember = mid => members?.[mid] || null;
@@ -360,20 +379,28 @@
   function computeChips(dRec, aRec, vRec){
     const chips=[];
     const pacPct = dRec?.pac_pct ?? 0;
-    if(pacPct >= THRESH.PAC_FLAG){ chips.push(['chip-danger','fa-hand-holding-dollar',`High PAC: ${pct(pacPct)}%`]); }
-    else { chips.push(['chip-ok','fa-people-group',`Small donors: ${100-pct(pacPct)}%`]); }
+    chips.push(pacPct >= THRESH.PAC_FLAG
+      ? ['chip-danger','fa-hand-holding-dollar',`High PAC: ${pct(pacPct)}%`]
+      : ['chip-ok','fa-people-group',`Small donors: ${100-pct(pacPct)}%`]);
 
     const in$ = dRec?.in_state_dollars || 0, out$ = dRec?.out_state_dollars || 0;
-    if(out$ > in$ * 1.05){ chips.push(['chip-warn','fa-route',`Out-of-state heavy (${money(out$)} vs ${money(in$)})`]); }
-    else { chips.push(['chip-ok','fa-house-flag',`Local support (${money(in$)})`]); }
+    chips.push(out$ > in$ * 1.05
+      ? ['chip-warn','fa-route',`Out-of-state heavy (${money(out$)} vs ${money(in$)})`]
+      : ['chip-ok','fa-house-flag',`Local support (${money(in$)})`]);
 
     const ti = topIndustry(dRec);
-    if(ti.key !== '—' && ti.share >= THRESH.INDUSTRY_DOMINATE){ chips.push(['chip-danger','fa-industry','Dominant industry: '+ti.key]); }
+    if(ti.key !== '—' && ti.share >= THRESH.INDUSTRY_DOMINATE){
+      chips.push(['chip-danger','fa-industry','Dominant industry: '+ti.key]);
+    }
 
-    const align = vRec?.donor_alignment_index ?? 0;
-    if(align >= THRESH.ALIGN_HIGH){ chips.push(['chip-danger','fa-scale-balanced',`Donor-aligned votes: ${pct(align)}%`]); }
+    const align = vRec?.donor_alignment_index ?? null;
+    if(align!==null && align >= THRESH.ALIGN_HIGH){
+      chips.push(['chip-danger','fa-scale-balanced',`Donor-aligned votes: ${pct(align)}%`]);
+    }
 
-    if(aRec && Array.isArray(aRec.badges)){ aRec.badges.forEach(b=> chips.push(['chip-danger','fa-award', b.label || b.key])); }
+    if(aRec && Array.isArray(aRec.badges)){
+      aRec.badges.forEach(b=> chips.push(['chip-danger','fa-award', b.label || b.key]));
+    }
     return chips;
   }
 
@@ -381,20 +408,19 @@
     const urls = [
       m.url, m.website, m.personal_url, m.house_url, m.senate_url, m.ballotpedia, m.govtrack,
       (m.bioguide ? `https://bioguide.congress.gov/search/bio/${m.bioguide}` : null)
-    ].filter(Boolean);
-    const first = urls.find(isURL);
-    if(first) return first;
-    return `https://duckduckgo.com/?q=${encodeURIComponent((m.name||'') + ' Ballotpedia')}`;
+    ].filter(Boolean).filter(isURL);
+    return urls[0] || `https://duckduckgo.com/?q=${encodeURIComponent((m.name||'') + ' Ballotpedia')}`;
   }
 
   function resolvePhoto(m){
     const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-    if (isURL(m.photo) || (typeof m.photo === 'string' && m.photo)) return m.photo;
-    if (m.id) return `/assets/members/${m.id}.jpg`; // absolute path fix
-    return ph;
+    // match Admin/Index: prefer explicit photo, else bioguide/id path, else placeholder
+    if (typeof m.photo === 'string' && m.photo) return m.photo;
+    const id = m.bioguide || m.bioguide_id || m.id;
+    return id ? `/assets/members/${id}.jpg` : ph;
   }
 
-  // Data → row model
+  // ---------- data → row model ----------
   function rowData(mid){
     const m = resolveMember(mid) || {};
     const d = donorsByMember[mid] || {};
@@ -402,17 +428,20 @@
     const v = voteAlignByMember[mid] || null;
     const ti = topIndustry(d);
     const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
-    const in$ = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
+    const in$  = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
     const chips = computeChips(d, a, v);
     const alignPct = (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null;
 
-    // Receipts: finance receipts + vote links + FEC search fallback
+    // Receipts: finance receipts + vote links + FEC fallback (candidate pages)
     const receipts = [
       ...(Array.isArray(d.receipts)?d.receipts:[]),
       ...(((v&&v.votes)||[]).filter(x=>x.url).map(x=>({title:`Vote: ${x.bill||'Bill'}`, url:x.url})))
     ];
-    if(!receipts.length && m.name){
-      receipts.push({title:'FEC search', url:`https://www.fec.gov/data/search/?search=${encodeURIComponent(m.name)}`});
+    if(!receipts.length){
+      (m.fec_ids||[]).forEach(fid => receipts.push({title:`FEC ${fid}`, url:`https://www.fec.gov/data/candidate/${fid}/?cycle=2024`}));
+      if(!receipts.length && m.name){
+        receipts.push({title:'FEC search', url:`https://www.fec.gov/data/search/?search=${encodeURIComponent(m.name)}`});
+      }
     }
 
     return {
@@ -423,7 +452,8 @@
       chamber: (m.chamber || '').toLowerCase(),
       state: (m.state || '').toLowerCase(),
       photo: resolvePhoto(m),
-      pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
+      pacP, smlP, in$, out$,
+      topIndustryKey: ti.key, topIndustryShare: ti.share,
       align: alignPct,
       chips,
       votes: (v && v.votes) || [],
@@ -432,10 +462,10 @@
     };
   }
 
+  // ---------- build list + table (from ALL MEMBERS) ----------
   const listEl = $('#fa-list');
-  const tbody = $('#fa-table');
+  const tbody  = $('#fa-table');
 
-  // Build list + table
   function chipHTML(chips){
     return chips.map(([cls,icon,label]) =>
       `<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`
@@ -493,20 +523,20 @@
   }
 
   function rebuildBottom(){
-    const mids = Object.keys(donorsByMember||{});
+    // 👉 build from ALL MEMBERS so you never get “only 3 demo”
+    const mids = Object.keys(members||{});
     if(!mids.length){
-      listEl.innerHTML = `<div class="text-muted">No finance data found.</div>`;
-      tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`;
+      listEl.innerHTML = `<div class="text-muted">No member data found.</div>`;
+      tbody.innerHTML  = `<tr><td colspan="8" class="text-muted">No member data found.</td></tr>`;
       return;
     }
     const rows = mids.map(mid => rowData(mid));
     listEl.innerHTML = rows.map(listHTML).join('');
-    tbody.innerHTML = rows.map(tableRowHTML).join('');
+    tbody.innerHTML  = rows.map(tableRowHTML).join('');
 
-    // Bind open buttons
+    // Bind opens
     $$('#fa-list [data-open]').forEach(btn=> btn.addEventListener('click', ()=> openModal(btn.getAttribute('data-open'))));
     $$('#fa-table tr[data-mid]').forEach(tr=> tr.addEventListener('click', (e)=> {
-      // don’t fire if clicked on link inside row
       if(e.target.closest('a')) return;
       openModal(tr.getAttribute('data-mid'));
     }));
@@ -516,7 +546,7 @@
   }
   rebuildBottom();
 
-  // Filters
+  // ---------- filters ----------
   const qInput = $('#fa-member'),
         partySel = $('#fa-party'),
         chamberSel = $('#fa-chamber'),
@@ -555,6 +585,7 @@
       if(show) visible++;
     });
 
+    // table rows
     $$('#fa-table tr[data-mid]').forEach(tr=>{
       const mid = tr.getAttribute('data-mid');
       const nm = tr.getAttribute('data-name') || '';
@@ -566,12 +597,11 @@
       const chamberHit = !ch || chamber === ch;
       const partyHit = !party || rowParty === party;
       const industryHit = passesIndustryFilter(mid, ind);
-      const show = (textHit && chamberHit && partyHit && industryHit);
-      tr.style.display = show ? '' : 'none';
+      tr.style.display = (textHit && chamberHit && partyHit && industryHit) ? '' : 'none';
     });
 
     $('#load-status').textContent = `Showing ${visible} row(s).`;
-    aggregateMetrics(); // update headline numbers
+    aggregateMetrics();
 
     if(pushState){
       const p = new URLSearchParams();
@@ -585,7 +615,7 @@
     }
   }
 
-  // Aggregate headline metrics across visible list rows
+  // headline metrics over visible set
   function aggregateMetrics(){
     const vis = $$('#fa-list .person').filter(el => el.style.display !== 'none');
     if(!vis.length){
@@ -608,14 +638,14 @@
       const ti = topIndustry(d);
       if(ti.key && ti.key!=='—') industryHits[ti.key] = (industryHits[ti.key]||0)+1;
     });
-    const pacAvg = pacSum/vis.length;
+    const pacAvg   = pacSum/vis.length;
     const alignAvg = alignCount? (alignSum/alignCount) : null;
-    const topInd = Object.entries(industryHits).sort((a,b)=>b[1]-a[1])[0]?.[0] || '—';
+    const topInd   = Object.entries(industryHits).sort((a,b)=>b[1]-a[1])[0]?.[0] || '—';
 
     $('#m-pac-small').textContent = `${pct(pacAvg)}% PAC / ${100-pct(pacAvg)}% small`;
-    $('#m-geo').textContent = `${money(inSum)} in / ${money(outSum)} out`;
+    $('#m-geo').textContent       = `${money(inSum)} in / ${money(outSum)} out`;
     $('#m-top-industry').textContent = topInd;
-    $('#m-vote-align').textContent = (alignAvg===null) ? '—' : `${pct(alignAvg)}%`;
+    $('#m-vote-align').textContent   = (alignAvg===null) ? '—' : `${pct(alignAvg)}%`;
   }
 
   // Init from URL
@@ -634,9 +664,12 @@
   chamberSel.addEventListener('change', ()=>applyFilters());
   industrySel.addEventListener('change', ()=>applyFilters());
   partySel.addEventListener('change', ()=>applyFilters());
-  resetBtn.addEventListener('click', ()=>{ qInput.value=''; chamberSel.value=''; industrySel.value=''; partySel.value=''; applyFilters(); });
+  $('#fa-reset').addEventListener('click', ()=>{
+    qInput.value=''; chamberSel.value=''; industrySel.value=''; partySel.value='';
+    applyFilters();
+  });
 
-  // Sorting (advanced table)
+  // Sorting (advanced table) — unchanged
   let sortState = { key:null, dir:1 };
   $('#fa-table-el thead').addEventListener('click', (e)=>{
     const th = e.target.closest('th[data-sort]'); if(!th) return;
@@ -648,14 +681,14 @@
 
     const allRows = $$('#fa-table tr[data-mid]');
     const visible = allRows.filter(tr=>tr.style.display!=='none');
-    const hidden = allRows.filter(tr=>tr.style.display==='none');
+    const hidden  = allRows.filter(tr=>tr.style.display==='none');
 
     const valGetter = {
       name: tr => (tr.querySelector('td .fw-bold')?.textContent || '').toLowerCase(),
       seat: tr => (tr.children[1]?.textContent || '').toLowerCase(),
-      pac: tr => Number(tr.children[2]?.getAttribute('data-val')||0),
-      small: tr => Number(tr.children[3]?.getAttribute('data-val')||0),
-      geo: tr => Number(tr.children[4]?.getAttribute('data-val')||0),
+      pac:  tr => Number(tr.children[2]?.getAttribute('data-val')||0),
+      small:tr => Number(tr.children[3]?.getAttribute('data-val')||0),
+      geo:  tr => Number(tr.children[4]?.getAttribute('data-val')||0),
       industry: tr => Number(tr.children[5]?.getAttribute('data-val')||0),
       align: tr => Number(tr.children[6]?.getAttribute('data-val')||-1)
     }[key];
@@ -673,7 +706,7 @@
     $('#fa-table').appendChild(frag);
   });
 
-  // CSV export (visible rows)
+  // CSV export (visible rows) — unchanged
   $('#btn-export').addEventListener('click', ()=>{
     const rows = $$('#fa-list .person').filter(row=>row.style.display!=='none');
     if(!rows.length) return;
@@ -695,9 +728,8 @@
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Modal: detail & receipts
+  // Modal: detail & receipts — unchanged except data source already merged
   function openModal(mid){
-    // Single-member mode (tabs visible)
     $('#compare-wrap').classList.add('d-none');
     $('#tabs').classList.remove('d-none');
 
@@ -706,9 +738,8 @@
     const alignVal = (d.align===null)?'—':(d.align+'%');
 
     $('#memberTitle').textContent = `${name} — ${seat}${party ? ' ('+party+')' : ''}`;
-    $('#memberMeta').textContent = `Top industry: ${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`} • PAC: ${d.pacP}% • Vote align: ${alignVal}`;
+    $('#memberMeta').textContent  = `Top industry: ${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`} • PAC: ${d.pacP}% • Vote align: ${alignVal}`;
 
-    // Overview
     $('#overview-body').innerHTML = `
       <div class="row g-3">
         <div class="col-md-4"><img src="${d.photo}" class="w-100 rounded" alt="${name} headshot" loading="lazy"></div>
@@ -723,7 +754,6 @@
         </div>
       </div>`;
 
-    // Money
     const inds = Object.entries(donorsByMember[mid]?.industries||{}).sort((a,b)=>b[1]-a[1]);
     $('#money-body').innerHTML = `
       <div class="table-responsive">
@@ -734,7 +764,6 @@
       </div>
       <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>`;
 
-    // Votes
     const votes = d.votes || [];
     $('#votes-body').innerHTML = `
       <div class="table-responsive">
@@ -744,12 +773,10 @@
         </table>
       </div>`;
 
-    // Receipts (merged)
     $('#receipts-body').innerHTML = d.receipts.length
       ? `<ul class="list-unstyled mb-0">${d.receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
       : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
 
-    // Share buttons
     const pageURL = location.href.split('#')[0];
     const shareText = `${name} — ${seat}${party? ' ('+party+')':''} • PAC ${d.pacP}% • Top: ${d.topIndustryKey==='—'?'—':d.topIndustryKey}`;
     $('#shareX').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageURL)}`;
@@ -766,15 +793,13 @@
     new bootstrap.Modal(document.getElementById('memberModal')).show();
   }
 
-  // Compare (1 or 2 picks)
-  const compareBar = document.querySelector('.compare-bar');
-  const comparePicked = $('#compare-picked');
-  const compareGo = $('#compare-go');
+  // ---------- compare (1 or 2 picks) ----------
+  const compareBar   = document.querySelector('.compare-bar');
+  const comparePicked= $('#compare-picked');
+  const compareGo    = $('#compare-go');
   const compareClear = $('#compare-clear');
 
-  function selectedMIDs(){
-    return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-pick'));
-  }
+  function selectedMIDs(){ return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-pick')); }
 
   function syncCompareBar(){
     const ids = selectedMIDs();
@@ -789,24 +814,16 @@
   });
 
   compareGo.addEventListener('click', ()=>{
-    const ids = selectedMIDs().slice(0,2); // at most 2
-    if(ids.length === 1){
-      openModal(ids[0]); // “by themself”
-      return;
-    }
-    if(ids.length === 2){
-      openCompare(ids[0], ids[1]);
-    }
+    const ids = selectedMIDs().slice(0,2);
+    if(ids.length === 1) return openModal(ids[0]);
+    if(ids.length === 2) return openCompare(ids[0], ids[1]);
   });
 
   function compareCard(d){
     return `<div class="cardish p-3 h-100">
       <div class="d-flex align-items-center gap-3">
         <img src="${d.photo}" alt="${d.name}" style="width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--ring)">
-        <div>
-          <div class="fw-bold">${d.name}</div>
-          <div class="text-muted small">${d.seat}${d.party ? ' • '+d.party : ''}</div>
-        </div>
+        <div><div class="fw-bold">${d.name}</div><div class="text-muted small">${d.seat}${d.party ? ' • '+d.party : ''}</div></div>
       </div>
       <hr>
       <ul class="small mb-0">
@@ -824,7 +841,7 @@
     const A = rowData(a), B = rowData(b);
     $('#memberTitle').textContent = `Compare — ${A.name} vs ${B.name}`;
     $('#memberMeta').textContent = '';
-    $('#tabs').classList.add('d-none'); // hide single-member tabs
+    $('#tabs').classList.add('d-none');
     const wrap = $('#compare-wrap');
     wrap.classList.remove('d-none');
     wrap.innerHTML = `
@@ -838,7 +855,6 @@
         &nbsp;|&nbsp;
         <a target="_blank" rel="noopener" href="${B.receipts[0]?.url || `https://www.fec.gov/data/search/?search=${encodeURIComponent(B.name)}`}">${B.name}</a>
       </div>`;
-
     new bootstrap.Modal(document.getElementById('memberModal')).show();
   }
 
