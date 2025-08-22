@@ -224,4 +224,73 @@ function hookupModal(members, donors, awards, votes){
           <p class="mb-2"><strong>Badges:</strong> ${chips.length ? chipHTML(chips) : "None yet"}</p>
           <p class="mini mb-2">Hover a badge for its trigger. Every claim should link to receipts.</p>
           <ul class="mb-0">
-            <li>PAC share: <strong>${pct(d.pac_pct||0)}%</strong> (small donors: <strong>${100-pct(d.pac_pct|
+            <li>PAC share: <strong>${pct(d.pac_pct||0)}%</strong> (small donors: <strong>${100-pct(d.pac_pct||0)}%</strong>)</li>
+            <li>In vs Out: <strong>${money(d.in_state_dollars||0)}</strong> in / <strong>${money(d.out_state_dollars||0)}</strong> out</li>
+            <li>Top industry: <strong>${tiKey==='—' ? '—' : `${tiKey} (${tiShare}%)`}</strong></li>
+            <li>Vote alignment with donors: <strong>${typeof v.donor_alignment_index==='number'?pct(v.donor_alignment_index)+'%':'—'}</strong></li>
+          </ul>
+        </div>
+      </div>`;
+
+    $("#money-body").innerHTML = `
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead>
+          <tbody>${inds.length ? inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join("") : `<tr><td colspan="2" class="text-muted">No sector detail available.</td></tr>`}</tbody>
+        </table>
+      </div>
+      <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>`;
+
+    const votesArr = (v && v.votes) || [];
+    $("#votes-body").innerHTML = `
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead>
+          <tbody>${votesArr.length ? votesArr.map(x=>`<tr><td>${x.bill||""}</td><td>${x.date||""}</td><td>${x.position||""}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join("") : `<tr><td colspan="4" class="text-muted">No tracked votes yet.</td></tr>`}</tbody>
+        </table>
+      </div>`;
+
+    const receipts = (d && d.receipts) || [];
+    $("#receipts-body").innerHTML = receipts.length
+      ? `<ul class="list-unstyled mb-0">${receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join("")}</ul>`
+      : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
+
+    const urls = shareUrls({
+      url: location.href,
+      title: `${name} — ${seat}`,
+      text: `${name} • PAC ${pct(d.pac_pct||0)}% • Top: ${tiKey==='—'?'—':tiKey}`
+    });
+    $("#shareX")?.setAttribute("href", urls.x);
+    $("#shareFacebook")?.setAttribute("href", urls.facebook);
+    $("#shareReddit")?.setAttribute("href", urls.reddit);
+    $("#shareNative")?.addEventListener("click", (e)=>{ e.preventDefault(); nativeShare({ url: location.href, title: `${name} — ${seat}` }); });
+
+    const el = document.getElementById("memberModal");
+    if (window.bootstrap?.Modal && el) new bootstrap.Modal(el).show();
+  };
+}
+
+async function boot(){
+  $("#load-status")?.textContent = "Loading data…";
+  const { members, donors, awards, votes, meta } = await getData();
+  $("#load-status")?.textContent = "Data loaded.";
+  window.__DATA__ = { members, donors, awards, votes, meta };
+
+  try { assertSchemas({ members, donors, votes, awards }); } catch (e) { console.warn(e); }
+
+  const mids = Object.keys(donors || {});
+  const tbody = $("#fa-table");
+  if (!mids.length) tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`;
+  else {
+    const rows = mids.map(id => rowData(id, members, donors, awards, votes));
+    tbody.innerHTML = rows.map(rowHTML).join("");
+    $$("#fa-table tr[data-mid]").forEach(tr => tr.addEventListener("click", ()=> window.openModal(tr.getAttribute("data-mid"))));
+  }
+
+  hookupSorting();
+  const applyFilters = hookupFilters(donors);
+  hookupCSVExport();
+  hookupModal(members, donors, awards, votes);
+  applyFilters(false); // initial aggregates
+}
+document.addEventListener("DOMContentLoaded", boot);
