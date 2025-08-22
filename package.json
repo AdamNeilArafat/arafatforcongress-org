@@ -10,8 +10,6 @@
     "build:data": "npm run build:members && npm run build:financials && npm run build:awards"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2",
     "yaml": "^2.8.1"
-  },
-  "devDependencies": {}
+  }
 }
