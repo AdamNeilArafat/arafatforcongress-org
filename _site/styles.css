@@ -1,0 +1,261 @@
+/* ===============================
+   Adam Neil Arafat for Congress
+   Global Stylesheet (style.css)
+   =============================== */
+
+/* ---------- Root + Reset ---------- */
+:root{
+  --primary:#0d3b66;
+  --primary-600:#0b3359;
+  --accent:#0b6e4f;
+  --accent-600:#08573e;
+  --danger:#c1121f;       /* donate */
+  --danger-600:#9e0e19;
+  --text:#1a1a1a;
+  --muted:#6c757d;
+  --bg:#ffffff;
+  --bg-alt:#f6f8fa;
+  --border:#e6e6e6;
+
+  --radius:12px;
+  --shadow:0 8px 24px rgba(0,0,0,.08);
+  --shadow-soft:0 4px 14px rgba(0,0,0,.06);
+
+  --font-sans:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;
+  --lead:1.15;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  font-family:var(--font-sans);
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Better default focus */
+:focus-visible{
+  outline:3px solid rgba(13,59,102,.35);
+  outline-offset:2px;
+  border-radius:6px;
+}
+
+/* Links */
+a{ color:var(--primary); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+/* Utilities */
+.lead{ font-size:1.125rem; line-height:1.6; }
+.text-muted{ color:var(--muted)!important; }
+.bg-alt{ background:var(--bg-alt); }
+.shadow{ box-shadow:var(--shadow); }
+.round{ border-radius:var(--radius); }
+
+/* ---------- Header / Nav ---------- */
+header{ background:var(--bg); }
+header .brand h1{ font-size:1.65rem; color:var(--primary); }
+header .brand p{ margin-top:.15rem; }
+nav ul{
+  list-style:none; margin:0; padding:0;
+  display:flex; gap:1rem; align-items:center; flex-wrap:wrap;
+}
+nav a{ color:var(--text); }
+nav a[aria-current="page"]{ color:var(--primary); font-weight:600; }
+
+/* Home icon (hidden on home page by HTML) */
+.home-icon{ width:40px; height:40px; object-fit:contain; }
+
+/* ---------- Buttons ---------- */
+.btn-donate{
+  display:inline-block;
+  background:var(--danger);
+  color:#fff!important;
+  border:none;
+  padding:.55rem .9rem;
+  font-weight:600;
+  border-radius:8px;
+  box-shadow:var(--shadow-soft);
+}
+.btn-donate:hover{ filter:brightness(.96); background:var(--danger-600); text-decoration:none; }
+.btn-primary{ background:var(--primary); border:none; }
+.btn-primary:hover{ background:var(--primary-600); }
+
+/* ---------- Hero message bar ---------- */
+.message-bar{
+  background:var(--primary);
+  color:#fff;
+  padding:.5rem 0;
+}
+
+/* ---------- Headshot ---------- */
+.headshot{
+  width:112px; height:112px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #fff;
+  box-shadow:0 0 0 3px var(--primary);
+}
+
+/* About-page rectangle headshot option */
+.headshot-rect{
+  width:220px; height:220px;
+  object-fit:cover;
+  border-radius:12px;
+  border:4px solid #fff;
+  box-shadow:0 0 0 4px var(--primary);
+}
+
+/* ---------- Section titles ---------- */
+.section-title{
+  color:var(--primary);
+  margin-bottom:.5rem;
+  font-weight:700;
+}
+
+/* ---------- Carousel ---------- */
+#campaignCarousel img{
+  width:100%;
+  height:60vh;
+  min-height:420px;
+  object-fit:cover;
+  aspect-ratio:16/9;
+}
+.carousel-caption{
+  background:rgba(0,0,0,.45);
+  padding:1rem 1.25rem;
+  border-radius:.35rem;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.35));
+}
+
+/* ---------- “By the numbers” bars ---------- */
+.bar{
+  height:14px;
+  background:#e9ecef;
+  border-radius:8px;
+  overflow:hidden;
+}
+.bar>span{
+  display:block; height:100%;
+  background:var(--accent);
+}
+.bar.red>span{ background:#b11e2d; }
+
+/* ---------- Cards / Panels ---------- */
+.card-lite{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+  padding:1.25rem;
+}
+
+/* ---------- Issue images ---------- */
+.issue-img{
+  width:100%;
+  height:auto;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:.35rem;
+  box-shadow:var(--shadow-soft);
+}
+
+/* ---------- Hero (contact) ---------- */
+.hero{
+  position:relative;
+  color:#fff;
+}
+.hero .wrap{
+  background:rgba(13,59,102,.6);
+  color:#fff;
+  border-radius:.5rem;
+  box-shadow:var(--shadow-soft);
+}
+
+/* ---------- Tables (sources) ---------- */
+.table-slim{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.95rem;
+}
+.table-slim th,
+.table-slim td{
+  border-bottom:1px solid var(--border);
+  padding:.5rem .25rem;
+}
+.table-slim th{ color:var(--muted); font-weight:600; }
+
+/* ---------- Footer ---------- */
+footer{
+  background:#fff;
+  border-top:1px solid var(--border);
+}
+footer a{ color:var(--primary); }
+footer .btn-donate{ margin-left:.5rem; }
+
+/* ---------- Forms ---------- */
+input[type="text"],
+input[type="email"],
+textarea{
+  width:100%;
+  padding:.6rem .7rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+input:focus, textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(13,59,102,.12);
+  outline:0;
+}
+label{ font-weight:600; margin-bottom:.25rem; }
+
+/* ---------- Layout helpers ---------- */
+.pad-y-4{ padding-top:1.5rem; padding-bottom:1.5rem; }
+.pad-y-5{ padding-top:3rem; padding-bottom:3rem; }
+.mt-1{ margin-top:.25rem; }
+.mt-2{ margin-top:.5rem; }
+.mt-3{ margin-top:1rem; }
+.mb-0{ margin-bottom:0!important; }
+.text-center{ text-align:center; }
+
+/* ---------- Media queries ---------- */
+@media (max-width: 991.98px){
+  header .brand h1{ font-size:1.35rem; }
+  #campaignCarousel img{ height:48vh; min-height:340px; }
+}
+@media (max-width: 575.98px){
+  .headshot{ display:none; } /* breathe on phones */
+  nav ul{ gap:.75rem; }
+  .carousel-caption{ padding:.75rem .9rem; }
+}
+
+/* ---------- Motion + Print ---------- */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none!important; transition:none!important; }
+}
+@media print{
+  nav, .carousel-control-prev, .carousel-control-next, .btn-donate{ display:none!important; }
+  .carousel-caption{ background:transparent; color:#000; }
+}
+
+/* ---------- Optional dark mode ---------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --text:#e9e9e9;
+    --bg:#0e1116;
+    --bg-alt:#0f1420;
+    --border:#1f2733;
+  }
+  body{ background:var(--bg); color:var(--text); }
+  header, footer{ background:var(--bg); }
+  .card-lite, .carousel-caption{ background:rgba(255,255,255,.08); }
+  .issue-img{ box-shadow:none; }
+  a{ color:#9ec5ff; }
+  .btn-primary{ background:#2b5da6; }
+}

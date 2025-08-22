@@ -1,0 +1,146 @@
+{
+  "_about": {
+    "what": "Content for the Wall of Shame landing page.",
+    "how": "Each key is a bill. The page URL-encodes href at render time, so filenames with spaces/&/parens are fine.",
+    "offender_item_shape": { "bioguide": "A000055", "vote": "NO" }
+  },
+
+  "guardrails_funding": {
+    "title": "Implementation Safeguards (Minibus) (2027)",
+    "short": "Implementation Safeguards",
+    "href": "Bills/minibus-implementation-safeguards-bill (2027).html",
+    "award": "The Chaos Enabler Award",
+    "meaning": "They tried to let rushed, unvetted executive actions jam programs families count on.",
+    "offenders": []
+  },
+  "guardrails_fallback": {
+    "title": "Fallback Oversight Toolkit (2027)",
+    "short": "Fallback Toolkit",
+    "href": "Bills/fallback-oversight-toolkit-bill (2027).html",
+    "award": "The Paper Tiger Award",
+    "meaning": "They ducked formal safeguards and hoped no one would notice the backdoors.",
+    "offenders": []
+  },
+  "comms_integrity": {
+    "title": "Communications and Seals Integrity Bill (2027)",
+    "short": "Seals & Comms Integrity",
+    "href": "Bills/communications-integrity-bill-2027.html",
+    "award": "The Seal of Silence Award",
+    "meaning": "They wanted non‑compliant actions posted like they were lawful, with official trappings.",
+    "offenders": []
+  },
+  "emergency_pilot_dod": {
+    "title": "Emergency Powers: DoD Approval‑to‑Spend Pilot (2027)",
+    "short": "Emergency Spend Pilot (DoD)",
+    "href": "Bills/emergency-powers-spend-pilot-dod-bill-2027.html",
+    "award": "The Blank Check Award",
+    "meaning": "They fought to spend under emergency powers during impeachment with no congressional check.",
+    "offenders": []
+  },
+  "continuity_expansion": {
+    "title": "Continuity & Integrity Expansion (2027)",
+    "short": "Continuity Expansion",
+    "href": "Bills/continuity-integrity-expansion-bill-2027.html",
+    "award": "The Whiplash Maker Award",
+    "meaning": "They opposed basic continuity so families and small businesses get policy whiplash.",
+    "offenders": []
+  },
+
+  "energy": {
+    "title": "Energy Savings and Lower Bills Bill (2027)",
+    "short": "Energy Savings",
+    "href": "Bills/Energy Savings and Lower Bills Bill (2027).html",
+    "award": "The Higher Bills Award",
+    "meaning": "They blocked cheaper power upgrades and community solar while families watched bills climb.",
+    "offenders": []
+  },
+  "grocery": {
+    "title": "Fair Food and Grocery Competition Bill (2027)",
+    "short": "Grocery Competition",
+    "href": "Bills/Fair Food and Grocery Competition Bill (2027).html",
+    "award": "The Empty Fridge Award",
+    "meaning": "They protected price‑fixers and junk fees that squeeze families at checkout.",
+    "offenders": []
+  },
+  "jobs": {
+    "title": "Good Jobs & Skills Bill (2027)",
+    "short": "Jobs & Skills",
+    "href": "Bills/Good Jobs & Skills Bill (2027).html",
+    "award": "The Paycheck Pickpocket Award",
+    "meaning": "They sided with bottlenecks that keep wages down and lock out apprentices.",
+    "offenders": []
+  },
+  "childcare": {
+    "title": "Affordable Child and Dependent Care Bill (2027)",
+    "short": "Child & Dependent Care",
+    "href": "Bills/Affordable Child and Dependent Care Bill (2027).html",
+    "award": "The Parent Punisher Award",
+    "meaning": "They voted to keep childcare scarce and expensive so parents miss work.",
+    "offenders": []
+  },
+  "housing": {
+    "title": "Housing Supply and Permitting Modernization Bill (2027)",
+    "short": "Permitting & Supply",
+    "href": "Bills/Housing Supply and Permitting Modernization Bill (2027).html",
+    "award": "The Rent Raiser Award",
+    "meaning": "They stood in the way of faster housing approvals that lower rents near jobs.",
+    "offenders": []
+  },
+  "mortgage": {
+    "title": "First-Time Homebuyer 3% Mortgage Bill (2027)",
+    "short": "3% First‑Time Mortgage",
+    "href": "Bills/First-Time Homebuyer 3% Mortgage Bill (2027).html",
+    "award": "The Door Slammer Award",
+    "meaning": "They tried to keep first‑time buyers locked out while rents climb.",
+    "offenders": []
+  },
+  "tax": {
+    "title": "Tax Fairness Bill (2027)",
+    "short": "Tax Fairness",
+    "href": "Bills/Tax Fairness Bill (2027).html",
+    "award": "The Loophole Lover Award",
+    "meaning": "They fought a 15% minimum on big book profits and defended offshoring tricks.",
+    "offenders": []
+  },
+  "csr": {
+    "title": "Corporate Responsibility (CSR) Bill (2027)",
+    "short": "Corporate Responsibility",
+    "href": "Bills/Corporate Responsibility (CSR) Bill (2027).html",
+    "award": "The Repeat Offender’s Friend Award",
+    "meaning": "They shielded wage theft and extreme pay gaps from real penalties.",
+    "offenders": []
+  },
+  "clean": {
+    "title": "Clean Campaigns and Elections Bill (2027)",
+    "short": "Clean Campaigns",
+    "href": "Bills/Clean Campaigns and Elections Bill (2027).html",
+    "award": "The Dark Money Darling Award",
+    "meaning": "They protected corporate PAC cash and slow‑walked disclosure.",
+    "offenders": []
+  },
+  "justify": {
+    "title": "Congressional Vote Justification Bill (2027)",
+    "short": "Vote Justification",
+    "href": "Bills/Congressional Vote Justification Bill (2027).html",
+    "award": "The Coward’s Mask Award",
+    "meaning": "They voted against explaining themselves, hiding who they really serve.",
+    "offenders": []
+  },
+  "healthcare": {
+    "title": "Universal Healthcare Bill (2027)",
+    "short": "Universal Healthcare",
+    "href": "Bills/Universal Healthcare Bill (2027).html",
+    "award": "The Denial of Care Award",
+    "meaning": "They tried to keep coverage patchy and drug prices inflated.",
+    "offenders": []
+  },
+  "social_security": {
+    "title": "Social Security Solvency Bill (2027)",
+    "short": "Social Security Solvency",
+    "href": "Bills/Social Security Solvency Bill (2027).html",
+    "award": "The Retirement Raid Award",
+    "meaning": "They put monthly checks at risk while protecting special carve‑outs.",
+    "offenders": []
+  }
+
+}
