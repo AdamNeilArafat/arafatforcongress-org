@@ -3,8 +3,9 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [ main ]
-         workflow_dispatch:
+       
 
+  workflow_dispatch:
 permissions:
   contents: read
   pages: write
@@ -47,9 +48,16 @@ jobs:
           
             if [ -e "$p" ]; then
               rsync -a "$p" _site/
-            fi
+                      # Copy all root-level HTML files
+        for f in *.html; do
+          if [ -e "$f" ]; then
+            rsync -a "$f" _site/
+          fi
+        done
+      
+            
           done
-rsync -a '*.html' _site/
+
           touch _site/.nojekyll
 
       - name: Upload Pages artifact
