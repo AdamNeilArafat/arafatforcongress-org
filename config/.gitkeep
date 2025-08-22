@@ -1,0 +1,5 @@
+# header and a few rows
+head -n 5 config/members.csv
+
+# count rows (~535)
+wc -l config/members.csv
