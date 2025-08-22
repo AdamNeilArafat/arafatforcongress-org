@@ -1,10 +1,5 @@
 {
-  "AARAFAT": {
-    "donor_alignment_index": null,
-    "votes": []
-  },
-  "S001135": {
-    "donor_alignment_index": null,
-    "votes": []
-  }
+  "S000000": [
+    {"bill_id":"hr1234","title":"Healthcare Expansion","position":"No","alignment":"Against Working Families","vote_date":"2024-05-10"}
+  ]
 }
