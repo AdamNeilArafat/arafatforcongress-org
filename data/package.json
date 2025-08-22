@@ -1,6 +1,7 @@
 {
   "name": "arafatforcongress-org",
   "version": "1.0.0",
+  "description": "Campaign accountability site for Adam Neil Arafat for Congress — vote tracking, financial alignments, and awards.",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +9,16 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "node-fetch": "^3.3.2",
-    "yaml": "^2.5.0"
-  }
+    "node-fetch": "^3.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AdamNeilArafat/arafatforcongress-org.git"
+  },
+  "author": "Adam Neil Arafat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AdamNeilArafat/arafatforcongress-org/issues"
+  },
+  "homepage": "https://arafatforcongress.org"
 }
