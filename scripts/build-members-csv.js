@@ -2,8 +2,7 @@
 /**
  * Build config/members.csv (House + Senate).
  * Source: https://github.com/unitedstates/congress-legislators (legislators-current.yaml)
- *
- * Output: bioguide_id,name,state,district,party,fec_ids
+ * Output columns: bioguide_id,name,state,district,party,fec_ids
  */
 
 import fs from "fs";
@@ -17,30 +16,23 @@ const ROOT = path.resolve(__dirname, "..");
 const CONFIG_DIR = path.join(ROOT, "config");
 const OUT_CSV = path.join(CONFIG_DIR, "members.csv");
 
-// Raw file on GitHub
-const SOURCE_URL =
-  "https://raw.githubusercontent.com/unitedstates/congress-legislators/master/legislators-current.yaml";
+const SOURCE_URL = "https://raw.githubusercontent.com/unitedstates/congress-legislators/master/legislators-current.yaml";
 
-// Normalize party to short code when obvious
 function normalizeParty(p) {
   if (!p) return "";
   const s = String(p).toLowerCase();
   if (s.startsWith("dem")) return "D";
   if (s.startsWith("rep")) return "R";
   if (s.startsWith("ind")) return "I";
-  return p; // leave others as-is
+  return p;
 }
 
-// Prefer official_full if present
 function formatName(nameObj = {}) {
   if (nameObj.official_full) return nameObj.official_full;
-  const parts = [nameObj.first, nameObj.middle, nameObj.last, nameObj.suffix]
-    .filter(Boolean)
-    .join(" ");
+  const parts = [nameObj.first, nameObj.middle, nameObj.last, nameObj.suffix].filter(Boolean).join(" ");
   return parts || "Unknown";
 }
 
-// Light CSV escape
 function csvEscape(v) {
   const s = v == null ? "" : String(v);
   return s.includes(",") || s.includes('"') || s.includes("\n")
@@ -64,11 +56,8 @@ async function main() {
   const yamlText = await fetchText(SOURCE_URL);
   const data = YAML.parse(yamlText);
 
-  if (!Array.isArray(data)) {
-    throw new Error("Unexpected YAML format (expected top-level array).");
-  }
+  if (!Array.isArray(data)) throw new Error("Unexpected YAML format (expected array).");
 
-  // Map to flat rows for current seat-holders (latest term)
   const rows = data.map((leg) => {
     const ids = leg.ids || {};
     const terms = Array.isArray(leg.terms) ? leg.terms : [];
@@ -83,20 +72,12 @@ async function main() {
     const district = type === "rep" ? (latest.district ?? "") : ""; // blank for senators
     const party = normalizeParty(latest.party);
 
-    return {
-      bioguide_id: bioguide,
-      name,
-      state,
-      district,
-      party,
-      fec_ids: fec.join(",")
-    };
+    return { bioguide_id: bioguide, name, state, district, party, fec_ids: fec.join(",") };
   });
 
-  // Keep only current members with a state (i.e., an active latest term)
+  // keep only entries with a state (i.e., active latest term)
   const currentMembers = rows.filter((r) => r.state);
 
-  // Sort: House by state/district, then Senate by state
   const house = currentMembers.filter((r) => r.district !== "");
   const senate = currentMembers.filter((r) => r.district === "");
 
@@ -109,30 +90,18 @@ async function main() {
 
   const all = [...house, ...senate];
 
-  // Write CSV
   const header = "bioguide_id,name,state,district,party,fec_ids";
   const lines = [header].concat(
     all.map((r) =>
-      [
-        csvEscape(r.bioguide_id),
-        csvEscape(r.name),
-        csvEscape(r.state),
-        csvEscape(r.district),
-        csvEscape(r.party),
-        csvEscape(r.fec_ids)
-      ].join(",")
+      [r.bioguide_id, r.name, r.state, r.district, r.party, r.fec_ids].map(csvEscape).join(",")
     )
   );
 
   fs.writeFileSync(OUT_CSV, lines.join("\n"), "utf8");
   console.log(`Wrote ${all.length} rows → ${path.relative(process.cwd(), OUT_CSV)}`);
 
-  const missingFEC = all.filter((r) => !r.fec_ids);
-  if (missingFEC.length) {
-    console.warn(
-      `Note: ${missingFEC.length} member(s) missing FEC IDs (new appointee/vacancy edge cases).`
-    );
-  }
+  // quick debug to stdout
+  console.log("House:", house.length, "Senate:", senate.length, "Total:", all.length);
 }
 
 main().catch((e) => {
