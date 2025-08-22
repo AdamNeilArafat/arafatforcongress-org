@@ -1,0 +1,57 @@
+{
+  "D000001": {
+    "cycle": "2026",
+    "as_of": "2025-08-01",
+    "pac_pct": 0.42,
+    "in_state_dollars": 125000,
+    "out_state_dollars": 175000,
+    "industries": {
+      "pharma": 85000,
+      "tech": 40000,
+      "finance": 30000
+    },
+    "receipts": [
+      {
+        "title": "FEC Candidate Summary",
+        "url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      }
+    ]
+  },
+  "R000002": {
+    "cycle": "2026",
+    "as_of": "2025-08-01",
+    "pac_pct": 0.31,
+    "in_state_dollars": 210000,
+    "out_state_dollars": 150000,
+    "industries": {
+      "oil": 120000,
+      "finance": 50000
+    },
+    "receipts": [
+      {
+        "title": "FEC Filings",
+        "url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      }
+    ]
+  },
+  "S000003": {
+    "cycle": "2026",
+    "as_of": "2025-08-01",
+    "pac_pct": 0.12,
+    "in_state_dollars": 400000,
+    "out_state_dollars": 220000,
+    "industries": {
+      "tech": 140000,
+      "aipac": 20000
+    },
+    "receipts": [
+      {
+        "title": "FEC Candidate Summary",
+        "url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      }
+    ]
+  }
+}
