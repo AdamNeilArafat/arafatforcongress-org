@@ -1,68 +1,137 @@
 // scripts/build-financials.mjs
-import fs from 'node:fs/promises';
+import fs from "node:fs/promises";
 
+// --- config ---
+const API = "https://api.open.fec.gov/v1";
+const CYCLE = 2024;
 const FEC_KEY = process.env.FEC_API_KEY;
-if (!FEC_KEY) throw new Error('Missing FEC_API_KEY');
 
-const API = 'https://api.open.fec.gov/v1';
+// Basic key sanity check (don’t hardcode your real key here)
+function redact(k) { return k ? `${k.slice(0,4)}…${k.slice(-4)}` : "(none)"; }
+if (!FEC_KEY || FEC_KEY.length < 20) {
+  throw new Error(`Missing/placeholder FEC_API_KEY. Saw: ${redact(FEC_KEY)}`);
+}
 
-// Load members to map fec_ids -> member
+// tiny polite delay to avoid hammering api.data.gov (1,000/hr limit)
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+// Single getJSON that accepts either string or URL
+async function getJSON(input) {
+  const u = input instanceof URL ? input : new URL(input);
+  u.searchParams.set("api_key", FEC_KEY);
+  const res = await fetch(u, { headers: { "Accept": "application/json" } });
+  const txt = await res.text();
+  if (!res.ok) {
+    console.error(`FEC ${res.status} → ${u.toString()}\n${txt.slice(0,400)}`);
+    throw new Error(`${res.status} ${u.pathname}`);
+  }
+  return JSON.parse(txt);
+}
+
+// Load members produced by your members builder
 async function loadMembers() {
-  const js = JSON.parse(await fs.readFile('data/members.json', 'utf8'));
-  const members = js;
-  const fecToMember = new Map();
-  for (const m of Object.values(members)) {
-    for (const fid of (m.fec_ids || [])) fecToMember.set(fid, m.id);
-  }
-  return { members, fecToMember };
+  const raw = await fs.readFile("data/members.json", "utf8");
+  return { members: JSON.parse(raw) };
 }
 
-async function getJSON(url) {
-  const r = await fetch(url); // uses built-in fetch (Node 18+)
-  if (!r.ok) throw new Error(`${r.status} ${url}`);
-  return r.json();
-}
-
-// 1) Candidate → committees (for a given cycle)
-async function committeesForCandidate(fecId, cycle = 2024, page = 1, acc = []) {
-  const url = `${API}/candidate/${fecId}/committees/history/${cycle}/?api_key=${FEC_KEY}&page=${page}&per_page=50`;
-  const js = await getJSON(url);
-  const out = acc.concat(js.results || []);
-  if (js.pagination && page < js.pagination.pages) {
-    return committeesForCandidate(fecId, cycle, page + 1, out);
+// 1) Candidate → committees (history for a cycle). Supports page/per_page.
+async function committeesForCandidate(candidateId, cycle = CYCLE) {
+  let page = 1, out = [];
+  while (true) {
+    const u = new URL(`${API}/candidate/${candidateId}/committees/history/${cycle}/`);
+    u.searchParams.set("page", String(page));
+    u.searchParams.set("per_page", "50");
+    const js = await getJSON(u);
+    out = out.concat(js.results || []);
+    const pages = js?.pagination?.pages ?? page;
+    if (page >= pages) break;
+    page++;
+    await sleep(120);
   }
   return out;
 }
 
-// 2) Committee receipts (summary by contributor type + state)
-async function committeeReceipts(committeeId, cycle = 2024, page = 1, acc = []) {
-  const url = `${API}/schedules/schedule_a/?api_key=${FEC_KEY}&committee_id=${committeeId}&two_year_transaction_period=${cycle}&per_page=100&page=${page}`;
-  const js = await getJSON(url);
-  const out = acc.concat(js.results || []);
-  if (js.pagination && page < js.pagination.pages) {
-    return committeeReceipts(committeeId, cycle, page + 1, out);
+// 2) Schedule A itemized receipts: keyset pagination (NOT page/per_page).
+//    We sort by -contribution_receipt_date and walk via last_indexes.
+async function committeeReceipts(committeeId, cycle = CYCLE, maxPages = 20) {
+  const results = [];
+  let params = new URLSearchParams({
+    committee_id: committeeId,
+    two_year_transaction_period: String(cycle),
+    sort: "-contribution_receipt_date",
+    per_page: "100"
+  });
+
+  for (let i = 0; i < maxPages; i++) {
+    const u = new URL(`${API}/schedules/schedule_a/`);
+    // carry keyset cursor
+    for (const [k,v] of params) u.searchParams.set(k, v);
+
+    const js = await getJSON(u);
+    results.push(...(js.results || []));
+
+    const li = js?.pagination?.last_indexes;
+    if (!li || !li.last_index) break; // no more pages
+
+    params.set("last_index", String(li.last_index));
+    // if the API returns other keyset fields, pass them along:
+    if (li.last_contribution_receipt_date) {
+      params.set("last_contribution_receipt_date", String(li.last_contribution_receipt_date));
+    }
+    await sleep(120);
   }
-  return out;
+  return results;
 }
 
-function sumBy(arr, keyFn) {
-  const m = new Map();
-  for (const x of arr) {
-    const k = keyFn(x);
-    m.set(k, (m.get(k) || 0) + (x.contribution_receipt_amount || 0));
-  }
-  return Object.fromEntries([...m.entries()].sort((a, b) => b[1] - a[1]));
-}
-
+// simple industry tagging heuristic (yours)
 function topIndustryFromMemo(memo) {
-  const s = (memo || '').toLowerCase();
-  if (s.includes('pharma') || s.includes('biotech')) return 'pharma';
-  if (s.includes('oil') || s.includes('gas') || s.includes('energy')) return 'oil';
-  if (s.includes('defense') || s.includes('aerospace')) return 'defense';
-  if (s.includes('bank') || s.includes('finance') || s.includes('hedge')) return 'finance';
-  if (s.includes('tech') || s.includes('software') || s.includes('internet')) return 'tech';
-  if (s.includes('aipac') || s.includes('israel')) return 'aipac';
+  const s = (memo || "").toLowerCase();
+  if (s.includes("pharma") || s.includes("biotech")) return "pharma";
+  if (s.includes("oil") || s.includes("gas") || s.includes("energy")) return "oil";
+  if (s.includes("defense") || s.includes("aerospace")) return "defense";
+  if (s.includes("bank") || s.includes("finance") || s.includes("hedge")) return "finance";
+  if (s.includes("tech") || s.includes("software") || s.includes("internet")) return "tech";
+  if (s.includes("aipac") || s.includes("israel")) return "aipac";
   return null;
+}
+
+function moneyBucketsFromScheduleA(rows, memberState) {
+  let pacAmt = 0, smallAmt = 0, inStateAmt = 0, outStateAmt = 0;
+  const industryBucket = {};
+
+  for (const r of rows) {
+    const amt = r.contribution_receipt_amount || 0;
+
+    // PAC vs small:
+    // - Individuals are flagged by is_individual = true (Schedule A doc)
+    // - PAC/committee money has contributor_committee_id or a committee-type contributor_type
+    //   (fields described in Schedule A docs)
+    const isPAC = !!r.contributor_committee_id ||
+                  String(r.contributor_type || "").toLowerCase().includes("committee") ||
+                  String(r.contributor_type || "").toLowerCase().includes("pac");
+    const isIndividual = r.is_individual === true;
+
+    if (isPAC) pacAmt += amt;
+    else if (isIndividual) smallAmt += amt;
+    else {
+      // could be transfers/other orgs; ignore for the “small vs PAC” split
+    }
+
+    // geo (in-state vs out-of-state)
+    const st = (r.contributor_state || "").toUpperCase();
+    if (st && memberState && st === memberState.toUpperCase()) inStateAmt += amt;
+    else outStateAmt += amt;
+
+    // rough industry classification from memo/employer fields
+    const ind =
+      topIndustryFromMemo(r.memo_text) ||
+      topIndustryFromMemo(r.contributor_employer) ||
+      topIndustryFromMemo(r.employer) ||
+      null;
+    if (ind) industryBucket[ind] = (industryBucket[ind] || 0) + amt;
+  }
+
+  return { pacAmt, smallAmt, inStateAmt, outStateAmt, industryBucket };
 }
 
 async function build() {
@@ -71,33 +140,39 @@ async function build() {
   const voteAlignments = {};
 
   for (const m of Object.values(members)) {
-    const fecIds = m.fec_ids || [];
+    const fecIds = Array.isArray(m.fec_ids) ? m.fec_ids : [];
     if (!fecIds.length) continue;
 
     let pacAmt = 0, smallAmt = 0, inStateAmt = 0, outStateAmt = 0;
     const industryBucket = {};
 
-    for (const fid of fecIds) {
-      const comms = await committeesForCandidate(fid, 2024);
-      for (const c of comms) {
-        const recs = await committeeReceipts(c.committee_id, 2024);
-        for (const r of recs) {
-          const amt = r.contribution_receipt_amount || 0;
-          const contributorType = (r.contributor_type || '').toLowerCase();
-          const isPAC = contributorType.includes('committee') || contributorType.includes('pac') || r.contributor_committee_id;
-          if (isPAC) pacAmt += amt; else smallAmt += amt;
+    for (const candidateId of fecIds) {
+      // sanity check FEC id shape (candidate IDs often look like H0WA10078, S2XX..., etc.)
+      if (!/^[A-Z]\d[A-Z]{2}\d{5}$/.test(candidateId)) {
+        console.warn("Skipping non‑FEC ID:", candidateId);
+        continue;
+      }
 
-          if (r.contributor_state && m.state && r.contributor_state.toUpperCase() === m.state.toUpperCase()) inStateAmt += amt;
-          else outStateAmt += amt;
+      const history = await committeesForCandidate(candidateId, CYCLE);
+      for (const h of history) {
+        const cid = h.committee_id;
+        if (!cid) continue;
 
-          const ind = topIndustryFromMemo(r.memo_text) || topIndustryFromMemo(r.contributor_employer) || topIndustryFromMemo(r.employer) || null;
-          if (ind) industryBucket[ind] = (industryBucket[ind] || 0) + amt;
+        const rows = await committeeReceipts(cid, CYCLE);
+        const b = moneyBucketsFromScheduleA(rows, m.state);
+        pacAmt      += b.pacAmt;
+        smallAmt    += b.smallAmt;
+        inStateAmt  += b.inStateAmt;
+        outStateAmt += b.outStateAmt;
+
+        for (const [k, v] of Object.entries(b.industryBucket)) {
+          industryBucket[k] = (industryBucket[k] || 0) + v;
         }
       }
     }
 
-    const totalSmallPac = Math.max(pacAmt + smallAmt, 1);
-    const pac_pct = pacAmt / totalSmallPac;
+    const denom = Math.max(pacAmt + smallAmt, 1);
+    const pac_pct = pacAmt / denom;
 
     donorsByMember[m.id] = {
       pac_pct,
@@ -107,18 +182,19 @@ async function build() {
       receipts: [
         ...fecIds.map(fid => ({
           title: `FEC candidate ${fid}`,
-          url: `https://www.fec.gov/data/candidate/${fid}/?cycle=2024`
+          url: `https://www.fec.gov/data/candidate/${fid}/?cycle=${CYCLE}`
         }))
       ]
     };
 
+    // Leave alignments empty for now (your voting logic can fill this)
     voteAlignments[m.id] = voteAlignments[m.id] || { donor_alignment_index: null, votes: [] };
   }
 
-  await fs.mkdir('data', { recursive: true });
-  await fs.writeFile('data/donors-by-member.json', JSON.stringify(donorsByMember, null, 2));
-  await fs.writeFile('data/vote-alignments.json', JSON.stringify(voteAlignments, null, 2));
-  console.log('wrote donors-by-member.json, vote-alignments.json');
+  await fs.mkdir("data", { recursive: true });
+  await fs.writeFile("data/donors-by-member.json", JSON.stringify(donorsByMember, null, 2));
+  await fs.writeFile("data/vote-alignments.json", JSON.stringify(voteAlignments, null, 2));
+  console.log("wrote donors-by-member.json, vote-alignments.json");
 }
 
 build().catch(e => { console.error(e); process.exit(1); });
