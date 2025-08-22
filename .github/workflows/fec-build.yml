@@ -1,31 +1,58 @@
 name: Build FEC Finance JSON
+
 on:
   schedule:
-    - cron: "17 8 * * *"
+    - cron: "17 8 * * *"   # daily 08:17 UTC
   workflow_dispatch:
+
+permissions:
+  contents: write  # needed to push updated data back to the repo
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: python -m venv .venv && . .venv/bin/activate && pip install -r pipeline/requirements.txt
+          cache: "pip"
+
+      - name: Create venv & install deps (optional)
+        shell: bash
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+          if [ -f pipeline/requirements.txt ]; then
+            pip install -r pipeline/requirements.txt
+          elif [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "No requirements file found; skipping pip install."
+          fi
+
       - name: Run pipeline
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
           FEC_CYCLE: "2024"
+        shell: bash
         run: |
+          set -euo pipefail
           . .venv/bin/activate
           python pipeline/build_finance.py
+
       - name: Commit updated data
+        shell: bash
         run: |
-          if [ -n "$(git status --porcelain data)" ]; then
+          if [ -n "$(git status --porcelain data || true)" ]; then
             git config user.name "github-actions"
             git config user.email "actions@github.com"
             git add data/*.json
             git commit -m "chore(data): refresh FEC finance JSON"
             git push
+          else
+            echo "No changes in data/*.json to commit."
           fi
