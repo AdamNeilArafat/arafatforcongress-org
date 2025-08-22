@@ -70,7 +70,7 @@ jobs:
               rsync -a "$p" _site/
             fi
           done
-              rsync -a *.html _site/
+rsync -a '*.html' _site/
           touch _site/.nojekyll
 
       - name: Upload Pages artifact
