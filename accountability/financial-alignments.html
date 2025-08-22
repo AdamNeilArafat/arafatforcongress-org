@@ -447,27 +447,102 @@ document.addEventListener('DOMContentLoaded', async () => {
   const {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
   setStatus('Data loaded.');
 
-  /* render minimal smoke row in table */
-  const tbody = $('#fa-table');
-  if (tbody) {
-    const mid = Object.keys(members)[0];
-    if (mid) {
-      const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
-      tbody.innerHTML = `
-        <tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}"
-            data-state="${d.state}" data-chamber="${d.chamber}" data-party="${(d.party||'').toUpperCase()}">
-          <td><span class="fw-bold">${d.name}</span></td>
-          <td>${d.seat}</td>
-          <td data-val="${d.pacP}">${d.pacP}%</td>
-          <td data-val="${d.smlP}">${d.smlP}%</td>
-          <td data-val="${d.in$ - d.out$}">${money(d.in$)} / ${money(d.out$)}</td>
-          <td data-val="${Math.round(d.topIndustryShare*100)}">${d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</td>
-          <td data-val="${d.align ?? -1}">${d.align===null?'—':d.align+'%'}</td>
-          <td>${chipHTML(d.chips)}</td>
-        </tr>`;
-    }
+  <script type="module">
+/* ... your existing helpers ... */
+
+/* thresholds & loader ... (unchanged) */
+
+/* ---------- RENDERING ---------- */
+function renderAll(members, donorsByMember, awardsByMember, voteAlignByMember){
+  const list = document.getElementById('fa-list');
+  const tbody = document.getElementById('fa-table');
+
+  // Build Face List
+  const mids = Object.keys(members);
+  if (!mids.length){
+    list.innerHTML = `<div class="text-muted">No members found.</div>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No data.</td></tr>`;
+    return;
   }
 
+  const listHTML = mids.map(mid=>{
+    const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
+    return `
+    <article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}"
+             data-seat="${d.seat.toLowerCase()}" data-state="${d.state}"
+             data-chamber="${d.chamber}" data-party="${(d.party||'').toUpperCase()}">
+      <div class="rowwrap">
+        <div class="thumb"><img src="${d.photo}" alt="${d.name}" loading="lazy" onerror="this.src='/assets/no-photo.png'"></div>
+        <div class="pdata">
+          <h3 class="name h6 mb-1">${d.name}</h3>
+          <div class="sub mb-1">${d.seat}${d.party?' • '+d.party:''}</div>
+          <div class="chips mb-2">${chipHTML(d.chips)}</div>
+          <div class="actions">
+            <button class="btn btn-sm btn-primary btn-details" data-mid="${d.mid}"><i class="fa-solid fa-receipt me-1"></i>Details</button>
+            <label class="form-check-label ms-2">
+              <input class="form-check-input compare-pick" type="checkbox" data-pick="${d.mid}"/>
+              Compare
+            </label>
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+  list.innerHTML = listHTML;
+
+  // Build Data Table
+  const rowsHTML = mids.map(mid=>{
+    const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
+    return `
+    <tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}"
+        data-state="${d.state}" data-chamber="${d.chamber}" data-party="${(d.party||'').toUpperCase()}">
+      <td><span class="fw-bold">${d.name}</span></td>
+      <td>${d.seat}</td>
+      <td data-val="${d.pacP}">${d.pacP}%</td>
+      <td data-val="${d.smlP}">${d.smlP}%</td>
+      <td data-val="${d.in$ - d.out$}">${money(d.in$)} / ${money(d.out$)}</td>
+      <td data-val="${Math.round(d.topIndustryShare*100)}">${d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</td>
+      <td data-val="${d.align ?? -1}">${d.align===null?'—':d.align+'%'}</td>
+      <td>${chipHTML(d.chips)}</td>
+    </tr>`;
+  }).join('');
+  tbody.innerHTML = rowsHTML;
+
+  // Hook up buttons/checkboxes
+  document.querySelectorAll('.btn-details').forEach(btn=>{
+    btn.addEventListener('click', e => openModal(e.currentTarget.getAttribute('data-mid')));
+  });
+  document.querySelectorAll('.compare-pick').forEach(cb=>{
+    cb.addEventListener('change', syncCompareBar);
+  });
+}
+
+/* ---------- boot ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  const setStatus = t => { const el = document.getElementById('load-status'); if (el) el.textContent = t; };
+  setStatus('Loading data…');
+
+  // 1) Load (may come from cache), render immediately
+  let {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
+  renderAll(members, donorsByMember, awardsByMember, voteAlignByMember);
+  setStatus('Data loaded.');
+  aggregateMetrics();
+
+  // 2) Kick off background refresh; if newer data arrives, re-render
+  loadAll.refresh().then(fresh => {
+    renderAll(fresh.members, fresh.donorsByMember, fresh.awardsByMember, fresh.voteAlignByMember);
+    applyFilters(false);   // keep current filters
+    aggregateMetrics();
+    setStatus('Updated with fresh data.');
+  }).catch(()=>{ /* ignore */ });
+
+  /* your existing filter/export/compare code — keep as-is */
+  // IMPORTANT: call applyFilters() AFTER renderAll(), not before
+  applyFilters(false);
+});
+
+/* keep the rest of your helpers (applyFilters, aggregateMetrics, openModal, export, compare, etc.) */
+</script>
   /* filters */
   const qInput = $('#fa-member'), partySel = $('#fa-party'), chamberSel = $('#fa-chamber'), industrySel = $('#fa-industry');
   function passesIndustryFilter(mid, wanted){
