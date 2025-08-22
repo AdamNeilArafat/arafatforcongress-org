@@ -1,8 +1,9 @@
-<!-- financial-alignments.html — FULL, DROP‑IN PAGE
-     - Aggregates headline metrics by current filters (Party/Chamber/Industry/Search).
-     - Row click opens a modal “card” with Overview • Money • Votes • Receipts.
-     - Share: X, Facebook, Reddit, Bluesky + Create Share Image & Copy Caption (for IG/TikTok).
-     - Uses /data/*.json if present; otherwise inline demo fallback (placed BEFORE loader).
+<!-- financial-alignments.html — DROP-IN
+     - Fetches /data/*.json (absolute path) with cache-busting + inline demo fallbacks
+     - Filters: search, party, chamber, industry
+     - Aggregates: PAC vs small (avg), In vs Out (sum), Top industry, Donor-aligned vote index (avg)
+     - Table: sortable; row click opens modal with Overview • Money • Votes • Receipts
+     - Share: X, Facebook, Reddit, Bluesky; device share; downloadable share image for IG/TikTok
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +60,7 @@
 
     footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
 
-    /* Row hover to suggest “click for details” */
+    /* Row hover hint */
     #fa-table tr[data-mid]{transition:background .12s}
     #fa-table tr[data-mid]:hover{background:#f9fbfe; cursor:pointer}
 
@@ -67,6 +68,9 @@
     .share-row{gap:.5rem; flex-wrap:wrap}
     .share-row a.btn{display:inline-flex; align-items:center; gap:.4rem}
     .share-row .btn i{font-size:1rem}
+
+    /* Data source banner */
+    #data-source{font-size:.8rem}
   </style>
 </head>
 <body>
@@ -97,7 +101,7 @@
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
       <div>
         <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
-        <p class="mb-0">PAC vs small donors, in‑district vs out‑district, industries, and vote alignment — with clear badge triggers. Filters update the metrics.</p>
+        <p class="mb-0">PAC vs small donors, in‑district vs out‑district, industries, and donor‑aligned votes — with clear badge triggers. Filters update the metrics.</p>
       </div>
       <div class="d-flex gap-2">
         <a class="btn btn-outline-light btn-sm" href="../index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
@@ -149,9 +153,10 @@
         <button id="fa-reset" class="btn btn-outline-secondary">Reset</button>
       </div>
     </div>
-    <div class="tools d-flex flex-wrap gap-2 mt-3">
+    <div class="tools d-flex flex-wrap gap-2 mt-3 align-items-center">
       <button id="btn-export" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
       <span id="load-status" class="small text-muted" role="status" aria-live="polite">Loading…</span>
+      <span id="data-source" class="badge rounded-pill text-bg-light ms-auto">Source: —</span>
     </div>
   </div>
 
@@ -264,7 +269,7 @@
   </div>
 </footer>
 
-<!-- Member Details Modal (row click opens this “card”) -->
+<!-- Member Details Modal -->
 <div class="modal fade" id="memberModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
@@ -286,7 +291,6 @@
           <div id="tab-receipts" class="tab-pane fade"><div id="receipts-body"></div></div>
         </div>
 
-        <!-- Share strip -->
         <hr/>
         <div class="d-flex share-row" id="shareRow">
           <a id="shareX" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i> X</a>
@@ -307,7 +311,7 @@
   </div>
 </div>
 
-<!-- Bootstrap JS (required for modal) -->
+<!-- Bootstrap JS (modal needed) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- DEMO FALLBACK DATA (placed BEFORE loader so fallbacks work) -->
@@ -343,12 +347,12 @@
 }
 </script>
 
+<!-- PAGE SCRIPT -->
 <script>
-/* Financial Alignments — loader, filters, sorting, CSV export, modal */
 (async function(){
   const $ = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
-  const v = Date.now();
+  const v = Date.now(); // cache-bust
 
   const THRESH = { PAC_FLAG: 0.40, INDUSTRY_DOMINATE: 0.35, ALIGN_HIGH: 0.90 };
 
@@ -363,9 +367,11 @@
     try{
       const r = await fetch(`${path}?v=${v}`, {cache:'no-store'});
       if(!r.ok) throw new Error('HTTP '+r.status);
+      $('#data-source').textContent = 'Source: pipeline JSON';
       return await r.json();
     }catch(e){
       console.warn('Falling back to inline data for', path, e);
+      $('#data-source').textContent = 'Source: demo fallback';
       return parseInlineJSON(inlineId, {});
     }
   }
@@ -380,7 +386,7 @@
   ]);
   $('#load-status').textContent = 'Data loaded.';
 
-  // ===== CROSSWALK / NORMALIZER =====
+  // ===== NORMALIZERS =====
   function buildMemberIndex(membersRaw) {
     const index = Object.create(null);
     const list = Array.isArray(membersRaw)
@@ -484,7 +490,7 @@
     const seen = new Set();
     return out.filter(r => (seen.has(r.url) ? false : seen.add(r.url)));
   }
-  // ===== END CROSSWALK =====
+  // ===== END NORMALIZERS =====
 
   // Utilities
   const pct   = n => Math.round((n||0)*100);
@@ -550,7 +556,7 @@
     return chips;
   }
 
-  // Aggregated headline metrics from a set of member IDs
+  // Aggregated headline metrics
   function recalcHeadline(mids){
     if(!mids.length){
       $('#m-pac-small').textContent = '—';
@@ -586,7 +592,12 @@
     $('#m-vote-align').textContent = (avgAlign==null) ? '—' : `${pct(avgAlign)}%`;
   }
 
-  // Table build
+  // Build table
+  const { index: memberIndex } = buildMemberIndex(members); // already computed above, kept for clarity
+  const donorsCanon = {}; Object.keys(donorsRaw).forEach(k=> donorsCanon[canonicalKeyFor(k)] = donorsRaw[k]);
+  const awardsCanon = {}; Object.keys(awardsRaw).forEach(k=> awardsCanon[canonicalKeyFor(k)] = awardsRaw[k]);
+  const votesCanon  = {}; Object.keys(votesRaw ).forEach(k=> votesCanon [canonicalKeyFor(k)] = votesRaw [k]);
+
   const tbody = $('#fa-table');
 
   function rowData(mid){
@@ -657,12 +668,11 @@
     $$('#fa-table tr[data-mid]').forEach(tr=>{
       tr.addEventListener('click', ()=> openModal(tr.getAttribute('data-mid')));
     });
-    // Set initial aggregate
     recalcHeadline(mids);
   }
   rebuildTable();
 
-  // Filters + deep link (?q=&party=&chamber=&industry=)
+  // Filters (+ deep links)
   const qInput = $('#fa-member'), partySel = $('#fa-party'), chamberSel = $('#fa-chamber'), industrySel = $('#fa-industry'), resetBtn = $('#fa-reset');
 
   function passesIndustryFilter(mid, wanted){
@@ -825,8 +835,7 @@
     $('#shareBS').href = `https://bsky.app/intent/compose?text=${encode(text + "\\n" + url)}`;
 
     // Device-level share if supported
-    const btnDev = $('#btn-mobileshare');
-    btnDev.onclick = async ()=>{
+    $('#btn-mobileshare').onclick = async ()=>{
       try{
         if(navigator.share){
           await navigator.share({ title: document.title, text, url });
@@ -881,7 +890,7 @@
     const topInd = ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`;
     const lines = [
       `PAC ${pac}% • Small ${small}%`,
-      `Vote alignment with donors: ${align}%`,
+      `Donor-aligned votes: ${align}%`,
       `Top industry: ${topInd}`,
       `In vs Out: ${money(d.in_state_dollars||0)} / ${money(d.out_state_dollars||0)}`
     ];
@@ -901,7 +910,7 @@
     }, 'image/png');
   }
 
-  // Modal “card”
+  // Modal open
   function openModal(mid){
     const m = resolveMember(mid) || {};
     const d = donorsCanon[mid] || {};
@@ -915,7 +924,7 @@
     const img = headshot(m, '225x275');
 
     $('#memberTitle').textContent = `${name} — ${seat}${party ? ' ('+party+')' : ''}`;
-    $('#memberMeta').textContent = `Top industry: ${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`} • PAC: ${pct(d.pac_pct||0)}% • Vote align: ${typeof vNorm.donor_alignment_index==='number'?pct(vNorm.donor_alignment_index)+'%':'—'}`;
+    $('#memberMeta').textContent = `Top industry: ${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`} • PAC: ${pct(d.pac_pct||0)}% • Align: ${typeof vNorm.donor_alignment_index==='number'?pct(vNorm.donor_alignment_index)+'%':'—'}`;
 
     const chips = computeChips(d, a, vNorm);
     $('#overview-body').innerHTML = `
@@ -938,7 +947,7 @@
             <li>PAC share: <strong>${pct(d.pac_pct||0)}%</strong> (small donors: <strong>${100-pct(d.pac_pct||0)}%</strong>)</li>
             <li>In vs Out: <strong>${money(d.in_state_dollars||0)}</strong> in / <strong>${money(d.out_state_dollars||0)}</strong> out</li>
             <li>Top industry: <strong>${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`}</strong></li>
-            <li>Vote alignment with donors: <strong>${typeof vNorm.donor_alignment_index==='number'?pct(vNorm.donor_alignment_index)+'%':'—'}</strong></li>
+            <li>Donor-aligned votes: <strong>${typeof vNorm.donor_alignment_index==='number'?pct(vNorm.donor_alignment_index)+'%':'—'}</strong></li>
           </ul>
         </div>
       </div>`;
@@ -973,9 +982,7 @@
       ? `<ul class="list-unstyled mb-0">${receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
       : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
 
-    // Wire share buttons
     setShareLinks(mid);
-
     new bootstrap.Modal(document.getElementById('memberModal')).show();
   }
 
