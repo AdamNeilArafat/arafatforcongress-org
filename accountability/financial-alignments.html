@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<base href="/">
+  <base href="/">
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
   <meta name="description" content="PAC vs small donors, in-district vs out-district, industry breakdowns, and vote alignment indicators."/>
   <meta name="theme-color" content="#0d3b66"/>
 
-  <!-- Make all relative URLs resolve from site root -->
-  <base href="/">
-
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
   <style>
     :root{
@@ -48,11 +46,10 @@
     .chip-danger{background:#ffecec; border-color:#ffd0d0; color:#8d0a0a}
     .actions{display:flex; gap:.4rem; flex-wrap:wrap; align-items:center}
     .person:focus-within, .person:hover{outline:2px solid rgba(13,59,102,.22); outline-offset:2px}
-    .table thead th{background:#f4f7fb; white-space:nowrap; user-select:none; cursor:pointer}
-    .table thead th[data-sort]:after{content:"  ↕"; color:#90a0b2; font-weight:400}
-    .table thead th.sorted-asc:after{content:"  ↑"} .table thead th.sorted-desc:after{content:"  ↓"}
+    .table thead th{background:#f4f7fb; white-space:nowrap; user-select:none}
     .table td{vertical-align:middle}
-    .compare-bar{position:sticky; bottom:12px; z-index:1020; display:none}
+    .chart-card{min-height:240px}
+    .multiselect{height:120px}
   </style>
 </head>
 <body>
@@ -83,7 +80,7 @@
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
       <div>
         <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
-        <p class="mb-0">Faces first. Aggregate numbers reflect the current filter. Click a row for receipts—or pick two to compare.</p>
+        <p class="mb-0">Aggregate updates as you filter. Click a member for receipts and votes.</p>
       </div>
       <div class="d-flex gap-2">
         <a class="btn btn-outline-light btn-sm" href="/index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
@@ -94,34 +91,31 @@
 </header>
 
 <main class="container my-4">
-  <!-- Filters / Tools -->
+  <!-- Filters -->
   <div class="cardish p-3 mb-3">
-    <div class="row g-2 align-items-end">
-      <div class="col-md-3">
-        <label for="fa-member" class="form-label">Search (name, state, seat)</label>
-        <input type="search" id="fa-member" class="form-control" placeholder="e.g., WA-10 or ‘Smith’" autocomplete="off"/>
+    <div class="row g-2">
+      <div class="col-lg-3">
+        <label for="fa-search" class="form-label">Search (name, state, seat)</label>
+        <input type="search" id="fa-search" class="form-control" placeholder="e.g., WA-10 or ‘Smith’" autocomplete="off"/>
       </div>
-      <div class="col-md-3">
-        <label for="fa-party" class="form-label">Party</label>
-        <select id="fa-party" class="form-select">
-          <option value="">All</option>
+      <div class="col-lg-3">
+        <label for="fa-party" class="form-label">Party (multi)</label>
+        <select id="fa-party" class="form-select multiselect" multiple>
           <option value="D">Democrats</option>
           <option value="R">Republicans</option>
           <option value="I">Independents</option>
         </select>
       </div>
-      <div class="col-md-3">
-        <label for="fa-chamber" class="form-label">Chamber</label>
-        <select id="fa-chamber" class="form-select">
-          <option value="">House + Senate</option>
+      <div class="col-lg-3">
+        <label for="fa-chamber" class="form-label">Chamber (multi)</label>
+        <select id="fa-chamber" class="form-select multiselect" multiple>
           <option value="house">House</option>
           <option value="senate">Senate</option>
         </select>
       </div>
-      <div class="col-md-2">
-        <label for="fa-industry" class="form-label">Industry focus</label>
-        <select id="fa-industry" class="form-select">
-          <option value="">All</option>
+      <div class="col-lg-3">
+        <label for="fa-industry" class="form-label">Industry focus (multi)</label>
+        <select id="fa-industry" class="form-select multiselect" multiple>
           <option value="pharma">Pharma</option>
           <option value="defense">Defense</option>
           <option value="finance">Finance</option>
@@ -130,45 +124,42 @@
           <option value="tech">Tech</option>
         </select>
       </div>
-      <div class="col-md-1 d-grid">
-        <button id="fa-reset" class="btn btn-outline-secondary">Reset</button>
+      <div class="col-12 d-flex gap-2 align-items-center mt-2">
+        <button id="fa-reset" class="btn btn-outline-secondary btn-sm">Reset</button>
+        <button id="btn-export" class="btn btn-outline-dark btn-sm"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
+        <span id="load-status" class="small text-muted ms-1" role="status" aria-live="polite">Loading…</span>
       </div>
-    </div>
-
-    <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
-      <button id="btn-export" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
-      <span id="load-status" class="small text-muted" role="status" aria-live="polite">Loading…</span>
     </div>
   </div>
 
-  <!-- Headline Metrics -->
+  <!-- Quad Charts -->
   <div class="row g-3 mb-3">
-    <div class="col-md-3">
-      <div class="cardish p-3">
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
         <div class="mini">PAC vs Small (avg)</div>
-        <div class="metric" id="m-pac-small">—</div>
-        <div class="mini">Flag if PAC ≥ threshold</div>
+        <div class="metric mb-2" id="m-pac-small">—</div>
+        <canvas id="chPacSmall" height="140"></canvas>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="cardish p-3">
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
         <div class="mini">In‑District vs Out (sum)</div>
-        <div class="metric" id="m-geo">—</div>
-        <div class="mini">Flag if out &gt; in</div>
+        <div class="metric mb-2" id="m-geo">—</div>
+        <canvas id="chGeo" height="140"></canvas>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="cardish p-3">
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
         <div class="mini">Top Industry (mode)</div>
-        <div class="metric" id="m-top-industry">—</div>
-        <div class="mini">Badge if one dominates</div>
+        <div class="metric mb-2" id="m-top-industry">—</div>
+        <canvas id="chIndustry" height="140"></canvas>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="cardish p-3">
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
         <div class="mini">Vote Alignment (avg)</div>
-        <div class="metric" id="m-vote-align">—</div>
-        <div class="mini">Badge if ≥ 90%</div>
+        <div class="metric mb-2" id="m-vote-align">—</div>
+        <canvas id="chAlign" height="140"></canvas>
       </div>
     </div>
   </div>
@@ -177,7 +168,7 @@
   <section aria-labelledby="listHeading" class="mt-3">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
       <h2 id="listHeading" class="h6 mb-0">Members — Face List</h2>
-      <span class="small text-muted">Click “Details” for receipts or tick compare on 1–2 people.</span>
+      <span class="small text-muted">Click “Details” for receipts and votes.</span>
     </div>
     <div id="fa-list" class="list-people">
       <div class="text-muted">Loading…</div>
@@ -191,13 +182,13 @@
       <table class="table table-sm align-middle" id="fa-table-el">
         <thead>
         <tr>
-          <th data-sort="name">Member</th>
-          <th data-sort="seat">Seat</th>
-          <th class="text-nowrap" data-sort="pac">PAC %</th>
-          <th class="text-nowrap" data-sort="small">Small %</th>
-          <th class="text-nowrap" data-sort="geo">In vs Out</th>
-          <th data-sort="industry">Top Industry</th>
-          <th class="text-nowrap" data-sort="align">Vote Align</th>
+          <th>Member</th>
+          <th>Seat</th>
+          <th class="text-nowrap">PAC %</th>
+          <th class="text-nowrap">Small %</th>
+          <th class="text-nowrap">In vs Out</th>
+          <th>Top Industry</th>
+          <th class="text-nowrap">Vote Align</th>
           <th>Badges</th>
         </tr>
         </thead>
@@ -207,19 +198,6 @@
       </table>
     </div>
   </details>
-
-  <!-- Compare bar -->
-  <div class="compare-bar">
-    <div class="container">
-      <div class="cardish p-2 d-flex align-items-center justify-content-between">
-        <div class="small" id="compare-picked">0 selected</div>
-        <div class="d-flex gap-2">
-          <button class="btn btn-sm btn-outline-secondary" id="compare-clear">Clear</button>
-          <button class="btn btn-sm btn-primary" id="compare-go" disabled><i class="fa-solid fa-code-compare me-1"></i>Compare</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </main>
 
 <footer>
@@ -232,128 +210,38 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
-<!-- Inline demo data fallback so the page renders even if /data is missing -->
-<script id="demo-members" type="application/json">
-{
-  "D000001": {"id":"D000001","name":"Allison Rivera","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":"/assets/members/D000001.jpg","ballotpedia":"https://ballotpedia.org/Allison_Rivera"},
-  "R000002": {"id":"R000002","name":"Marcus Ellison","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":"/assets/members/R000002.jpg","ballotpedia":"https://ballotpedia.org/Marcus_Ellison"},
-  "S000003": {"id":"S000003","name":"Jamie Chen","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":"/assets/members/S000003.jpg","ballotpedia":"https://ballotpedia.org/Jamie_Chen"}
-}
-</script>
-<script id="demo-donors" type="application/json">
-{
-  "D000001": {"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000}, "receipts":[{"title":"FEC report (Demo)","url":"https://www.fec.gov/data/"}]},
-  "R000002": {"pac_pct":0.31,"in_state_dollars":210000,"out_state_dollars":150000,"industries":{"oil":120000,"finance":50000}},
-  "S000003": {"pac_pct":0.12,"in_state_dollars":400000,"out_state_dollars":220000,"industries":{"tech":140000,"aipac":20000}}
-}
-</script>
-<script id="demo-awards" type="application/json">
-{
-  "D000001":{"badges":[{"key":"high-pac","label":"High PAC Reliance"}]},
-  "R000002":{"badges":[{"key":"dominant-industry","label":"Dominant Industry"}]}
-}
-</script>
-<script id="demo-align" type="application/json">
-{
-  "D000001":{"donor_alignment_index":0.91, "votes":[{"bill":"Energy Savings Bill (2027)","date":"2027-03-12","position":"No","url":"./Bills/energy-savings-and-lower-bills-bill-2027.html"}]},
-  "R000002":{"donor_alignment_index":0.76},
-  "S000003":{"donor_alignment_index":0.62}
-}
-</script>
-
 <!-- App -->
 <script type="module">
 /* ---------- tiny utils ---------- */
-const $ = (sel, root=document) => root.querySelector(sel);
+const $  = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
-const pct = (n) => Math.round((Number(n)||0) * 100);
+const pct   = (n) => Math.round((Number(n)||0) * 100);
 const money = (n) => (Number(n)||0).toLocaleString('en-US',{style:'currency',currency:'USD'});
-function parseInlineJSON(id, fallback) {
-  const el = document.getElementById(id);
-  if (!el) return fallback;
-  try { return JSON.parse(el.textContent); } catch { return fallback; }
-}
-
-/* thresholds */
+const sum   = (arr) => arr.reduce((s,n)=>s+(Number(n)||0),0);
 const THRESH = { PAC_FLAG: 0.50, INDUSTRY_DOMINATE: 0.40, ALIGN_HIGH: 0.60 };
 
-/* ---------- robust data loader with last-good cache ---------- */
-const CACHE_KEY = 'faCache-v4';
-const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6h
-
-const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
-function toMemberMap(maybeArr) {
-  if (!maybeArr) return {};
-  if (Array.isArray(maybeArr)) {
-    const map = {};
-    for (const row of maybeArr) {
-      const id = row.bioguide_id || row.bioguide || row.id || row.mid;
-      if (id) map[id] = row;
-    }
-    return map;
-  }
-  return maybeArr;
-}
-function ensureObj(x) { return isObj(x) ? x : {}; }
-
-async function fetchJSON(path, timeoutMs=12000) {
+/* ---------- data loader (from /data only) ---------- */
+async function fetchJSON(path, timeoutMs=15000){
   const res = await fetch(path, { signal: AbortSignal.timeout(timeoutMs), cache:'no-store' });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${path}`); /* check .ok per MDN */ /* :contentReference[oaicite:3]{index=3} */
+  if(!res.ok) throw new Error(`HTTP ${res.status} ${path}`);
   return res.json();
 }
-
-function readCache() {
-  try {
-    const cached = JSON.parse(localStorage.getItem(CACHE_KEY)); /* Web Storage */ /* :contentReference[oaicite:4]{index=4} */
-    if (!cached) return null;
-    if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null;
-    if (!isObj(cached.members) || !isObj(cached.donorsByMember) || !isObj(cached.awardsByMember) || !isObj(cached.voteAlignByMember)) return null;
-    return cached;
-  } catch { return null; }
-}
-function writeCache(payload) {
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 })); } catch {}
-}
-
-async function loadAll() {
-  const cached = readCache();
-  if (cached) { loadAll.refresh().catch(()=>{}); return cached; } // stale-while-revalidate
-  try {
-    const fresh = await loadAll.fetchNetwork();
-    writeCache(fresh);
-    return fresh;
-  } catch {
-    const demo = {
-      members:           toMemberMap(parseInlineJSON('demo-members', [])),
-      donorsByMember:    ensureObj(parseInlineJSON('demo-donors', {})),
-      awardsByMember:    ensureObj(parseInlineJSON('demo-awards', {})),
-      voteAlignByMember: ensureObj(parseInlineJSON('demo-align',  {}))
-    };
-    writeCache(demo);
-    return demo;
-  }
-}
-loadAll.refresh = async function() {
-  const fresh = await loadAll.fetchNetwork();
-  writeCache(fresh);
-  return fresh;
-};
-loadAll.fetchNetwork = async function() {
+async function loadAll(){
   const [membersRaw, donors, awardsOrBadges, align] = await Promise.all([
     fetchJSON('/data/members.json'),
     fetchJSON('/data/donors-by-member.json'),
-    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
+    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json').catch(()=>({}))),
     fetchJSON('/data/vote-alignments.json')
   ]);
   return {
-    members:           toMemberMap(membersRaw),
-    donorsByMember:    ensureObj(donors),
-    awardsByMember:    ensureObj(awardsOrBadges),
-    voteAlignByMember: ensureObj(align)
+    members: membersRaw,             // map keyed by id/bioguide
+    donorsByMember: donors || {},
+    awardsByMember: awardsOrBadges || {},
+    voteAlignByMember: align || {}
   };
-};
+}
 
-/* domain helpers */
+/* ---------- domain helpers ---------- */
 function topIndustry(d){
   if(!d || !d.industries) return {key:'—', share:0};
   const entries = Object.entries(d.industries).filter(([,v])=> (v||0)>0);
@@ -363,8 +251,6 @@ function topIndustry(d){
   const [key, amt] = entries[0];
   return {key, share:(amt||0)/total};
 }
-
-/* chips + row modeling that were previously missing */
 function computeChips(dRec, aRec, vRec){
   const chips=[];
   const pacPct = dRec?.pac_pct ?? 0;
@@ -391,11 +277,6 @@ function computeChips(dRec, aRec, vRec){
     aRec.badges.forEach(b=> chips.push(['chip-danger','fa-award', b.label || b.key]));
   }
   return chips;
-}
-function chipHTML(chips){
-  return chips.map(([cls,icon,label]) =>
-    `<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`
-  ).join(' ');
 }
 function rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember){
   const m = members?.[mid] || {};
@@ -426,9 +307,9 @@ function rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember
     mid,
     name: m.name || mid,
     seat: m.seat || (m.state || '—'),
-    party: m.party || '',
+    party: (m.party || '').toUpperCase(),
     chamber: (m.chamber || '').toLowerCase(),
-    state: (m.state || '').toLowerCase(),
+    state: (m.state || '').toUpperCase(),
     photo,
     pacP, smlP, in$, out$,
     topIndustryKey: ti.key, topIndustryShare: ti.share,
@@ -439,25 +320,44 @@ function rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember
   };
 }
 
-/* ---------- boot ---------- */
-document.addEventListener('DOMContentLoaded', async () => {
-  const setStatus = (t) => { const el = $('#load-status'); if (el) el.textContent = t; };
-  setStatus('Loading data…');
+/* ---------- charts ---------- */
+let chPacSmall, chGeo, chIndustry, chAlign;
+function ensureCharts(){
+  const ctx1 = $('#chPacSmall').getContext('2d');
+  const ctx2 = $('#chGeo').getContext('2d');
+  const ctx3 = $('#chIndustry').getContext('2d');
+  const ctx4 = $('#chAlign').getContext('2d');
+  if(!chPacSmall) chPacSmall = new Chart(ctx1, {type:'doughnut', data:{labels:['PAC','Small'], datasets:[{data:[0,0]}]}, options:{plugins:{legend:{display:true}}, cutout:'60%'}});
+  if(!chGeo)      chGeo      = new Chart(ctx2, {type:'bar',      data:{labels:['In','Out'], datasets:[{data:[0,0]}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}});
+  if(!chIndustry) chIndustry = new Chart(ctx3, {type:'doughnut', data:{labels:[], datasets:[{data:[]}]}, options:{plugins:{legend:{display:true}}, cutout:'60%'}});
+  if(!chAlign)    chAlign    = new Chart(ctx4, {type:'bar',      data:{labels:['Avg Align %'], datasets:[{data:[0]}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, max:100}}}});
+}
+function updateCharts(agg){
+  ensureCharts();
+  chPacSmall.data.datasets[0].data = [Math.round(agg.pacAvg*100), 100-Math.round(agg.pacAvg*100)];
+  chPacSmall.update();
 
-  const {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
-  setStatus('Data loaded.');
+  chGeo.data.datasets[0].data = [agg.inSum, agg.outSum];
+  chGeo.update();
 
-  <script type="module">
-/* ... your existing helpers ... */
+  chIndustry.data.labels = agg.topIndustries.labels;
+  chIndustry.data.datasets[0].data = agg.topIndustries.values;
+  chIndustry.update();
 
-/* thresholds & loader ... (unchanged) */
+  chAlign.data.datasets[0].data = [Math.round(agg.alignAvg*100)||0];
+  chAlign.update();
+}
 
-/* ---------- RENDERING ---------- */
-function renderAll(members, donorsByMember, awardsByMember, voteAlignByMember){
-  const list = document.getElementById('fa-list');
-  const tbody = document.getElementById('fa-table');
+/* ---------- rendering + filters ---------- */
+let globalStore = { members:{}, donorsByMember:{}, awardsByMember:{}, voteAlignByMember:{} };
 
-  // Build Face List
+function getSelectedValues(sel){ return [...sel.selectedOptions].map(o=>o.value); }
+
+function renderAll(){
+  const {members, donorsByMember, awardsByMember, voteAlignByMember} = globalStore;
+  const list = $('#fa-list');
+  const tbody = $('#fa-table');
+
   const mids = Object.keys(members);
   if (!mids.length){
     list.innerHTML = `<div class="text-muted">No members found.</div>`;
@@ -470,19 +370,15 @@ function renderAll(members, donorsByMember, awardsByMember, voteAlignByMember){
     return `
     <article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}"
              data-seat="${d.seat.toLowerCase()}" data-state="${d.state}"
-             data-chamber="${d.chamber}" data-party="${(d.party||'').toUpperCase()}">
+             data-chamber="${d.chamber}" data-party="${d.party}">
       <div class="rowwrap">
         <div class="thumb"><img src="${d.photo}" alt="${d.name}" loading="lazy" onerror="this.src='/assets/no-photo.png'"></div>
         <div class="pdata">
           <h3 class="name h6 mb-1">${d.name}</h3>
           <div class="sub mb-1">${d.seat}${d.party?' • '+d.party:''}</div>
-          <div class="chips mb-2">${chipHTML(d.chips)}</div>
+          <div class="chips mb-2">${d.chips.map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ')}</div>
           <div class="actions">
             <button class="btn btn-sm btn-primary btn-details" data-mid="${d.mid}"><i class="fa-solid fa-receipt me-1"></i>Details</button>
-            <label class="form-check-label ms-2">
-              <input class="form-check-input compare-pick" type="checkbox" data-pick="${d.mid}"/>
-              Compare
-            </label>
           </div>
         </div>
       </div>
@@ -490,12 +386,11 @@ function renderAll(members, donorsByMember, awardsByMember, voteAlignByMember){
   }).join('');
   list.innerHTML = listHTML;
 
-  // Build Data Table
   const rowsHTML = mids.map(mid=>{
     const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
     return `
     <tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}"
-        data-state="${d.state}" data-chamber="${d.chamber}" data-party="${(d.party||'').toUpperCase()}">
+        data-state="${d.state}" data-chamber="${d.chamber}" data-party="${d.party}">
       <td><span class="fw-bold">${d.name}</span></td>
       <td>${d.seat}</td>
       <td data-val="${d.pacP}">${d.pacP}%</td>
@@ -503,228 +398,185 @@ function renderAll(members, donorsByMember, awardsByMember, voteAlignByMember){
       <td data-val="${d.in$ - d.out$}">${money(d.in$)} / ${money(d.out$)}</td>
       <td data-val="${Math.round(d.topIndustryShare*100)}">${d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</td>
       <td data-val="${d.align ?? -1}">${d.align===null?'—':d.align+'%'}</td>
-      <td>${chipHTML(d.chips)}</td>
+      <td>${d.chips.map(ch=>ch[2]).join(' | ')}</td>
     </tr>`;
   }).join('');
   tbody.innerHTML = rowsHTML;
 
-  // Hook up buttons/checkboxes
-  document.querySelectorAll('.btn-details').forEach(btn=>{
+  $$('.btn-details').forEach(btn=>{
     btn.addEventListener('click', e => openModal(e.currentTarget.getAttribute('data-mid')));
   });
-  document.querySelectorAll('.compare-pick').forEach(cb=>{
-    cb.addEventListener('change', syncCompareBar);
+
+  applyFilters(false); // initial
+}
+
+function passesIndustryFilter(mid, wantedList){
+  if(!wantedList.length) return true;
+  const inds = globalStore.donorsByMember[mid]?.industries || {};
+  const keys = Object.keys(inds).map(k=>k.toLowerCase());
+  return wantedList.some(w => keys.includes(String(w).toLowerCase()));
+}
+function applyFilters(pushState=true){
+  const q = ($('#fa-search').value || '').trim().toLowerCase();
+  const parties = getSelectedValues($('#fa-party'));     // e.g., ['D','R']
+  const chambers = getSelectedValues($('#fa-chamber'));  // e.g., ['house']
+  const industries = getSelectedValues($('#fa-industry'));
+
+  const listRows = $$('#fa-list .person');
+  let visible = 0;
+  listRows.forEach(row=>{
+    const mid = row.getAttribute('data-mid');
+    const nm = row.getAttribute('data-name') || '';
+    const st = (row.getAttribute('data-state') || '').toLowerCase();
+    const seat = row.getAttribute('data-seat') || '';
+    const rowParty = row.getAttribute('data-party') || '';
+    const chamber = row.getAttribute('data-chamber') || '';
+    const show = (!q || nm.includes(q) || st.includes(q) || seat.includes(q))
+              && (!parties.length || parties.includes(rowParty))
+              && (!chambers.length || chambers.includes(chamber))
+              && passesIndustryFilter(mid, industries);
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
   });
+
+  $$('#fa-table tr[data-mid]').forEach(tr=>{
+    const mid = tr.getAttribute('data-mid');
+    const nm = tr.getAttribute('data-name') || '';
+    const st = (tr.getAttribute('data-state') || '').toLowerCase();
+    const seat = tr.getAttribute('data-seat') || '';
+    const rowParty = tr.getAttribute('data-party') || '';
+    const chamber = tr.getAttribute('data-chamber') || '';
+    const show = (!q || nm.includes(q) || st.includes(q) || seat.includes(q))
+              && (!parties.length || parties.includes(rowParty))
+              && (!chambers.length || chambers.includes(chamber))
+              && passesIndustryFilter(mid, industries);
+    tr.style.display = show ? '' : 'none';
+  });
+
+  $('#load-status').textContent = `Showing ${visible} row(s).`;
+  aggregateAndCharts();
+
+  if(pushState){
+    const p = new URLSearchParams();
+    if(q) p.set('q', q);
+    if(parties.length) p.set('party', parties.join(','));
+    if(chambers.length) p.set('chamber', chambers.join(','));
+    if(industries.length) p.set('industry', industries.join(','));
+    const qs = p.toString();
+    history.replaceState({}, '', qs ? `${location.pathname}?${qs}` : location.pathname);
+  }
+}
+
+function aggregateAndCharts(){
+  const vis = $$('#fa-list .person').filter(el => el.style.display !== 'none');
+  if(!vis.length){
+    $('#m-pac-small').textContent = '—';
+    $('#m-geo').textContent = '—';
+    $('#m-top-industry').textContent = '—';
+    $('#m-vote-align').textContent = '—';
+    updateCharts({pacAvg:0,inSum:0,outSum:0,topIndustries:{labels:[],values:[]},alignAvg:0});
+    return;
+  }
+
+  let pacSum=0, alignSum=0, alignCount=0, inSum=0, outSum=0;
+  const industryTotals = {};
+  vis.forEach(row=>{
+    const mid = row.getAttribute('data-mid');
+    const d = globalStore.donorsByMember[mid] || {};
+    const v = globalStore.voteAlignByMember[mid] || {};
+    pacSum += (d.pac_pct||0);
+    if(typeof v.donor_alignment_index === 'number'){ alignSum += v.donor_alignment_index; alignCount++; }
+    inSum += (d.in_state_dollars||0);
+    outSum += (d.out_state_dollars||0);
+
+    const inds = d.industries || {};
+    for(const [k,val] of Object.entries(inds)){
+      if(!val) continue;
+      industryTotals[k] = (industryTotals[k]||0) + val;
+    }
+  });
+
+  const pacAvg   = pacSum/vis.length;
+  const alignAvg = alignCount? (alignSum/alignCount) : 0;
+
+  const sortedInds = Object.entries(industryTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const topIndustries = { labels: sortedInds.map(x=>x[0]), values: sortedInds.map(x=>x[1]) };
+
+  $('#m-pac-small').textContent = `${pct(pacAvg)}% PAC / ${100-pct(pacAvg)}% small`;
+  $('#m-geo').textContent       = `${money(inSum)} in / ${money(outSum)} out`;
+  $('#m-top-industry').textContent = (topIndustries.labels[0] || '—');
+  $('#m-vote-align').textContent   = `${pct(alignAvg)}%`;
+
+  updateCharts({pacAvg, inSum, outSum, topIndustries, alignAvg});
+}
+
+/* ---------- modal ---------- */
+function openModal(mid){
+  const d = rowData(mid, globalStore.members, globalStore.donorsByMember, globalStore.awardsByMember, globalStore.voteAlignByMember);
+
+  $('#memberTitle').textContent = `${d.name} — ${d.seat}${d.party ? ' ('+d.party+')' : ''}`;
+  $('#memberMeta').textContent  = `Top industry: ${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`} • PAC: ${d.pacP}% • Vote align: ${d.align===null?'—':d.align+'%'}`;
+
+  $('#overview-body').innerHTML = `
+    <div class="row g-3">
+      <div class="col-md-4"><img src="${d.photo}" class="w-100 rounded" alt="${d.name} headshot" loading="lazy" onerror="this.src='/assets/no-photo.png'"></div>
+      <div class="col-md-8">
+        <p class="mb-2"><strong>Badges:</strong> ${d.chips.length ? d.chips.map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ') : 'None yet'}</p>
+        <ul class="mb-0">
+          <li>PAC share: <strong>${d.pacP}%</strong> (small donors: <strong>${d.smlP}%</strong>)</li>
+          <li>In vs Out: <strong>${money(d.in$)}</strong> in / <strong>${money(d.out$)}</strong> out</li>
+          <li>Top industry: <strong>${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</strong></li>
+          <li>Vote alignment with donors: <strong>${d.align===null?'—':d.align+'%'}</strong></li>
+        </ul>
+      </div>
+    </div>`;
+
+  const inds = Object.entries(globalStore.donorsByMember[mid]?.industries||{}).sort((a,b)=>b[1]-a[1]);
+  $('#money-body').innerHTML = inds.length
+    ? `<div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead><tbody>${inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('')}</tbody></table></div><div class="small text-muted">Source: FEC filings; cycle-to-date.</div>`
+    : `<p class="text-muted mb-0">No sector detail available.</p>`;
+
+  const votes = d.votes || [];
+  $('#votes-body').innerHTML = votes.length
+    ? `<div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead><tbody>${votes.map(x=>`<tr><td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('')}</tbody></table></div>`
+    : `<p class="text-muted mb-0">No tracked votes yet.</p>`;
+
+  $('#receipts-body').innerHTML = d.receipts.length
+    ? `<ul class="list-unstyled mb-0">${d.receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
+    : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
+
+  new bootstrap.Modal(document.getElementById('memberModal')).show();
 }
 
 /* ---------- boot ---------- */
-document.addEventListener('DOMContentLoaded', async () => {
-  const setStatus = t => { const el = document.getElementById('load-status'); if (el) el.textContent = t; };
+document.addEventListener('DOMContentLoaded', async ()=>{
+  const setStatus = (t) => { const el = $('#load-status'); if (el) el.textContent = t; };
   setStatus('Loading data…');
 
-  // 1) Load (may come from cache), render immediately
-  let {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
-  renderAll(members, donorsByMember, awardsByMember, voteAlignByMember);
-  setStatus('Data loaded.');
-  aggregateMetrics();
-
-  // 2) Kick off background refresh; if newer data arrives, re-render
-  loadAll.refresh().then(fresh => {
-    renderAll(fresh.members, fresh.donorsByMember, fresh.awardsByMember, fresh.voteAlignByMember);
-    applyFilters(false);   // keep current filters
-    aggregateMetrics();
-    setStatus('Updated with fresh data.');
-  }).catch(()=>{ /* ignore */ });
-
-  /* your existing filter/export/compare code — keep as-is */
-  // IMPORTANT: call applyFilters() AFTER renderAll(), not before
-  applyFilters(false);
-});
-
-/* keep the rest of your helpers (applyFilters, aggregateMetrics, openModal, export, compare, etc.) */
-
-
-  /* filters */
-  const qInput = $('#fa-member'), partySel = $('#fa-party'), chamberSel = $('#fa-chamber'), industrySel = $('#fa-industry');
-  function passesIndustryFilter(mid, wanted){
-    if(!wanted) return true;
-    const inds = donorsByMember[mid]?.industries || {};
-    return Object.keys(inds).map(k=>k.toLowerCase()).includes(wanted.toLowerCase());
-  }
-  function applyFilters(pushState=true){
-    const q = (qInput.value || '').trim().toLowerCase();
-    const ch = (chamberSel.value || '').toLowerCase();
-    const ind = (industrySel.value || '').toLowerCase();
-    const party = (partySel.value || '').toUpperCase();
-
-    const listRows = $$('#fa-list .person');
-    let visible = 0;
-    listRows.forEach(row=>{
-      const mid = row.getAttribute('data-mid');
-      const nm = row.getAttribute('data-name') || '';
-      const st = row.getAttribute('data-state') || '';
-      const seat = row.getAttribute('data-seat') || '';
-      const rowParty = row.getAttribute('data-party') || '';
-      const chamber = row.getAttribute('data-chamber') || '';
-      const show = (!q || nm.includes(q) || st.includes(q) || seat.includes(q))
-                && (!ch || chamber === ch)
-                && (!party || rowParty === party)
-                && passesIndustryFilter(mid, ind);
-      row.style.display = show ? '' : 'none';
-      if(show) visible++;
-    });
-
-    $$('#fa-table tr[data-mid]').forEach(tr=>{
-      const mid = tr.getAttribute('data-mid');
-      const nm = tr.getAttribute('data-name') || '';
-      const st = tr.getAttribute('data-state') || '';
-      const seat = tr.getAttribute('data-seat') || '';
-      const rowParty = tr.getAttribute('data-party') || '';
-      const chamber = tr.getAttribute('data-chamber') || '';
-      const show = (!q || nm.includes(q) || st.includes(q) || seat.includes(q))
-                && (!ch || chamber === ch)
-                && (!party || rowParty === party)
-                && passesIndustryFilter(mid, ind);
-      tr.style.display = show ? '' : 'none';
-    });
-
-    $('#load-status').textContent = `Showing ${visible} row(s).`;
-    aggregateMetrics();
-
-    if(pushState){
-      const p = new URLSearchParams();
-      if(q) p.set('q', q);
-      if(ch) p.set('chamber', ch);
-      if(ind) p.set('industry', ind);
-      if(party) p.set('party', party);
-      const qs = p.toString();
-      history.replaceState({}, '', qs ? `${location.pathname}?${qs}` : location.pathname);
-    }
+  try{
+    const data = await loadAll();
+    globalStore = data;
+    renderAll();
+    setStatus('Data loaded.');
+  }catch(e){
+    console.error(e);
+    setStatus('Failed to load /data files.');
   }
 
-  function aggregateMetrics(){
-    const vis = $$('#fa-list .person').filter(el => el.style.display !== 'none');
-    if(!vis.length){
-      $('#m-pac-small').textContent = '—';
-      $('#m-geo').textContent = '—';
-      $('#m-top-industry').textContent = '—';
-      $('#m-vote-align').textContent = '—';
-      return;
-    }
-    let pacSum=0, alignSum=0, alignCount=0, inSum=0, outSum=0;
-    const industryHits = {};
-    vis.forEach(row=>{
-      const mid = row.getAttribute('data-mid');
-      const d = donorsByMember[mid] || {};
-      const v = voteAlignByMember[mid] || {};
-      pacSum += (d.pac_pct||0);
-      if(typeof v.donor_alignment_index === 'number'){ alignSum += v.donor_alignment_index; alignCount++; }
-      inSum += (d.in_state_dollars||0);
-      outSum += (d.out_state_dollars||0);
-      const ti = topIndustry(d);
-      if(ti.key && ti.key!=='—') industryHits[ti.key] = (industryHits[ti.key]||0)+1;
-    });
-    const pacAvg   = pacSum/vis.length;
-    const alignAvg = alignCount? (alignSum/alignCount) : null;
-    const topInd   = Object.entries(industryHits).sort((a,b)=>b[1]-a[1])[0]?.[0] || '—';
-
-    $('#m-pac-small').textContent = `${pct(pacAvg)}% PAC / ${100-pct(pacAvg)}% small`;
-    $('#m-geo').textContent       = `${money(inSum)} in / ${money(outSum)} out`;
-    $('#m-top-industry').textContent = topInd;
-    $('#m-vote-align').textContent   = (alignAvg===null) ? '—' : `${pct(alignAvg)}%`;
-  }
-
-  (function syncFromURL(){
-    const params = new URLSearchParams(location.search);
-    const q = params.get('q') || '';
-    const ch = params.get('chamber') || '';
-    const ind = params.get('industry') || '';
-    const party = params.get('party') || '';
-    if(q) $('#fa-member').value = q;
-    if(ch) $('#fa-chamber').value = ch;
-    if(ind) $('#fa-industry').value = ind;
-    if(party) $('#fa-party').value = party.toUpperCase();
-  })();
-
-  $('#fa-member').addEventListener('input', ()=>applyFilters());
+  // filters
+  $('#fa-search').addEventListener('input', ()=>applyFilters());
+  $('#fa-party').addEventListener('change', ()=>applyFilters());
   $('#fa-chamber').addEventListener('change', ()=>applyFilters());
   $('#fa-industry').addEventListener('change', ()=>applyFilters());
-  $('#fa-party').addEventListener('change', ()=>applyFilters());
   $('#fa-reset').addEventListener('click', ()=>{
-    $('#fa-member').value=''; $('#fa-chamber').value=''; $('#fa-industry').value=''; $('#fa-party').value='';
+    $('#fa-search').value='';
+    ['#fa-party','#fa-chamber','#fa-industry'].forEach(sel => {
+      [...$(sel).options].forEach(o=>o.selected=false);
+    });
     applyFilters();
   });
 
-  /* compare + modal */
-  const compareBar   = document.querySelector('.compare-bar');
-  const comparePicked= $('#compare-picked');
-  const compareGo    = $('#compare-go');
-  const compareClear = $('#compare-clear');
-
-  function selectedMIDs(){ return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-pick')); }
-  function syncCompareBar(){
-    const ids = selectedMIDs();
-    comparePicked.textContent = `${ids.length} selected`;
-    compareGo.disabled = ids.length === 0;
-    compareBar.style.display = ids.length ? 'block' : 'none';
-  }
-  compareClear.addEventListener('click', ()=>{
-    $$('#fa-list .compare-pick').forEach(cb => { cb.checked = false; });
-    syncCompareBar();
-  });
-
-  function openModal(mid){
-    const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
-    $('#memberTitle').textContent = `${d.name} — ${d.seat}${d.party ? ' ('+d.party+')' : ''}`;
-    $('#memberMeta').textContent  = `Top industry: ${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`} • PAC: ${d.pacP}% • Vote align: ${d.align===null?'—':d.align+'%'}`;
-    $('#overview-body').innerHTML = `
-      <div class="row g-3">
-        <div class="col-md-4"><img src="${d.photo}" class="w-100 rounded" alt="${d.name} headshot" loading="lazy" onerror="this.src='/assets/no-photo.png'"></div>
-        <div class="col-md-8">
-          <p class="mb-2"><strong>Badges:</strong> ${d.chips.length ? chipHTML(d.chips) : 'None yet'}</p>
-          <ul class="mb-0">
-            <li>PAC share: <strong>${d.pacP}%</strong> (small donors: <strong>${d.smlP}%</strong>)</li>
-            <li>In vs Out: <strong>${money(d.in$)}</strong> in / <strong>${money(d.out$)}</strong> out</li>
-            <li>Top industry: <strong>${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</strong></li>
-            <li>Vote alignment with donors: <strong>${d.align===null?'—':d.align+'%'}</strong></li>
-          </ul>
-        </div>
-      </div>`;
-    const inds = Object.entries(donorsByMember[mid]?.industries||{}).sort((a,b)=>b[1]-a[1]);
-    $('#money-body').innerHTML = inds.length
-      ? `<div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead><tbody>${inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('')}</tbody></table></div><div class="small text-muted">Source: FEC filings; cycle-to-date.</div>`
-      : `<p class="text-muted mb-0">No sector detail available.</p>`;
-    const votes = d.votes || [];
-    $('#votes-body').innerHTML = votes.length
-      ? `<div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead><tbody>${votes.map(x=>`<tr><td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('')}</tbody></table></div>`
-      : `<p class="text-muted mb-0">No tracked votes yet.</p>`;
-    $('#receipts-body').innerHTML = d.receipts.length
-      ? `<ul class="list-unstyled mb-0">${d.receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
-      : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
-    new bootstrap.Modal(document.getElementById('memberModal')).show();
-  }
-
-  compareGo.addEventListener('click', ()=>{
-    const ids = selectedMIDs().slice(0,2);
-    if(ids.length === 1) return openModal(ids[0]);
-    if(ids.length === 2){
-      const A = rowData(ids[0], members, donorsByMember, awardsByMember, voteAlignByMember);
-      const B = rowData(ids[1], members, donorsByMember, awardsByMember, voteAlignByMember);
-      $('#memberTitle').textContent = `Compare — ${A.name} vs ${B.name}`;
-      $('#memberMeta').textContent = '';
-      $('#tabs').classList.add('d-none');
-      const wrap = $('#compare-wrap');
-      wrap.classList.remove('d-none');
-      wrap.innerHTML = `
-        <div class="row g-3">
-          <div class="col-md-6"><div class="cardish p-3 h-100">${chipHTML(A.chips)}<hr><div><strong>${A.name}</strong><br/>${A.seat}${A.party?' • '+A.party:''}</div></div></div>
-          <div class="col-md-6"><div class="cardish p-3 h-100">${chipHTML(B.chips)}<hr><div><strong>${B.name}</strong><br/>${B.seat}${B.party?' • '+B.party:''}</div></div></div>
-        </div>`;
-      new bootstrap.Modal(document.getElementById('memberModal')).show();
-    }
-  });
-
-  /* CSV export (visible rows) */
+  // export visible
   $('#btn-export').addEventListener('click', ()=>{
     const rows = $$('#fa-table tr[data-mid]').filter(tr=>tr.style.display!=='none');
     if(!rows.length) return;
@@ -733,7 +585,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const csv = [header.join(',')];
     rows.forEach(tr=>{
       const mid = tr.getAttribute('data-mid');
-      const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
+      const d = rowData(mid, globalStore.members, globalStore.donorsByMember, globalStore.awardsByMember, globalStore.voteAlignByMember);
       const badges = d.chips.map(ch => ch[2]).join(' | ');
       csv.push([d.name,d.seat,`${d.pacP}%`,`${d.smlP}%`,money(d.in$),money(d.out$),
                 d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`,
@@ -745,12 +597,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  /* kick things off */
-  aggregateMetrics();
 });
 </script>
 
-<!-- Member Details / Compare Modal -->
+<!-- Member Details Modal -->
 <div class="modal fade" id="memberModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
@@ -759,7 +609,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div id="compare-wrap" class="d-none"></div>
         <ul id="tabs" class="nav nav-tabs mb-3" role="tablist">
           <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-overview" type="button">Overview</button></li>
           <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-money" type="button">Money</button></li>
