@@ -10,6 +10,9 @@ on:
       - 'assets/**'
       - 'styles.css'
       - 'data/**'
+      - 'scripts/**'           # so edits to build scripts trigger deploy
+      - 'package.json'
+      - 'package-lock.json'
       - 'CNAME'
       - '.nojekyll'
       - '.github/workflows/deploy.yml'
@@ -29,7 +32,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/configure-pages@v5
+
+      # OPTIONAL: build data files (remove if you don't use Node scripts)
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm ci
+        if: hashFiles('package.json') != ''        # only runs if package.json exists
+
+      - name: Build data
+        run: npm run build:data
+        if: hashFiles('package.json') != ''        # only runs if package.json exists
 
       - name: Prepare _site
         run: |
@@ -45,13 +63,12 @@ jobs:
           # keep custom domain + nojekyll
           if [ -f CNAME ]; then cp -a CNAME _site/; else echo "ArafatForCongress.org" > _site/CNAME; fi
           if [ -f .nojekyll ]; then cp -a .nojekyll _site/; else touch _site/.nojekyll; fi
-          # sanity output
           echo "::group::_site contents"; ls -la _site; echo "::endgroup::"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site   # <-- SINGLE PATH ONLY. No quotes, no pipes, no \n.
+          path: _site
 
   deploy:
     runs-on: ubuntu-latest
