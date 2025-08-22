@@ -1,4 +1,5 @@
-name: Deploy GitHub Pages
+# .github/workflows/pages.yml
+name: Deploy Pages
 
 on:
   push:
@@ -20,29 +21,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      # Build your data (adjust scripts to match your repo)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build data
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        run: |
+          npm run build:members
+          npm run build:financials
+          npm run build:awards
+          # make sure these scripts write to ./data/*.json
+
+      # Assemble the static site to _site, including /data
+      - name: Assemble site
+        run: |
+          rm -rf _site
+          mkdir -p _site
+          rsync -a --exclude ".git" --exclude "node_modules" ./ _site/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
-
-      # OPTIONAL: run data builders here if you have them
-      # - run: node scripts/build-members-csv.js
-
-      # Create _site as the publication root and copy EVERYTHING except dotgit & the workflow itself
-      - name: Assemble site
-        run: |
-          set -euo pipefail
-          rm -rf _site
-          mkdir -p _site
-          rsync -av --delete \
-            --exclude ".git" \
-            --exclude ".github" \
-            --exclude "node_modules" \
-            ./ _site/
-
-      - name: List artifact (sanity)
-        run: find _site -maxdepth 2 -type d -print | sort
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -50,12 +56,11 @@ jobs:
           path: _site
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
