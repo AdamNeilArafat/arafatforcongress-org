@@ -1,14 +1,10 @@
-<!-- badges.html — FULL, DROP‑IN PAGE
-     - Self‑contained (no external JSON required)
-     - Clear badge definitions, thresholds, anchors for deep‑links, copy‑link buttons
-     - Small script adds hash navigation, link copying, and optional filtering -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Badges & Awards — Accountability System | Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Brutal visual badges with defensible thresholds tied to FEC records. Multiple awards per politician possible."/>
+  <title>Badges of Shame — Receipts & Thresholds | Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Brutal, visual accountability. Each badge is earned by receipts and votes. Thresholds are explicit. Copy links, filter, and verify."/>
   <meta name="theme-color" content="#0d3b66"/>
 
   <!-- Bootstrap + Icons -->
@@ -17,61 +13,133 @@
 
   <style>
     :root{
-      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
-      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
+      --ink:#0e1824; --soft:#f6f9fc; --muted:#6a7b8d; --brand:#0d3b66;
+      --ctrl1:#2a3658; --ctrl2:#0b3157;          /* Control */
+      --corr1:#531616; --corr2:#9a1b1b;          /* Corruption */
+      --betr1:#6a4607; --betr2:#a56c0a;          /* Betrayal */
+      --for1:#08263f; --for2:#175a8a;            /* Foreign */
+      --ring:rgba(13,59,102,.25); --card:#fff;
+      --ok:#0b6e4f; --warn:#c77d09; --danger:#c1121f;
     }
     html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
-    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
-    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
+
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* NAV */
+    .navbar .nav-link{position:relative; padding:.35rem .6rem; font-weight:700; color:#1c2a3a}
+    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-6px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
     .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
 
-    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2rem 0}
-    .hero h1{font-weight:900; letter-spacing:.3px}
-
-    .badge-card{background:var(--card); border:1px solid var(--ring); border-radius:14px; overflow:hidden; box-shadow:0 6px 22px rgba(13,59,102,.06)}
-    .badge-art{height:160px; display:flex; align-items:center; justify-content:center; font-weight:900; letter-spacing:.08em}
-    .art-red{background:#f6e9ea; color:#8f0d16}
-    .art-amber{background:#fff3cd; color:#8a5b00}
-    .art-blue{background:#e7f1ff; color:#0d3b66}
-    .badge-body{padding:1rem}
-    .chip{font-size:.72rem; font-weight:800; padding:.2rem .5rem; border-radius:999px; display:inline-flex; align-items:center; gap:.35rem}
-    .chip-ctrl{background:#ffecec; color:#b42318; border:1px solid #ffd0d0}
-    .chip-corr{background:#ffecec; color:#7d0613; border:1px solid #ffb8b8}
-    .chip-betray{background:#fff1e6; color:#7a5200; border:1px solid #ffdba7}
-    .chip-foreign{background:#eaf4ff; color:#0b3157; border:1px solid #cfe4ff}
-
-    .scale-dot{width:9px; height:9px; border-radius:999px; display:inline-block; margin-right:.3rem}
-    .s-low{background:#cde5d3} .s-med{background:#ffd791} .s-high{background:#ffb3a7} .s-ext{background:#e56a64}
-
-    .cardish{background:var(--card); border:1px solid var(--ring); border-radius:14px; box-shadow:0 4px 18px rgba(13,59,102,.06)}
-    .table thead th{background:#f4f7fb; white-space:nowrap}
-    .tools .btn{white-space:nowrap}
-
-    .anchor{
-      position: relative;
-      scroll-margin-top: 90px; /* offset for sticky navbar */
+    /* HERO */
+    .hero{
+      background: radial-gradient(1200px 400px at 10% -40%, #274c77 10%, transparent 60%) , linear-gradient(180deg,#0d3b66,#061c33);
+      color:#fff; padding:2.2rem 0 1.6rem
     }
-    .anchor .copy-link{
-      opacity:0; transition:opacity .15s; font-size:.8rem
+    .hero h1{font-weight:900; letter-spacing:.25px; margin-bottom:.3rem}
+    .hero p{opacity:.92}
+
+    /* CONTROLS */
+    .toolbox{background:var(--card); border:1px solid var(--ring); border-radius:16px; box-shadow:0 10px 24px rgba(13,59,102,.07)}
+
+    /* CATEGORY TABS */
+    .cat-pills .nav-link{
+      border:1px solid rgba(13,59,102,.15); color:#233246; font-weight:700;
+      border-radius:999px; padding:.4rem .9rem
     }
-    .anchor:hover .copy-link{opacity:1}
+    .cat-pills .nav-link.active{background:#0d3b66; color:#fff; border-color:#0d3b66}
 
-    footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
+    /* CARDS (achievement style) */
+    .badge-card{
+      background:var(--card); border:1px solid rgba(13,59,102,.15);
+      border-radius:18px; overflow:hidden; box-shadow:0 10px 26px rgba(13,59,102,.08); position:relative
+    }
+    .badge-top{
+      min-height:160px; display:flex; align-items:center; justify-content:center;
+      color:#fff; text-shadow:0 4px 18px rgba(0,0,0,.28); position:relative; isolation:isolate
+    }
+    .badge-top .icon{
+      font-size:58px; opacity:.25; position:absolute; inset:auto 10px 10px auto; z-index:0
+    }
+    .badge-top .label{
+      z-index:1; text-align:center; padding:1rem; width:100%;
+    }
+    .badge-top .label .kicker{
+      display:inline-block; font-size:.78rem; letter-spacing:.12em; font-weight:900;
+      background:rgba(255,255,255,.14); padding:.2rem .5rem; border-radius:6px; margin-bottom:.4rem
+    }
+    .badge-top .label h3{
+      margin:0; font-weight:1000; letter-spacing:.06em; text-transform:uppercase; line-height:1.05
+    }
+    .tag{display:inline-flex; align-items:center; gap:.35rem; border-radius:999px; padding:.22rem .55rem; font-size:.72rem; font-weight:800}
 
+    .b-ctrl{background:linear-gradient(160deg,var(--ctrl1),var(--ctrl2))}
+    .b-corr{background:linear-gradient(160deg,var(--corr1),var(--corr2))}
+    .b-betr{background:linear-gradient(160deg,var(--betr1),var(--betr2))}
+    .b-foreign{background:linear-gradient(160deg,var(--for1),var(--for2))}
+
+    .badge-body{padding:1rem .95rem}
+    .leadline{font-weight:650; color:#1a2736}
+    .muted{color:var(--muted)}
+
+    /* Severity bar */
+    .sev-wrap{display:flex; align-items:center; gap:.55rem; margin:.3rem 0 .65rem}
+    .sev-label{font-size:.78rem; font-weight:800; letter-spacing:.06em; color:#2b3b4f}
+    .sev{
+      display:flex; gap:.25rem
+    }
+    .sev .dot{
+      width:16px; height:16px; border-radius:3px; background:#dfe7f2; box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)
+    }
+    .sev .dot.on.low{background:#cfe9d8}
+    .sev .dot.on.med{background:#ffe1a8}
+    .sev .dot.on.high{background:#ffc1b6}
+    .sev .dot.on.ext{background:#e26b63}
+
+    /* Threshold + receipts */
+    details.threshold{
+      border:1px dashed rgba(13,59,102,.25); border-radius:10px; padding:.6rem .8rem; background:#fbfdff
+    }
+    details.threshold summary{
+      cursor:pointer; font-weight:800; color:#17314a
+    }
+    .trow{display:flex; flex-wrap:wrap; gap:.75rem}
+    .pill{
+      background:#eef3fa; border:1px solid rgba(13,59,102,.18); border-radius:999px;
+      padding:.18rem .55rem; font-size:.8rem; font-weight:800; color:#1d2b3b
+    }
+
+    /* Copy link button (visible) */
+    .copy-link{
+      border:1px solid rgba(255,255,255,.42); color:#fff; background:transparent; border-radius:999px;
+      font-size:.75rem; padding:.25rem .5rem; line-height:1; display:inline-flex; gap:.35rem; align-items:center
+    }
+    .copy-link.dark{
+      border-color:rgba(13,59,102,.25); color:#223248; background:#fff
+    }
+
+    .anchor{scroll-margin-top:96px}
+    .ring{outline:3px solid #8ecae6; outline-offset:-3px; transition:outline-color .8s ease}
+
+    footer{background:#0d3b66; color:#fff; padding:1.2rem 0; margin-top:2rem}
+
+    @media (min-width:992px){
+      .badge-top{min-height:180px}
+    }
     @media print{
-      .navbar, .hero, .tools, .copy-link{display:none !important}
-      a{color:inherit !important; text-decoration:none !important}
+      .navbar,.toolbox,.copy-link,.cat-pills{display:none !important}
+      a{text-decoration:none !important; color:inherit !important}
       body{background:#fff}
+      .badge-card{page-break-inside:avoid}
     }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress — WA‑10</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -79,7 +147,7 @@
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="./index.html">Wall of Shame</a></li>
         <li class="nav-item"><a class="nav-link" href="./financial-alignments.html">Financial Alignments</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="./badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="./badges.html">Badges</a></li>
         <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
         <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
@@ -93,12 +161,22 @@
   <div class="container">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
       <div>
-        <h1 class="mb-1">Badges &amp; Awards</h1>
-        <p class="mb-0">Brutal, visual, and defensible — each badge is tied to explicit, documented thresholds.</p>
+        <h1>Badges of Shame</h1>
+        <p class="mb-2">Brutal. Defensible. <strong>Every badge is earned by receipts and votes.</strong></p>
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-outline-light btn-sm" href="./financial-alignments.html"><i class="fa-solid fa-receipt me-1"></i> See the receipts</a>
+          <button class="btn btn-outline-light btn-sm" id="copyPage"><i class="fa-solid fa-link me-1"></i> Copy page link</button>
+          <button class="btn btn-outline-light btn-sm" onclick="window.print()"><i class="fa-solid fa-print me-1"></i> Print</button>
+        </div>
       </div>
-      <div class="d-flex gap-2">
-        <a class="btn btn-outline-light btn-sm" href="./index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
-        <a class="btn btn-danger btn-sm" href="./financial-alignments.html"><i class="fa-solid fa-chart-pie me-1"></i>See Financial Alignments</a>
+      <div class="text-end">
+        <div class="small opacity-75">Severity key</div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-success-subtle text-success-emphasis">Low</span>
+          <span class="badge bg-warning-subtle text-warning-emphasis">Med</span>
+          <span class="badge bg-danger-subtle text-danger-emphasis">High</span>
+          <span class="badge bg-danger">Extreme</span>
+        </div>
       </div>
     </div>
   </div>
@@ -106,339 +184,373 @@
 
 <main class="container my-4">
 
-  <!-- Page tools -->
-  <div class="cardish p-3 mb-3 tools">
-    <div class="row g-2 align-items-end">
-      <div class="col-md-4">
-        <label for="filter-cat" class="form-label">Filter by category</label>
-        <select id="filter-cat" class="form-select">
-          <option value="">All categories</option>
-          <option value="control">Control &amp; Capture</option>
-          <option value="corruption">Corruption &amp; Sale</option>
-          <option value="betrayal">Betrayal</option>
-          <option value="foreign">Foreign‑Policy / Defense / Oil</option>
-        </select>
+  <!-- Toolbox: search + category pills -->
+  <div class="toolbox p-3 p-md-4 mb-3">
+    <div class="row g-3 align-items-end">
+      <div class="col-lg-6">
+        <label for="search" class="form-label fw-bold mb-1">Search badges</label>
+        <input id="search" class="form-control" placeholder="Try ‘PAC’, ‘out‑district’, ‘AIPAC’, ‘defense’, ‘oil’…"/>
       </div>
-      <div class="col-md-5">
-        <label for="search" class="form-label">Search badges</label>
-        <input id="search" class="form-control" placeholder="Type a badge name or keyword (e.g., PAC, AIPAC, out‑district)"/>
-      </div>
-      <div class="col-md-3 d-grid">
-        <label class="form-label d-none d-md-block">&nbsp;</label>
-        <button id="reset" class="btn btn-outline-secondary"><i class="fa-solid fa-rotate-left me-1"></i>Reset</button>
+      <div class="col-lg-6">
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <span class="fw-bold me-1">Categories:</span>
+          <ul class="nav nav-pills cat-pills" id="catPills">
+            <li class="nav-item"><a class="nav-link active" data-cat="" href="#" role="button">All</a></li>
+            <li class="nav-item"><a class="nav-link" data-cat="control" href="#" role="button">Control</a></li>
+            <li class="nav-item"><a class="nav-link" data-cat="corruption" href="#" role="button">Corruption</a></li>
+            <li class="nav-item"><a class="nav-link" data-cat="betrayal" href="#" role="button">Betrayal</a></li>
+            <li class="nav-item"><a class="nav-link" data-cat="foreign" href="#" role="button">Foreign / Oil / Defense</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Severity scale -->
-  <div class="alert alert-light border">
-    <strong>Severity Scale:</strong>
-    <span class="ms-2"><span class="scale-dot s-low"></span>Low</span>
-    <span class="ms-3"><span class="scale-dot s-med"></span>Medium</span>
-    <span class="ms-3"><span class="scale-dot s-high"></span>High</span>
-    <span class="ms-3"><span class="scale-dot s-ext"></span>Extreme</span>
-  </div>
+  <!-- GRID -->
+  <div id="grid" class="row g-3">
 
-  <!-- Badge gallery -->
-  <div id="badge-grid" class="row g-3">
+    <!-- ============ CONTROL & CAPTURE ============ -->
+    <div class="col-12"><h2 class="h5 mt-2">🐕 Control &amp; Capture</h2></div>
 
-    <!-- Control & Capture -->
-    <div class="col-12 anchor" id="control">
-      <h2 class="h5 mt-2 d-flex align-items-center gap-2">
-        🐕 Control &amp; Capture
-        <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#control" title="Copy link to section">
-          <i class="fa-solid fa-link"></i>
-        </button>
-      </h2>
-    </div>
-
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="control" data-keywords="pac industry control leash held donations threshold">
-      <div class="badge-card anchor" id="leash-held">
-        <div class="badge-art art-red">LEASH HELD</div>
-        <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Leash Held by [PAC/Industry]</h3>
-            <span class="chip chip-ctrl"><i class="fa-solid fa-handcuffs"></i> Control</span>
+    <!-- Leash Held -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="leash-held" data-cat="control" data-keywords="control pac industry total leash-held donors leash">
+      <article class="badge-card">
+        <div class="badge-top b-ctrl">
+          <div class="label">
+            <div class="kicker">CONTROL</div>
+            <h3>LEASH HELD</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#leash-held"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
           </div>
-          <p class="mb-2">Triggered when PAC/industry dollars exceed a defensible threshold within the cycle.</p>
-          <div class="small text-muted">Severity scales with total $ (see thresholds).</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-leash-held">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#leash-held" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <i class="fa-solid fa-handcuffs icon" aria-hidden="true"></i>
         </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="control" data-keywords="puppet dominance pac percentage control">
-      <div class="badge-card anchor" id="puppet">
-        <div class="badge-art art-amber">PUPPET</div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Puppet of [X]</h3>
-            <span class="chip chip-ctrl"><i class="fa-solid fa-handcuffs"></i> Control</span>
+          <p class="leadline mb-2">PAC/industry money crosses a hard line. <strong>Money on the leash, votes on command.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low" title="Low"></span>
+              <span class="dot on med" title="Medium"></span>
+              <span class="dot on high" title="High"></span>
+              <span class="dot" title="Extreme"></span>
+            </div>
           </div>
-          <p class="mb-2">One donor/industry accounts for a dominating share of PAC donations.</p>
-          <div class="small text-muted">Escalates by dominance %.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-puppet">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#puppet" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds &nbsp;•&nbsp; tied to receipts</summary>
+            <div class="trow mt-2">
+              <span class="pill">&gt;$10k Low</span>
+              <span class="pill">&gt;$20k Med</span>
+              <span class="pill">&gt;$40k High</span>
+              <span class="pill">&gt;$75k Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#pac">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-    <!-- Corruption & Sale -->
-    <div class="col-12 anchor" id="corruption">
-      <h2 class="h5 mt-3 d-flex align-items-center gap-2">
-        💰 Corruption &amp; Sale
-        <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#corruption" title="Copy link to section">
-          <i class="fa-solid fa-link"></i>
-        </button>
-      </h2>
-    </div>
-
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="corruption" data-keywords="bought paid single pac high dollar threshold corruption">
-      <div class="badge-card anchor" id="bought-paid">
-        <div class="badge-art art-red">BOUGHT</div>
+    <!-- Puppet -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="puppet" data-cat="control" data-keywords="control puppet dominance share pac one donor dominates">
+      <article class="badge-card">
+        <div class="badge-top b-ctrl">
+          <div class="label">
+            <div class="kicker">CONTROL</div>
+            <h3>PUPPET</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#puppet"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-mask icon" aria-hidden="true"></i>
+        </div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Bought &amp; Paid</h3>
-            <span class="chip chip-corr"><i class="fa-solid fa-sack-dollar"></i> Corruption</span>
+          <p class="leadline mb-2">One donor/industry dominates your PAC haul. <strong>Strings attached.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
           </div>
-          <p class="mb-2">A single PAC contribution crosses a high‑dollar threshold for the cycle.</p>
-          <div class="small text-muted">Escalates at larger single donations.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-bought-paid">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#bought-paid" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">&gt;40% Low</span>
+              <span class="pill">&gt;50% Med</span>
+              <span class="pill">&gt;60% High</span>
+              <span class="pill">&gt;70% Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#dominance">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="corruption" data-keywords="crown cash total pac lobbyist sum corruption">
-      <div class="badge-card anchor" id="crown-of-cash">
-        <div class="badge-art art-red">CROWN OF CASH</div>
+    <!-- ============ CORRUPTION & SALE ============ -->
+    <div class="col-12"><h2 class="h5 mt-3">💰 Corruption &amp; Sale</h2></div>
+
+    <!-- Bought & Paid -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="bought-paid" data-cat="corruption" data-keywords="corruption bought paid single pac high dollar">
+      <article class="badge-card">
+        <div class="badge-top b-corr">
+          <div class="label">
+            <div class="kicker">CORRUPTION</div>
+            <h3>BOUGHT & PAID</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#bought-paid"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-sack-dollar icon" aria-hidden="true"></i>
+        </div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Crown of Cash</h3>
-            <span class="chip chip-corr"><i class="fa-solid fa-sack-dollar"></i> Corruption</span>
+          <p class="leadline mb-2">One giant PAC check. <strong>A receipt you can’t explain away.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
           </div>
-          <p class="mb-2">Combined PAC + lobbyist dollars exceed a total threshold.</p>
-          <div class="small text-muted">Severity increases with total $.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-crown-of-cash">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#crown-of-cash" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">&gt;$25k Low</span>
+              <span class="pill">&gt;$50k Med</span>
+              <span class="pill">&gt;$75k High</span>
+              <span class="pill">&gt;$100k Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#single">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-    <!-- Betrayal -->
-    <div class="col-12 anchor" id="betrayal">
-      <h2 class="h5 mt-3 d-flex align-items-center gap-2">
-        🔪 Betrayal
-        <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#betrayal" title="Copy link to section">
-          <i class="fa-solid fa-link"></i>
-        </button>
-      </h2>
-    </div>
-
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="betrayal" data-keywords="backstabber out of district out of state donors betrayal">
-      <div class="badge-card anchor" id="backstabber">
-        <div class="badge-art art-amber">BACKSTABBER</div>
+    <!-- Crown of Cash -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="crown-of-cash" data-cat="corruption" data-keywords="corruption crown cash total pac lobbyist sum">
+      <article class="badge-card">
+        <div class="badge-top b-corr">
+          <div class="label">
+            <div class="kicker">CORRUPTION</div>
+            <h3>CROWN OF CASH</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#crown-of-cash"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-crown icon" aria-hidden="true"></i>
+        </div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Backstabber Award</h3>
-            <span class="chip chip-betray"><i class="fa-solid fa-person-through-window"></i> Betrayal</span>
+          <p class="leadline mb-2">PAC + lobbyist totals stack high. <strong>Money rules your calendar.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
           </div>
-          <p class="mb-2">Out‑district (or out‑state) dollars outweigh in‑district support.</p>
-          <div class="small text-muted">Ratio‑based escalation.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-backstabber">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#backstabber" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">&gt;$50k Low</span>
+              <span class="pill">&gt;$100k Med</span>
+              <span class="pill">&gt;$200k High</span>
+              <span class="pill">&gt;$400k Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#total">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="betrayal" data-keywords="judas donor aligned votes ninety alignment betrayal">
-      <div class="badge-card anchor" id="judas">
-        <div class="badge-art art-amber">JUDAS</div>
+    <!-- ============ BETRAYAL ============ -->
+    <div class="col-12"><h2 class="h5 mt-3">🔪 Betrayal</h2></div>
+
+    <!-- Backstabber -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="backstabber" data-cat="betrayal" data-keywords="betrayal backstabber out of district state donors ratio">
+      <article class="badge-card">
+        <div class="badge-top b-betr">
+          <div class="label">
+            <div class="kicker">BETRAYAL</div>
+            <h3>BACKSTABBER</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#backstabber"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-person-through-window icon" aria-hidden="true"></i>
+        </div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Judas Award</h3>
-            <span class="chip chip-betray"><i class="fa-solid fa-person-through-window"></i> Betrayal</span>
+          <p class="leadline mb-2">You raised more from outsiders than your own voters. <strong>Sold them out.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
           </div>
-          <p class="mb-2">Votes align with donor industries at very high rates.</p>
-          <div class="small text-muted">Escalates at ≥90%, ≥95%, ≥98%.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-judas">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#judas" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">Out &gt; In ×1.1 Low</span>
+              <span class="pill">×1.25 Med</span>
+              <span class="pill">×1.5 High</span>
+              <span class="pill">×2 Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#geo">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-    <!-- Foreign policy / AIPAC / Defense / Oil -->
-    <div class="col-12 anchor" id="foreign">
-      <h2 class="h5 mt-3 d-flex align-items-center gap-2">
-        🌍 Foreign‑Policy / Defense / Oil
-        <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#foreign" title="Copy link to section">
-          <i class="fa-solid fa-link"></i>
-        </button>
-      </h2>
-    </div>
-
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="foreign" data-keywords="aipac leash foreign policy threshold">
-      <div class="badge-card anchor" id="aipac-leash">
-        <div class="badge-art art-blue">AIPAC LEASH</div>
+    <!-- Judas -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="judas" data-cat="betrayal" data-keywords="betrayal judas donor aligned votes 90 95 98">
+      <article class="badge-card">
+        <div class="badge-top b-betr">
+          <div class="label">
+            <div class="kicker">BETRAYAL</div>
+            <h3>JUDAS</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#judas"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-knife icon" aria-hidden="true"></i>
+        </div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Leash Held by AIPAC</h3>
-            <span class="chip chip-foreign"><i class="fa-solid fa-globe"></i> Foreign‑Policy</span>
+          <p class="leadline mb-2">Your votes match donor demands at extreme rates. <strong>They speak. You vote.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
           </div>
-          <p class="mb-2">AIPAC‑linked funding crosses a set threshold.</p>
-          <div class="small text-muted">Escalates by total $.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-aipac-leash">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#aipac-leash" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">≥80% Low</span>
+              <span class="pill">≥90% Med</span>
+              <span class="pill">≥95% High</span>
+              <span class="pill">≥98% Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#votes">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="foreign" data-keywords="supporter atrocity military aid votes aipac defense foreign policy">
-      <div class="badge-card anchor" id="supporter-atrocity">
-        <div class="badge-art art-blue">SUPPORTS ATROCITY</div>
+    <!-- ============ FOREIGN / DEFENSE / OIL ============ -->
+    <div class="col-12"><h2 class="h5 mt-3">🌍 Foreign‑Policy / Defense / Oil</h2></div>
+
+    <!-- AIPAC Leash -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="aipac-leash" data-cat="foreign" data-keywords="foreign aipac leash funding threshold">
+      <article class="badge-card">
+        <div class="badge-top b-foreign">
+          <div class="label">
+            <div class="kicker">FOREIGN‑POLICY</div>
+            <h3>AIPAC LEASH</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#aipac-leash"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-globe icon" aria-hidden="true"></i>
+        </div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Supporter of Genocide</h3>
-            <span class="chip chip-foreign"><i class="fa-solid fa-globe"></i> Foreign‑Policy</span>
+          <p class="leadline mb-2">AIPAC‑linked dollars cross set lines. <strong>Foreign‑policy donors in the driver’s seat.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
           </div>
-          <p class="mb-2">Combined AIPAC/Defense dollars exceed thresholds and votes favor related military‑aid measures.</p>
-          <div class="small text-muted">Escalates with both $ and vote count.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-supporter-atrocity">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#supporter-atrocity" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">&gt;$10k Low</span>
+              <span class="pill">&gt;$20k Med</span>
+              <span class="pill">&gt;$35k High</span>
+              <span class="pill">&gt;$60k Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#aipac">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-    <div class="col-md-6 col-lg-4 badge-item" data-cat="foreign" data-keywords="blood money defense contractors oil war funding foreign policy">
-      <div class="badge-card anchor" id="blood-money">
-        <div class="badge-art art-blue">BLOOD MONEY</div>
+    <!-- Supporter of Genocide -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="supporter-atrocity" data-cat="foreign" data-keywords="foreign defense votes military aid atrocity">
+      <article class="badge-card">
+        <div class="badge-top b-foreign">
+          <div class="label">
+            <div class="kicker">FOREIGN‑POLICY</div>
+            <h3>SUPPORTER OF GENOCIDE</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#supporter-atrocity"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-skull icon" aria-hidden="true"></i>
+        </div>
         <div class="badge-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="h6 mb-1">Blood Money Badge</h3>
-            <span class="chip chip-foreign"><i class="fa-solid fa-globe"></i> Foreign‑Policy</span>
+          <p class="leadline mb-2">High AIPAC/Defense money + votes for related military aid. <strong>Both the cash and the yeas.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
           </div>
-          <p class="mb-2">Defense/war‑contractor dollars exceed thresholds.</p>
-          <div class="small text-muted">Escalates by total $.</div>
-          <div class="mt-2">
-            <a class="btn btn-sm btn-outline-primary" href="#th-blood-money">Thresholds</a>
-            <button class="btn btn-sm btn-outline-secondary copy-link" data-copy="#blood-money" title="Copy link"><i class="fa-solid fa-link"></i></button>
-          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">$25k + ≥1 vote Low</span>
+              <span class="pill">$50k + ≥2 Med</span>
+              <span class="pill">$75k + ≥3 High</span>
+              <span class="pill">$100k + ≥4 Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#foreign-votes">See receipts</a></div>
+          </details>
         </div>
-      </div>
+      </article>
     </div>
 
-  </div><!-- /badge-grid -->
-
-  <!-- Threshold table -->
-  <div id="thresholds" class="cardish p-3 mt-4">
-    <h2 class="h6 mb-3">Thresholds &amp; Escalation</h2>
-    <div class="table-responsive">
-      <table class="table table-sm align-middle">
-        <thead>
-          <tr>
-            <th>Badge</th>
-            <th>Low</th>
-            <th>Medium</th>
-            <th>High</th>
-            <th>Extreme</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="th-leash-held">
-            <td>Leash Held by [Industry]</td>
-            <td>&gt; $10k</td>
-            <td>&gt; $20k</td>
-            <td>&gt; $40k</td>
-            <td>&gt; $75k</td>
-          </tr>
-          <tr id="th-puppet">
-            <td>Puppet of [X] (share of PAC)</td>
-            <td>&gt; 40%</td>
-            <td>&gt; 50%</td>
-            <td>&gt; 60%</td>
-            <td>&gt; 70%</td>
-          </tr>
-          <tr id="th-bought-paid">
-            <td>Bought &amp; Paid (single PAC)</td>
-            <td>&gt; $25k</td>
-            <td>&gt; $50k</td>
-            <td>&gt; $75k</td>
-            <td>&gt; $100k</td>
-          </tr>
-          <tr id="th-crown-of-cash">
-            <td>Crown of Cash (PAC + Lobbyist)</td>
-            <td>&gt; $50k</td>
-            <td>&gt; $100k</td>
-            <td>&gt; $200k</td>
-            <td>&gt; $400k</td>
-          </tr>
-          <tr id="th-backstabber">
-            <td>Backstabber (Out vs In)</td>
-            <td>Out &gt; In by 1.1×</td>
-            <td>1.25×</td>
-            <td>1.5×</td>
-            <td>2×</td>
-          </tr>
-          <tr id="th-judas">
-            <td>Judas (Donor‑aligned votes)</td>
-            <td>≥ 80%</td>
-            <td>≥ 90%</td>
-            <td>≥ 95%</td>
-            <td>≥ 98%</td>
-          </tr>
-          <tr id="th-aipac-leash">
-            <td>Leash Held by AIPAC</td>
-            <td>&gt; $10k</td>
-            <td>&gt; $20k</td>
-            <td>&gt; $35k</td>
-            <td>&gt; $60k</td>
-          </tr>
-          <tr id="th-supporter-atrocity">
-            <td>Supporter of Genocide (AIPAC + Defense + Votes)</td>
-            <td>$25k + ≥1 vote</td>
-            <td>$50k + ≥2 votes</td>
-            <td>$75k + ≥3 votes</td>
-            <td>$100k + ≥4 votes</td>
-          </tr>
-          <tr id="th-blood-money">
-            <td>Blood Money (Defense)</td>
-            <td>&gt; $20k</td>
-            <td>&gt; $50k</td>
-            <td>&gt; $100k</td>
-            <td>&gt; $200k</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Blood Money -->
+    <div class="col-md-6 col-lg-4 badge-item anchor" id="blood-money" data-cat="foreign" data-keywords="foreign defense contractors oil war blood money">
+      <article class="badge-card">
+        <div class="badge-top b-foreign">
+          <div class="label">
+            <div class="kicker">DEFENSE / OIL</div>
+            <h3>BLOOD MONEY</h3>
+            <div class="mt-2">
+              <button class="copy-link" data-copy="#blood-money"><i class="fa-solid fa-link"></i> Copy link</button>
+            </div>
+          </div>
+          <i class="fa-solid fa-oil-can icon" aria-hidden="true"></i>
+        </div>
+        <div class="badge-body">
+          <p class="leadline mb-2">Defense/oil contractor dollars at scale. <strong>War pays. Your vote obeys.</strong></p>
+          <div class="sev-wrap">
+            <span class="sev-label">Severity</span>
+            <div class="sev" aria-label="Low to Extreme">
+              <span class="dot on low"></span><span class="dot on med"></span><span class="dot on high"></span><span class="dot on ext"></span>
+            </div>
+          </div>
+          <details class="threshold">
+            <summary>Thresholds</summary>
+            <div class="trow mt-2">
+              <span class="pill">&gt;$20k Low</span>
+              <span class="pill">&gt;$50k Med</span>
+              <span class="pill">&gt;$100k High</span>
+              <span class="pill">&gt;$200k Extreme</span>
+            </div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="./financial-alignments.html#defense">See receipts</a></div>
+          </details>
+        </div>
+      </article>
     </div>
-    <p class="small text-muted mb-0">Values are example thresholds — tune to your FEC analysis, methodology, and legal review.</p>
-  </div>
 
-  <!-- How the pipeline assigns badges -->
-  <div class="cardish p-3 mt-4">
-    <h2 class="h6 mb-2">Data → Badge Pipeline</h2>
-    <ol class="mb-0">
-      <li>Ingest FEC donations; enrich with industry tags (Pharma/Defense/Finance/Oil/AIPAC/etc.).</li>
-      <li>Compute ratios: PAC vs small, in‑district vs out‑district, and industry dominance.</li>
-      <li>Cross‑reference votes on relevant bills; compute donor‑alignment index.</li>
-      <li>Apply thresholds above → assign badges; publish on the Wall and Finance pages.</li>
+  </div><!-- /grid -->
+
+  <!-- Method blurb -->
+  <div class="mt-4 p-3 border rounded bg-white">
+    <h2 class="h6 mb-2">How badges are assigned</h2>
+    <ol class="mb-2">
+      <li>Ingest FEC data; tag by industry (Pharma/Defense/Finance/Oil/AIPAC/etc.).</li>
+      <li>Compute ratios: PAC vs small donors; in‑district vs out‑district; dominance by industry/donor.</li>
+      <li>Cross‑reference votes on related bills; calculate donor‑alignment index.</li>
+      <li>Apply explicit thresholds (shown in each card) → assign badges; link receipts.</li>
     </ol>
+    <p class="small text-muted mb-0">Thresholds shown are example baselines — calibrate to your FEC pipeline, methodology, and legal review.</p>
   </div>
 </main>
 
@@ -450,68 +562,92 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-
 <script>
-/* badges.html interactions: hash-focus, copy-link, filter/search (no external data) */
+/* badges.html — rebuilt interactions:
+   - search + category filter (no external data)
+   - copy-link for page and cards
+   - hash focus (scroll + ring)
+*/
 (function(){
   const $ = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
 
-  // Deep-link focus on load & on hash change
-  function focusHash(){
-    const id = decodeURIComponent(location.hash||'').replace('#','');
-    if(!id) return;
-    const el = document.getElementById(id);
-    if(el){ el.classList.add('ring'); el.scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(()=>el.classList.remove('ring'), 1500); }
-  }
-  window.addEventListener('hashchange', focusHash);
-  window.addEventListener('load', focusHash);
+  // Copy page link
+  $('#copyPage')?.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(location.href).then(()=>{
+      const b = $('#copyPage'); const old = b.innerHTML;
+      b.innerHTML = '<i class="fa-solid fa-check me-1"></i> Copied';
+      setTimeout(()=>b.innerHTML=old, 1000);
+    });
+  });
 
-  // Copy direct link buttons
+  // Copy per-card link
   $$('.copy-link').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
       const frag = btn.getAttribute('data-copy') || '';
-      const url = location.origin + location.pathname + (frag || '');
+      const url = location.origin + location.pathname + frag;
       navigator.clipboard.writeText(url).then(()=>{
-        const prev = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
-        setTimeout(()=>{ btn.innerHTML = prev; }, 900);
+        const old = btn.innerHTML; btn.innerHTML='<i class="fa-solid fa-check"></i> Copied';
+        setTimeout(()=>btn.innerHTML=old, 900);
       });
     });
   });
 
-  // Filter + search across badges
-  const filterSel = $('#filter-cat');
-  const q = $('#search');
-  const resetBtn = $('#reset');
+  // Category pills
+  const pills = $$('#catPills .nav-link');
+  const items = $$('#grid .badge-item');
+  function applyFilters(){
+    const active = $$('#catPills .nav-link.active')[0]?.getAttribute('data-cat') || '';
+    const term = ($('#search')?.value || '').toLowerCase().trim();
 
-  function apply(){
-    const cat = (filterSel.value || '').trim();
-    const term = (q.value || '').trim().toLowerCase();
-    const items = $$('#badge-grid .badge-item');
-    let shown = 0;
-    items.forEach(card=>{
-      const inCat = !cat || card.getAttribute('data-cat') === cat;
-      const keys = (card.getAttribute('data-keywords') || '').toLowerCase();
-      const hits = !term || keys.includes(term);
-      const show = inCat && hits;
-      card.style.display = show ? '' : 'none';
-      if(show) shown++;
+    items.forEach(it=>{
+      const cat = it.getAttribute('data-cat');
+      const keys = (it.getAttribute('data-keywords')||'').toLowerCase();
+      const passCat = !active || cat===active;
+      const passTerm = !term || keys.includes(term);
+      it.style.display = (passCat && passTerm) ? '' : 'none';
     });
-    // Show/hide section headers if entire category hidden
-    [{id:'control', cat:'control'}, {id:'corruption', cat:'corruption'}, {id:'betrayal', cat:'betrayal'}, {id:'foreign', cat:'foreign'}]
-      .forEach(({id,cat})=>{
-        const any = $$('#badge-grid .badge-item').some(it => it.getAttribute('data-cat')===cat && it.style.display!=='none');
-        const header = document.getElementById(id);
-        if(header) header.style.display = any ? '' : 'none';
-      });
+
+    // Hide section headings if their category has no visible cards
+    const sectionHeaders = $$('h2.h5');
+    sectionHeaders.forEach(h=>{
+      const label = h.textContent || '';
+      let mapCat = '';
+      if(label.includes('Control')) mapCat='control';
+      else if(label.includes('Corruption')) mapCat='corruption';
+      else if(label.includes('Betrayal')) mapCat='betrayal';
+      else if(label.includes('Foreign')) mapCat='foreign';
+      if(!mapCat){ h.style.display=''; return; }
+      const any = items.some(it => it.getAttribute('data-cat')===mapCat && it.style.display!=='none');
+      h.parentElement.style.display = any ? '' : 'none';
+    });
   }
 
-  filterSel.addEventListener('change', apply);
-  q.addEventListener('input', apply);
-  resetBtn.addEventListener('click', ()=>{ filterSel.value=''; q.value=''; apply(); });
+  pills.forEach(p=>{
+    p.addEventListener('click', (e)=>{
+      e.preventDefault();
+      pills.forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');
+      applyFilters();
+    });
+  });
+  $('#search')?.addEventListener('input', applyFilters);
 
-  apply();
+  // Hash focus
+  function focusHash(){
+    const id = decodeURIComponent(location.hash||'').replace('#','');
+    if(!id) return;
+    const el = document.getElementById(id);
+    if(el){
+      el.classList.add('ring');
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+      setTimeout(()=>el.classList.remove('ring'), 1500);
+    }
+  }
+  addEventListener('hashchange', focusHash);
+  addEventListener('load', ()=>{ applyFilters(); focusHash(); });
+
 })();
 </script>
 </body>
