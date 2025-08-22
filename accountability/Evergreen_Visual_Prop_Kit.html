@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<base href="/">
+<base href="/">
+<base href="/">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Evergreen Accountability — Visual & Prop Kit</title>
@@ -213,12 +216,18 @@
     const sec = document.getElementById(id);
     const win = window.open('', '_blank');
     win.document.write('<!DOCTYPE html><html><head><title>Print</title><style>body{font-family:system-ui,Segoe UI,Roboto,sans-serif;} .receipt{font-family:Courier New,monospace}</style></head><body>'+sec.outerHTML+'</body></html>');
+<base href="/">
+<base href="/">
+<base href="/">
     win.document.close(); win.focus(); win.print(); win.close();
   }
 
   function exportSectionDocx(id, filename){
     const sec = document.getElementById(id).cloneNode(true);
     const html='<!DOCTYPE html><html><head><meta charset="utf-8"><style>'+
+<base href="/">
+<base href="/">
+<base href="/">
       'body{font-family:Calibri,Arial,sans-serif;color:#1b2634;}'+
       '.receipt{font-family:Courier New,monospace;background:#fff;border:1pt dashed #bbb;padding:18pt;width:420pt;margin:auto;}'+
       '.placard{border:4pt solid #000;padding:24pt;text-align:center;background:#fff;}'+

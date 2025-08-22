@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config','G-TSHYRZVZ97');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strickland is not delivering. I will. - Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Clear, sourced differences in WA-10. Funding, performance, and priorities side by side." />
+  <meta name="theme-color" content="#0d3b66" />
+  <meta property="og:title" content="Strickland is not delivering. I will." />
+  <meta property="og:description" content="Funding and performance contrast for WA-10." />
+  <meta property="og:type" content="website" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --soft:#f6f9fc; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    a { text-decoration: none; }
+
+    /* Social top bar */
+    .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
+    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
+    .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+
+    /* Header band */
+    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem; }
+    .header-break .sub { opacity:.95; font-weight:600; }
+
+    /* Nav */
+    .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
+    .navbar .nav-link:hover { color:#0d3b66; }
+    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
+    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+    .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+    .btn-donate:hover { filter:brightness(.95); color:#fff; }
+
+    /* Sections and cards */
+    .section-title { color:var(--primary); }
+    .fineprint { font-size:.8rem; opacity:.75; }
+
+    /* Funding cards */
+    .fund-card { border-radius:14px; border:1px solid #e6edf5; background:#fff; text-align:center; padding:1rem; height:100%; box-shadow:0 6px 14px rgba(13,59,102,.06); }
+    .fund-card h3 { margin:0; font-size:1.6rem; font-weight:800; color:#0d3b66; }
+    .fund-card .pct { color:#10324f; font-weight:700; }
+
+    /* Comparison table */
+    .compare-wrap { background:#f8fafc; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
+    .table.compare { background:#fff; border:1px solid #e9eef3; border-radius:12px; overflow:hidden; }
+    .table.compare th { background:#0d3b66; color:#fff; font-weight:700; }
+    .table.compare td, .table.compare th { vertical-align:top; }
+    .ok { color:#0b6e4f; font-weight:700; }
+    .no { color:#b11e2d; font-weight:700; }
+
+    /* Sticky donate (mobile) */
+    .sticky-donate { position: fixed; right:16px; bottom:16px; z-index:1030; border-radius:999px; padding:.75rem .9rem; box-shadow:0 6px 16px rgba(0,0,0,.25); }
+    @media (min-width: 992px){ .sticky-donate { display:none; } }
+
+    /* Footer underline */
+    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
+    footer a:hover { color:#0d3b66; }
+    footer a::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
+    footer a:hover::after { width:100%; }
+  </style>
+</head>
+<body>
+
+<!-- SOCIAL BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Reddit"><i class="fa-brands fa-reddit-alien"></i><span>Reddit</span></a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i><span>TikTok</span></a>
+  </div>
+</section>
+
+<div class="header-break">
+  <div>I live here. WA-10 does not need a seat-warmer.</div>
+  <div>We need a fighter who delivers for working families.</div>
+  <div>Washington District 10</div>
+  <div class="sub small mt-1">Power People, Not PACs. For WA-10.</div>
+</div>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Digging Into The Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html">Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" aria-current="page" href="contrast.html">Record & Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item ms-lg-2"><a class="btn btn-donate btn-sm" target="_blank" rel="noopener" href="https://secure.actblue.com/donate/adam-arafat-1">Power People, Not PACs</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- WHY IT MATTERS -->
+  <section class="py-5 border-bottom">
+    <div class="container">
+      <h2 class="section-title mb-3">Why this choice matters</h2>
+      <p class="lead mb-2">
+        Do not settle for polished politicians. WA-10 needs a fighter ready with day one bills to lower costs, expand healthcare, and clean up corruption.
+        I have spent months researching and drafting <a href="Bills/Bills.html">blueprints to action</a>. I am ready to take them to Congress and go to work for you.
+      </p>
+    </div>
+  </section>
+
+  <!-- FUNDING SNAPSHOT -->
+  <section class="py-5" style="background:var(--soft);">
+    <div class="container">
+      <h3 class="h5 section-title mb-3">Funding snapshot</h3>
+      <p class="mb-3">
+        When more than 4 of 5 individual donor dollars come from outside WA-10, those are not our neighbors shaping priorities. It is national networks and lobby groups.
+        That is why I refuse corporate PAC money and why I have proposed a <a href="Bills/Clean Campaigns and Elections Bill.html">Clean Campaigns Bill</a> to end pay to play.
+      </p>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="fund-card h-100">
+            <h3>$2.05M</h3>
+            <div class="pct">81.66% out of district</div>
+            <div class="small text-muted mt-1">2023-2024 cycle. Geography calculated from individual itemized donors only. See sources.</div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="fund-card h-100">
+            <h3>44.03%</h3>
+            <div class="pct">from PACs</div>
+            <div class="small text-muted mt-1">Share of campaign committee receipts in 2023-2024. See sources.</div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-secondary small mt-3 mb-0" role="note">
+        AIPAC is listed as a top contributor in 2023-2024. This speaks to incentives and alignment. See sources.
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="compare-wrap py-5">
+    <div class="container">
+      <h3 class="section-title mb-3 text-center">Side by side</h3>
+      <div class="table-responsive">
+        <table class="table compare align-middle">
+          <thead>
+            <tr>
+              <th style="width:48%">Adam Neil Arafat</th>
+              <th style="width:52%">Status quo pattern</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="ok">✔</span> Fight for hard wins. Write, negotiate, and move bills that matter for working families.</td>
+              <td><span class="no">✘</span> Focus on low conflict and ceremonial items. Plays it safe instead of taking on big fights.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Fight for Medicare for All with automatic enrollment and lower drug costs.</td>
+              <td><span class="no">✘</span> Favors a limited public option over universal healthcare. This keeps the private insurance market in charge.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Deliver lower costs and more housing with accountability for bad actors.</td>
+              <td><span class="no">✘</span> Opposed Seattle's 2018 head tax that funded homelessness and affordable housing work.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Refuse corporate PAC money. Hold open town halls. Put people first.</td>
+              <td><span class="no">✘</span> 81.66% of individual donor dollars from outside WA-10 and 44.03% of receipts from PACs. Tied to national donor networks.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Defend the First Amendment while standing up to lobby pressure.</td>
+              <td><span class="no">✘</span> Voted Yea on the Antisemitism Awareness Act of 2023 (H.R. 6090) that civil liberties groups warn chills protected speech.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fineprint mt-2 mb-0">Figures reflect public tracker categories and rounded estimates consistent with reported shares.</p>
+      <p class="fineprint mb-0">Sources are public. They show patterns and incentives. They do not allege illegality.</p>
+    </div>
+  </section>
+
+  <!-- EXPANDED RECEIPTS -->
+  <section class="py-5">
+    <div class="container">
+      <h3 class="section-title mb-3">🔦 Expanded Receipts on Strickland</h3>
+
+      <h5>Corporate and PAC money</h5>
+      <p>She takes AIPAC and corporate PAC cash. Those networks spend to protect the status quo. I refuse corporate PAC money. My votes will never be bought.</p>
+
+      <h5>Free speech and the First Amendment</h5>
+      <p>She voted for the Antisemitism Awareness Act, a bill civil liberties groups warned would silence constitutionally protected speech and protest. That is a vote against the First Amendment. I will always defend your right to speak freely.</p>
+
+      <h5>Healthcare</h5>
+      <p>She favors a limited public option, not universal coverage. A public option just adds another plan to the insurance market. It leaves families stuck with high premiums, co-pays, and medical debt. I will co-sponsor a roadmap to Medicare for All so every family is covered.</p>
+
+      <h5>Housing and cost of living</h5>
+      <p>While housing costs skyrocket, she has delivered piecemeal grants and ribbon cuttings. No bold supply expansion and no permitting reform. I will fight to cut red tape, build faster, and offer 3 percent mortgages for first time buyers.</p>
+
+      <h5>Military vs. families</h5>
+      <p>She votes for bloated Pentagon budgets while failing to deliver relief at the grocery store or pharmacy. I will cut waste and invest in working families instead of defense contractors.</p>
+
+      <div class="border rounded p-3 mt-3">
+        <strong>Key contrast soundbite</strong>
+        <p class="mb-0">She took AIPAC money and voted against free speech. She backs a public option that preserves the insurance industry instead of fighting for universal care. She funds the Pentagon but leaves families drowning in bills. I will deliver real healthcare, lower costs, and integrity in office.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLANATIONS / ROLL-UP -->
+  <section class="py-4">
+    <div class="container">
+      <h3 class="h6 section-title mb-3">Notes and methods</h3>
+      <div class="accordion" id="notes">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="n1h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n1" aria-expanded="false" aria-controls="n1">
+              Funding context
+            </button>
+          </h2>
+          <div id="n1" class="accordion-collapse collapse" aria-labelledby="n1h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              Percentages use OpenSecrets categories. Out of district is calculated only from itemized individual donors. PAC share uses FEC summary. See linked OpenSecrets pages for methodology notes and update timestamps.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n2" aria-expanded="false" aria-controls="n2">
+              AIPAC shorthand
+            </button>
+          </h2>
+          <div id="n2" class="accordion-collapse collapse" aria-labelledby="n2h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              "AIPAC" refers to contributions from AIPAC and aligned donors as categorized by OpenSecrets. Mention here signals alignment and incentives. It does not allege illegality or foreign money.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n3h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n3" aria-expanded="false" aria-controls="n3">
+              Bipartisan scores vs leadership
+            </button>
+          </h2>
+          <div id="n3" class="accordion-collapse collapse" aria-labelledby="n3h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              Bipartisan index scores reward cross party cosponsorship and routine votes. Leadership on hard fights shows up in initiating, organizing, and moving contested policy that lowers costs and expands rights.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n4h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n4" aria-expanded="false" aria-controls="n4">
+              Sources
+            </button>
+          </h2>
+          <div id="n4" class="accordion-collapse collapse" aria-labelledby="n4h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              <ul class="mb-2">
+                <li>OpenSecrets - Source of Funds 2023-2024: PAC share 44.03 percent - <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>OpenSecrets - Geography 2023-2024: Out of district 81.66 percent of itemized individual giving - <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>OpenSecrets - Top contributors: AIPAC listed among top contributors in 2023-2024 - <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>House Roll Call on H.R. 6090 Antisemitism Awareness Act 2024-05-01: Strickland Yea - <a href="https://www.congress.gov/votes/house/118-2/172" target="_blank" rel="noopener">congress.gov</a> and <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">clerk.house.gov</a></li>
+                <li>Healthcare stance - public option: campaign site and materials - <a href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">stricklandforwashington.com</a>, <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf" target="_blank" rel="noopener">healthcare plan PDF</a>, reporting: <a href="https://www.cascadepbs.org/politics/2020/08/what-separates-strickland-and-doglio-was-10th-congressional-district/" target="_blank" rel="noopener">Cascade PBS</a></li>
+                <li>Opposed Seattle head tax as Chamber president in 2018 - <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX</a>, <a href="https://www.klgates.com/Congressional-Meet-and-Greet-with-Marilyn-Strickland-WA-10-D-11-20-2020" target="_blank" rel="noopener">K&L Gates bio</a></li>
+                <li>Lugar Center Bipartisan Index context - <a href="https://www.thelugarcenter.org/ourwork-Bipartisan-Index.html" target="_blank" rel="noopener">thelugacenter.org</a></li>
+              </ul>
+              <div class="small text-muted">Update windows: OpenSecrets summary last updated 2025-08-18 for funds and source of funds. Geography page reflects itemized individual data as of 2025-02-06. Always check timestamps on linked pages.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section class="py-5 text-center">
+    <div class="container">
+      <h3 class="h5 section-title mb-2">This seat belongs to WA-10</h3>
+      <p class="mb-3">If you want neighbors before lobbyists, join me. I will fight for the hard wins for our kids and the generations after them.</p>
+      <a class="btn btn-donate btn-lg" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">
+        <i class="fa-solid fa-heart me-1"></i> Power People, Not PACs
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="py-4 bg-white border-top text-center">
+  <div class="container">
+    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
+    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate's committee.</p>
+  </div>
+</footer>
+
+<!-- Sticky donate (mobile) -->
+<a class="btn btn-donate sticky-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener" aria-label="Quick donate">
+  <i class="fa-solid fa-heart"></i>
+</a>
+
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

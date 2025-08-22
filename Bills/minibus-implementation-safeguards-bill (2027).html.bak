@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minibus Implementation Safeguards Bill (2027) — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="Blueprint to lock funds to lawful use, require OMB compliance IDs, enforce publication and authentication integrity, add a public dashboard and GAO audits, and create a fast court lane with tight life-safety carveouts." />
+  <meta name="theme-color" content="#0d3b66" />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root { --primary:#0d3b66; --accent:#0b6e4f; --link:#0d3b66; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    .text-primary { color: var(--primary)!important; }
+    .btn-primary { background: var(--primary); border-color: var(--primary); }
+    .btn-outline-primary { color: var(--primary); border-color: var(--primary); }
+    .hero {
+      background: linear-gradient(180deg, #0d3b66 0%, #0b3157 100%);
+      color:#fff; padding: 4rem 0 3rem;
+    }
+    .hero h1 { font-weight: 800; }
+    .badge-soft {
+      background: rgba(255,255,255,.08); color: #fff;
+      border: 1px solid rgba(255,255,255,.25); font-weight: 600;
+    }
+    .rule { border-top: 1px solid rgba(13,59,102,0.12); }
+    .section-title { font-weight: 800; letter-spacing: -0.01em; }
+    .explain { font-size: .95rem; color: #475569; }
+    a { color: var(--link); }
+    a:hover { color:#0a2d52; }
+    .roi-chip {
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.08);
+      color: #fff; border-radius: .75rem; padding: .5rem .75rem;
+      display: inline-flex; align-items:center; gap:.5rem;
+      white-space: nowrap;
+    }
+    .roi-wrap { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .memo-card .card-header { background: rgba(13,59,102,.08); border-bottom: 1px solid rgba(13,59,102,.15); }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <span class="badge badge-soft px-3 py-2 mb-3">
+        <i class="fa-solid fa-flag-usa me-2"></i>Bill Blueprint
+      </span>
+      <h1 class="display-5 mb-3">Minibus Implementation Safeguards Bill (2027)</h1>
+      <p class="lead mb-4">
+        Keep executive actions lawful, published correctly, and accountable during impeachment-covered periods. Lock funds to compliance. Stand up a public dashboard. Move disputes fast in court.
+      </p>
+      <!-- Outcomes at a glance -->
+      <div class="roi-wrap">
+        <span class="roi-chip"><i class="fa-solid fa-lock"></i> Locks Funds to Compliance</span>
+        <span class="roi-chip"><i class="fa-solid fa-id-card-clip"></i> OMB Compliance ID</span>
+        <span class="roi-chip"><i class="fa-solid fa-newspaper"></i> Publication Integrity</span>
+        <span class="roi-chip"><i class="fa-solid fa-table"></i> Public Dashboard</span>
+        <span class="roi-chip"><i class="fa-solid fa-scale-balanced"></i> Fast Court Review</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="py-5">
+    <div class="container">
+
+      <!-- TITLE I -->
+      <h2 class="section-title h4 mb-3">TITLE I — DEFINITIONS AND COVERED PERIOD</h2>
+
+      <h3 class="h5 mb-2">SEC. 101. COVERED PERIOD.</h3>
+      <p>Covered period begins on adoption of articles of impeachment against a sitting President or principal officer and ends 90 days after final Senate disposition.</p>
+
+      <h3 class="h5 mb-2">SEC. 102. KEY TERMS.</h3>
+      <p><strong>Executive action</strong> includes rules, orders, directives, guidance, policies, adjudications, personnel actions, procurements, grants, and agreements first initiated in a covered period.<br>
+         <strong>Funds</strong> means money and all federal resources: supplies, equipment, staff time, contractor services, IT systems, facilities, seals, and stationery.<br>
+         <strong>Compliance identifier</strong> is a unique OMB ID confirming required submissions and certifications.</p>
+      <p class="explain"><strong>Explanation:</strong> Tight definitions close common workarounds and make audits straightforward.</p>
+
+      <!-- TITLE II -->
+      <h2 class="section-title h4 mt-5 mb-3">TITLE II — COMPLIANCE IDENTIFIER AND PUBLICATION INTEGRITY</h2>
+
+      <h3 class="h5 mb-2">SEC. 201. OMB COMPLIANCE IDENTIFIER.</h3>
+      <p>OMB issues an ID only after the agency submits legal authority, a plain-language impact summary, the certification in Title III, and an internal control checklist. OMB maintains a public, machine-readable index.</p>
+
+      <h3 class="h5 mb-2">SEC. 202. FEDERAL REGISTER AND GPO CONTROLS.</h3>
+      <p>OFR refuses publication and GPO withholds printing or hosting for actions lacking a valid compliance ID or life-safety certification.</p>
+
+      <h3 class="h5 mb-2">SEC. 203. AUTHENTICATION AND SEALS.</h3>
+      <p>GSA withholds official seals, stationery, and certificates for non-compliant actions.</p>
+
+      <h3 class="h5 mb-2">SEC. 204. IT ROUTING BLOCKS.</h3>
+      <p>The Federal CIO Council publishes routing and deployment controls to prevent hosting of non-compliant actions on .gov systems.</p>
+      <p class="explain"><strong>Explanation:</strong> Creates a single checkpoint and gives OFR/GPO/GSA/CIO clear rules to stop unlawful publication and hosting.</p>
+
+      <!-- TITLE III -->
+      <h2 class="section-title h4 mt-5 mb-3">TITLE III — CERTIFICATION, EXCEPTIONS, AND USE OF FUNDS</h2>
+
+      <h3 class="h5 mb-2">SEC. 301. CONDITION ON USE OF FUNDS.</h3>
+      <p>No funds or resources may be used to implement, publish, host, or authenticate an executive action first initiated in a covered period unless it has a valid OMB ID or a life-safety certification.</p>
+
+      <h3 class="h5 mb-2">SEC. 302. AGENCY HEAD CERTIFICATION.</h3>
+      <p>The agency head certifies under penalty of law that the action is authorized, consultations occurred, and submissions are complete and accurate.</p>
+
+      <h3 class="h5 mb-2">SEC. 303. LIFE-SAFETY EXCEPTION.</h3>
+      <p>Allows immediate action only for imminent threats to life, disaster, or national security. Time-limited to 30 days unless renewed with findings. OMB tags such IDs with an “-LS” suffix.</p>
+
+      <h3 class="h5 mb-2">SEC. 304. PERSONNEL ACTIONS.</h3>
+      <p>OPM refrains from onboarding or transfers whose primary duties would implement a non-compliant action.</p>
+      <p class="explain"><strong>Explanation:</strong> Simple guardrail: no compliance, no spending or staffing.</p>
+
+      <!-- TITLE IV -->
+      <h2 class="section-title h4 mt-5 mb-3">TITLE IV — TRANSPARENCY AND AUDITS</h2>
+
+      <h3 class="h5 mb-2">SEC. 401. OMB PUBLIC DASHBOARD.</h3>
+      <p>Public, machine-readable dashboard listing compliance IDs, life-safety certifications, agencies, and status updates.</p>
+
+      <h3 class="h5 mb-2">SEC. 402. GAO AUDITS.</h3>
+      <p>GAO audits compliance and reports to Appropriations, Oversight, and authorizing committees within 60 days after each covered period ends.</p>
+
+      <h3 class="h5 mb-2">SEC. 403. IG HOTLINES AND ADVISORIES.</h3>
+      <p>Agency IGs stand up a dedicated hotline for non-compliance and issue advisories when patterns emerge.</p>
+
+      <!-- TITLE V -->
+      <h2 class="section-title h4 mt-5 mb-3">TITLE V — ENFORCEMENT AND REMEDIES</h2>
+
+      <h3 class="h5 mb-2">SEC. 501. APPORTIONMENT AND OBLIGATION CONTROLS.</h3>
+      <p>OMB withholds apportionment to prevent obligation for non-compliant actions.</p>
+
+      <h3 class="h5 mb-2">SEC. 502. CLAWBACK AUTHORITY.</h3>
+      <p>Agencies de-obligate unobligated balances and pursue recovery of improper payments where permitted by law.</p>
+
+      <h3 class="h5 mb-2">SEC. 503. KNOWING VIOLATIONS.</h3>
+      <p>Knowing violations trigger Antideficiency Act referrals and other applicable consequences.</p>
+
+      <h3 class="h5 mb-2">SEC. 504. LIMITED PRIVATE RIGHT OF ACTION.</h3>
+      <p>Injured parties may seek declaratory and injunctive relief to compel compliance. No monetary damages.</p>
+
+      <!-- TITLE VI -->
+      <h2 class="section-title h4 mt-5 mb-3">TITLE VI — JUDICIAL REVIEW</h2>
+
+      <h3 class="h5 mb-2">SEC. 601. THREE-JUDGE DISTRICT COURT; DIRECT APPEAL.</h3>
+      <p>Cases are heard by a three-judge district court with a target resolution of 60 days and direct appeal to the Supreme Court.</p>
+
+      <h3 class="h5 mb-2">SEC. 602. STANDARD AND SCOPE.</h3>
+      <p>Courts determine whether Titles II or III were violated. Deference applies only to exigency facts in life-safety certifications, not legality.</p>
+
+      <h3 class="h5 mb-2">SEC. 603. NO AUTOMATIC STAY.</h3>
+      <p>Filing does not stay enforcement. Courts may grant temporary relief on the usual showing.</p>
+
+      <!-- TITLE VII -->
+      <h2 class="section-title h4 mt-5 mb-3">TITLE VII — WHISTLEBLOWERS AND ANTI-RETALIATION</h2>
+
+      <h3 class="h5 mb-2">SEC. 701. PROTECTIONS.</h3>
+      <p>Employees and contractors who report non-compliance to IGs, GAO, OMB, or Congress are protected under existing whistleblower laws.</p>
+
+      <h3 class="h5 mb-2">SEC. 702. INCENTIVES.</h3>
+      <p>IGs may recommend commendations or awards for disclosures that prevent unlawful obligations.</p>
+
+      <!-- TITLE VIII -->
+      <h2 class="section-title h4 mt-5 mb-3">TITLE VIII — GENERAL PROVISIONS; SUNSET; SEVERABILITY</h2>
+
+      <h3 class="h5 mb-2">SEC. 801. COORDINATION AND GUIDANCE.</h3>
+      <p>OMB, OFR, GPO, GSA, OPM, and the CIO Council issue joint guidance within 14 days of enactment.</p>
+
+      <h3 class="h5 mb-2">SEC. 802. SUNSET.</h3>
+      <p>Applies to actions first initiated during covered periods beginning within 4 years after enactment.</p>
+
+      <h3 class="h5 mb-2">SEC. 803. SEVERABILITY AND EFFECTIVE DATE.</h3>
+      <p>Severable. Takes effect on enactment.</p>
+
+      <hr class="rule my-5" />
+
+      <!-- Results & ROI -->
+      <div class="card memo-card shadow-sm border-0">
+        <div class="card-header">
+          <h2 class="h5 mb-0"><i class="fa-solid fa-chart-line me-2"></i>Results &amp; ROI</h2>
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li><strong>Clean process:</strong> One compliance ID at OMB gives OFR, GPO, GSA, and CIO clear rules to accept or refuse actions.</li>
+            <li><strong>Real accountability:</strong> A public dashboard plus a 60-day GAO audit window makes non-compliance visible fast.</li>
+            <li><strong>No loopholes:</strong> “Funds” includes staff time, IT, and facilities, not just money.</li>
+            <li><strong>Safety protected:</strong> Narrow, time-boxed life-safety carveout with documentation.</li>
+            <li><strong>Fast resolution:</strong> Three-judge court with direct appeal keeps disputes from dragging out.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="rule my-5" />
+
+      <!-- Back to Bills -->
+      <div class="text-center my-4">
+        <a href="./Bills.html" class="btn btn-outline-primary">
+          <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i>
+          <span>Back to All Bills</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-5 border-top">
+    <div class="container small">
+      <div class="row g-3 align-items-center">
+        <div class="col-12">
+          <strong>Adam Neil Arafat for Congress — WA-10</strong><br/>
+          <span class="text-muted">Paid for by Arafat for Congress. No corporate PAC money.</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

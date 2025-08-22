@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base href="/">
+<base href="/">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Evergreen Admin — Bulk NO Vote Builder</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .chip img{width:36px;height:44px;object-fit:cover;border-radius:.3rem;border:1px solid #dfe6ee;margin-right:.5rem}
+  .chip{display:flex;align-items:center;gap:.5rem}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+</style>
+</head>
+<body class="bg-light">
+<div class="container py-4">
+  <h1 class="h4 mb-3">Bulk NO Vote Builder <span class="badge bg-secondary">Private</span></h1>
+
+  <!-- Repo/Auth config (stored in your browser only) -->
+  <details class="mb-3">
+    <summary class="fw-semibold">GitHub Repo & Auth (auto-save)</summary>
+    <div class="row g-2 mt-2">
+      <div class="col-md-4">
+        <label class="form-label mb-1">Repository (owner/repo)</label>
+        <input id="ghRepo" class="form-control form-control-sm mono" placeholder="owner/repo" value="AdamNeilArafat/arafatforcongress-org"/>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label mb-1">Branch</label>
+        <input id="ghBranch" class="form-control form-control-sm mono" placeholder="main" value="main"/>
+      </div>
+      <div class="col-md-5">
+        <label class="form-label mb-1">File path (JSON)</label>
+        <input id="ghPath" class="form-control form-control-sm mono" placeholder="data/votes_append.json" value="data/votes_append.json"/>
+      </div>
+      <div class="col-md-8">
+        <label class="form-label mb-1">GitHub Token (contents:write)</label>
+        <input id="ghToken" type="password" class="form-control form-control-sm mono" placeholder="ghp_... (fine-grained token with contents:write)"/>
+        <div class="form-text">Token is saved only in your browser (localStorage). Anyone with page access could view it via DevTools.</div>
+      </div>
+      <div class="col-md-4 d-grid align-items-end">
+        <button id="saveCfg" class="btn btn-outline-primary btn-sm mt-4">Save Config to Browser</button>
+      </div>
+    </div>
+  </details>
+
+  <!-- Filters -->
+  <div class="row g-2 mb-3">
+    <div class="col-md-2">
+      <select id="fChamber" class="form-select form-select-sm">
+        <option value="">All Chambers</option>
+        <option value="house">House</option>
+        <option value="senate">Senate</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="fParty" class="form-select form-select-sm">
+        <option value="">All Parties</option>
+        <option value="D">Democrat</option>
+        <option value="R">Republican</option>
+        <option value="I">Independent</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input id="fState" class="form-control form-control-sm" placeholder="State (WA, OH)"/>
+    </div>
+    <div class="col-md-3">
+      <input id="fSearch" class="form-control form-control-sm" placeholder="Search name"/>
+    </div>
+    <div class="col-md-3">
+      <select id="fSort" class="form-select form-select-sm">
+        <option value="last">Sort: Last Name</option>
+        <option value="party">Sort: Party</option>
+        <option value="state">Sort: State</option>
+        <option value="chamber">Sort: Chamber</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Builder -->
+  <div class="row g-2 mb-3">
+    <div class="col-md-4">
+      <label class="form-label mb-1">Choose bill(s)</label>
+      <select id="bills" class="form-select form-select-sm" multiple size="6">
+        <option value="grocery">grocery — Fair Food & Grocery Competition</option>
+        <option value="childcare">childcare — Affordable Child & Dependent Care</option>
+        <option value="jobs">jobs — Good Jobs & Fair Pay</option>
+        <option value="housing">housing — 3% First-Time Buyer</option>
+        <option value="socialsec">socialsec — Social Security Solvency</option>
+        <option value="health">health — Universal Health Coverage</option>
+        <option value="minibus">minibus — Implementation Safeguards</option>
+        <option value="csr">csr — CSR Tax</option>
+        <option value="taxfair">taxfair — Tax Fairness</option>
+        <option value="comms">comms — Communications Integrity</option>
+        <option value="justify">justify — Vote Justification</option>
+        <option value="impeach">impeach — Impeachment Continuity</option>
+        <option value="emerg">emerg — Emergency Spend Pilot</option>
+        <option value="holman">holman — Holman Amendments</option>
+        <option value="gaodash">gaodash — GAO Dashboard</option>
+        <option value="clean">clean — Clean Energy/Public Lands</option>
+        <option value="water">water — Water/Wastewater Riders</option>
+      </select>
+      <div class="form-text">Hold Ctrl/Cmd to select multiple.</div>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label mb-1">Vote date</label>
+      <input id="date" type="date" class="form-control form-control-sm"/>
+    </div>
+    <div class="col-md-5">
+      <label class="form-label mb-1">Optional nickname</label>
+      <input id="nickname" class="form-control form-control-sm" placeholder="e.g., 'Grocery Gouger'"/>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 mb-2">
+    <button id="selectAll" class="btn btn-outline-secondary btn-sm">Select All (filtered)</button>
+    <button id="clearSel" class="btn btn-outline-secondary btn-sm">Clear Selection</button>
+    <div class="ms-auto d-flex gap-2">
+      <button id="make" class="btn btn-outline-dark btn-sm">Preview JSON for Selected</button>
+      <button id="apply" class="btn btn-primary btn-sm">Apply & Save to Repo</button>
+    </div>
+  </div>
+
+  <div class="border bg-white p-2 rounded" style="max-height:50vh;overflow:auto" id="list"></div>
+
+  <div class="mt-3">
+    <label class="form-label">Output (preview)</label>
+    <textarea id="out" class="form-control mono" rows="8"></textarea>
+    <div class="mt-2 d-flex gap-2">
+      <button id="copy" class="btn btn-outline-secondary btn-sm">Copy to Clipboard</button>
+      <button id="download" class="btn btn-success btn-sm">Download votes_append.json</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let MEMBERS = {};
+let SELECTED = new Set();
+
+// ---- GitHub config (stored in localStorage) ----
+const CFG_KEYS = { repo:'gh_repo', branch:'gh_branch', path:'gh_path', token:'gh_token' };
+function loadCfg(){
+  document.getElementById('ghRepo').value = localStorage.getItem(CFG_KEYS.repo) || document.getElementById('ghRepo').value;
+  document.getElementById('ghBranch').value = localStorage.getItem(CFG_KEYS.branch) || document.getElementById('ghBranch').value;
+  document.getElementById('ghPath').value = localStorage.getItem(CFG_KEYS.path) || document.getElementById('ghPath').value;
+  document.getElementById('ghToken').value = localStorage.getItem(CFG_KEYS.token) || '';
+}
+function saveCfg(){
+  localStorage.setItem(CFG_KEYS.repo, document.getElementById('ghRepo').value.trim());
+  localStorage.setItem(CFG_KEYS.branch, document.getElementById('ghBranch').value.trim());
+  localStorage.setItem(CFG_KEYS.path, document.getElementById('ghPath').value.trim());
+  if (document.getElementById('ghToken').value.trim()) {
+    localStorage.setItem(CFG_KEYS.token, document.getElementById('ghToken').value.trim());
+  }
+  alert('Saved repo config to your browser.');
+}
+document.getElementById('saveCfg').addEventListener('click', saveCfg);
+loadCfg();
+
+// ---- Load current legislators ----
+async function loadMembers() {
+  const url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/refs/heads/gh-pages/legislators-current.json";
+  const data = await fetch(url, { cache: "no-store" }).then(r => r.json());
+  for (const m of data) {
+    const bioguide = m.id?.bioguide;
+    if (!bioguide) continue;
+    const lastTerm = (m.terms || []).slice(-1)[0] || {};
+    MEMBERS[bioguide] = {
+      bioguide,
+      first: m.name?.first || "",
+      last: m.name?.last || "",
+      name: `${m.name?.first || ""} ${m.name?.last || ""}`.trim(),
+      partyFull: lastTerm.party || "",
+      party: partyLetter(lastTerm.party || ""),   // D/R/I fix
+      chamber: lastTerm.type === "sen" ? "senate" : "house",
+      state: lastTerm.state || "",
+      district: lastTerm.type === "rep" ? (lastTerm.district || "") : "",
+      photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+    };
+  }
+}
+
+function partyLetter(p){
+  const map = {
+    "Democrat":"D", "Democratic":"D", "Democratic-Farmer-Labor":"D",
+    "Republican":"R",
+    "Independent":"I"
+  };
+  return map[p] || (p ? p[0].toUpperCase() : "");
+}
+
+// ---- Render list + filters ----
+function renderList() {
+  const list = document.getElementById('list');
+  const q = document.getElementById('fSearch').value.toLowerCase().trim();
+  const party = document.getElementById('fParty').value; // D/R/I
+  const chamber = document.getElementById('fChamber').value; // house/senate
+  const state = document.getElementById('fState').value.toUpperCase().trim();
+  const sort = document.getElementById('fSort').value;
+
+  let arr = Object.values(MEMBERS);
+  if (party) arr = arr.filter(m=>m.party===party);
+  if (chamber) arr = arr.filter(m=>m.chamber===chamber);
+  if (state) arr = arr.filter(m=>m.state===state);
+  if (q) arr = arr.filter(m=> m.name.toLowerCase().includes(q));
+
+  arr.sort((a,b)=>{
+    if (sort==='party') return (a.party||'').localeCompare(b.party||'') || a.last.localeCompare(b.last);
+    if (sort==='state') return (a.state||'').localeCompare(b.state||'') || a.last.localeCompare(b.last);
+    if (sort==='chamber') return (a.chamber||'').localeCompare(b.chamber||'') || a.last.localeCompare(b.last);
+    return a.last.localeCompare(b.last);
+  });
+
+  list.innerHTML = arr.map(m=>`
+    <div class="d-flex align-items-center justify-content-between border-bottom py-2">
+      <div class="chip">
+        <img src="${m.photo}" alt="${m.name}"/>
+        <div>
+          <div class="fw-semibold">${m.name} <span class="text-muted">(${m.chamber==='house'? `${m.state}-${m.district}` : m.state}, ${m.partyFull})</span></div>
+          <div class="small text-muted">${m.bioguide}</div>
+        </div>
+      </div>
+      <div>
+        <input type="checkbox" class="form-check-input" data-id="${m.bioguide}" ${SELECTED.has(m.bioguide)?'checked':''}/>
+      </div>
+    </div>
+  `).join('') || '<div class="text-muted p-2">No matches.</div>';
+
+  list.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', e=>{
+      const id = e.target.dataset.id;
+      if (e.target.checked) SELECTED.add(id); else SELECTED.delete(id);
+    });
+  });
+}
+
+// ---- Build rows for preview or commit ----
+function getSelectedBills(){
+  const sel = Array.from(document.getElementById('bills').selectedOptions).map(o=>o.value);
+  return sel;
+}
+
+function buildRows(){
+  const bills = getSelectedBills();
+  const date = document.getElementById('date').value;
+  const nick = document.getElementById('nickname').value.trim();
+  if (!bills.length) { alert('Pick at least one bill.'); return []; }
+  if (!date) { alert('Pick a vote date.'); return []; }
+  if (SELECTED.size===0) { alert('Select at least one member.'); return []; }
+
+  const rows = [];
+  for (const id of Array.from(SELECTED)) {
+    for (const bill of bills) {
+      const row = { member_id: id, bill_id: bill, vote: "NO", vote_date: date };
+      if (nick) row.nickname = nick;
+      rows.push(row);
+    }
+  }
+  return rows;
+}
+
+function buildOutput() {
+  const rows = buildRows();
+  if (!rows.length) return;
+  document.getElementById('out').value = JSON.stringify(rows, null, 2);
+}
+
+// ---- GitHub commit helpers ----
+function b64encodeUtf8(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function b64decodeUtf8(b64){
+  return decodeURIComponent(escape(atob(b64)));
+}
+
+async function getFile(owner, repo, path, branch, token){
+  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`, {
+    headers: {
+      "Accept":"application/vnd.github+json",
+      "Authorization": token ? `Bearer ${token}` : undefined
+    }
+  });
+  if (r.status === 404) return { exists:false, sha:null, json:[] };
+  if (!r.ok) throw new Error(`GET contents failed: ${r.status}`);
+  const j = await r.json();
+  const decoded = b64decodeUtf8(j.content || "");
+  let json = [];
+  try { json = JSON.parse(decoded); } catch { json = []; }
+  return { exists:true, sha:j.sha, json };
+}
+
+function dedupeRows(existing, incoming){
+  const seen = new Set(existing.map(r => `${r.member_id}|${r.bill_id}|${r.vote_date}`));
+  for (const r of incoming) {
+    const key = `${r.member_id}|${r.bill_id}|${r.vote_date}`;
+    if (!seen.has(key)) { existing.push(r); seen.add(key); }
+  }
+  return existing;
+}
+
+async function putFile(owner, repo, path, branch, token, content, sha=null){
+  const body = {
+    message: `chore(admin): append ${Array.isArray(content)?content.length:'?'} vote row(s) via Bulk NO Builder`,
+    content: b64encodeUtf8(JSON.stringify(content, null, 2)),
+    branch
+  };
+  if (sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`, {
+    method:"PUT",
+    headers: {
+      "Accept":"application/vnd.github+json",
+      "Authorization": token ? `Bearer ${token}` : undefined,
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const j = await r.json().catch(()=>({}));
+    throw new Error(`PUT contents failed: ${r.status} ${j?.message || ''}`);
+  }
+  return r.json();
+}
+
+async function applyAndSave(){
+  const rows = buildRows();
+  if (!rows.length) return;
+
+  const repoFull = document.getElementById('ghRepo').value.trim();
+  const branch = document.getElementById('ghBranch').value.trim() || "main";
+  const path = document.getElementById('ghPath').value.trim() || "data/votes_append.json";
+  const token = localStorage.getItem(CFG_KEYS.token) || document.getElementById('ghToken').value.trim();
+
+  if (!repoFull || !repoFull.includes('/')) { alert('Set repo as owner/repo.'); return; }
+  if (!token) { alert('Add a GitHub token with contents:write.'); return; }
+  const [owner, repo] = repoFull.split('/');
+
+  // 1) Read existing file (or create empty)
+  let { exists, sha, json } = await getFile(owner, repo, path, branch, token);
+
+  // 2) Append/dedupe
+  json = dedupeRows(json, rows);
+
+  // 3) Write back
+  await putFile(owner, repo, path, branch, token, json, exists ? sha : null);
+
+  // 4) Preview + toast
+  document.getElementById('out').value = JSON.stringify(rows, null, 2);
+  alert(`Saved ${rows.length} row(s) to ${repoFull}@${branch}/${path}.\nSite will update after Pages rebuild.`);
+}
+
+// ---- Wiring ----
+document.getElementById('make').addEventListener('click', buildOutput);
+document.getElementById('apply').addEventListener('click', applyAndSave);
+
+document.getElementById('copy').addEventListener('click', ()=>navigator.clipboard.writeText(document.getElementById('out').value));
+document.getElementById('download').addEventListener('click', ()=>{
+  const txt = document.getElementById('out').value.trim();
+  if (!txt) return;
+  const blob = new Blob([txt], {type: "application/json"});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = "votes_append.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+document.getElementById('selectAll').addEventListener('click', ()=>{
+  document.querySelectorAll('#list input[type=checkbox]').forEach(cb=>{ cb.checked=true; SELECTED.add(cb.dataset.id); });
+});
+document.getElementById('clearSel').addEventListener('click', ()=>{
+  SELECTED.clear(); renderList();
+});
+
+['fChamber','fParty','fState','fSearch','fSort'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', renderList);
+  document.getElementById(id).addEventListener('change', renderList);
+});
+
+// Init
+(async function(){ await loadMembers(); renderList(); })();
+</script>
+</body>
+</html>
