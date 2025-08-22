@@ -1,343 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate"/>
-<meta http-equiv="Pragma" content="no-cache"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Evergreen Admin — Bulk NO Vote Builder</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<style>
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-  .chip img{width:36px;height:44px;object-fit:cover;border-radius:.3rem;border:1px solid #dfe6ee;margin-right:.5rem}
-  .chip{display:flex;align-items:center;gap:.5rem}
-  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
-</style>
-</head>
-<body class="bg-light">
-<div class="container py-4">
-  <h1 class="h4 mb-1">Bulk NO Vote Builder <span class="badge bg-secondary">Private</span></h1>
-  <p class="text-muted small mb-3">Mode: <span class="badge bg-success">Secret API</span> — no GitHub token in browser.</p>
+// worker.js — Cloudflare Worker: append votes & clear badges (NO admin key)
+// Secrets/Vars to set in Worker:
+// - GH_TOKEN   : GitHub PAT with contents:write for the repo
+// - REPO       : "owner/repo"  (e.g., "AdamNeilArafat/arafatforcongress-org")
+// - BRANCH     : "main"
+// - FILE_VOTES : "data/votes_append.json"   (optional; default shown)
+// - FILE_AWARDS: "data/member-awards.json"  (optional; default shown)
+// - ALLOW_ORIGIN: optional CORS allowlist origin (e.g., "https://arafatforcongress.org"); if omitted, uses "*"
 
-  <!-- Admin API config (uses your hidden-secret backend) -->
-  <details class="mb-3" open>
-    <summary class="fw-semibold">Admin API (secure backend)</summary>
-    <div class="row g-2 mt-2">
-      <div class="col-md-6">
-        <label class="form-label mb-1">Endpoint</label>
-        <input id="apiEndpoint" class="form-control form-control-sm mono" value="/api/append-votes" placeholder="https://your-site.org/api/append-votes"/>
-        <div class="form-text">Points to your Worker/Function that writes to GitHub using a server-side secret.</div>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label mb-1">Admin Key</label>
-        <input id="adminKey" type="password" class="form-control form-control-sm mono" placeholder="Your X-Admin-Key"/>
-        <div class="form-text">Stored only in your browser (localStorage).</div>
-      </div>
-      <div class="col-12 d-grid d-md-inline">
-        <button id="saveApiCfg" class="btn btn-outline-primary btn-sm mt-2">Save API Config to Browser</button>
-      </div>
-    </div>
-  </details>
+export default {
+  async fetch(req, env) {
+    const url = new URL(req.url);
+    const path = url.pathname;
+    const allow = env.ALLOW_ORIGIN || "*";
+    const origin = req.headers.get("Origin") || "";
+    const allowOrigin = allow === "*" ? "*" : (origin === allow ? origin : "");
 
-  <!-- Filters -->
-  <div class="row g-2 mb-3">
-    <div class="col-md-2">
-      <select id="fChamber" class="form-select form-select-sm">
-        <option value="">All Chambers</option>
-        <option value="house">House</option>
-        <option value="senate">Senate</option>
-      </select>
-    </div>
-    <div class="col-md-2">
-      <select id="fParty" class="form-select form-select-sm">
-        <option value="">All Parties</option>
-        <option value="D">Democrat</option>
-        <option value="R">Republican</option>
-        <option value="I">Independent</option>
-      </select>
-    </div>
-    <div class="col-md-2">
-      <input id="fState" class="form-control form-control-sm" placeholder="State (WA, OH)"/>
-    </div>
-    <div class="col-md-3">
-      <input id="fSearch" class="form-control form-control-sm" placeholder="Search name"/>
-    </div>
-    <div class="col-md-3">
-      <select id="fSort" class="form-select form-select-sm">
-        <option value="last">Sort: Last Name</option>
-        <option value="party">Sort: Party</option>
-        <option value="state">Sort: State</option>
-        <option value="chamber">Sort: Chamber</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- Builder -->
-  <div class="row g-2 mb-3">
-    <div class="col-md-4">
-      <label class="form-label mb-1">Choose bill(s)</label>
-      <select id="bills" class="form-select form-select-sm" multiple size="6">
-        <option value="grocery">grocery — Fair Food & Grocery Competition</option>
-        <option value="childcare">childcare — Affordable Child & Dependent Care</option>
-        <option value="jobs">jobs — Good Jobs & Fair Pay</option>
-        <option value="housing">housing — 3% First-Time Buyer</option>
-        <option value="socialsec">socialsec — Social Security Solvency</option>
-        <option value="health">health — Universal Health Coverage</option>
-        <option value="minibus">minibus — Implementation Safeguards</option>
-        <option value="csr">csr — CSR Tax</option>
-        <option value="taxfair">taxfair — Tax Fairness</option>
-        <option value="comms">comms — Communications Integrity</option>
-        <option value="justify">justify — Vote Justification</option>
-        <option value="impeach">impeach — Impeachment Continuity</option>
-        <option value="emerg">emerg — Emergency Spend Pilot</option>
-        <option value="holman">holman — Holman Amendments</option>
-        <option value="gaodash">gaodash — GAO Dashboard</option>
-        <option value="clean">clean — Clean Energy/Public Lands</option>
-        <option value="water">water — Water/Wastewater Riders</option>
-      </select>
-      <div class="form-text">Hold Ctrl/Cmd to select multiple.</div>
-    </div>
-    <div class="col-md-3">
-      <label class="form-label mb-1">Vote date</label>
-      <input id="date" type="date" class="form-control form-control-sm"/>
-    </div>
-    <div class="col-md-5">
-      <label class="form-label mb-1">Optional nickname</label>
-      <input id="nickname" class="form-control form-control-sm" placeholder="e.g., 'Grocery Gouger'"/>
-    </div>
-  </div>
-
-  <div class="d-flex gap-2 mb-2">
-    <button id="selectAll" class="btn btn-outline-secondary btn-sm">Select All (filtered)</button>
-    <button id="clearSel" class="btn btn-outline-secondary btn-sm">Clear Selection</button>
-    <div class="ms-auto d-flex gap-2">
-      <button id="make" class="btn btn-outline-dark btn-sm">Preview JSON for Selected</button>
-      <button id="apply" class="btn btn-primary btn-sm">Apply & Save (via Secret API)</button>
-    </div>
-  </div>
-
-  <div class="border bg-white p-2 rounded" style="max-height:50vh;overflow:auto" id="list">
-    <div class="text-muted">Loading members…</div>
-  </div>
-
-  <div class="mt-3">
-    <label class="form-label">Output (preview)</label>
-    <textarea id="out" class="form-control mono" rows="8"></textarea>
-    <div class="mt-2 d-flex gap-2">
-      <button id="copy" class="btn btn-outline-secondary btn-sm">Copy to Clipboard</button>
-      <button id="download" class="btn btn-success btn-sm">Download votes_append.json</button>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ========= State ========= */
-let MEMBERS = {};
-let SELECTED = new Set();
-
-/* ========= Admin API config (stored only in this browser) ========= */
-const API_CFG = { endpointKey:'admin_api_endpoint', keyKey:'admin_api_key' };
-
-function loadApiCfg(){
-  const ep = localStorage.getItem(API_CFG.endpointKey);
-  const key = localStorage.getItem(API_CFG.keyKey);
-  if (ep) document.getElementById('apiEndpoint').value = ep;
-  if (key) document.getElementById('adminKey').value = key;
-}
-function saveApiCfg(){
-  localStorage.setItem(API_CFG.endpointKey, document.getElementById('apiEndpoint').value.trim());
-  if (document.getElementById('adminKey').value.trim()){
-    localStorage.setItem(API_CFG.keyKey, document.getElementById('adminKey').value.trim());
-  }
-  alert('Saved API config to your browser.');
-}
-document.getElementById('saveApiCfg').addEventListener('click', saveApiCfg);
-loadApiCfg();
-
-/* ========= Load current legislators ========= */
-async function loadMembers() {
-  const url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/refs/heads/gh-pages/legislators-current.json";
-  const data = await fetch(url, { cache: "no-store" }).then(r => r.json());
-  for (const m of data) {
-    const bioguide = m.id?.bioguide;
-    if (!bioguide) continue;
-    const lastTerm = (m.terms || []).slice(-1)[0] || {};
-    MEMBERS[bioguide] = {
-      bioguide,
-      first: m.name?.first || "",
-      last: m.name?.last || "",
-      name: `${m.name?.first || ""} ${m.name?.last || ""}`.trim(),
-      partyFull: lastTerm.party || "",
-      party: partyLetter(lastTerm.party || ""),   // normalize to D/R/I
-      chamber: lastTerm.type === "sen" ? "senate" : "house",
-      state: lastTerm.state || "",
-      district: lastTerm.type === "rep" ? (lastTerm.district ?? "") : "",
-      photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+    const cors = {
+      "Access-Control-Allow-Origin": allowOrigin,
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Vary": "Origin",
     };
-  }
-}
 
-function partyLetter(p){
-  const map = {
-    "Democrat":"D", "Democratic":"D", "Democratic-Farmer-Labor":"D",
-    "Republican":"R",
-    "Independent":"I"
-  };
-  return map[p] || (p ? p[0].toUpperCase() : "");
-}
-function districtLabel(d){
-  if (d === 0 || d === "0" || d === "" || d === null || typeof d === "undefined") return "AL";
-  return String(d);
-}
+    if (req.method === "OPTIONS") {
+      return new Response("", { headers: cors });
+    }
 
-/* ========= Render list + filters ========= */
-function renderList() {
-  const list = document.getElementById('list');
-  const q = document.getElementById('fSearch').value.toLowerCase().trim();
-  const party = document.getElementById('fParty').value; // D/R/I
-  const chamber = document.getElementById('fChamber').value; // house/senate
-  const state = document.getElementById('fState').value.toUpperCase().trim();
-  const sort = document.getElementById('fSort').value;
+    if (req.method !== "POST") {
+      return new Response("Method Not Allowed", { status: 405, headers: cors });
+    }
 
-  let arr = Object.values(MEMBERS);
-  if (party) arr = arr.filter(m=>m.party===party);
-  if (chamber) arr = arr.filter(m=>m.chamber===chamber);
-  if (state) arr = arr.filter(m=>m.state===state);
-  if (q) arr = arr.filter(m=> m.name.toLowerCase().includes(q));
+    // Parse JSON once
+    let body;
+    try { body = await req.json(); }
+    catch { return new Response("Bad JSON", { status: 400, headers: cors }); }
 
-  arr.sort((a,b)=>{
-    if (sort==='party') return (a.party||'').localeCompare(b.party||'') || a.last.localeCompare(b.last);
-    if (sort==='state') return (a.state||'').localeCompare(b.state||'') || a.last.localeCompare(b.last);
-    if (sort==='chamber') return (a.chamber||'').localeCompare(b.chamber||'') || a.last.localeCompare(b.last);
-    return a.last.localeCompare(b.last);
-  });
+    const [owner, repo] = (env.REPO || "").split("/");
+    const branch = env.BRANCH || "main";
+    const votesPath = env.FILE_VOTES || "data/votes_append.json";
+    const awardsPath = env.FILE_AWARDS || "data/member-awards.json";
+    const token = env.GH_TOKEN;
+    if (!owner || !repo || !token) {
+      return new Response("Server not configured", { status: 500, headers: cors });
+    }
 
-  list.innerHTML = arr.map(m=>`
-    <div class="d-flex align-items-center justify-content-between border-bottom py-2">
-      <div class="chip">
-        <img src="${m.photo}" alt="${m.name}" loading="lazy"/>
-        <div>
-          <div class="fw-semibold">
-            ${m.name}
-            <span class="text-muted">
-              (${m.chamber==='house'? `${m.state}-${districtLabel(m.district)}` : m.state}, ${m.partyFull})
-            </span>
-          </div>
-          <div class="small text-muted">${m.bioguide}</div>
-        </div>
-      </div>
-      <div>
-        <input type="checkbox" class="form-check-input" data-id="${m.bioguide}" ${SELECTED.has(m.bioguide)?'checked':''}/>
-      </div>
-    </div>
-  `).join('') || '<div class="text-muted p-2">No matches.</div>';
+    // GitHub helpers
+    const gh = async (url, init = {}) => {
+      const r = await fetch(url, {
+        ...init,
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": `Bearer ${token}`,
+          ...(init.headers || {})
+        }
+      });
+      if (!r.ok) {
+        const t = await r.text();
+        throw new Error(`GitHub ${r.status}: ${t}`);
+      }
+      return r.json();
+    };
+    const enc = s => btoa(unescape(encodeURIComponent(s)));
+    const dec = b64 => decodeURIComponent(escape(atob(b64)));
 
-  list.querySelectorAll('input[type=checkbox]').forEach(cb=>{
-    cb.addEventListener('change', e=>{
-      const id = e.target.dataset.id;
-      if (e.target.checked) SELECTED.add(id); else SELECTED.delete(id);
-    });
-  });
-}
+    // Read a JSON file from repo (returns {exists, sha, json})
+    const readJson = async (filePath) => {
+      try {
+        const obj = await gh(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}?ref=${encodeURIComponent(branch)}`);
+        const json = JSON.parse(dec(obj.content || "")) || (Array.isArray(obj) ? [] : {});
+        return { exists: true, sha: obj.sha, json };
+      } catch (e) {
+        if (String(e).includes("404")) return { exists: false, sha: null, json: Array.isArray(filePath) ? [] : (filePath.endsWith(".json") ? (filePath.includes("votes") ? [] : {}) : {}) };
+        throw e;
+      }
+    };
 
-/* ========= Build rows (multi-bill) ========= */
-function getSelectedBills(){
-  return Array.from(document.getElementById('bills').selectedOptions).map(o=>o.value);
-}
+    // Write a JSON file to repo
+    const writeJson = async (filePath, sha, content, message) => {
+      const bodyPut = {
+        message,
+        content: enc(JSON.stringify(content, null, 2)),
+        branch
+      };
+      if (sha) bodyPut.sha = sha;
+      await gh(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyPut)
+      });
+    };
 
-function buildRows(){
-  const bills = getSelectedBills();
-  const date = document.getElementById('date').value;
-  const nick = document.getElementById('nickname').value.trim();
-  if (!bills.length) { alert('Pick at least one bill.'); return []; }
-  if (!date) { alert('Pick a vote date.'); return []; }
-  if (SELECTED.size===0) { alert('Select at least one member.'); return []; }
+    try {
+      if (path.endsWith("/api/append-votes")) {
+        const rows = Array.isArray(body?.rows) ? body.rows : [];
+        if (!rows.length) return new Response("No rows", { status: 400, headers: cors });
 
-  const rows = [];
-  for (const id of Array.from(SELECTED)) {
-    for (const bill of bills) {
-      const row = { member_id: id, bill_id: bill, vote: "NO", vote_date: date };
-      if (nick) row.nickname = nick;
-      rows.push(row);
+        // Load existing votes
+        let { exists, sha, json } = await readJson(votesPath);
+        if (!Array.isArray(json)) json = [];
+
+        // Dedupe: member_id|bill_id|vote_date
+        const key = r => `${r.member_id}|${r.bill_id}|${r.vote_date}`;
+        const seen = new Set(json.map(key));
+        let appended = 0;
+        for (const r of rows) {
+          if (!r.member_id || !r.bill_id || !r.vote_date || !r.vote) continue;
+          const k = key(r);
+          if (!seen.has(k)) { json.push(r); seen.add(k); appended++; }
+        }
+
+        await writeJson(
+          votesPath,
+          exists ? sha : null,
+          json,
+          `chore(admin): append ${rows.length} vote row(s) (deduped: +${appended})`
+        );
+        return new Response(JSON.stringify({ ok: true, appended }), { status: 200, headers: { "Content-Type": "application/json", ...cors } });
+      }
+
+      if (path.endsWith("/api/clear-badges")) {
+        const members = Array.isArray(body?.members) ? body.members : [];
+        if (!members.length) return new Response("No members", { status: 400, headers: cors });
+
+        // Load awards JSON (object keyed by member id)
+        let { exists, sha, json } = await readJson(awardsPath);
+        if (!json || Array.isArray(json)) json = {}; // normalize to object
+
+        let changed = 0;
+        for (const mid of members) {
+          if (!mid) continue;
+          if (!json[mid] || (Array.isArray(json[mid]?.badges) && json[mid].badges.length === 0)) {
+            // If absent, no-op; if already empty, no change
+            json[mid] = { badges: [] };
+          } else {
+            json[mid] = { badges: [] };
+            changed++;
+          }
+        }
+
+        await writeJson(
+          awardsPath,
+          exists ? sha : null,
+          json,
+          `chore(admin): clear badges for ${members.length} member(s) (changed: ${changed})`
+        );
+        return new Response(JSON.stringify({ ok: true, changed }), { status: 200, headers: { "Content-Type": "application/json", ...cors } });
+      }
+
+      return new Response("Not Found", { status: 404, headers: cors });
+    } catch (e) {
+      return new Response(String(e), { status: 500, headers: cors });
     }
   }
-  return rows;
-}
-
-function buildOutput() {
-  const rows = buildRows();
-  if (!rows.length) return;
-  document.getElementById('out').value = JSON.stringify(rows, null, 2);
-}
-
-/* ========= Apply via secret backend ========= */
-async function applyAndSave(){
-  const rows = buildRows();
-  if (!rows.length) return;
-
-  const endpoint = document.getElementById('apiEndpoint').value.trim() || "/api/append-votes";
-  const adminKey = document.getElementById('adminKey').value.trim() || localStorage.getItem(API_CFG.keyKey);
-  if (!adminKey) { alert('Enter your Admin Key.'); return; }
-
-  let res;
-  try{
-    res = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Admin-Key": adminKey
-      },
-      body: JSON.stringify({ rows })
-    });
-  }catch(e){
-    alert("Network error calling admin API.");
-    return;
-  }
-
-  if (!res.ok) {
-    const text = await res.text().catch(()=> "");
-    alert("Save failed: " + text);
-    return;
-  }
-
-  const j = await res.json().catch(()=>({}));
-  document.getElementById('out').value = JSON.stringify(rows, null, 2);
-  alert(`Saved ${rows.length} row(s) via secret API.${j?.appended?` Appended: ${j.appended}.`:''}\nSite will reflect after Pages rebuild.`);
-}
-
-/* ========= Wiring ========= */
-document.getElementById('make').addEventListener('click', buildOutput);
-document.getElementById('apply').addEventListener('click', applyAndSave);
-
-document.getElementById('copy').addEventListener('click', ()=>navigator.clipboard.writeText(document.getElementById('out').value));
-document.getElementById('download').addEventListener('click', ()=>{
-  const txt = document.getElementById('out').value.trim();
-  if (!txt) return;
-  const blob = new Blob([txt], {type: "application/json"});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = "votes_append.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-});
-
-document.getElementById('selectAll').addEventListener('click', ()=>{
-  document.querySelectorAll('#list input[type=checkbox]').forEach(cb=>{ cb.checked=true; SELECTED.add(cb.dataset.id); });
-});
-document.getElementById('clearSel').addEventListener('click', ()=>{
-  SELECTED.clear(); renderList();
-});
-
-['fChamber','fParty','fState','fSearch','fSort'].forEach(id=>{
-  document.getElementById(id).addEventListener('input', renderList);
-  document.getElementById(id).addEventListener('change', renderList);
-});
-
-/* ========= Init ========= */
-(async function(){
-  await loadMembers();
-  renderList();
-})();
-</script>
-</body>
-</html>
+};
