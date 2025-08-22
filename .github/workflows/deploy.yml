@@ -2,69 +2,40 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-       
+    branches: [ main ]   # change if your default branch is not "main"
+  workflow_dispatch:      # lets you run it manually from the Actions tab
 
-  workflow_dispatch:
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Queue deployments for the same branch instead of canceling
 concurrency:
-  group: "pages-${{ github.ref }}"
-  cancel-in-progress: true
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Configure Pages (no inputs needed)
-      - uses: actions/configure-pages@v5
+      # If you have a build step, add it here (npm ci && npm run build)
+      # For a plain static site, just upload the repo contents.
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ]; then npm ci; else npm i; fi
-
-      - name: Build data (JSON used by pages)
-        env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: npm run build:data
-
-      - name: Assemble static site into _site
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf _site
-          mkdir -p _site
-                  for p in index.html Bills accountability assets styles.css data CNAME .nojekyll *.html; do
-          
-            if [ -e "$p" ]; then
-              rsync -a "$p" _site/
-    fi                   
-      
-            
-          done
-
-          touch _site/.nojekyll
-
-      - name: Upload Pages artifact
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: .         # deploy the whole repo. change to "dist" if you build to dist/
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
-    runs-on: ubuntu-latest
-    needs: build
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
