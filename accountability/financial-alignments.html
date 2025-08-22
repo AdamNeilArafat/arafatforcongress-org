@@ -310,11 +310,11 @@
   // Load data (pipeline if present, else demo)
   $('#load-status').textContent = 'Loading data…';
   const [members, donorsByMember, awardsByMember, voteAlignByMember] = await Promise.all([
-    tryJSON('data/members.json','demo-members'),
-    tryJSON('data/donors-by-member.json','demo-donors'),
-    tryJSON('data/member-awards.json','demo-awards'),
-    tryJSON('data/vote-alignments.json','demo-align')
-  ]);
+  tryJSON('/data/members.json','demo-members'),
+  tryJSON('/data/donors-by-member.json','demo-donors'),
+  tryJSON('/data/member-awards.json','demo-awards'),
+  tryJSON('/data/vote-alignments.json','demo-align')
+]);
   $('#load-status').textContent = 'Data loaded.';
 
   // ===== BEGIN CROSSWALK / NORMALIZER PATCH =====
