@@ -18,27 +18,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # If you had a build step (e.g., npm run build), add it here.
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with: { node-version: '20' }
-      # - run: npm ci && npm run build
-
+      - uses: actions/checkout@v4
+      # If you add a build later (npm run build), put it here.
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .   # publish repo root
+          path: .  # publish repo root
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
-        id: deploy
+        id: deployment
         uses: actions/deploy-pages@v4
