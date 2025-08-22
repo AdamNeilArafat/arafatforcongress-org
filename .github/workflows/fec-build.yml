@@ -1,48 +1,46 @@
-name: Build & publish finance data
+mkdir -p .github/workflows
+
+cat > .github/workflows/fec-build.yml << 'YAML'
+name: FEC Data Build
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 9,21 * * *"   # twice daily, UTC   (Actions cron is UTC) 
   push:
+    branches: [ "main" ]
     paths:
-      - "config/**"
       - "scripts/**"
-      - "pipeline/**"
+      - "config/**"
+      - ".github/workflows/fec-build.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  build-data:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
       - name: Install deps
         run: npm ci || npm i
 
-      - name: Build JSON (FEC → /data)
-        env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+      - name: Build JSON
         run: |
-          node scripts/build-members-json.mjs
-          node scripts/build-financials.mjs
+          npm run build:data || true
 
-      - name: Analyze with OpenAI (badges, alignment hints)
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI }}   # <- your secret name
+      - name: Commit data if changed
         run: |
-          node scripts/annotate-awards.mjs
-
-      - name: Commit & push if changed
-        run: |
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/*.json || true
-          git diff --cached --quiet || (git commit -m "data: refresh finance & analysis" && git push)
+          git add -A data
+          git diff --quiet || (git commit -m "chore(data): refresh JSON" && git push)
+YAML
