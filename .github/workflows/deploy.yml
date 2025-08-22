@@ -4,18 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'index.html'
-      - 'Bills/**'
-      - 'accountability/**'
-      - 'assets/**'
-      - 'styles.css'
-      - 'data/**'
-      - 'scripts/**'           # edits to build scripts trigger deploy
-      - 'package.json'
-      - 'package-lock.json'
-      - 'CNAME'
-      - '.nojekyll'
-      - '.github/workflows/deploy.yml'
+      - '**/*'
   workflow_dispatch:
 
 permissions:
@@ -31,65 +20,48 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # OPTIONAL: Node for data build scripts
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
+      # Enable Pages; gathers metadata per GitHub Pages docs
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
-      # Install deps only if package.json exists
-      - name: Install deps
-        if: ${{ hashFiles('package.json') != '' }}
+      # (Optional) If you have data builders, run them here so outputs land in the repo before packaging
+      # - name: Build data
+      #   run: |
+      #     node scripts/build-members-csv.js
+      #     python3 pipeline/build_finance.py
+
+      # Package ENTIRE repo (minus junk) into _site for Pages
+      - name: Assemble site
         run: |
-          set -euxo pipefail
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm i
-          fi
-
-      # Build all data (members/financials/awards) if scripts exist
-      - name: Build data
-        if: ${{ hashFiles('package.json') != '' }}
-        env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}   # add this in repo Settings → Secrets → Actions
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # optional
-        run: |
-          set -euxo pipefail
-          npm run build:data
-
-      # Assemble publish dir explicitly so /data is always included
-      - name: Prepare _site
-        run: |
-          set -eu
+          set -euo pipefail
           rm -rf _site
           mkdir -p _site
-          [ -f index.html ] && cp -a index.html _site/
-          [ -d Bills ] && cp -a Bills _site/
-          [ -d accountability ] && cp -a accountability _site/
-          [ -d assets ] && cp -a assets _site/
-          [ -d data ] && cp -a data _site/
-          [ -f styles.css ] && cp -a styles.css _site/
-          # Custom domain + nojekyll
-          if [ -f CNAME ]; then cp -a CNAME _site/; else echo "ArafatForCongress.org" > _site/CNAME; fi
-          if [ -f .nojekyll ]; then cp -a .nojekyll _site/; else touch _site/.nojekyll; fi
-          echo "::group::_site contents"; ls -la _site; echo "::endgroup::"
+          rsync -av --delete \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude "node_modules" \
+            ./ _site/
 
-      - name: Upload Pages artifact
+      - name: List artifact (sanity)
+        run: |
+          echo "Top-level in _site:"
+          find _site -maxdepth 2 -type d | sort
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
