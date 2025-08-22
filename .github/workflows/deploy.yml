@@ -15,6 +15,14 @@ on:
       - 'package-lock.json'
       - 'CNAME'
       - '.nojekyll'
+          - '404.html'
+    - 'Bills.html'
+    - 'Overview.html'
+    - 'contact.html'
+    - 'contrast.html'
+    - 'digging-into-the-issues.html'
+    - 'tesl.html'
+    - 'Webpages/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
@@ -57,10 +65,12 @@ jobs:
           rm -rf _site
           mkdir -p _site
           for p in index.html Bills accountability assets styles.css data CNAME .nojekyll; do
+          
             if [ -e "$p" ]; then
               rsync -a "$p" _site/
             fi
           done
+              rsync -a *.html _site/
           touch _site/.nojekyll
 
       - name: Upload Pages artifact
