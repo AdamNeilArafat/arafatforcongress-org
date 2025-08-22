@@ -1,1 +1,26 @@
-{}
+{
+  "AARAFAT": {
+    "id": "AARAFAT",
+    "name": "Adam Neil Arafat",
+    "state": "WA",
+    "seat": "WA-10",
+    "chamber": "house",
+    "party": "D",
+    "bioguide": "A000000",
+    "fec_ids": [
+      "H4WA00123"
+    ]
+  },
+  "S001135": {
+    "id": "S001135",
+    "name": "Marilyn Strickland",
+    "state": "WA",
+    "seat": "WA-10",
+    "chamber": "house",
+    "party": "D",
+    "bioguide": "S001135",
+    "fec_ids": [
+      "H0WA10078"
+    ]
+  }
+}
