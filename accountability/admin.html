@@ -16,29 +16,22 @@
 <div class="container py-4">
   <h1 class="h4 mb-3">Bulk NO Vote Builder <span class="badge bg-secondary">Private</span></h1>
 
-  <!-- Repo/Auth config (stored in your browser only) -->
-  <details class="mb-3">
-    <summary class="fw-semibold">GitHub Repo & Auth (auto-save)</summary>
+  <!-- Admin API (hidden-secret backend; no GitHub token in browser) -->
+  <details class="mb-3" open>
+    <summary class="fw-semibold">Admin API (secure backend)</summary>
     <div class="row g-2 mt-2">
-      <div class="col-md-4">
-        <label class="form-label mb-1">Repository (owner/repo)</label>
-        <input id="ghRepo" class="form-control form-control-sm mono" placeholder="owner/repo" value="AdamNeilArafat/arafatforcongress-org"/>
+      <div class="col-md-6">
+        <label class="form-label mb-1">Endpoint</label>
+        <input id="apiEndpoint" class="form-control form-control-sm mono" value="/api/append-votes" placeholder="https://your-site.org/api/append-votes"/>
+        <div class="form-text">Points to your Worker/Function that writes to GitHub with a server-side secret.</div>
       </div>
-      <div class="col-md-3">
-        <label class="form-label mb-1">Branch</label>
-        <input id="ghBranch" class="form-control form-control-sm mono" placeholder="main" value="main"/>
+      <div class="col-md-6">
+        <label class="form-label mb-1">Admin Key</label>
+        <input id="adminKey" type="password" class="form-control form-control-sm mono" placeholder="Your X-Admin-Key"/>
+        <div class="form-text">Stored only in your browser (localStorage).</div>
       </div>
-      <div class="col-md-5">
-        <label class="form-label mb-1">File path (JSON)</label>
-        <input id="ghPath" class="form-control form-control-sm mono" placeholder="data/votes_append.json" value="data/votes_append.json"/>
-      </div>
-      <div class="col-md-8">
-        <label class="form-label mb-1">GitHub Token (contents:write)</label>
-        <input id="ghToken" type="password" class="form-control form-control-sm mono" placeholder="ghp_... (fine-grained token with contents:write)"/>
-        <div class="form-text">Token is saved only in your browser (localStorage). Anyone with page access could view it via DevTools.</div>
-      </div>
-      <div class="col-md-4 d-grid align-items-end">
-        <button id="saveCfg" class="btn btn-outline-primary btn-sm mt-4">Save Config to Browser</button>
+      <div class="col-12 d-grid d-md-inline">
+        <button id="saveApiCfg" class="btn btn-outline-primary btn-sm mt-2">Save API Config to Browser</button>
       </div>
     </div>
   </details>
@@ -116,11 +109,13 @@
     <button id="clearSel" class="btn btn-outline-secondary btn-sm">Clear Selection</button>
     <div class="ms-auto d-flex gap-2">
       <button id="make" class="btn btn-outline-dark btn-sm">Preview JSON for Selected</button>
-      <button id="apply" class="btn btn-primary btn-sm">Apply & Save to Repo</button>
+      <button id="apply" class="btn btn-primary btn-sm">Apply & Save (via Secret API)</button>
     </div>
   </div>
 
-  <div class="border bg-white p-2 rounded" style="max-height:50vh;overflow:auto" id="list"></div>
+  <div class="border bg-white p-2 rounded" style="max-height:50vh;overflow:auto" id="list">
+    <div class="text-muted">Loading members…</div>
+  </div>
 
   <div class="mt-3">
     <label class="form-label">Output (preview)</label>
@@ -133,30 +128,30 @@
 </div>
 
 <script>
+/* ========= State ========= */
 let MEMBERS = {};
 let SELECTED = new Set();
 
-// ---- GitHub config (stored in localStorage) ----
-const CFG_KEYS = { repo:'gh_repo', branch:'gh_branch', path:'gh_path', token:'gh_token' };
-function loadCfg(){
-  document.getElementById('ghRepo').value = localStorage.getItem(CFG_KEYS.repo) || document.getElementById('ghRepo').value;
-  document.getElementById('ghBranch').value = localStorage.getItem(CFG_KEYS.branch) || document.getElementById('ghBranch').value;
-  document.getElementById('ghPath').value = localStorage.getItem(CFG_KEYS.path) || document.getElementById('ghPath').value;
-  document.getElementById('ghToken').value = localStorage.getItem(CFG_KEYS.token) || '';
-}
-function saveCfg(){
-  localStorage.setItem(CFG_KEYS.repo, document.getElementById('ghRepo').value.trim());
-  localStorage.setItem(CFG_KEYS.branch, document.getElementById('ghBranch').value.trim());
-  localStorage.setItem(CFG_KEYS.path, document.getElementById('ghPath').value.trim());
-  if (document.getElementById('ghToken').value.trim()) {
-    localStorage.setItem(CFG_KEYS.token, document.getElementById('ghToken').value.trim());
-  }
-  alert('Saved repo config to your browser.');
-}
-document.getElementById('saveCfg').addEventListener('click', saveCfg);
-loadCfg();
+/* ========= Admin API config (stored only in this browser) ========= */
+const API_CFG = { endpointKey:'admin_api_endpoint', keyKey:'admin_api_key' };
 
-// ---- Load current legislators ----
+function loadApiCfg(){
+  const ep = localStorage.getItem(API_CFG.endpointKey);
+  const key = localStorage.getItem(API_CFG.keyKey);
+  if (ep) document.getElementById('apiEndpoint').value = ep;
+  if (key) document.getElementById('adminKey').value = key;
+}
+function saveApiCfg(){
+  localStorage.setItem(API_CFG.endpointKey, document.getElementById('apiEndpoint').value.trim());
+  if (document.getElementById('adminKey').value.trim()){
+    localStorage.setItem(API_CFG.keyKey, document.getElementById('adminKey').value.trim());
+  }
+  alert('Saved API config to your browser.');
+}
+document.getElementById('saveApiCfg').addEventListener('click', saveApiCfg);
+loadApiCfg();
+
+/* ========= Load current legislators ========= */
 async function loadMembers() {
   const url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/refs/heads/gh-pages/legislators-current.json";
   const data = await fetch(url, { cache: "no-store" }).then(r => r.json());
@@ -170,10 +165,10 @@ async function loadMembers() {
       last: m.name?.last || "",
       name: `${m.name?.first || ""} ${m.name?.last || ""}`.trim(),
       partyFull: lastTerm.party || "",
-      party: partyLetter(lastTerm.party || ""),   // D/R/I fix
+      party: partyLetter(lastTerm.party || ""),   // normalize to D/R/I
       chamber: lastTerm.type === "sen" ? "senate" : "house",
       state: lastTerm.state || "",
-      district: lastTerm.type === "rep" ? (lastTerm.district || "") : "",
+      district: lastTerm.type === "rep" ? (lastTerm.district ?? "") : "",
       photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
     };
   }
@@ -187,8 +182,12 @@ function partyLetter(p){
   };
   return map[p] || (p ? p[0].toUpperCase() : "");
 }
+function districtLabel(d){
+  if (d === 0 || d === "0" || d === "" || d === null || typeof d === "undefined") return "AL";
+  return String(d);
+}
 
-// ---- Render list + filters ----
+/* ========= Render list + filters ========= */
 function renderList() {
   const list = document.getElementById('list');
   const q = document.getElementById('fSearch').value.toLowerCase().trim();
@@ -213,9 +212,14 @@ function renderList() {
   list.innerHTML = arr.map(m=>`
     <div class="d-flex align-items-center justify-content-between border-bottom py-2">
       <div class="chip">
-        <img src="${m.photo}" alt="${m.name}"/>
+        <img src="${m.photo}" alt="${m.name}" loading="lazy"/>
         <div>
-          <div class="fw-semibold">${m.name} <span class="text-muted">(${m.chamber==='house'? `${m.state}-${m.district}` : m.state}, ${m.partyFull})</span></div>
+          <div class="fw-semibold">
+            ${m.name}
+            <span class="text-muted">
+              (${m.chamber==='house'? `${m.state}-${districtLabel(m.district)}` : m.state}, ${m.partyFull})
+            </span>
+          </div>
           <div class="small text-muted">${m.bioguide}</div>
         </div>
       </div>
@@ -233,10 +237,9 @@ function renderList() {
   });
 }
 
-// ---- Build rows for preview or commit ----
+/* ========= Build rows (multi-bill) ========= */
 function getSelectedBills(){
-  const sel = Array.from(document.getElementById('bills').selectedOptions).map(o=>o.value);
-  return sel;
+  return Array.from(document.getElementById('bills').selectedOptions).map(o=>o.value);
 }
 
 function buildRows(){
@@ -264,90 +267,42 @@ function buildOutput() {
   document.getElementById('out').value = JSON.stringify(rows, null, 2);
 }
 
-// ---- GitHub commit helpers ----
-function b64encodeUtf8(str){
-  return btoa(unescape(encodeURIComponent(str)));
-}
-function b64decodeUtf8(b64){
-  return decodeURIComponent(escape(atob(b64)));
-}
-
-async function getFile(owner, repo, path, branch, token){
-  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`, {
-    headers: {
-      "Accept":"application/vnd.github+json",
-      "Authorization": token ? `Bearer ${token}` : undefined
-    }
-  });
-  if (r.status === 404) return { exists:false, sha:null, json:[] };
-  if (!r.ok) throw new Error(`GET contents failed: ${r.status}`);
-  const j = await r.json();
-  const decoded = b64decodeUtf8(j.content || "");
-  let json = [];
-  try { json = JSON.parse(decoded); } catch { json = []; }
-  return { exists:true, sha:j.sha, json };
-}
-
-function dedupeRows(existing, incoming){
-  const seen = new Set(existing.map(r => `${r.member_id}|${r.bill_id}|${r.vote_date}`));
-  for (const r of incoming) {
-    const key = `${r.member_id}|${r.bill_id}|${r.vote_date}`;
-    if (!seen.has(key)) { existing.push(r); seen.add(key); }
-  }
-  return existing;
-}
-
-async function putFile(owner, repo, path, branch, token, content, sha=null){
-  const body = {
-    message: `chore(admin): append ${Array.isArray(content)?content.length:'?'} vote row(s) via Bulk NO Builder`,
-    content: b64encodeUtf8(JSON.stringify(content, null, 2)),
-    branch
-  };
-  if (sha) body.sha = sha;
-  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`, {
-    method:"PUT",
-    headers: {
-      "Accept":"application/vnd.github+json",
-      "Authorization": token ? `Bearer ${token}` : undefined,
-      "Content-Type":"application/json"
-    },
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) {
-    const j = await r.json().catch(()=>({}));
-    throw new Error(`PUT contents failed: ${r.status} ${j?.message || ''}`);
-  }
-  return r.json();
-}
-
+/* ========= Apply via secret backend ========= */
 async function applyAndSave(){
   const rows = buildRows();
   if (!rows.length) return;
 
-  const repoFull = document.getElementById('ghRepo').value.trim();
-  const branch = document.getElementById('ghBranch').value.trim() || "main";
-  const path = document.getElementById('ghPath').value.trim() || "data/votes_append.json";
-  const token = localStorage.getItem(CFG_KEYS.token) || document.getElementById('ghToken').value.trim();
+  const endpoint = document.getElementById('apiEndpoint').value.trim() || "/api/append-votes";
+  const adminKey = document.getElementById('adminKey').value.trim() || localStorage.getItem(API_CFG.keyKey);
+  if (!adminKey) { alert('Enter your Admin Key.'); return; }
 
-  if (!repoFull || !repoFull.includes('/')) { alert('Set repo as owner/repo.'); return; }
-  if (!token) { alert('Add a GitHub token with contents:write.'); return; }
-  const [owner, repo] = repoFull.split('/');
+  let res;
+  try{
+    res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Admin-Key": adminKey
+      },
+      body: JSON.stringify({ rows })
+    });
+  }catch(e){
+    alert("Network error calling admin API.");
+    return;
+  }
 
-  // 1) Read existing file (or create empty)
-  let { exists, sha, json } = await getFile(owner, repo, path, branch, token);
+  if (!res.ok) {
+    const text = await res.text().catch(()=> "");
+    alert("Save failed: " + text);
+    return;
+  }
 
-  // 2) Append/dedupe
-  json = dedupeRows(json, rows);
-
-  // 3) Write back
-  await putFile(owner, repo, path, branch, token, json, exists ? sha : null);
-
-  // 4) Preview + toast
+  const j = await res.json().catch(()=>({}));
   document.getElementById('out').value = JSON.stringify(rows, null, 2);
-  alert(`Saved ${rows.length} row(s) to ${repoFull}@${branch}/${path}.\nSite will update after Pages rebuild.`);
+  alert(`Saved ${rows.length} row(s) via secret API.${j?.appended?` Appended: ${j.appended}.`:''}\nSite will reflect after Pages rebuild.`);
 }
 
-// ---- Wiring ----
+/* ========= Wiring ========= */
 document.getElementById('make').addEventListener('click', buildOutput);
 document.getElementById('apply').addEventListener('click', applyAndSave);
 
@@ -375,8 +330,11 @@ document.getElementById('clearSel').addEventListener('click', ()=>{
   document.getElementById(id).addEventListener('change', renderList);
 });
 
-// Init
-(async function(){ await loadMembers(); renderList(); })();
+/* ========= Init ========= */
+(async function(){
+  await loadMembers();
+  renderList();
+})();
 </script>
 </body>
 </html>
