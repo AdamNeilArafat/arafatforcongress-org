@@ -1,31 +1,43 @@
-name: Build FEC Finance JSON
+name: FEC data build
+
 on:
   schedule:
-    - cron: "17 8 * * *"
+    - cron: "0 10 * * *"  # daily 03:00 PT (10:00 UTC)
   workflow_dispatch:
+  push:
+    paths:
+      - scripts/**.mjs
+      - config/**
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  build-finance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
         with:
-          python-version: "3.11"
-      - run: python -m venv .venv && . .venv/bin/activate && pip install -r pipeline/requirements.txt
-      - name: Run pipeline
+          node-version: '20'
+
+      - name: Install deps
+        run: |
+          npm ci || npm i
+
+      - name: Build JSON
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-          FEC_CYCLE: "2024"
         run: |
-          . .venv/bin/activate
-          python pipeline/build_finance.py
+          node scripts/build-members-json.mjs
+          node scripts/build-financials.mjs
+
       - name: Commit updated data
         run: |
-          if [ -n "$(git status --porcelain data)" ]; then
-            git config user.name "github-actions"
-            git config user.email "actions@github.com"
-            git add data/*.json
-            git commit -m "chore(data): refresh FEC finance JSON"
-            git push
-          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/*.json || true
+          git diff --quiet && echo "No data changes" || git commit -m "chore(data): refresh FEC JSON"
+          git push
