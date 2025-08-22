@@ -1,6 +1,10 @@
+// --- fetch shim (Node 18+ has global fetch) ---
+const fetch = globalThis.fetch ?? ((...args) =>
+  import('node-fetch').then(({ default: f }) => f(...args))
+);
+// ----------------------------------------------
 // scripts/annotate-awards.mjs
 import fs from 'node:fs/promises';
-import fetch from 'node-fetch';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.OPENAI; // support either
 if (!OPENAI_API_KEY) { console.log('No OPENAI key; skipping awards.'); process.exit(0); }
