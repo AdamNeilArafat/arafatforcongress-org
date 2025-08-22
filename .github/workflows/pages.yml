@@ -1,12 +1,13 @@
-# .github/workflows/pages.yml
 name: Deploy Pages
 on:
   push:
     branches: [ main ]
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -17,24 +18,85 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Node 20 (has global fetch; matches your node-fetch removal)
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
-      - run: npm ci --omit=dev || npm ci || npm i
-      - run: npm run build   # ensure this writes static site to ./dist
+      # Diagnostics to see what's in the repo
+      - name: Preflight diagnostics
+        run: |
+          set -euxo pipefail
+          node -v
+          npm -v
+          ls -la
+          if [ -f package.json ]; then cat package.json; fi
+          if [ -f package-lock.json ]; then echo "Lockfile present"; fi
 
+      # Make npm install resilient:
+      # 1) Try CI (fast, reproducible)
+      # 2) If it fails due to lock mismatch, refresh lock then re-run ci
+      - name: Install deps
+        run: |
+          set -euxo pipefail
+          if [ -f package.json ]; then
+            npm ci --loglevel=verbose || (npm install --package-lock-only && npm ci --loglevel=verbose)
+          else
+            echo "No package.json — skipping npm install"
+          fi
+
+      # Build only if script exists; never fail if there is no build step
+      - name: Build site (if present)
+        run: |
+          set -euxo pipefail
+          if npm run | grep -qE '^  build'; then
+            npm run build --if-present
+          else
+            echo "No build script found; using repo root as site"
+          fi
+
+      # Decide which folder to publish: prefer ./dist then ./build, else repo root
+      - name: Select publish dir
+        id: publish
+        run: |
+          set -e
+          for d in dist build public; do
+            if [ -d "$d" ]; then
+              echo "dir=$d" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "dir=." >> "$GITHUB_OUTPUT"
+
+      # Prove the folder exists and list contents (common source of exit 1)
+      - name: List publish dir
+        run: |
+          set -euxo pipefail
+          echo "Publishing from: ${{ steps.publish.outputs.dir }}"
+          ls -la "${{ steps.publish.outputs.dir }}"
+
+      # Upload site as Pages artifact
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist        # or ./public, ./site, etc.
+          path: ${{ steps.publish.outputs.dir }}
+
+      # Always upload npm logs if they exist (to debug next time)
+      - name: Upload npm logs (if any)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: |
+            /home/runner/.npm/_logs/*
+          if-no-files-found: ignore
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - id: deployment
+      - id: deploy
         uses: actions/deploy-pages@v4
