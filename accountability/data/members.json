@@ -1,47 +1,41 @@
-[
-  {
-    "bioguide_id": "A000374",
-    "name": "Adam Neil Arafat",
-    "state": "WA",
-    "district": "10",
-    "party": "D",
-    "fec_ids": ["H6WA08134"],
-    "photo": "https://theunitedstates.io/images/congress/225x275/A000374.jpg"
+{
+  "S001213": {
+    "badges": [
+      {
+        "key": "broad-base",
+        "label": "Broad Donor Base",
+        "source_url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      }
+    ]
   },
-  {
-    "bioguide_id": "S001213",
-    "name": "Marilyn Strickland",
-    "state": "WA",
-    "district": "10",
-    "party": "D",
-    "fec_ids": ["H0WA10012"],
-    "photo": "https://theunitedstates.io/images/congress/225x275/S001213.jpg"
+  "M001198": {
+    "badges": [
+      {
+        "key": "high-pac",
+        "label": "High PAC Reliance",
+        "source_url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      },
+      {
+        "key": "out-of-state-heavy",
+        "label": "Out-of-State Heavy",
+        "source_url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      }
+    ]
   },
-  {
-    "bioguide_id": "B000575",
-    "name": "Joe Biden",
-    "state": "US",
-    "district": "0",
-    "party": "D",
-    "fec_ids": ["P80000722"],
-    "photo": "https://theunitedstates.io/images/congress/225x275/B000575.jpg"
+  "P000197": {
+    "badges": []
   },
-  {
-    "bioguide_id": "M001198",
-    "name": "Kevin McCarthy",
-    "state": "CA",
-    "district": "20",
-    "party": "R",
-    "fec_ids": ["H6CA22125"],
-    "photo": "https://theunitedstates.io/images/congress/225x275/M001198.jpg"
-  },
-  {
-    "bioguide_id": "P000197",
-    "name": "Nancy Pelosi",
-    "state": "CA",
-    "district": "11",
-    "party": "D",
-    "fec_ids": ["H8CA05035"],
-    "photo": "https://theunitedstates.io/images/congress/225x275/P000197.jpg"
+  "A000374": {
+    "badges": [
+      {
+        "key": "small-donor-strong",
+        "label": "Small Donor Strong",
+        "source_url": "https://www.fec.gov/data/",
+        "as_of": "2025-08-01"
+      }
+    ]
   }
-]
+}
