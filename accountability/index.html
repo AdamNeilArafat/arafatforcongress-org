@@ -42,6 +42,13 @@
     .name{font-weight:800}
     .meta{color:var(--muted); font-size:.9rem}
 
+    /* headshot flanked by badges */
+    .head-row{display:flex; align-items:center; justify-content:space-between; gap:.5rem; padding:.5rem .9rem .25rem}
+    .head-row .avatar{width:25%; min-width:56px; max-width:90px; flex-shrink:0}
+    .badge-col{display:flex; flex-direction:column; gap:.25rem; flex:1; min-width:0}
+    .badge-col.right{align-items:flex-end}
+    .badge-col .chip{margin:0}
+
     /* micro finance strip */
     .fin-mini{font-size:.76rem; color:#334155; background:#f1f5f9; padding:.35rem .55rem; border-top:1px dashed #e2e8f0}
     .fin-mini .dot{display:inline-block; width:.38rem; height:.38rem; border-radius:999px; margin-right:.35rem; vertical-align:middle; background:#94a3b8}
@@ -63,17 +70,8 @@
     .skeleton{background:linear-gradient(90deg,#eceff3 25%,#f5f7fa 37%,#eceff3 63%); background-size:400% 100%; animation:sheen 1.2s infinite; border-radius:12px; height:300px}
     @keyframes sheen{0%{background-position:100% 0} 100%{background-position:0 0}}
 
-    /* Thumbnail faces */
-.avatar {
-  width:25%;
-  aspect-ratio:4/5;
-  object-fit:cover;
-  display:block;
-  margin:.5rem auto;
-  border-radius:8px;
-}
-
-
+    /* Thumbnail faces (redundant safety; .head-row .avatar sets width) */
+    .avatar{aspect-ratio:4/5; object-fit:cover; display:block; margin:.5rem auto; border-radius:8px}
 
     .btn-icon i{margin-right:.5rem}
 
@@ -517,14 +515,14 @@ function buildFilters(){
   wfState.innerHTML = ['<option value="">All states</option>', ...stateList.map(s=>`<option value="${s}">${s}</option>`)].join('');
 }
 
-function badgeChips(badges){
-  if(!badges || !badges.length) return '';
-  return `
-    <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
-      ${badges.slice(0,3).map(b => `<span class="chip ${b.kind==='good'?'good':'bad'}" title="${b.label}">${b.label}</span>`).join('')}
-      ${badges.length>3 ? `<span class="chip info">+${badges.length-3}</span>` : ``}
-    </div>
-  `;
+/* NEW: split badges into left/right columns */
+function badgeChipsSplit(badges){
+  if(!badges || !badges.length) return { left:'', right:'' };
+  const mid = Math.ceil(badges.length/2);
+  const leftArr = badges.slice(0, mid);
+  const rightArr = badges.slice(mid);
+  const render = arr => arr.map(b => `<span class="chip ${b.kind==='good'?'good':'bad'}" title="${b.label}">${b.label}</span>`).join('');
+  return { left: render(leftArr), right: render(rightArr) };
 }
 
 function cardHTML(o){
@@ -536,19 +534,27 @@ function cardHTML(o){
     alt="${o.name}" loading="lazy" decoding="async" fetchpriority="low"
     referrerpolicy="no-referrer" sizes="${o.sizes||'(max-width:576px) 100vw, 25vw'}"`;
 
+  const split = badgeChipsSplit(o.badges || []);
+
   return `
   <article class="card-person"
            data-bill="${o.billKey||''}"
            data-party="${o.partyCode||''}"
            data-state="${o.state}"
            data-name="${o.name.toLowerCase()}">
-    <img ${imgAttrs}
-         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22225%22><rect width=%22300%22 height=%22225%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22>NO IMAGE</text></svg>'"/>
+
+    <div class="head-row">
+      <div class="badge-col left">${split.left}</div>
+      <img ${imgAttrs}
+           onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22225%22><rect width=%22300%22 height=%22225%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22>NO IMAGE</text></svg>'"/>
+      <div class="badge-col right">${split.right}</div>
+    </div>
+
     ${o.finMini||''}
+
     <div class="body">
       <div class="name">${o.name}</div>
       <div class="meta">${o.chamber==='senate'?'Senate':'House'} • ${o.state}${o.district?('-'+o.district):''} • ${o.partyLabel||''}</div>
-      ${o.badgeHTML||''}
       ${isOffender && harm ? `<div class="harm">${harm}</div>` : ``}
       ${isOffender ? `
         <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -586,7 +592,7 @@ function joinData(){
       partyCode:m.partyCode, partyLabel:m.partyLabel,
       chamber:m.chamber, state:m.state, district:m.district, photo:m.photo, sizes:m.sizes,
       finMini: miniFinance(fin),
-      badgeHTML: badgeChips(badges)
+      badges // <-- store array for split render
     });
   }
 
@@ -611,7 +617,7 @@ function joinData(){
         partyCode:m.partyCode, partyLabel:m.partyLabel,
         chamber:m.chamber, state:m.state, district:m.district, photo:m.photo, sizes:m.sizes,
         finMini: miniFinance(fin),
-        badgeHTML: badgeChips(badges)
+        badges
       });
     }
   }
@@ -749,3 +755,5 @@ document.getElementById('resetFilters').addEventListener('click', ()=>{
   handleDeepLink();
 })();
 </script>
+</body>
+</html>
