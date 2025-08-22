@@ -1,11 +1,21 @@
-# .github/workflows/pages.yml
-name: Deploy Pages
+name: Deploy GitHub Pages
 
 on:
   push:
     branches: [ main ]
     paths:
-      - '**/*'
+      - 'index.html'
+      - 'Bills/**'
+      - 'accountability/**'
+      - 'assets/**'
+      - 'styles.css'
+      - 'data/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'CNAME'
+      - '.nojekyll'
+      - '.github/workflows/*.yml'
   workflow_dispatch:
 
 permissions:
@@ -23,34 +33,42 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Build your data (adjust scripts to match your repo)
+      # Configure Pages (no inputs)
+      - uses: actions/configure-pages@v5
+
+      # Build data (optional)
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install deps
-        run: npm ci
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm i; fi
 
-      - name: Build data
+      - name: Build data (writes JSON to ./data)
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          npm run build:members
-          npm run build:financials
-          npm run build:awards
-          # make sure these scripts write to ./data/*.json
+          npm run build:data
 
-      # Assemble the static site to _site, including /data
+      # Assemble static site
       - name: Assemble site
         run: |
+          set -euo pipefail
           rm -rf _site
           mkdir -p _site
-          rsync -a --exclude ".git" --exclude "node_modules" ./ _site/
+          # copy only what the site needs
+          rsync -a \
+            --exclude ".git" \
+            --exclude "node_modules" \
+            --exclude "_site" \
+            --exclude ".github" \
+            ./ _site/
+          # ensure Pages serves without Jekyll
+          touch _site/.nojekyll
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
@@ -60,7 +78,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
