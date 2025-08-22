@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Wall of Shame — Faces, Votes, Receipts | Adam Neil Arafat for Congress</title>
+  <meta name="description" content="These Members voted against working families. Every face has a receipt. Filter by bill, state, or party; open the receipts; share the evidence."/>
+  <meta name="theme-color" content="#0d3b66"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Wall of Shame — Faces, Votes, Receipts"/>
+  <meta property="og:description" content="Filter by bill, state, or party. Every face has a receipt you can share."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="assets/share-wall.png"/>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
+      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
+    }
+    html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
+    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
+    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
+    .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
+
+    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2.5rem 0}
+    .hero h1{font-weight:900; letter-spacing:.3px}
+    .hero p.lead{opacity:.95}
+
+    .tools{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center}
+    .search{max-width:380px}
+    .badge-award{position:absolute; left:.5rem; top:.5rem; background:var(--danger); color:#fff; border-radius:999px; font-weight:800; font-size:.7rem; padding:.25rem .5rem}
+    .stamp{position:absolute; right:-14px; bottom:6px; transform:rotate(-6deg); font-weight:900; font-size:.9rem; color:#b3262a; opacity:.16; letter-spacing:.08em}
+    .card-person{position:relative; background:var(--card); border:1px solid var(--ring); border-radius:14px; overflow:hidden; transition:box-shadow .16s, transform .16s, border-color .16s}
+    .card-person:hover{box-shadow:0 14px 40px rgba(13,59,102,.16); border-color:var(--ring-strong); transform:translateY(-2px)}
+    .card-person .body{padding:.75rem .9rem}
+    .name{font-weight:800}
+    .meta{color:var(--muted); font-size:.9rem}
+    .chip{font-size:.7rem; font-weight:800; border-radius:999px; padding:.2rem .5rem; display:inline-block; background:#eef6ff; color:#0d3b66}
+    .chip.no{background:#ffecec; color:#b42318; margin-left:.25rem}
+    .harm{margin:.4rem 0 .6rem; color:#334155; font-size:.92rem}
+    .grid{display:grid; grid-template-columns:repeat(1,minmax(0,1fr)); gap:.8rem}
+    @media (min-width:576px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @media (min-width:992px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
+    @media (min-width:1200px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr));} }
+    .skeleton{background:linear-gradient(90deg,#eceff3 25%,#f5f7fa 37%,#eceff3 63%); background-size:400% 100%; animation:sheen 1.2s infinite; border-radius:12px; height:280px}
+    @keyframes sheen{0%{background-position:100% 0} 100%{background-position:0 0}}
+    /* Thumbnail faces */
+    .avatar{
+      width:80px; height:auto; aspect-ratio:4/5;
+      object-fit:cover; background:#e6edf3;
+      display:block; margin:.5rem auto; border-radius:8px;
+    }
+    .btn-icon i{margin-right:.5rem}
+
+    .modal .award{font-weight:900; color:#8f0d16}
+    .modal .muted{color:#475569}
+    footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link active" href="./index.html" aria-current="page">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link" href="./financial-alignments.html">Financial Alignments</a></li>
+        <li class="nav-item"><a class="nav-link" href="./badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container text-center">
+    <h1 class="mb-2">Wall of Shame</h1>
+    <p class="lead mb-3">These Members voted against working families. Every face has a receipt.</p>
+    <div class="tools justify-content-center">
+      <div class="input-group input-group-sm search">
+        <span class="input-group-text" id="basic-addon1" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="search" id="wfSearch" class="form-control" placeholder="Search name, state, bill…" aria-label="Search wall"/>
+      </div>
+      <select id="wfBill" class="form-select form-select-sm" aria-label="Filter by bill"></select>
+      <select id="wfState" class="form-select form-select-sm" aria-label="Filter by state"></select>
+      <select id="wfParty" class="form-select form-select-sm" aria-label="Filter by party">
+        <option value="">All parties</option>
+        <option value="D">Democrat</option>
+        <option value="R">Republican</option>
+        <option value="I">Independent</option>
+      </select>
+      <button id="resetFilters" class="btn btn-outline-secondary btn-sm">Reset</button>
+
+      <!-- Hero quick jumps -->
+      <a href="#plan" class="btn btn-outline-light btn-sm">View the plan</a>
+      <a href="#grid" class="btn btn-outline-secondary btn-sm">Skip to the Wall</a>
+    </div>
+  </div>
+</header>
+
+<!-- PLAN (Unified Plan Section) -->
+<section id="plan" class="container my-4">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h2 class="h4 mb-0">🔥 Accountability &amp; Shame Platform — Unified Plan</h2>
+        <a class="btn btn-outline-secondary btn-sm" href="#grid">Skip to the Wall</a>
+      </div>
+      <p class="text-muted mt-2 mb-3">
+        Expose how <strong>money controls votes</strong> in Congress with <strong>harsh, visual, and data‑driven accountability</strong>.
+        Every politician can receive <strong>multiple badges/awards</strong> showing alignment with donors over constituents.
+      </p>
+
+      <div class="accordion" id="planAcc">
+        <!-- Core Purpose -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-purpose-h">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p-purpose" aria-expanded="true" aria-controls="p-purpose">
+              🎯 Core Purpose
+            </button>
+          </h3>
+          <div id="p-purpose" class="accordion-collapse collapse show" aria-labelledby="p-purpose-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              Expose how <strong>money controls votes</strong> in Congress with <strong>harsh, visual, and data‑driven accountability</strong>. Every politician can receive <strong>multiple badges/awards</strong> showing alignment with donors over constituents.
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Building Blocks -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-blocks-h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p-blocks" aria-expanded="false" aria-controls="p-blocks">
+              🧱 Main Building Blocks
+            </button>
+          </h3>
+          <div id="p-blocks" class="accordion-collapse collapse" aria-labelledby="p-blocks-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              <h4 class="h6">1) Wall of Shame (Landing Page)</h4>
+              <ul class="mb-3">
+                <li><strong>Grid of all 535 seats</strong> (House + Senate).</li>
+                <li>Under each face: earned <strong>badges/awards</strong> (visual first, numbers on hover).</li>
+                <li>Click profile → financials, top industries, vote correlation, and awarded badges with triggers.</li>
+              </ul>
+              <h4 class="h6">2) Badges &amp; Awards System</h4>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">🐕 Control &amp; Capture</div>
+                    <ul class="mb-0">
+                      <li><strong>Leash Held by [PAC/Industry]</strong> → PAC/industry &gt; $20k</li>
+                      <li><strong>Puppet of [X]</strong> → one donor/industry &gt; 50% of PAC $</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">💰 Corruption &amp; Sale</div>
+                    <ul class="mb-0">
+                      <li><strong>Bought &amp; Paid</strong> → single PAC &gt; $50k</li>
+                      <li><strong>Crown of Cash</strong> → total PAC + lobbyist &gt; $100k</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">🔪 Betrayal</div>
+                    <ul class="mb-0">
+                      <li><strong>Backstabber Award</strong> → more $ outside district/state than inside</li>
+                      <li><strong>Judas Award</strong> → vote alignment with donors &gt; 90%</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3">
+                    <div class="fw-bold mb-2">🌍 Foreign Policy / AIPAC / Defense / Oil</div>
+                    <ul class="mb-0">
+                      <li><strong>Leash Held by AIPAC</strong> → threshold (e.g., &gt; $20k)</li>
+                      <li><strong>Supporter of Genocide</strong> → AIPAC + Defense &gt; $50k &amp; votes for military aid/occupation bills</li>
+                      <li><strong>Blood Money Badge</strong> → defense contractors &gt; $50k</li>
+                    </ul>
+                    <div class="small text-muted mt-2">Multiple badges per member (e.g., Pharma + Bought &amp; Paid + Backstabber) can co‑exist.</div>
+                  </div>
+                </div>
+              </div>
+
+              <h4 class="h6">3) Financial Alignments Page</h4>
+              <ul class="mb-3">
+                <li>Charts: % PAC vs small donors; % in‑district vs out‑district; industry breakdowns.</li>
+                <li>Map: geographic donor clusters.</li>
+                <li>Each chart/table shows which <strong>badge threshold</strong> it triggered.</li>
+              </ul>
+
+              <h4 class="h6">4) Image Style &amp; UX</h4>
+              <ul class="mb-3">
+                <li><strong>Style:</strong> propaganda‑poster + political cartoon.</li>
+                <li><strong>Palette:</strong> red (betrayal), black/gray (lobbyists), gold (greed).</li>
+                <li><strong>Badges:</strong> circular/shield icons; instant read.</li>
+              </ul>
+
+              <h4 class="h6">5) Data → Badge Pipeline</h4>
+              <ol class="mb-3">
+                <li><strong>FEC API</strong> pulls donations.</li>
+                <li><strong>Analysis layer</strong> categorizes donors (Pharma/Defense/Finance/AIPAC), checks thresholds, maps votes → outputs badges.</li>
+                <li><strong>Front‑end Wall</strong> auto‑updates badges on refresh.</li>
+              </ol>
+
+              <h4 class="h6">6) User Flow</h4>
+              <ol class="mb-0">
+                <li>Land on Wall → hover shows badges.</li>
+                <li>Click → profile: donors, votes, correlations, triggers.</li>
+                <li>Badge gallery → definitions + thresholds.</li>
+                <li>One‑click share: pre‑built badge graphics per politician.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deployment Strategy -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-deploy-h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p-deploy" aria-expanded="false" aria-controls="p-deploy">
+              🚀 Deployment Strategy
+            </button>
+          </h3>
+          <div id="p-deploy" class="accordion-collapse collapse" aria-labelledby="p-deploy-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              <ol class="mb-0">
+                <li><strong>Phase 1:</strong> Static mockup of Wall + Badge gallery.</li>
+                <li><strong>Phase 2:</strong> Wire FEC API → DB → analysis to assign badges.</li>
+                <li><strong>Phase 3:</strong> Add profiles with charts/tables.</li>
+                <li><strong>Phase 4:</strong> Social sharing packs (badge + face).</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Why This Works -->
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="p-why-h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p-why" aria-expanded="false" aria-controls="p-why">
+              ✅ Why This Works
+            </button>
+          </h3>
+          <div id="p-why" class="accordion-collapse collapse" aria-labelledby="p-why-h" data-bs-parent="#planAcc">
+            <div class="accordion-body">
+              <ul class="mb-0">
+                <li><strong>Visual shame:</strong> instantly understood.</li>
+                <li><strong>Data‑backed:</strong> thresholds tied to FEC records.</li>
+                <li><strong>Dense &amp; viral:</strong> multiple badges per member.</li>
+                <li><strong>Click for proof:</strong> receipts + charts.</li>
+                <li><strong>Scalable:</strong> all 535 seats covered with one system.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-3">
+        <a class="btn btn-danger btn-sm" href="#grid"><i class="fa-solid fa-fire-flame-curved me-1"></i>See the Wall</a>
+        <a class="btn btn-outline-dark btn-sm" href="./financial-alignments.html"><i class="fa-solid fa-chart-pie me-1"></i>Financial Alignments Page</a>
+        <a class="btn btn-outline-dark btn-sm" href="./badges.html"><i class="fa-solid fa-award me-1"></i>Badges &amp; Awards</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRID -->
+<main class="container my-4">
+  <div id="grid" class="grid" aria-live="polite" aria-busy="true">
+    <!-- skeletons -->
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+  </div>
+  <p id="emptyState" class="text-center text-muted mt-3" hidden>No matches. Try clearing filters.</p>
+</main>
+
+<!-- RECEIPT MODAL -->
+<div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="receiptTitle">Receipt</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex gap-3 align-items-start">
+          <img id="receiptPhoto" src="" alt="" class="rounded" width="120" height="150" loading="lazy"/>
+          <div>
+            <div class="name h4 mb-0" id="receiptName"></div>
+            <div class="meta" id="receiptMeta"></div>
+            <div class="award mt-2" id="receiptAward"></div>
+            <div class="harm mt-2 mb-2" id="receiptHarm"></div>
+            <div class="small muted"><span class="fw-semibold">Bill:</span> <a id="receiptBill" href="#" target="_blank" rel="noopener"></a></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        <div class="d-flex gap-2">
+          <button id="shareBtn" class="btn btn-outline-dark btn-sm btn-icon" type="button"><i class="fa-solid fa-share-nodes"></i>Share</button>
+          <a id="openBlueprint" class="btn btn-danger btn-sm btn-icon" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<script>
+/** ---------------------------------------------------------
+ *  DATA LOADERS + HELPERS
+ *  --------------------------------------------------------- */
+function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+
+function normalizeParty(p){
+  const s = (p||'').trim().toUpperCase();
+  if (s.startsWith('D')) return 'D';
+  if (s.startsWith('R')) return 'R';
+  if (s.startsWith('I')) return 'I';
+  return '';
+}
+function partyLabel(code){
+  return code==='D' ? 'Democrat'
+       : code==='R' ? 'Republican'
+       : code==='I' ? 'Independent'
+       : '';
+}
+
+async function loadMembers(){
+  // 1) local mirror (fast, versioned)
+  try{
+    const r = await fetch('data/members.json', {cache:'no-store'});
+    if(r.ok){
+      const local = await r.json();
+      const norm = {};
+      for(const m of local){
+        const bioguide = m.bioguide || m.id?.bioguide;
+        if(!bioguide) continue;
+        const pCode = normalizeParty(m.party || '');
+        norm[bioguide] = {
+          bioguide,
+          name: m.name || `${m.first||m.name_first||''} ${m.last||m.name_last||''}`.trim(),
+          partyCode: pCode,
+          partyLabel: partyLabel(pCode),
+          chamber: m.chamber || '',
+          state: m.state || '',
+          district: m.district || '',
+          photo: m.photo || `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+        };
+      }
+      return norm;
+    }
+  }catch(e){ /* ignore */ }
+
+  // 2) live fallback (GitHub-hosted JSON)
+  const url = 'https://raw.githubusercontent.com/unitedstates/congress-legislators/gh-pages/legislators-current.json';
+  const raw = await fetch(url, {cache:'no-store'}).then(r=>r.json());
+  const byBio = {};
+  for(const m of raw){
+    const bioguide = m.id?.bioguide; if(!bioguide) continue;
+    const t = (m.terms||[]).slice(-1)[0] || {};
+    const pCode = normalizeParty(t.party || '');
+    byBio[bioguide] = {
+      bioguide,
+      name: `${m.name?.first||''} ${m.name?.last||''}`.trim(),
+      partyCode: pCode,
+      partyLabel: partyLabel(pCode),
+      chamber: (t.type==='sen')?'senate':'house',
+      state: t.state || '',
+      district: (t.type==='rep') ? (t.district||'') : '',
+      photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+    };
+  }
+  return byBio;
+}
+
+async function loadVotes(){
+  try{
+    const r = await fetch('data/votes.json', {cache:'no-store'});
+    if(!r.ok) throw new Error('no votes file');
+    return await r.json();
+  }catch(e){
+    console.warn('votes.json not found; rendering neutral wall');
+    return {}; // { billKey: {title, href, award, meaning, offenders:[{bioguide, vote}] } }
+  }
+}
+
+/** ---------------------------------------------------------
+ *  RENDERING
+ *  --------------------------------------------------------- */
+const grid = document.getElementById('grid');
+const emptyState = document.getElementById('emptyState');
+const wfSearch = document.getElementById('wfSearch');
+const wfBill   = document.getElementById('wfBill');
+const wfState  = document.getElementById('wfState');
+const wfParty  = document.getElementById('wfParty');
+
+let MEMBERS = {};
+let VOTES = {};
+let INDEX = []; // rows to render (neutral + offenders)
+
+function buildFilters(){
+  // Bills
+  const billOptions = ['<option value="">All bills</option>'];
+  Object.entries(VOTES).forEach(([key, b])=>{
+    billOptions.push(`<option value="${key}">${b.title}</option>`);
+  });
+  wfBill.innerHTML = billOptions.join('');
+
+  // States (from everyone)
+  const states = new Set();
+  Object.values(MEMBERS).forEach(m=>{ if(m.state) states.add(m.state); });
+  const stateList = Array.from(states).sort();
+  wfState.innerHTML = ['<option value="">All states</option>', ...stateList.map(s=>`<option value="${s}">${s}</option>`)].join('');
+}
+
+function cardHTML(o){
+  const isOffender = !!o.billKey; // offenders have a billKey
+  const award = isOffender ? (o.award || '') : '';
+  const harm  = isOffender ? (o.meaning || '') : '';
+  const encodedHref = isOffender ? encodeURI(o.href||'#') : '#';
+
+  return `
+  <article class="card-person"
+           data-bill="${o.billKey||''}"
+           data-party="${o.partyCode||''}"
+           data-state="${o.state}"
+           data-name="${o.name.toLowerCase()}">
+    ${isOffender && award ? `<span class="badge-award" title="${award}">${award}</span>` : ``}
+    ${isOffender ? `<span class="stamp">RECEIPT</span>` : ``}
+    <img class="avatar" src="${o.photo}" alt="${o.name}" loading="lazy"
+         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22375%22><rect width=%22300%22 height=%22375%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22>NO IMAGE</text></svg>'"/>
+    <div class="body">
+      <div class="name">${o.name}</div>
+      <div class="meta">${o.chamber==='senate'?'Senate':'House'} • ${o.state}${o.district?('-'+o.district):''} • ${o.partyLabel||''}</div>
+      ${isOffender && harm ? `<div class="harm">${harm}</div>` : ``}
+      ${isOffender ? `
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="chip">Bill: ${o.billShort}</span><span class="chip no">${o.vote||'NO'} vote</span>
+        </div>` : ``}
+      <div class="mt-2 d-flex gap-2">
+        ${isOffender ? `
+          <button class="btn btn-outline-dark btn-sm btn-icon" type="button"
+                  data-open-receipt='${JSON.stringify({bio:o.bioguide,bill:o.billKey}).replace(/"/g,"&quot;")}'><i class="fa-solid fa-receipt"></i>View receipt</button>
+          <a class="btn btn-danger btn-sm btn-icon" href="${encodedHref}" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>
+        ` : `
+          <button class="btn btn-outline-secondary btn-sm" type="button" disabled title="No receipt for this Member">No receipt</button>
+        `}
+      </div>
+    </div>
+  </article>`;
+}
+
+/**
+ * Build INDEX:
+ *  1) Neutral row for every Member
+ *  2) Offender row for each offender in votes
+ */
+function joinData(){
+  INDEX = [];
+
+  // Everyone (neutral)
+  for(const m of Object.values(MEMBERS)){
+    INDEX.push({
+      billKey:'', billTitle:'', billShort:'', href:'', award:'', meaning:'', vote:'',
+      bioguide:m.bioguide, name:m.name,
+      partyCode:m.partyCode, partyLabel:m.partyLabel,
+      chamber:m.chamber, state:m.state, district:m.district, photo:m.photo
+    });
+  }
+
+  // Offenders
+  for(const [billKey, b] of Object.entries(VOTES)){
+    const offenders = b.offenders || [];
+    for(const row of offenders){
+      const m = MEMBERS[row.bioguide];
+      if(!m) continue;
+      INDEX.push({
+        billKey,
+        billTitle:b.title,
+        billShort:(b.short||b.title),
+        href:b.href,
+        award:b.award,
+        meaning:b.meaning,
+        vote:row.vote || 'NO',
+        bioguide:m.bioguide, name:m.name,
+        partyCode:m.partyCode, partyLabel:m.partyLabel,
+        chamber:m.chamber, state:m.state, district:m.district, photo:m.photo
+      });
+    }
+  }
+
+  // Offenders first, then A→Z by name
+  INDEX.sort((a,b)=> ((b.billKey?1:0) - (a.billKey?1:0)) || a.name.localeCompare(b.name));
+}
+
+function render(){
+  grid.setAttribute('aria-busy','true');
+
+  // filters
+  const q = wfSearch.value.trim().toLowerCase();
+  const bill = wfBill.value;
+  const party = wfParty.value; // '', 'D', 'R', 'I'
+  const state = wfState.value;
+
+  const pass = INDEX.filter(o=>{
+    if(bill){
+      if(o.billKey !== bill) return false;
+    }
+    if(party && o.partyCode !== party) return false;
+    if(state && o.state!==state) return false;
+    if(q){
+      const hay = `${o.name} ${o.state}-${o.district} ${o.partyLabel} ${o.billTitle} ${o.award} ${o.meaning}`.toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  if(pass.length===0){
+    grid.innerHTML = '';
+    emptyState.hidden = false;
+  }else{
+    emptyState.hidden = true;
+    grid.innerHTML = pass.map(cardHTML).join('');
+  }
+  grid.removeAttribute('aria-busy');
+}
+
+function openReceipt(bio, billKey){
+  const b = VOTES[billKey];
+  const m = MEMBERS[bio];
+  if(!b || !m) return;
+
+  const encodedHref = encodeURI(b.href||'#');
+
+  document.getElementById('receiptTitle').textContent = 'Receipt';
+  const img = document.getElementById('receiptPhoto');
+  img.src = m.photo; img.alt = m.name;
+
+  document.getElementById('receiptName').textContent = m.name;
+  document.getElementById('receiptMeta').textContent =
+    `${m.chamber==='senate'?'Senate':'House'} • ${m.state}${m.district?('-'+m.district):''} • ${m.partyLabel||''}`;
+  document.getElementById('receiptAward').textContent = b.award || '';
+  document.getElementById('receiptHarm').textContent  = b.meaning || '';
+  const billLink = document.getElementById('receiptBill');
+  billLink.textContent = b.title || '';
+  billLink.href = encodedHref;
+
+  const openBtn = document.getElementById('openBlueprint');
+  openBtn.href = encodedHref;
+
+  const modal = new bootstrap.Modal(document.getElementById('receiptModal'));
+  modal.show();
+
+  // share handler
+  const url = new URL(location.href);
+  url.hash = ''; url.search = ''; url.pathname = location.pathname;
+  const deeplink = `/#?bill=${encodeURIComponent(billKey)}&bio=${encodeURIComponent(bio)}`;
+  const shareBtn = document.getElementById('shareBtn');
+  shareBtn.onclick = async () => {
+    const shareUrl = url.origin + url.pathname + deeplink;
+    try{
+      if(navigator.share){
+        await navigator.share({title:'Wall of Shame — Receipt', text:`${m.name} — ${b.award}`, url: shareUrl});
+      }else{
+        await navigator.clipboard.writeText(shareUrl);
+        shareBtn.textContent = 'Link copied';
+        setTimeout(()=> shareBtn.innerHTML = '<i class="fa-solid fa-share-nodes"></i>Share', 1200);
+      }
+    }catch(e){}
+  };
+}
+
+function handleDeepLink(){
+  const [hash, qs] = location.hash.split('?');
+  if(qs){
+    const p = new URLSearchParams(qs);
+    const bill = p.get('bill'); const bio = p.get('bio');
+    if(bill){ wfBill.value = bill; }
+    render();
+    if(bill && bio){
+      setTimeout(()=> openReceipt(bio, bill), 50);
+    }
+  }
+}
+
+/** ---------------------------------------------------------
+ *  EVENTS
+ *  --------------------------------------------------------- */
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-open-receipt]');
+  if(!btn) return;
+  try{
+    const data = JSON.parse(btn.getAttribute('data-open-receipt'));
+    openReceipt(data.bio, data.bill);
+  }catch(e){}
+});
+
+const rerender = debounce(render, 160);
+wfSearch.addEventListener('input', rerender);
+[wfBill, wfState, wfParty].forEach(el => el.addEventListener('change', render));
+document.getElementById('resetFilters').addEventListener('click', ()=>{
+  wfSearch.value=''; wfBill.value=''; wfState.value=''; wfParty.value='';
+  render();
+});
+
+/** ---------------------------------------------------------
+ *  BOOT
+ *  --------------------------------------------------------- */
+(async function init(){
+  MEMBERS = await loadMembers();
+  VOTES   = await loadVotes();
+  joinData();
+  buildFilters();
+  render();
+  handleDeepLink();
+})();
+</script>
+</body>
+</html>

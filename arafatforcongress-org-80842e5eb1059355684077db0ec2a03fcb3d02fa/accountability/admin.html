@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Evergreen Admin — Bulk NO Vote Builder</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .chip img{width:36px;height:44px;object-fit:cover;border-radius:.3rem;border:1px solid #dfe6ee;margin-right:.5rem}
+  .chip{display:flex;align-items:center;gap:.5rem}
+</style>
+</head>
+<body class="bg-light">
+<div class="container py-4">
+  <h1 class="h4 mb-3">Bulk NO Vote Builder <span class="badge bg-secondary">Private</span></h1>
+
+  <div class="row g-2 mb-3">
+    <div class="col-md-2">
+      <select id="fChamber" class="form-select form-select-sm">
+        <option value="">All Chambers</option>
+        <option value="house">House</option>
+        <option value="senate">Senate</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="fParty" class="form-select form-select-sm">
+        <option value="">All Parties</option>
+        <option value="D">Democrat</option>
+        <option value="R">Republican</option>
+        <option value="I">Independent</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input id="fState" class="form-control form-control-sm" placeholder="State (WA, OH)"/>
+    </div>
+    <div class="col-md-3">
+      <input id="fSearch" class="form-control form-control-sm" placeholder="Search name"/>
+    </div>
+    <div class="col-md-3">
+      <select id="fSort" class="form-select form-select-sm">
+        <option value="last">Sort: Last Name</option>
+        <option value="party">Sort: Party</option>
+        <option value="state">Sort: State</option>
+        <option value="chamber">Sort: Chamber</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-3">
+    <div class="col-md-3">
+      <select id="bill" class="form-select form-select-sm">
+        <option value="">Choose bill…</option>
+        <option value="grocery">grocery — Fair Food & Grocery Competition</option>
+        <option value="childcare">childcare — Affordable Child & Dependent Care</option>
+        <option value="jobs">jobs — Good Jobs & Fair Pay</option>
+        <option value="housing">housing — 3% First-Time Buyer</option>
+        <option value="socialsec">socialsec — Social Security Solvency</option>
+        <option value="health">health — Universal Health Coverage</option>
+        <option value="minibus">minibus — Implementation Safeguards</option>
+        <option value="csr">csr — CSR Tax</option>
+        <option value="taxfair">taxfair — Tax Fairness</option>
+        <option value="comms">comms — Communications Integrity</option>
+        <option value="justify">justify — Vote Justification</option>
+        <option value="impeach">impeach — Impeachment Continuity</option>
+        <option value="emerg">emerg — Emergency Spend Pilot</option>
+        <option value="holman">holman — Holman Amendments</option>
+        <option value="gaodash">gaodash — GAO Dashboard</option>
+        <option value="clean">clean — Clean Energy/Public Lands</option>
+        <option value="water">water — Water/Wastewater Riders</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input id="date" type="date" class="form-control form-control-sm"/>
+    </div>
+    <div class="col-md-4">
+      <input id="nickname" class="form-control form-control-sm" placeholder="Optional nickname (e.g., 'Grocery Gouger')"/>
+    </div>
+    <div class="col-md-3 d-grid">
+      <button id="make" class="btn btn-primary btn-sm">Build JSON for Selected</button>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 mb-2">
+    <button id="selectAll" class="btn btn-outline-secondary btn-sm">Select All (filtered)</button>
+    <button id="clearSel" class="btn btn-outline-secondary btn-sm">Clear Selection</button>
+  </div>
+
+  <div class="border bg-white p-2 rounded" style="max-height:50vh;overflow:auto" id="list"></div>
+
+  <div class="mt-3">
+    <label class="form-label">Output</label>
+    <textarea id="out" class="form-control" rows="8"></textarea>
+    <div class="mt-2 d-flex gap-2">
+      <button id="copy" class="btn btn-outline-secondary btn-sm">Copy to Clipboard</button>
+      <button id="download" class="btn btn-success btn-sm">Download votes_append.json</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let MEMBERS = {};
+let SELECTED = new Set();
+
+async function loadMembers() {
+  const url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/refs/heads/gh-pages/legislators-current.json";
+  const data = await fetch(url, { cache: "no-store" }).then(r => r.json());
+  for (const m of data) {
+    const bioguide = m.id?.bioguide;
+    if (!bioguide) continue;
+    const lastTerm = (m.terms || []).slice(-1)[0] || {};
+    MEMBERS[bioguide] = {
+      bioguide,
+      first: m.name?.first || "",
+      last: m.name?.last || "",
+      name: `${m.name?.first || ""} ${m.name?.last || ""}`.trim(),
+      party: lastTerm.party || "",
+      chamber: lastTerm.type === "sen" ? "senate" : "house",
+      state: lastTerm.state || "",
+      district: lastTerm.type === "rep" ? (lastTerm.district || "") : "",
+      photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+    };
+  }
+}
+
+function renderList() {
+  const list = document.getElementById('list');
+  const q = document.getElementById('fSearch').value.toLowerCase().trim();
+  const party = document.getElementById('fParty').value;
+  const chamber = document.getElementById('fChamber').value;
+  const state = document.getElementById('fState').value.toUpperCase().trim();
+  const sort = document.getElementById('fSort').value;
+
+  let arr = Object.values(MEMBERS);
+  if (party) arr = arr.filter(m=>m.party===party);
+  if (chamber) arr = arr.filter(m=>m.chamber===chamber);
+  if (state) arr = arr.filter(m=>m.state===state);
+  if (q) arr = arr.filter(m=> (m.name.toLowerCase().includes(q)) );
+
+  arr.sort((a,b)=>{
+    if (sort==='party') return (a.party||'').localeCompare(b.party||'') || a.last.localeCompare(b.last);
+    if (sort==='state') return (a.state||'').localeCompare(b.state||'') || a.last.localeCompare(b.last);
+    if (sort==='chamber') return (a.chamber||'').localeCompare(b.chamber||'') || a.last.localeCompare(b.last);
+    return a.last.localeCompare(b.last);
+  });
+
+  list.innerHTML = arr.map(m=>`
+    <div class="d-flex align-items-center justify-content-between border-bottom py-2">
+      <div class="chip">
+        <img src="${m.photo}" alt="${m.name}"/>
+        <div>
+          <div class="fw-semibold">${m.name} <span class="text-muted">(${m.chamber==='house'? `${m.state}-${m.district}` : m.state}, ${m.party})</span></div>
+          <div class="small text-muted">${m.bioguide}</div>
+        </div>
+      </div>
+      <div>
+        <input type="checkbox" class="form-check-input" data-id="${m.bioguide}" ${SELECTED.has(m.bioguide)?'checked':''}/>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', e=>{
+      const id = e.target.dataset.id;
+      if (e.target.checked) SELECTED.add(id); else SELECTED.delete(id);
+    });
+  });
+}
+
+function buildOutput() {
+  const bill = document.getElementById('bill').value;
+  const date = document.getElementById('date').value;
+  const nick = document.getElementById('nickname').value.trim();
+  if (!bill || !date || SELECTED.size===0) {
+    alert('Pick a bill, a date, and select at least one member.');
+    return;
+  }
+  const rows = Array.from(SELECTED).map(id=>({
+    member_id: id,
+    bill_id: bill,
+    vote: "NO",
+    vote_date: date,
+    ...(nick ? { nickname: nick } : {})
+  }));
+  document.getElementById('out').value = JSON.stringify(rows, null, 2);
+}
+
+function downloadFile() {
+  const txt = document.getElementById('out').value.trim();
+  if (!txt) return;
+  const blob = new Blob([txt], {type: "application/json"});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = "votes_append.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+document.getElementById('make').addEventListener('click', buildOutput);
+document.getElementById('copy').addEventListener('click', ()=>navigator.clipboard.writeText(document.getElementById('out').value));
+document.getElementById('download').addEventListener('click', downloadFile);
+document.getElementById('selectAll').addEventListener('click', ()=>{
+  // select everything currently visible
+  document.querySelectorAll('#list input[type=checkbox]').forEach(cb=>{ cb.checked=true; SELECTED.add(cb.dataset.id); });
+});
+document.getElementById('clearSel').addEventListener('click', ()=>{ SELECTED.clear(); renderList(); });
+
+['fChamber','fParty','fState','fSearch','fSort'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', renderList);
+  document.getElementById(id).addEventListener('change', renderList);
+});
+
+(async function(){ await loadMembers(); renderList(); })();
+</script>
+</body>
+</html>

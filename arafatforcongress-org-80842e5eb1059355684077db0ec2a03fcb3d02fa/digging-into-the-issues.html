@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digging Into the Issues — Adam Neil Arafat</title>
+  <meta name="theme-color" content="#0d3b66" />
+  <meta name="description" content="High-level breakdowns of our plans to deliver universal healthcare, lower costs, end special interest influence, and pass Tax Fairness, CSR accountability, Good Jobs, and Social Security legislation for WA 10." />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    a { text-decoration: none; }
+
+    /* Top social bar */
+    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color: #fff; }
+    .social-wrap { gap:.5rem; }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.55rem; padding:.55rem 1rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.22); color:#fff;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .12s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
+      font-weight:700; letter-spacing:.1px;
+    }
+    .social-pill i, .social-pill svg { width:18px; height:18px; }
+    .social-pill:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.16);
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+      border-color: rgba(255,255,255,.35);
+      color:#fff;
+    }
+    .pill-reddit { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,69,0,.18)); }
+    .pill-reddit:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,69,0,.26)); }
+    .pill-bsky { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(0,159,255,.18)); }
+    .pill-bsky:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(0,159,255,.26)); }
+    .pill-tiktok{ background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,0,80,.18)); }
+    .pill-tiktok:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,0,80,.26)); }
+    .bsky-icon { vertical-align:-2px; }
+
+    /* Header break band */
+    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.95rem 1rem; }
+    .header-break p { margin:.25rem 0 0; font-weight:600; opacity:.98; line-height:1.35; }
+
+    /* Pretty nav links */
+    .navbar .nav-link { position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600; }
+    .navbar .nav-link:hover { color: var(--link); }
+    .navbar .nav-link::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+
+    /* Utility */
+    .issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; }
+    .section-title { color: var(--primary); }
+    .divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
+    .issue-nav { padding:1rem; background:#f8f9fa; border-radius:14px; margin-bottom:2rem; border:1px solid #e9eef3; }
+    .issue-nav h5 { margin-bottom:.5rem; font-weight:800; color:#0d3b66; }
+    .issue-nav ul { padding-left:1rem; margin-bottom:0; }
+    .badge-kicker { background:#e6f0f8; color:#0d3b66; font-weight:700; }
+    .lead-small { font-size:1.05rem; }
+    .muted { color:#6b7280; }
+
+    /* Footer links underline */
+    footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
+    footer a:hover { color: var(--link); }
+    footer a::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    footer a:hover::after, footer a:focus::after { width:100%; }
+
+    /* CTA links under bullets */
+    .cta-links a { display:inline-flex; align-items:center; gap:.4rem; margin-right:.75rem; margin-top:.25rem; }
+    .cta-links .fa-file-lines { opacity:.8; }
+
+    /* Pact one-liner */
+    .pact-note {
+      background:#f6f9fc; border:1px solid #e9eef3; border-radius:14px;
+      padding:.9rem 1rem; margin:1.25rem 0 2rem; font-weight:600; color:#0d3b66;
+      display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; justify-content:center;
+    }
+    .pact-note a { text-decoration: underline; }
+
+    /* Bottom CTA band */
+    .cta-band { background:#f8f9fa; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
+    .cta-band .btn { border-radius:999px; padding:.6rem 1rem; font-weight:700; }
+    .btn-donate { background: var(--donate); color:#fff; border:none; }
+    .btn-donate:hover { filter: brightness(.95); }
+    .btn-ghost { background:#fff; border:1px solid #cfd8e3; color:#0d3b66; }
+    .btn-ghost:hover { background:#eef3f8; }
+  </style>
+</head>
+<body>
+
+<!-- SOCIAL MEDIA BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center social-wrap">
+    <a class="social-pill pill-reddit" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien" aria-hidden="true"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill pill-bsky" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" role="img" aria-label="Bluesky logo"><path fill="#ffffff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill pill-tiktok" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok" aria-hidden="true"></i> <span>TikTok</span>
+    </a>
+  </div>
+</section>
+
+<!-- HEADER BREAK -->
+<div class="header-break">
+  <div class="container">
+    <div class="row align-items-center g-2">
+      <div class="col-12 text-center">
+        <div class="h5 m-0">Digging Into the Issues</div>
+        <p class="mb-0">Trust is built, not bought.<br/>Every plan here puts people over special interests.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html" aria-current="page">Issues</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="Bills/Bills.html" title="Evergreen Pact">
+            <i class="fa-solid fa-tree me-1" aria-hidden="true"></i>
+            <span>Evergreen Pact</span>
+          </a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="py-5">
+  <div class="container px-4">
+
+    <!-- Evergreen Pact one-liner -->
+    <div class="pact-note">
+      <span>Every issue here pairs with a ready to file bill in the Evergreen Pact.</span>
+      <a href="Bills/Bills.html">Explore the Pact</a>
+    </div>
+
+    <!-- Quick Nav -->
+    <div class="issue-nav">
+      <h5>Jump to a section</h5>
+      <ul>
+        <li><a href="#cost-of-living">1) Lowering the Cost of Living</a></li>
+        <li><a href="#universal-healthcare">2) Universal Healthcare</a></li>
+        <li><a href="#end-corruption">3) End Corruption &amp; Special Interests</a></li>
+        <li><a href="#fair-taxation">4) Tax Fairness, CSR &amp; Good Jobs</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ul>
+    </div>
+
+    <!-- #1 Cost of Living -->
+    <section id="cost-of-living" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4349.jpeg" alt="Lowering the cost of living">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
+          <h2 class="h4 section-title">Lowering the Cost of Living</h2>
+          <p class="lead-small">Make housing and childcare attainable, groceries fair, utilities affordable, and safeguard Social Security, with no new taxes on working families.</p>
+
+          <ul class="mt-3">
+            <li><strong>Housing supply &amp; permitting:</strong> faster digital approvals, flexible zoning near jobs and transit, support modular builds.
+              <div class="cta-links">
+                <a href="Bills/Housing Supply and Permitting Modernization Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Housing Supply &amp; Permitting Bill</span></a>
+                <a href="Bills/First-Time Homebuyer 3% Mortgage Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>First-Time Homebuyer 3% Mortgage Bill</span></a>
+              </div>
+            </li>
+
+            <li class="mt-2"><strong>Groceries &amp; fair markets:</strong> crack down on junk fees and MFNs, standardize fee and contract disclosures, strengthen regional competition.
+              <div class="cta-links">
+                <a href="Bills/Fair Food and Grocery Competition Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Fair Food &amp; Grocery Competition Bill</span></a>
+              </div>
+            </li>
+
+            <li class="mt-2"><strong>Childcare you can find and afford:</strong> expand and refund the CDCTC, invest in quality seat supply.
+              <div class="cta-links">
+                <a href="Bills/Affordable Child and Dependent Care Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Affordable Child &amp; Dependent Care</span></a>
+              </div>
+            </li>
+
+            <li class="mt-2"><strong>Lower monthly utility bills:</strong> bigger rebates for weatherization, heat pumps, and community solar; streamline LIHEAP.
+              <div class="cta-links">
+                <a href="Bills/Energy Savings and Lower Bills Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Energy Savings &amp; Lower Bills</span></a>
+              </div>
+            </li>
+
+            <li class="mt-2"><strong>Protect Social Security checks:</strong> end benefit taxes for most retirees; fair top-end contributions; strengthen trust-fund solvency.
+              <div class="cta-links">
+                <a href="Bills/Social Security Solvency Bill (2027)"><i class="fa-regular fa-file-lines"></i><span>Social Security — Working Families Solvency Bill</span></a>
+              </div>
+            </li>
+          </ul>
+
+          <ul class="mt-3">
+            <li><strong>Open doors to work:</strong> right-size licensing, universal reciprocity, expand apprenticeships and paid earn-while-you-learn.
+              <div class="cta-links">
+                <a href="Bills/Good Jobs & Skills Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Good Jobs &amp; Skills Bill</span></a>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- #2 Universal Healthcare -->
+    <section id="universal-healthcare" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
+          <h2 class="h4 section-title">Universal Healthcare</h2>
+          <p class="lead-small">Cover everyone automatically, lower drug costs, treat mental health like health, and invest in primary care close to home.</p>
+          <ul class="mt-3">
+            <li><strong>Automatic coverage:</strong> a national benefits floor so no one falls through the cracks.</li>
+            <li><strong>Lower drug prices:</strong> expand negotiation and stop patent gaming.</li>
+            <li><strong>Parity &amp; access:</strong> enforce mental-health parity; grow clinics and workforce where care is scarce.</li>
+            <li><strong>Health in all policies:</strong> align food, water, air, and workplace standards to health goals.</li>
+          </ul>
+          <div class="cta-links mt-2">
+            <a href="Bills/Universal Healthcare Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>See the Universal Healthcare Bill (2027)</span></a>
+          </div>
+          <p class="small mt-2"><a href="#sources">See sources</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- #3 End Corruption & Special Interests -->
+    <section id="end-corruption" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4480.png" alt="End corruption and special interests">
+        </div>
+        <div class="col-md-7">
+          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #3</span>
+          <h2 class="h4 section-title">End Corruption &amp; Special Interests</h2>
+          <p class="lead-small">Stop pay to play. Make elections people powered with real-time transparency and strong enforcement.</p>
+          <ul class="mt-3">
+            <li><strong>Ban corporate PAC and lobbyist bundling;</strong> tighten coordination rules.</li>
+            <li><strong>Voter vouchers and small donations</strong> to center campaigns on people, not big money.</li>
+            <li><strong>Near real-time, machine-readable reporting</strong> with strong penalties for violators.</li>
+            <li><strong>Close dark-money loopholes</strong> with beneficial owner and pass-through disclosure.</li>
+            <li><strong>Modernize the FEC</strong> for timely, enforceable decisions and referrals.</li>
+          </ul>
+          <div class="cta-links mt-2">
+            <a href="Bills/Clean Campaigns and Elections Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Clean Campaigns &amp; Elections Bill</span></a>
+            <a href="Bills/Congressional Vote Justification Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Congressional Vote Justification Bill</span></a>
+          </div>
+          <p class="small mt-2"><a href="#sources">See sources</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- #4 Tax Fairness, CSR & Good Jobs -->
+    <section id="fair-taxation" class="mb-5">
+      <div class="divider"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <img class="issue-img" src="images/IMG_4346.jpeg" alt="Tax fairness, corporate responsibility, and good jobs">
+        </div>
+        <div class="col-md-7">
+          <h2 class="h4 section-title">Tax Fairness, CSR, and Good Jobs</h2>
+          <p class="lead-small">Make the economy work for working people. Close loopholes at the top, hold chronic violators accountable, and open more paths to good-paying work.</p>
+          <ul class="mt-3">
+            <li><strong>Fair tax rules:</strong> 15% book-profit minimum; end offshoring games; expand CTC and EITC; simple fairness credit.
+              <div class="cta-links">
+                <a href="Bills/Tax Fairness Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Tax Fairness &amp; Relief Bill</span></a>
+              </div>
+            </li>
+            <li class="mt-2"><strong>Corporate responsibility:</strong> surtax for wage theft, extreme pay gaps, repeat OSHA and EPA harm; credits for good actors; standardized disclosures.
+              <div class="cta-links">
+                <a href="Bills/Corporate Responsibility (CSR) Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Corporate Responsibility (CSR) Bill</span></a>
+              </div>
+            </li>
+            <li class="mt-2"><strong>Good jobs &amp; skills:</strong> licensing reciprocity; apprenticeships; community college and employer alignment; training incentives.
+              <div class="cta-links">
+                <a href="Bills/Good Jobs & Skills Bill (2027).htmll"><i class="fa-regular fa-file-lines"></i><span>Good Jobs &amp; Skills Bill</span></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sources -->
+    <div class="divider"></div>
+    <section id="sources" class="pt-3">
+      <h3 class="h6 section-title">Sources</h3>
+      <ul class="small">
+        <li><a href="https://www.oecd.org/en/topics/health-inequality-and-universal-health-coverage.html" target="_blank" rel="noopener">OECD: Universal coverage and health outcomes</a></li>
+        <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022" target="_blank" rel="noopener">Commonwealth Fund: U.S. health care in global perspective</a></li>
+        <li><a href="https://www.seattle.gov/democracyvoucher" target="_blank" rel="noopener">City of Seattle: Democracy Voucher Program</a></li>
+        <li><a href="https://www.dol.gov/agencies/whd/minimum-wage" target="_blank" rel="noopener">U.S. Department of Labor: Minimum wage history</a></li>
+        <li><a href="https://www.epi.org" target="_blank" rel="noopener">Economic Policy Institute: CEO-to-worker pay ratio</a></li>
+        <li><a href="https://itep.org" target="_blank" rel="noopener">Institute on Taxation and Economic Policy</a></li>
+        <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener">Bureau of Labor Statistics: CPI</a></li>
+        <li><a href="https://www.ers.usda.gov/topics/food-markets-prices/food-prices-outlook/" target="_blank" rel="noopener">USDA ERS: Food Prices Outlook</a></li>
+        <li><a href="https://www.childcareaware.org" target="_blank" rel="noopener">Child Care Aware: Cost and availability</a></li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<!-- Bottom CTA -->
+<section class="cta-band py-4">
+  <div class="container text-center">
+    <h3 class="h5 mb-3">Power people, not PACs</h3>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">
+        <i class="fa-solid fa-heart me-1"></i> Chip in
+      </a>
+      <a class="btn btn-ghost" href="contact.html">
+        <i class="fa-solid fa-people-group me-1"></i> I will volunteer
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="py-4 bg-white border-top text-center">
+  <div class="container">
+    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
+    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate’s committee.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

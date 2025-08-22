@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
+  </script>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact - Adam Neil Arafat for Congress</title>
+  <meta name="theme-color" content="#0d3b66" />
+  <meta name="description" content="Reach the campaign. Join the team building WA-10. Share your story. We read every message." />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
+
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    a { text-decoration: none; }
+
+    /* Top social bar */
+    .social-top {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color: #fff;
+    }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+
+    /* Header break band */
+    .header-break {
+      background:#0d3b66; color:#fff; text-align:center; padding:.9rem 1rem;
+    }
+    .header-break .kicker { margin:0; font-weight:800; letter-spacing:.2px; text-transform:uppercase; }
+    .header-break p { margin:.35rem 0 0; font-weight:500; opacity:.95; }
+    .rallies { display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin:.5rem 0 0; }
+    .rallies span { background: rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:.2rem .55rem; border-radius:999px; font-weight:700; }
+
+    /* Pretty nav links: subtle animated underline */
+    .navbar .nav-link {
+      position: relative;
+      padding: .25rem .5rem;
+      color: #1c2b3a;
+      font-weight: 600;
+    }
+    .navbar .nav-link:hover { color: var(--link); }
+    .navbar .nav-link::after {
+      content:"";
+      position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+
+    /* Utility + page sections */
+    .section-title { color: var(--primary); }
+    .divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
+
+    /* Contact cards */
+    .contact-card {
+      border:1px solid #e9eef3; background:#f8fafc; border-radius:14px; padding:1.25rem;
+      box-shadow:0 6px 16px rgba(13,59,102,.06); height:100%;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .contact-card:hover {
+      transform: translateY(-2px);
+      box-shadow:0 12px 28px rgba(13,59,102,.12);
+      border-color:#d8e4ee;
+    }
+    .contact-card .icon {
+      width:42px; height:42px; display:inline-flex; align-items:center; justify-content:center;
+      border-radius:10px; background:#e6f0f8; color:#0d3b66; margin-right:.5rem;
+    }
+
+    /* Hero banner (subtle image tint) */
+    .hero {
+      background-image: url('images/Tacoma-narrows-bridge-image-8.jpg');
+      background-position:center; background-size:cover; background-repeat:no-repeat;
+    }
+    .hero .wrap {
+      background: linear-gradient(0deg, rgba(13,59,102,.68), rgba(13,59,102,.68));
+      color:#fff; border-radius:14px;
+    }
+
+    /* Story box */
+    .story-box {
+      border:1px solid #e9eef3; border-radius:14px; padding:1.25rem; background:#ffffff;
+      box-shadow:0 6px 16px rgba(13,59,102,.06);
+    }
+    .form-control:focus { box-shadow: 0 0 0 .2rem rgba(13,59,102,.15); border-color:#bcd0e1; }
+
+    /* Footer: social row + legal */
+    .footer-social {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color: #fff;
+    }
+    .footer-social .social-pill {
+      border-color: rgba(255,255,255,.3);
+      background: rgba(255,255,255,.10);
+    }
+    .footer-legal {
+      background:#ffffff;
+    }
+  </style>
+</head>
+<body>
+<a class="visually-hidden-focusable" href="#main">Skip to content</a>
+
+<!-- SOCIAL MEDIA BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
+  </div>
+</section>
+
+<!-- HEADER BREAK -->
+<div class="header-break">
+  <p class="kicker">Get in Touch</p>
+  <p>This is a grassroots campaign. I work full time and have a family, so I may be slow to respond, but I read every message. Thank you for reaching out.</p>
+  <div class="rallies" aria-label="Rally lines">
+    <span>Trust is built, not bought.</span>
+    <span>People over PACs.</span>
+    <span>Built for Families. Built for WA-10.</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Primary">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="digging-into-the-issues.html">Issues</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1"></i>Evergreen Pact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contrast.html">Record & Contrast</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="contact.html">Contact</a>
+        </li>
+        <!-- No Donate button in the nav; Donate appears as a CTA at the bottom -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero py-5">
+  <div class="container">
+    <div class="wrap p-4">
+      <h1 class="mb-1 h3">Contact the Campaign</h1>
+      <p class="mb-0">Questions, feedback, press, or getting involved. Your voice guides this effort.</p>
+    </div>
+  </div>
+</section>
+
+<main id="main" class="py-5">
+  <div class="container px-4">
+
+    <!-- Quick guidance -->
+    <div class="alert alert-primary border-0" role="note">
+      Prefer email? Click a button below and your email app will open with the right address and subject.
+    </div>
+
+    <div class="row g-4">
+      <!-- General -->
+      <div class="col-md-6">
+        <div class="contact-card h-100">
+          <div class="d-flex align-items-center mb-2">
+            <div class="icon"><i class="fa-regular fa-envelope"></i></div>
+            <h2 class="h5 m-0">General</h2>
+          </div>
+          <p class="mb-3">Questions, ideas, and media inquiries.</p>
+          <a class="btn btn-outline-primary"
+             href="mailto:info@arafatforcongress.org?subject=General%20Question%20for%20the%20Campaign">
+             <i class="fa-regular fa-paper-plane me-1"></i>Email: info@arafatforcongress.org
+          </a>
+        </div>
+      </div>
+
+      <!-- Volunteer / Join the Team -->
+      <div class="col-md-6">
+        <div class="contact-card h-100">
+          <div class="d-flex align-items-center mb-2">
+            <div class="icon"><i class="fa-solid fa-users"></i></div>
+            <h2 class="h5 m-0">Join the Team Building WA-10</h2>
+          </div>
+          <p class="mb-3">Be part of the team fighting for working families in WA-10. Pick your level of involvement.</p>
+          <a class="btn btn-outline-primary"
+             href="mailto:volunteer@arafatforcongress.org?subject=I%20Want%20to%20Join%20the%20Team%20Building%20WA-10">
+             <i class="fa-regular fa-handshake me-1"></i>Email: volunteer@arafatforcongress.org
+          </a>
+        </div>
+      </div>
+
+      <!-- Share Your Story -->
+      <div class="col-12">
+        <div class="story-box">
+          <div class="d-flex align-items-center mb-2">
+            <div class="icon" aria-hidden="true" style="width:42px;height:42px;border-radius:10px;background:#e6f0f8;color:#0d3b66;display:inline-flex;align-items:center;justify-content:center;margin-right:.5rem;">
+              <i class="fa-solid fa-comment-dots"></i>
+            </div>
+            <h2 class="h5 m-0">Share Your Story</h2>
+          </div>
+          <p class="mb-3">Tell me how healthcare, high costs, or corruption affect your family. I read every message.</p>
+
+          <!-- This is NOT a remote form. It just opens an email with your text. -->
+          <form id="storyEmailForm" class="row g-3" onsubmit="return sendStoryEmail(event);" novalidate>
+            <div class="col-md-6">
+              <label for="storyName" class="form-label">Your name <span class="text-muted">(optional)</span></label>
+              <input type="text" class="form-control" id="storyName" autocomplete="name" />
+            </div>
+            <div class="col-md-6">
+              <label for="storyContact" class="form-label">Best contact <span class="text-muted">(optional)</span></label>
+              <input type="text" class="form-control" id="storyContact" placeholder="Email or phone" autocomplete="email" />
+            </div>
+            <div class="col-12">
+              <label for="storyCategory" class="form-label">Topic</label>
+              <select id="storyCategory" class="form-select" aria-label="Story topic">
+                <option value="Healthcare">Healthcare</option>
+                <option value="Cost of Living">Cost of Living</option>
+                <option value="Corruption and Special Interests">Corruption and Special Interests</option>
+                <option value="Fair Taxation">Fair Taxation</option>
+                <option value="Corporate Accountability">Corporate Accountability</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label for="storyMessage" class="form-label">Your story</label>
+              <textarea id="storyMessage" class="form-control" rows="5" placeholder="Write what you want me to know..."></textarea>
+            </div>
+            <div class="col-12 d-flex align-items-center gap-2">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-regular fa-paper-plane me-1"></i>Send via Email
+              </button>
+              <small class="text-muted">This opens your email app with your message prefilled. No data is stored on this site.</small>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Office Locations -->
+      <div class="col-12">
+        <div class="contact-card h-100">
+          <div class="d-flex align-items-center mb-2">
+            <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+            <h2 class="h5 m-0">Office Locations</h2>
+          </div>
+          <p class="mb-1"><strong>Main Campaign Office:</strong> Details forthcoming.</p>
+          <p class="mb-0"><strong>District Office:</strong> Planned for WA-10. Details to follow.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donate CTA -->
+    <div class="mt-5 text-center">
+      <a class="btn btn-lg btn-donate" target="_blank" rel="noopener"
+         href="https://secure.actblue.com/donate/adam-arafat-1">
+         <i class="fa-solid fa-heart me-1"></i> Donate
+      </a>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER (Social strip + legal) -->
+<section class="footer-social py-3">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <span class="me-2 fw-semibold">Follow Adam:</span>
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Reddit">
+      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
+    </a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="TikTok">
+      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+    </a>
+  </div>
+</section>
+
+<footer class="footer-legal py-4 border-top text-center">
+  <div class="container">
+    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
+    <p class="small text-muted mb-0">Not authorized by any other candidate or candidate's committee.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Mailto composer for "Share Your Story" - no external form or service.
+  function sendStoryEmail(e){
+    e.preventDefault();
+    const name = document.getElementById('storyName').value.trim();
+    const contact = document.getElementById('storyContact').value.trim();
+    const topic = document.getElementById('storyCategory').value;
+    const message = document.getElementById('storyMessage').value.trim();
+
+    const to = 'info@arafatforcongress.org';
+    const subject = encodeURIComponent(`Story: ${topic}${name ? ' - ' + name : ''}`);
+    const bodyLines = [];
+
+    if (name) bodyLines.push(`Name: ${name}`);
+    if (contact) bodyLines.push(`Best contact: ${contact}`);
+    bodyLines.push(`Topic: ${topic}`);
+    bodyLines.push('');
+    bodyLines.push('Story:');
+    bodyLines.push(message || '(Your story here)');
+
+    const body = encodeURIComponent(bodyLines.join('\n'));
+    const href = `mailto:${to}?subject=${subject}&body=${body}`;
+    window.location.href = href;
+    return false;
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

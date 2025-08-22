@@ -1,0 +1,20 @@
+{
+  "name": "arafatforcongress-fec-pipeline",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:fec": "node scripts/fec-build.js",
+    "build:members": "node scripts/build-members-csv.js",
+    "pretty": "prettier -w ."
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2",
+    "papaparse": "^5.4.1",
+    "yaml": "^2.5.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}

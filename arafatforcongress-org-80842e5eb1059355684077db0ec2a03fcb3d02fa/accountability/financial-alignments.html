@@ -1,0 +1,520 @@
+<!-- financial-alignments.html — FULL, DROP‑IN PAGE
+     - Uses pipeline JSON if present: data/members.json, data/donors-by-member.json, data/member-awards.json, data/vote-alignments.json
+     - Also ships with inline demo data as a fallback so it renders out of the box.
+     - Extras: client‑side filters, column sorting, CSV export, robust error handling, a11y tweaks. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="PAC vs small donors, in‑district vs out‑district, industry breakdowns, and vote alignment indicators."/>
+  <meta name="theme-color" content="#0d3b66"/>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
+      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
+    }
+    html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
+    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
+    .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
+
+    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2rem 0}
+    .hero h1{font-weight:900; letter-spacing:.3px}
+
+    .cardish{background:var(--card); border:1px solid var(--ring); border-radius:14px; box-shadow:0 4px 18px rgba(13,59,102,.06)}
+    .metric{font-weight:900; font-size:1.4rem}
+    .mini{color:var(--muted); font-size:.9rem}
+    .chart-box{height:300px; background:#eef4fa; border:1px dashed #b7c6d8; border-radius:12px}
+    .table thead th{background:#f4f7fb; white-space:nowrap; user-select:none; cursor:pointer}
+    .table thead th[data-sort]:after{content:"  ↕"; color:#90a0b2; font-weight:400}
+    .table thead th.sorted-asc:after{content:"  ↑"}
+    .table thead th.sorted-desc:after{content:"  ↓"}
+    .table td{vertical-align:middle}
+
+    .badge-chip{display:inline-flex; align-items:center; gap:.35rem; padding:.15rem .45rem; border-radius:999px; border:1px solid var(--ring-strong); font-weight:700; font-size:.75rem; margin:.15rem .15rem 0 0}
+    .badge-chip i{font-size:.85rem}
+    .chip-danger{background:#ffecec; border-color:#ffd0d0; color:#8d0a0a}
+    .chip-warn{background:#fff8e6; border-color:#ffe5a3; color:#7a5200}
+    .chip-ok{background:#e9f7ef; border-color:#cfe9d8; color:#0b6e4f}
+    .avatar{width:28px;height:28px;object-fit:cover;border-radius:50%;border:1px solid var(--ring-strong)}
+
+    .tools .btn{white-space:nowrap}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="./index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="./index.html">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="./financial-alignments.html">Financial Alignments</a></li>
+        <li class="nav-item"><a class="nav-link" href="./badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link" href="./digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="./contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
+        <p class="mb-0">PAC vs small donors, in‑district vs out‑district, industries, and vote alignment — with clear badge triggers.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="./index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
+        <a class="btn btn-danger btn-sm" href="./badges.html#thresholds"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container my-4">
+  <!-- Filters / Tools -->
+  <div class="cardish p-3 mb-3">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label for="fa-member" class="form-label">Search member</label>
+        <input type="search" id="fa-member" class="form-control" placeholder="Name, state, or seat (e.g., WA-10)" autocomplete="off"/>
+      </div>
+      <div class="col-md-3">
+        <label for="fa-chamber" class="form-label">Chamber</label>
+        <select id="fa-chamber" class="form-select">
+          <option value="">All</option>
+          <option value="house">House</option>
+          <option value="senate">Senate</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="fa-industry" class="form-label">Industry focus</label>
+        <select id="fa-industry" class="form-select">
+          <option value="">All industries</option>
+          <option value="pharma">Pharma</option>
+          <option value="defense">Defense</option>
+          <option value="finance">Finance</option>
+          <option value="oil">Oil &amp; Gas</option>
+          <option value="aipac">AIPAC/Israel</option>
+          <option value="tech">Tech</option>
+        </select>
+      </div>
+      <div class="col-md-2 d-grid">
+        <button id="fa-reset" class="btn btn-outline-secondary">Reset</button>
+      </div>
+    </div>
+    <div class="tools d-flex gap-2 mt-3">
+      <button id="btn-export" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
+      <span id="load-status" class="small text-muted" role="status" aria-live="polite">Loading…</span>
+    </div>
+  </div>
+
+  <!-- Headline Metrics -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">PAC vs Small Donors</div>
+        <div class="metric" id="m-pac-small">—</div>
+        <div class="mini">Flagged if PAC ≥ threshold</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">In‑District vs Out‑District</div>
+        <div class="metric" id="m-geo">—</div>
+        <div class="mini">Flagged if out &gt; in</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">Top Industry</div>
+        <div class="metric" id="m-top-industry">—</div>
+        <div class="mini">Badge if one industry dominates</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">Vote Alignment Index</div>
+        <div class="metric" id="m-vote-align">—</div>
+        <div class="mini">Badge if ≥ 90% donor‑aligned</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart placeholders -->
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="cardish p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h6 mb-0">PAC vs Small Donors</h2>
+          <a href="./badges.html#thresholds" class="small">See thresholds</a>
+        </div>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Chart placeholder (PAC % vs Small %)</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="cardish p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h6 mb-0">In‑District vs Out‑District</h2>
+          <a href="./badges.html#thresholds" class="small">See thresholds</a>
+        </div>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Chart placeholder (In vs Out by $)</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="cardish p-3 mt-3">
+        <h2 class="h6 mb-2">Industry Breakdown</h2>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Chart placeholder (Pharma/Defense/Finance/Oil/AIPAC/etc.)</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="cardish p-3 mt-3">
+        <h2 class="h6 mb-2">Donor Geography</h2>
+        <div class="chart-box d-flex align-items-center justify-content-center">
+          <span class="text-muted">Map placeholder (clusters/heatmap)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data table -->
+  <div class="cardish p-3 mt-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <h2 class="h6 mb-0">Detail Table</h2>
+      <span class="small text-muted">Each row indicates which badges were triggered</span>
+    </div>
+    <div class="table-responsive mt-2">
+      <table class="table table-sm align-middle" id="fa-table-el">
+        <thead>
+          <tr>
+            <th data-sort="name">Member</th>
+            <th data-sort="seat">Seat</th>
+            <th class="text-nowrap" data-sort="pac">PAC %</th>
+            <th class="text-nowrap" data-sort="small">Small %</th>
+            <th class="text-nowrap" data-sort="geo">In vs Out</th>
+            <th data-sort="industry">Top Industry</th>
+            <th class="text-nowrap" data-sort="align">Vote Align</th>
+            <th>Badges</th>
+          </tr>
+        </thead>
+        <tbody id="fa-table">
+          <tr><td colspan="8" class="text-muted">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<!-- Inline demo data fallback so the page renders even if /data is missing -->
+<script id="demo-members" type="application/json">
+{
+  "D000001": {"id":"D000001","name":"Demo Member One","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":""},
+  "R000002": {"id":"R000002","name":"Demo Member Two","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":""},
+  "S000003": {"id":"S000003","name":"Demo Senator","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":""}
+}
+</script>
+<script id="demo-donors" type="application/json">
+{
+  "D000001": {"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000}},
+  "R000002": {"pac_pct":0.31,"in_state_dollars":210000,"out_state_dollars":150000,"industries":{"oil":120000,"finance":50000}},
+  "S000003": {"pac_pct":0.12,"in_state_dollars":400000,"out_state_dollars":220000,"industries":{"tech":140000,"aipac":20000}}
+}
+</script>
+<script id="demo-awards" type="application/json">
+{
+  "D000001":{"badges":[{"key":"high-pac","label":"High PAC Reliance"}]},
+  "R000002":{"badges":[{"key":"dominant-industry","label":"Dominant Industry"}]}
+}
+</script>
+<script id="demo-align" type="application/json">
+{
+  "D000001":{"donor_alignment_index":0.91},
+  "R000002":{"donor_alignment_index":0.76},
+  "S000003":{"donor_alignment_index":0.62}
+}
+</script>
+
+<script>
+/* Financial Alignments — loader, filters, sorting, CSV export (no external JS required) */
+(async function(){
+  const $ = (s, el=document)=>el.querySelector(s);
+  const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
+  const v = Date.now();
+
+  const THRESH = { PAC_FLAG: 0.40, INDUSTRY_DOMINATE: 0.35, ALIGN_HIGH: 0.90 };
+
+  const parseInlineJSON = (id, fallback={})=>{
+    try{ return JSON.parse(document.getElementById(id).textContent.trim()); }catch{ return fallback; }
+  };
+
+  async function tryJSON(path, inlineId){
+    try{
+      const r = await fetch(`${path}?v=${v}`, {cache:'no-store'});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return await r.json();
+    }catch(e){
+      console.warn('Falling back to inline data for', path, e);
+      return parseInlineJSON(inlineId, {});
+    }
+  }
+
+  // Load data (pipeline if present, else demo)
+  $('#load-status').textContent = 'Loading data…';
+  const [members, donorsByMember, awardsByMember, voteAlignByMember] = await Promise.all([
+    tryJSON('data/members.json','demo-members'),
+    tryJSON('data/donors-by-member.json','demo-donors'),
+    tryJSON('data/member-awards.json','demo-awards'),
+    tryJSON('data/vote-alignments.json','demo-align')
+  ]);
+  $('#load-status').textContent = 'Data loaded.';
+
+  function pct(n){ return Math.round((n||0)*100); }
+  function money(n){ return '$' + (Math.round(n||0)).toLocaleString(); }
+  function resolveMember(mid){ return members?.[mid] || null; }
+
+  function topIndustry(d){
+    if(!d || !d.industries) return {key:'—', share:0};
+    const entries = Object.entries(d.industries);
+    if(!entries.length) return {key:'—', share:0};
+    const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
+    entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
+    const [key, amt] = entries[0];
+    return {key, share:(amt||0)/total};
+  }
+
+  function computeBadges(mid, dRec, aRec, vRec){
+    const chips=[];
+    const pacPct = dRec?.pac_pct ?? 0;
+    if(pacPct >= THRESH.PAC_FLAG){ chips.push(['chip-danger','fa-hand-holding-dollar',`High PAC: ${pct(pacPct)}%`]); }
+    else { chips.push(['chip-ok','fa-people-group',`Small donors: ${100-pct(pacPct)}%`]); }
+
+    const in$ = dRec?.in_state_dollars || 0, out$ = dRec?.out_state_dollars || 0;
+    if(out$ > in$ * 1.05){ chips.push(['chip-warn','fa-route',`Out-of-state heavy (${money(out$)} vs ${money(in$)})`]); }
+    else { chips.push(['chip-ok','fa-house-flag',`Local support (${money(in$)})`]); }
+
+    const ti = topIndustry(dRec);
+    if(ti.key !== '—' && ti.share >= THRESH.INDUSTRY_DOMINATE){ chips.push(['chip-danger','fa-industry','Dominant industry: '+ti.key]); }
+
+    const align = vRec?.donor_alignment_index ?? 0;
+    if(align >= THRESH.ALIGN_HIGH){ chips.push(['chip-danger','fa-scale-balanced',`Donor-aligned votes: ${pct(align)}%`]); }
+
+    if(aRec && Array.isArray(aRec.badges)){ aRec.badges.forEach(b=> chips.push(['chip-danger','fa-award', b.label || b.key])); }
+    return chips;
+  }
+
+  // Headline metrics (take the first member with donor data)
+  (function setHeadline(){
+    const mids = Object.keys(donorsByMember||{});
+    if(!mids.length) return;
+    const mid = mids[0];
+    const d = donorsByMember[mid] || {};
+    const va = voteAlignByMember[mid] || {};
+    const ti = topIndustry(d);
+    $('#m-pac-small').textContent = `${pct(d.pac_pct||0)}% PAC / ${100 - pct(d.pac_pct||0)}% small`;
+    $('#m-geo').textContent = `${money(d.in_state_dollars||0)} in / ${money(d.out_state_dollars||0)} out`;
+    $('#m-top-industry').textContent = ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`;
+    $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
+  })();
+
+  // Row builder
+  const tbody = $('#fa-table');
+  function rowData(mid){
+    const m = resolveMember(mid) || {};
+    const d = donorsByMember[mid] || {};
+    const a = awardsByMember[mid] || null;
+    const v = voteAlignByMember[mid] || null;
+    const ti = topIndustry(d);
+    const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
+    const in$ = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
+    const chips = computeBadges(mid, d, a, v);
+
+    const photo = m.photo || m.image || '';
+    const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
+
+    return {
+      mid,
+      name: m.name || mid,
+      seat: m.seat || (m.state || '—'),
+      party: m.party || '',
+      chamber: (m.chamber || '').toLowerCase(),
+      state: (m.state || '').toLowerCase(),
+      photo: photo || ph,
+      pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
+      align: (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null,
+      chips
+    };
+  }
+
+  function rowHTML(d){
+    const chipsHTML = d.chips.map(([cls,icon,label]) =>
+      `<span class="badge-chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`
+    ).join(' ');
+    return `<tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}">
+      <td>
+        <div class="d-flex align-items-center gap-2">
+          <img class="avatar" src="${d.photo}" alt="${d.name} headshot" loading="lazy">
+          <div><div class="fw-bold">${d.name}</div><div class="text-muted small">${d.party}</div></div>
+        </div>
+      </td>
+      <td>${d.seat}</td>
+      <td data-val="${d.pacP}">${d.pacP}%</td>
+      <td data-val="${d.smlP}">${d.smlP}%</td>
+      <td data-val="${d.in$ - d.out$}">${money(d.in$)} / ${money(d.out$)}</td>
+      <td data-val="${d.topIndustryShare}">${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</td>
+      <td data-val="${d.align ?? -1}">${d.align===null ? '—' : d.align+'%'}</td>
+      <td style="min-width:280px">${chipsHTML}</td>
+    </tr>`;
+  }
+
+  function rebuildTable(){
+    const mids = Object.keys(donorsByMember||{});
+    if(!mids.length){ tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`; return; }
+    const rows = mids.map(mid => rowData(mid));
+    tbody.innerHTML = rows.map(rowHTML).join('');
+  }
+  rebuildTable();
+
+  // Filters
+  const qInput = $('#fa-member'), chamberSel = $('#fa-chamber'), industrySel = $('#fa-industry'), resetBtn = $('#fa-reset');
+
+  function passesIndustryFilter(mid, wanted){
+    if(!wanted) return true;
+    const d = donorsByMember[mid] || {};
+    const inds = d.industries || {};
+    const keys = Object.keys(inds).map(k=>k.toLowerCase());
+    return keys.includes(wanted.toLowerCase());
+  }
+
+  function applyFilters(){
+    const q = (qInput.value || '').trim().toLowerCase();
+    const ch = (chamberSel.value || '').toLowerCase();
+    const ind = (industrySel.value || '').toLowerCase();
+    const rows = $$('#fa-table tr');
+    let visible = 0;
+    rows.forEach(tr=>{
+      const mid = tr.getAttribute('data-mid');
+      const nm = tr.getAttribute('data-name') || '';
+      const st = tr.getAttribute('data-state') || '';
+      const seat = tr.getAttribute('data-seat') || '';
+      const chamber = tr.getAttribute('data-chamber') || '';
+      const textHit = !q || nm.includes(q) || st.includes(q) || seat.includes(q);
+      const chamberHit = !ch || chamber === ch;
+      const industryHit = passesIndustryFilter(mid, ind);
+      const show = (textHit && chamberHit && industryHit);
+      tr.style.display = show ? '' : 'none';
+      if(show) visible++;
+    });
+    $('#load-status').textContent = `Showing ${visible} row(s).`;
+  }
+
+  qInput.addEventListener('input', applyFilters);
+  chamberSel.addEventListener('change', applyFilters);
+  industrySel.addEventListener('change', applyFilters);
+  resetBtn.addEventListener('click', ()=>{ qInput.value=''; chamberSel.value=''; industrySel.value=''; applyFilters(); });
+
+  // Column sorting
+  let sortState = { key:null, dir:1 };
+  const head = $('#fa-table-el thead');
+  head.addEventListener('click', (e)=>{
+    const th = e.target.closest('th[data-sort]');
+    if(!th) return;
+    const key = th.getAttribute('data-sort');
+    const dir = (sortState.key===key) ? -sortState.dir : 1;
+    sortState = { key, dir };
+    // UI classes
+    $$('#fa-table-el thead th').forEach(h=>h.classList.remove('sorted-asc','sorted-desc'));
+    th.classList.add(dir>0 ? 'sorted-asc' : 'sorted-desc');
+
+    const rows = $$('#fa-table tr').filter(tr=>tr.style.display!=='none');
+    const valGetter = {
+      name: tr => (tr.querySelector('td .fw-bold')?.textContent || '').toLowerCase(),
+      seat: tr => (tr.children[1]?.textContent || '').toLowerCase(),
+      pac: tr => Number(tr.children[2]?.getAttribute('data-val')||0),
+      small: tr => Number(tr.children[3]?.getAttribute('data-val')||0),
+      geo: tr => Number(tr.children[4]?.getAttribute('data-val')||0), // in - out
+      industry: tr => Number(tr.children[5]?.getAttribute('data-val')||0),
+      align: tr => Number(tr.children[6]?.getAttribute('data-val')||-1)
+    }[key];
+
+    rows.sort((a,b)=>{
+      const va = valGetter(a), vb = valGetter(b);
+      if(typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
+      return String(va).localeCompare(String(vb)) * dir;
+    });
+
+    // Re-append in sorted order (only visible rows — hidden keep position)
+    const frag = document.createDocumentFragment();
+    const hidden = $$('#fa-table tr').filter(tr=>tr.style.display==='none');
+    rows.forEach(r=>frag.appendChild(r));
+    hidden.forEach(h=>frag.appendChild(h));
+    $('#fa-table').innerHTML = '';
+    $('#fa-table').appendChild(frag);
+  });
+
+  // CSV Export (visible rows only)
+  $('#btn-export').addEventListener('click', ()=>{
+    const rows = $$('#fa-table tr').filter(tr=>tr.style.display!=='none');
+    if(!rows.length) return;
+    const esc = s => `"${String(s).replace(/"/g,'""')}"`;
+    const header = ['Member','Seat','PAC %','Small %','In $','Out $','Top Industry','Vote Align','Badges'];
+    const csv = [header.join(',')];
+    rows.forEach(tr=>{
+      const member = tr.querySelector('.fw-bold')?.textContent || '';
+      const seat = tr.children[1]?.textContent || '';
+      const pac = tr.children[2]?.textContent || '';
+      const small = tr.children[3]?.textContent || '';
+      const inout = tr.children[4]?.textContent || ''; // "$X / $Y"
+      const [inStr='', outStr=''] = inout.split('/').map(s=>s.trim());
+      const industry = tr.children[5]?.textContent || '';
+      const align = tr.children[6]?.textContent || '';
+      const badges = Array.from(tr.children[7]?.querySelectorAll('.badge-chip')||[]).map(b=>b.textContent.trim()).join(' | ');
+      csv.push([member,seat,pac,small,inStr,outStr,industry,align,badges].map(esc).join(','));
+    });
+    const blob = new Blob([csv.join('\n')], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'financial-alignments.csv';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+
+  // Initial apply filters (in case query params or defaults are set)
+  applyFilters();
+})();
+</script>
+</body>
+</html>
