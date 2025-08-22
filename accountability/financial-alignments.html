@@ -207,10 +207,30 @@
   </div>
 </footer>
 
-<!-- Scripts -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
-<!-- App -->
+<!-- ===== Demo fallbacks (one per dataset) ===== -->
+<script id="demo-members" type="application/json">[
+  {"id":"H0WA10001","name":"Demo Member","state":"WA","party":"D","seat":"House",
+   "pac_pct":40,"small_pct":15,"in_vs_out":{"in":12000,"out":30000},
+   "top_industry":"Finance","vote_align":88}
+]</script>
+<script id="demo-donors" type="application/json">{
+  "H0WA10001": {"pac_pct":0.40,"in_state_dollars":12000,"out_state_dollars":30000,
+    "industries":{"Finance":20000,"Tech":8000},
+    "receipts":[{"title":"Demo donor receipt","url":"https://example.com"}]
+  }
+}</script>
+<script id="demo-awards" type="application/json">{
+  "H0WA10001": {"badges":[{"key":"aipac","label":"AIPAC Money"}]}
+}</script>
+<script id="demo-align" type="application/json">{
+  "H0WA10001": {"donor_alignment_index":0.72,
+    "votes":[{"bill":"HR-1","date":"2024-03-10","position":"Yea","url":"https://example.com"}]}
+}</script>
+
+<!-- ===== App (module) ===== -->
 <script type="module">
 /* ---------- tiny utils ---------- */
 const $  = (sel, root=document) => root.querySelector(sel);
@@ -220,54 +240,36 @@ const money = (n) => (Number(n)||0).toLocaleString('en-US',{style:'currency',cur
 const sum   = (arr) => arr.reduce((s,n)=>s+(Number(n)||0),0);
 const THRESH = { PAC_FLAG: 0.50, INDUSTRY_DOMINATE: 0.40, ALIGN_HIGH: 0.60 };
 
-/* ---------- demo fallback (tiny sample) ---------- */
-const DEMO = {
-  members: {
-    "A000001": { bioguide:"A000001", name:"Rep. Sample One", seat:"NY-01", state:"NY", party:"R", chamber:"house", fec_ids:["H0NY01001"] },
-    "B000002": { bioguide:"B000002", name:"Sen. Sample Two", seat:"CA-Senate", state:"CA", party:"D", chamber:"senate", fec_ids:["S0CA00002"] }
-  },
-  donorsByMember: {
-    "A000001": {
-      pac_pct: 0.62, in_state_dollars: 45000, out_state_dollars: 120000,
-      industries: { "Oil & Gas": 65000, "Finance": 30000, "Defense": 20000 },
-      receipts: [{title:"FEC receipts (NY-01)", url:"https://www.fec.gov/data/candidate/H0NY01001/"}]
-    },
-    "B000002": {
-      pac_pct: 0.18, in_state_dollars: 220000, out_state_dollars: 90000,
-      industries: { "Tech": 80000, "Pharma": 15000, "Education": 12000 }
-    }
-  },
-  awardsByMember: {
-    "A000001": { badges:[{key:"out_of_state_heavy", label:"Out-of-State Money"}, {key:"oil_gas_dominant", label:"Oil & Gas Aligned"}] },
-    "B000002": { badges:[{key:"grassroots", label:"Grassroots-Funded"}] }
-  },
-  voteAlignByMember: {
-    "A000001": { donor_alignment_index: 0.71, votes:[{bill:"HR-1234", date:"2024-05-12", position:"Yea", url:"https://clerk.house.gov/Votes/2024512"}] },
-    "B000002": { donor_alignment_index: 0.42, votes:[{bill:"S-5678", date:"2024-06-20", position:"Nay", url:"https://www.senate.gov/legislative/LIS/roll_call_lists/roll_call_vote_cfm.cfm?congress=118"}] }
-  }
-};
+let globalStore = { members:{}, donorsByMember:{}, awardsByMember:{}, voteAlignByMember:{} };
 
-/* ---------- data loader: try /data, then demo fallback ---------- */
+/* ---------- fetch + fallback helpers ---------- */
 async function fetchJSON(path, timeoutMs=15000){
   const res = await fetch(path, { signal: AbortSignal.timeout(timeoutMs), cache:'no-store' });
-  if(!res.ok) throw new Error(`HTTP ${res.status} ${path}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${path}`);
   return res.json();
 }
-async function tryJSON(path, demoObj){
-  try { return await fetchJSON(path); }
-  catch { return demoObj; }
+function readDemo(id){ const el = document.getElementById(id); return el ? JSON.parse(el.textContent) : null; }
+async function tryJSON(path, demoId){ try { return await fetchJSON(path); } catch { return readDemo(demoId); } }
+function arrayToMemberMap(arr){
+  if (!Array.isArray(arr)) return arr || {};
+  const m = {};
+  for (const x of arr) {
+    const key = x.bioguide || x.bioguide_id || x.id || x.member_id;
+    if (key) m[key] = x;
+  }
+  return m;
 }
 async function loadAll(){
-  const [membersRaw, donors, awardsOrBadges, align] = await Promise.all([
-    tryJSON('/data/members.json', DEMO.members),
-    tryJSON('/data/donors-by-member.json', DEMO.donorsByMember),
-    tryJSON('/data/member-awards.json', await tryJSON('/data/badges.json', DEMO.awardsByMember)),
-    tryJSON('/data/vote-alignments.json', DEMO.voteAlignByMember)
+  const [membersRaw, donors, awards, align] = await Promise.all([
+    tryJSON('/data/members.json',         'demo-members'),
+    tryJSON('/data/donors-by-member.json','demo-donors'),
+    tryJSON('/data/member-awards.json',   'demo-awards'),
+    tryJSON('/data/vote-alignments.json', 'demo-align')
   ]);
   return {
-    members: membersRaw,             // map keyed by id/bioguide
+    members: arrayToMemberMap(membersRaw || []),
     donorsByMember: donors || {},
-    awardsByMember: awardsOrBadges || {},
+    awardsByMember: awards || {},
     voteAlignByMember: align || {}
   };
 }
@@ -380,8 +382,6 @@ function updateCharts(agg){
 }
 
 /* ---------- rendering + filters ---------- */
-let globalStore = { members:{}, donorsByMember:{}, awardsByMember:{}, voteAlignByMember:{} };
-
 function getSelectedValues(sel){ return [...sel.selectedOptions].map(o=>o.value); }
 
 function renderAll(){
@@ -389,7 +389,7 @@ function renderAll(){
   const list = $('#fa-list');
   const tbody = $('#fa-table');
 
-  const mids = Object.keys(members);
+  const mids = Object.keys(members||{});
   if (!mids.length){
     list.innerHTML = `<div class="text-muted">No members found.</div>`;
     tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No data.</td></tr>`;
@@ -400,7 +400,7 @@ function renderAll(){
     const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
     return `
     <article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}"
-             data-seat="${d.seat.toLowerCase()}" data-state="${d.state}"
+             data-seat="${(d.seat||'').toLowerCase()}" data-state="${d.state}"
              data-chamber="${d.chamber}" data-party="${d.party}">
       <div class="rowwrap">
         <div class="thumb"><img src="${d.photo}" alt="${d.name}" loading="lazy" onerror="this.src='/assets/no-photo.png'"></div>
@@ -420,7 +420,7 @@ function renderAll(){
   const rowsHTML = mids.map(mid=>{
     const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
     return `
-    <tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}"
+    <tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${(d.seat||'').toLowerCase()}"
         data-state="${d.state}" data-chamber="${d.chamber}" data-party="${d.party}">
       <td><span class="fw-bold">${d.name}</span></td>
       <td>${d.seat}</td>
@@ -543,7 +543,6 @@ function aggregateAndCharts(){
 
 /* ---------- AI caption + share ---------- */
 async function generateAICaption(d) {
-  // Call your serverless function – keep API keys on the server.
   try {
     const res = await fetch('/api/ai-caption', {
       method: 'POST',
@@ -567,7 +566,6 @@ async function generateAICaption(d) {
     return (data && data.caption) || '';
   } catch (err) {
     console.warn('AI caption failed:', err);
-    // Fallback caption
     return `${d.name} — ${d.seat}${d.party ? ' ('+d.party+')' : ''}. PAC: ${d.pacP}%, Small donors: ${d.smlP}%. ${d.topIndustryKey!=='—' ? 'Top: '+d.topIndustryKey+' ('+pct(d.topIndustryShare)+'%)' : ''} #EvergreenPact`;
   }
 }
@@ -636,8 +634,7 @@ async function openModal(mid){
     ? `<ul class="list-unstyled mb-0">${d.receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
     : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
 
-  // Generate AI caption + wire share links
-  setShareLinks(d, ''); // provisional links using fallback text
+  setShareLinks(d, '');
   const caption = await generateAICaption(d);
   setShareLinks(d, caption);
 
@@ -650,8 +647,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   setStatus('Loading data…');
 
   try{
-    const data = await loadAll();
-    globalStore = data;
+    globalStore = await loadAll();
     renderAll();
     setStatus('Data ready.');
   }catch(e){
