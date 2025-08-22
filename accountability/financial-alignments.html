@@ -14,7 +14,7 @@
   <!-- Perf: preconnect to CDNs actually used -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://theunitedstates.io" crossorigin> <!-- 👈 Added -->
+  <link rel="preconnect" href="https://theunitedstates.io" crossorigin>
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -63,7 +63,6 @@
   </style>
 </head>
 <body>
-
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
@@ -171,7 +170,7 @@
     </div>
   </div>
 
-  <!-- Chart placeholders (keep for future; safe to remove) -->
+  <!-- Chart placeholders -->
   <div class="row g-3">
     <div class="col-lg-6">
       <div class="cardish p-3">
@@ -248,7 +247,7 @@
   </div>
 </footer>
 
-<!-- Member Details Modal (mirrors Wall UX: overview • money • votes • receipts) -->
+<!-- Member Details Modal (row click opens this “card”) -->
 <div class="modal fade" id="memberModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
@@ -280,6 +279,9 @@
     </div>
   </div>
 </div>
+
+<!-- Bootstrap JS (required for modal) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 /* Financial Alignments — loader, filters, sorting, CSV export, modal */
@@ -315,36 +317,163 @@
   ]);
   $('#load-status').textContent = 'Data loaded.';
 
+  // ===== BEGIN CROSSWALK / NORMALIZER PATCH =====
+
+  function buildMemberIndex(membersRaw) {
+    const index = Object.create(null);
+    const list = Array.isArray(membersRaw)
+      ? membersRaw
+      : Object.keys(membersRaw || {}).map(k => ({ id: k, ...(membersRaw[k]||{}) }));
+
+    for (const m of list) {
+      const mid = (m.id || m.mid || m.bioguide_id || m.bioguide || "").trim();
+      const bioguide = (m.bioguide_id || m.bioguide || "").trim();
+      const fecList = []
+        .concat(m.fec_ids || m.fec || [])
+        .filter(Boolean)
+        .flatMap(x => String(x).split(','))
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      const state = (m.state || "").trim();
+      const district = (m.district == null ? "" : String(m.district)).trim();
+      const seat = m.seat || (state ? `${state}${district && district!=='0' ? `-${district}` : ''}` : "");
+
+      const norm = {
+        ...m,
+        id: mid || bioguide || seat || (m.name || "").trim(),
+        bioguide_id: bioguide || mid || "",
+        seat,
+        fec_ids: fecList
+      };
+
+      const keys = new Set([
+        norm.id,
+        norm.bioguide_id,
+        seat,
+        (m.name || "").trim(),
+        ...fecList
+      ].filter(Boolean));
+      for (const k of keys) index[k] = norm;
+    }
+    return { index, list };
+  }
+
+  function mapByAnyId(raw, keyNames = ['member_id','mid','id','bioguide_id','bioguide','fec_id','fec']) {
+    const out = Object.create(null);
+    if (!raw) return out;
+    if (Array.isArray(raw)) {
+      for (const row of raw) {
+        const id = keyNames.map(k => row?.[k]).find(Boolean);
+        if (id) out[String(id).trim()] = row;
+      }
+      return out;
+    }
+    for (const k of Object.keys(raw)) out[k] = raw[k];
+    return out;
+  }
+
+  const { index: memberIndex } = buildMemberIndex(members);
+
+  const donorsRaw = mapByAnyId(donorsByMember);
+  const awardsRaw = mapByAnyId(awardsByMember);
+  const votesRaw  = mapByAnyId(voteAlignByMember);
+
+  function canonicalKeyFor(inputKey) {
+    if (memberIndex[inputKey]) return memberIndex[inputKey].id;
+    const k = String(inputKey || "").trim();
+    if (memberIndex[k]) return memberIndex[k].id;
+    const seatish = k.toUpperCase().replace(/\s+/g,'').replace(/([A-Z]{2})(\d+)/,'$1-$2');
+    if (memberIndex[seatish]) return memberIndex[seatish].id;
+    return k || inputKey;
+  }
+
+  const donorsCanon = Object.create(null);
+  for (const k of Object.keys(donorsRaw)) donorsCanon[canonicalKeyFor(k)] = donorsRaw[k];
+  const awardsCanon = Object.create(null);
+  for (const k of Object.keys(awardsRaw)) awardsCanon[canonicalKeyFor(k)] = awardsRaw[k];
+  const votesCanon  = Object.create(null);
+  for (const k of Object.keys(votesRaw))  votesCanon[canonicalKeyFor(k)]  = votesRaw[k];
+
+  function resolveMember(mid) {
+    const canon = canonicalKeyFor(mid);
+    return memberIndex[canon] || null;
+  }
+
+  function normalizeVotes(vRec) {
+    const out = { donor_alignment_index: null, votes: [] };
+    if (!vRec || typeof vRec !== 'object') return out;
+
+    if (typeof vRec.donor_alignment_index === 'number') {
+      out.donor_alignment_index = vRec.donor_alignment_index;
+    }
+
+    if (Array.isArray(vRec.votes)) {
+      out.votes = vRec.votes.map(v => ({
+        bill: v.bill || v.title || '',
+        date: v.date || v.voted_at || v.roll_date || '',
+        position: v.position || v.vote || '',
+        url: v.url || v.link || v.roll_url || v.source || ''
+      }));
+      return out;
+    }
+
+    if (vRec.votes_by_bill && typeof vRec.votes_by_bill === 'object') {
+      for (const bill of Object.keys(vRec.votes_by_bill)) {
+        const x = vRec.votes_by_bill[bill] || {};
+        out.votes.push({
+          bill,
+          date: x.date || x.voted_at || '',
+          position: x.position || x.result || '',
+          url: x.url || x.link || ''
+        });
+      }
+    }
+    return out;
+  }
+
+  function normalizeReceipts(dRec, aRec, vRec) {
+    const out = [];
+    const pushRec = (r) => {
+      if (!r) return;
+      const url = r.url || r.link || '';
+      if (!url) return;
+      out.push({ title: r.title || r.label || url, url });
+    };
+
+    if (Array.isArray(dRec?.receipts)) dRec.receipts.forEach(pushRec);
+    if (Array.isArray(dRec?.sources))  dRec.sources.forEach(pushRec);
+    if (Array.isArray(aRec?.receipts)) aRec.receipts.forEach(pushRec);
+
+    const nv = normalizeVotes(vRec);
+    nv.votes.forEach(v => { if (v.url) pushRec({ title: `${v.bill || 'Vote record'}`, url: v.url }); });
+
+    const seen = new Set();
+    return out.filter(r => (seen.has(r.url) ? false : seen.add(r.url)));
+  }
+
+  // expose canon maps for rest of script
+  const donorsByCanon = donorsCanon;
+  const awardsByCanon = awardsCanon;
+  const votesByCanon  = votesCanon;
+
+  // ===== END CROSSWALK / NORMALIZER PATCH =====
+
   // Utilities
-  const pct = n => Math.round((n||0)*100);
+  const pct   = n => Math.round((n||0)*100);
   const money = n => '$' + (Math.round(n||0)).toLocaleString();
-  const resolveMember = mid => members?.[mid] || null;
 
-  /* ---------- NEW: a unified headshot resolver (matches admin/index behavior) ----------
-
-     Priority:
-     1) If member.bioguide_id exists => use the public Bioguide CDN (public domain)
-        - default: 225x275
-        - provide a srcset with 100x125 for smaller tiles
-     2) else if member.photo exists => use it (local assets or custom URL)
-     3) else => inline SVG placeholder
-
-     You can customize HOSTS if your admin/index use a different CDN, just add it to candidates.
-  ------------------------------------------------------------------------------ */
+  // Headshot resolver (Bioguide CDN → custom photo → SVG)
   function headshot(m, size='225x275') {
     const PLACEHOLDER = "data:image/svg+xml;utf8,"+encodeURIComponent(
-      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/>" +
-      "<g fill='#98a5b4'><circle cx='32' cy='24' r='12'/>" +
+      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/>"+
+      "<g fill='#98a5b4'><circle cx='32' cy='24' r='12'/>"+
       "<rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>"
     );
-
-    // 1) Bioguide CDN (same as admin/index)
     const bio = (m?.bioguide_id || m?.bioguide || m?.id || '').trim();
     if (bio) {
       const base = "https://theunitedstates.io/images/congress";
-      // Primary size (requested)
       const primary = `${base}/${size}/${bio}.jpg`;
-      // A basic object describing how to render with srcset and fallback handling
       return {
         src: primary,
         srcset: `${base}/100x125/${bio}.jpg 100w, ${base}/225x275/${bio}.jpg 225w`,
@@ -353,26 +482,8 @@
         placeholder: PLACEHOLDER
       };
     }
-
-    // 2) Explicit photo URL, if provided
-    if (m?.photo) {
-      return {
-        src: m.photo,
-        srcset: "",
-        sizes: "",
-        alt: `${m?.name || 'Member'} headshot`,
-        placeholder: PLACEHOLDER
-      };
-    }
-
-    // 3) Placeholder
-    return {
-      src: PLACEHOLDER,
-      srcset: "",
-      sizes: "",
-      alt: `${m?.name || 'Member'} headshot`,
-      placeholder: PLACEHOLDER
-    };
+    if (m?.photo) return { src:m.photo, srcset:"", sizes:"", alt:`${m?.name||'Member'} headshot`, placeholder: PLACEHOLDER };
+    return { src: PLACEHOLDER, srcset:"", sizes:"", alt:`${m?.name||'Member'} headshot`, placeholder: PLACEHOLDER };
   }
 
   function topIndustry(d){
@@ -385,7 +496,7 @@
     return {key, share:(amt||0)/total};
   }
 
-  function computeChips(dRec, aRec, vRec){
+  function computeChips(dRec, aRec, vNorm){
     const chips=[];
     const pacPct = dRec?.pac_pct ?? 0;
     if(pacPct >= THRESH.PAC_FLAG){ chips.push(['chip-danger','fa-hand-holding-dollar',`High PAC: ${pct(pacPct)}%`]); }
@@ -398,20 +509,20 @@
     const ti = topIndustry(dRec);
     if(ti.key !== '—' && ti.share >= THRESH.INDUSTRY_DOMINATE){ chips.push(['chip-danger','fa-industry','Dominant industry: '+ti.key]); }
 
-    const align = vRec?.donor_alignment_index ?? 0;
+    const align = vNorm?.donor_alignment_index ?? 0;
     if(align >= THRESH.ALIGN_HIGH){ chips.push(['chip-danger','fa-scale-balanced',`Donor-aligned votes: ${pct(align)}%`]); }
 
     if(aRec && Array.isArray(aRec.badges)){ aRec.badges.forEach(b=> chips.push(['chip-danger','fa-award', b.label || b.key])); }
     return chips;
   }
 
-  // Headline metrics (temporary single-record glance; will be upgraded when we wire aggregates)
+  // Headline metrics (quick glance from first record)
   (function setHeadline(){
-    const mids = Object.keys(donorsByMember||{});
+    const mids = Object.keys(donorsByCanon||{});
     if(!mids.length) return;
     const mid = mids[0];
-    const d = donorsByMember[mid] || {};
-    const va = voteAlignByMember[mid] || {};
+    const d = donorsByCanon[mid] || {};
+    const va = normalizeVotes(votesByCanon[mid]);
     const ti = topIndustry(d);
     $('#m-pac-small').textContent = `${pct(d.pac_pct||0)}% PAC / ${100 - pct(d.pac_pct||0)}% small`;
     $('#m-geo').textContent = `${money(d.in_state_dollars||0)} in / ${money(d.out_state_dollars||0)} out`;
@@ -419,20 +530,18 @@
     $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
   })();
 
-  // Build table rows
+  // Build table
   const tbody = $('#fa-table');
 
   function rowData(mid){
     const m = resolveMember(mid) || {};
-    const d = donorsByMember[mid] || {};
-    const a = awardsByMember[mid] || null;
-    const v = voteAlignByMember[mid] || null;
+    const d = donorsByCanon[mid] || {};
+    const a = awardsByCanon[mid] || null;
+    const vNorm = normalizeVotes(votesByCanon[mid]);
     const ti = topIndustry(d);
     const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
     const in$ = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
-    const chips = computeChips(d, a, v);
-
-    // ---------- UPDATED: use Bioguide-based headshot resolver ----------
+    const chips = computeChips(d, a, vNorm);
     const img = headshot(m);
 
     return {
@@ -444,10 +553,10 @@
       state: (m.state || '').toLowerCase(),
       img,
       pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
-      align: (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null,
+      align: (typeof vNorm.donor_alignment_index==='number') ? pct(vNorm.donor_alignment_index) : null,
       chips,
-      votes: (v && v.votes) || [],
-      receipts: (d && d.receipts) || []
+      votes: vNorm.votes,
+      receipts: normalizeReceipts(d, a, votesByCanon[mid])
     };
   }
 
@@ -458,7 +567,6 @@
   }
 
   function rowHTML(d){
-    // note: referrerpolicy avoids mixed referer leakage; onerror ensures graceful fallback
     return `<tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}">
       <td>
         <div class="d-flex align-items-center gap-2">
@@ -484,11 +592,10 @@
   }
 
   function rebuildTable(){
-    const mids = Object.keys(donorsByMember||{});
+    const mids = Object.keys(donorsByCanon||{});
     if(!mids.length){ tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`; return; }
     const rows = mids.map(mid => rowData(mid));
     tbody.innerHTML = rows.map(rowHTML).join('');
-    // Row → modal
     $$('#fa-table tr[data-mid]').forEach(tr=>{
       tr.addEventListener('click', ()=> openModal(tr.getAttribute('data-mid')));
     });
@@ -500,7 +607,7 @@
 
   function passesIndustryFilter(mid, wanted){
     if(!wanted) return true;
-    const d = donorsByMember[mid] || {};
+    const d = donorsByCanon[mid] || {};
     const inds = d.industries || {};
     const keys = Object.keys(inds).map(k=>k.toLowerCase());
     return keys.includes(wanted.toLowerCase());
@@ -538,7 +645,6 @@
     }
   }
 
-  // Init filters from URL
   (function syncFromURL(){
     const params = new URLSearchParams(location.search);
     const q = params.get('q') || '';
@@ -552,10 +658,7 @@
   qInput.addEventListener('input', ()=>applyFilters());
   chamberSel.addEventListener('change', ()=>applyFilters());
   industrySel.addEventListener('change', ()=>applyFilters());
-  resetBtn.addEventListener('click', ()=>{
-    qInput.value=''; chamberSel.value=''; industrySel.value='';
-    applyFilters();
-  });
+  resetBtn.addEventListener('click', ()=>{ qInput.value=''; chamberSel.value=''; industrySel.value=''; applyFilters(); });
 
   // Column sorting
   let sortState = { key:null, dir:1 };
@@ -565,7 +668,6 @@
     const key = th.getAttribute('data-sort');
     const dir = (sortState.key===key) ? -sortState.dir : 1;
     sortState = { key, dir };
-    // UI classes
     $$('#fa-table-el thead th').forEach(h=>h.classList.remove('sorted-asc','sorted-desc'));
     th.classList.add(dir>0 ? 'sorted-asc' : 'sorted-desc');
 
@@ -578,7 +680,7 @@
       seat: tr => (tr.children[1]?.textContent || '').toLowerCase(),
       pac: tr => Number(tr.children[2]?.getAttribute('data-val')||0),
       small: tr => Number(tr.children[3]?.getAttribute('data-val')||0),
-      geo: tr => Number(tr.children[4]?.getAttribute('data-val')||0), // in - out
+      geo: tr => Number(tr.children[4]?.getAttribute('data-val')||0),
       industry: tr => Number(tr.children[5]?.getAttribute('data-val')||0),
       align: tr => Number(tr.children[6]?.getAttribute('data-val')||-1)
     }[key];
@@ -591,7 +693,7 @@
 
     const frag = document.createDocumentFragment();
     visible.forEach(r=>frag.appendChild(r));
-    hidden.forEach(h=>frag.appendChild(h)); // keep hidden at end (stable)
+    hidden.forEach(h=>frag.appendChild(h));
     $('#fa-table').innerHTML = '';
     $('#fa-table').appendChild(frag);
   });
@@ -608,7 +710,7 @@
       const seat = tr.children[1]?.textContent || '';
       const pac = tr.children[2]?.textContent || '';
       const small = tr.children[3]?.textContent || '';
-      const inout = tr.children[4]?.textContent || ''; // "$X / $Y"
+      const inout = tr.children[4]?.textContent || '';
       const [inStr='', outStr=''] = inout.split('/').map(s=>s.trim());
       const industry = tr.children[5]?.textContent || '';
       const align = tr.children[6]?.textContent || '';
@@ -622,27 +724,23 @@
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Modal rendering
+  // Modal “card” rendering (row click)
   function openModal(mid){
     const m = resolveMember(mid) || {};
-    const d = donorsByMember[mid] || {};
-    const v = voteAlignByMember[mid] || {};
-    const a = awardsByMember[mid] || {};
+    const d = donorsByCanon[mid] || {};
+    const a = awardsByCanon[mid] || {};
+    const vNorm = normalizeVotes(votesByCanon[mid]);
     const ti = topIndustry(d);
 
     const name = m.name || mid;
     const seat = m.seat || (m.state || '');
     const party = m.party || '';
-
-    // ---------- UPDATED: modal image uses same resolver ----------
     const img = headshot(m, '225x275');
 
-    // Title/meta
     $('#memberTitle').textContent = `${name} — ${seat}${party ? ' ('+party+')' : ''}`;
-    $('#memberMeta').textContent = `Top industry: ${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`} • PAC: ${pct(d.pac_pct||0)}% • Vote align: ${typeof v.donor_alignment_index==='number'?pct(v.donor_alignment_index)+'%':'—'}`;
+    $('#memberMeta').textContent = `Top industry: ${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`} • PAC: ${pct(d.pac_pct||0)}% • Vote align: ${typeof vNorm.donor_alignment_index==='number'?pct(vNorm.donor_alignment_index)+'%':'—'}`;
 
-    // Overview
-    const chips = computeChips(d, a, v);
+    const chips = computeChips(d, a, vNorm);
     $('#overview-body').innerHTML = `
       <div class="row g-3">
         <div class="col-md-4">
@@ -663,12 +761,11 @@
             <li>PAC share: <strong>${pct(d.pac_pct||0)}%</strong> (small donors: <strong>${100-pct(d.pac_pct||0)}%</strong>)</li>
             <li>In vs Out: <strong>${money(d.in_state_dollars||0)}</strong> in / <strong>${money(d.out_state_dollars||0)}</strong> out</li>
             <li>Top industry: <strong>${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`}</strong></li>
-            <li>Vote alignment with donors: <strong>${typeof v.donor_alignment_index==='number'?pct(v.donor_alignment_index)+'%':'—'}</strong></li>
+            <li>Vote alignment with donors: <strong>${typeof vNorm.donor_alignment_index==='number'?pct(vNorm.donor_alignment_index)+'%':'—'}</strong></li>
           </ul>
         </div>
       </div>`;
 
-    // Money
     const inds = Object.entries(d.industries||{}).sort((a,b)=>b[1]-a[1]);
     $('#money-body').innerHTML = `
       <div class="table-responsive">
@@ -679,23 +776,26 @@
       </div>
       <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>`;
 
-    // Votes
-    const votes = (v && v.votes) || [];
     $('#votes-body').innerHTML = `
       <div class="table-responsive">
         <table class="table table-sm align-middle">
           <thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead>
-          <tbody>${votes.length ? votes.map(x=>`<tr><td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('') : `<tr><td colspan="4" class="text-muted">No tracked votes yet.</td></tr>`}</tbody>
+          <tbody>${
+            vNorm.votes.length
+              ? vNorm.votes.map(x=>`<tr>
+                  <td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td>
+                  <td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td>
+                </tr>`).join('')
+              : `<tr><td colspan="4" class="text-muted">No tracked votes yet.</td></tr>`
+          }</tbody>
         </table>
       </div>`;
 
-    // Receipts
-    const receipts = (d && d.receipts) || [];
+    const receipts = normalizeReceipts(d, a, votesByCanon[mid]);
     $('#receipts-body').innerHTML = receipts.length
       ? `<ul class="list-unstyled mb-0">${receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
       : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
 
-    // Share button (X) — we can add more networks later
     $('#shareX').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${name} — ${seat} ${party? '('+party+') ':''}• PAC ${pct(d.pac_pct||0)}% • Top: ${ti.key==='—'?'—':ti.key}`)}&url=${encodeURIComponent(location.href)}`;
 
     new bootstrap.Modal(document.getElementById('memberModal')).show();
@@ -705,3 +805,40 @@
   applyFilters(false);
 })();
 </script>
+
+<!-- Optional tiny inline demo so the page renders even without pipeline JSON.
+     Remove this block in production if you don't want any demo rows. -->
+<script type="application/json" id="demo-members">
+{
+  "A000001": { "id":"A000001", "bioguide_id":"A000360", "name":"Demo Member", "state":"WA", "district":"10", "party":"D", "chamber":"house", "seat":"WA-10", "fec_ids":["H6WA08134"] }
+}
+</script>
+<script type="application/json" id="demo-donors">
+{
+  "A000001": {
+    "pac_pct": 0.42,
+    "in_state_dollars": 120000,
+    "out_state_dollars": 180000,
+    "industries": { "Pharma": 90000, "Oil & Gas": 30000 },
+    "receipts": [{ "title":"Q2 FEC filing", "url":"https://www.fec.gov" }]
+  }
+}
+</script>
+<script type="application/json" id="demo-awards">
+{
+  "A000001": { "badges":[ { "key":"PAC_HEAVY", "label":"High PAC Dependence" } ] }
+}
+</script>
+<script type="application/json" id="demo-align">
+{
+  "A000001": {
+    "donor_alignment_index": 0.91,
+    "votes": [
+      { "bill":"H.R.123", "date":"2025-05-09", "position":"No", "url":"https://clerk.house.gov/Votes" }
+    ]
+  }
+}
+</script>
+
+</body>
+</html>
