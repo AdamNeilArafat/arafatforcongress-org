@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="PAC vs small donors, in-district vs out-district, industry breakdowns, and vote alignment indicators."/>
+  <meta name="theme-color" content="#0d3b66"/>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
+      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
+    }
+    html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
+    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
+    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
+    .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
+    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2rem 0}
+    .hero h1{font-weight:900; letter-spacing:.3px}
+    .cardish{background:var(--card); border:1px solid var(--ring); border-radius:14px; box-shadow:0 4px 18px rgba(13,59,102,.06)}
+    .metric{font-weight:900; font-size:1.4rem}
+    .mini{color:var(--muted); font-size:.9rem}
+    .list-people{display:flex; flex-direction:column; gap:12px}
+    .person{position:relative; border:1px solid var(--ring); border-radius:16px; overflow:hidden; background:#fff; box-shadow:0 6px 20px rgba(13,59,102,.06)}
+    .person .rowwrap{display:flex; gap:0}
+    .thumb{width:140px; min-width:140px; background:#e9eef5; overflow:hidden}
+    .thumb img{width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:1/1}
+    .pdata{flex:1; padding:.75rem .9rem}
+    .name{font-weight:800; line-height:1.1; margin:0}
+    .sub{color:var(--muted); font-size:.9rem}
+    .chips{display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.45rem}
+    .chip{display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .55rem; border-radius:999px; border:1px solid var(--ring-strong); font-weight:700; font-size:.75rem}
+    .chip i{font-size:.85rem}
+    .chip-ok{background:#e9f7ef; border-color:#cfe9d8; color:#0b6e4f}
+    .chip-warn{background:#fff8e6; border-color:#ffe5a3; color:#7a5200}
+    .chip-danger{background:#ffecec; border-color:#ffd0d0; color:#8d0a0a}
+    .actions{display:flex; gap:.4rem; flex-wrap:wrap; align-items:center}
+    .person:focus-within, .person:hover{outline:2px solid rgba(13,59,102,.22); outline-offset:2px}
+    .table thead th{background:#f4f7fb; white-space:nowrap; user-select:none}
+    .table td{vertical-align:middle}
+    .chart-card{min-height:240px}
+    .multiselect{height:120px}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="accountability/index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="accountability/index.html">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="accountability/financial-alignments.html">Financial Alignments</a></li>
+        <li class="nav-item"><a class="nav-link" href="accountability/badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link" href="/digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
+        <p class="mb-0">Aggregate updates as you filter. Click a member for receipts and votes.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="accountability/index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
+        <a class="btn btn-danger btn-sm" href="accountability/badges.html#thresholds"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container my-4">
+  <!-- Filters -->
+  <div class="cardish p-3 mb-3">
+    <div class="row g-2">
+      <div class="col-lg-3">
+        <label for="fa-search" class="form-label">Search (name, state, seat)</label>
+        <input type="search" id="fa-search" class="form-control" placeholder="e.g., WA-10 or ‘Smith’" autocomplete="off"/>
+      </div>
+      <div class="col-lg-3">
+        <label for="fa-party" class="form-label">Party (multi)</label>
+        <select id="fa-party" class="form-select multiselect" multiple>
+          <option value="D">Democrats</option>
+          <option value="R">Republicans</option>
+          <option value="I">Independents</option>
+        </select>
+      </div>
+      <div class="col-lg-3">
+        <label for="fa-chamber" class="form-label">Chamber (multi)</label>
+        <select id="fa-chamber" class="form-select multiselect" multiple>
+          <option value="house">House</option>
+          <option value="senate">Senate</option>
+        </select>
+      </div>
+      <div class="col-lg-3">
+        <label for="fa-industry" class="form-label">Industry focus (multi)</label>
+        <select id="fa-industry" class="form-select multiselect" multiple>
+          <option value="pharma">Pharma</option>
+          <option value="defense">Defense</option>
+          <option value="finance">Finance</option>
+          <option value="oil">Oil &amp; Gas</option>
+          <option value="aipac">AIPAC/Israel</option>
+          <option value="tech">Tech</option>
+        </select>
+      </div>
+      <div class="col-12 d-flex gap-2 align-items-center mt-2">
+        <button id="fa-reset" class="btn btn-outline-secondary btn-sm">Reset</button>
+        <button id="btn-export" class="btn btn-outline-dark btn-sm"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
+        <span id="load-status" class="small text-muted ms-1" role="status" aria-live="polite">Loading…</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quad Charts -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
+        <div class="mini">PAC vs Small (avg)</div>
+        <div class="metric mb-2" id="m-pac-small">—</div>
+        <canvas id="chPacSmall" height="140"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
+        <div class="mini">In-District vs Out (sum)</div>
+        <div class="metric mb-2" id="m-geo">—</div>
+        <canvas id="chGeo" height="140"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
+        <div class="mini">Top Industry (mode)</div>
+        <div class="metric mb-2" id="m-top-industry">—</div>
+        <canvas id="chIndustry" height="140"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="cardish p-3 chart-card">
+        <div class="mini">Vote Alignment (avg)</div>
+        <div class="metric mb-2" id="m-vote-align">—</div>
+        <canvas id="chAlign" height="140"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Face List -->
+  <section aria-labelledby="listHeading" class="mt-3">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+      <h2 id="listHeading" class="h6 mb-0">Members — Face List</h2>
+      <span class="small text-muted">Click “Details” for receipts and votes.</span>
+    </div>
+    <div id="fa-list" class="list-people">
+      <div class="text-muted">Loading…</div>
+    </div>
+  </section>
+
+  <!-- Advanced data table -->
+  <details class="cardish p-3 mt-3">
+    <summary class="small fw-semibold">Show data table (advanced)</summary>
+    <div class="table-responsive mt-2">
+      <table class="table table-sm align-middle" id="fa-table-el">
+        <thead>
+        <tr>
+          <th>Member</th>
+          <th>Seat</th>
+          <th class="text-nowrap">PAC %</th>
+          <th class="text-nowrap">Small %</th>
+          <th class="text-nowrap">In vs Out</th>
+          <th>Top Industry</th>
+          <th class="text-nowrap">Vote Align</th>
+          <th>Badges</th>
+        </tr>
+        </thead>
+        <tbody id="fa-table">
+        <tr><td colspan="8" class="text-muted">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+</main>
+
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<!-- ===== Demo fallbacks (one per dataset) ===== -->
+<script id="demo-members" type="application/json">[
+  {"id":"H0WA10001","name":"Demo Member","state":"WA","party":"D","seat":"House",
+   "pac_pct":40,"small_pct":15,"in_vs_out":{"in":12000,"out":30000},
+   "top_industry":"Finance","vote_align":88}
+]</script>
+<script id="demo-donors" type="application/json">{
+  "H0WA10001": {"pac_pct":0.40,"in_state_dollars":12000,"out_state_dollars":30000,
+    "industries":{"Finance":20000,"Tech":8000},
+    "receipts":[{"title":"Demo donor receipt","url":"https://example.com"}]
+  }
+}</script>
+<script id="demo-awards" type="application/json">{
+  "H0WA10001": {"badges":[{"key":"aipac","label":"AIPAC Money"}]}
+}</script>
+<script id="demo-align" type="application/json">{
+  "H0WA10001": {"donor_alignment_index":0.72,
+    "votes":[{"bill":"HR-1","date":"2024-03-10","position":"Yea","url":"https://example.com"}]}
+}</script>
+
+<!-- ===== App (module) ===== -->
+<script type="module">
+/* ---------- tiny utils ---------- */
+const $  = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+const pct   = (n) => Math.round((Number(n)||0) * 100);
+const money = (n) => (Number(n)||0).toLocaleString('en-US',{style:'currency',currency:'USD'});
+const sum   = (arr) => arr.reduce((s,n)=>s+(Number(n)||0),0);
+const THRESH = { PAC_FLAG: 0.50, INDUSTRY_DOMINATE: 0.40, ALIGN_HIGH: 0.60 };
+
+let globalStore = { members:{}, donorsByMember:{}, awardsByMember:{}, voteAlignByMember:{} };
+
+/* ---------- fetch + fallback helpers ---------- */
+async function fetchJSON(path, timeoutMs=15000){
+  const res = await fetch(path, { signal: AbortSignal.timeout(timeoutMs), cache:'no-store' });
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${path}`);
+  return res.json();
+}
+function readDemo(id){ const el = document.getElementById(id); return el ? JSON.parse(el.textContent) : null; }
+async function tryJSON(path, demoId){ try { return await fetchJSON(path); } catch { return readDemo(demoId); } }
+function arrayToMemberMap(arr){
+  if (!Array.isArray(arr)) return arr || {};
+  const m = {};
+  for (const x of arr) {
+    const key = x.bioguide || x.bioguide_id || x.id || x.member_id;
+    if (key) m[key] = x;
+  }
+  return m;
+}
+async function loadAll(){
+  const [membersRaw, donors, awards, align] = await Promise.all([
+    tryJSON('/data/members.json',         'demo-members'),
+    tryJSON('/data/donors-by-member.json','demo-donors'),
+    tryJSON('/data/member-awards.json',   'demo-awards'),
+    tryJSON('/data/vote-alignments.json', 'demo-align')
+  ]);
+  return {
+    members: arrayToMemberMap(membersRaw || []),
+    donorsByMember: donors || {},
+    awardsByMember: awards || {},
+    voteAlignByMember: align || {}
+  };
+}
+
+/* ---------- domain helpers ---------- */
+function topIndustry(d){
+  if(!d || !d.industries) return {key:'—', share:0};
+  const entries = Object.entries(d.industries).filter(([,v])=> (v||0)>0);
+  if(!entries.length) return {key:'—', share:0};
+  const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
+  entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
+  const [key, amt] = entries[0];
+  return {key, share:(amt||0)/total};
+}
+function computeChips(dRec, aRec, vRec){
+  const chips=[];
+  const pacPct = dRec?.pac_pct ?? 0;
+  chips.push(pacPct >= THRESH.PAC_FLAG
+    ? ['chip-danger','fa-hand-holding-dollar',`High PAC: ${pct(pacPct)}%`]
+    : ['chip-ok','fa-people-group',`Small donors: ${100-pct(pacPct)}%`]);
+
+  const in$ = dRec?.in_state_dollars || 0, out$ = dRec?.out_state_dollars || 0;
+  chips.push(out$ > in$ * 1.05
+    ? ['chip-warn','fa-route',`Out-of-state heavy (${money(out$)} vs ${money(in$)})`]
+    : ['chip-ok','fa-house-flag',`Local support (${money(in$)})`]);
+
+  const ti = topIndustry(dRec);
+  if(ti.key !== '—' && ti.share >= THRESH.INDUSTRY_DOMINATE){
+    chips.push(['chip-danger','fa-industry','Dominant industry: '+ti.key]);
+  }
+
+  const align = vRec?.donor_alignment_index ?? null;
+  if(align!==null && align >= THRESH.ALIGN_HIGH){
+    chips.push(['chip-danger','fa-scale-balanced',`Donor-aligned votes: ${pct(align)}%`]);
+  }
+
+  if(aRec && Array.isArray(aRec.badges)){
+    aRec.badges.forEach(b=> chips.push(['chip-danger','fa-award', b.label || b.key]));
+  }
+  return chips;
+}
+function rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember){
+  const m = members?.[mid] || {};
+  const d = donorsByMember?.[mid] || {};
+  const a = awardsByMember?.[mid] || null;
+  const v = voteAlignByMember?.[mid] || null;
+  const ti = topIndustry(d);
+  const pacP = pct(d.pac_pct||0), smlP = 100 - pacP;
+  const in$  = d.in_state_dollars||0, out$ = d.out_state_dollars||0;
+  const chips = computeChips(d, a, v);
+  const alignPct = (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null;
+
+  const id = m.bioguide || m.bioguide_id || m.id || mid;
+  const photo = id ? `/assets/members/${id}.jpg` : '/assets/no-photo.png';
+
+  const receipts = [
+    ...(Array.isArray(d.receipts)?d.receipts:[]),
+    ...(((v&&v.votes)||[]).filter(x=>x.url).map(x=>({title:`Vote: ${x.bill||'Bill'}`, url:x.url})))
+  ];
+  if(!receipts.length){
+    (m.fec_ids||[]).forEach(fid => receipts.push({title:`FEC ${fid}`, url:`https://www.fec.gov/data/candidate/${fid}/?cycle=2024`}));
+    if(!receipts.length && m.name){
+      receipts.push({title:'FEC search', url:`https://www.fec.gov/data/search/?search=${encodeURIComponent(m.name)}`});
+    }
+  }
+
+  return {
+    mid,
+    name: m.name || mid,
+    seat: m.seat || (m.state || '—'),
+    party: (m.party || '').toUpperCase(),
+    chamber: (m.chamber || '').toLowerCase(),
+    state: (m.state || '').toUpperCase(),
+    photo,
+    pacP, smlP, in$, out$,
+    topIndustryKey: ti.key, topIndustryShare: ti.share,
+    align: alignPct,
+    chips,
+    votes: (v && v.votes) || [],
+    receipts
+  };
+}
+
+/* ---------- charts ---------- */
+let chPacSmall, chGeo, chIndustry, chAlign;
+function ensureCharts(){
+  const ctx1 = $('#chPacSmall').getContext('2d');
+  const ctx2 = $('#chGeo').getContext('2d');
+  const ctx3 = $('#chIndustry').getContext('2d');
+  const ctx4 = $('#chAlign').getContext('2d');
+  if(!chPacSmall) chPacSmall = new Chart(ctx1, {type:'doughnut', data:{labels:['PAC','Small'], datasets:[{data:[0,0]}]}, options:{plugins:{legend:{display:true}}, cutout:'60%'}});
+  if(!chGeo)      chGeo      = new Chart(ctx2, {type:'bar',      data:{labels:['In','Out'], datasets:[{data:[0,0]}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}});
+  if(!chIndustry) chIndustry = new Chart(ctx3, {type:'doughnut', data:{labels:[], datasets:[{data:[]}]}, options:{plugins:{legend:{display:true}}, cutout:'60%'}});
+  if(!chAlign)    chAlign    = new Chart(ctx4, {type:'bar',      data:{labels:['Avg Align %'], datasets:[{data:[0]}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, max:100}}}});
+}
+function updateCharts(agg){
+  ensureCharts();
+  chPacSmall.data.datasets[0].data = [Math.round(agg.pacAvg*100), 100-Math.round(agg.pacAvg*100)];
+  chPacSmall.update();
+
+  chGeo.data.datasets[0].data = [agg.inSum, agg.outSum];
+  chGeo.update();
+
+  chIndustry.data.labels = agg.topIndustries.labels;
+  chIndustry.data.datasets[0].data = agg.topIndustries.values;
+  chIndustry.update();
+
+  chAlign.data.datasets[0].data = [Math.round(agg.alignAvg*100)||0];
+  chAlign.update();
+}
+
+/* ---------- rendering + filters ---------- */
+function getSelectedValues(sel){ return [...sel.selectedOptions].map(o=>o.value); }
+
+function renderAll(){
+  const {members, donorsByMember, awardsByMember, voteAlignByMember} = globalStore;
+  const list = $('#fa-list');
+  const tbody = $('#fa-table');
+
+  const mids = Object.keys(members||{});
+  if (!mids.length){
+    list.innerHTML = `<div class="text-muted">No members found.</div>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No data.</td></tr>`;
+    return;
+  }
+
+  const listHTML = mids.map(mid=>{
+    const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
+    return `
+    <article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}"
+             data-seat="${(d.seat||'').toLowerCase()}" data-state="${d.state}"
+             data-chamber="${d.chamber}" data-party="${d.party}">
+      <div class="rowwrap">
+        <div class="thumb"><img src="${d.photo}" alt="${d.name}" loading="lazy" onerror="this.src='/assets/no-photo.png'"></div>
+        <div class="pdata">
+          <h3 class="name h6 mb-1">${d.name}</h3>
+          <div class="sub mb-1">${d.seat}${d.party?' • '+d.party:''}</div>
+          <div class="chips mb-2">${d.chips.map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ')}</div>
+          <div class="actions">
+            <button class="btn btn-sm btn-primary btn-details" data-mid="${d.mid}"><i class="fa-solid fa-receipt me-1"></i>Details</button>
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+  list.innerHTML = listHTML;
+
+  const rowsHTML = mids.map(mid=>{
+    const d = rowData(mid, members, donorsByMember, awardsByMember, voteAlignByMember);
+    return `
+    <tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${(d.seat||'').toLowerCase()}"
+        data-state="${d.state}" data-chamber="${d.chamber}" data-party="${d.party}">
+      <td><span class="fw-bold">${d.name}</span></td>
+      <td>${d.seat}</td>
+      <td data-val="${d.pacP}">${d.pacP}%</td>
+      <td data-val="${d.smlP}">${d.smlP}%</td>
+      <td data-val="${d.in$ - d.out$}">${money(d.in$)} / ${money(d.out$)}</td>
+      <td data-val="${Math.round(d.topIndustryShare*100)}">${d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</td>
+      <td data-val="${d.align ?? -1}">${d.align===null?'—':d.align+'%'}</td>
+      <td>${d.chips.map(ch=>ch[2]).join(' | ')}</td>
+    </tr>`;
+  }).join('');
+  tbody.innerHTML = rowsHTML;
+
+  $$('.btn-details').forEach(btn=>{
+    btn.addEventListener('click', e => openModal(e.currentTarget.getAttribute('data-mid')));
+  });
+
+  applyFilters(false); // initial
+}
+
+function passesIndustryFilter(mid, wantedList){
+  if(!wantedList.length) return true;
+  const inds = globalStore.donorsByMember[mid]?.industries || {};
+  const keys = Object.keys(inds).map(k=>k.toLowerCase());
+  return wantedList.some(w => keys.includes(String(w).toLowerCase()));
+}
+function applyFilters(pushState=true){
+  const q = ($('#fa-search').value || '').trim().toLowerCase();
+  const parties = getSelectedValues($('#fa-party'));
+  const chambers = getSelectedValues($('#fa-chamber'));
+  const industries = getSelectedValues($('#fa-industry'));
+
+  const listRows = $$('#fa-list .person');
+  let visible = 0;
+  listRows.forEach(row=>{
+    const mid = row.getAttribute('data-mid');
+    const nm = row.getAttribute('data-name') || '';
+    const st = (row.getAttribute('data-state') || '').toLowerCase();
+    const seat = row.getAttribute('data-seat') || '';
+    const rowParty = row.getAttribute('data-party') || '';
+    const chamber = row.getAttribute('data-chamber') || '';
+    const show = (!q || nm.includes(q) || st.includes(q) || seat.includes(q))
+              && (!parties.length || parties.includes(rowParty))
+              && (!chambers.length || chambers.includes(chamber))
+              && passesIndustryFilter(mid, industries);
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+
+  $$('#fa-table tr[data-mid]').forEach(tr=>{
+    const mid = tr.getAttribute('data-mid');
+    const nm = tr.getAttribute('data-name') || '';
+    const st = (tr.getAttribute('data-state') || '').toLowerCase();
+    const seat = tr.getAttribute('data-seat') || '';
+    const rowParty = tr.getAttribute('data-party') || '';
+    const chamber = tr.getAttribute('data-chamber') || '';
+    const show = (!q || nm.includes(q) || st.includes(q) || seat.includes(q))
+              && (!parties.length || parties.includes(rowParty))
+              && (!chambers.length || chambers.includes(chamber))
+              && passesIndustryFilter(mid, industries);
+    tr.style.display = show ? '' : 'none';
+  });
+
+  $('#load-status').textContent = `Showing ${visible} row(s).`;
+  aggregateAndCharts();
+
+  if(pushState){
+    const p = new URLSearchParams();
+    if(q) p.set('q', q);
+    if(parties.length) p.set('party', parties.join(','));
+    if(chambers.length) p.set('chamber', chambers.join(','));
+    if(industries.length) p.set('industry', industries.join(','));
+    const qs = p.toString();
+    history.replaceState({}, '', qs ? `${location.pathname}?${qs}` : location.pathname);
+  }
+}
+
+function aggregateAndCharts(){
+  const vis = $$('#fa-list .person').filter(el => el.style.display !== 'none');
+  if(!vis.length){
+    $('#m-pac-small').textContent = '—';
+    $('#m-geo').textContent = '—';
+    $('#m-top-industry').textContent = '—';
+    $('#m-vote-align').textContent = '—';
+    updateCharts({pacAvg:0,inSum:0,outSum:0,topIndustries:{labels:[],values:[]},alignAvg:0});
+    return;
+  }
+
+  let pacSum=0, alignSum=0, alignCount=0, inSum=0, outSum=0;
+  const industryTotals = {};
+  vis.forEach(row=>{
+    const mid = row.getAttribute('data-mid');
+    const d = globalStore.donorsByMember[mid] || {};
+    const v = globalStore.voteAlignByMember[mid] || {};
+    pacSum += (d.pac_pct||0);
+    if(typeof v.donor_alignment_index === 'number'){ alignSum += v.donor_alignment_index; alignCount++; }
+    inSum += (d.in_state_dollars||0);
+    outSum += (d.out_state_dollars||0);
+
+    const inds = d.industries || {};
+    for(const [k,val] of Object.entries(inds)){
+      if(!val) continue;
+      industryTotals[k] = (industryTotals[k]||0) + val;
+    }
+  });
+
+  const pacAvg   = pacSum/vis.length;
+  const alignAvg = alignCount? (alignSum/alignCount) : 0;
+
+  const sortedInds = Object.entries(industryTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const topIndustries = { labels: sortedInds.map(x=>x[0]), values: sortedInds.map(x=>x[1]) };
+
+  $('#m-pac-small').textContent = `${pct(pacAvg)}% PAC / ${100-pct(pacAvg)}% small`;
+  $('#m-geo').textContent       = `${money(inSum)} in / ${money(outSum)} out`;
+  $('#m-top-industry').textContent = (topIndustries.labels[0] || '—');
+  $('#m-vote-align').textContent   = `${pct(alignAvg)}%`;
+
+  updateCharts({pacAvg, inSum, outSum, topIndustries, alignAvg});
+}
+
+/* ---------- AI caption + share ---------- */
+async function generateAICaption(d) {
+  try {
+    const res = await fetch('/api/ai-caption', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name: d.name,
+        seat: d.seat,
+        party: d.party,
+        pac_pct: d.pacP / 100,
+        small_pct: d.smlP / 100,
+        in_state_dollars: d.in$,
+        out_state_dollars: d.out$,
+        top_industry: d.topIndustryKey,
+        top_industry_share: d.topIndustryShare,
+        donor_align_pct: d.align === null ? null : d.align / 100,
+        badges: d.chips.map(ch => ch[2]),
+      })
+    });
+    if (!res.ok) throw new Error(`AI caption HTTP ${res.status}`);
+    const data = await res.json();
+    return (data && data.caption) || '';
+  } catch (err) {
+    console.warn('AI caption failed:', err);
+    return `${d.name} — ${d.seat}${d.party ? ' ('+d.party+')' : ''}. PAC: ${d.pacP}%, Small donors: ${d.smlP}%. ${d.topIndustryKey!=='—' ? 'Top: '+d.topIndustryKey+' ('+pct(d.topIndustryShare)+'%)' : ''} #EvergreenPact`;
+  }
+}
+function setShareLinks(d, captionText) {
+  const url = location.origin + location.pathname;
+  const text = captionText || `${d.name} — PAC ${d.pacP}% | Small ${d.smlP}% | ${d.topIndustryKey!=='—' ? 'Top: '+d.topIndustryKey : ''} #EvergreenPact`;
+
+  const x = $('#shareX');
+  if (x) {
+    const xParams = new URLSearchParams({ text, url });
+    x.href = `https://twitter.com/intent/tweet?${xParams.toString()}`;
+  }
+
+  const rd = $('#shareReddit');
+  if (rd) {
+    const rParams = new URLSearchParams({ url, title: text });
+    rd.href = `https://www.reddit.com/submit?${rParams.toString()}`;
+  }
+
+  const tiktokBtn = $('#shareTikTok');
+  if (tiktokBtn) {
+    tiktokBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+        tiktokBtn.innerHTML = `<i class="fa-brands fa-tiktok me-1"></i>Copied!`;
+        setTimeout(()=> tiktokBtn.innerHTML = `<i class="fa-brands fa-tiktok me-1"></i>Copy TikTok Caption`, 1400);
+      } catch {
+        alert('Copy failed. Long-press to copy:\n\n' + text);
+      }
+    };
+  }
+}
+
+/* ---------- modal ---------- */
+async function openModal(mid){
+  const d = rowData(mid, globalStore.members, globalStore.donorsByMember, globalStore.awardsByMember, globalStore.voteAlignByMember);
+
+  $('#memberTitle').textContent = `${d.name} — ${d.seat}${d.party ? ' ('+d.party+')' : ''}`;
+  $('#memberMeta').textContent  = `Top industry: ${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`} • PAC: ${d.pacP}% • Vote align: ${d.align===null?'—':d.align+'%'}`;
+
+  $('#overview-body').innerHTML = `
+    <div class="row g-3">
+      <div class="col-md-4"><img src="${d.photo}" class="w-100 rounded" alt="${d.name} headshot" loading="lazy" onerror="this.src='/assets/no-photo.png'"></div>
+      <div class="col-md-8">
+        <p class="mb-2"><strong>Badges:</strong> ${d.chips.length ? d.chips.map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ') : 'None yet'}</p>
+        <ul class="mb-0">
+          <li>PAC share: <strong>${d.pacP}%</strong> (small donors: <strong>${d.smlP}%</strong>)</li>
+          <li>In vs Out: <strong>${money(d.in$)}</strong> in / <strong>${money(d.out$)}</strong> out</li>
+          <li>Top industry: <strong>${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</strong></li>
+          <li>Vote alignment with donors: <strong>${d.align===null?'—':d.align+'%'}</strong></li>
+        </ul>
+      </div>
+    </div>`;
+
+  const inds = Object.entries(globalStore.donorsByMember[mid]?.industries||{}).sort((a,b)=>b[1]-a[1]);
+  $('#money-body').innerHTML = inds.length
+    ? `<div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead><tbody>${inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('')}</tbody></table></div><div class="small text-muted">Source: FEC filings; cycle-to-date.</div>`
+    : `<p class="text-muted mb-0">No sector detail available.</p>`;
+
+  const votes = d.votes || [];
+  $('#votes-body').innerHTML = votes.length
+    ? `<div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead><tbody>${votes.map(x=>`<tr><td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('')}</tbody></table></div>`
+    : `<p class="text-muted mb-0">No tracked votes yet.</p>`;
+
+  $('#receipts-body').innerHTML = d.receipts.length
+    ? `<ul class="list-unstyled mb-0">${d.receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
+    : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
+
+  setShareLinks(d, '');
+  const caption = await generateAICaption(d);
+  setShareLinks(d, caption);
+
+  new bootstrap.Modal(document.getElementById('memberModal')).show();
+}
+
+/* ---------- boot ---------- */
+document.addEventListener('DOMContentLoaded', async ()=>{
+  const setStatus = (t) => { const el = $('#load-status'); if (el) el.textContent = t; };
+  setStatus('Loading data…');
+
+  try{
+    globalStore = await loadAll();
+    renderAll();
+    setStatus('Data ready.');
+  }catch(e){
+    console.error(e);
+    setStatus('Failed to load /data files.');
+  }
+
+  // filters
+  $('#fa-search').addEventListener('input', ()=>applyFilters());
+  $('#fa-party').addEventListener('change', ()=>applyFilters());
+  $('#fa-chamber').addEventListener('change', ()=>applyFilters());
+  $('#fa-industry').addEventListener('change', ()=>applyFilters());
+  $('#fa-reset').addEventListener('click', ()=>{
+    $('#fa-search').value='';
+    ['#fa-party','#fa-chamber','#fa-industry'].forEach(sel => {
+      [...$(sel).options].forEach(o=>o.selected=false);
+    });
+    applyFilters();
+  });
+
+  // export visible
+  $('#btn-export').addEventListener('click', ()=>{
+    const rows = $$('#fa-table tr[data-mid]').filter(tr=>tr.style.display!=='none');
+    if(!rows.length) return;
+    const esc = s => `"${String(s).replace(/"/g,'""')}"`;
+    const header = ['Member','Seat','PAC %','Small %','In $','Out $','Top Industry','Vote Align','Badges'];
+    const csv = [header.join(',')];
+    rows.forEach(tr=>{
+      const mid = tr.getAttribute('data-mid');
+      const d = rowData(mid, globalStore.members, globalStore.donorsByMember, globalStore.awardsByMember, globalStore.voteAlignByMember);
+      const badges = d.chips.map(ch => ch[2]).join(' | ');
+      csv.push([d.name,d.seat,`${d.pacP}%`,`${d.smlP}%`,money(d.in$),money(d.out$),
+                d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`,
+                d.align===null?'—':`${d.align}%`, badges].map(esc).join(','));
+    });
+    const blob = new Blob([csv.join('\n')], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'financial-alignments.csv';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+});
+</script>
+
+<!-- Member Details Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="memberTitle" class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul id="tabs" class="nav nav-tabs mb-3" role="tablist">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-overview" type="button">Overview</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-money" type="button">Money</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-votes" type="button">Votes</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-receipts" type="button">Receipts</button></li>
+        </ul>
+        <div class="tab-content">
+          <div id="tab-overview" class="tab-pane fade show active"><div id="overview-body"></div></div>
+          <div id="tab-money" class="tab-pane fade"><div id="money-body"></div></div>
+          <div id="tab-votes" class="tab-pane fade"><div id="votes-body"></div></div>
+          <div id="tab-receipts" class="tab-pane fade"><div id="receipts-body"></div></div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <div class="small text-muted" id="memberMeta"></div>
+        <div class="d-flex gap-2 align-items-center">
+          <button id="shareTikTok" class="btn btn-outline-dark btn-sm" type="button" title="Copy caption for TikTok"><i class="fa-brands fa-tiktok me-1"></i>Copy TikTok Caption</button>
+          <a id="shareReddit" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener"><i class="fa-brands fa-reddit-alien me-1"></i>Reddit</a>
+          <a id="shareX" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter me-1"></i>X</a>
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

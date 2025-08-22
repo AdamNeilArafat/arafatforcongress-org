@@ -1,0 +1,19 @@
+{
+  "name": "arafatforcongress-org",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build:members": "node scripts/build-members-json.mjs",
+    "build:financials": "node scripts/build-financials.mjs",
+    "build:awards": "node scripts/annotate-awards.mjs",
+    "build:data": "npm run build:members && npm run build:financials && npm run build:awards"
+  },
+  "dependencies": {
+    "csv-parse": "^6.1.0",
+    "yaml": "^2.8.1"
+  }
+}
