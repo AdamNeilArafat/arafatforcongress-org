@@ -32,7 +32,7 @@ jobs:
 
       - uses: actions/configure-pages@v5
         with:
-          enablement: true   # <— important
+          enablement: true
 
       - uses: actions/setup-node@v4
         with:
