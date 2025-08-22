@@ -5,7 +5,8 @@
   "scripts": {
     "build:members": "node scripts/build-members-json.mjs",
     "build:financials": "node scripts/build-financials.mjs",
-    "build:awards": "node scripts/annotate-awards.mjs"
+    "build:awards": "node scripts/annotate-awards.mjs",
+    "build:data": "npm run build:members && npm run build:financials && npm run build:awards"
   },
   "dependencies": {
     "node-fetch": "^3.3.2"
