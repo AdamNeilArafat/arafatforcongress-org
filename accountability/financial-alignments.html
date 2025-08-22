@@ -292,8 +292,10 @@
 }
 </script>
 <script id="demo-awards" type="application/json">
-{ "D000001":{"badges":[{"key":"high-pac","label":"High PAC Reliance"}]},
-  "R000002":{"badges":[{"key":"dominant-industry","label":"Dominant Industry"}]} }
+{
+  "D000001":{"badges":[{"key":"high-pac","label":"High PAC Reliance"}]},
+  "R000002":{"badges":[{"key":"dominant-industry","label":"Dominant Industry"}]}
+}
 </script>
 <script id="demo-align" type="application/json">
 {
@@ -304,141 +306,116 @@
 </script>
 
 <script>
-<script>
 (async function(){
   // ---------- tiny utils ----------
   const $  = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
 
-  // THRESHOLDS (unchanged)
+  // THRESHOLDS
   const THRESH = { PAC_FLAG: 0.40, INDUSTRY_DOMINATE: 0.35, ALIGN_HIGH: 0.90 };
 
-  // Helpers
   const pct   = n => Math.round((n||0)*100);
   const money = n => '$' + (Math.round(n||0)).toLocaleString();
   const isURL = s => typeof s === 'string' && /^https?:\/\//i.test(s);
 
-  // Inline JSON fallback
   const parseInlineJSON = (id, fallback={})=>{
     try{ return JSON.parse(document.getElementById(id).textContent.trim()); }catch{ return fallback; }
   };
 
   // ---------- robust data loader with last-good cache ----------
-  cconst CACHE_KEY = 'faCache-v4';
-const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
+  const CACHE_KEY = 'faCache-v4';
+  const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
 
-// Safe parse helper (never throws)
-function safeJSON(s, fallback = null) {
-  try { return JSON.parse(s); } catch { return fallback; }
-}
+  const isArray = x => Array.isArray(x);
+  const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
 
-// Basic shape checks (adjust as needed)
-const isArray = x => Array.isArray(x);
-const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
+  // Validate shapes (members & awards are OBJECT maps keyed by member id)
+  function isValidPayload(p) {
+    return p
+      && isObj(p.members)
+      && isObj(p.donorsByMember)
+      && isObj(p.awardsByMember)
+      && isObj(p.voteAlignByMember);
+  }
 
-function isValidPayload(p) {
-  return p
-    && isArray(p.members)
-    && isObj(p.donorsByMember)
-    && isArray(p.awardsByMember)
-    && isObj(p.voteAlignByMember);
-}
+  function fetchWithTimeout(url, opts = {}, ms = 12000) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), ms);
+    return fetch(url, { ...opts, signal: ctrl.signal, cache: 'no-store' })
+      .finally(() => clearTimeout(t));
+  }
 
-// Timeout wrapper for fetch
-function fetchWithTimeout(url, opts = {}, ms = 12000) {
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), ms);
-  return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(t));
-}
+  async function fetchJSON(path) {
+    const r = await fetchWithTimeout(path);
+    if (!r.ok) throw new Error(`HTTP ${r.status} ${path}`);
+    return r.json();
+  }
 
-async function fetchJSON(path) {
-  const r = await fetchWithTimeout(path, { cache: 'no-store' });
-  if (!r.ok) throw new Error(`HTTP ${r.status} ${path}`);
-  return r.json();
-}
+  function readCache() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+      if (!cached) return null;
+      if (!isValidPayload(cached)) return null;
+      if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null;
+      return cached;
+    } catch { return null; }
+  }
 
-function readCache() {
-  const cached = safeJSON(localStorage.getItem(CACHE_KEY));
-  if (!cached) return null;
-  if (!isValidPayload(cached)) return null;
-  if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null; // expired
-  return cached;
-}
+  function writeCache(payload) {
+    try {
+      if (isValidPayload(payload)) {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 }));
+      }
+    } catch { /* ignore storage errors */ }
+  }
 
-function writeCache(payload) {
-  try {
-    if (isValidPayload(payload)) {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 }));
+  async function loadAll() {
+    const cached = readCache();
+    if (cached) {
+      // background refresh (stale-while-revalidate)
+      loadAll.refresh().catch(()=>{});
+      return cached;
     }
-  } catch {
-    // storage full or disabled — ignore
-  }
-}
-
-// Optional: inline JSON helper you already have
-function parseInlineJSON(id, fallback={}) {
-  try { return JSON.parse(document.getElementById(id).textContent.trim()); }
-  catch { return fallback; }
-}
-
-// Returns a payload immediately (cache/demo) and refreshes in background.
-// Usage: const payload = await loadAll(); // fast
-//        loadAll.refresh()?.catch(()=>{}); // optional manual refresh
-async function loadAll() {
-  // 1) Serve cache fast if valid
-  const cached = readCache();
-  if (cached) {
-    // kick a background refresh; don't block UI
-    loadAll.refresh().catch(() => {});
-    return cached;
+    try {
+      const fresh = await loadAll.fetchNetwork();
+      writeCache(fresh);
+      return fresh;
+    } catch {
+      const demo = {
+        members:           parseInlineJSON('demo-members', {}),
+        donorsByMember:    parseInlineJSON('demo-donors', {}),
+        awardsByMember:    parseInlineJSON('demo-awards', {}),
+        voteAlignByMember: parseInlineJSON('demo-align',  {})
+      };
+      if (isValidPayload(demo)) writeCache(demo);
+      return demo;
+    }
   }
 
-  // 2) Try network; if it fails, fall back to demo
-  try {
+  loadAll.refresh = async function() {
     const fresh = await loadAll.fetchNetwork();
     writeCache(fresh);
     return fresh;
-  } catch {
-    // 3) Last resort: inline demo
-    const demo = {
-      members:            parseInlineJSON('demo-members', []),
-      donorsByMember:     parseInlineJSON('demo-donors', {}),
-      awardsByMember:     parseInlineJSON('demo-awards', []),
-      voteAlignByMember:  parseInlineJSON('demo-align',  {})
-    };
-    if (isValidPayload(demo)) writeCache(demo);
-    return demo;
-  }
-}
-
-// Background refresh (SWR)
-loadAll.refresh = async function() {
-  const fresh = await loadAll.fetchNetwork();
-  writeCache(fresh);
-  return fresh;
-};
-
-// Actual network fetcher (with awards filename fallback)
-loadAll.fetchNetwork = async function() {
-  const [members, donors, awards, align] = await Promise.all([
-    fetchJSON('/data/members.json'),
-    fetchJSON('/data/donors-by-member.json'),
-    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
-    fetchJSON('/data/vote-alignments.json')
-  ]);
-
-  const payload = {
-    members,
-    donorsByMember: donors,
-    awardsByMember: awards,
-    voteAlignByMember: align,
-    ts: Date.now(),
-    v: 4
   };
 
-  if (!isValidPayload(payload)) throw new Error('Invalid payload shape');
-  return payload;
-};
+  loadAll.fetchNetwork = async function() {
+    const [members, donors, awardsOrBadges, align] = await Promise.all([
+      fetchJSON('/data/members.json'),
+      fetchJSON('/data/donors-by-member.json'),
+      fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
+      fetchJSON('/data/vote-alignments.json')
+    ]);
+    const payload = {
+      members,
+      donorsByMember: donors,
+      awardsByMember: awardsOrBadges,
+      voteAlignByMember: align,
+      ts: Date.now(),
+      v: 4
+    };
+    if (!isValidPayload(payload)) throw new Error('Invalid payload shape');
+    return payload;
+  };
 
   // ---------- boot ----------
   $('#load-status').textContent = 'Loading data…';
@@ -495,7 +472,6 @@ loadAll.fetchNetwork = async function() {
 
   function resolvePhoto(m){
     const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-    // match Admin/Index: prefer explicit photo, else bioguide/id path, else placeholder
     if (typeof m.photo === 'string' && m.photo) return m.photo;
     const id = m.bioguide || m.bioguide_id || m.id;
     return id ? `/assets/members/${id}.jpg` : ph;
@@ -513,7 +489,7 @@ loadAll.fetchNetwork = async function() {
     const chips = computeChips(d, a, v);
     const alignPct = (typeof (v&&v.donor_alignment_index)==='number') ? pct(v.donor_alignment_index) : null;
 
-    // Receipts: finance receipts + vote links + FEC fallback (candidate pages)
+    // Receipts: finance receipts + vote links + FEC fallback
     const receipts = [
       ...(Array.isArray(d.receipts)?d.receipts:[]),
       ...(((v&&v.votes)||[]).filter(x=>x.url).map(x=>({title:`Vote: ${x.bill||'Bill'}`, url:x.url})))
@@ -543,7 +519,7 @@ loadAll.fetchNetwork = async function() {
     };
   }
 
-  // ---------- build list + table (from ALL MEMBERS) ----------
+  // ---------- build list + table ----------
   const listEl = $('#fa-list');
   const tbody  = $('#fa-table');
 
@@ -604,7 +580,6 @@ loadAll.fetchNetwork = async function() {
   }
 
   function rebuildBottom(){
-    // 👉 build from ALL MEMBERS so you never get “only 3 demo”
     const mids = Object.keys(members||{});
     if(!mids.length){
       listEl.innerHTML = `<div class="text-muted">No member data found.</div>`;
@@ -631,8 +606,7 @@ loadAll.fetchNetwork = async function() {
   const qInput = $('#fa-member'),
         partySel = $('#fa-party'),
         chamberSel = $('#fa-chamber'),
-        industrySel = $('#fa-industry'),
-        resetBtn = $('#fa-reset');
+        industrySel = $('#fa-industry');
 
   function passesIndustryFilter(mid, wanted){
     if(!wanted) return true;
@@ -736,21 +710,22 @@ loadAll.fetchNetwork = async function() {
     const ch = params.get('chamber') || '';
     const ind = params.get('industry') || '';
     const party = params.get('party') || '';
-    if(q) qInput.value = q;
-    if(ch) chamberSel.value = ch;
-    if(ind) industrySel.value = ind;
-    if(party) partySel.value = party.toUpperCase();
+    if(q) $('#fa-member').value = q;
+    if(ch) $('#fa-chamber').value = ch;
+    if(ind) $('#fa-industry').value = ind;
+    if(party) $('#fa-party').value = party.toUpperCase();
   })();
-  qInput.addEventListener('input', ()=>applyFilters());
-  chamberSel.addEventListener('change', ()=>applyFilters());
-  industrySel.addEventListener('change', ()=>applyFilters());
-  partySel.addEventListener('change', ()=>applyFilters());
+
+  $('#fa-member').addEventListener('input', ()=>applyFilters());
+  $('#fa-chamber').addEventListener('change', ()=>applyFilters());
+  $('#fa-industry').addEventListener('change', ()=>applyFilters());
+  $('#fa-party').addEventListener('change', ()=>applyFilters());
   $('#fa-reset').addEventListener('click', ()=>{
-    qInput.value=''; chamberSel.value=''; industrySel.value=''; partySel.value='';
+    $('#fa-member').value=''; $('#fa-chamber').value=''; $('#fa-industry').value=''; $('#fa-party').value='';
     applyFilters();
   });
 
-  // Sorting (advanced table) — unchanged
+  // Sorting (advanced table)
   let sortState = { key:null, dir:1 };
   $('#fa-table-el thead').addEventListener('click', (e)=>{
     const th = e.target.closest('th[data-sort]'); if(!th) return;
@@ -787,7 +762,7 @@ loadAll.fetchNetwork = async function() {
     $('#fa-table').appendChild(frag);
   });
 
-  // CSV export (visible rows) — unchanged
+  // CSV export (visible rows)
   $('#btn-export').addEventListener('click', ()=>{
     const rows = $$('#fa-list .person').filter(row=>row.style.display!=='none');
     if(!rows.length) return;
@@ -809,7 +784,7 @@ loadAll.fetchNetwork = async function() {
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Modal: detail & receipts — unchanged except data source already merged
+  // Modal: detail & receipts
   function openModal(mid){
     $('#compare-wrap').classList.add('d-none');
     $('#tabs').classList.remove('d-none');
@@ -880,7 +855,7 @@ loadAll.fetchNetwork = async function() {
   const compareGo    = $('#compare-go');
   const compareClear = $('#compare-clear');
 
-  function selectedMIDs(){ return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-pick')); }
+  function selectedMIDs(){ return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-ppick') || cb.getAttribute('data-pick')); }
 
   function syncCompareBar(){
     const ids = selectedMIDs();
