@@ -143,7 +143,7 @@
     </div>
     <div class="col-md-6 col-xl-3">
       <div class="cardish p-3 chart-card">
-        <div class="mini">In‑District vs Out (sum)</div>
+        <div class="mini">In-District vs Out (sum)</div>
         <div class="metric mb-2" id="m-geo">—</div>
         <canvas id="chGeo" height="140"></canvas>
       </div>
@@ -220,18 +220,49 @@ const money = (n) => (Number(n)||0).toLocaleString('en-US',{style:'currency',cur
 const sum   = (arr) => arr.reduce((s,n)=>s+(Number(n)||0),0);
 const THRESH = { PAC_FLAG: 0.50, INDUSTRY_DOMINATE: 0.40, ALIGN_HIGH: 0.60 };
 
-/* ---------- data loader (from /data only) ---------- */
+/* ---------- demo fallback (tiny sample) ---------- */
+const DEMO = {
+  members: {
+    "A000001": { bioguide:"A000001", name:"Rep. Sample One", seat:"NY-01", state:"NY", party:"R", chamber:"house", fec_ids:["H0NY01001"] },
+    "B000002": { bioguide:"B000002", name:"Sen. Sample Two", seat:"CA-Senate", state:"CA", party:"D", chamber:"senate", fec_ids:["S0CA00002"] }
+  },
+  donorsByMember: {
+    "A000001": {
+      pac_pct: 0.62, in_state_dollars: 45000, out_state_dollars: 120000,
+      industries: { "Oil & Gas": 65000, "Finance": 30000, "Defense": 20000 },
+      receipts: [{title:"FEC receipts (NY-01)", url:"https://www.fec.gov/data/candidate/H0NY01001/"}]
+    },
+    "B000002": {
+      pac_pct: 0.18, in_state_dollars: 220000, out_state_dollars: 90000,
+      industries: { "Tech": 80000, "Pharma": 15000, "Education": 12000 }
+    }
+  },
+  awardsByMember: {
+    "A000001": { badges:[{key:"out_of_state_heavy", label:"Out-of-State Money"}, {key:"oil_gas_dominant", label:"Oil & Gas Aligned"}] },
+    "B000002": { badges:[{key:"grassroots", label:"Grassroots-Funded"}] }
+  },
+  voteAlignByMember: {
+    "A000001": { donor_alignment_index: 0.71, votes:[{bill:"HR-1234", date:"2024-05-12", position:"Yea", url:"https://clerk.house.gov/Votes/2024512"}] },
+    "B000002": { donor_alignment_index: 0.42, votes:[{bill:"S-5678", date:"2024-06-20", position:"Nay", url:"https://www.senate.gov/legislative/LIS/roll_call_lists/roll_call_vote_cfm.cfm?congress=118"}] }
+  }
+};
+
+/* ---------- data loader: try /data, then demo fallback ---------- */
 async function fetchJSON(path, timeoutMs=15000){
   const res = await fetch(path, { signal: AbortSignal.timeout(timeoutMs), cache:'no-store' });
   if(!res.ok) throw new Error(`HTTP ${res.status} ${path}`);
   return res.json();
 }
+async function tryJSON(path, demoObj){
+  try { return await fetchJSON(path); }
+  catch { return demoObj; }
+}
 async function loadAll(){
   const [membersRaw, donors, awardsOrBadges, align] = await Promise.all([
-    fetchJSON('/data/members.json'),
-    fetchJSON('/data/donors-by-member.json'),
-    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json').catch(()=>({}))),
-    fetchJSON('/data/vote-alignments.json')
+    tryJSON('/data/members.json', DEMO.members),
+    tryJSON('/data/donors-by-member.json', DEMO.donorsByMember),
+    tryJSON('/data/member-awards.json', await tryJSON('/data/badges.json', DEMO.awardsByMember)),
+    tryJSON('/data/vote-alignments.json', DEMO.voteAlignByMember)
   ]);
   return {
     members: membersRaw,             // map keyed by id/bioguide
@@ -418,8 +449,8 @@ function passesIndustryFilter(mid, wantedList){
 }
 function applyFilters(pushState=true){
   const q = ($('#fa-search').value || '').trim().toLowerCase();
-  const parties = getSelectedValues($('#fa-party'));     // e.g., ['D','R']
-  const chambers = getSelectedValues($('#fa-chamber'));  // e.g., ['house']
+  const parties = getSelectedValues($('#fa-party'));
+  const chambers = getSelectedValues($('#fa-chamber'));
   const industries = getSelectedValues($('#fa-industry'));
 
   const listRows = $$('#fa-list .person');
@@ -510,8 +541,68 @@ function aggregateAndCharts(){
   updateCharts({pacAvg, inSum, outSum, topIndustries, alignAvg});
 }
 
+/* ---------- AI caption + share ---------- */
+async function generateAICaption(d) {
+  // Call your serverless function – keep API keys on the server.
+  try {
+    const res = await fetch('/api/ai-caption', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name: d.name,
+        seat: d.seat,
+        party: d.party,
+        pac_pct: d.pacP / 100,
+        small_pct: d.smlP / 100,
+        in_state_dollars: d.in$,
+        out_state_dollars: d.out$,
+        top_industry: d.topIndustryKey,
+        top_industry_share: d.topIndustryShare,
+        donor_align_pct: d.align === null ? null : d.align / 100,
+        badges: d.chips.map(ch => ch[2]),
+      })
+    });
+    if (!res.ok) throw new Error(`AI caption HTTP ${res.status}`);
+    const data = await res.json();
+    return (data && data.caption) || '';
+  } catch (err) {
+    console.warn('AI caption failed:', err);
+    // Fallback caption
+    return `${d.name} — ${d.seat}${d.party ? ' ('+d.party+')' : ''}. PAC: ${d.pacP}%, Small donors: ${d.smlP}%. ${d.topIndustryKey!=='—' ? 'Top: '+d.topIndustryKey+' ('+pct(d.topIndustryShare)+'%)' : ''} #EvergreenPact`;
+  }
+}
+function setShareLinks(d, captionText) {
+  const url = location.origin + location.pathname;
+  const text = captionText || `${d.name} — PAC ${d.pacP}% | Small ${d.smlP}% | ${d.topIndustryKey!=='—' ? 'Top: '+d.topIndustryKey : ''} #EvergreenPact`;
+
+  const x = $('#shareX');
+  if (x) {
+    const xParams = new URLSearchParams({ text, url });
+    x.href = `https://twitter.com/intent/tweet?${xParams.toString()}`;
+  }
+
+  const rd = $('#shareReddit');
+  if (rd) {
+    const rParams = new URLSearchParams({ url, title: text });
+    rd.href = `https://www.reddit.com/submit?${rParams.toString()}`;
+  }
+
+  const tiktokBtn = $('#shareTikTok');
+  if (tiktokBtn) {
+    tiktokBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+        tiktokBtn.innerHTML = `<i class="fa-brands fa-tiktok me-1"></i>Copied!`;
+        setTimeout(()=> tiktokBtn.innerHTML = `<i class="fa-brands fa-tiktok me-1"></i>Copy TikTok Caption`, 1400);
+      } catch {
+        alert('Copy failed. Long-press to copy:\n\n' + text);
+      }
+    };
+  }
+}
+
 /* ---------- modal ---------- */
-function openModal(mid){
+async function openModal(mid){
   const d = rowData(mid, globalStore.members, globalStore.donorsByMember, globalStore.awardsByMember, globalStore.voteAlignByMember);
 
   $('#memberTitle').textContent = `${d.name} — ${d.seat}${d.party ? ' ('+d.party+')' : ''}`;
@@ -545,6 +636,11 @@ function openModal(mid){
     ? `<ul class="list-unstyled mb-0">${d.receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
     : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
 
+  // Generate AI caption + wire share links
+  setShareLinks(d, ''); // provisional links using fallback text
+  const caption = await generateAICaption(d);
+  setShareLinks(d, caption);
+
   new bootstrap.Modal(document.getElementById('memberModal')).show();
 }
 
@@ -557,7 +653,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     const data = await loadAll();
     globalStore = data;
     renderAll();
-    setStatus('Data loaded.');
+    setStatus('Data ready.');
   }catch(e){
     console.error(e);
     setStatus('Failed to load /data files.');
@@ -596,7 +692,6 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     const a = document.createElement('a'); a.href = url; a.download = 'financial-alignments.csv';
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
-
 });
 </script>
 
