@@ -1,6 +1,5 @@
 // scripts/build-financials.mjs
 import fs from 'node:fs/promises';
-import fetch from 'node-fetch';
 
 const FEC_KEY = process.env.FEC_API_KEY;
 if (!FEC_KEY) throw new Error('Missing FEC_API_KEY');
@@ -19,30 +18,29 @@ async function loadMembers() {
 }
 
 async function getJSON(url) {
-  const r = await fetch(url);
+  const r = await fetch(url); // uses built-in fetch (Node 18+)
   if (!r.ok) throw new Error(`${r.status} ${url}`);
   return r.json();
 }
 
 // 1) Candidate → committees (for a given cycle)
-async function committeesForCandidate(fecId, cycle=2024, page=1, acc=[]) {
+async function committeesForCandidate(fecId, cycle = 2024, page = 1, acc = []) {
   const url = `${API}/candidate/${fecId}/committees/history/${cycle}/?api_key=${FEC_KEY}&page=${page}&per_page=50`;
   const js = await getJSON(url);
   const out = acc.concat(js.results || []);
   if (js.pagination && page < js.pagination.pages) {
-    return committeesForCandidate(fecId, cycle, page+1, out);
+    return committeesForCandidate(fecId, cycle, page + 1, out);
   }
   return out;
 }
 
 // 2) Committee receipts (summary by contributor type + state)
-//    We pull "three hops" of provenance: contributor → committee → candidate.
-async function committeeReceipts(committeeId, cycle=2024, page=1, acc=[]) {
+async function committeeReceipts(committeeId, cycle = 2024, page = 1, acc = []) {
   const url = `${API}/schedules/schedule_a/?api_key=${FEC_KEY}&committee_id=${committeeId}&two_year_transaction_period=${cycle}&per_page=100&page=${page}`;
   const js = await getJSON(url);
   const out = acc.concat(js.results || []);
   if (js.pagination && page < js.pagination.pages) {
-    return committeeReceipts(committeeId, cycle, page+1, out);
+    return committeeReceipts(committeeId, cycle, page + 1, out);
   }
   return out;
 }
@@ -53,11 +51,10 @@ function sumBy(arr, keyFn) {
     const k = keyFn(x);
     m.set(k, (m.get(k) || 0) + (x.contribution_receipt_amount || 0));
   }
-  return Object.fromEntries([...m.entries()].sort((a,b)=>b[1]-a[1]));
+  return Object.fromEntries([...m.entries()].sort((a, b) => b[1] - a[1]));
 }
 
 function topIndustryFromMemo(memo) {
-  // very rough: look for keywords in memo text; replace with your own mapping table.
   const s = (memo || '').toLowerCase();
   if (s.includes('pharma') || s.includes('biotech')) return 'pharma';
   if (s.includes('oil') || s.includes('gas') || s.includes('energy')) return 'oil';
@@ -71,7 +68,7 @@ function topIndustryFromMemo(memo) {
 async function build() {
   const { members } = await loadMembers();
   const donorsByMember = {};
-  const voteAlignments = {}; // fill if you have a votes source; stub for now.
+  const voteAlignments = {};
 
   for (const m of Object.values(members)) {
     const fecIds = m.fec_ids || [];
@@ -108,8 +105,10 @@ async function build() {
       out_state_dollars: outStateAmt,
       industries: industryBucket,
       receipts: [
-        // three‑hop provenance: point to candidate and a committee receipt list
-        ...(fecIds.map(fid => ({ title: `FEC candidate ${fid}`, url: `https://www.fec.gov/data/candidate/${fid}/?cycle=2024` }))),
+        ...fecIds.map(fid => ({
+          title: `FEC candidate ${fid}`,
+          url: `https://www.fec.gov/data/candidate/${fid}/?cycle=2024`
+        }))
       ]
     };
 
