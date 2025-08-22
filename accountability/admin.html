@@ -17,19 +17,10 @@
 <body class="bg-light">
 <div class="container py-4">
   <h1 class="h4 mb-1">Bulk NO Vote Builder <span class="badge bg-secondary">Private</span></h1>
-  <p class="text-muted small mb-3">Mode: <span class="badge bg-success">Secret backend, no token / no admin key in browser</span></p>
-
-  <!-- Backend endpoint (hardcoded defaults; change if your route differs) -->
-  <div class="row g-2 mb-3">
-    <div class="col-md-6">
-      <label class="form-label mb-1">Append Votes Endpoint</label>
-      <input id="epVotes" class="form-control form-control-sm mono" value="/api/append-votes"/>
-    </div>
-    <div class="col-md-6">
-      <label class="form-label mb-1">Clear Badges Endpoint</label>
-      <input id="epBadges" class="form-control form-control-sm mono" value="/api/clear-badges"/>
-    </div>
-  </div>
+  <p class="text-muted small mb-3">
+    Mode: <span class="badge bg-info">GitHub Action via Issues</span>
+    <span class="ms-2">Submitting the prefilled Issue will auto-commit changes and close itself.</span>
+  </p>
 
   <!-- Filters -->
   <div class="row g-2 mb-3">
@@ -105,8 +96,8 @@
 
     <div class="ms-auto d-flex gap-2">
       <button id="make" class="btn btn-outline-dark btn-sm">Preview JSON for Selected</button>
-      <button id="apply" class="btn btn-primary btn-sm">Apply & Save Votes</button>
-      <button id="removeBadges" class="btn btn-warning btn-sm">Remove Badges for Selected</button>
+      <button id="apply" class="btn btn-primary btn-sm">Open GitHub Issue to Apply</button>
+      <button id="removeBadges" class="btn btn-warning btn-sm">Open Issue to Remove Badges</button>
     </div>
   </div>
 
@@ -125,13 +116,13 @@
 </div>
 
 <script>
+/* ===== Repo constants for Issues workflow ===== */
+const GH_OWNER = "AdamNeilArafat";
+const GH_REPO  = "arafatforcongress-org";
+
 /* ========= State ========= */
 let MEMBERS = {};
 let SELECTED = new Set();
-
-/* ========= Constants ========= */
-const EP_VOTES  = () => (document.getElementById('epVotes').value.trim()  || "/api/append-votes");
-const EP_BADGES = () => (document.getElementById('epBadges').value.trim() || "/api/clear-badges");
 
 /* ========= Load current legislators ========= */
 async function loadMembers() {
@@ -249,65 +240,59 @@ function buildOutput() {
   document.getElementById('out').value = JSON.stringify(rows, null, 2);
 }
 
-/* ========= Apply via backend ========= */
-async function applyVotes(){
-  const rows = buildRows();
-  if (!rows.length) return;
+/* ========= GitHub Issue opener (no auth in browser) ========= */
+function openIssue(mode, payload){
+  const title  = mode === "votes" ? "Admin Apply: Append Votes" : "Admin Apply: Clear Badges";
+  const marker = mode === "votes" ? "<!-- ADMIN:VOTES -->" : "<!-- ADMIN:CLEAR_BADGES -->";
+  const json = JSON.stringify(payload, null, 2);
+  const body = `${marker}
 
-  let res;
-  try{
-    res = await fetch(EP_VOTES(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rows })
+\`\`\`json
+${json}
+\`\`\`
+
+_Requested via admin UI on ${new Date().toISOString()}_`;
+
+  const base = `https://github.com/${GH_OWNER}/${GH_REPO}/issues/new`;
+  const url  = `${base}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+
+  if (url.length > 7500) {
+    navigator.clipboard.writeText(body).then(()=>{
+      const shortBody = `${marker}
+
+(Payload was too large for the URL; it has been copied to your clipboard.)
+**Paste the JSON block below this line, then Submit.**
+`;
+      const shortUrl = `${base}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(shortBody)}`;
+      window.open(shortUrl, "_blank", "noopener");
+      alert("The full payload is copied to your clipboard. Paste into the GitHub issue body, then submit.");
     });
-  }catch(e){
-    alert("Network error calling append-votes API.");
-    return;
+  } else {
+    window.open(url, "_blank", "noopener");
   }
-
-  if (!res.ok) {
-    const text = await res.text().catch(()=> "");
-    alert("Save failed: " + text);
-    return;
-  }
-
-  const j = await res.json().catch(()=>({}));
-  document.getElementById('out').value = JSON.stringify(rows, null, 2);
-  alert(`Saved ${rows.length} row(s).${j?.appended?` Appended: ${j.appended}.`:''}\nSite will reflect after Pages rebuild.`);
 }
 
-async function removeBadges(){
+/* ========= Apply / Remove via Issues ========= */
+async function applyViaIssue(){
+  const rows = buildRows();
+  if (!rows.length) return;
+  const out = document.getElementById('out');
+  if (out) out.value = JSON.stringify(rows, null, 2);
+  openIssue("votes", rows);
+}
+
+async function removeBadgesViaIssue(){
   if (SELECTED.size === 0) { alert('Select at least one member.'); return; }
   const members = Array.from(SELECTED);
-
-  let res;
-  try{
-    res = await fetch(EP_BADGES(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ members })
-    });
-  }catch(e){
-    alert("Network error calling clear-badges API.");
-    return;
-  }
-
-  if (!res.ok) {
-    const text = await res.text().catch(()=> "");
-    alert("Clear failed: " + text);
-    return;
-  }
-
-  const j = await res.json().catch(()=>({}));
-  document.getElementById('out').value = JSON.stringify({ cleared: members }, null, 2);
-  alert(`Cleared badges for ${members.length} member(s).${j?.changed?` Changed: ${j.changed}.`:''}\nRefresh the site to see updates.`);
+  const out = document.getElementById('out');
+  if (out) out.value = JSON.stringify({ members }, null, 2);
+  openIssue("badges", members);
 }
 
 /* ========= Wiring ========= */
 document.getElementById('make').addEventListener('click', buildOutput);
-document.getElementById('apply').addEventListener('click', applyVotes);
-document.getElementById('removeBadges').addEventListener('click', removeBadges);
+document.getElementById('apply').addEventListener('click', applyViaIssue);
+document.getElementById('removeBadges').addEventListener('click', removeBadgesViaIssue);
 
 document.getElementById('copy').addEventListener('click', ()=>navigator.clipboard.writeText(document.getElementById('out').value));
 document.getElementById('download').addEventListener('click', ()=>{
