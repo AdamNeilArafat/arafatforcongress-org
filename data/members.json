@@ -1,11 +1,1 @@
-{
-  "S001234": {
-    "id": "S001234",
-    "name": "Member Name",
-    "seat": "WA-10",
-    "state": "WA",
-    "chamber": "house",
-    "party": "D",
-    "photo": "assets/headshots/S001234.jpg"
-  }
-}
+{}
