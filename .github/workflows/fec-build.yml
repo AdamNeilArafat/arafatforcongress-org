@@ -1,43 +1,73 @@
-name: FEC data build
+name: Build & publish finance data
 
 on:
-  schedule:
-    - cron: "0 10 * * *"  # daily 03:00 PT (10:00 UTC)
   workflow_dispatch:
+  schedule:
+    - cron: "0 9,21 * * *"   # 2x daily UTC
   push:
     paths:
-      - scripts/**.mjs
-      - config/**
+      - "config/**"
+      - "scripts/**"
+      - "pipeline/**"
 
 permissions:
   contents: write
 
 jobs:
-  build-finance:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Use Node 20
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
-      - name: Install deps
-        run: |
-          npm ci || npm i
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-      - name: Build JSON
+      - name: Install pipeline deps (Python)
+        if: hashFiles('pipeline/requirements.txt') != ''
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Install JS deps
+        if: hashFiles('package.json') != ''
+        run: npm ci
+
+      # 1) Pull/build FEC → donors-by-member.json, vote-alignments.json, etc.
+      - name: Run finance pipeline
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
         run: |
-          node scripts/build-members-json.mjs
-          node scripts/build-financials.mjs
+          set -e
+          # Replace these with your real commands/scripts:
+          if [ -f pipeline/build_finance.py ]; then
+            python pipeline/build_finance.py
+          fi
+          if [ -f scripts/build-financials.mjs ]; then
+            node scripts/build-financials.mjs
+          fi
 
-      - name: Commit updated data
+      # 2) (Optional) ChatGPT analysis to produce member-awards.json
+      - name: Analyze & tag with OpenAI (optional)
+        if: env.OPENAI_API_KEY != '' && hashFiles('scripts/annotate-awards.mjs') != ''
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/annotate-awards.mjs
+
+      # 3) Commit only if /data changed
+      - name: Commit & push data
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/*.json || true
-          git diff --quiet && echo "No data changes" || git commit -m "chore(data): refresh FEC JSON"
-          git push
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "data: refresh finance & analysis"
+            git push
+          fi
