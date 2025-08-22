@@ -1,26 +1,14 @@
-{
-  "AARAFAT": {
-    "id": "AARAFAT",
-    "name": "Adam Neil Arafat",
+[
+  {
+    "id": "H0WA10001",
+    "name": "Test Member",
     "state": "WA",
-    "seat": "WA-10",
-    "chamber": "house",
     "party": "D",
-    "bioguide": "A000000",
-    "fec_ids": [
-      "H4WA00123"
-    ]
-  },
-  "S001135": {
-    "id": "S001135",
-    "name": "Marilyn Strickland",
-    "state": "WA",
-    "seat": "WA-10",
-    "chamber": "house",
-    "party": "D",
-    "bioguide": "S001135",
-    "fec_ids": [
-      "H0WA10078"
-    ]
+    "seat": "House",
+    "pac_pct": 35,
+    "small_pct": 20,
+    "in_vs_out": {"in": 10000, "out": 25000},
+    "top_industry": "Tech",
+    "vote_align": 92
   }
-}
+]
