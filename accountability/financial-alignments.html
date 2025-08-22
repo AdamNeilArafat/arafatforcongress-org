@@ -1,4 +1,4 @@
-<!-- financial-alignments.html — FULL, DROP-IN PAGE (updated per plan) -->
+<!-- financial-alignments.html — FULL, DROP-IN PAGE (updated per plan: render ALL members, robust photos, official receipts, live aggregates) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,7 +140,7 @@
     </div>
   </div>
 
-  <!-- Headline Metrics -->
+  <!-- Headline Metrics (aggregate of VISIBLE rows) -->
   <div class="row g-3 mb-3">
     <div class="col-md-3">
       <div class="cardish p-3">
@@ -314,7 +314,7 @@
 </script>
 
 <script>
-/* Financial Alignments — updated: no external profile links, full-row click, resilient photos, official receipts builders */
+/* Financial Alignments — render ALL members, robust photo fallback chain, official receipts, and headline metrics that aggregate the VISIBLE set */
 (async function(){
   const $ = (s, el=document)=>el.querySelector(s);
   const $$ = (s, el=document)=>Array.from(el.querySelectorAll(s));
@@ -351,15 +351,17 @@
   const pct = n => Math.round((n||0)*100);
   const money = n => '$' + (Math.round(n||0)).toLocaleString();
   const isURL = s => typeof s === 'string' && /^https?:\/\//i.test(s);
+  const SILO = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
+
+  const listEl = $('#fa-list');
+  const tbody = $('#fa-table');
 
   function resolveMember(mid){ return members?.[mid] || null; }
 
   // Official receipts URL builders
   function houseClerkURL({congress, session, roll}){
     if(!(congress && session && roll)) return null;
-    // Example: https://clerk.house.gov/Votes?year=2027&rollCall=145  (fallback generic)
-    // Preferred (when available): /VoteSummary?Congress=119&Session=1&RollCall=145
-    return `https://clerk.house.gov/Votes/` + `RollCall?Congress=${encodeURIComponent(congress)}&Session=${encodeURIComponent(session)}&RollCall=${encodeURIComponent(roll)}`;
+    return `https://clerk.house.gov/Votes/RollCall?Congress=${encodeURIComponent(congress)}&Session=${encodeURIComponent(session)}&RollCall=${encodeURIComponent(roll)}`;
   }
   function houseClerkAlt({year, roll}){
     if(!(year && roll)) return null;
@@ -367,7 +369,6 @@
   }
   function senateVoteURL({congress, session, roll}){
     if(!(congress && session && roll)) return null;
-    // CSV/XML listings exist; public “vote” page pattern:
     return `https://www.senate.gov/legislative/LIS/roll_call_votes/vote${String(congress).padStart(3,'0')}${session === 2 ? '2' : '1'}/vote_${String(congress).padStart(3,'0')}_${session === 2 ? '2' : '1'}_${String(roll).padStart(5,'0')}.htm`;
   }
   function fecImageURL(image_number){
@@ -375,16 +376,15 @@
     return `https://docquery.fec.gov/cgi-bin/fecimg/?${encodeURIComponent(image_number)}`;
   }
 
-  // Photo resolver with official fallback
-  function resolvePhoto(m){
-    const SILO = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
-    if (isURL(m?.photo)) return m.photo;
-    if (m?.photo) return m.photo;
-    // Try official portrait if bioguide present
-    if (m?.bioguide) return `https://unitedstates.github.io/images/congress/225x275/${m.bioguide}.jpg`;
-    // Else local assets by id
-    if (m?.id) return `assets/members/${m.id}.jpg`;
-    return SILO;
+  // Photo sources (explicit → official by bioguide → local assets → silhouette)
+  function photoSources(m){
+    const arr = [];
+    if (m?.photo) arr.push(m.photo);
+    if (m?.bioguide) arr.push(`https://unitedstates.github.io/images/congress/225x275/${m.bioguide}.jpg`);
+    if (m?.id) arr.push(`assets/members/${m.id}.jpg`);
+    arr.push(SILO);
+    // de-dupe
+    return arr.filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i);
   }
 
   function topIndustry(d){
@@ -417,24 +417,7 @@
     return chips;
   }
 
-  // Headline metrics (quick pulse from first donor record)
-  (function setHeadline(){
-    const mids = Object.keys(donorsByMember||{});
-    if(!mids.length) return;
-    const mid = mids[0];
-    const d = donorsByMember[mid] || {};
-    const va = voteAlignByMember[mid] || {};
-    const ti = topIndustry(d);
-    $('#m-pac-small').textContent = `${pct(d.pac_pct||0)}% PAC / ${100 - pct(d.pac_pct||0)}% small`;
-    $('#m-geo').textContent = `${money(d.in_state_dollars||0)} in / ${money(d.out_state_dollars||0)} out`;
-    $('#m-top-industry').textContent = ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`;
-    $('#m-vote-align').textContent = typeof va.donor_alignment_index==='number' ? `${pct(va.donor_alignment_index)}%` : '—';
-  })();
-
-  // DOM build
-  const listEl = $('#fa-list');
-  const tbody = $('#fa-table');
-
+  // Build row model from joined data (handles missing donors/votes)
   function rowData(mid){
     const m = resolveMember(mid) || {};
     const d = donorsByMember[mid] || {};
@@ -454,7 +437,7 @@
       chamber: (m.chamber || '').toLowerCase(),
       state: (m.state || '').toLowerCase(),
       bioguide: m.bioguide || m.id || '',
-      photo: resolvePhoto(m),
+      photos: photoSources(m),
       pacP, smlP, in$, out$, topIndustryKey: ti.key, topIndustryShare: ti.share,
       align: alignPct,
       chips,
@@ -470,11 +453,14 @@
   }
 
   function listHTML(d){
-    const ph = "data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#e9eef5'/><g fill='#98a5b4'><circle cx='32' cy='24' r='12'/><rect x='10' y='40' width='44' height='16' rx='8'/></g></svg>");
+    // encode fallback sources on the element to allow multi-step fallback on errors
+    const [src0, src1, src2, src3] = d.photos;
     return `<article class="person" data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}" tabindex="0" role="button" aria-label="Open details for ${d.name}">
       <div class="rowwrap">
         <div class="thumb">
-          <img src="${d.photo}" alt="${d.name} headshot" loading="lazy" onerror="this.onerror=null;this.src='${ph}';">
+          <img class="headshot"
+               src="${src0}" alt="${d.name} headshot" loading="lazy"
+               data-src0="${src0||''}" data-src1="${src1||''}" data-src2="${src2||''}" data-src3="${src3||''}">
         </div>
         <div class="pdata">
           <div class="d-flex justify-content-between align-items-start gap-2">
@@ -498,10 +484,14 @@
   }
 
   function tableRowHTML(d){
+    const [src0, src1, src2, src3] = d.photos;
     return `<tr data-mid="${d.mid}" data-name="${d.name.toLowerCase()}" data-seat="${d.seat.toLowerCase()}" data-state="${d.state}" data-chamber="${d.chamber}">
       <td>
         <div class="d-flex align-items-center gap-2">
-          <img style="width:36px;height:36px;object-fit:cover;border-radius:50%;border:1px solid var(--ring-strong)" src="${d.photo}" alt="${d.name} headshot" loading="lazy">
+          <img class="headshot"
+               style="width:36px;height:36px;object-fit:cover;border-radius:50%;border:1px solid var(--ring-strong)"
+               src="${src0}" alt="${d.name} headshot" loading="lazy"
+               data-src0="${src0||''}" data-src1="${src1||''}" data-src2="${src2||''}" data-src3="${src3||''}">
           <div><div class="fw-bold">${d.name}</div><div class="text-muted small">${d.party}</div></div>
         </div>
       </td>
@@ -515,16 +505,36 @@
     </tr>`;
   }
 
+  // Attach multi-step photo fallback to every .headshot
+  function attachPhotoFallback(scope=document){
+    $$('.headshot', scope).forEach(img=>{
+      let idx = 0;
+      const chain = [img.dataset.src0, img.dataset.src1, img.dataset.src2, img.dataset.src3].filter(Boolean);
+      img.addEventListener('error', function onErr(){
+        idx++;
+        if(idx < chain.length){
+          img.src = chain[idx];
+        }else{
+          img.removeEventListener('error', onErr);
+        }
+      });
+    });
+  }
+
+  // Build ALL members (not just those with donor rows)
   function rebuildBottom(){
-    const mids = Object.keys(donorsByMember||{});
+    const mids = Object.keys(members || {});
     if(!mids.length){
-      listEl.innerHTML = `<div class="text-muted">No finance data found.</div>`;
-      tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No finance data found.</td></tr>`;
+      listEl.innerHTML = `<div class="text-muted">No roster found.</div>`;
+      tbody.innerHTML = `<tr><td colspan="8" class="text-muted">No roster found.</td></tr>`;
       return;
     }
     const rows = mids.map(mid => rowData(mid));
+
     // LIST
     listEl.innerHTML = rows.map(listHTML).join('');
+    attachPhotoFallback(listEl);
+
     // Make entire row clickable + keyboard‑openable
     $$('#fa-list .person').forEach(el=>{
       const mid = el.getAttribute('data-mid');
@@ -535,8 +545,10 @@
     $$('#fa-list [data-open]').forEach(btn=>{
       btn.addEventListener('click', (e)=>{ e.stopPropagation(); openModal(btn.getAttribute('data-open')); });
     });
+
     // TABLE
     tbody.innerHTML = rows.map(tableRowHTML).join('');
+    attachPhotoFallback(tbody);
     $$('#fa-table tr[data-mid]').forEach(tr=> tr.addEventListener('click', ()=> openModal(tr.getAttribute('data-mid'))));
   }
   rebuildBottom();
@@ -550,6 +562,63 @@
     const inds = d.industries || {};
     const keys = Object.keys(inds).map(k=>k.toLowerCase());
     return keys.includes(wanted.toLowerCase());
+  }
+
+  // Aggregates over the VISIBLE set
+  function computeAggregates(){
+    const mids = Object.keys(members || {});
+    const visibleMids = mids.filter(mid=>{
+      const el = document.querySelector(`.person[data-mid="${CSS.escape(mid)}"]`);
+      return el && el.style.display !== 'none';
+    });
+    if(!visibleMids.length) return null;
+
+    let pacSum=0, pacCount=0, inSum=0, outSum=0, industryTallies = {};
+    let alignSum = 0, alignCount = 0;
+
+    visibleMids.forEach(mid=>{
+      const d = donorsByMember[mid] || {};
+      const v = voteAlignByMember[mid] || {};
+      if(typeof d.pac_pct === 'number'){ pacSum += d.pac_pct; pacCount++; }
+      inSum  += (d.in_state_dollars || 0);
+      outSum += (d.out_state_dollars || 0);
+      Object.entries(d.industries || {}).forEach(([k,val])=>{
+        industryTallies[k] = (industryTallies[k] || 0) + (val||0);
+      });
+      if (typeof v.donor_alignment_index === 'number'){
+        alignSum += v.donor_alignment_index;
+        alignCount++;
+      }
+    });
+
+    // top industry
+    const inds = Object.entries(industryTallies).sort((a,b)=> (b[1]||0)-(a[1]||0));
+    const [topKey, topAmt] = inds[0] || ['—', 0];
+    const topTotal = inds.reduce((s, [,v])=>s+(v||0), 0) || 1;
+    const topShare = topAmt / topTotal;
+
+    return {
+      pacAvg: pacCount ? (pacSum / pacCount) : 0,
+      inSum, outSum,
+      topIndustryKey: topKey, topIndustryShare: topShare,
+      alignAvg: alignCount ? (alignSum / alignCount) : null
+    };
+  }
+
+  function renderHeadlineFromVisible(){
+    const agg = computeAggregates();
+    const pct100 = n => Math.round((n||0)*100);
+    if(!agg){
+      $('#m-pac-small').textContent = '—';
+      $('#m-geo').textContent = '—';
+      $('#m-top-industry').textContent = '—';
+      $('#m-vote-align').textContent = '—';
+      return;
+    }
+    $('#m-pac-small').textContent = `${pct100(agg.pacAvg)}% PAC / ${100 - pct100(agg.pacAvg)}% small`;
+    $('#m-geo').textContent = `${money(agg.inSum)} in / ${money(agg.outSum)} out`;
+    $('#m-top-industry').textContent = agg.topIndustryKey==='—' ? '—' : `${agg.topIndustryKey} (${pct100(agg.topIndustryShare)}%)`;
+    $('#m-vote-align').textContent = (agg.alignAvg==null) ? '—' : `${pct100(agg.alignAvg)}%`;
   }
 
   function applyFilters(pushState=true){
@@ -574,7 +643,7 @@
       if(show) visible++;
     });
 
-    // TABLE rows
+    // TABLE rows (keep in sync with filters)
     $$('#fa-table tr[data-mid]').forEach(tr=>{
       const mid = tr.getAttribute('data-mid');
       const nm = tr.getAttribute('data-name') || '';
@@ -598,6 +667,9 @@
       const url = qs ? `${location.pathname}?${qs}` : location.pathname;
       history.replaceState({}, '', url);
     }
+
+    // Update headline metrics from the visible set
+    renderHeadlineFromVisible();
   }
 
   // Init from URL
@@ -686,23 +758,26 @@
     const name = m.name || mid;
     const seat = m.seat || (m.state || '');
     const party = m.party || '';
-    const photo = resolvePhoto(m);
+    const [p0,p1,p2,p3] = photoSources(m);
     const alignVal = typeof v.donor_alignment_index==='number' ? pct(v.donor_alignment_index)+'%' : '—';
 
     // Title/meta
     $('#memberTitle').textContent = `${name} — ${seat}${party ? ' ('+party+')' : ''}`;
     $('#memberMeta').textContent = `Top industry: ${ti.key==='—' ? '—' : `${ti.key} (${pct(ti.share)}%)`} • PAC: ${pct(d.pac_pct||0)}% • Vote align: ${alignVal}`;
 
-    // Overview
-    const chips = computeChips(d, a, v);
+    // Overview (robust img fallback)
     $('#overview-body').innerHTML = `
       <div class="row g-3">
         <div class="col-md-4">
-          <img src="${photo}" class="w-100 rounded" alt="${name} headshot" loading="lazy"
-               onerror="this.onerror=null;this.src='https://unitedstates.github.io/images/congress/225x275/${m.bioguide||m.id||''}.jpg'">
+          <img id="modalHeadshot" src="${p0}" class="w-100 rounded" alt="${name} headshot" loading="lazy"
+               data-src0="${p0||''}" data-src1="${p1||''}" data-src2="${p2||''}" data-src3="${p3||''}">
         </div>
         <div class="col-md-8">
-          <p class="mb-2"><strong>Badges:</strong> ${chips.length ? chips.map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ') : 'None yet'}</p>
+          <p class="mb-2"><strong>Badges:</strong> ${
+            (computeChips(d,a,v).length
+              ? computeChips(d,a,v).map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ')
+              : 'None yet')
+          }</p>
           <p class="mini mb-2">Every claim links to official receipts (Clerk/Senate/FEC).</p>
           <ul class="mb-0">
             <li>PAC share: <strong>${pct(d.pac_pct||0)}%</strong> (small donors: <strong>${100-pct(d.pac_pct||0)}%</strong>)</li>
@@ -712,10 +787,10 @@
           </ul>
         </div>
       </div>`;
+    attachPhotoFallback(document); // activates modal headshot fallback
 
-    // Money (industry table)
+    // Money (industry table + FEC filing images)
     const inds = Object.entries(d.industries||{}).sort((a,b)=>b[1]-a[1]);
-    // Money receipts (FEC)
     const fecRows = (d.fec_receipts || d.receipts || []).map(r=>{
       const img = r.fec_image_url || fecImageURL(r.image_number);
       const title = r.title || r.pac || 'FEC filing';
@@ -724,7 +799,6 @@
       return img ? `<li class="mb-1"><a href="${img}" target="_blank" rel="noopener">${title}</a>${amt}${date}</li>`
                  : `<li class="mb-1 text-muted">${title}${amt}${date}</li>`;
     }).join('');
-
     $('#money-body').innerHTML = `
       <div class="row g-3">
         <div class="col-md-6">
@@ -745,7 +819,6 @@
     // Votes (with official receipt links)
     const votes = (v && v.votes) || [];
     const voteRows = votes.map(x=>{
-      // Accept direct official_url; else construct by chamber/tuple; else fallback to provided url
       let official = x.official_url || null;
       if(!official && x.congress && x.roll){
         if((x.chamber||'').toLowerCase()==='house') official = houseClerkURL(x) || houseClerkAlt(x);
@@ -759,7 +832,6 @@
         <td>${link?`<a href="${link}" target="_blank" rel="noopener">Open official</a>`:'—'}</td>
       </tr>`;
     }).join('');
-
     $('#votes-body').innerHTML = `
       <div class="table-responsive">
         <table class="table table-sm align-middle">
@@ -768,7 +840,7 @@
         </table>
       </div>`;
 
-    // Receipts tab (summary list = union of vote receipts + FEC images)
+    // Receipts tab (union of vote receipts + FEC images)
     const receiptLinks = [];
     votes.forEach(x=>{
       let u = x.official_url || x.url || null;
@@ -807,8 +879,9 @@
     new bootstrap.Modal(document.getElementById('memberModal')).show();
   }
 
-  // Initial filter pass
+  // Initial filter pass + initial aggregate render
   applyFilters(false);
+  renderHeadlineFromVisible();
 })();
 </script>
 </body>
