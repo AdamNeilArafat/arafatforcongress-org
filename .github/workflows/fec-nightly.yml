@@ -26,6 +26,21 @@ jobs:
 
       - name: Download bulk files (initial backfill)
       - name: Download bulk files (initial backfill)
+      - name: Debug: list raw downloads
+        run: |
+          set -x
+          ls -lah fec-nightly-subfolder/fec-nightly/data/raw || true
+          find fec-nightly-subfolder/fec-nightly/data/raw -maxdepth 3 -type f -print 2>/dev/null || true
+      - name: Debug: show warehouse path
+        run: |
+          set -x
+          if [ -e fec-nightly-subfolder/fec-nightly/data/warehouse ]; then
+            ls -ld fec-nightly-subfolder/fec-nightly/data/warehouse || true
+            file fec-nightly-subfolder/fec-nightly/data/warehouse || true
+          else
+            echo "warehouse path does not exist yet"
+          fi
+      - name: Download bulk files (initial backfill)
       - name: Ensure warehouse dir
         run: |
           if [ -f fec-nightly-subfolder/fec-nightly/data/warehouse ]; then rm -f fec-nightly-subfolder/fec-nightly/data/warehouse; fi
