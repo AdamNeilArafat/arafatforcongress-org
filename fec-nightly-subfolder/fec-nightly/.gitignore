@@ -1,0 +1,7 @@
+# Data and temp
+data/raw/
+data/tmp/
+*.zip
+__pycache__/
+*.pyc
+.DS_Store
