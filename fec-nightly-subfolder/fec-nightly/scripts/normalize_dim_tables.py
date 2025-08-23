@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 WARE = ROOT / "data" / "warehouse"
 
-# Ensure warehouse path is a directory (remove if a file with same name exists)
+# If a file exists at WARE, remove it, then ensure directory exists
 if WARE.exists() and not WARE.is_dir():
     WARE.unlink()
 WARE.mkdir(parents=True, exist_ok=True)
@@ -28,9 +28,7 @@ comm = read_txts(str(RAW / "**" / "committee_master" / "*.txt"))
 # Candidate-committee links (cclYY.txt)
 link = read_txts(str(RAW / "**" / "candidate_comm_links" / "*.txt"))
 
-# Write dims if present
 if not cand.empty:
-    (WARE / "dim_candidates.parquet").parent.mkdir(parents=True, exist_ok=True)
     cand.to_parquet(WARE / "dim_candidates.parquet", index=False)
 if not comm.empty:
     comm.to_parquet(WARE / "dim_committees.parquet", index=False)
