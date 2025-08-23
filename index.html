@@ -90,9 +90,18 @@
     .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
 
     /* Meet Adam image sizing */
-    .about-photo { max-width: 25%; height: auto; }
-    @media (max-width: 767.98px) {
-      .about-photo { max-width: 60%; margin-bottom: 1rem; }
+.about-photo {
+  max-width: 45%;   /* desktop: less cramped, almost half the column */
+  height: auto;
+}
+
+@media (max-width: 767.98px) {
+  .about-photo {
+    max-width: 80%;  /* mobile: fills most of the width */
+    margin-bottom: 1rem;
+  }
+}
+
     }
 
     /* CTA buttons */
