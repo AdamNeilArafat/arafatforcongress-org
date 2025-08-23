@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 WARE = ROOT / "data" / "warehouse"
 
-# If a file exists at WARE, remove it, then ensure directory exists
+# Ensure warehouse is a directory (remove stray file if present)
 if WARE.exists() and not WARE.is_dir():
     WARE.unlink()
 WARE.mkdir(parents=True, exist_ok=True)

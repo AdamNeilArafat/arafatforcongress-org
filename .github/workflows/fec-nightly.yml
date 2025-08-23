@@ -25,6 +25,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: Download bulk files (initial backfill)
+      - name: Download bulk files (initial backfill)
+      - name: Ensure warehouse dir
+        run: |
+          if [ -f fec-nightly-subfolder/fec-nightly/data/warehouse ]; then rm -f fec-nightly-subfolder/fec-nightly/data/warehouse; fi
+          mkdir -p fec-nightly-subfolder/fec-nightly/data/warehouse
         run: python scripts/download_bulk.py
 
       - name: Build dimension tables
