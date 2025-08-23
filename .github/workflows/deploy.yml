@@ -4,7 +4,19 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '**/*'
+      - "index.html"
+      - "*.html"
+      - "Bills/**"
+      - "accountability/**"
+      - "assets/**"
+      - "styles.css"
+      - "data/**"
+      - "scripts/**"           # so edits to build scripts trigger deploy
+      - "package.json"
+      - "package-lock.json"
+      - "CNAME"
+      - ".nojekyll"
+      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 permissions:
@@ -22,6 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Required by GitHub Pages custom workflows
       - uses: actions/configure-pages@v5
 
       - uses: actions/setup-node@v4
@@ -34,19 +47,20 @@ jobs:
       - name: Build data (writes to ./data)
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-        run: |
-          npm run build:data
+        run: npm run build:data
 
-      - name: Assemble site
+      - name: Assemble site (_site/)
         run: |
           set -euo pipefail
           rm -rf _site
           mkdir -p _site
-          rsync -a --delete \
-            --exclude '.git' \
-            --exclude 'node_modules' \
-            --exclude '.github' \
-            ./ _site/
+          # Only copy what the site actually needs
+          rsync -a \
+            index.html *.html \
+            Bills/ accountability/ assets/ data/ \
+            styles.css CNAME .nojekyll \
+            _site/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
