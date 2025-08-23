@@ -1,105 +1,18 @@
-name: Deploy GitHub Pages
-
-on:
-  push:
-    branches: [ main ]
-    paths:
-      - "**/*"
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages-${{ github.ref }}"
-  cancel-in-progress: true
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Show environment
-        run: |
-          set -euxo pipefail
-          node -v
-          npm -v
-          pwd
-          ls -la
-          echo "GITHUB_REF=$GITHUB_REF"
-          echo "FEC_API_KEY set? $([[ -n "${FEC_API_KEY:-}" ]] && echo yes || echo no)"
-        env:
-          # just to show whether it's visible at all (value is not printed)
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-
       - name: Install dependencies
         run: |
           set -euxo pipefail
-          npm ci
+          npm --version
+          node --version
+          # Use install (tolerant) instead of ci (strict lockfile)
+          npm install --no-audit --no-fund
 
       - name: Build data (writes to ./data)
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
         run: |
           set -euxo pipefail
-          # sanity: show redacted key length if present
           if [ -z "${FEC_API_KEY:-}" ]; then
-            echo "FEC_API_KEY is NOT set in repo secrets. Set it in Settings → Secrets and variables → Actions." >&2
+            echo "FEC_API_KEY is NOT set in repo secrets" >&2
             exit 1
           fi
-          echo "FEC_API_KEY length: ${#FEC_API_KEY}"
           npm run build:data
-          echo "Data directory after build:"
-          ls -la data || true
-
-      - name: Assemble site (_site/)
-        run: |
-          set -euxo pipefail
-          rm -rf _site
-          mkdir -p _site
-
-          # Ensure .nojekyll exists (avoids Jekyll processing)
-          touch _site/.nojekyll
-
-          # Robust copy: start from repo root, exclude dev-only stuff
-          rsync -av --delete \
-            --exclude ".git/" \
-            --exclude ".github/" \
-            --exclude "node_modules/" \
-            --exclude ".pnpm-store/" \
-            --exclude ".gitignore" \
-            --exclude "package.json" \
-            --exclude "package-lock.json" \
-            --exclude "README.md" \
-            --exclude "scripts/*.mjs.bak" \
-            ./ _site/
-
-          echo "Assembled contents:"
-          find _site -maxdepth 2 -type f | sort | head -200
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
