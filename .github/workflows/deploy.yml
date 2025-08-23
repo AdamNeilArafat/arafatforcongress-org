@@ -2,19 +2,18 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      - "**/*"
-  workflow_dispatch:
+    branches: [ main ]   # change if your default branch is not "main"
+  workflow_dispatch:      # lets you run it manually from the Actions tab
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Queue deployments for the same branch instead of canceling
 concurrency:
-  group: "pages-${{ github.ref }}"
-  cancel-in-progress: true
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -22,69 +21,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
+      # If you have a build step, add it here (npm ci && npm run build)
+      # For a plain static site, just upload the repo contents.
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Show environment
-        run: |
-          set -euxo pipefail
-          node -v
-          npm -v
-          echo "FEC_API_KEY set? $([[ -n "${FEC_API_KEY:-}" ]] && echo yes || echo no)"
-        env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-
-      # Use tolerant install instead of strict ci
-      - name: Install dependencies
-        run: |
-          set -euxo pipefail
-          npm --version
-          node --version
-          npm install --no-audit --no-fund
-
-      - name: Build data (writes to ./data)
-        env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-        run: |
-          set -euxo pipefail
-          if [ -z "${FEC_API_KEY:-}" ]; then
-            echo "FEC_API_KEY is NOT set in repo secrets" >&2
-            exit 1
-          fi
-          npm run build:data
-          ls -la data || true
-
-      - name: Assemble site (_site/)
-        run: |
-          set -euxo pipefail
-          rm -rf _site
-          mkdir -p _site
-          touch _site/.nojekyll
-          rsync -av --delete \
-            --exclude ".git/" \
-            --exclude ".github/" \
-            --exclude "node_modules/" \
-            --exclude ".pnpm-store/" \
-            --exclude ".gitignore" \
-            --exclude "package.json" \
-            --exclude "package-lock.json" \
-            --exclude "README.md" \
-            --exclude "scripts/*.mjs.bak" \
-            ./ _site/
-          find _site -maxdepth 2 -type f | sort | head -200
-
-      - name: Upload artifact
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: .         # deploy the whole repo. change to "dist" if you build to dist/
 
   deploy:
     needs: build
@@ -93,5 +37,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
