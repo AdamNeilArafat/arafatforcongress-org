@@ -15,17 +15,13 @@ def read_txts(pattern):
     dfs = []
     for f in files:
         try:
-            # FEC bulk .txt files are pipe-delimited
             dfs.append(pd.read_csv(f, sep="|", dtype=str, engine="python", low_memory=False))
         except Exception:
             pass
     return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
 
-# Candidate master (cnYY.txt)
 cand = read_txts(str(RAW / "**" / "candidate_master" / "*.txt"))
-# Committee master (cmYY.txt)
 comm = read_txts(str(RAW / "**" / "committee_master" / "*.txt"))
-# Candidate-committee links (cclYY.txt)
 link = read_txts(str(RAW / "**" / "candidate_comm_links" / "*.txt"))
 
 if not cand.empty:
