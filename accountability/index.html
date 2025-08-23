@@ -226,7 +226,7 @@ async function loadJSON(path, fallback=null){
 
 async function loadMembers(){
   // 1) local mirror (fast, versioned)
-  const local = await loadJSON('data/members.json', null);
+  const local = await loadJSON('/data/members.json', null);
   if(local){
     const norm = {};
     for(const m of local){
@@ -270,19 +270,19 @@ async function loadMembers(){
 }
 
 async function loadVotes(){
-  const v = await loadJSON('data/votes.json', {});
+  const v = await loadJSON('/data/votes.json', {});
   if(!v) return {};
   return v; // { billKey: {title, href, award, meaning, offenders:[{bioguide, vote}] } }
 }
 
 async function loadBadges(){
   // { [bioguide]: [ {id,label,icon,reason,source,tone?}, ... ] }
-  return await loadJSON('data/member-badges.json', {});
+  return await loadJSON('/data/member-badges.json', {});
 }
 
 async function loadFinanceSummary(){
   // { [bioguide]: { small_donor_pct, pac_donor_pct, in_dist_pct, industry_top:[{industry,amount}], vote_align_pct } }
-  return await loadJSON('data/member-finance-summary.json', {});
+  return await loadJSON('/data/member-finance-summary.json', {});
 }
 
 /** ---------------------------------------------------------
