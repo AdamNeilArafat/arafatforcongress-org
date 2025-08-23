@@ -20,60 +20,50 @@
     /* Social top bar */
     .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
     .social-pill {
-      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .8rem;
       border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
       background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
       transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+      font-weight:700; font-size:.9rem;
     }
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
-    /* Evergreen Pact badge strip — improved contrast */
-    .evergreen-strip { background:linear-gradient(90deg, var(--accent-dark) 0%, #073b2a 100%); color:#fff; }
-    .evergreen-badge {
-      display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .8rem; border-radius:999px;
-      border:1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.10);
-      font-weight:800; color:#fff;
+    /* Slim header */
+    .header-break {
+      background:#0d3b66; color:#fff; text-align:center;
+      padding: .9rem 1rem 1.1rem; /* tighter */
+      border-bottom: 1px solid rgba(255,255,255,.15);
     }
-    .evergreen-badge i { font-size:.95rem; color:#fff; }
+    .header-break .h1line { font-weight:800; letter-spacing:.2px; margin:0; font-size:1.35rem; }
+    .header-break .tagline { opacity:.95; margin:.35rem 0 0; font-size:1rem; }
 
-    /* Header */
-    .header-break { background:#0d3b66; color:#fff; text-align:center; padding:1rem 1rem; }
-    .header-break .h1line { font-weight:800; letter-spacing:.2px; margin:0; }
-    .header-break .tagline { opacity:.95; margin:.35rem 0 0; }
-    .header-break .rallies { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:.5rem 0 0; font-weight:700; }
-    .header-break .rallies span { background: rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:.25rem .6rem; border-radius:999px; }
+    /* Two small rally pills */
+    .rallies {
+      margin:.65rem auto 0; max-width:720px;
+      display:flex; gap:.75rem; align-items:center; justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .rally-pill {
+      background: rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.25);
+      padding:.25rem .6rem;
+      border-radius:999px;
+      font-weight:700; font-size:.9rem; color:#fff;
+      white-space:nowrap;
+    }
+    @media (max-width: 576px){
+      .rallies { justify-content:center; }
+    }
 
     /* Navbar */
     .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
     .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
-    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-
-    /* Sections */
-    .section-title { color: var(--primary); }
-    .section-pad { padding:3rem 0; }
-    .section-alt { background:#f8f9fa; }
-
-    /* Lean hero content */
-    .hero-lean { padding: 2.25rem 0; background: var(--soft); border-bottom:1px solid #e8eef5; }
-    .hero-lean h1 { font-weight:800; letter-spacing:.2px; color:#0d3b66; }
-    .hero-lean ul { margin: 1rem 0 0; }
-    .hero-lean li { margin:.35rem 0; font-size:1.07rem; }
-
-    /* About photo */
-    .about-photo{
-      display:block; max-width:100%; width:100%; height:auto;
-      border-radius:12px; box-shadow:0 8px 20px rgba(13,59,102,.10);
+    .navbar .nav-link::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
     }
-
-    /* CTA panel bottom */
-    .cta-bottom { background:#0d3b66; color:#fff; }
-    .cta-bottom .btn-donate { background: var(--donate); color:#fff; border:none; border-radius:999px; padding:.6rem 1.1rem; font-weight:800; }
-    .cta-bottom .btn-donate:hover { filter: brightness(.95); color:#fff; }
-
-    /* Small utilities */
-    .muted { color:#6b7280; }
+    .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
   </style>
 </head>
 <body>
@@ -91,25 +81,15 @@
   </div>
 </section>
 
-<!-- EVERGREEN PACT BADGE STRIP -->
-<section class="evergreen-strip py-2">
-  <div class="container d-flex justify-content-center">
-    <a class="evergreen-badge" href="Bills/Bills.html" title="Evergreen Pact, Bill Blueprints" aria-label="Evergreen Pact, Bill Blueprints">
-      <i class="fa-solid fa-tree" aria-hidden="true"></i>
-      <span>Evergreen Pact (Bills)</span>
-    </a>
-  </div>
-</section>
+<!-- (Removed the Evergreen Pact strip) -->
 
-<!-- HEADER -->
+<!-- SLIM HEADER -->
 <div class="header-break">
   <p class="h1line">Trust is built, not bought.</p>
-  <p class="tagline"><strong>WA 10 deserves a fighter who delivers for working families</strong></p>
-  <p class="tagline">20 years serving America, now building WA 10’s future</p>
+  <p class="tagline"><strong>WA‑10 deserves a fighter who delivers for working families</strong></p>
   <div class="rallies" aria-label="Rally lines">
-    <span>For Working Families. For WA 10.</span>
-    <span>Power People. Not PACs.</span>
-    <span>Built together. Built to last.</span>
+    <span class="rally-pill">For Working Families.</span>
+    <span class="rally-pill">For WA‑10.</span>
   </div>
 </div>
 
@@ -123,13 +103,14 @@
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="/digging-into-the-issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
         <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
       </ul>
     </div>
   </div>
 </nav>
+<!-- END TOP SECTION -->
+
 
 <main id="main">
 
