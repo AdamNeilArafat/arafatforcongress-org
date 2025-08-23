@@ -6,30 +6,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adam Neil Arafat for Congress - Washington's 10th District</title>
   <meta name="theme-color" content="#0d3b66" />
-  <meta name="description" content="A people-powered campaign for WA-10, Medicare for All, lower costs and more housing, and honest government without corporate PAC money" />
+  <meta name="description" content="A people-powered campaign for WA-10, Medicare for All, lower costs, more housing, and honest government without corporate PAC money." />
 
   <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --accent-dark:#084a35; --link:#0d3b66; --soft:#f6f9fc; }
+    :root {
+      --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f;
+      --accent-dark:#084a35; --link:#0d3b66; --soft:#f6f9fc;
+    }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     a { text-decoration: none; }
-.about-photo {
-  max-width: 25%;   /* desktop: quarter width */
-  height: auto;
-}
 
-@media (max-width: 767.98px) {  /* Bootstrap "sm" breakpoint */
-  .about-photo {
-    max-width: 60%;  /* mobile: larger, centered */
-    margin-bottom: 1rem;
-  }
-}
+    /* Layout helpers */
+    .section-pad { padding: 3rem 0; }
+    .section-alt { background: #f8fafc; }
+    .hero-lean { padding: 2.25rem 0 2rem; }
+    .section-title { font-weight: 800; color: #0b2540; }
+    .lead { color:#1c2b3a; }
+
+    /* Pills */
+    .pill-main, .pill-sub, .pill-rally, .btn-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: .5rem 1rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .pill-main {
+      background: var(--primary);
+      color: #fff;
+      font-size: 1.35rem;
+    }
+    .pill-sub {
+      background: #f6f9fc;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      font-size: 1rem;
+    }
+    .pill-rally {
+      background: var(--donate);
+      color: #fff;
+      font-size: 1rem;
+    }
 
     /* Social top bar */
-    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
+    .social-top {
+      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
+      color:#fff;
+    }
     .social-pill {
       display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .8rem;
       border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
@@ -37,44 +64,68 @@
       transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
       font-weight:700; font-size:.9rem;
     }
-    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .social-pill:hover {
+      transform: translateY(-1px); background: rgba(255,255,255,.16);
+      box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff;
+    }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
     /* Slim header */
     .header-break {
       background:#0d3b66; color:#fff; text-align:center;
-      padding: .9rem 1rem 1.1rem; /* tighter */
+      padding: .9rem 1rem 1.1rem;
       border-bottom: 1px solid rgba(255,255,255,.15);
     }
-    .header-break .h1line { font-weight:800; letter-spacing:.2px; margin:0; font-size:1.35rem; }
-    .header-break .tagline { opacity:.95; margin:.35rem 0 0; font-size:1rem; }
-
-    /* Two small rally pills */
-    .rallies {
-      margin:.65rem auto 0; max-width:720px;
-      display:flex; gap:.75rem; align-items:center; justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .rally-pill {
-      background: rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.25);
-      padding:.25rem .6rem;
-      border-radius:999px;
-      font-weight:700; font-size:.9rem; color:#fff;
-      white-space:nowrap;
-    }
-    @media (max-width: 576px){
-      .rallies { justify-content:center; }
-    }
+    .rallies { margin:.5rem auto 0; display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; }
 
     /* Navbar */
-    .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
+    .navbar .nav-link {
+      position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600;
+    }
     .navbar .nav-link:hover { color: var(--link); }
     .navbar .nav-link::after {
       content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
       background: currentColor; border-radius:2px; transition: width .18s ease;
     }
     .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+
+    /* Meet Adam image sizing */
+    .about-photo { max-width: 25%; height: auto; }
+    @media (max-width: 767.98px) {
+      .about-photo { max-width: 60%; margin-bottom: 1rem; }
+    }
+
+    /* CTA buttons */
+    .btn-primary { background: var(--primary); border-color: var(--primary); }
+    .btn-primary:hover { background:#0b2f52; border-color:#0b2f52; }
+    .btn-outline-primary { color: var(--primary); border-color: var(--primary); }
+    .btn-outline-primary:hover { background: var(--primary); color:#fff; }
+
+    .btn-donate {
+      background: var(--donate);
+      color:#fff;
+      border: 0;
+      border-radius: 999px;
+      padding: .65rem 1.2rem;
+      font-weight: 800;
+      letter-spacing:.2px;
+      box-shadow: 0 6px 16px rgba(193, 18, 31, .25);
+      transition: transform .07s ease, box-shadow .15s ease, opacity .15s ease;
+      white-space: nowrap;
+    }
+    .btn-donate:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(193,18,31,.35); color:#fff; }
+    .btn-donate:active { transform: translateY(0); box-shadow: 0 4px 10px rgba(193,18,31,.25); }
+
+    /* Bottom CTA wrap */
+    .cta-bottom { background: #0b2540; color:#fff; }
+    .cta-bottom h3 { font-weight:900; margin:0; }
+    .cta-subtle { color: rgba(255,255,255,.85); }
+
+    /* Readability tweaks */
+    #why-it-matters ul { padding-left: 1.1rem; }
+    #why-it-matters li { margin-bottom: .25rem; }
+
+    footer p { color:#6b7280; }
   </style>
 </head>
 <body>
@@ -92,15 +143,12 @@
   </div>
 </section>
 
-<!-- (Removed the Evergreen Pact strip) -->
-
 <!-- SLIM HEADER -->
-<div class="header-break">
-  <p class="h1line">Trust is built, not bought.</p>
-  <p class="tagline"><strong>WA‑10 deserves a fighter who delivers for working families</strong></p>
+<div class="header-break text-center">
+  <span class="pill-main">Trust is built, not bought.</span>
+  <span class="pill-sub">WA-10 deserves a fighter for working families</span>
   <div class="rallies" aria-label="Rally lines">
-    <span class="rally-pill">For Working Families.</span>
-    <span class="rally-pill">For WA‑10.</span>
+    <span class="pill-rally">For Working Families. For WA-10.</span>
   </div>
 </div>
 
@@ -122,7 +170,6 @@
 </nav>
 <!-- END TOP SECTION -->
 
-
 <main id="main">
 
   <!-- WHY IT MATTERS -->
@@ -130,65 +177,72 @@
     <div class="container">
       <h1 class="mb-3">Power People. Not PACs.</h1>
       <ul class="mb-0">
-        <li><strong>Too much outside money</strong> the incumbent’s funding leans heavily outside WA 10, that is influence not independence</li>
-        <li><strong>Too few hard wins</strong> lots of bills filed, few real victories on healthcare, housing, or costs</li>
-        <li><strong>We put neighbors first</strong> no corporate PAC money, local voices set the agenda</li>
+        <li><strong>Too much outside money</strong> the incumbent’s funding leans heavily outside WA-10. That’s influence, not independence.</li>
+        <li><strong>Too few hard wins</strong> lots of bills filed, few real victories on healthcare, housing, or costs.</li>
+        <li><strong>Neighbors first</strong> no corporate PAC money. Local voices set the agenda.</li>
       </ul>
     </div>
   </section>
 
-  <!-- EVERGREEN PACT: BUILT TO DELIVER CHANGE -->
+  <!-- BUILT TO DELIVER CHANGE (left-aligned, breathable spacing) -->
   <section class="section-pad section-alt">
-    <div class="container text-center">
+    <div class="container">
       <h2 class="section-title mb-3">Built to Deliver Change</h2>
       <p class="lead mb-0">
-        The Evergreen Pact is a strategically ordered set of bill blueprints designed to show voters that reform is not random. It is structured. Each bill is a step in a ladder of change, stacking momentum so early wins make tougher reforms possible
+        Change isn’t luck. It’s planned. We sequence bills to win early, build leverage, and take on tougher fights with momentum.
       </p>
     </div>
   </section>
 
- <!-- MEET ADAM -->
-<section id="meet-adam" class="section-pad">
-  <div class="container">
-    <h2 class="section-title mb-4">Meet Adam</h2>
-    <div class="row align-items-center g-4">
-      <div class="col-md-5 text-center">
-        <img
-          class="about-photo img-fluid"
-          src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg"
-          alt="Adam Neil Arafat headshot"
-          loading="lazy"
-        />
-      </div>
-      <div class="col-md-7">
-        <p>
-          I served 20 years in the U.S. Army building aviation maintenance programs and managing airfield operations worldwide. Service taught me discipline, accountability, and to put people first
-        </p>
-        <p>
-          Today I work in public service with the county delivering infrastructure that hundreds of thousands rely on. My family and I live in Spanaway. This is our home
-        </p>
-        <p class="mb-2"><strong>Values</strong></p>
-        <p class="mb-3">
-          I refuse corporate PAC money and answer only to the people of WA 10. I will protect constitutional rights and fight for Medicare for All, lower costs, more housing, and honest people powered government
-        </p>
+  <!-- MEET ADAM -->
+  <section id="meet-adam" class="section-pad">
+    <div class="container">
+      <h2 class="section-title mb-4">Meet Adam</h2>
+      <div class="row align-items-center g-4">
+        <div class="col-md-5 text-center">
+          <img
+            class="about-photo img-fluid"
+            src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg"
+            alt="Adam Neil Arafat headshot"
+            loading="lazy"
+          />
+        </div>
+        <div class="col-md-7">
+          <p>I served 20 years in the U.S. Army building aviation maintenance programs and managing airfield operations worldwide. Service taught me discipline, accountability, and to put people first.</p>
+          <p>Today I work in public service with the county, delivering infrastructure that hundreds of thousands rely on. My family and I live in Spanaway. This is our home.</p>
+          <p class="mb-2"><strong>Values</strong></p>
+          <p class="mb-3">I refuse corporate PAC money and answer only to the people of WA-10. I will protect constitutional rights and fight for Medicare for All, lower costs, more housing, and honest, people-powered government.</p>
 
-        <!-- Action buttons -->
-        <div class="d-flex flex-wrap gap-2">
-          <a class="btn btn-primary btn-sm" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1"></i> Explore the Evergreen Pact</a>
-          <a class="btn btn-outline-primary btn-sm" href="/contrast.html">Record and Contrast</a>
+          <!-- Action buttons -->
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-sm" href="Bills/Bills.html">
+              <i class="fa-solid fa-tree me-1"></i> Explore the Evergreen Pact
+            </a>
+            <a class="btn btn-outline-primary btn-sm" href="/contrast.html">
+              <i class="fa-solid fa-scale-balanced me-1"></i> Learn why we need a change
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-  <!-- BOTTOM DONATE CTA -->
-  <section class="cta-bottom py-4">
-    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
-      <h3 class="m-0 fw-bold">Power People. Not PACs.</h3>
-      <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">
-        Chip in to fuel this people powered campaign
-      </a>
+  <!-- BOTTOM DONATE CTA + Evergreen Pact explainer (short, moved down) -->
+  <section class="cta-bottom section-pad">
+    <div class="container d-flex flex-column gap-3">
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+        <h3 class="fw-bold">Power People. Not PACs.</h3>
+        <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener">
+          <i class="fa-solid fa-heart me-2"></i> Chip in to fuel this campaign
+        </a>
+      </div>
+      <div class="mt-1">
+        <p class="mb-2 fw-semibold">What is the Evergreen Pact?</p>
+        <p class="mb-0 cta-subtle">
+          A focused set of bill blueprints in a deliberate order. Win early. Build leverage. Tackle the hard fights with momentum.
+          <a href="Bills/Bills.html" class="text-white text-decoration-underline">Explore the plan</a>.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -203,7 +257,9 @@
   </div>
 </footer>
 
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
