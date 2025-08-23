@@ -14,7 +14,7 @@ years = sorted({int(a.text.strip("/")) for a in soup.find_all("a") if re.match(r
 latest = years[-1]
 print(f"[info] Latest cycle detected: {latest}")
 
-base = f"https://www.fec.gov/files/bulk-downloads/{latest}"
+base = f"{index_url}{latest}"
 for fname in ["cn.txt", "cm.txt"]:
     url = f"{base}/{fname}"
     out = RAW / fname
