@@ -1,66 +1,789 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Financial Alignments & Interests</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
+  <meta name="description" content="PAC vs small donors, in-district vs out-district, industry breakdowns, and vote alignment indicators."/>
+  <meta name="theme-color" content="#0d3b66"/>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
   <style>
-    :root { --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --brand:#0d3b66; --ring:rgba(13,59,102,.12) }
-    html,body{background:var(--soft);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:0}
-    .container{max-width:1200px;margin:0 auto;padding:1rem}
-    h1{font-weight:900;margin-top:1rem}
-    .controls{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
-    .controls input[type="search"]{padding:.4rem .6rem;border:1px solid var(--ring);border-radius:6px;flex:1;min-width:220px}
-    .filter-group{display:flex;gap:.25rem;flex-wrap:wrap}
-    .filter-button{padding:.25rem .5rem;border-radius:999px;border:1px solid var(--ring);background:#fff;font-size:.8rem;cursor:pointer}
-    .filter-button.active{background:var(--brand);color:#fff}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
-    .card-person{position:relative;display:grid;grid-template-columns:88px 1fr;gap:.6rem;background:#fff;border:1px solid var(--ring);border-radius:14px;overflow:hidden}
-    .avatar{grid-row:1 / span 2;width:88px;aspect-ratio:4/5;object-fit:cover;display:block;margin:.6rem;border-radius:8px;background:#e6edf3}
-    .body{padding:.75rem .9rem .9rem .2rem}
-    .name{font-weight:800}.meta{color:#5b6b7c;font-size:.85rem;margin-top:.1rem}
-    .statline{font-size:.85rem;color:#5b6b7c;margin-top:.15rem}.statline b{color:#122133}
-    .badge-rail{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.35rem}
-    .pill{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:800;border-radius:999px;padding:.25rem .5rem;background:#eef2f7;color:#0d3b66;border:1px solid rgba(13,59,102,.12)}
-    .pill.red{background:#ffeded;border-color:#ffd0d0;color:#7a0a0a}
-    .pill.gold{background:#fff7e0;border-color:#ffe5a3;color:#7a5200}
-    .pill.blue{background:#eef2f7;border-color:rgba(13,59,102,.2);color:#0d3b66}
-    .pill.green{background:#e9f7ef;border-color:#cfe9d8;color:#0b6e4f}
+    :root{
+      --ink:#122133; --muted:#5b6b7c; --soft:#f6f9fc; --danger:#c1121f; --ok:#0b6e4f; --brand:#0d3b66;
+      --card:#fff; --ring:rgba(13,59,102,.12); --ring-strong:rgba(13,59,102,.22);
+    }
+    html,body{background:var(--soft); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
+    .navbar .nav-link{position:relative; padding:.25rem .5rem; font-weight:600; color:#1b2a3a}
+    .navbar .nav-link::after{content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:currentColor; border-radius:2px; transition:width .18s}
+    .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
+    .hero{background:linear-gradient(180deg,#0d3b66,#0b3157); color:#fff; padding:2rem 0}
+    .hero h1{font-weight:900; letter-spacing:.3px}
+    .cardish{background:var(--card); border:1px solid var(--ring); border-radius:14px; box-shadow:0 4px 18px rgba(13,59,102,.06)}
+    .metric{font-weight:900; font-size:1.4rem}
+    .mini{color:var(--muted); font-size:.9rem}
+
+    /* LIST */
+    .list-people{display:flex; flex-direction:column; gap:12px}
+    .person{position:relative; border:1px solid var(--ring); border-radius:16px; overflow:hidden; background:#fff; box-shadow:0 6px 20px rgba(13,59,102,.06)}
+    .person .rowwrap{display:flex; gap:0}
+    .thumb{width:140px; min-width:140px; background:#e9eef5; overflow:hidden}
+    .thumb img{width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:1/1}
+    .pdata{flex:1; padding:.75rem .9rem}
+    .name{font-weight:800; line-height:1.1; margin:0}
+    .sub{color:var(--muted); font-size:.9rem}
+    .chips{display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.45rem}
+    .chip{display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .55rem; border-radius:999px; border:1px solid var(--ring-strong); font-weight:700; font-size:.75rem}
+    .chip i{font-size:.85rem}
+    .chip-ok{background:#e9f7ef; border-color:#cfe9d8; color:#0b6e4f}
+    .chip-warn{background:#fff8e6; border-color:#ffe5a3; color:#7a5200}
+    .chip-danger{background:#ffecec; border-color:#ffd0d0; color:#8d0a0a}
+    .actions{display:flex; gap:.4rem; flex-wrap:wrap; align-items:center}
+    .person:focus-within, .person:hover{outline:2px solid rgba(13,59,102,.22); outline-offset:2px}
+
+    /* Table (advanced) */
+    .table thead th{background:#f4f7fb; white-space:nowrap; user-select:none; cursor:pointer}
+    .table thead th[data-sort]:after{content:"  ↕"; color:#90a0b2; font-weight:400}
+    .table thead th.sorted-asc:after{content:"  ↑"} .table thead th.sorted-desc:after{content:"  ↓"}
+    .table td{vertical-align:middle}
+
+    /* Compare bar */
+    .compare-bar{position:sticky; bottom:12px; z-index:1020; display:none}
   </style>
-  <script src="/assets/js/accountability.js"></script>
 </head>
 <body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
   <div class="container">
-    <h1>Financial Alignments & Interests</h1>
-    <p>Filter to update the aggregates, then click a member for receipts and votes.</p>
-    <div class="controls"><input type="search" id="q" placeholder="Search name, state, district" /></div>
-    <div class="filter-group" id="party"></div>
-    <div class="filter-group" id="chamber"></div>
-    <div class="filter-group" id="badge"></div>
-    <div class="filter-group" id="industry"></div>
-    <div class="grid" id="grid"></div>
+    <a class="navbar-brand fw-bold" href="/index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="/index.html">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/financial-alignments.html">Financial Alignments</a></li>
+        <li class="nav-item"><a class="nav-link" href="/badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link" href="/digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
+        <p class="mb-0">Faces first. Aggregate numbers reflect the current filter. Click a row for receipts—or pick two to compare.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="/index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
+        <a class="btn btn-danger btn-sm" href="/badges.html#thresholds"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container my-4">
+  <!-- Filters / Tools -->
+  <div class="cardish p-3 mb-3">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label for="fa-member" class="form-label">Search (name, state, seat)</label>
+        <input type="search" id="fa-member" class="form-control" placeholder="e.g., WA-10 or ‘Smith’" autocomplete="off"/>
+      </div>
+      <div class="col-md-3">
+        <label for="fa-party" class="form-label">Party</label>
+        <select id="fa-party" class="form-select">
+          <option value="">All</option>
+          <option value="D">Democrats</option>
+          <option value="R">Republicans</option>
+          <option value="I">Independents</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="fa-chamber" class="form-label">Chamber</label>
+        <select id="fa-chamber" class="form-select">
+          <option value="">House + Senate</option>
+          <option value="house">House</option>
+          <option value="senate">Senate</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="fa-industry" class="form-label">Industry focus</label>
+        <select id="fa-industry" class="form-select">
+          <option value="">All</option>
+          <option value="pharma">Pharma</option>
+          <option value="defense">Defense</option>
+          <option value="finance">Finance</option>
+          <option value="oil">Oil &amp; Gas</option>
+          <option value="aipac">AIPAC/Israel</option>
+          <option value="tech">Tech</option>
+        </select>
+      </div>
+      <div class="col-md-1 d-grid">
+        <button id="fa-reset" class="btn btn-outline-secondary">Reset</button>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
+      <button id="btn-export" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
+      <span id="load-status" class="small text-muted" role="status" aria-live="polite">Loading…</span>
+    </div>
   </div>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', async () => {
-    await Accountability.loadAll();
-    const data=(Accountability._data||[]);
-    const parties=[...new Set(data.map(r=>r.party))].filter(Boolean);
-    const chambers=[...new Set(data.map(r=>r.chamber))].filter(Boolean);
-    const industries=[...new Set(data.flatMap(r=>Object.keys(r.shares||{})))].filter(i=>i!=='Unknown');
-    const badges=[...new Set(data.flatMap(r=>[...(r.finance_badges||[]),...(r.vote_badges||[]),...(r.badges||[])]))];
+  <!-- Headline Metrics (AGGREGATED over visible set) -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">PAC vs Small (avg)</div>
+        <div class="metric" id="m-pac-small">—</div>
+        <div class="mini">Flag if PAC ≥ threshold</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">In‑District vs Out (sum)</div>
+        <div class="metric" id="m-geo">—</div>
+        <div class="mini">Flag if out &gt; in</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">Top Industry (mode)</div>
+        <div class="metric" id="m-top-industry">—</div>
+        <div class="mini">Badge if one dominates</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="cardish p-3">
+        <div class="mini">Vote Alignment (avg)</div>
+        <div class="metric" id="m-vote-align">—</div>
+        <div class="mini">Badge if ≥ 90%</div>
+      </div>
+    </div>
+  </div>
 
-    function mk(list,key,el){ list.forEach(v=>{ const b=document.createElement('button'); b.className='filter-button'; b.textContent=v; b.onclick=()=>{Accountability.toggleFilter(key,v); b.classList.toggle('active'); Accountability.renderWall(document.getElementById('grid'));}; el.appendChild(b); }); }
-    mk(parties,'party',document.getElementById('party'));
-    mk(chambers,'chamber',document.getElementById('chamber'));
-    mk(badges,'badges',document.getElementById('badge'));
-    mk(industries,'industry',document.getElementById('industry'));
+  <!-- Face List -->
+  <section aria-labelledby="listHeading" class="mt-3">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+      <h2 id="listHeading" class="h6 mb-0">Members — Face List</h2>
+      <span class="small text-muted">Click “Details” for receipts or tick compare on 1–2 people.</span>
+    </div>
+    <div id="fa-list" class="list-people">
+      <div class="text-muted">Loading…</div>
+    </div>
+  </section>
 
-    const q=document.getElementById('q');
-    q.oninput=()=>{ Accountability.setSearch(q.value); Accountability.renderWall(document.getElementById('grid')); };
+  <!-- Advanced data table -->
+  <details class="cardish p-3 mt-3">
+    <summary class="small fw-semibold">Show data table (advanced)</summary>
+    <div class="table-responsive mt-2">
+      <table class="table table-sm align-middle" id="fa-table-el">
+        <thead>
+        <tr>
+          <th data-sort="name">Member</th>
+          <th data-sort="seat">Seat</th>
+          <th class="text-nowrap" data-sort="pac">PAC %</th>
+          <th class="text-nowrap" data-sort="small">Small %</th>
+          <th class="text-nowrap" data-sort="geo">In vs Out</th>
+          <th data-sort="industry">Top Industry</th>
+          <th class="text-nowrap" data-sort="align">Vote Align</th>
+          <th>Badges</th>
+        </tr>
+        </thead>
+        <tbody id="fa-table">
+        <tr><td colspan="8" class="text-muted">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
 
-    Accountability.renderWall(document.getElementById('grid'));
+  <!-- Compare bar -->
+  <div class="compare-bar">
+    <div class="container">
+      <div class="cardish p-2 d-flex align-items-center justify-content-between">
+        <div class="small" id="compare-picked">0 selected</div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-secondary" id="compare-clear">Clear</button>
+          <button class="btn btn-sm btn-primary" id="compare-go" disabled><i class="fa-solid fa-code-compare me-1"></i>Compare</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container text-center small">
+    <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- Member Details / Compare Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="memberTitle" class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="compare-wrap" class="d-none"></div>
+        <ul id="tabs" class="nav nav-tabs mb-3" role="tablist">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-overview" type="button">Overview</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-money" type="button">Money</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-votes" type="button">Votes</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-receipts" type="button">Receipts</button></li>
+        </ul>
+        <div class="tab-content">
+          <div id="tab-overview" class="tab-pane fade show active"><div id="overview-body"></div></div>
+          <div id="tab-money" class="tab-pane fade"><div id="money-body"></div></div>
+          <div id="tab-votes" class="tab-pane fade"><div id="votes-body"></div></div>
+          <div id="tab-receipts" class="tab-pane fade"><div id="receipts-body"></div></div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <div class="small text-muted" id="memberMeta"></div>
+        <div class="d-flex gap-2 align-items-center">
+          <button id="shareTikTok" class="btn btn-outline-dark btn-sm" type="button" title="Copy caption for TikTok"><i class="fa-brands fa-tiktok me-1"></i>Copy TikTok Caption</button>
+          <a id="shareReddit" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener"><i class="fa-brands fa-reddit-alien me-1"></i>Reddit</a>
+          <a id="shareX" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter me-1"></i>X</a>
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<!-- Inline demo data fallback so the page renders even if /data is missing -->
+<script id="demo-members" type="application/json">
+{
+  "D000001": {"id":"D000001","name":"Allison Rivera","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":"/assets/members/D000001.jpg","ballotpedia":"https://ballotpedia.org/Allison_Rivera"},
+  "R000002": {"id":"R000002","name":"Marcus Ellison","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":"/assets/members/R000002.jpg","ballotpedia":"https://ballotpedia.org/Marcus_Ellison"},
+  "S000003": {"id":"S000003","name":"Jamie Chen","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":"/assets/members/S000003.jpg","ballotpedia":"https://ballotpedia.org/Jamie_Chen"}
+}
+</script>
+<script id="demo-donors" type="application/json">
+{
+  "D000001": {"pac_pct":0.42,"in_state_dollars":125000,"out_state_dollars":175000,"industries":{"pharma":85000,"tech":40000,"finance":30000}, "receipts":[{"title":"FEC report (Demo)","url":"https://www.fec.gov/data/"}]},
+  "R000002": {"pac_pct":0.31,"in_state_dollars":210000,"out_state_dollars":150000,"industries":{"oil":120000,"finance":50000}},
+  "S000003": {"pac_pct":0.12,"in_state_dollars":400000,"out_state_dollars":220000,"industries":{"tech":140000,"aipac":20000}}
+}
+</script>
+<script id="demo-awards" type="application/json">
+{
+  "D000001":{"badges":[{"key":"high-pac","label":"High PAC Reliance"}]},
+  "R000002":{"badges":[{"key":"dominant-industry","label":"Dominant Industry"}]}
+}
+</script>
+<script id="demo-align" type="application/json">
+{
+  "D000001":{"donor_alignment_index":0.91, "votes":[{"bill":"Energy Savings Bill (2027)","date":"2027-03-12","position":"No","url":"./Bills/energy-savings-and-lower-bills-bill-2027.html"}]},
+  "R000002":{"donor_alignment_index":0.76},
+  "S000003":{"donor_alignment_index":0.62}
+}
+</script>
+
+<script type="module">
+/* ---------- tiny utils ---------- */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+const pct = (n) => Math.round((Number(n)||0) * 100);
+const money = (n) => (Number(n)||0).toLocaleString('en-US',{style:'currency',currency:'USD'});
+function parseInlineJSON(id, fallback) {
+  const el = document.getElementById(id);
+  if (!el) return fallback;
+  try { return JSON.parse(el.textContent); } catch { return fallback; }
+}
+
+/* thresholds used in your chip logic; tweak as you like */
+const THRESH = {
+  PAC_FLAG: 0.50,            // 50% PAC or more -> flag
+  INDUSTRY_DOMINATE: 0.40,   // 40%+ single industry share -> dominate
+  ALIGN_HIGH: 0.60           // 60%+ donor-aligned votes -> flag
+};
+
+/* ---------- robust data loader with last-good cache ---------- */
+const CACHE_KEY = 'faCache-v4';
+const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours (stale-while-revalidate)
+
+const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
+
+/* Accept arrays or maps and normalize to object maps keyed by member id */
+function toMemberMap(maybeArr) {
+  if (!maybeArr) return {};
+  if (Array.isArray(maybeArr)) {
+    const map = {};
+    for (const row of maybeArr) {
+      const id = row.bioguide_id || row.bioguide || row.id || row.mid;
+      if (id) map[id] = row;
+    }
+    return map;
+  }
+  return maybeArr; // assume already a map
+}
+function ensureObj(x) { return isObj(x) ? x : {}; }
+
+function isValidPayload(p) {
+  return p
+    && isObj(p.members)
+    && isObj(p.donorsByMember)
+    && isObj(p.awardsByMember)
+    && isObj(p.voteAlignByMember);
+}
+
+/* MDN: fetch won't reject on HTTP 404; check res.ok; use AbortSignal timeout */
+async function fetchJSON(path, timeoutMs=12000) {
+  const res = await fetch(path, {
+    signal: AbortSignal.timeout(timeoutMs),      // modern timeout
+    cache: 'no-store'                            // bypass HTTP cache while iterating
   });
-  </script>
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${path}`); /* MDN: check ok */
+  return res.json();
+}
+
+function readCache() {
+  try {
+    const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+    if (!cached || !isValidPayload(cached)) return null;
+    if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null;
+    return cached;
+  } catch { return null; }
+}
+function writeCache(payload) {
+  try {
+    if (isValidPayload(payload)) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 }));
+    }
+  } catch { /* storage might be full/private mode */ }
+}
+
+async function loadAll() {
+  const cached = readCache();
+  if (cached) {
+    // Stale-while-revalidate in background
+    loadAll.refresh().catch(()=>{});
+    return cached;
+  }
+  try {
+    const fresh = await loadAll.fetchNetwork();
+    writeCache(fresh);
+    return fresh;
+  } catch {
+    // Fall back to inline demo blocks if network fails
+    const demo = {
+      members:           toMemberMap(parseInlineJSON('demo-members', [])),
+      donorsByMember:    ensureObj(parseInlineJSON('demo-donors', {})),
+      awardsByMember:    ensureObj(parseInlineJSON('demo-awards', {})),
+      voteAlignByMember: ensureObj(parseInlineJSON('demo-align',  {}))
+    };
+    if (isValidPayload(demo)) writeCache(demo);
+    return demo;
+  }
+}
+loadAll.refresh = async function() {
+  const fresh = await loadAll.fetchNetwork();
+  writeCache(fresh);
+  return fresh;
+};
+loadAll.fetchNetwork = async function() {
+  const [membersRaw, donors, awardsOrBadges, align] = await Promise.all([
+    fetchJSON('/data/members.json'),
+    fetchJSON('/data/donors-by-member.json'),
+    // allow either file name to exist
+    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
+    fetchJSON('/data/vote-alignments.json')
+  ]);
+  const payload = {
+    members:           toMemberMap(membersRaw),
+    donorsByMember:    ensureObj(donors),
+    awardsByMember:    ensureObj(awardsOrBadges),
+    voteAlignByMember: ensureObj(align)
+  };
+  if (!isValidPayload(payload)) throw new Error('Invalid payload shape');
+  return payload;
+};
+
+/* ---------- domain helpers your renderer uses ---------- */
+function topIndustry(d){
+  if(!d || !d.industries) return {key:'—', share:0};
+  const entries = Object.entries(d.industries).filter(([,v])=> (v||0)>0);
+  if(!entries.length) return {key:'—', share:0};
+  const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
+  entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
+  const [key, amt] = entries[0];
+  return {key, share:(amt||0)/total};
+}
+
+/* ---------- boot ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  const setStatus = (t) => { const el = $('#load-status'); if (el) el.textContent = t; };
+  setStatus('Loading data…');
+
+  const {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
+  setStatus('Data loaded.');
+
+  // --- Example: resolve a member + image path ---
+  const resolveMember = (mid) => members?.[mid] || null;
+  const resolvePhoto = (m) => {
+    const id = m?.bioguide || m?.bioguide_id || m?.id || m?.mid;
+    return id ? `/assets/members/${id}.jpg` : '/assets/no-photo.png';
+  };
+
+  // TODO: call your real renderer here:
+  // render(members, donorsByMember, awardsByMember, voteAlignByMember);
+
+  // If you need quick smoke output:
+  const tbody = $('#fa-table'); // optional
+  if (tbody) {
+    const mid = Object.keys(members)[0];
+    if (mid) {
+      const m = resolveMember(mid);
+      const d = donorsByMember[mid] || {};
+      const v = voteAlignByMember[mid] || {};
+      tbody.innerHTML = `
+        <tr>
+          <td><img src="${resolvePhoto(m)}" width="48" height="48" onerror="this.src='/assets/no-photo.png'"></td>
+          <td>${m?.name || mid}</td>
+          <td>${m?.state || '—'}</td>
+          <td>${pct(d.pac_pct||0)}% PAC</td>
+          <td>${v.donor_alignment_index!=null ? pct(v.donor_alignment_index)+'%' : '—'}</td>
+        </tr>`;
+    }
+  }
+});
+</script>
+
+  // ---------- filters ----------
+  const qInput = $('#fa-member'),
+        partySel = $('#fa-party'),
+        chamberSel = $('#fa-chamber'),
+        industrySel = $('#fa-industry');
+
+  function passesIndustryFilter(mid, wanted){
+    if(!wanted) return true;
+    const d = donorsByMember[mid] || {};
+    const inds = d.industries || {};
+    const keys = Object.keys(inds).map(k=>k.toLowerCase());
+    return keys.includes(wanted.toLowerCase());
+  }
+
+  function applyFilters(pushState=true){
+    const q = (qInput.value || '').trim().toLowerCase();
+    const ch = (chamberSel.value || '').toLowerCase();
+    const ind = (industrySel.value || '').toLowerCase();
+    const party = (partySel.value || '').toUpperCase();
+
+    const listRows = $$('#fa-list .person');
+    let visible = 0;
+    listRows.forEach(row=>{
+      const mid = row.getAttribute('data-mid');
+      const nm = row.getAttribute('data-name') || '';
+      const st = row.getAttribute('data-state') || '';
+      const seat = row.getAttribute('data-seat') || '';
+      const rowParty = row.getAttribute('data-party') || '';
+      const chamber = row.getAttribute('data-chamber') || '';
+      const textHit = !q || nm.includes(q) || st.includes(q) || seat.includes(q);
+      const chamberHit = !ch || chamber === ch;
+      const partyHit = !party || rowParty === party;
+      const industryHit = passesIndustryFilter(mid, ind);
+      const show = (textHit && chamberHit && partyHit && industryHit);
+      row.style.display = show ? '' : 'none';
+      if(show) visible++;
+    });
+
+    // table rows
+    $$('#fa-table tr[data-mid]').forEach(tr=>{
+      const mid = tr.getAttribute('data-mid');
+      const nm = tr.getAttribute('data-name') || '';
+      const st = tr.getAttribute('data-state') || '';
+      const seat = tr.getAttribute('data-seat') || '';
+      const rowParty = tr.getAttribute('data-party') || '';
+      const chamber = tr.getAttribute('data-chamber') || '';
+      const textHit = !q || nm.includes(q) || st.includes(q) || seat.includes(q);
+      const chamberHit = !ch || chamber === ch;
+      const partyHit = !party || rowParty === party;
+      const industryHit = passesIndustryFilter(mid, ind);
+      tr.style.display = (textHit && chamberHit && partyHit && industryHit) ? '' : 'none';
+    });
+
+    $('#load-status').textContent = `Showing ${visible} row(s).`;
+    aggregateMetrics();
+
+    if(pushState){
+      const p = new URLSearchParams();
+      if(q) p.set('q', q);
+      if(ch) p.set('chamber', ch);
+      if(ind) p.set('industry', ind);
+      if(party) p.set('party', party);
+      const qs = p.toString();
+      const url = qs ? `${location.pathname}?${qs}` : location.pathname;
+      history.replaceState({}, '', url);
+    }
+  }
+
+  // headline metrics over visible set
+  function aggregateMetrics(){
+    const vis = $$('#fa-list .person').filter(el => el.style.display !== 'none');
+    if(!vis.length){
+      $('#m-pac-small').textContent = '—';
+      $('#m-geo').textContent = '—';
+      $('#m-top-industry').textContent = '—';
+      $('#m-vote-align').textContent = '—';
+      return;
+    }
+    let pacSum=0, alignSum=0, alignCount=0, inSum=0, outSum=0;
+    const industryHits = {};
+    vis.forEach(row=>{
+      const mid = row.getAttribute('data-mid');
+      const d = donorsByMember[mid] || {};
+      const v = voteAlignByMember[mid] || {};
+      pacSum += (d.pac_pct||0);
+      if(typeof v.donor_alignment_index === 'number'){ alignSum += v.donor_alignment_index; alignCount++; }
+      inSum += (d.in_state_dollars||0);
+      outSum += (d.out_state_dollars||0);
+      const ti = topIndustry(d);
+      if(ti.key && ti.key!=='—') industryHits[ti.key] = (industryHits[ti.key]||0)+1;
+    });
+    const pacAvg   = pacSum/vis.length;
+    const alignAvg = alignCount? (alignSum/alignCount) : null;
+    const topInd   = Object.entries(industryHits).sort((a,b)=>b[1]-a[1])[0]?.[0] || '—';
+
+    $('#m-pac-small').textContent = `${pct(pacAvg)}% PAC / ${100-pct(pacAvg)}% small`;
+    $('#m-geo').textContent       = `${money(inSum)} in / ${money(outSum)} out`;
+    $('#m-top-industry').textContent = topInd;
+    $('#m-vote-align').textContent   = (alignAvg===null) ? '—' : `${pct(alignAvg)}%`;
+  }
+
+  // Init from URL
+  (function syncFromURL(){
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q') || '';
+    const ch = params.get('chamber') || '';
+    const ind = params.get('industry') || '';
+    const party = params.get('party') || '';
+    if(q) $('#fa-member').value = q;
+    if(ch) $('#fa-chamber').value = ch;
+    if(ind) $('#fa-industry').value = ind;
+    if(party) $('#fa-party').value = party.toUpperCase();
+  })();
+
+  $('#fa-member').addEventListener('input', ()=>applyFilters());
+  $('#fa-chamber').addEventListener('change', ()=>applyFilters());
+  $('#fa-industry').addEventListener('change', ()=>applyFilters());
+  $('#fa-party').addEventListener('change', ()=>applyFilters());
+  $('#fa-reset').addEventListener('click', ()=>{
+    $('#fa-member').value=''; $('#fa-chamber').value=''; $('#fa-industry').value=''; $('#fa-party').value='';
+    applyFilters();
+  });
+
+  // Sorting (advanced table)
+  let sortState = { key:null, dir:1 };
+  $('#fa-table-el thead').addEventListener('click', (e)=>{
+    const th = e.target.closest('th[data-sort]'); if(!th) return;
+    const key = th.getAttribute('data-sort');
+    const dir = (sortState.key===key) ? -sortState.dir : 1;
+    sortState = { key, dir };
+    $$('#fa-table-el thead th').forEach(h=>h.classList.remove('sorted-asc','sorted-desc'));
+    th.classList.add(dir>0 ? 'sorted-asc' : 'sorted-desc');
+
+    const allRows = $$('#fa-table tr[data-mid]');
+    const visible = allRows.filter(tr=>tr.style.display!=='none');
+    const hidden  = allRows.filter(tr=>tr.style.display==='none');
+
+    const valGetter = {
+      name: tr => (tr.querySelector('td .fw-bold')?.textContent || '').toLowerCase(),
+      seat: tr => (tr.children[1]?.textContent || '').toLowerCase(),
+      pac:  tr => Number(tr.children[2]?.getAttribute('data-val')||0),
+      small:tr => Number(tr.children[3]?.getAttribute('data-val')||0),
+      geo:  tr => Number(tr.children[4]?.getAttribute('data-val')||0),
+      industry: tr => Number(tr.children[5]?.getAttribute('data-val')||0),
+      align: tr => Number(tr.children[6]?.getAttribute('data-val')||-1)
+    }[key];
+
+    visible.sort((a,b)=>{
+      const va = valGetter(a), vb = valGetter(b);
+      if(typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
+      return String(va).localeCompare(String(vb)) * dir;
+    });
+
+    const frag = document.createDocumentFragment();
+    visible.forEach(r=>frag.appendChild(r));
+    hidden.forEach(h=>frag.appendChild(h));
+    $('#fa-table').innerHTML = '';
+    $('#fa-table').appendChild(frag);
+  });
+
+  // CSV export (visible rows)
+  $('#btn-export').addEventListener('click', ()=>{
+    const rows = $$('#fa-list .person').filter(row=>row.style.display!=='none');
+    if(!rows.length) return;
+    const esc = s => `"${String(s).replace(/"/g,'""')}"`;
+    const header = ['Member','Seat','PAC %','Small %','In $','Out $','Top Industry','Vote Align','Badges'];
+    const csv = [header.join(',')];
+    rows.forEach(row=>{
+      const mid = row.getAttribute('data-mid');
+      const d = rowData(mid);
+      const badges = d.chips.map(ch => ch[2]).join(' | ');
+      csv.push([d.name,d.seat,`${d.pacP}%`,`${d.smlP}%`,money(d.in$),money(d.out$),
+                d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`,
+                d.align===null?'—':`${d.align}%`, badges].map(esc).join(','));
+    });
+    const blob = new Blob([csv.join('\n')], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'financial-alignments.csv';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+
+  // Modal: detail & receipts
+  function openModal(mid){
+    $('#compare-wrap').classList.add('d-none');
+    $('#tabs').classList.remove('d-none');
+
+    const d = rowData(mid);
+    const name = d.name, seat = d.seat, party = d.party||'';
+    const alignVal = (d.align===null)?'—':(d.align+'%');
+
+    $('#memberTitle').textContent = `${name} — ${seat}${party ? ' ('+party+')' : ''}`;
+    $('#memberMeta').textContent  = `Top industry: ${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`} • PAC: ${d.pacP}% • Vote align: ${alignVal}`;
+
+    $('#overview-body').innerHTML = `
+      <div class="row g-3">
+        <div class="col-md-4"><img src="${d.photo}" class="w-100 rounded" alt="${name} headshot" loading="lazy"></div>
+        <div class="col-md-8">
+          <p class="mb-2"><strong>Badges:</strong> ${d.chips.length ? d.chips.map(([cls,icon,label])=>`<span class="chip ${cls}" title="${label}"><i class="fa-solid ${icon}"></i>${label}</span>`).join(' ') : 'None yet'}</p>
+          <ul class="mb-0">
+            <li>PAC share: <strong>${d.pacP}%</strong> (small donors: <strong>${d.smlP}%</strong>)</li>
+            <li>In vs Out: <strong>${money(d.in$)}</strong> in / <strong>${money(d.out$)}</strong> out</li>
+            <li>Top industry: <strong>${d.topIndustryKey==='—' ? '—' : `${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</strong></li>
+            <li>Vote alignment with donors: <strong>${alignVal}</strong></li>
+          </ul>
+        </div>
+      </div>`;
+
+    const inds = Object.entries(donorsByMember[mid]?.industries||{}).sort((a,b)=>b[1]-a[1]);
+    $('#money-body').innerHTML = `
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead><tr><th>Sector</th><th class="text-end">Amount</th></tr></thead>
+          <tbody>${inds.length ? inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('') : `<tr><td colspan="2" class="text-muted">No sector detail available.</td></tr>`}</tbody>
+        </table>
+      </div>
+      <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>`;
+
+    const votes = d.votes || [];
+    $('#votes-body').innerHTML = `
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead><tr><th>Bill</th><th>Date</th><th>Vote</th><th>Link</th></tr></thead>
+          <tbody>${votes.length ? votes.map(x=>`<tr><td>${x.bill||''}</td><td>${x.date||''}</td><td>${x.position||''}</td><td>${x.url?`<a href="${x.url}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('') : `<tr><td colspan="4" class="text-muted">No tracked votes yet.</td></tr>`}</tbody>
+        </table>
+      </div>`;
+
+    $('#receipts-body').innerHTML = d.receipts.length
+      ? `<ul class="list-unstyled mb-0">${d.receipts.map(r=>`<li class="mb-1"><a href="${r.url}" target="_blank" rel="noopener">${r.title||r.url}</a></li>`).join('')}</ul>`
+      : `<p class="text-muted mb-0">No receipts linked yet.</p>`;
+
+    const pageURL = location.href.split('#')[0];
+    const shareText = `${name} — ${seat}${party? ' ('+party+')':''} • PAC ${d.pacP}% • Top: ${d.topIndustryKey==='—'?'—':d.topIndustryKey}`;
+    $('#shareX').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageURL)}`;
+    $('#shareReddit').href = `https://www.reddit.com/submit?url=${encodeURIComponent(pageURL)}&title=${encodeURIComponent(shareText)}`;
+    $('#shareTikTok').onclick = async ()=>{
+      const caption = `${shareText}\n\nSee receipts: ${pageURL}`;
+      try{
+        await navigator.clipboard.writeText(caption);
+        const btn = $('#shareTikTok'); const prev = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check me-1"></i>Copied!'; setTimeout(()=>btn.innerHTML = prev, 1500);
+      }catch{ alert('Copied caption:\n\n'+caption); }
+    };
+
+    new bootstrap.Modal(document.getElementById('memberModal')).show();
+  }
+
+  // ---------- compare (1 or 2 picks) ----------
+  const compareBar   = document.querySelector('.compare-bar');
+  const comparePicked= $('#compare-picked');
+  const compareGo    = $('#compare-go');
+  const compareClear = $('#compare-clear');
+
+  function selectedMIDs(){ return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-ppick') || cb.getAttribute('data-pick')); }
+
+  function syncCompareBar(){
+    const ids = selectedMIDs();
+    comparePicked.textContent = `${ids.length} selected`;
+    compareGo.disabled = ids.length === 0;
+    compareBar.style.display = ids.length ? 'block' : 'none';
+  }
+
+  compareClear.addEventListener('click', ()=>{
+    $$('#fa-list .compare-pick').forEach(cb => { cb.checked = false; });
+    syncCompareBar();
+  });
+
+  compareGo.addEventListener('click', ()=>{
+    const ids = selectedMIDs().slice(0,2);
+    if(ids.length === 1) return openModal(ids[0]);
+    if(ids.length === 2) return openCompare(ids[0], ids[1]);
+  });
+
+  function compareCard(d){
+    return `<div class="cardish p-3 h-100">
+      <div class="d-flex align-items-center gap-3">
+        <img src="${d.photo}" alt="${d.name}" style="width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--ring)">
+        <div><div class="fw-bold">${d.name}</div><div class="text-muted small">${d.seat}${d.party ? ' • '+d.party : ''}</div></div>
+      </div>
+      <hr>
+      <ul class="small mb-0">
+        <li><strong>PAC</strong>: ${d.pacP}% (small ${d.smlP}%)</li>
+        <li><strong>In vs Out</strong>: ${money(d.in$)} / ${money(d.out$)}</li>
+        <li><strong>Top industry</strong>: ${d.topIndustryKey==='—'?'—':`${d.topIndustryKey} (${pct(d.topIndustryShare)}%)`}</li>
+        <li><strong>Vote align</strong>: ${d.align===null?'—':d.align+'%'}</li>
+        <li><strong>Receipts</strong>: ${d.receipts.length}</li>
+      </ul>
+      <div class="mt-2">${chipHTML(d.chips)}</div>
+    </div>`;
+  }
+
+  function openCompare(a, b){
+    const A = rowData(a), B = rowData(b);
+    $('#memberTitle').textContent = `Compare — ${A.name} vs ${B.name}`;
+    $('#memberMeta').textContent = '';
+    $('#tabs').classList.add('d-none');
+    const wrap = $('#compare-wrap');
+    wrap.classList.remove('d-none');
+    wrap.innerHTML = `
+      <div class="row g-3">
+        <div class="col-md-6">${compareCard(A)}</div>
+        <div class="col-md-6">${compareCard(B)}</div>
+      </div>
+      <hr>
+      <div class="small text-muted">Receipts:
+        <a target="_blank" rel="noopener" href="${A.receipts[0]?.url || `https://www.fec.gov/data/search/?search=${encodeURIComponent(A.name)}`}">${A.name}</a>
+        &nbsp;|&nbsp;
+        <a target="_blank" rel="noopener" href="${B.receipts[0]?.url || `https://www.fec.gov/data/search/?search=${encodeURIComponent(B.name)}`}">${B.name}</a>
+      </div>`;
+    new bootstrap.Modal(document.getElementById('memberModal')).show();
+  }
+
+  // Initial filter + metrics
+  applyFilters(false);
+})();
+</script>
 </body>
 </html>
