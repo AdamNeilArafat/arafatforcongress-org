@@ -34,8 +34,18 @@
     .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
-    /* Header band */
-    .header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.9rem 1rem; }
+    /* Header band with pills (match index style) */
+    .header-break { background:#0d3b66; color:#fff; text-align:center; padding:.9rem 1rem; }
+    .header-break .pill {
+      display:block;
+      margin:.35rem auto;
+      padding:.35rem .9rem;
+      border-radius:999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      font-weight:800;
+      max-width:max-content;
+    }
     .header-break .sub { opacity:.95; font-weight:600; }
 
     /* Nav */
@@ -88,10 +98,11 @@
   </div>
 </section>
 
+<!-- HEADER PILLS -->
 <div class="header-break">
-  <div>I live here. WA-10 does not need a seat-warmer.</div>
-  <div>We need a fighter who delivers for working families.</div>
-  <div>Washington District 10</div>
+  <span class="pill">I live here. WA-10 does not need a seat-warmer.</span>
+  <span class="pill">We need a fighter who delivers for working families.</span>
+  <span class="pill">Washington District 10</span>
   <div class="sub small mt-1">Power People, Not PACs. For WA-10.</div>
 </div>
 
@@ -138,13 +149,13 @@
         <div class="col-md-6">
           <div class="fund-card h-100">
             <h3>$2.05M</h3>
-            <div class="pct">81.66% out of district</div>
-            <div class="small text-muted mt-1">2023-2024 cycle. Geography calculated from individual itemized donors only. See sources.</div>
+            <div class="pct">82% out of district</div>
+            <div class="small text-muted mt-1">2023-2024 cycle. Geography from itemized individual donors only. See sources.</div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="fund-card h-100">
-            <h3>44.03%</h3>
+            <h3>44%</h3>
             <div class="pct">from PACs</div>
             <div class="small text-muted mt-1">Share of campaign committee receipts in 2023-2024. See sources.</div>
           </div>
@@ -183,7 +194,7 @@
             </tr>
             <tr>
               <td><span class="ok">✔</span> Refuse corporate PAC money. Hold open town halls. Put people first.</td>
-              <td><span class="no">✘</span> 81.66% of individual donor dollars from outside WA-10 and 44.03% of receipts from PACs. Tied to national donor networks.</td>
+              <td><span class="no">✘</span> About 82% of individual donor dollars from outside WA-10 and 44% of receipts from PACs. Tied to national donor networks.</td>
             </tr>
             <tr>
               <td><span class="ok">✔</span> Defend the First Amendment while standing up to lobby pressure.</td>
@@ -192,7 +203,7 @@
           </tbody>
         </table>
       </div>
-      <p class="fineprint mt-2 mb-0">Figures reflect public tracker categories and rounded estimates consistent with reported shares.</p>
+      <p class="fineprint mt-2 mb-0">Figures use rounded percentages consistent with public tracker categories.</p>
       <p class="fineprint mb-0">Sources are public. They show patterns and incentives. They do not allege illegality.</p>
     </div>
   </section>
@@ -277,13 +288,13 @@
           <div id="n4" class="accordion-collapse collapse" aria-labelledby="n4h" data-bs-parent="#notes">
             <div class="accordion-body small">
               <ul class="mb-2">
-                <li>OpenSecrets - Source of Funds 2023-2024: PAC share 44.03 percent - <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
-                <li>OpenSecrets - Geography 2023-2024: Out of district 81.66 percent of itemized individual giving - <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">opensecrets.org</a></li>
-                <li>OpenSecrets - Top contributors: AIPAC listed among top contributors in 2023-2024 - <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
-                <li>House Roll Call on H.R. 6090 Antisemitism Awareness Act 2024-05-01: Strickland Yea - <a href="https://www.congress.gov/votes/house/118-2/172" target="_blank" rel="noopener">congress.gov</a> and <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">clerk.house.gov</a></li>
-                <li>Healthcare stance - public option: campaign site and materials - <a href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">stricklandforwashington.com</a>, <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf" target="_blank" rel="noopener">healthcare plan PDF</a>, reporting: <a href="https://www.cascadepbs.org/politics/2020/08/what-separates-strickland-and-doglio-was-10th-congressional-district/" target="_blank" rel="noopener">Cascade PBS</a></li>
-                <li>Opposed Seattle head tax as Chamber president in 2018 - <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX</a>, <a href="https://www.klgates.com/Congressional-Meet-and-Greet-with-Marilyn-Strickland-WA-10-D-11-20-2020" target="_blank" rel="noopener">K&L Gates bio</a></li>
-                <li>Lugar Center Bipartisan Index context - <a href="https://www.thelugarcenter.org/ourwork-Bipartisan-Index.html" target="_blank" rel="noopener">thelugacenter.org</a></li>
+                <li>OpenSecrets — Source of Funds 2023–2024: PAC share ~44% — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>OpenSecrets — Geography 2023–2024: Out of district ~82% of itemized individual giving — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>OpenSecrets — Top contributors: AIPAC listed among top contributors in 2023–2024 — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>House Roll Call on H.R. 6090 Antisemitism Awareness Act 2024-05-01: Strickland Yea — <a href="https://www.congress.gov/votes/house/118-2/172" target="_blank" rel="noopener">congress.gov</a> and <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">clerk.house.gov</a></li>
+                <li>Healthcare stance — public option: campaign site and materials — <a href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">stricklandforwashington.com</a>, <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf" target="_blank" rel="noopener">healthcare plan PDF</a>, reporting: <a href="https://www.cascadepbs.org/politics/2020/08/what-separates-strickland-and-doglio-was-10th-congressional-district/" target="_blank" rel="noopener">Cascade PBS</a></li>
+                <li>Opposed Seattle head tax as Chamber president in 2018 — <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX</a>, <a href="https://www.klgates.com/Congressional-Meet-and-Greet-with-Marilyn-Strickland-WA-10-D-11-20-2020" target="_blank" rel="noopener">K&L Gates bio</a></li>
+                <li>Lugar Center Bipartisan Index context — <a href="https://www.thelugarcenter.org/ourwork-Bipartisan-Index.html" target="_blank" rel="noopener">thelugacenter.org</a></li>
               </ul>
               <div class="small text-muted">Update windows: OpenSecrets summary last updated 2025-08-18 for funds and source of funds. Geography page reflects itemized individual data as of 2025-02-06. Always check timestamps on linked pages.</div>
             </div>
