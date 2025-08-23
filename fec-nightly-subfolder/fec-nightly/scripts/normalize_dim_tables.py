@@ -1,4 +1,4 @@
-import datetime, glob
+import datetime
 from pathlib import Path
 import pandas as pd
 
@@ -11,22 +11,15 @@ if WARE.exists() and not WARE.is_dir():
     WARE.unlink()
 WARE.mkdir(parents=True, exist_ok=True)
 
-# Add current election cycle (latest even year)
+# Current election cycle (latest even year)
 year = datetime.date.today().year
 cycle = year if year % 2 == 0 else year + 1
 
-def read_txts(pattern, **read_csv_kwargs):
-    paths = sorted(RAW.glob(pattern))
-    frames = []
-    for p in paths:
-        try:
-            df = pd.read_csv(p, sep="|", dtype=str, engine="python", **read_csv_kwargs)
-            frames.append(df)
-        except Exception as e:
-            print(f"[warn] failed reading {p.name}: {e}")
-    if not frames:
+def read_txt(name):
+    p = RAW / name
+    if not p.exists():
         return pd.DataFrame()
-    return pd.concat(frames, ignore_index=True)
+    return pd.read_csv(p, sep="|", dtype=str, engine="python")
 
 def safe_write_csv(df: pd.DataFrame, out_path: Path):
     tmp = out_path.with_suffix(out_path.suffix + ".tmp")
@@ -34,7 +27,7 @@ def safe_write_csv(df: pd.DataFrame, out_path: Path):
     tmp.replace(out_path)
 
 def normalize_candidates():
-    df = read_txts("cn.txt")
+    df = read_txt("cn.txt")
     if df.empty:
         print("[info] candidates: no input files in RAW")
         return
@@ -51,7 +44,7 @@ def normalize_candidates():
     print(f"[ok] dim_candidates.csv rows={len(df):,}")
 
 def normalize_committees():
-    df = read_txts("cm.txt")
+    df = read_txt("cm.txt")
     if df.empty:
         print("[info] committees: no input files in RAW")
         return
