@@ -1,56 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Ensure relative URLs resolve correctly when served from a subdirectory -->
   <base href="/" />
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>404 — Page Not Found</title>
-  <!-- Simple styling roughly matching the existing site aesthetic -->
   <style>
-    body {
-      background: #f6f9fc;
-      color: #0d3b66;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      text-align: center;
-      padding: 3rem;
-    }
-    img {
-      max-width: 80%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 6px 20px rgba(13, 59, 102, 0.15);
-    }
-    h1 {
-      font-weight: 900;
-      margin-top: 2rem;
-    }
-    p {
-      margin-top: 1rem;
-      line-height: 1.5;
-    }
-    a.button {
-      display: inline-block;
-      margin-top: 1.5rem;
-      padding: 0.6rem 1.2rem;
-      background: #0d3b66;
-      color: #fff;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    a.button:hover {
-      background: #0a2c4f;
-    }
+    body{background:#f6f9fc;color:#0d3b66;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;text-align:center;padding:3rem}
+    img{max-width:80%;height:auto;border-radius:8px;box-shadow:0 6px 20px rgba(13,59,102,.15)}
+    h1{font-weight:900;margin-top:2rem}
+    p{margin-top:1rem}
   </style>
 </head>
 <body>
-  <!-- Use a descriptive 404 illustration; rename the file to avoid spaces -->
   <img src="/images/dem-404.png" alt="404" />
   <h1>Oops! Page Not Found</h1>
   <p>The page you requested doesn’t exist. Let’s get you back on track.</p>
-  <p>
-    <a href="index.html" class="button">Return to Home</a>
-  </p>
+  <p><a href="/index.html">Return to Home</a></p>
 </body>
 </html>
