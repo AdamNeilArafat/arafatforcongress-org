@@ -1,67 +1,55 @@
 name: FEC Nightly Ingest
+
 on:
   schedule:
-    - cron: "20 9 * * *"
-  workflow_dispatch: {}
+    - cron: "20 9 * * *"     # 09:20 UTC daily
+  workflow_dispatch: {}       # allow manual trigger
+
+permissions:
+  contents: write
 
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     defaults:
       run:
         working-directory: fec-nightly-subfolder/fec-nightly
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+
+      - name: Ensure folders
+        run: |
+          mkdir -p data/raw data/warehouse
+
+      - name: Download FEC bulk files (candidate/committee master)
+        run: |
+          set -euo pipefail
+          cd data/raw
+          curl -L --fail -o cn.txt https://www.fec.gov/files/bulk-downloads/2024/cn.txt
+          curl -L --fail -o cm.txt https://www.fec.gov/files/bulk-downloads/2024/cm.txt
+          wc -l cn.txt cm.txt || true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pandas
 
-      - name: Download bulk files (initial backfill)
-        run: python scripts/download_bulk.py
-
-      - name: Ensure warehouse dir
+      - name: Normalize to warehouse CSVs
         run: |
-          if [ -f fec-nightly-subfolder/fec-nightly/data/warehouse ]; then rm -f fec-nightly-subfolder/fec-nightly/data/warehouse; fi
-          mkdir -p fec-nightly-subfolder/fec-nightly/data/warehouse
+          python scripts/normalize_dim_tables.py
+          ls -l data/warehouse || true
 
-      - name: Debug: list raw downloads
+      # Commit outputs back into the repo (so your site can read them)
+      - name: Commit warehouse updates
         run: |
-          set -x
-          ls -lah fec-nightly-subfolder/fec-nightly/data/raw || true
-          find fec-nightly-subfolder/fec-nightly/data/raw -maxdepth 3 -type f -print 2>/dev/null || true
-
-      - name: Debug: show warehouse path
-        run: |
-          set -x
-          if [ -e fec-nightly-subfolder/fec-nightly/data/warehouse ]; then
-            ls -ld fec-nightly-subfolder/fec-nightly/data/warehouse || true
-            file fec-nightly-subfolder/fec-nightly/data/warehouse || true
-          else
-            echo "warehouse path does not exist yet"
-          fi
-
-      - name: Build dimension tables
-        run: python scripts/normalize_dim_tables.py
-
-      - name: Update Schedule A/B via API (incremental after first run)
-        env:
-          OPENFEC_API_KEY: ${{ secrets.OPENFEC_API_KEY }}
-        run: python scripts/update_schedule_a_b.py
-
-      - name: Build marts (optional)
-        run: python scripts/build_marts.py
-
-      - name: Commit data snapshot
-        run: |
-          git config user.name "fec-nightly-bot"
-          git config user.email "bot@example.com"
-          git add -A
-          git commit -m "FEC ingest $(date -u +'%Y-%m-%d')" || echo "No changes"
+          set -euo pipefail
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/warehouse/*.csv || true
+          git commit -m "ci(fec): update warehouse outputs" || echo "no changes"
           git push
