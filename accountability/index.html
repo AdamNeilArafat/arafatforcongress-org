@@ -224,7 +224,6 @@ async function loadJSON(path, fallback=null){
     return fallback;
   }
 }
-
 async function loadMembers(){
   // 1) local mirror (fast, versioned)
   const local = await loadJSON('/data/members.json', null);
@@ -406,7 +405,6 @@ function cardHTML(o){
   }
   return `<div class="finance">${parts.join(' • ')}</div>`;
 })()}
-
 
       <div class="mt-2 d-flex gap-2">
         <button class="btn btn-outline-dark btn-sm btn-icon" type="button"
