@@ -2,33 +2,55 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main ]   # change if your default branch is not "main"
-  workflow_dispatch:      # lets you run it manually from the Actions tab
+    branches: [ main ]
+    paths:
+      - '**/*'
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Queue deployments for the same branch instead of canceling
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # If you have a build step, add it here (npm ci && npm run build)
-      # For a plain static site, just upload the repo contents.
+      - uses: actions/configure-pages@v5
 
-      - name: Upload site artifact
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build data (writes to ./data)
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        run: |
+          npm run build:data
+
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude 'node_modules' \
+            --exclude '.github' \
+            ./ _site/
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .         # deploy the whole repo. change to "dist" if you build to dist/
+          path: _site
 
   deploy:
     needs: build
@@ -37,6 +59,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
