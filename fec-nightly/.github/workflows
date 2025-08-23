@@ -1,0 +1,48 @@
+name: FEC Nightly Ingest
+
+on:
+  schedule:
+    - cron: "20 9 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: fec-nightly
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Download bulk files (initial backfill)
+        run: python scripts/download_bulk.py
+
+      - name: Build dimension tables
+        run: python scripts/normalize_dim_tables.py
+
+      - name: Update Schedule A/B via API (incremental after first run)
+        env:
+          OPENFEC_API_KEY: ${{ secrets.OPENFEC_API_KEY }}
+        run: python scripts/update_schedule_a_b.py
+
+      - name: Build marts (optional)
+        run: python scripts/build_marts.py
+
+      - name: Commit data snapshot
+        run: |
+          git config user.name "fec-nightly-bot"
+          git config user.email "bot@example.com"
+          git add -A
+          git commit -m "FEC ingest $(date -u +'%Y-%m-%d')" || echo "No changes"
+          git push
