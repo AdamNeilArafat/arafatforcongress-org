@@ -216,17 +216,17 @@ function partyLabel(code){
 
 async function loadJSON(path, fallback=null){
   try{
-    const u = path + (path.includes('?') ? '&' : '?') + 'v=' + Date.now();
-    const r = await fetch(u, {cache:'no-store'});
+    const r = await fetch(path, {cache:'no-store'});
     if(!r.ok) throw new Error(path+' not ok');
     return await r.json();
   }catch(e){
     return fallback;
   }
 }
+
 async function loadMembers(){
   // 1) local mirror (fast, versioned)
-  const local = await loadJSON('/data/members.json', null);
+  const local = await loadJSON('data/members.json', null);
   if(local){
     const norm = {};
     for(const m of local){
@@ -270,19 +270,19 @@ async function loadMembers(){
 }
 
 async function loadVotes(){
-  const v = await loadJSON('/data/votes.json', {});
+  const v = await loadJSON('data/votes.json', {});
   if(!v) return {};
   return v; // { billKey: {title, href, award, meaning, offenders:[{bioguide, vote}] } }
 }
 
 async function loadBadges(){
   // { [bioguide]: [ {id,label,icon,reason,source,tone?}, ... ] }
-  return await loadJSON('/data/member-badges.json', {});
+  return await loadJSON('data/member-badges.json', {});
 }
 
 async function loadFinanceSummary(){
   // { [bioguide]: { small_donor_pct, pac_donor_pct, in_dist_pct, industry_top:[{industry,amount}], vote_align_pct } }
-  return await loadJSON('/data/member-finance-summary.json', {});
+  return await loadJSON('data/member-finance-summary.json', {});
 }
 
 /** ---------------------------------------------------------
@@ -390,21 +390,21 @@ function cardHTML(o){
           <span class="chip">Bill: ${o.billShort}</span><span class="chip no">${o.vote||'NO'} vote</span>
         </div>` : ``}
 
-     ${(()=>{
-  const f = (window.FINANCE||{})[o.bioguide] || {};
-  const pct = v => (typeof v==='number' ? Math.round(v*100)+'%' : '—');
-  const parts = [
-    `Small ${pct(f.small_donor_pct)}`,
-    `PAC ${pct(f.pac_donor_pct)}`,
-    `In ${pct(f.in_dist_pct)}`,
-    `Align ${pct(f.vote_align_pct)}`
-  ];
-  if (Array.isArray(f.industry_top) && f.industry_top.length) {
-    const top = f.industry_top[0]?.industry || '';
-    if (top) parts.push(`Top ${top}`);
-  }
-  return `<div class="finance">${parts.join(' • ')}</div>`;
-})()}
+      ${(()=>{
+         const f = FINANCE[o.bioguide] || null;
+         if(!f) return '';
+         const pct = v => (typeof v==='number' ? Math.round(v*100)+'%' : '—');
+         const parts = [];
+         if('small_donor_pct' in f) parts.push(`Small ${pct(f.small_donor_pct)}`);
+         if('pac_donor_pct'   in f) parts.push(`PAC ${pct(f.pac_donor_pct)}`);
+         if('in_dist_pct'     in f) parts.push(`In ${pct(f.in_dist_pct)}`);
+         if('vote_align_pct'  in f) parts.push(`Align ${pct(f.vote_align_pct)}`);
+         if(Array.isArray(f.industry_top) && f.industry_top.length){
+           const top = f.industry_top[0]?.industry || '';
+           if(top) parts.push(`Top ${top}`);
+         }
+         return parts.length ? `<div class="finance">${parts.join(' • ')}</div>` : '';
+      })()}
 
       <div class="mt-2 d-flex gap-2">
         <button class="btn btn-outline-dark btn-sm btn-icon" type="button"
