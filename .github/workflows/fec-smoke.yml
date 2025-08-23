@@ -1,11 +1,9 @@
 name: FEC Smoke
-
 on:
   push:
     paths:
       - ".github/workflows/fec-smoke.yml"
   workflow_dispatch: {}
-
 jobs:
   check:
     runs-on: ubuntu-latest
