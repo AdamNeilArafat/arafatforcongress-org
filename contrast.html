@@ -29,31 +29,54 @@
     a { text-decoration: none; }
 
     /* Social top bar */
-    .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
-    .social-pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; background:rgba(255,255,255,.08); backdrop-filter:blur(4px); transition: transform .08s ease, background .15s ease, box-shadow .15s ease; }
+    .social-top {
+      background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%);
+      color:#fff;
+    }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
+      background:rgba(255,255,255,.08); backdrop-filter:blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+      font-weight:700;
+    }
     .social-pill:hover { transform: translateY(-1px); background:rgba(255,255,255,.16); box-shadow:0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
 
-    /* Header band with pills (match index style) */
-    .header-break { background:#0d3b66; color:#fff; text-align:center; padding:.9rem 1rem; }
+    /* Header band with responsive pills */
+    .header-break {
+      background:#0d3b66; color:#fff; padding:1rem;
+      display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; /* desktop: row */
+      text-align:center;
+    }
     .header-break .pill {
-      display:block;
-      margin:.35rem auto;
-      padding:.35rem .9rem;
+      margin:0;
+      padding:.4rem .9rem;
       border-radius:999px;
       background: rgba(255,255,255,.12);
       border: 1px solid rgba(255,255,255,.25);
       font-weight:800;
-      max-width:max-content;
+      white-space:nowrap;
     }
-    .header-break .sub { opacity:.95; font-weight:600; }
+    .header-break .sub { width:100%; margin-top:.25rem; opacity:.95; font-weight:600; }
+
+    @media (max-width: 767.98px) {
+      .header-break { flex-direction:column; align-items:center; }
+      .header-break .pill { width:100%; max-width:340px; } /* one per row, centered */
+    }
 
     /* Nav */
     .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
     .navbar .nav-link:hover { color:#0d3b66; }
-    .navbar .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: currentColor; border-radius:2px; transition: width .18s ease; }
+    .navbar .nav-link::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
     .navbar .nav-link:hover::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-    .btn-donate { background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem; }
+
+    .btn-donate {
+      background:var(--donate); color:#fff; border:none; border-radius:999px; padding:.45rem .9rem;
+    }
     .btn-donate:hover { filter:brightness(.95); color:#fff; }
 
     /* Sections and cards */
@@ -61,7 +84,11 @@
     .fineprint { font-size:.8rem; opacity:.75; }
 
     /* Funding cards */
-    .fund-card { border-radius:14px; border:1px solid #e6edf5; background:#fff; text-align:center; padding:1rem; height:100%; box-shadow:0 6px 14px rgba(13,59,102,.06); }
+    .fund-card {
+      border-radius:14px; border:1px solid #e6edf5; background:#fff;
+      text-align:center; padding:1rem; height:100%;
+      box-shadow:0 6px 14px rgba(13,59,102,.06);
+    }
     .fund-card h3 { margin:0; font-size:1.6rem; font-weight:800; color:#0d3b66; }
     .fund-card .pct { color:#10324f; font-weight:700; }
 
@@ -89,12 +116,16 @@
 <!-- SOCIAL BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Reddit"><i class="fa-brands fa-reddit-alien"></i><span>Reddit</span></a>
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Reddit">
+      <i class="fa-brands fa-reddit-alien"></i><span>Reddit</span>
+    </a>
     <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
       <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
       <span>Bluesky</span>
     </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i><span>TikTok</span></a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8" target="_blank" rel="noopener" aria-label="TikTok">
+      <i class="fa-brands fa-tiktok"></i><span>TikTok</span>
+    </a>
   </div>
 </section>
 
@@ -103,7 +134,7 @@
   <span class="pill">I live here. WA-10 does not need a seat-warmer.</span>
   <span class="pill">We need a fighter who delivers for working families.</span>
   <span class="pill">Washington District 10</span>
-  <div class="sub small mt-1">Power People, Not PACs. For WA-10.</div>
+  <div class="sub small">Power People, Not PACs. For WA-10.</div>
 </div>
 
 <!-- NAV -->
@@ -150,19 +181,19 @@
           <div class="fund-card h-100">
             <h3>$2.05M</h3>
             <div class="pct">82% out of district</div>
-            <div class="small text-muted mt-1">2023-2024 cycle. Geography from itemized individual donors only. See sources.</div>
+            <div class="small text-muted mt-1">2023–2024 cycle. Geography from itemized individual donors only. See sources.</div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="fund-card h-100">
             <h3>44%</h3>
             <div class="pct">from PACs</div>
-            <div class="small text-muted mt-1">Share of campaign committee receipts in 2023-2024. See sources.</div>
+            <div class="small text-muted mt-1">Share of campaign committee receipts in 2023–2024. See sources.</div>
           </div>
         </div>
       </div>
       <div class="alert alert-secondary small mt-3 mb-0" role="note">
-        AIPAC is listed as a top contributor in 2023-2024. This speaks to incentives and alignment. See sources.
+        AIPAC is listed as a top contributor in 2023–2024. This speaks to incentives and alignment. See sources.
       </div>
     </div>
   </section>
