@@ -2,7 +2,7 @@ name: FEC Nightly Ingest
 
 on:
   schedule:
-    - cron: "20 9 * * *"
+    - cron: "20 9 * * *"   # 09:20 UTC daily
   workflow_dispatch: {}
 
 permissions:
@@ -28,10 +28,10 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install pandas requests beautifulsoup4
+          pip install pandas requests
 
       - name: Download latest FEC cn/cm
-        run: python scripts/download_latest_fec.py
+        run: python ../../scripts/download_latest_fec.py
 
       - name: Normalize to warehouse CSVs
         run: python scripts/normalize_dim_tables.py
