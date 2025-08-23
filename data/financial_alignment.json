@@ -1,0 +1,109 @@
+[
+  {
+    "person_id": "H0WA09012",
+    "name": "Jane Doe",
+    "party": "D",
+    "chamber": "House",
+    "state": "WA",
+    "district": "08",
+    "cycle": 2024,
+    "headshot": "images/people/jane-doe.jpg",
+    "receipts": {
+      "total": 1234567,
+      "small_dollar": 23456,
+      "pac": 345678,
+      "corp_pac_like": 120000
+    },
+    "donations": [
+      {
+        "amount": 2900,
+        "donor": "Acme Corp PAC",
+        "fec_id": "C00123456",
+        "through": "Acme Corp PAC",
+        "industry": "Oil & Gas",
+        "committee_type": "PAC",
+        "date": "2024-02-01"
+      }
+    ],
+    "votes": [
+      {
+        "roll_id": "h123-2024",
+        "title": "Energy Subsidies Act",
+        "position": "Yea",
+        "date": "2024-03-15",
+        "source_url": "https://clerk.house.gov/"
+      }
+    ]
+  },
+  {
+    "person_id": "H0WA10001",
+    "name": "John Smith",
+    "party": "R",
+    "chamber": "House",
+    "state": "TX",
+    "district": "01",
+    "cycle": 2024,
+    "headshot": "images/people/john-smith.jpg",
+    "receipts": {
+      "total": 2000000,
+      "small_dollar": 100000,
+      "pac": 800000,
+      "corp_pac_like": 200000
+    },
+    "donations": [
+      {
+        "amount": 5000,
+        "donor": "Defense PAC",
+        "fec_id": "C00345678",
+        "through": "Defense PAC",
+        "industry": "Defense",
+        "committee_type": "PAC",
+        "date": "2024-01-10"
+      }
+    ],
+    "votes": [
+      {
+        "roll_id": "h456-2024",
+        "title": "Defense Budget Expansion Act",
+        "position": "Yea",
+        "date": "2024-04-10",
+        "source_url": "https://clerk.house.gov/"
+      }
+    ]
+  },
+  {
+    "person_id": "S0CA00001",
+    "name": "Alice Chen",
+    "party": "I",
+    "chamber": "Senate",
+    "state": "CA",
+    "cycle": 2024,
+    "headshot": "images/people/alice-chen.jpg",
+    "receipts": {
+      "total": 1500000,
+      "small_dollar": 700000,
+      "pac": 200000,
+      "corp_pac_like": 100000
+    },
+    "donations": [
+      {
+        "amount": 1500,
+        "donor": "Tech Freedom PAC",
+        "fec_id": "C00567890",
+        "through": "Tech Freedom PAC",
+        "industry": "Technology",
+        "committee_type": "PAC",
+        "date": "2024-05-12"
+      }
+    ],
+    "votes": [
+      {
+        "roll_id": "s789-2024",
+        "title": "Tech Privacy Rollback Act",
+        "position": "Nay",
+        "date": "2024-05-20",
+        "source_url": "https://senate.gov/"
+      }
+    ]
+  }
+]

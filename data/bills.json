@@ -1,0 +1,37 @@
+[
+  {
+    "id": "oil-subsidy-2024",
+    "title": "Oil & Gas Subsidy Expansion Act",
+    "badge": "Big Oil Booster",
+    "pill_class": "gold",
+    "icon": "flame"
+  },
+  {
+    "id": "defense-budget-2025",
+    "title": "Defense Budget Expansion Act",
+    "badge": "War Profiteer",
+    "pill_class": "red",
+    "icon": "shield"
+  },
+  {
+    "id": "privacy-rollbacks-2025",
+    "title": "Tech Privacy Rollback Act",
+    "badge": "Privacy Invader",
+    "pill_class": "black",
+    "icon": "lock"
+  },
+  {
+    "id": "environment-dereg-2024",
+    "title": "Environmental Deregulation Act",
+    "badge": "Polluter Pal",
+    "pill_class": "danger",
+    "icon": "leaf"
+  },
+  {
+    "id": "corporate-tax-break-2024",
+    "title": "Corporate Tax Break Expansion",
+    "badge": "Corporate Crony",
+    "pill_class": "gray",
+    "icon": "briefcase"
+  }
+]
