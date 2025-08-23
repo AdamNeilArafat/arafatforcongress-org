@@ -3,7 +3,7 @@ name: FEC Nightly Ingest
 on:
   schedule:
     - cron: "20 9 * * *"     # 09:20 UTC daily
-  workflow_dispatch: {}       # allow manual trigger
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -18,16 +18,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Ensure folders
-        run: |
-          mkdir -p data/raw data/warehouse
-
-      - name: Download FEC bulk files (candidate/committee master)
-        run: |
-          set -euo pipefail
-          cd data/raw
-          curl -L --fail -o cn.txt https://www.fec.gov/files/bulk-downloads/2024/cn.txt
-          curl -L --fail -o cm.txt https://www.fec.gov/files/bulk-downloads/2024/cm.txt
-          wc -l cn.txt cm.txt || true
+        run: mkdir -p data/raw data/warehouse
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -37,14 +28,17 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install pandas
+          pip install pandas requests beautifulsoup4
+
+      - name: Download latest FEC cn/cm
+        run: |
+          python scripts/download_latest_fec.py
 
       - name: Normalize to warehouse CSVs
         run: |
           python scripts/normalize_dim_tables.py
           ls -l data/warehouse || true
 
-      # Commit outputs back into the repo (so your site can read them)
       - name: Commit warehouse updates
         run: |
           set -euo pipefail
