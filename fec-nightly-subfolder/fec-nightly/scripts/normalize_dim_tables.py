@@ -1,10 +1,13 @@
-
 import pandas as pd, glob
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 WARE = ROOT / "data" / "warehouse"
+
+# Ensure warehouse path is a directory (remove if a file with same name exists)
+if WARE.exists() and not WARE.is_dir():
+    WARE.unlink()
 WARE.mkdir(parents=True, exist_ok=True)
 
 def read_txts(pattern):
@@ -12,16 +15,22 @@ def read_txts(pattern):
     dfs = []
     for f in files:
         try:
+            # FEC bulk .txt files are pipe-delimited
             dfs.append(pd.read_csv(f, sep="|", dtype=str, engine="python", low_memory=False))
         except Exception:
             pass
     return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
 
-cand = read_txts(str(RAW / "**/candidate_master/*.txt"))
-comm = read_txts(str(RAW / "**/committee_master/*.txt"))
-link = read_txts(str(RAW / "**/candidate_comm_links/*.txt"))
+# Candidate master (cnYY.txt)
+cand = read_txts(str(RAW / "**" / "candidate_master" / "*.txt"))
+# Committee master (cmYY.txt)
+comm = read_txts(str(RAW / "**" / "committee_master" / "*.txt"))
+# Candidate-committee links (cclYY.txt)
+link = read_txts(str(RAW / "**" / "candidate_comm_links" / "*.txt"))
 
+# Write dims if present
 if not cand.empty:
+    (WARE / "dim_candidates.parquet").parent.mkdir(parents=True, exist_ok=True)
     cand.to_parquet(WARE / "dim_candidates.parquet", index=False)
 if not comm.empty:
     comm.to_parquet(WARE / "dim_committees.parquet", index=False)
