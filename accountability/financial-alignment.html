@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wall of Shame — Accountability</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <!-- Include simple icons via Heroicons (optional) -->
+  <title>Financial Alignments & Interests</title>
   <style>
     :root {
       --ink: #122133;
@@ -21,13 +19,6 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
       padding: 0;
-    }
-    a {
-      color: var(--brand);
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
     }
     .container {
       max-width: 1200px;
@@ -75,6 +66,7 @@
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1rem;
     }
+    /* Reuse card styles from wall page */
     .card-person {
       position: relative;
       display: grid;
@@ -138,7 +130,7 @@
       border: 1px solid rgba(13, 59, 102, 0.12);
       white-space: nowrap;
     }
-    /* Modal styles */
+    /* Modal (same as wall) */
     #modal {
       position: fixed;
       inset: 0;
@@ -174,8 +166,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>Wall of Shame</h1>
-    <p>See how money and votes line up. Filter by party, chamber, badge, or industry—and explore receipts and overrides.</p>
+    <h1>Financial Alignments &amp; Interests</h1>
+    <p>Aggregate updates as you filter. Click a member for receipts and votes.</p>
     <div class="controls">
       <input type="search" id="searchInput" placeholder="Search name, state, district" />
     </div>
@@ -194,10 +186,8 @@
     </div>
   </div>
   <script>
-    // Populate filters and render grid once data is loaded
     document.addEventListener('DOMContentLoaded', async () => {
       const { data, overrides, bills } = await Accountability.loadAll();
-      // Derive unique filter values from loaded data
       const parties = Array.from(new Set(data.map(r => r.party))).filter(Boolean);
       const chambers = Array.from(new Set(data.map(r => r.chamber))).filter(Boolean);
       const industries = Array.from(new Set(data.flatMap(r => Object.keys(r.shares || {})))).filter(i => i !== 'Unknown');
@@ -211,7 +201,7 @@
           btn.addEventListener('click', () => {
             Accountability.toggleFilter(category, val);
             btn.classList.toggle('active');
-            Accountability.renderWall(document.getElementById('grid'));
+            Accountability.renderFinancial(document.getElementById('grid'));
           });
           container.appendChild(btn);
         });
@@ -220,13 +210,12 @@
       createButtons(chambers, 'chamber', document.getElementById('chamberFilters'));
       createButtons(badges, 'badges', document.getElementById('badgeFilters'));
       createButtons(industries, 'industry', document.getElementById('industryFilters'));
-      // Search handler
       const searchInput = document.getElementById('searchInput');
       searchInput.addEventListener('input', () => {
         Accountability.setSearch(searchInput.value);
-        Accountability.renderWall(document.getElementById('grid'));
+        Accountability.renderFinancial(document.getElementById('grid'));
       });
-      Accountability.renderWall(document.getElementById('grid'));
+      Accountability.renderFinancial(document.getElementById('grid'));
     });
   </script>
 </body>
