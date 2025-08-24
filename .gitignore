@@ -1,33 +1,6 @@
-# local env
-.env
-# data caches
-.fec-cursors.json
-# node
-node_modules
-# build artifacts (if any)
-dist
 data/raw/
+data/warehouse/
 *.ndjson
-fec:ingest
-fec:warehouse
-node
-data/raw/
-*.ndjson
-fec:ingest
-fec:warehouse
-node
-data/raw/
-*.ndjson
-fec:ingest
-fec:warehouse
-node
-data/raw/
-*.ndjson
-fec:ingest
-fec:warehouse
-node
-data/raw/
-*.ndjson
-node/
-fec:ingest
-fec:warehouse
+node_modules/
+.DS_Store
+tmp/
