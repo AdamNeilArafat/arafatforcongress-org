@@ -1,0 +1,32 @@
+name: Build Members JSON
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "config/members.csv"
+      - "config/member.csv"
+      - "data/financial_alignment.json"
+      - "data/donors.json"
+      - "scripts/build-members.sh"
+      - "package.json"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Build members.json
+        run: npm run build:members
+      - name: Commit changes (if any)
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: rebuild data/members.json"
+          branch: main
+          file_pattern: data/members.json

@@ -26,6 +26,14 @@ jobs:
       FEC_API_KEY: ${{ secrets.FEC_API_KEY }}   # <-- make key available to all steps in this job
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Build members.json
+        run: npm run build:members
       - uses: actions/setup-node@v4
         with:
           node-version: 20
