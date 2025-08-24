@@ -1,44 +1,9 @@
-name: FEC Nightly Ingest
+name: FEC Nightly Refresh
 on:
   schedule:
-    - cron: "20 9 * * *"
-  workflow_dispatch: {}
-  push:
-    paths:
-      - ".github/workflows/fec-nightly.yml"
-permissions:
-  contents: write
+    - cron: "20 09 * * *" # 02:20 PT
+  workflow_dispatch:
+
 jobs:
-  ingest:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install deps
-        run: |
-          python -m pip install --upgrade pip
-          pip install pandas requests
-      - name: Download latest FEC cn/cm (writes into subfolder data/raw)
-        run: |
-          python scripts/download_latest_fec.py
-          echo "== RAW =="
-          ls -lh fec-nightly-subfolder/fec-nightly/data/raw || true
-          head -3 fec-nightly-subfolder/fec-nightly/data/raw/cn.txt || true
-          head -3 fec-nightly-subfolder/fec-nightly/data/raw/cm.txt || true
-      - name: Normalize to warehouse CSVs (adds cycle column)
-        run: |
-          python fec-nightly-subfolder/fec-nightly/scripts/normalize_dim_tables.py
-          echo "== WAREHOUSE =="
-          ls -lh fec-nightly-subfolder/fec-nightly/data/warehouse || true
-          head -3 fec-nightly-subfolder/fec-nightly/data/warehouse/dim_candidates.csv || true
-          head -3 fec-nightly-subfolder/fec-nightly/data/warehouse/dim_committees.csv || true
-      - name: Commit warehouse updates
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add fec-nightly-subfolder/fec-nightly/data/warehouse/*.csv || true
-          git commit -m "ci(fec): update warehouse outputs" || echo "no changes"
-          git push
+  call-deploy:
+    uses: ./.github/workflows/deploy.yml
