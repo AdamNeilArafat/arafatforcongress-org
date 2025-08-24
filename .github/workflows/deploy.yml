@@ -1,4 +1,3 @@
-cat > .github/workflows/deploy.yml <<'YAML'
 name: Deploy GitHub Pages
 
 on:
@@ -73,8 +72,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-YAML
-
-git add .github/workflows/deploy.yml
-git commit -m "ci: fix YAML (remove heredoc text) + add AI incremental step"
-git push origin main
