@@ -4,3 +4,6 @@ data/warehouse/
 node_modules/
 .DS_Store
 tmp/
+
+# editor backups
+*.bak
