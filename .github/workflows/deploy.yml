@@ -20,6 +20,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      FEC_BURST_SLEEP_MS: 1200
+      FEC_MAX_RETRIES: 5
       # Make the secret available to all steps in this job
       FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
     steps:
