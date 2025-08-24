@@ -1,9 +1,0 @@
-name: FEC Nightly Refresh
-on:
-  schedule:
-    - cron: "20 09 * * *" # 02:20 PT
-  workflow_dispatch:
-
-jobs:
-  call-deploy:
-    uses: ./.github/workflows/deploy.yml
