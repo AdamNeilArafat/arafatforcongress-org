@@ -13,7 +13,8 @@ await ensureDir(SITE_DIR);
 // Only enforce preflight if not explicitly skipped (local-only mode)
 const SKIP = !!process.env.SKIP_FEC_PREFLIGHT;
 if (!SKIP) {
-  await preflight();
+  const SKIP_FEC_PREFLIGHT = process.env.SKIP_FEC_PREFLIGHT === "1";
+if (!SKIP_FEC_PREFLIGHT) { await preflight(); } else { console.log("[fec] build-site-bundles: SKIP_FEC_PREFLIGHT=1 -> skipping FEC_API_KEY check"); }
 }
 
 // Load warehouse metrics. Accept either array or object keyed by committee_id.
