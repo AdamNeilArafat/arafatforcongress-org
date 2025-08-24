@@ -1,9 +1,0 @@
-data/raw/
-data/warehouse/
-*.ndjson
-node_modules/
-.DS_Store
-tmp/
-
-# editor backups
-*.bak
