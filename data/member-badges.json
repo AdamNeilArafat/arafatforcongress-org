@@ -1,1 +1,7 @@
-{}
+const badgeRail = badgeRailHTML(o.bioguide);
+…
+return `
+  <article class="card-person" …>
+    <img class="avatar" …/>
+    ${badgeRail}
+    <div class="body">…`;
