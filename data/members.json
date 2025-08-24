@@ -1,5 +1,5 @@
-{
-  "AARAFAT": {
+[
+  {
     "id": "AARAFAT",
     "bioguide": "A000000",
     "name": "Adam Neil Arafat",
@@ -11,7 +11,7 @@
       "H4WA00123"
     ]
   },
-  "S001135": {
+  {
     "id": "S001135",
     "bioguide": "S001135",
     "name": "Marilyn Strickland",
@@ -23,4 +23,4 @@
       "H0WA10078"
     ]
   }
-}
+]
