@@ -732,5 +732,23 @@ document.getElementById('resetFilters').addEventListener('click', ()=>{
         const el=document.getElementById("wall")||document.body;
         window.Accountability.renderWall(el);
       }
+
+  <!-- ACCOUNTABILITY BOOT START -->
+  <script>
+  (async()=>{
+    try{
+      // Remove any stray top tables not caught by static replace (runtime safety)
+      (function(){ const ts=[...document.querySelectorAll("table")]; ts.slice(0,2).forEach(t=>t.remove()); })();
+
+      if(window.Accountability){
+        const {data}=await window.Accountability.loadAll();
+        const el=document.getElementById("wall")||document.body;
+        window.Accountability.renderWall(el);
+      }
+    }catch(e){ console.error("[accountability boot]", e); }
+  })();
+  </script>
+  <!-- ACCOUNTABILITY BOOT END -->
+  
 </body>
 </html>
