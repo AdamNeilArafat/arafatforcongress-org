@@ -1,36 +1,34 @@
 import fs from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { ensureDir, ymd, readJSON, writeJSON } from "./lib.mjs";
+import { ensureDir, readJSON, writeJSON } from "./lib.mjs";
 
 const RAW_ROOT = "data/raw";
 const WH_DIR = "data/warehouse";
 
-async function getRawDir() {
-  // Use the same timezone as ingest (from config), default UTC if missing
-  const cfg = (await readJSON("config/fec-targets.json", {})) || {};
-  const tz = cfg.timezone || "UTC";
-
-  const today = ymd(new Date(), tz);
-  const todayDir = path.join(RAW_ROOT, today);
-  if (existsSync(todayDir)) return todayDir;
-
-  // Fallback: use the most recent YYYY-MM-DD directory under data/raw
+async function latestRawDirOrCreateToday() {
+  // First try to use the latest existing YYYY-MM-DD folder
   try {
     const entries = await fs.readdir(RAW_ROOT, { withFileTypes: true });
     const dates = entries
       .filter(e => e.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(e.name))
       .map(e => e.name)
-      .sort(); // lexical sort works for YYYY-MM-DD
+      .sort();
     if (dates.length) {
       const last = dates[dates.length - 1];
-      console.warn(`[warehouse] RAW dir for ${today} missing; using latest available: ${last}`);
+      console.warn(`[warehouse] Using latest available raw dir: ${last}`);
       return path.join(RAW_ROOT, last);
     }
   } catch {
-    // ignore; handled by creating empty dir below
+    // ignore; we'll create RAW_ROOT/today below if needed
   }
 
+  // No raw dirs at all → create a “today” folder (UTC) so we don’t crash
+  const today = new Date();
+  const yyyy = today.getUTCFullYear();
+  const mm = String(today.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(today.getUTCDate()).padStart(2, "0");
+  const todayDir = path.join(RAW_ROOT, `${yyyy}-${mm}-${dd}`);
   await fs.mkdir(todayDir, { recursive: true });
   console.warn(`[warehouse] No raw data found; created empty ${todayDir}`);
   return todayDir;
@@ -43,22 +41,27 @@ async function readNDJSON(file) {
   } catch { return []; }
 }
 
-// Collect reports for cash-on-hand & receipts
 async function collectCommitteeReports(rawDir) {
-  const files = (await fs.readdir(rawDir)).filter(
-    f => f.startsWith("committee_") && f.includes("_reports_")
-  );
+  let files = [];
+  try {
+    files = (await fs.readdir(rawDir)).filter(
+      f => f.startsWith("committee_") && f.includes("_reports_")
+    );
+  } catch {
+    files = [];
+  }
   const rows = [];
   for (const f of files) rows.push(...await readNDJSON(path.join(rawDir, f)));
   return rows;
 }
 
+// kept for compatibility if referenced elsewhere
 function sum(arr, f) { return arr.reduce((a, b) => a + (f(b) || 0), 0); }
 
 async function buildDimsAndFacts() {
   await ensureDir(WH_DIR);
 
-  const RAW_DIR = await getRawDir();
+  const RAW_DIR = await latestRawDirOrCreateToday();
 
   const candidates = await readNDJSON(path.join(RAW_DIR, "candidates.ndjson"));
   const committees = await readNDJSON(path.join(RAW_DIR, "committees.ndjson"));
@@ -68,16 +71,16 @@ async function buildDimsAndFacts() {
   await writeJSON(path.join(WH_DIR, "dim_committees.jsonl"), committees);
   await writeJSON(path.join(WH_DIR, "committee_reports.jsonl"), reports);
 
-  // Receipts aggregates (size/state/employer) -> quick rollups
-  const aggFiles = (await fs.readdir(RAW_DIR)).filter(
-    f => /^sa_.*(by_size|by_state|by_employer|by_zip)\.ndjson$/.test(f)
-  );
+  const names = await fs.readdir(RAW_DIR).catch(() => []);
+
+  // Receipts aggregates (size/state/employer/zip) -> quick rollups
+  const aggFiles = names.filter(f => /^sa_.*(by_size|by_state|by_employer|by_zip)\.ndjson$/.test(f));
   const aggs = [];
   for (const f of aggFiles) aggs.push(...await readNDJSON(path.join(RAW_DIR, f)));
   await writeJSON(path.join(WH_DIR, "fact_receipts_aggregates.jsonl"), aggs);
 
   // Disbursements + Vendors
-  const sbFiles = (await fs.readdir(RAW_DIR)).filter(f => f.startsWith("sb_"));
+  const sbFiles = names.filter(f => f.startsWith("sb_"));
   const disb = [];
   for (const f of sbFiles) disb.push(...await readNDJSON(path.join(RAW_DIR, f)));
   await writeJSON(path.join(WH_DIR, "fact_disbursements.jsonl"), disb);
@@ -96,7 +99,7 @@ async function buildDimsAndFacts() {
   await writeJSON(path.join(WH_DIR, "vendor_index.jsonl"), vendorIdx);
 
   // IE fact
-  const seFiles = (await fs.readdir(RAW_DIR)).filter(f => f.startsWith("se_"));
+  const seFiles = names.filter(f => f.startsWith("se_"));
   const ies = [];
   for (const f of seFiles) ies.push(...await readNDJSON(path.join(RAW_DIR, f)));
   await writeJSON(path.join(WH_DIR, "fact_ie.jsonl"), ies);
