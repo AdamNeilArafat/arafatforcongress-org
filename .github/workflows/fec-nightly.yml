@@ -1,9 +1,11 @@
-name: FEC Nightly Refresh
+name: FEC Nightly Ingest
+
 on:
   schedule:
-    - cron: "20 09 * * *" # 02:20 PT
+    - cron: "20 09 * * *"
   workflow_dispatch:
 
 jobs:
-  call-deploy:
-    uses: ./.github/workflows/deploy.yml
+  ingest:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/ingest-core.yml   # points to your ingest logic
