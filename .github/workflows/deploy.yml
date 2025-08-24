@@ -1,10 +1,10 @@
-# .github/workflows/deploy.yml
 name: Deploy GitHub Pages
 
 on:
   push:
     branches: [ main ]
-    paths: ['**/*']
+    paths:
+      - '**/*'
   workflow_dispatch: {}
 
 permissions:
@@ -14,61 +14,27 @@ permissions:
 
 concurrency:
   group: "pages-${{ github.ref }}"
-  cancel-in-progress: true
-
-env:
-  TZ: America/Los_Angeles
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FEC_API_KEY: ${{ secrets.FEC_API_KEY }}   # <-- make key available to all steps in this job
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
-      - name: Build members.json
-        run: npm run build:members
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-      - name: Install deps
-        run: npm ci
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Ingest FEC raw data
-        run: npm run fec:ingest
-
-      - name: Fetch receipts
-        run: npm run fec:fetch:receipts
-
-      - name: Build warehouse
-        run: npm run fec:warehouse
-
-      - name: Build warehouse metrics
-        run: npm run fec:warehouse:metrics
-
-      - name: Build site bundles
-        run: npm run fec:site
-
-      - name: Remove node_modules to shrink artifact
-        run: rm -rf node_modules
-
+      # Package the current repo contents as the Pages artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .  # your static site is the repo root
+
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
