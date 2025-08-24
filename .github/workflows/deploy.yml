@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "**/*"
+      - '**/*'
   workflow_dispatch: {}
 
 permissions:
@@ -16,69 +16,60 @@ concurrency:
   group: "pages-${{ github.ref }}"
   cancel-in-progress: true
 
+env:
+  TZ: America/Los_Angeles
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FEC_BURST_SLEEP_MS: 1200
-      FEC_MAX_RETRIES: 5
-      # Make the secret available to all steps in this job
-      FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: 'npm'
 
-      - name: Show Node & npm versions
-        run: node -v && npm -v
+      - name: Install deps
+        run: npm ci
 
-      # Try `npm ci` (strict, reproducible). If lockfile is out of sync, fall back once to `npm install`.
-      - name: Install deps (ci with fallback)
-        run: |
-          if npm ci; then
-            echo "npm ci succeeded"
-          else
-            echo "npm ci failed; attempting npm install to refresh lockfile"
-            npm install --no-audit --no-fund
-          fi
+      # --- FEC/AI pipeline in order ---
+      - name: Ingest FEC raw data (creates data/raw/YYYY-MM-DD)
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        run: npm run fec:ingest
 
-      # Hard fail if the secret is missing (remove this step if you want to allow skipping data build)
-      - name: Check FEC_API_KEY presence
-        run: |
-          if [ -z "${FEC_API_KEY:-}" ]; then
-            echo "ERROR: FEC_API_KEY is not set. Add it in Settings → Secrets and variables → Actions."
-            exit 1
-          fi
-          echo "FEC_API_KEY detected (masked)."
+      - name: Fetch receipts
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        run: npm run fec:fetch:receipts
 
-      - name: Build data & site
-        run: |
-          npm run build:data
-          # OPTIONAL: sanity checks only if the script exists
-          if [ -f scripts/check-data.sh ]; then
-            chmod +x scripts/check-data.sh || true
-            bash scripts/check-data.sh
-          else
-            echo "scripts/check-data.sh not found; skipping sanity checks"
-          fi
+      - name: Build warehouse (dims/facts from latest raw folder)
+        run: npm run fec:warehouse
+
+      - name: Build warehouse metrics
+        run: npm run fec:warehouse:metrics
+
+      - name: Build site bundles
+        run: npm run fec:site
+      # --- end pipeline ---
+
+      # Trim dev-only stuff from the artifact
+      - name: Remove node_modules to shrink artifact
+        run: rm -rf node_modules
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .  # site is at repo root
 
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
       - id: deployment
-        name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
