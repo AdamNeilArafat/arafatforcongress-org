@@ -49,20 +49,30 @@
       display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; /* desktop: row */
       text-align:center;
     }
-    .header-break .pill {
-      margin:0;
-      padding:.4rem .9rem;
-      border-radius:999px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.25);
-      font-weight:800;
-      white-space:nowrap;
-    }
-    .header-break .sub { width:100%; margin-top:.25rem; opacity:.95; font-weight:600; }
+   .header-break .pill {
+  display: inline-block;              /* NEW: let width/padding apply */
+  padding:.4rem .9rem;
+  border-radius:999px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  font-weight:800;
+  white-space: nowrap;                 /* keep single-line on desktop */
+}
 
-    @media (max-width: 767.98px) {
-      .header-break { flex-direction:column; align-items:center; }
-      .header-break .pill { width:100%; max-width:340px; } /* one per row, centered */
+@media (max-width: 767.98px) {
+  .header-break { flex-direction:column; align-items:center; }
+  .header-break .pill {
+    display: block;                    /* NEW */
+    width:100%;
+    max-width:320px;
+    white-space: normal;               /* NEW: allow wrap on mobile */
+    line-height:1.2;                   /* NEW: nicer multi-line spacing */
+    word-break: break-word;            /* NEW: safe long-word break */
+    overflow-wrap: anywhere;           /* NEW: last-resort wrapping */
+    text-align:center;
+  }
+}
+
     }
 
     /* Nav */
