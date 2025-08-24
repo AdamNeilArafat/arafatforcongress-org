@@ -96,6 +96,8 @@
 </header>
 
 <main class="container my-4">
+  <div id="wall"></div>
+
   <!-- Filters / Tools -->
   <div class="cardish p-3 mb-3">
     <div class="row g-2 align-items-end">
@@ -868,5 +870,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyFilters(false);
 });
 </script>
+  <script src="/assets/js/accountability.js"></script>
+  <script>
+  (async()=>{
+    try{
+      if(window.Accountability){
+        const {data}=await window.Accountability.loadAll();
+        const el=document.getElementById("wall")||document.body;
+        window.Accountability.renderWall(el);
+      }
+    }catch(e){ console.error("[accountability boot]", e); }
+  })();
+  </script>
 </body>
 </html>

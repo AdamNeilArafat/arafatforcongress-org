@@ -145,6 +145,8 @@
 
 <!-- GRID -->
 <main class="container my-4">
+  <div id="wall"></div>
+
   <div id="grid" class="grid" aria-live="polite" aria-busy="true">
     <!-- skeletons -->
     <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
@@ -721,5 +723,17 @@ document.getElementById('resetFilters').addEventListener('click', ()=>{
   handleDeepLink();
 })();
 </script>
+  <script src="/assets/js/accountability.js"></script>
+  <script>
+  (async()=>{
+    try{
+      if(window.Accountability){
+        const {data}=await window.Accountability.loadAll();
+        const el=document.getElementById("wall")||document.body;
+        window.Accountability.renderWall(el);
+      }
+    }catch(e){ console.error("[accountability boot]", e); }
+  })();
+  </script>
 </body>
 </html>
