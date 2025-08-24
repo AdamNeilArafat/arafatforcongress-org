@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Policies for People & Accountability — The Evergreen Pact</title>
+  <meta name="description" content="A concise roadmap that delivers relief for working families and restores checks and balances—usable under a unified or split Congress." />
+  <meta name="theme-color" content="#0d3b66" />
+
+  <style>
+    :root{
+      --primary:#0d3b66; --ink:#1b2634; --soft:#f6f9fc;
+      --t0:#284b63; --t1:#0b6e4f; --t2:#0d3b66; --t3:#7a3e9d; --t4:#1f6feb; --t5:#c1121f;
+      --ok:#198754; --bad:#c1121f; --line:#e6ebf2;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--soft);color:var(--ink);margin:0}
+    a{color:var(--primary);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Navbar (aligned with other pages' simple style) */
+    .navbar{background:#ffffff;border-bottom:1px solid #e6ebf2;position:sticky;top:0;z-index:50}
+    .navbar .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.6rem 16px}
+    .brand{font-weight:900;color:#0d3b66;letter-spacing:.3px}
+    .nav-links{display:flex;gap:.6rem;align-items:center}
+    .nav-link{position:relative;padding:.25rem .5rem;font-weight:600;color:#122133}
+    .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
+    .nav-link:hover::after,.nav-link.active::after{width:100%}
+    .btn-donate{background:#c1121f;color:#fff;border-radius:999px;padding:.4rem .75rem;font-weight:800;border:none}
+    .btn-donate:hover{opacity:.9;text-decoration:none}
+
+    .container{max-width:1100px;margin:0 auto;padding:0 16px}
+    .hero{position:relative;background:#0b3157;color:#fff}
+    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.35))}
+    .hero .container{position:relative;z-index:1}
+    .hero h1{font-weight:900;letter-spacing:.3px;text-shadow:0 2px 10px rgba(0,0,0,.4);margin:0 0 .35rem 0}
+    .lead{font-size:1.05rem;margin:.2rem 0 1rem 0}
+
+    /* Scenario tabs */
+    .tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}
+    .tabs button{padding:.42rem .8rem;border:2px solid #0d3b66;border-radius:999px;font-weight:800;background:#fff;color:#0d3b66;cursor:pointer}
+    .tabs button.active{background:#0d3b66;color:#fff}
+    .tabs button:focus{outline:3px solid #95c2ff;outline-offset:2px}
+
+    /* Controls row */
+    .tools{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:.5rem 0 1rem}
+    .btn{display:inline-block;border:2px solid #0d3b66;border-radius:999px;padding:.35rem .8rem;font-weight:800;background:#fff;color:#0d3b66;cursor:pointer}
+    .btn:hover{background:#0d3b66;color:#fff;text-decoration:none}
+    .btn-outline{border-color:#122133;color:#122133}
+    .btn-outline:hover{background:#122133;color:#fff}
+    .btn-good{border-color:#198754;color:#198754}
+    .btn-good:hover{background:#198754;color:#fff}
+    .btn-bad{border-color:#c1121f;color:#c1121f}
+    .btn-bad:hover{background:#c1121f;color:#fff}
+
+    .scenario{display:none}
+    .scenario.active{display:block}
+
+    .tier{margin:1.1rem 0 .9rem}
+    .tier-header{display:flex;align-items:center;gap:.6rem;margin:1rem 0 .6rem 0;color:#fff;border-radius:14px;padding:.6rem .9rem;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+    .badge-xl{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.18);font-weight:800}
+    .tier-title{margin:0}
+    .t0{background:linear-gradient(90deg,var(--t0),#1d3b4f)}
+    .t1{background:linear-gradient(90deg,var(--t1),#0a5c41)}
+    .t2{background:linear-gradient(90deg,var(--t2),#0a3157)}
+    .t3{background:linear-gradient(90deg,var(--t3),#572d70)}
+    .t4{background:linear-gradient(90deg,var(--t4),#174ea6)}
+
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+    .col-6{grid-column:span 6}
+    .col-12{grid-column:span 12}
+    @media (max-width:960px){ .col-6{grid-column:span 12} }
+
+    .card-step{border:1px solid rgba(0,0,0,.06);border-radius:14px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.06);overflow:hidden}
+    .card-body{padding:.8rem .95rem}
+    .crumb{font-size:.78rem;color:#5b748f;margin-bottom:.35rem}
+    .card-step h4{margin:.1rem 0 .2rem 0}
+    .mini{font-size:.9rem;color:#334155;margin:.15rem 0 .35rem 0}
+    .chips{margin:.25rem 0 .3rem}
+    .chip{font-size:.7rem;font-weight:800;padding:.18rem .48rem;border-radius:999px;background:#eef6ff;color:#0d3b66;display:inline-block;margin-right:.25rem;margin-bottom:.25rem}
+    .chip-alt{background:#e7f7ef;color:#0b6e4f}
+    .chip-warn{background:#fff2f2;color:#b42318}
+
+    /* rollup */
+    .rollup-summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;cursor:pointer}
+    .rollup-title{font-weight:800}
+    .rollup-actions{display:flex;gap:.35rem;flex-wrap:wrap}
+    .rollup-body{display:none;margin-top:.5rem}
+    .card-step.open .rollup-body{display:block}
+    .highlight{outline:3px solid #f5c542; box-shadow:0 0 0 6px rgba(245,197,66,.22)}
+
+    /* foot */
+    .foot{font-size:.8rem;color:#64748b;margin-top:.3rem}
+
+    footer{background:#0d3b66;color:#fff;margin-top:1.6rem}
+    footer .container{padding:1rem 16px}
+    footer a{color:#fff;text-decoration:underline}
+
+    /* print */
+    @media print{
+      .tabs,.tools{display:none}
+      .rollup-body{display:block}
+      .card-step{box-shadow:none;border-color:#ccd5e1}
+      a{text-decoration:none;color:inherit}
+      body{background:#fff}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar" aria-label="Primary">
+    <div class="wrap">
+      <a href="/" class="brand">Arafat for Congress</a>
+      <div class="nav-links">
+        <a href="/About.html" class="nav-link">About</a>
+        <a href="/Issues.html" class="nav-link">Issues</a>
+        <a href="/Bills/Bills.html" class="nav-link active">Roadmap</a>
+        <a href="/Accountability.html" class="nav-link">Accountability</a>
+        <a href="/Donate" class="btn-donate">Donate</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container" style="padding:1.2rem 16px 1.3rem 16px">
+      <h1>Evergreen Pact</h1>
+      <p class="lead">The Evergreen Pact is triage, then reform. We deliver near‑term relief for working families and restore checks and balances using every lawful tool.</p>
+
+      <div class="tabs" role="tablist" aria-label="Congress scenarios">
+        <button type="button" class="tab-btn active" data-target="A" aria-selected="true">Scenario A — Unified Congress</button>
+        <button type="button" class="tab-btn" data-target="B" aria-selected="false">Scenario B — Split Congress</button>
+      </div>
+
+      <div class="tools">
+        <button type="button" id="previewToggle" class="btn-outline" aria-pressed="false">Preview all (off)</button>
+        <a class="btn" href="/pact" target="_blank" rel="noopener">Sign the Pact</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding:.8rem 0 1.3rem 0">
+    <!-- SCENARIO A -->
+    <section id="A" class="scenario active" aria-labelledby="tabA" data-start="A-G2">
+      <div class="tier t0">
+        <div class="tier-header">
+          <span class="badge-xl">T0</span>
+          <h3 class="tier-title">Guardrails (Day One)</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="A-G2" data-next-pass="A-K1" data-next-fail="A-G1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Guardrails</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Emergency Spend Approval Pilot</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/ndaapilot.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: NDAA</span>
+                  <span class="chip">Bicameral</span>
+                  <span class="chip">Sunset: 2y</span>
+                </div>
+                <p class="mini"><strong>People:</strong> less waste; funds to safety. <strong>Power:</strong> fast reports + sign‑off.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="A-G1" data-next-pass="A-K1" data-next-fail="A-G1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Guardrails</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Seals & Comms Integrity</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/seals-comms.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: FSGG Approps</span>
+                  <span class="chip">House majority</span>
+                  <span class="chip">Renew annually</span>
+                </div>
+                <p class="mini"><strong>People:</strong> non‑partisan gov info. <strong>Power:</strong> no campaigning on official channels.</p>
+                <div class="foot">Riders limit funds; not permanent law.</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t1">
+        <div class="tier-header">
+          <span class="badge-xl">T1</span>
+          <h3 class="tier-title">Quick Wins</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="A-K1" data-next-pass="A-R1" data-next-fail="A-K1F">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Quick Wins</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Energy Savings & Lower Bills</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/energy-savings.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Suspension</span>
+                  <span class="chip">Threshold: 2/3</span>
+                  <span class="chip">or Energy Approps</span>
+                </div>
+                <p class="mini"><strong>People:</strong> instant rebates. <strong>Power:</strong> dashboards + IG sweeps.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="A-K2" data-next-pass="A-R2" data-next-fail="A-K2F">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Quick Wins</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Fair Food & Grocery Competition</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/grocery-competition.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Suspension</span>
+                  <span class="chip">Threshold: 2/3</span>
+                  <span class="chip">FTC/USDA</span>
+                </div>
+                <p class="mini"><strong>People:</strong> no junk fees. <strong>Power:</strong> quarterly enforcement stats.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Fail pivots -->
+          <article class="card-step col-12" id="A-K1F" data-next-pass="A-R1" data-next-fail="A-R1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Energy Rebates via Approps (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/energy-rider.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Approps</span>
+                  <span class="chip">Guardrails + dashboards</span>
+                </div>
+                <p class="mini">Use rider language; strong oversight. Then proceed.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="A-K2F" data-next-pass="A-R2" data-next-fail="A-R2">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">FTC Rule + Approps Directives (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/ftc-junk-fees.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Rulemaking + Approps</span>
+                  <span class="chip">GAO follow‑up</span>
+                </div>
+                <p class="mini">Direct FTC/USDA; set timelines; GAO checks.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t2">
+        <div class="tier-header">
+          <span class="badge-xl">T2</span>
+          <h3 class="tier-title">Relief & Stability</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="A-R1" data-next-pass="A-F1" data-next-fail="A-R1P">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Relief</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Child & Dependent Care</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/child-care.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Authorizing</span>
+                  <span class="chip">Recon: parts</span>
+                  <span class="chip">Offsets: 5/10y</span>
+                </div>
+                <p class="mini"><strong>People:</strong> more slots, lower costs. <strong>Power:</strong> open scores; clawbacks.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="A-R2" data-next-pass="A-F1" data-next-fail="A-R2P">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Relief</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Permitting Modernization</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/permits.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: THUD authorizing</span>
+                  <span class="chip">Grants + targets</span>
+                </div>
+                <p class="mini"><strong>People:</strong> faster approvals. <strong>Power:</strong> public queue targets; auto remedies.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="A-R1P" data-next-pass="A-F1" data-next-fail="A-F1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Child‑Care Pilots (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/childcare-pilots.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: targeted credits</span>
+                  <span class="chip">State compacts</span>
+                </div>
+                <p class="mini">Pilot + re‑score for scale.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="A-R2P" data-next-pass="A-F1" data-next-fail="A-F1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Permitting Grants (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/permit-grants.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: appropriations</span>
+                  <span class="chip">TA + transparent scoring</span>
+                </div>
+                <p class="mini">Backstop via grants + TA.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="A-R3" data-next-pass="A-F1" data-next-fail="A-R3P">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Relief</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">First‑Time Homebuyer 3% (Pilot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/homebuyer-pilot.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Banking/Housing</span>
+                  <span class="chip">or FHFA pilot</span>
+                  <span class="chip">Sunset: 3y</span>
+                </div>
+                <p class="mini"><strong>People:</strong> lower down payment. <strong>Power:</strong> KPI dashboard; auto‑pause on defects.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="A-R3P" data-next-pass="A-F1" data-next-fail="A-F1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">FHFA Demo (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/fhfa-demo.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: FHFA letters</span>
+                  <span class="chip">Five‑metro demo</span>
+                </div>
+                <p class="mini">Demonstrate; report quarterly.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t3">
+        <div class="tier-header">
+          <span class="badge-xl">T3</span>
+          <h3 class="tier-title">Fairness</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="A-F1" data-next-pass="A-F2" data-next-fail="A-F1P">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Fairness</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Tax Fairness</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/tax-fairness.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Tax/Finance</span>
+                  <span class="chip">Recon: parts</span>
+                  <span class="chip">Score: 5/10y</span>
+                </div>
+                <p class="mini"><strong>People:</strong> close loopholes; protect middle incomes. <strong>Power:</strong> minimum effective rates; audit transparency.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="A-F2" data-next-pass="A-S1" data-next-fail="A-F2P">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Fairness</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Corporate Responsibility</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/corporate-responsibility.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Tax/Finance</span>
+                  <span class="chip">Pair with Tax Fairness</span>
+                  <span class="chip">Public dashboard</span>
+                </div>
+                <p class="mini"><strong>People:</strong> penalties for wage theft & predatory layoffs. <strong>Power:</strong> offender list; standard disclosures.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Fairness fail pivots -->
+          <article class="card-step col-12" id="A-F1P" data-next-pass="A-F2" data-next-fail="A-F2">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Recon Slices (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/recon-checklist.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: reconciliation</span>
+                  <span class="chip">Byrd‑proof parts</span>
+                </div>
+                <p class="mini">Move budget‑primary items via recon.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="A-F2P" data-next-pass="A-S1" data-next-fail="A-S1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Disclosure Floors (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/csr-disclosure.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: budget‑relevant</span>
+                  <span class="chip">Penalty minimums</span>
+                </div>
+                <p class="mini">Advance disclosure + minimum penalties.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t4">
+        <div class="tier-header">
+          <span class="badge-xl">T4</span>
+          <h3 class="tier-title">System Reform</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="A-S1" data-next-pass="A-S2" data-next-fail="A-S1">
+            <div class="card-body">
+              <div class="crumb">Scenario A • System</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Clean Campaigns & Elections</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/clean-campaigns.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: FSGG Approps</span>
+                  <span class="chip">Renew annually</span>
+                </div>
+                <p class="mini"><strong>People:</strong> cleaner money. <strong>Power:</strong> bars misuse of resources.</p>
+                <div class="foot">Report directives aren’t binding unless incorporated; use GAO + hearings.</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="A-S2" data-next-pass="A-S2" data-next-fail="A-S2">
+            <div class="card-body">
+              <div class="crumb">Scenario A • System</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Congressional Vote Justification</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/vote-justification.html" target="_blank" rel="noopener">Open bill</a>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: House/Senate rules</span>
+                  <span class="chip">Statute optional</span>
+                </div>
+                <p class="mini"><strong>People:</strong> reasons in plain English. <strong>Power:</strong> traceable decisions.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENARIO B -->
+    <section id="B" class="scenario" aria-labelledby="tabB" data-start="B-G1">
+      <div class="tier t0">
+        <div class="tier-header">
+          <span class="badge-xl">T0</span>
+          <h3 class="tier-title">House‑First Guardrails</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="B-G1" data-next-pass="B-G2" data-next-fail="B-G1">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Guardrails</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">House Rules Package</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/house-rules.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: House rules</span>
+                  <span class="chip">Threshold: simple majority</span>
+                </div>
+                <p class="mini"><strong>People:</strong> day‑one ethics & transparency. <strong>Power:</strong> calendar guarantees; disclosure defaults.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="B-G2" data-next-pass="B-K1" data-next-fail="B-G3">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Guardrails</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">FSGG Riders & Admin Standards</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/fsgg-guardrails.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: FSGG Approps</span>
+                  <span class="chip">House majority</span>
+                </div>
+                <p class="mini"><strong>People:</strong> stop misuse of official comms. <strong>Power:</strong> GAO clocks + hearings.</p>
+                <div class="foot">Riders limit funds; not permanent law.</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="B-G3" data-next-pass="B-K1" data-next-fail="B-K1">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Guardrails</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Holman & Limitations</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/holman.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: floor amendments</span>
+                  <span class="chip">Parliamentarian‑safe</span>
+                </div>
+                <p class="mini">Targeted trims; avoid legislating on approps.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t1">
+        <div class="tier-header">
+          <span class="badge-xl">T1</span>
+          <h3 class="tier-title">Quick Wins (House‑Led)</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="B-K1" data-next-pass="B-R2" data-next-fail="B-K1F">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Quick Wins</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Energy Savings & Lower Bills</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/energy-savings.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: suspension/energy title</span>
+                  <span class="chip">Threshold: 2/3 if suspension</span>
+                </div>
+                <p class="mini"><strong>People:</strong> lower bills fast. <strong>Power:</strong> anti‑fraud + dashboards.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="B-K2" data-next-pass="B-R2" data-next-fail="B-K2F">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Quick Wins</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Fair Food & Grocery Competition</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/grocery-competition.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: suspension</span>
+                  <span class="chip">Threshold: 2/3</span>
+                </div>
+                <p class="mini"><strong>People:</strong> no junk fees; fairer labels. <strong>Power:</strong> public enforcement stats.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- pivots -->
+          <article class="card-step col-12" id="B-K1F" data-next-pass="B-R2" data-next-fail="B-R2">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Energy via Approps (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/energy-rider.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Approps</span>
+                  <span class="chip">Guardrails + dashboards</span>
+                </div>
+                <p class="mini">Use riders; strong oversight.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="B-K2F" data-next-pass="B-R2" data-next-fail="B-R2">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">FTC Rule + Directives (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/ftc-junk-fees.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Rulemaking + Approps</span>
+                  <span class="chip">GAO follow‑up</span>
+                </div>
+                <p class="mini">Timelines + oversight.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t2">
+        <div class="tier-header">
+          <span class="badge-xl">T2</span>
+          <h3 class="tier-title">Relief & Stability (House‑First)</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="B-R2" data-next-pass="B-F1" data-next-fail="B-R2P">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Relief</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Permitting Modernization (Grants)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/permits.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: THUD Approps</span>
+                  <span class="chip">Competitive grants</span>
+                </div>
+                <p class="mini"><strong>People:</strong> more supply, faster. <strong>Power:</strong> transparent scoring; queue targets.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="B-R3" data-next-pass="B-F1" data-next-fail="B-R3P">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Relief</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">First‑Time Homebuyer 3% (FHFA Pilot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/homebuyer-pilot.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: FHFA pilot</span>
+                  <span class="chip">Sunset: 3y</span>
+                </div>
+                <p class="mini"><strong>People:</strong> test safely; expand if sound. <strong>Power:</strong> pause on KPI/defect spikes.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- pivots -->
+          <article class="card-step col-12" id="B-R2P" data-next-pass="B-F1" data-next-fail="B-F1">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Permit Grants TA (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/permit-grants.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Approps</span>
+                  <span class="chip">TA + transparent scoring</span>
+                </div>
+                <p class="mini">Backstop with grants + TA.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="B-R3P" data-next-pass="B-F1" data-next-fail="B-F1">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">FHFA Demo (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/fhfa-demo.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: FHFA letters</span>
+                  <span class="chip">Five‑metro demo</span>
+                </div>
+                <p class="mini">Demonstrate; report quarterly.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t3">
+        <div class="tier-header">
+          <span class="badge-xl">T3</span>
+          <h3 class="tier-title">Fairness (House Leverage)</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="B-F1" data-next-pass="B-F2" data-next-fail="B-F1P">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Fairness</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Tax Fairness (House)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/tax-fairness.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Ways & Means</span>
+                  <span class="chip">Recon: prep</span>
+                </div>
+                <p class="mini"><strong>People:</strong> protect wages; close loopholes. <strong>Power:</strong> minimum rates; audit stats.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="B-F2" data-next-pass="B-S1" data-next-fail="B-F2P">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Fairness</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Corporate Responsibility (House)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/corporate-responsibility.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                  <button class="btn-bad" data-fail>Fail</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: Ways & Means</span>
+                  <span class="chip">Pair with Tax Fairness</span>
+                </div>
+                <p class="mini"><strong>People:</strong> penalties for repeat abuse. <strong>Power:</strong> public offender lists; disclosures.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- pivots -->
+          <article class="card-step col-12" id="B-F1P" data-next-pass="B-F2" data-next-fail="B-F2">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Recon Slices (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/recon-checklist.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: reconciliation</span>
+                  <span class="chip">Byrd‑proof parts</span>
+                </div>
+                <p class="mini">Move budget‑primary items via recon.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-12" id="B-F2P" data-next-pass="B-S1" data-next-fail="B-S1">
+            <div class="card-body">
+              <div class="crumb">Scenario B • Pivot</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Disclosure Floors (Pivot)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Toolkits/csr-disclosure.html" target="_blank" rel="noopener">Open toolkit</a>
+                  <button class="btn-good" data-pass>Advance</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: budget‑relevant</span>
+                  <span class="chip">Penalty minimums</span>
+                </div>
+                <p class="mini">Advance disclosure + minimum penalties.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tier t4">
+        <div class="tier-header">
+          <span class="badge-xl">T4</span>
+          <h3 class="tier-title">System Reform (House‑Only Now)</h3>
+        </div>
+
+        <div class="grid">
+          <article class="card-step col-6" id="B-S1" data-next-pass="B-S2" data-next-fail="B-S1">
+            <div class="card-body">
+              <div class="crumb">Scenario B • System</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Clean Campaigns (House)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/clean-campaigns.html" target="_blank" rel="noopener">Open bill</a>
+                  <button class="btn-good" data-pass>Pass</button>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: FSGG Approps</span>
+                  <span class="chip">House‑only enforcement</span>
+                </div>
+                <p class="mini"><strong>People:</strong> cleaner money; clearer source tags. <strong>Power:</strong> bars public‑resource misuse.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card-step col-6" id="B-S2" data-next-pass="B-S2" data-next-fail="B-S2">
+            <div class="card-body">
+              <div class="crumb">Scenario B • System</div>
+              <div class="rollup-summary" data-toggle>
+                <span class="rollup-title">Vote Justification (House)</span>
+                <div class="rollup-actions">
+                  <a class="btn" href="/Bills/vote-justification.html" target="_blank" rel="noopener">Open bill</a>
+                </div>
+              </div>
+              <div class="rollup-body">
+                <div class="chips">
+                  <span class="chip">Vehicle: House rules</span>
+                  <span class="chip">Simple majority</span>
+                </div>
+                <p class="mini"><strong>People:</strong> reasons in plain English. <strong>Power:</strong> traceable decisions.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div><strong>Glossary:</strong> <em>Appropriations rider</em> (limits funds; annual), <em>Reconciliation</em> (budget‑only path), <em>Suspension</em> (House fast‑track; 2/3), <em>NDAA</em> (annual defense policy bill).</div>
+    </div>
+  </footer>
+
+  <script>
+    // Scenario tab switching: A/B are mutually exclusive
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const scenarios = document.querySelectorAll('.scenario');
+    const previewBtn = document.getElementById('previewToggle');
+
+    function setActiveScenario(id){
+      scenarios.forEach(sc=>{
+        sc.classList.toggle('active', sc.id===id);
+      });
+      tabButtons.forEach(btn=>{
+        const on = btn.dataset.target===id;
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-selected', on ? 'true':'false');
+      });
+      // Reset flow to scenario's start
+      initScenario(id);
+    }
+
+    tabButtons.forEach(btn=>btn.addEventListener('click', ()=>setActiveScenario(btn.dataset.target)));
+
+    // Rollup toggle
+    document.addEventListener('click', (e)=>{
+      const t = e.target;
+      // Open/close rollup
+      if(t.closest('[data-toggle]') && t.closest('.rollup-summary')){
+        const card = t.closest('.card-step');
+        card.classList.toggle('open');
+      }
+      // Pass/Fail actions
+      if(t.hasAttribute('data-pass') || t.hasAttribute('data-fail')){
+        const card = t.closest('.card-step');
+        const nextId = card.getAttribute(t.hasAttribute('data-pass') ? 'data-next-pass' : 'data-next-fail');
+        if(nextId){ goTo(nextId); }
+      }
+    });
+
+    // Preview toggle
+    previewBtn.addEventListener('click', ()=>{
+      const on = previewBtn.getAttribute('aria-pressed') === 'true' ? false : true;
+      previewBtn.setAttribute('aria-pressed', on ? 'true':'false');
+      previewBtn.textContent = on ? 'Preview all (on)' : 'Preview all (off)';
+      previewBtn.classList.toggle('active', on);
+      applyPreviewMode(on);
+    });
+
+    function applyPreviewMode(on){
+      const sc = document.querySelector('.scenario.active');
+      const cards = sc.querySelectorAll('.card-step');
+      if(on){
+        // show all, open all
+        cards.forEach(c=>{ c.style.display='block'; c.classList.add('open'); c.classList.remove('highlight'); });
+      }else{
+        // collapse to current (start or last navigated)
+        const current = sc.querySelector('.card-step.current') || sc.querySelector('#'+sc.dataset.start);
+        cards.forEach(c=>{ 
+          const show = c===current; 
+          c.style.display = show?'block':'none'; 
+          c.classList.toggle('open', show);
+          c.classList.toggle('highlight', show);
+        });
+        setTimeout(()=>current.scrollIntoView({behavior:'smooth', block:'center'}), 50);
+      }
+    }
+
+    function initScenario(id){
+      // turn preview off visually
+      previewBtn.setAttribute('aria-pressed','false');
+      previewBtn.textContent = 'Preview all (off)';
+      previewBtn.classList.remove('active');
+
+      const sc = document.getElementById(id);
+      const startId = sc.dataset.start;
+      sc.querySelectorAll('.card-step').forEach(c=>{
+        const isStart = c.id===startId;
+        c.classList.toggle('open', isStart);
+        c.classList.toggle('highlight', isStart);
+        c.classList.toggle('current', isStart);
+        c.style.display = isStart ? 'block' : 'none';
+      });
+      setTimeout(()=>{
+        const start = document.getElementById(startId);
+        if(start) start.scrollIntoView({behavior:'smooth', block:'center'});
+      }, 50);
+    }
+
+    function goTo(targetId){
+      const sc = document.querySelector('.scenario.active');
+      if(!sc) return;
+      const target = sc.querySelector('#'+CSS.escape(targetId));
+      if(!target) return;
+      sc.querySelectorAll('.card-step').forEach(c=>{
+        const show = c===target;
+        c.style.display = show ? 'block' : 'none';
+        c.classList.remove('current','highlight','open');
+      });
+      target.classList.add('current','open','highlight');
+      setTimeout(()=>target.scrollIntoView({behavior:'smooth', block:'center'}), 50);
+    }
+
+    // On load, initialize Scenario A
+    document.addEventListener('DOMContentLoaded', ()=>{
+      setActiveScenario('A');
+    });
+  </script>
+</body>
+</html>
