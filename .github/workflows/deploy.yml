@@ -23,11 +23,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Package the current repo contents as the Pages artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .  # your static site is the repo root
+          path: .
 
   deploy:
     needs: build
