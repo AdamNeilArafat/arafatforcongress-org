@@ -1,0 +1,84 @@
+:root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
+
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+a { text-decoration: none; }
+
+/* Top social bar */
+.social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color: #fff; }
+.social-wrap { gap:.5rem; }
+.social-pill {
+  display:inline-flex; align-items:center; gap:.55rem; padding:.55rem 1rem;
+  border-radius:999px; border:1px solid rgba(255,255,255,.22); color:#fff;
+  background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+  transition: transform .12s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
+  font-weight:700; letter-spacing:.1px;
+}
+.social-pill i, .social-pill svg { width:18px; height:18px; }
+.social-pill:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.16);
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+  border-color: rgba(255,255,255,.35);
+  color:#fff;
+}
+/* subtle brand tints */
+.pill-reddit { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,69,0,.18)); }
+.pill-reddit:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,69,0,.26)); }
+.pill-bsky  { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(0,159,255,.18)); }
+.pill-bsky:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(0,159,255,.26)); }
+.pill-tiktok{ background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,0,80,.18)); }
+.pill-tiktok:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,0,80,.26)); }
+.bsky-icon { vertical-align:-2px; }
+
+/* Header break band */
+.header-break { background:#0d3b66; color:#fff; font-weight:700; text-align:center; padding:.95rem 1rem; }
+.header-break p { margin:.25rem 0 0; font-weight:600; opacity:.98; line-height:1.35; }
+
+/* Pretty nav links */
+.navbar .nav-link { position: relative; padding: .25rem .5rem; color: #1c2b3a; font-weight: 600; }
+.navbar .nav-link:hover { color: var(--link); }
+.navbar .nav-link::after {
+  content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+  background: currentColor; border-radius:2px; transition: width .18s ease;
+}
+.navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+
+/* Utility */
+.issue-img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; }
+.section-title { color: var(--primary); }
+.divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
+.issue-nav { padding:1rem; background:#f8f9fa; border-radius:14px; margin-bottom:2rem; border:1px solid #e9eef3; }
+.issue-nav h5 { margin-bottom:.5rem; font-weight:800; color:#0d3b66; }
+.issue-nav ul { padding-left:1rem; margin-bottom:0; }
+.badge-kicker { background:#e6f0f8; color:#0d3b66; font-weight:700; }
+.lead-small { font-size:1.05rem; }
+.muted { color:#6b7280; }
+
+/* Footer links underline */
+footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
+footer a:hover { color: var(--link); }
+footer a::after {
+  content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+  background: currentColor; border-radius:2px; transition: width .18s ease;
+}
+footer a:hover::after, footer a:focus::after { width:100%; }
+
+/* CTA links under bullets */
+.cta-links a { display:inline-flex; align-items:center; gap:.4rem; margin-right:.75rem; margin-top:.25rem; }
+.cta-links .fa-file-lines { opacity:.8; }
+
+/* Pact one-liner */
+.pact-note {
+  background:#f6f9fc; border:1px solid #e9eef3; border-radius:14px;
+  padding:.9rem 1rem; margin:1.25rem 0 2rem; font-weight:600; color:#0d3b66;
+  display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; justify-content:center;
+}
+.pact-note a { text-decoration: underline; }
+
+/* Bottom CTA band */
+.cta-band { background:#f8f9fa; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
+.cta-band .btn { border-radius:999px; padding:.6rem 1rem; font-weight:700; }
+.btn-donate { background: var(--donate); color:#fff; border:none; }
+.btn-donate:hover { filter: brightness(.95); }
+.btn-ghost { background:#fff; border:1px solid #cfd8e3; color:#0d3b66; }
+.btn-ghost:hover { background:#eef3f8; }

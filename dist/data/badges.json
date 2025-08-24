@@ -1,0 +1,11 @@
+{
+  "leash_industry": { "label":"Leash Held by [Industry]", "icon":"fa-link", "thresholds":[10000,20000,40000,75000] },
+  "puppet":         { "label":"Puppet of [X]", "icon":"fa-hand", "thresholds":[0.4,0.5,0.6,0.7], "ratio":true },
+  "bought_paid":    { "label":"Bought & Paid", "icon":"fa-sack-dollar", "thresholds":[25000,50000,75000,100000] },
+  "crown_cash":     { "label":"Crown of Cash", "icon":"fa-crown", "thresholds":[50000,100000,200000,400000] },
+  "backstabber":    { "label":"Backstabber Award", "icon":"fa-knife", "thresholds":[1.1,1.25,1.5,2.0], "ratio":true },
+  "judas":          { "label":"Judas Award", "icon":"fa-coins", "thresholds":[0.8,0.9,0.95,0.98], "ratio":true },
+  "aipac_leash":    { "label":"Leash Held by AIPAC", "icon":"fa-flag", "thresholds":[10000,20000,35000,60000] },
+  "genocide":       { "label":"Supporter of Genocide", "icon":"fa-bomb", "thresholds":[25000,50000,75000,100000] },
+  "blood_money":    { "label":"Blood Money Badge", "icon":"fa-skull-crossbones", "thresholds":[20000,50000,100000,200000] }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "person_id": "H0WA09012",
+    "name": "Jane Doe",
+    "party": "D",
+    "chamber": "House",
+    "state": "WA",
+    "district": "08",
+    "cycle": 2024,
+    "headshot": "/assets/members/H0WA09012.jpg",
+    "receipts": { "total": 500000, "small_dollar": 210000, "pac": 120000, "corp_pac_like": 80000 },
+    "donations": [
+      { "amount": 2900, "donor": "Acme Defense PAC", "fec_id": "C00123456", "through": "Acme Defense PAC", "industry": "Defense", "committee_type": "PAC", "date": "2024-02-01" },
+      { "amount": 5000, "donor": "West Utilities Assoc", "fec_id": "C00199999", "through": "West Utilities PAC", "industry": "Utilities", "committee_type": "PAC", "date": "2024-03-01" }
+    ],
+    "votes": [
+      { "roll_id": "h123-2024", "title": "Energy Subsidies Act", "position": "Yea", "date": "2024-03-15", "source_url": "https://clerk.house.gov/" }
+    ]
+  },
+  {
+    "person_id": "S8TX00099",
+    "name": "John Roe",
+    "party": "R",
+    "chamber": "Senate",
+    "state": "TX",
+    "district": "",
+    "cycle": 2024,
+    "headshot": "/assets/members/S8TX00099.jpg",
+    "receipts": { "total": 2200000, "small_dollar": 120000, "pac": 900000, "corp_pac_like": 600000 },
+    "donations": [
+      { "amount": 10000, "donor": "Lone Star Oil PAC", "fec_id": "C00333333", "through": "Lone Star Oil PAC", "industry": "Oil & Gas", "committee_type": "PAC", "date": "2024-01-22" },
+      { "amount": 7500, "donor": "US Tech Council PAC", "fec_id": "C00777777", "through": "US Tech Council", "industry": "Technology", "committee_type": "PAC", "date": "2024-05-10" }
+    ],
+    "votes": [
+      { "roll_id": "s45-2024", "title": "Healthcare Cuts Act", "position": "Yea", "date": "2024-04-10", "source_url": "https://www.senate.gov/legislative/roll_call_votes.htm" }
+    ]
+  }
+]
