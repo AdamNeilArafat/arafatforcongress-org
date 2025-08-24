@@ -49,20 +49,14 @@ export function ymd(d = new Date(), tz = "UTC") {
 }
 
 // Simple fetch with built-in key and Accept header; supports URL or string + params
-export async function getJSON(endpoint, params = {}) {
-  const url = new URL(
-    endpoint.startsWith("http") ? endpoint : `${API}${endpoint}`
-  );
-  // Add query params
-  Object.entries(params).forEach(([k,v]) => {
-    if (Array.isArray(v)) v.forEach(x => url.searchParams.append(k, x));
-    else if (v !== undefined && v !== null) url.searchParams.set(k, String(v));
-  });
-  url.searchParams.set("api_key", KEY);
-  const res = await fetch(url, { headers: { "Accept": "application/json" } });
+export async function getJSON(input) {
+  // Accept URL instance or string; always append api_key
+  const u = input instanceof URL ? input : new URL(String(input));
+  u.searchParams.set("api_key", process.env.FEC_API_KEY || "");
+  const res = await fetch(u.toString(), { headers: { "Accept": "application/json" } });
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`HTTP ${res.status} for ${url}\n${text}`);
+    const text = await res.text().catch(()=> "");
+    throw new Error(`HTTP ${res.status} for ${u.toString()}\n${text}`);
   }
   return res.json();
 }
