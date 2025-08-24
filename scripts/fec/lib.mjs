@@ -39,8 +39,13 @@ export async function appendNDJSON(file, rows) {
   await fs.appendFile(file, lines);
 }
 
-export function ymd(d = new Date()) {
-  return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+export function ymd(d = new Date(), tz = "UTC") {
+  // Return YYYY-MM-DD in the desired timezone without extra deps
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: tz,
+    year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(d).reduce((a,p) => (a[p.type]=p.value, a), {});
+  return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
 // Simple fetch with built-in key and Accept header; supports URL or string + params

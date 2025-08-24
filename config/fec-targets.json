@@ -1,6 +1,6 @@
 {
   "cycles": [2026],
-  "candidate_ids": ["H0WA10023"],
-  "committee_ids": ["C00712345"],
+  "candidate_ids": ["<REAL_CANDIDATE_ID_1>", "<REAL_CANDIDATE_ID_2>"],
+  "committee_ids": ["<REAL_COMMITTEE_ID_1>"],
   "timezone": "America/Los_Angeles"
 }
