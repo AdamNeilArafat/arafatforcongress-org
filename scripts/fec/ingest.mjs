@@ -1,141 +1,105 @@
-import { preflight, ensureDir, appendNDJSON, ymd, getJSON, collectPaged, readJSON, readCursors, writeCursors, sleep } from "./lib.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
+import {
+  preflight,
+  ensureDir,
+  appendNDJSON,
+  ymd,
+  getJSON,
+  collectPaged,
+  readJSON,
+  readCursors,
+  writeCursors,
+  sleep
+} from "./lib.mjs";
 
-const cfg = (await readJSON("config/fec-targets.json", {})) || {};
 await preflight();
 
-const today = ymd();
-const RAW_DIR = `data/raw/${today}`;
+const cfg = (await readJSON("config/fec-targets.json", {})) || {};
+const today = ymd(new Date(), cfg.timezone || "UTC");
+const RAW_DIR = path.join("data", "raw", today);
+
 await ensureDir(RAW_DIR);
 
-// Allow running without hard-coded IDs by skipping empty lists
 const cycles = Array.isArray(cfg.cycles) && cfg.cycles.length ? cfg.cycles : [2026];
 const candidateIds = Array.isArray(cfg.candidate_ids) ? cfg.candidate_ids.filter(Boolean) : [];
 const committeeIds = Array.isArray(cfg.committee_ids) ? cfg.committee_ids.filter(Boolean) : [];
 
-const cursors = await readCursors();
+console.log("[fec] cfg:", { cycles, candidateIds, committeeIds, timezone: cfg.timezone });
 
-// ---- Helpers
-async function saveResults(name, rows) {
-  await appendNDJSON(path.join(RAW_DIR, `${name}.ndjson`), rows);
+if (!candidateIds.length && !committeeIds.length) {
+  console.log("[fec] No candidate/committee IDs in config; nothing to fetch. Ingest complete →", RAW_DIR);
+  process.exit(0);
 }
 
-async function pullCandidateStuff() {
-  const out = [];
+async function existsCommittee(id) {
+  try {
+    const u = new URL(`https://api.open.fec.gov/v1/committee/${id}/`);
+    u.searchParams.set("api_key", process.env.FEC_API_KEY);
+    const j = await getJSON(u);
+    return Array.isArray(j?.results) && j.results.length > 0;
+  } catch {
+    return false;
+  }
+}
 
+async function existsCandidate(id) {
+  try {
+    const u = new URL(`https://api.open.fec.gov/v1/candidate/${id}/`);
+    u.searchParams.set("api_key", process.env.FEC_API_KEY);
+    const j = await getJSON(u);
+    return Array.isArray(j?.results) && j.results.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+async function pullCommitteeReports(id, cycle) {
+  const base = new URL(`https://api.open.fec.gov/v1/committee/${id}/reports/`);
+  base.searchParams.set("two_year_transaction_period", String(cycle));
+  base.searchParams.set("per_page", "100");
+  const data = await getJSON(base);
+  await appendNDJSON(`${RAW_DIR}/committee_reports_${id}_${cycle}.ndjson`, data.results || []);
+}
+
+async function pullCandidateHistory(id, cycle) {
+  const base = new URL(`https://api.open.fec.gov/v1/candidate/${id}/history/`);
+  base.searchParams.set("cycle", String(cycle));
+  base.searchParams.set("per_page", "100");
+  const data = await getJSON(base);
+  await appendNDJSON(`${RAW_DIR}/candidate_history_${id}_${cycle}.ndjson`, data.results || []);
+}
+
+for (const cycle of cycles) {
   for (const cid of candidateIds) {
-    // candidate details
-    const details = await getJSON(`/candidate/${cid}`);
-    if (details?.results?.length) out.push(...details.results);
-    await sleep(200);
-
-    // authorized committees link
-    const comms = await getJSON(`/candidate/${cid}/committees`, { per_page: 100 });
-    await saveResults(`candidate_${cid}_committees`, comms?.results ?? []);
-    await sleep(200);
+    try {
+      const ok = await existsCandidate(cid);
+      if (!ok) {
+        console.warn(`[fec] skip: candidate ${cid} not found`);
+        continue;
+      }
+      console.log(`[fec] candidate ${cid} : cycle ${cycle}`);
+      await pullCandidateHistory(cid, cycle);
+      await sleep(80);
+    } catch (e) {
+      console.warn(`candidate pull error (${cid} ${cycle}):`, e?.message || e);
+    }
   }
-  await saveResults("candidates", out);
-}
 
-async function pullCommitteeStuff() {
-  const out = [];
   for (const cmte of committeeIds) {
-    const details = await getJSON(`/committee/${cmte}`);
-    if (details?.results?.length) out.push(...details.results);
-    await sleep(200);
-
-    // committee reports (for cash on hand, debts, totals)
-    for (const cycle of cycles) {
-      const reps = await getJSON(`/committee/${cmte}/reports/`, {
-        two_year_transaction_period: cycle, per_page: 100
-      });
-      await saveResults(`committee_${cmte}_reports_${cycle}`, reps?.results ?? []);
-      await sleep(200);
-    }
-  }
-  await saveResults("committees", out);
-}
-
-// Aggregate receipts (by size/state/employer/zip) per committee + cycle
-async function pullScheduleAAggregates() {
-  for (const cmte of committeeIds) {
-    for (const cycle of cycles) {
-      const common = { two_year_transaction_period: cycle, committee_id: cmte, per_page: 100 };
-
-      const bySize = await collectPaged("/schedules/schedule_a/by_size/", { ...common, is_individual: true }, 5);
-      await saveResults(`sa_${cmte}_${cycle}_by_size`, bySize);
-
-      const byState = await collectPaged("/schedules/schedule_a/by_state/", { ...common }, 30);
-      await saveResults(`sa_${cmte}_${cycle}_by_state`, byState);
-
-      const byEmployer = await collectPaged("/schedules/schedule_a/by_employer/", { ...common, is_individual: true }, 30);
-      await saveResults(`sa_${cmte}_${cycle}_by_employer`, byEmployer);
-
-      const byZip = await collectPaged("/schedules/schedule_a/by_zip/", { ...common }, 50);
-      await saveResults(`sa_${cmte}_${cycle}_by_zip`, byZip);
-
-      await sleep(250);
+    try {
+      const ok = await existsCommittee(cmte);
+      if (!ok) {
+        console.warn(`[fec] skip: committee ${cmte} not found`);
+        continue;
+      }
+      console.log(`[fec] committee ${cmte} : cycle ${cycle}`);
+      await pullCommitteeReports(cmte, cycle);
+      await sleep(80);
+    } catch (e) {
+      console.warn(`committee pull error (${cmte} ${cycle}):`, e?.message || e);
     }
   }
 }
-
-// Disbursements (Schedule B) – last 400 days window for simplicity (incremental possible)
-async function pullScheduleB() {
-  const since = cursors.sched_b_min_date || new Date(Date.now() - 400*864e5).toISOString().slice(0,10);
-  for (const cmte of committeeIds) {
-    let page = 1;
-    while (page <= 50) {
-      const data = await getJSON("/schedules/schedule_b/", {
-        committee_id: cmte,
-        min_date: since,
-        sort: "disbursement_date",
-        sort_hide_null: false,
-        per_page: 100,
-        page
-      });
-      const rows = data?.results ?? [];
-      await saveResults(`sb_${cmte}`, rows);
-      const pages = data?.pagination?.pages ?? 1;
-      if (page >= pages) break;
-      page++;
-      await sleep(200);
-    }
-  }
-  cursors.sched_b_min_date = today; // next run pulls only new window
-}
-
-// Independent Expenditures (Schedule E) by candidate (for/against totals + items)
-async function pullScheduleE() {
-  const since = cursors.sched_e_min_date || new Date(Date.now() - 400*864e5).toISOString().slice(0,10);
-  for (const cid of candidateIds) {
-    let page = 1;
-    while (page <= 50) {
-      const data = await getJSON("/schedules/schedule_e/", {
-        candidate_id: cid,
-        min_date: since,
-        per_page: 100,
-        sort: "expenditure_date",
-        sort_hide_null: false,
-        page
-      });
-      const rows = data?.results ?? [];
-      await saveResults(`se_${cid}`, rows);
-      const pages = data?.pagination?.pages ?? 1;
-      if (page >= pages) break;
-      page++;
-      await sleep(200);
-    }
-  }
-  cursors.sched_e_min_date = today;
-}
-
-await pullCandidateStuff().catch(e => console.error("candidate pull:", e));
-await pullCommitteeStuff().catch(e => console.error("committee pull:", e));
-await pullScheduleAAggregates().catch(e => console.error("sched A:", e));
-await pullScheduleB().catch(e => console.error("sched B:", e));
-await pullScheduleE().catch(e => console.error("sched E:", e));
-
-await writeCursors(cursors);
 
 console.log("Ingest complete →", RAW_DIR);
