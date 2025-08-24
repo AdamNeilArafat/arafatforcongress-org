@@ -15,7 +15,10 @@
     "fec:analyze": "node scripts/fec/analyze.mjs",
     "fec:warehouse:metrics": "node scripts/fec/build-committee-metrics.mjs",
     "ai:analyze": "node scripts/ai/analyze-fec.mjs",
-    "build:data+ai": "npm run build:data && npm run ai:analyze"
+    "build:data+ai": "npm run build:data && npm run ai:analyze",
+
+    "build": "npm run build:data", 
+    "start": "npx serve ."
   },
   "dependencies": {
     "openai": "^5.15.0"
