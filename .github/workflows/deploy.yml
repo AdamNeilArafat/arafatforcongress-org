@@ -1,4 +1,3 @@
-# 1) Overwrite the workflow with AI delta + compact steps
 cat > .github/workflows/deploy.yml <<'YAML'
 name: Deploy GitHub Pages
 
@@ -6,7 +5,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '**/*'
+      - "**/*"
   workflow_dispatch: {}
 
 permissions:
@@ -40,7 +39,7 @@ jobs:
       - name: AI analysis (incremental; non-blocking)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          AI_MAX_ITEMS: 0               # analyze all
+          AI_MAX_ITEMS: 0
           AI_DISABLED: ${{ secrets.AI_DISABLED }}  # optional kill switch
         run: npm run ai:analyze:delta
         continue-on-error: true
@@ -52,13 +51,13 @@ jobs:
         run: |
           mkdir -p _site
           rsync -a --delete ./ _site/ \
-            --exclude '_site' \
-            --exclude 'node_modules' \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude 'scripts' \
-            --exclude 'config' \
-            --exclude 'package*.json'
+            --exclude "_site" \
+            --exclude "node_modules" \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude "scripts" \
+            --exclude "config" \
+            --exclude "package*.json"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -76,63 +75,6 @@ jobs:
         uses: actions/deploy-pages@v4
 YAML
 
-# 2) Add a tiny compact script (sort + dedupe by id; stable keys)
-mkdir -p scripts/ai
-cat > scripts/ai/compact.mjs <<'JS'
-import fs from "node:fs/promises";
-
-const files = [
-  "data/ai/committee_analyses.json",
-  "data/ai/candidate_analyses.json",
-];
-
-function asMapById(arr, idKey) {
-  const m = new Map();
-  for (const x of arr || []) if (x && x[idKey]) m.set(x[idKey], x);
-  return m;
-}
-
-function stableSortKeys(obj) {
-  if (Array.isArray(obj)) return obj.map(stableSortKeys);
-  if (obj && typeof obj === "object") {
-    const out = {};
-    Object.keys(obj).sort().forEach(k => { out[k] = stableSortKeys(obj[k]); });
-    return out;
-  }
-  return obj;
-}
-
-async function compactOne(path, idKey) {
-  try {
-    const s = await fs.readFile(path, "utf8");
-    const arr = JSON.parse(s);
-    const map = asMapById(arr, idKey);
-    const deduped = Array.from(map.values())
-      .sort((a,b) => String(a[idKey]).localeCompare(String(b[idKey])));
-    const stable = deduped.map(stableSortKeys);
-    await fs.writeFile(path, JSON.stringify(stable, null, 2));
-    console.log(`Compacted ${path}: ${arr.length} -> ${stable.length}`);
-  } catch (e) {
-    // ok if file missing
-  }
-}
-
-await compactOne(files[0], "committee_id");
-await compactOne(files[1], "candidate_id");
-JS
-
-# 3) Wire npm script for compact
-node - <<'NODE'
-import fs from "node:fs";
-const f="package.json";
-const pkg=JSON.parse(fs.readFileSync(f,"utf8"));
-pkg.scripts ||= {};
-pkg.scripts["ai:compact"] = "node scripts/ai/compact.mjs";
-fs.writeFileSync(f, JSON.stringify(pkg,null,2));
-console.log("OK: package.json updated (ai:compact)");
-NODE
-
-# 4) Commit and push the workflow + script changes
-git add .github/workflows/deploy.yml scripts/ai/compact.mjs package.json
-git commit -m "ci: add AI incremental analysis (non-blocking) + compact step"
+git add .github/workflows/deploy.yml
+git commit -m "ci: fix YAML (remove heredoc text) + add AI incremental step"
 git push origin main
