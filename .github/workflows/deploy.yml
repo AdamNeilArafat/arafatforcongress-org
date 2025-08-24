@@ -1,11 +1,15 @@
-# .github/workflows/deploy.yml
 name: Deploy GitHub Pages
 
 on:
   push:
     branches: [ main ]
-    paths: ['**/*']
+    paths:
+      - '**/*'
   workflow_dispatch: {}
+  # Chain deploy after the ingest workflow completes
+  workflow_run:
+    workflows: ["FEC Nightly Ingest"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -23,36 +27,55 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      FEC_API_KEY: ${{ secrets.FEC_API_KEY }}   # <-- make key available to all steps in this job
+      FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Try to download the latest raw ingest artifact produced by the nightly ingest workflow.
+      # If none exists yet, the step is allowed to fail; later steps can proceed with existing data.
+      - name: Download raw ingest artifact (if available)
+        id: dlraw
+        uses: dawidd6/action-download-artifact@v3
+        continue-on-error: true
+        with:
+          workflow: fec-nightly.yml           # (or the exact filename of your ingest workflow)
+          name: fec-raw                       # artifact name used by ingest workflow
+          path: data/raw                      # where to place downloaded raw files
+          # optionally constrain to branch:
+          # branch: main
+
+      - name: Show artifact status
+        run: |
+          echo "downloaded? -> ${{ steps.dlraw.outcome }}"
+          ls -la data || true
+          ls -la data/raw || true
+
+      # Cache node_modules by lockfile
+      - name: Cache node modules
+        uses: actions/cache@v4
+        id: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node20-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node20-
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
-      - name: Build members.json
-        run: npm run build:members
-      - uses: actions/setup-node@v4
-        with:
           node-version: 20
-          cache: 'npm'
+
       - name: Install deps
         run: npm ci
 
-      - name: Ingest FEC raw data
-        run: npm run fec:ingest
-        
-      - name: Upload raw ingest
-        uses: actions/upload-artifact@v4
-        with:
-          name: raw-${{ github.run_id }}
-          path: data/raw/
+      # Build members.json (fast) — keeps photos/bioguide in sync without hitting FEC
+      - name: Build members.json
+        run: npm run build:members
 
-      - name: Fetch receipts
-        run: npm run fec:fetch:receipts
-
+      # NO RAW INGEST HERE
+      # Use the downloaded raw data (if present) to (re)build your marts/warehouse/site
       - name: Build warehouse
         run: npm run fec:warehouse
 
@@ -62,13 +85,11 @@ jobs:
       - name: Build site bundles
         run: npm run fec:site
 
-      - name: Remove node_modules to shrink artifact
-        run: rm -rf node_modules
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .  # root of built static site (adjust if you publish from /dist or similar)
+
   deploy:
     environment:
       name: github-pages
