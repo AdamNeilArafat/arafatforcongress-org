@@ -1,3 +1,4 @@
+cat > scripts/fec/build-site-bundles.mjs <<'MJS'
 // scripts/fec/build-site-bundles.mjs
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -24,9 +25,9 @@ const metrics = Array.isArray(wh) ? wh : Object.values(wh);
 const safeNum = (v, d = 0) => (Number.isFinite(Number(v)) ? Number(v) : d);
 const round = (n, p = 2) => (Number.isFinite(Number(n)) ? Number(Number(n).toFixed(p)) : n);
 
+// NEVER mix ?? with || without parens. Keep it simple:
 function coverageEnd(x) {
-  // NEVER mix ?? with || without parens. Keep it simple:
-  return x?.coverage_end_date ?? x?.coverage_through_date ?? "";
+  return (x?.coverage_end_date ?? x?.coverage_through_date ?? "");
 }
 
 async function getCandidateCommitteesOnline(candidateId, cycle) {
@@ -183,6 +184,4 @@ for (const cycle of cycles) {
   }
 }
 
-await fs.writeFile(path.join(SITE_DIR,"candidates.json"), JSON.stringify(candOut,null,2));
-
-console.log("wrote", path.join(SITE_DIR,"committees.json"), "and", path.join(SITE_DIR,"candidates.json"));
+await fs.writeFile(path.join
