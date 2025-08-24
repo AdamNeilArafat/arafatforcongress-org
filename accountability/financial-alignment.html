@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Financial Alignments & Interests — Adam Neil Arafat for Congress</title>
-  <meta name="description" content="PAC vs small donors, in-district vs out-district, industry breakdowns, and vote alignment indicators."/>
+  <meta name="description" content="PAC vs small donors, in district vs out of district, industry breakdowns, and vote alignment indicators."/>
   <meta name="theme-color" content="#0d3b66"/>
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -62,18 +62,18 @@
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="/index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <a class="navbar-brand fw-bold" href="../index.html">Adam Neil Arafat for Congress - WA-10</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="/index.html">Wall of Shame</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/financial-alignments.html">Financial Alignments</a></li>
-        <li class="nav-item"><a class="nav-link" href="/badges.html">Badges &amp; Awards</a></li>
-        <li class="nav-item"><a class="nav-link" href="/digging-into-the-issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="../index.html">Wall of Shame</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="./financial-alignment.html">Financial Alignments</a></li>
+        <li class="nav-item"><a class="nav-link" href="../badges.html">Badges &amp; Awards</a></li>
+        <li class="nav-item"><a class="nav-link" href="../digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
       </ul>
     </div>
   </div>
@@ -85,11 +85,11 @@
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
       <div>
         <h1 class="mb-1">Financial Alignments &amp; Interests</h1>
-        <p class="mb-0">Faces first. Aggregate numbers reflect the current filter. Click a row for receipts—or pick two to compare.</p>
+        <p class="mb-0">Faces first. Aggregate numbers reflect the current filter. Click a row for receipts, or pick two to compare.</p>
       </div>
       <div class="d-flex gap-2">
-        <a class="btn btn-outline-light btn-sm" href="/index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
-        <a class="btn btn-danger btn-sm" href="/badges.html#thresholds"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
+        <a class="btn btn-outline-light btn-sm" href="../index.html"><i class="fa-solid fa-arrow-left-long me-1"></i>Back to Wall</a>
+        <a class="btn btn-danger btn-sm" href="../badges.html#thresholds"><i class="fa-solid fa-award me-1"></i>Badge Definitions</a>
       </div>
     </div>
   </div>
@@ -101,7 +101,7 @@
     <div class="row g-2 align-items-end">
       <div class="col-md-3">
         <label for="fa-member" class="form-label">Search (name, state, seat)</label>
-        <input type="search" id="fa-member" class="form-control" placeholder="e.g., WA-10 or ‘Smith’" autocomplete="off"/>
+        <input type="search" id="fa-member" class="form-control" placeholder="e.g., WA-10 or Smith" autocomplete="off"/>
       </div>
       <div class="col-md-3">
         <label for="fa-party" class="form-label">Party</label>
@@ -133,12 +133,12 @@
         </select>
       </div>
       <div class="col-md-1 d-grid">
-        <button id="fa-reset" class="btn btn-outline-secondary">Reset</button>
+        <button id="fa-reset" class="btn btn-outline-secondary" type="button">Reset</button>
       </div>
     </div>
 
     <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
-      <button id="btn-export" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
+      <button id="btn-export" class="btn btn-sm btn-outline-dark" type="button"><i class="fa-solid fa-file-arrow-down me-1"></i>Export CSV</button>
       <span id="load-status" class="small text-muted" role="status" aria-live="polite">Loading…</span>
     </div>
   </div>
@@ -154,21 +154,21 @@
     </div>
     <div class="col-md-3">
       <div class="cardish p-3">
-        <div class="mini">In‑District vs Out (sum)</div>
+        <div class="mini">In district vs Out (sum)</div>
         <div class="metric" id="m-geo">—</div>
         <div class="mini">Flag if out &gt; in</div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="cardish p-3">
-        <div class="mini">Top Industry (mode)</div>
+        <div class="mini">Top industry (mode)</div>
         <div class="metric" id="m-top-industry">—</div>
         <div class="mini">Badge if one dominates</div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="cardish p-3">
-        <div class="mini">Vote Alignment (avg)</div>
+        <div class="mini">Vote alignment (avg)</div>
         <div class="metric" id="m-vote-align">—</div>
         <div class="mini">Badge if ≥ 90%</div>
       </div>
@@ -179,7 +179,7 @@
   <section aria-labelledby="listHeading" class="mt-3">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
       <h2 id="listHeading" class="h6 mb-0">Members — Face List</h2>
-      <span class="small text-muted">Click “Details” for receipts or tick compare on 1–2 people.</span>
+      <span class="small text-muted">Click Details for receipts or tick compare on 1–2 people.</span>
     </div>
     <div id="fa-list" class="list-people">
       <div class="text-muted">Loading…</div>
@@ -193,6 +193,7 @@
       <table class="table table-sm align-middle" id="fa-table-el">
         <thead>
         <tr>
+          <th></th>
           <th data-sort="name">Member</th>
           <th data-sort="seat">Seat</th>
           <th class="text-nowrap" data-sort="pac">PAC %</th>
@@ -201,10 +202,11 @@
           <th data-sort="industry">Top Industry</th>
           <th class="text-nowrap" data-sort="align">Vote Align</th>
           <th>Badges</th>
+          <th>Actions</th>
         </tr>
         </thead>
         <tbody id="fa-table">
-        <tr><td colspan="8" class="text-muted">Loading…</td></tr>
+        <tr><td colspan="10" class="text-muted">Loading…</td></tr>
         </tbody>
       </table>
     </div>
@@ -216,8 +218,8 @@
       <div class="cardish p-2 d-flex align-items-center justify-content-between">
         <div class="small" id="compare-picked">0 selected</div>
         <div class="d-flex gap-2">
-          <button class="btn btn-sm btn-outline-secondary" id="compare-clear">Clear</button>
-          <button class="btn btn-sm btn-primary" id="compare-go" disabled><i class="fa-solid fa-code-compare me-1"></i>Compare</button>
+          <button class="btn btn-sm btn-outline-secondary" id="compare-clear" type="button">Clear</button>
+          <button class="btn btn-sm btn-primary" id="compare-go" type="button" disabled><i class="fa-solid fa-code-compare me-1"></i>Compare</button>
         </div>
       </div>
     </div>
@@ -260,7 +262,7 @@
           <button id="shareTikTok" class="btn btn-outline-dark btn-sm" type="button" title="Copy caption for TikTok"><i class="fa-brands fa-tiktok me-1"></i>Copy TikTok Caption</button>
           <a id="shareReddit" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener"><i class="fa-brands fa-reddit-alien me-1"></i>Reddit</a>
           <a id="shareX" class="btn btn-outline-dark btn-sm" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter me-1"></i>X</a>
-          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal" type="button">Close</button>
         </div>
       </div>
     </div>
@@ -273,9 +275,9 @@
 <!-- Inline demo data fallback so the page renders even if /data is missing -->
 <script id="demo-members" type="application/json">
 {
-  "D000001": {"id":"D000001","name":"Allison Rivera","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":"/assets/members/D000001.jpg","ballotpedia":"https://ballotpedia.org/Allison_Rivera"},
-  "R000002": {"id":"R000002","name":"Marcus Ellison","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":"/assets/members/R000002.jpg","ballotpedia":"https://ballotpedia.org/Marcus_Ellison"},
-  "S000003": {"id":"S000003","name":"Jamie Chen","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":"/assets/members/S000003.jpg","ballotpedia":"https://ballotpedia.org/Jamie_Chen"}
+  "D000001": {"id":"D000001","name":"Allison Rivera","seat":"WA-10","state":"WA","chamber":"house","party":"D","photo":"../assets/members/D000001.jpg","ballotpedia":"https://ballotpedia.org/Allison_Rivera"},
+  "R000002": {"id":"R000002","name":"Marcus Ellison","seat":"TX-07","state":"TX","chamber":"house","party":"R","photo":"../assets/members/R000002.jpg","ballotpedia":"https://ballotpedia.org/Marcus_Ellison"},
+  "S000003": {"id":"S000003","name":"Jamie Chen","seat":"CA","state":"CA","chamber":"senate","party":"D","photo":"../assets/members/S000003.jpg","ballotpedia":"https://ballotpedia.org/Jamie_Chen"}
 }
 </script>
 <script id="demo-donors" type="application/json">
@@ -293,7 +295,7 @@
 </script>
 <script id="demo-align" type="application/json">
 {
-  "D000001":{"donor_alignment_index":0.91, "votes":[{"bill":"Energy Savings Bill (2027)","date":"2027-03-12","position":"No","url":"./Bills/energy-savings-and-lower-bills-bill-2027.html"}]},
+  "D000001":{"donor_alignment_index":0.91, "votes":[{"bill":"Energy Savings Bill (2027)","date":"2027-03-12","position":"No","url":"../Bills/energy-savings-and-lower-bills-bill-2027.html"}]},
   "R000002":{"donor_alignment_index":0.76},
   "S000003":{"donor_alignment_index":0.62}
 }
@@ -318,18 +320,107 @@ const THRESH = {
   ALIGN_HIGH: 0.60           // 60%+ donor-aligned votes -> flag
 };
 
-
-/* === Financial Alignment helpers (injected) === */
-// Global caches for members, donors, awards and alignments.
+/* === Global caches === */
 let members = {};
 let donorsByMember = {};
 let awardsByMember = {};
 let voteAlignByMember = {};
 
+/* Normalize to member map keyed by id */
+function toMemberMap(maybeArr) {
+  if (!maybeArr) return {};
+  if (Array.isArray(maybeArr)) {
+    const map = {};
+    for (const row of maybeArr) {
+      const id = row.bioguide_id || row.bioguide || row.id || row.mid;
+      if (id) map[id] = {
+        ...row,
+        partyCode: row.partyCode || row.party || '',
+        chamber: row.chamber || row.type || ''
+      };
+    }
+    return map;
+  }
+  return maybeArr;
+}
+const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
+const ensureObj = x => (isObj(x) ? x : {});
 
-/**
- * Generate HTML for a set of chips. Each chip is a tuple of [class, icon, label].
- */
+/* Data fetchers (paths are relative to /accountability/) */
+async function fetchJSON(path, timeoutMs=12000) {
+  const res = await fetch(path, { signal: AbortSignal.timeout(timeoutMs), cache:'no-store' });
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${path}`);
+  return res.json();
+}
+function isValidPayload(p) {
+  return p && isObj(p.members) && isObj(p.donorsByMember) && isObj(p.awardsByMember) && isObj(p.voteAlignByMember);
+}
+
+const CACHE_KEY = 'faCache-v4';
+const CACHE_TTL_MS = 1000 * 60 * 60 * 6;
+
+function readCache() {
+  try{
+    const c = JSON.parse(localStorage.getItem(CACHE_KEY));
+    if(!c || !isValidPayload(c)) return null;
+    if(Date.now() - (c.ts||0) > CACHE_TTL_MS) return null;
+    return c;
+  }catch{ return null; }
+}
+function writeCache(payload) {
+  try{
+    if(isValidPayload(payload)) localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v:4 }));
+  }catch{}
+}
+
+async function loadAll() {
+  const cached = readCache();
+  if (cached) { loadAll.refresh().catch(()=>{}); return cached; }
+  try {
+    const fresh = await loadAll.fetchNetwork();
+    writeCache(fresh);
+    return fresh;
+  } catch {
+    const demo = {
+      members:           toMemberMap(parseInlineJSON('demo-members', [])),
+      donorsByMember:    ensureObj(parseInlineJSON('demo-donors', {})),
+      awardsByMember:    ensureObj(parseInlineJSON('demo-awards', {})),
+      voteAlignByMember: ensureObj(parseInlineJSON('demo-align',  {}))
+    };
+    if (isValidPayload(demo)) writeCache(demo);
+    return demo;
+  }
+}
+loadAll.fetchNetwork = async function(){
+  const [membersRaw, donors, awardsOrBadges, align] = await Promise.all([
+    fetchJSON('../data/members.json'),
+    fetchJSON('../data/donors-by-member.json'),
+    fetchJSON('../data/member-awards.json').catch(()=> fetchJSON('../data/badges.json')),
+    fetchJSON('../data/vote-alignments.json')
+  ]);
+  const payload = {
+    members:           toMemberMap(membersRaw),
+    donorsByMember:    ensureObj(donors),
+    awardsByMember:    ensureObj(awardsOrBadges),
+    voteAlignByMember: ensureObj(align)
+  };
+  if(!isValidPayload(payload)) throw new Error('Invalid payload shape');
+  return payload;
+};
+loadAll.refresh = async function(){ const fresh = await loadAll.fetchNetwork(); writeCache(fresh); return fresh; };
+
+/* Domain helper */
+function topIndustry(d){
+  if(!d || !d.industries) return {key:'—', share:0};
+  const entries = Object.entries(d.industries).filter(([,v])=> (v||0)>0);
+  if(!entries.length) return {key:'—', share:0};
+  const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
+  entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
+  const [key, amt] = entries[0];
+  return {key, share:(amt||0)/total};
+}
+
+/* Chips */
 function chipHTML(chips){
   return chips.map(([cls, icon, label])=>{
     const ico = icon ? `<i class="fa-solid ${icon} me-1"></i>` : '';
@@ -337,37 +428,29 @@ function chipHTML(chips){
   }).join('');
 }
 
-
-/**
- * Compute aggregated financial alignment data for a member.
- */
+/* Row computation */
 function rowData(mid){
   const m = members[mid] || {};
   const d = donorsByMember[mid] || {};
   const v = voteAlignByMember[mid] || {};
-  const awards = awardsByMember[mid] || [];
+  const awards = Array.isArray(awardsByMember[mid]?.badges) ? awardsByMember[mid].badges : (awardsByMember[mid] || []);
   const name = m.name || mid;
   const seat = `${m.chamber==='senate'?'Senate':'House'} ${m.state || ''}${m.district ? ('-'+m.district) : ''}`.trim();
-  const photo = m.photo || `/assets/members/${mid}.jpg`;
+  const photo = m.photo || `../assets/members/${mid}.jpg`;
   const pac = Number(d.pac_pct || 0);
-  const small = (d.small_donor_pct != null) ? Number(d.small_donor_pct) : (1 - pac);
+  const small = (d.small_donor_pct != null) ? Number(d.small_donor_pct) : Math.max(0, 1 - pac);
   const in$  = Number(d.in_state_dollars || d.in_district_dollars || 0);
   const out$ = Number(d.out_state_dollars || d.out_district_dollars || 0);
-  const ti   = typeof topIndustry === 'function' ? topIndustry(d) : { key: (d.industries && d.industries[0]?.key) || '—', share: (d.industries && d.industries[0]?.share) || 0 };
+  const ti   = topIndustry(d);
   let align = null;
-  if (typeof v.donor_alignment_index === 'number') {
-    align = Math.round(v.donor_alignment_index * 100);
-  } else if (typeof v.vote_align_pct === 'number') {
-    align = Math.round(v.vote_align_pct * 100);
-  }
+  if (typeof v.donor_alignment_index === 'number') align = Math.round(v.donor_alignment_index * 100);
+  else if (typeof v.vote_align_pct === 'number')   align = Math.round(v.vote_align_pct * 100);
   const receipts = Array.isArray(d.receipts) ? d.receipts : [];
   const votes = Array.isArray(v.votes) ? v.votes : [];
   const chips = [];
-  if (typeof THRESH === 'object') {
-    if (pac >= (THRESH.PAC_FLAG ?? 0.5)) chips.push(['chip-danger','fa-circle-exclamation','High PAC share']);
-    if (ti.share >= (THRESH.INDUSTRY_DOMINATE ?? 0.4) && ti.key && ti.key !== '—') chips.push(['chip-warn','fa-chart-pie','Dominant sector']);
-    if (align !== null && (align/100) >= (THRESH.ALIGN_HIGH ?? 0.6)) chips.push(['chip-ok','fa-thumbs-up','High alignment']);
-  }
+  if (pac >= THRESH.PAC_FLAG) chips.push(['chip-danger','fa-circle-exclamation','High PAC share']);
+  if (ti.share >= THRESH.INDUSTRY_DOMINATE && ti.key && ti.key !== '—') chips.push(['chip-warn','fa-chart-pie','Dominant sector']);
+  if (align !== null && (align/100) >= THRESH.ALIGN_HIGH) chips.push(['chip-ok','fa-thumbs-up','High alignment']);
   for (const b of awards) {
     const tone = String(b.tone || '').toLowerCase();
     let cls = 'chip-ok';
@@ -375,28 +458,32 @@ function rowData(mid){
     else if (tone === 'gold' || tone === 'gray') cls = 'chip-warn';
     chips.push([cls, '', b.label || b.id || 'Badge']);
   }
-  return { id: mid, name, seat, party: m.partyCode || '', photo, pac, small,
-    pacP: Math.round(pac*100), smlP: Math.round(small*100), in$, out$,
-    topIndustryKey: ti.key || '—', topIndustryShare: ti.share || 0,
-    align, chips, receipts, votes };
+  return {
+    id: mid, name, seat, party: m.partyCode || '', photo,
+    pac, small, pacP: Math.round(pac*100), smlP: Math.round(small*100),
+    in$, out$, topIndustryKey: ti.key || '—', topIndustryShare: ti.share || 0,
+    align, chips, receipts, votes
+  };
 }
 
-
-/**
- * Render the members list and table with computed data.
- */
+/* RENDERER */
 function render(mems, donors, awards, align){
   members = mems;
   donorsByMember = donors;
   awardsByMember = awards;
   voteAlignByMember = align;
-  const listEl = document.querySelector('#fa-list');
-  const tableEl = document.querySelector('#fa-table');
+
+  const listEl = $('#fa-list');
+  const tableEl = $('#fa-table');
   if(!listEl || !tableEl) return;
+
   const fragList = document.createDocumentFragment();
   const fragTable = document.createDocumentFragment();
+
   Object.keys(members).forEach(mid=>{
     const d = rowData(mid);
+
+    // Face list card
     const wrap = document.createElement('div');
     wrap.className = 'person';
     wrap.setAttribute('data-mid', mid);
@@ -407,7 +494,7 @@ function render(mems, donors, awards, align){
     wrap.setAttribute('data-chamber', (members[mid].chamber || '').toLowerCase());
     wrap.innerHTML = `
       <div class="rowwrap">
-        <div class="thumb"><img src="${d.photo}" alt="${d.name}" onerror="this.src='/assets/no-photo.png'"></div>
+        <div class="thumb"><img src="${d.photo}" alt="${d.name}" onerror="this.src='../assets/no-photo.png'"></div>
         <div class="pdata">
           <h5 class="name mb-1">${d.name}</h5>
           <div class="sub">${d.seat}${d.party ? ' • '+d.party : ''}</div>
@@ -419,6 +506,8 @@ function render(mems, donors, awards, align){
         </div>
       </div>`;
     fragList.appendChild(wrap);
+
+    // Table row
     const tr = document.createElement('tr');
     tr.setAttribute('data-mid', mid);
     tr.setAttribute('data-name', d.name.toLowerCase());
@@ -427,8 +516,9 @@ function render(mems, donors, awards, align){
     tr.setAttribute('data-party', (members[mid].partyCode || '').toUpperCase());
     tr.setAttribute('data-chamber', (members[mid].chamber || '').toLowerCase());
     tr.innerHTML = `
-      <td><img src="${d.photo}" width="36" height="36" alt="${d.name}" onerror="this.src='/assets/no-photo.png'"></td>
-      <td><span class="fw-bold">${d.name}</span><br><small class="text-muted">${d.seat}${d.party ? ' • '+d.party : ''}</small></td>
+      <td><img src="${d.photo}" width="36" height="36" alt="${d.name}" onerror="this.src='../assets/no-photo.png'"></td>
+      <td><span class="fw-bold">${d.name}</span></td>
+      <td><small class="text-muted">${d.seat}${d.party ? ' • '+d.party : ''}</small></td>
       <td data-val="${d.pac}">${d.pacP}%</td>
       <td data-val="${d.small}">${d.smlP}%</td>
       <td data-val="${d.out$ - d.in$}">${money(d.in$)} / ${money(d.out$)}</td>
@@ -439,165 +529,26 @@ function render(mems, donors, awards, align){
     `;
     fragTable.appendChild(tr);
   });
+
   listEl.innerHTML = '';
   listEl.appendChild(fragList);
   tableEl.innerHTML = '';
   tableEl.appendChild(fragTable);
-  if (typeof applyFilters === 'function') applyFilters(false);
+
+  applyFilters(false);
 }
 
-
-/* ---------- robust data loader with last-good cache ---------- */
-const CACHE_KEY = 'faCache-v4';
-const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours (stale-while-revalidate)
-
-const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
-
-/* Accept arrays or maps and normalize to object maps keyed by member id */
-function toMemberMap(maybeArr) {
-  if (!maybeArr) return {};
-  if (Array.isArray(maybeArr)) {
-    const map = {};
-    for (const row of maybeArr) {
-      const id = row.bioguide_id || row.bioguide || row.id || row.mid;
-      if (id) map[id] = row;
-    }
-    return map;
-  }
-  return maybeArr; // assume already a map
-}
-function ensureObj(x) { return isObj(x) ? x : {}; }
-
-function isValidPayload(p) {
-  return p
-    && isObj(p.members)
-    && isObj(p.donorsByMember)
-    && isObj(p.awardsByMember)
-    && isObj(p.voteAlignByMember);
-}
-
-/* MDN: fetch won't reject on HTTP 404; check res.ok; use AbortSignal timeout */
-async function fetchJSON(path, timeoutMs=12000) {
-  const res = await fetch(path, {
-    signal: AbortSignal.timeout(timeoutMs),      // modern timeout
-    cache: 'no-store'                            // bypass HTTP cache while iterating
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${path}`); /* MDN: check ok */
-  return res.json();
-}
-
-function readCache() {
-  try {
-    const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
-    if (!cached || !isValidPayload(cached)) return null;
-    if (Date.now() - (cached.ts || 0) > CACHE_TTL_MS) return null;
-    return cached;
-  } catch { return null; }
-}
-function writeCache(payload) {
-  try {
-    if (isValidPayload(payload)) {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ ...payload, ts: Date.now(), v: 4 }));
-    }
-  } catch { /* storage might be full/private mode */ }
-}
-
-async function loadAll() {
-  const cached = readCache();
-  if (cached) {
-    // Stale-while-revalidate in background
-    loadAll.refresh().catch(()=>{});
-    return cached;
-  }
-  try {
-    const fresh = await loadAll.fetchNetwork();
-    writeCache(fresh);
-    return fresh;
-  } catch {
-    // Fall back to inline demo blocks if network fails
-    const demo = {
-      members:           toMemberMap(parseInlineJSON('demo-members', [])),
-      donorsByMember:    ensureObj(parseInlineJSON('demo-donors', {})),
-      awardsByMember:    ensureObj(parseInlineJSON('demo-awards', {})),
-      voteAlignByMember: ensureObj(parseInlineJSON('demo-align',  {}))
-    };
-    if (isValidPayload(demo)) writeCache(demo);
-    return demo;
-  }
-}
-loadAll.refresh = async function() {
-  const fresh = await loadAll.fetchNetwork();
-  writeCache(fresh);
-  return fresh;
-};
-loadAll.fetchNetwork = async function() {
-  const [membersRaw, donors, awardsOrBadges, align] = await Promise.all([
-    fetchJSON('/data/members.json'),
-    fetchJSON('/data/donors-by-member.json'),
-    // allow either file name to exist
-    fetchJSON('/data/member-awards.json').catch(() => fetchJSON('/data/badges.json')),
-    fetchJSON('/data/vote-alignments.json')
-  ]);
-  const payload = {
-    members:           toMemberMap(membersRaw),
-    donorsByMember:    ensureObj(donors),
-    awardsByMember:    ensureObj(awardsOrBadges),
-    voteAlignByMember: ensureObj(align)
-  };
-  if (!isValidPayload(payload)) throw new Error('Invalid payload shape');
-  return payload;
-};
-
-/* ---------- domain helpers your renderer uses ---------- */
-function topIndustry(d){
-  if(!d || !d.industries) return {key:'—', share:0};
-  const entries = Object.entries(d.industries).filter(([,v])=> (v||0)>0);
-  if(!entries.length) return {key:'—', share:0};
-  const total = entries.reduce((s, [,v])=>s+(v||0),0) || 1;
-  entries.sort((a,b)=>(b[1]||0)-(a[1]||0));
-  const [key, amt] = entries[0];
-  return {key, share:(amt||0)/total};
-}
-
-/* ---------- boot ---------- */
+/* ---------- BOOT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
   const setStatus = (t) => { const el = $('#load-status'); if (el) el.textContent = t; };
   setStatus('Loading data…');
 
-  const {members, donorsByMember, awardsByMember, voteAlignByMember} = await loadAll();
+  const payload = await loadAll();
   setStatus('Data loaded.');
 
-  // --- Example: resolve a member + image path ---
-  const resolveMember = (mid) => members?.[mid] || null;
-  const resolvePhoto = (m) => {
-    const id = m?.bioguide || m?.bioguide_id || m?.id || m?.mid;
-    return id ? `/assets/members/${id}.jpg` : '/assets/no-photo.png';
-  };
+  render(payload.members, payload.donorsByMember, payload.awardsByMember, payload.voteAlignByMember);
 
-  // TODO: call your real renderer here:
-  // render(members, donorsByMember, awardsByMember, voteAlignByMember);
-
-  // If you need quick smoke output:
-  const tbody = $('#fa-table'); // optional
-  if (tbody) {
-    const mid = Object.keys(members)[0];
-    if (mid) {
-      const m = resolveMember(mid);
-      const d = donorsByMember[mid] || {};
-      const v = voteAlignByMember[mid] || {};
-      tbody.innerHTML = `
-        <tr>
-          <td><img src="${resolvePhoto(m)}" width="48" height="48" onerror="this.src='/assets/no-photo.png'"></td>
-          <td>${m?.name || mid}</td>
-          <td>${m?.state || '—'}</td>
-          <td>${pct(d.pac_pct||0)}% PAC</td>
-          <td>${v.donor_alignment_index!=null ? pct(v.donor_alignment_index)+'%' : '—'}</td>
-        </tr>`;
-    }
-  }
-});
-
-  // ---------- filters ----------
+  /* Filters + metrics */
   const qInput = $('#fa-member'),
         partySel = $('#fa-party'),
         chamberSel = $('#fa-chamber'),
@@ -611,7 +562,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return keys.includes(wanted.toLowerCase());
   }
 
-  function applyFilters(pushState=true){
+  window.applyFilters = function applyFilters(pushState=true){
     const q = (qInput.value || '').trim().toLowerCase();
     const ch = (chamberSel.value || '').toLowerCase();
     const ind = (industrySel.value || '').toLowerCase();
@@ -651,6 +602,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     $('#load-status').textContent = `Showing ${visible} row(s).`;
+
     aggregateMetrics();
 
     if(pushState){
@@ -663,9 +615,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const url = qs ? `${location.pathname}?${qs}` : location.pathname;
       history.replaceState({}, '', url);
     }
-  }
+  };
 
-  // headline metrics over visible set
   function aggregateMetrics(){
     const vis = $$('#fa-list .person').filter(el => el.style.display !== 'none');
     if(!vis.length){
@@ -736,12 +687,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const valGetter = {
       name: tr => (tr.querySelector('td .fw-bold')?.textContent || '').toLowerCase(),
-      seat: tr => (tr.children[1]?.textContent || '').toLowerCase(),
-      pac:  tr => Number(tr.children[2]?.getAttribute('data-val')||0),
-      small:tr => Number(tr.children[3]?.getAttribute('data-val')||0),
-      geo:  tr => Number(tr.children[4]?.getAttribute('data-val')||0),
-      industry: tr => Number(tr.children[5]?.getAttribute('data-val')||0),
-      align: tr => Number(tr.children[6]?.getAttribute('data-val')||-1)
+      seat: tr => (tr.children[2]?.textContent || '').toLowerCase(),
+      pac:  tr => Number(tr.children[3]?.getAttribute('data-val')||0),
+      small:tr => Number(tr.children[4]?.getAttribute('data-val')||0),
+      geo:  tr => Number(tr.children[5]?.getAttribute('data-val')||0),
+      industry: tr => Number(tr.children[6]?.getAttribute('data-val')||0),
+      align: tr => Number(tr.children[7]?.getAttribute('data-val')||-1)
     }[key];
 
     visible.sort((a,b)=>{
@@ -780,7 +731,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // Modal: detail & receipts
-  function openModal(mid){
+  function _openModal(mid){
     $('#compare-wrap').classList.add('d-none');
     $('#tabs').classList.remove('d-none');
 
@@ -813,7 +764,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <tbody>${inds.length ? inds.map(([k,val])=>`<tr><td>${k}</td><td class="text-end">${money(val)}</td></tr>`).join('') : `<tr><td colspan="2" class="text-muted">No sector detail available.</td></tr>`}</tbody>
         </table>
       </div>
-      <div class="small text-muted">Source: FEC filings; cycle-to-date where available.</div>`;
+      <div class="small text-muted">Source: FEC filings; cycle to date where available.</div>`;
 
     const votes = d.votes || [];
     $('#votes-body').innerHTML = `
@@ -843,14 +794,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     new bootstrap.Modal(document.getElementById('memberModal')).show();
   }
+  window.openModal = _openModal; // expose for inline buttons
 
-  // ---------- compare (1 or 2 picks) ----------
+  /* ---------- compare (1 or 2 picks) ---------- */
   const compareBar   = document.querySelector('.compare-bar');
   const comparePicked= $('#compare-picked');
   const compareGo    = $('#compare-go');
   const compareClear = $('#compare-clear');
 
-  function selectedMIDs(){ return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-ppick') || cb.getAttribute('data-pick')); }
+  function selectedMIDs(){ return $$('#fa-list .compare-pick:checked').map(cb => cb.getAttribute('data-pick')); }
 
   function syncCompareBar(){
     const ids = selectedMIDs();
@@ -859,15 +811,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     compareBar.style.display = ids.length ? 'block' : 'none';
   }
 
+  document.addEventListener('change', (e)=>{
+    if(e.target && e.target.classList.contains('compare-pick')) syncCompareBar();
+  });
   compareClear.addEventListener('click', ()=>{
     $$('#fa-list .compare-pick').forEach(cb => { cb.checked = false; });
     syncCompareBar();
-  });
-
-  compareGo.addEventListener('click', ()=>{
-    const ids = selectedMIDs().slice(0,2);
-    if(ids.length === 1) return openModal(ids[0]);
-    if(ids.length === 2) return openCompare(ids[0], ids[1]);
   });
 
   function compareCard(d){
@@ -909,9 +858,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     new bootstrap.Modal(document.getElementById('memberModal')).show();
   }
 
+  compareGo.addEventListener('click', ()=>{
+    const ids = selectedMIDs().slice(0,2);
+    if(ids.length === 1) return _openModal(ids[0]);
+    if(ids.length === 2) return openCompare(ids[0], ids[1]);
+  });
+
   // Initial filter + metrics
   applyFilters(false);
-})();
+});
 </script>
 </body>
 </html>
