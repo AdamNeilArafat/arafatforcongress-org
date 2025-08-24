@@ -1,4 +1,8 @@
-node_modules/
-package-lock.json
-arafatforcongress-org@1.0.0
-node/
+# local env
+.env
+# data caches
+.fec-cursors.json
+# node
+node_modules
+# build artifacts (if any)
+dist

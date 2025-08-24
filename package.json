@@ -1,16 +1,13 @@
 {
-  "name": "arafatforcongress-org",
-  "version": "1.0.0",
+  "name": "arafatforcongress-fec",
   "private": true,
   "type": "module",
+  "engines": { "node": ">=20" },
   "scripts": {
-    "build:members": "node scripts/build-members-json.mjs",
-    "build:financials": "node scripts/build-financials.mjs",
-    "build:awards": "node scripts/annotate-awards.mjs",
-    "build:data": "npm run build:members && npm run build:financials && npm run build:awards"
+    "fec:ingest": "node scripts/fec/ingest.mjs",
+    "fec:warehouse": "node scripts/fec/build-warehouse.mjs",
+    "fec:site": "node scripts/fec/build-site-bundles.mjs",
+    "build:data": "npm run fec:ingest && npm run fec:warehouse && npm run fec:site"
   },
-  "dependencies": {
-    "@csv-parse/sync": "^3.0.0",
-    "yaml": "^2.8.1"
-  }
+  "dependencies": {}
 }
