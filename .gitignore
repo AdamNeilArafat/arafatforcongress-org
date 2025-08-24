@@ -16,3 +16,8 @@ data/raw/
 fec:ingest
 fec:warehouse
 node
+data/raw/
+*.ndjson
+fec:ingest
+fec:warehouse
+node
