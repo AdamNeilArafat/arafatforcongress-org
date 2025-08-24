@@ -11,14 +11,12 @@ function toArrayWithId(parsed, idField, knownKeys = []) {
   if (Array.isArray(parsed)) {
     return parsed.map((o) => {
       if (o && typeof o === "object" && !o[idField]) {
-        // Try to infer from common fields if present
         for (const k of knownKeys) if (o[k]) { o[idField] = o[k]; break; }
       }
       return o;
     });
   }
   if (parsed && typeof parsed === "object") {
-    // Map keyed by id -> attach key as idField
     return Object.entries(parsed).map(([k, v]) => {
       if (v && typeof v === "object" && !v[idField]) v[idField] = k;
       return v;
@@ -65,11 +63,11 @@ async function callJSONSchema(inputMsgs, name, schema) {
 async function main() {
   const [committeesRaw, candidatesRaw] = await Promise.all([
     fs.readFile(committeesPath, "utf8"),
-    fs.readFile(candidatesPath, "utf8")
+    fs.readFile(candidatesPath, "utf8").catch(() => "{}")
   ]);
 
   const committeesParsed = JSON.parse(committeesRaw);
-  const candidatesParsed = JSON.parse(candidatesRaw);
+  const candidatesParsed = candidatesRaw ? JSON.parse(candidatesRaw) : {};
 
   const committees = toArrayWithId(committeesParsed, "committee_id", ["committee_id", "id"]);
   const candidates  = toArrayWithId(candidatesParsed,  "candidate_id",  ["candidate_id", "id"]);
@@ -78,12 +76,8 @@ async function main() {
     console.error("No committees found. Inspect data/site/committees.json to confirm its shape.");
     process.exit(2);
   }
-  if (!candidates.length) {
-    console.error("No candidates found. Inspect data/site/candidates.json to confirm its shape.");
-    process.exit(2);
-  }
+  // OK if candidates is empty — we'll just skip that part.
 
-  // Throttle during testing to save tokens
   const MAX_ITEMS = parseInt(process.env.AI_MAX_ITEMS || "5", 10);
   const cCommittees = committees.slice(0, MAX_ITEMS);
   const cCandidates = candidates.slice(0, MAX_ITEMS);

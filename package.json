@@ -13,7 +13,11 @@
     "fec:resolve": "node scripts/fec/resolve-ids.mjs",
     "fec:fetch:receipts": "node scripts/fec/fetch-receipts.mjs",
     "fec:analyze": "node scripts/fec/analyze.mjs",
-    "fec:warehouse:metrics": "node scripts/fec/build-committee-metrics.mjs"
+    "fec:warehouse:metrics": "node scripts/fec/build-committee-metrics.mjs",
+    "ai:analyze": "node scripts/ai/analyze-fec.mjs",
+    "build:data+ai": "npm run build:data && npm run ai:analyze"
   },
-  "dependencies": {}
+  "dependencies": {
+    "openai": "^5.15.0"
+  }
 }
