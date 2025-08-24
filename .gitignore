@@ -6,3 +6,8 @@
 node_modules
 # build artifacts (if any)
 dist
+data/raw/
+*.ndjson
+fec:ingest
+fec:warehouse
+node

@@ -1,4 +1,3 @@
-cat > scripts/fec/build-site-bundles.mjs <<'MJS'
 // scripts/fec/build-site-bundles.mjs
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -184,4 +183,6 @@ for (const cycle of cycles) {
   }
 }
 
-await fs.writeFile(path.join
+await fs.writeFile(path.join(SITE_DIR,"candidates.json"), JSON.stringify(candOut,null,2));
+
+console.log("wrote", path.join(SITE_DIR,"committees.json"), "and", path.join(SITE_DIR,"candidates.json"));
