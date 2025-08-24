@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: "pages-${{ github.ref }}"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   TZ: America/Los_Angeles
@@ -43,6 +43,12 @@ jobs:
 
       - name: Ingest FEC raw data
         run: npm run fec:ingest
+        
+      - name: Upload raw ingest
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-${{ github.run_id }}
+          path: data/raw/
 
       - name: Fetch receipts
         run: npm run fec:fetch:receipts
