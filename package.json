@@ -9,17 +9,16 @@
     "fec:ingest": "node scripts/fec/ingest.mjs",
     "fec:warehouse": "node scripts/fec/build-warehouse.mjs",
     "fec:site": "node scripts/fec/build-site-bundles.mjs",
-    "build:data": "npm run fec:warehouse && npm run fec:warehouse:metrics && npm run fec:site"
-    "build:site": "npm run fec:site"
+    "build:data": "npm run fec:ingest && npm run fec:fetch:receipts && npm run fec:warehouse && npm run fec:warehouse:metrics && npm run fec:site",
     "fec:resolve": "node scripts/fec/resolve-ids.mjs",
     "fec:fetch:receipts": "node scripts/fec/fetch-receipts.mjs",
     "fec:analyze": "node scripts/fec/analyze.mjs",
     "fec:warehouse:metrics": "node scripts/fec/build-committee-metrics.mjs",
     "ai:analyze": "node scripts/ai/analyze-fec.mjs",
     "build:data+ai": "npm run build:data && npm run ai:analyze",
-    "build": "npm run build:data",
-    "start": "npx serve .",
-    "build:members": "bash scripts/build-members.sh"
+
+    "build": "npm run build:data", 
+    "start": "npx serve ."
   },
   "dependencies": {
     "openai": "^5.15.0"
