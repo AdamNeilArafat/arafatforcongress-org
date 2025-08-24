@@ -6,7 +6,7 @@
     "district": "0",
     "party": "R",
     "fec_ids": "H2AK01083",
-    "slug": "",
+    "slug": "nicholas-j-begich-iii",
     "finance": null,
     "donors": null
   },
@@ -17,7 +17,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8AL02171",
-    "slug": "",
+    "slug": "barry-moore",
     "finance": null,
     "donors": null
   },
@@ -28,7 +28,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H4AL02170",
-    "slug": "",
+    "slug": "shomari-figures",
     "finance": null,
     "donors": null
   },
@@ -39,7 +39,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H2AL03032",
-    "slug": "",
+    "slug": "mike-rogers",
     "finance": null,
     "donors": null
   },
@@ -50,7 +50,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H6AL04098",
-    "slug": "",
+    "slug": "robert-b-aderholt",
     "finance": null,
     "donors": null
   },
@@ -61,7 +61,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H2AL05102",
-    "slug": "",
+    "slug": "dale-w-strong",
     "finance": null,
     "donors": null
   },
@@ -72,7 +72,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H4AL06098",
-    "slug": "",
+    "slug": "gary-j-palmer",
     "finance": null,
     "donors": null
   },
@@ -83,7 +83,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H0AL07086",
-    "slug": "",
+    "slug": "terri-a-sewell",
     "finance": null,
     "donors": null
   },
@@ -94,7 +94,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H0AR01083",
-    "slug": "",
+    "slug": "eric-a-rick-crawford",
     "finance": null,
     "donors": null
   },
@@ -105,7 +105,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H4AR02141",
-    "slug": "",
+    "slug": "j-french-hill",
     "finance": null,
     "donors": null
   },
@@ -116,7 +116,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H0AR03055",
-    "slug": "",
+    "slug": "steve-womack",
     "finance": null,
     "donors": null
   },
@@ -127,7 +127,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H4AR04048",
-    "slug": "",
+    "slug": "bruce-westerman",
     "finance": null,
     "donors": null
   },
@@ -138,7 +138,7 @@
     "district": "0",
     "party": "R",
     "fec_ids": "H4AS00036",
-    "slug": "",
+    "slug": "aumua-amata-coleman-radewagen",
     "finance": null,
     "donors": null
   },
@@ -149,7 +149,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H4AZ06045,H8AZ05097",
-    "slug": "",
+    "slug": "david-schweikert",
     "finance": null,
     "donors": null
   },
@@ -160,7 +160,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H2AZ01354",
-    "slug": "",
+    "slug": "elijah-crane",
     "finance": null,
     "donors": null
   },
@@ -171,7 +171,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H4AZ03109",
-    "slug": "",
+    "slug": "yassamin-ansari",
     "finance": null,
     "donors": null
   },
@@ -182,7 +182,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H8AZ09040",
-    "slug": "",
+    "slug": "greg-stanton",
     "finance": null,
     "donors": null
   },
@@ -193,7 +193,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H6AZ05083",
-    "slug": "",
+    "slug": "andy-biggs",
     "finance": null,
     "donors": null
   },
@@ -204,7 +204,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H2AZ02360",
-    "slug": "",
+    "slug": "juan-ciscomani",
     "finance": null,
     "donors": null
   },
@@ -215,7 +215,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H4AZ08108",
-    "slug": "",
+    "slug": "abraham-j-hamadeh",
     "finance": null,
     "donors": null
   },
@@ -226,7 +226,7 @@
     "district": "9",
     "party": "R",
     "fec_ids": "H0AZ01259",
-    "slug": "",
+    "slug": "paul-a-gosar",
     "finance": null,
     "donors": null
   },
@@ -237,7 +237,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H2CA02142,H2CA01144",
-    "slug": "",
+    "slug": "doug-lamalfa",
     "finance": null,
     "donors": null
   },
@@ -248,7 +248,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2CA06259",
-    "slug": "",
+    "slug": "jared-huffman",
     "finance": null,
     "donors": null
   },
@@ -259,7 +259,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H2CA03157",
-    "slug": "",
+    "slug": "kevin-kiley",
     "finance": null,
     "donors": null
   },
@@ -270,7 +270,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H8CA01109",
-    "slug": "",
+    "slug": "mike-thompson",
     "finance": null,
     "donors": null
   },
@@ -281,7 +281,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H8CA04152,H6CA21135",
-    "slug": "",
+    "slug": "tom-mcclintock",
     "finance": null,
     "donors": null
   },
@@ -292,7 +292,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H0CA03078",
-    "slug": "",
+    "slug": "ami-bera",
     "finance": null,
     "donors": null
   },
@@ -303,7 +303,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H6CA05195",
-    "slug": "",
+    "slug": "doris-o-matsui",
     "finance": null,
     "donors": null
   },
@@ -314,7 +314,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H0CA10149",
-    "slug": "",
+    "slug": "john-garamendi",
     "finance": null,
     "donors": null
   },
@@ -325,7 +325,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H8CA10126",
-    "slug": "",
+    "slug": "josh-harder",
     "finance": null,
     "donors": null
   },
@@ -336,7 +336,7 @@
     "district": "10",
     "party": "D",
     "fec_ids": "H0CA10073",
-    "slug": "",
+    "slug": "mark-desaulnier",
     "finance": null,
     "donors": null
   },
@@ -347,7 +347,7 @@
     "district": "11",
     "party": "D",
     "fec_ids": "H8CA05035",
-    "slug": "",
+    "slug": "nancy-pelosi",
     "finance": null,
     "donors": null
   },
@@ -358,7 +358,7 @@
     "district": "12",
     "party": "D",
     "fec_ids": "H4CA12154",
-    "slug": "",
+    "slug": "lateefah-simon",
     "finance": null,
     "donors": null
   },
@@ -369,7 +369,7 @@
     "district": "13",
     "party": "D",
     "fec_ids": "H2CA13115",
-    "slug": "",
+    "slug": "adam-gray",
     "finance": null,
     "donors": null
   },
@@ -380,7 +380,7 @@
     "district": "14",
     "party": "D",
     "fec_ids": "H2CA15094",
-    "slug": "",
+    "slug": "eric-swalwell",
     "finance": null,
     "donors": null
   },
@@ -391,7 +391,7 @@
     "district": "15",
     "party": "D",
     "fec_ids": "H2CA14162",
-    "slug": "",
+    "slug": "kevin-mullin",
     "finance": null,
     "donors": null
   },
@@ -402,7 +402,7 @@
     "district": "16",
     "party": "D",
     "fec_ids": "H4CA16197",
-    "slug": "",
+    "slug": "sam-t-liccardo",
     "finance": null,
     "donors": null
   },
@@ -413,7 +413,7 @@
     "district": "17",
     "party": "D",
     "fec_ids": "H4CA12055",
-    "slug": "",
+    "slug": "ro-khanna",
     "finance": null,
     "donors": null
   },
@@ -424,7 +424,7 @@
     "district": "18",
     "party": "D",
     "fec_ids": "H4CA16049",
-    "slug": "",
+    "slug": "zoe-lofgren",
     "finance": null,
     "donors": null
   },
@@ -435,7 +435,7 @@
     "district": "19",
     "party": "D",
     "fec_ids": "H6CA20152",
-    "slug": "",
+    "slug": "jimmy-panetta",
     "finance": null,
     "donors": null
   },
@@ -446,7 +446,7 @@
     "district": "20",
     "party": "R",
     "fec_ids": "H4CA20181",
-    "slug": "",
+    "slug": "vince-fong",
     "finance": null,
     "donors": null
   },
@@ -457,7 +457,7 @@
     "district": "21",
     "party": "D",
     "fec_ids": "H4CA20082",
-    "slug": "",
+    "slug": "jim-costa",
     "finance": null,
     "donors": null
   },
@@ -468,7 +468,7 @@
     "district": "22",
     "party": "R",
     "fec_ids": "H2CA20094",
-    "slug": "",
+    "slug": "david-g-valadao",
     "finance": null,
     "donors": null
   },
@@ -479,7 +479,7 @@
     "district": "23",
     "party": "R",
     "fec_ids": "H0CA08135",
-    "slug": "",
+    "slug": "jay-obernolte",
     "finance": null,
     "donors": null
   },
@@ -490,7 +490,7 @@
     "district": "24",
     "party": "D",
     "fec_ids": "H6CA24303",
-    "slug": "",
+    "slug": "salud-o-carbajal",
     "finance": null,
     "donors": null
   },
@@ -501,7 +501,7 @@
     "district": "25",
     "party": "D",
     "fec_ids": "H2CA36439",
-    "slug": "",
+    "slug": "raul-ruiz",
     "finance": null,
     "donors": null
   },
@@ -512,7 +512,7 @@
     "district": "26",
     "party": "D",
     "fec_ids": "H2CA00120",
-    "slug": "",
+    "slug": "julia-brownley",
     "finance": null,
     "donors": null
   },
@@ -523,7 +523,7 @@
     "district": "27",
     "party": "D",
     "fec_ids": "H4CA27111",
-    "slug": "",
+    "slug": "george-whitesides",
     "finance": null,
     "donors": null
   },
@@ -534,7 +534,7 @@
     "district": "28",
     "party": "D",
     "fec_ids": "H0CA32101",
-    "slug": "",
+    "slug": "judy-chu",
     "finance": null,
     "donors": null
   },
@@ -545,7 +545,7 @@
     "district": "29",
     "party": "D",
     "fec_ids": "H4CA29141",
-    "slug": "",
+    "slug": "luz-m-rivas",
     "finance": null,
     "donors": null
   },
@@ -556,7 +556,7 @@
     "district": "30",
     "party": "D",
     "fec_ids": "H4CA30149",
-    "slug": "",
+    "slug": "laura-friedman",
     "finance": null,
     "donors": null
   },
@@ -567,7 +567,7 @@
     "district": "31",
     "party": "D",
     "fec_ids": "H8CA39174",
-    "slug": "",
+    "slug": "gilbert-ray-cisneros-jr",
     "finance": null,
     "donors": null
   },
@@ -578,7 +578,7 @@
     "district": "32",
     "party": "D",
     "fec_ids": "H6CA24113",
-    "slug": "",
+    "slug": "brad-sherman",
     "finance": null,
     "donors": null
   },
@@ -589,7 +589,7 @@
     "district": "33",
     "party": "D",
     "fec_ids": "H2CA31125",
-    "slug": "",
+    "slug": "pete-aguilar",
     "finance": null,
     "donors": null
   },
@@ -600,7 +600,7 @@
     "district": "34",
     "party": "D",
     "fec_ids": "H8CA34266",
-    "slug": "",
+    "slug": "jimmy-gomez",
     "finance": null,
     "donors": null
   },
@@ -611,7 +611,7 @@
     "district": "35",
     "party": "D",
     "fec_ids": "H4CA35031",
-    "slug": "",
+    "slug": "norma-j-torres",
     "finance": null,
     "donors": null
   },
@@ -622,7 +622,7 @@
     "district": "36",
     "party": "D",
     "fec_ids": "H4CA33119",
-    "slug": "",
+    "slug": "ted-lieu",
     "finance": null,
     "donors": null
   },
@@ -633,7 +633,7 @@
     "district": "37",
     "party": "D",
     "fec_ids": "H2CA37304",
-    "slug": "",
+    "slug": "sydney-kamlager-dove",
     "finance": null,
     "donors": null
   },
@@ -644,7 +644,7 @@
     "district": "38",
     "party": "D",
     "fec_ids": "H2CA39078",
-    "slug": "",
+    "slug": "linda-t-s-nchez",
     "finance": null,
     "donors": null
   },
@@ -655,7 +655,7 @@
     "district": "39",
     "party": "D",
     "fec_ids": "H2CA43245",
-    "slug": "",
+    "slug": "mark-takano",
     "finance": null,
     "donors": null
   },
@@ -666,7 +666,7 @@
     "district": "40",
     "party": "R",
     "fec_ids": "H8CA39240",
-    "slug": "",
+    "slug": "young-kim",
     "finance": null,
     "donors": null
   },
@@ -677,7 +677,7 @@
     "district": "41",
     "party": "R",
     "fec_ids": "H2CA37023",
-    "slug": "",
+    "slug": "ken-calvert",
     "finance": null,
     "donors": null
   },
@@ -688,7 +688,7 @@
     "district": "42",
     "party": "D",
     "fec_ids": "H2CA47188",
-    "slug": "",
+    "slug": "robert-garcia",
     "finance": null,
     "donors": null
   },
@@ -699,7 +699,7 @@
     "district": "43",
     "party": "D",
     "fec_ids": "H4CA23011",
-    "slug": "",
+    "slug": "maxine-waters",
     "finance": null,
     "donors": null
   },
@@ -710,7 +710,7 @@
     "district": "44",
     "party": "D",
     "fec_ids": "H6CA44103",
-    "slug": "",
+    "slug": "nanette-diaz-barrag-n",
     "finance": null,
     "donors": null
   },
@@ -721,7 +721,7 @@
     "district": "45",
     "party": "D",
     "fec_ids": "H4CA45170",
-    "slug": "",
+    "slug": "derek-tran",
     "finance": null,
     "donors": null
   },
@@ -732,7 +732,7 @@
     "district": "46",
     "party": "D",
     "fec_ids": "H6CA46116",
-    "slug": "",
+    "slug": "j-luis-correa",
     "finance": null,
     "donors": null
   },
@@ -743,7 +743,7 @@
     "district": "47",
     "party": "D",
     "fec_ids": "H4CA47085",
-    "slug": "",
+    "slug": "dave-min",
     "finance": null,
     "donors": null
   },
@@ -754,7 +754,7 @@
     "district": "48",
     "party": "R",
     "fec_ids": "H0CA48024,S8CA00135",
-    "slug": "",
+    "slug": "darrell-issa",
     "finance": null,
     "donors": null
   },
@@ -765,7 +765,7 @@
     "district": "49",
     "party": "D",
     "fec_ids": "H8CA49058",
-    "slug": "",
+    "slug": "mike-levin",
     "finance": null,
     "donors": null
   },
@@ -776,7 +776,7 @@
     "district": "50",
     "party": "D",
     "fec_ids": "H2CA52089",
-    "slug": "",
+    "slug": "scott-h-peters",
     "finance": null,
     "donors": null
   },
@@ -787,7 +787,7 @@
     "district": "51",
     "party": "D",
     "fec_ids": "H8CA49074",
-    "slug": "",
+    "slug": "sara-jacobs",
     "finance": null,
     "donors": null
   },
@@ -798,7 +798,7 @@
     "district": "52",
     "party": "D",
     "fec_ids": "H2CA50026",
-    "slug": "",
+    "slug": "juan-vargas",
     "finance": null,
     "donors": null
   },
@@ -809,7 +809,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H6CO01141",
-    "slug": "",
+    "slug": "diana-degette",
     "finance": null,
     "donors": null
   },
@@ -820,7 +820,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H8CO02160",
-    "slug": "",
+    "slug": "joe-neguse",
     "finance": null,
     "donors": null
   },
@@ -831,7 +831,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H4CO03357",
-    "slug": "",
+    "slug": "jeff-hurd",
     "finance": null,
     "donors": null
   },
@@ -842,7 +842,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H0CO03165",
-    "slug": "",
+    "slug": "lauren-boebert",
     "finance": null,
     "donors": null
   },
@@ -853,7 +853,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H6CO05142",
-    "slug": "",
+    "slug": "jeff-crank",
     "finance": null,
     "donors": null
   },
@@ -864,7 +864,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H8CO06229",
-    "slug": "",
+    "slug": "jason-crow",
     "finance": null,
     "donors": null
   },
@@ -875,7 +875,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H8CO07045",
-    "slug": "",
+    "slug": "brittany-pettersen",
     "finance": null,
     "donors": null
   },
@@ -886,7 +886,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H4CO08034",
-    "slug": "",
+    "slug": "gabe-evans",
     "finance": null,
     "donors": null
   },
@@ -897,7 +897,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H8CT01046",
-    "slug": "",
+    "slug": "john-b-larson",
     "finance": null,
     "donors": null
   },
@@ -908,7 +908,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2CT02112",
-    "slug": "",
+    "slug": "joe-courtney",
     "finance": null,
     "donors": null
   },
@@ -919,7 +919,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H0CT03072",
-    "slug": "",
+    "slug": "rosa-l-delauro",
     "finance": null,
     "donors": null
   },
@@ -930,7 +930,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H8CT04172",
-    "slug": "",
+    "slug": "james-a-himes",
     "finance": null,
     "donors": null
   },
@@ -941,7 +941,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H8CT05245",
-    "slug": "",
+    "slug": "jahana-hayes",
     "finance": null,
     "donors": null
   },
@@ -952,7 +952,7 @@
     "district": "0",
     "party": "D",
     "fec_ids": "H0DC00058",
-    "slug": "",
+    "slug": "eleanor-holmes-norton",
     "finance": null,
     "donors": null
   },
@@ -963,7 +963,7 @@
     "district": "0",
     "party": "D",
     "fec_ids": "H4DE00045",
-    "slug": "",
+    "slug": "sarah-mcbride",
     "finance": null,
     "donors": null
   },
@@ -974,7 +974,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H6FL01390",
-    "slug": "",
+    "slug": "jimmy-patronis",
     "finance": null,
     "donors": null
   },
@@ -985,7 +985,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H6FL02208",
-    "slug": "",
+    "slug": "neal-p-dunn",
     "finance": null,
     "donors": null
   },
@@ -996,7 +996,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H0FL03175",
-    "slug": "",
+    "slug": "kat-cammack",
     "finance": null,
     "donors": null
   },
@@ -1007,7 +1007,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H2FL04211",
-    "slug": "",
+    "slug": "aaron-bean",
     "finance": null,
     "donors": null
   },
@@ -1018,7 +1018,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H6FL04105",
-    "slug": "",
+    "slug": "john-h-rutherford",
     "finance": null,
     "donors": null
   },
@@ -1029,7 +1029,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H6FL06258",
-    "slug": "",
+    "slug": "randy-fine",
     "finance": null,
     "donors": null
   },
@@ -1040,7 +1040,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H2FL07156",
-    "slug": "",
+    "slug": "cory-mills",
     "finance": null,
     "donors": null
   },
@@ -1051,7 +1051,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H4FL08168",
-    "slug": "",
+    "slug": "mike-haridopolos",
     "finance": null,
     "donors": null
   },
@@ -1062,7 +1062,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H6FL09179",
-    "slug": "",
+    "slug": "darren-soto",
     "finance": null,
     "donors": null
   },
@@ -1073,7 +1073,7 @@
     "district": "10",
     "party": "D",
     "fec_ids": "H2FL10259",
-    "slug": "",
+    "slug": "maxwell-frost",
     "finance": null,
     "donors": null
   },
@@ -1084,7 +1084,7 @@
     "district": "11",
     "party": "R",
     "fec_ids": "H0FL08208,S4FL00256",
-    "slug": "",
+    "slug": "daniel-webster",
     "finance": null,
     "donors": null
   },
@@ -1095,7 +1095,7 @@
     "district": "12",
     "party": "R",
     "fec_ids": "H6FL09070",
-    "slug": "",
+    "slug": "gus-m-bilirakis",
     "finance": null,
     "donors": null
   },
@@ -1106,7 +1106,7 @@
     "district": "13",
     "party": "R",
     "fec_ids": "H0FL13158",
-    "slug": "",
+    "slug": "anna-paulina-luna",
     "finance": null,
     "donors": null
   },
@@ -1117,7 +1117,7 @@
     "district": "14",
     "party": "D",
     "fec_ids": "H6FL11126,H6FL11134",
-    "slug": "",
+    "slug": "kathy-castor",
     "finance": null,
     "donors": null
   },
@@ -1128,7 +1128,7 @@
     "district": "15",
     "party": "R",
     "fec_ids": "H2FL15241",
-    "slug": "",
+    "slug": "laurel-m-lee",
     "finance": null,
     "donors": null
   },
@@ -1139,7 +1139,7 @@
     "district": "16",
     "party": "R",
     "fec_ids": "H6FL13148",
-    "slug": "",
+    "slug": "vern-buchanan",
     "finance": null,
     "donors": null
   },
@@ -1150,7 +1150,7 @@
     "district": "17",
     "party": "R",
     "fec_ids": "H8FL17053",
-    "slug": "",
+    "slug": "w-gregory-steube",
     "finance": null,
     "donors": null
   },
@@ -1161,7 +1161,7 @@
     "district": "18",
     "party": "R",
     "fec_ids": "H0FL15104",
-    "slug": "",
+    "slug": "scott-franklin",
     "finance": null,
     "donors": null
   },
@@ -1172,7 +1172,7 @@
     "district": "19",
     "party": "R",
     "fec_ids": "H2FL14186",
-    "slug": "",
+    "slug": "byron-donalds",
     "finance": null,
     "donors": null
   },
@@ -1183,7 +1183,7 @@
     "district": "20",
     "party": "D",
     "fec_ids": "H8FL20032",
-    "slug": "",
+    "slug": "sheila-cherfilus-mccormick",
     "finance": null,
     "donors": null
   },
@@ -1194,7 +1194,7 @@
     "district": "21",
     "party": "R",
     "fec_ids": "H6FL18097",
-    "slug": "",
+    "slug": "brian-j-mast",
     "finance": null,
     "donors": null
   },
@@ -1205,7 +1205,7 @@
     "district": "22",
     "party": "D",
     "fec_ids": "H2FL14053,H2FL22080",
-    "slug": "",
+    "slug": "lois-frankel",
     "finance": null,
     "donors": null
   },
@@ -1216,7 +1216,7 @@
     "district": "23",
     "party": "D",
     "fec_ids": "H2FL22171",
-    "slug": "",
+    "slug": "jared-moskowitz",
     "finance": null,
     "donors": null
   },
@@ -1227,7 +1227,7 @@
     "district": "24",
     "party": "D",
     "fec_ids": "H0FL17068",
-    "slug": "",
+    "slug": "frederica-s-wilson",
     "finance": null,
     "donors": null
   },
@@ -1238,7 +1238,7 @@
     "district": "25",
     "party": "D",
     "fec_ids": "H4FL20023",
-    "slug": "",
+    "slug": "debbie-wasserman-schultz",
     "finance": null,
     "donors": null
   },
@@ -1249,7 +1249,7 @@
     "district": "26",
     "party": "R",
     "fec_ids": "H2FL25018",
-    "slug": "",
+    "slug": "mario-diaz-balart",
     "finance": null,
     "donors": null
   },
@@ -1260,7 +1260,7 @@
     "district": "27",
     "party": "R",
     "fec_ids": "H8FL27185",
-    "slug": "",
+    "slug": "maria-elvira-salazar",
     "finance": null,
     "donors": null
   },
@@ -1271,7 +1271,7 @@
     "district": "28",
     "party": "R",
     "fec_ids": "H0FL26036",
-    "slug": "",
+    "slug": "carlos-a-gimenez",
     "finance": null,
     "donors": null
   },
@@ -1282,7 +1282,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H4GA01039",
-    "slug": "",
+    "slug": "earl-l-buddy-carter",
     "finance": null,
     "donors": null
   },
@@ -1293,7 +1293,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2GA02031",
-    "slug": "",
+    "slug": "sanford-d-bishop-jr",
     "finance": null,
     "donors": null
   },
@@ -1304,7 +1304,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H4GA03126",
-    "slug": "",
+    "slug": "brian-jack",
     "finance": null,
     "donors": null
   },
@@ -1315,7 +1315,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H6GA04129",
-    "slug": "",
+    "slug": "henry-c-hank-johnson-jr",
     "finance": null,
     "donors": null
   },
@@ -1326,7 +1326,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H0GA05301",
-    "slug": "",
+    "slug": "nikema-williams",
     "finance": null,
     "donors": null
   },
@@ -1337,7 +1337,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H8GA06393",
-    "slug": "",
+    "slug": "lucy-mcbath",
     "finance": null,
     "donors": null
   },
@@ -1348,7 +1348,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H0GA07273",
-    "slug": "",
+    "slug": "richard-mccormick",
     "finance": null,
     "donors": null
   },
@@ -1359,7 +1359,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H0GA08099",
-    "slug": "",
+    "slug": "austin-scott",
     "finance": null,
     "donors": null
   },
@@ -1370,7 +1370,7 @@
     "district": "9",
     "party": "R",
     "fec_ids": "H0GA09246",
-    "slug": "",
+    "slug": "andrew-s-clyde",
     "finance": null,
     "donors": null
   },
@@ -1381,7 +1381,7 @@
     "district": "10",
     "party": "R",
     "fec_ids": "H4GA10071",
-    "slug": "",
+    "slug": "mike-collins",
     "finance": null,
     "donors": null
   },
@@ -1392,7 +1392,7 @@
     "district": "11",
     "party": "R",
     "fec_ids": "H4GA11061",
-    "slug": "",
+    "slug": "barry-loudermilk",
     "finance": null,
     "donors": null
   },
@@ -1403,7 +1403,7 @@
     "district": "12",
     "party": "R",
     "fec_ids": "H2GA12121",
-    "slug": "",
+    "slug": "rick-w-allen",
     "finance": null,
     "donors": null
   },
@@ -1414,7 +1414,7 @@
     "district": "13",
     "party": "D",
     "fec_ids": "H2GA13012",
-    "slug": "",
+    "slug": "david-scott",
     "finance": null,
     "donors": null
   },
@@ -1425,7 +1425,7 @@
     "district": "14",
     "party": "R",
     "fec_ids": "H0GA06192",
-    "slug": "",
+    "slug": "marjorie-taylor-greene",
     "finance": null,
     "donors": null
   },
@@ -1436,7 +1436,7 @@
     "district": "0",
     "party": "R",
     "fec_ids": "H2GU01031",
-    "slug": "",
+    "slug": "james-c-moylan",
     "finance": null,
     "donors": null
   },
@@ -1447,7 +1447,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H2HI02128",
-    "slug": "",
+    "slug": "ed-case",
     "finance": null,
     "donors": null
   },
@@ -1458,7 +1458,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2HI02581",
-    "slug": "",
+    "slug": "jill-n-tokuda",
     "finance": null,
     "donors": null
   },
@@ -1469,7 +1469,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8IA02043",
-    "slug": "",
+    "slug": "mariannette-miller-meeks",
     "finance": null,
     "donors": null
   },
@@ -1480,7 +1480,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H0IA01174",
-    "slug": "",
+    "slug": "ashley-hinson",
     "finance": null,
     "donors": null
   },
@@ -1491,7 +1491,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H2IA03119",
-    "slug": "",
+    "slug": "zachary-nunn",
     "finance": null,
     "donors": null
   },
@@ -1502,7 +1502,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H0IA04145",
-    "slug": "",
+    "slug": "randy-feenstra",
     "finance": null,
     "donors": null
   },
@@ -1513,7 +1513,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8ID01124",
-    "slug": "",
+    "slug": "russ-fulcher",
     "finance": null,
     "donors": null
   },
@@ -1524,7 +1524,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H8ID02064",
-    "slug": "",
+    "slug": "michael-k-simpson",
     "finance": null,
     "donors": null
   },
@@ -1535,7 +1535,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H2IL01349",
-    "slug": "",
+    "slug": "jonathan-l-jackson",
     "finance": null,
     "donors": null
   },
@@ -1546,7 +1546,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2IL02172",
-    "slug": "",
+    "slug": "robin-l-kelly",
     "finance": null,
     "donors": null
   },
@@ -1557,7 +1557,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H2IL03162",
-    "slug": "",
+    "slug": "delia-c-ramirez",
     "finance": null,
     "donors": null
   },
@@ -1568,7 +1568,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H8IL04134",
-    "slug": "",
+    "slug": "jes-s-g-chuy-garc-a",
     "finance": null,
     "donors": null
   },
@@ -1579,7 +1579,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H0IL05096",
-    "slug": "",
+    "slug": "mike-quigley",
     "finance": null,
     "donors": null
   },
@@ -1590,7 +1590,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H8IL06139",
-    "slug": "",
+    "slug": "sean-casten",
     "finance": null,
     "donors": null
   },
@@ -1601,7 +1601,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H4IL07037",
-    "slug": "",
+    "slug": "danny-k-davis",
     "finance": null,
     "donors": null
   },
@@ -1612,7 +1612,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H6IL08147",
-    "slug": "",
+    "slug": "raja-krishnamoorthi",
     "finance": null,
     "donors": null
   },
@@ -1623,7 +1623,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H8IL09067",
-    "slug": "",
+    "slug": "janice-d-schakowsky",
     "finance": null,
     "donors": null
   },
@@ -1634,7 +1634,7 @@
     "district": "10",
     "party": "D",
     "fec_ids": "H2IL10068",
-    "slug": "",
+    "slug": "bradley-scott-schneider",
     "finance": null,
     "donors": null
   },
@@ -1645,7 +1645,7 @@
     "district": "11",
     "party": "D",
     "fec_ids": "H8IL14067,H2IL11124",
-    "slug": "",
+    "slug": "bill-foster",
     "finance": null,
     "donors": null
   },
@@ -1656,7 +1656,7 @@
     "district": "12",
     "party": "R",
     "fec_ids": "H4IL12060",
-    "slug": "",
+    "slug": "mike-bost",
     "finance": null,
     "donors": null
   },
@@ -1667,7 +1667,7 @@
     "district": "13",
     "party": "D",
     "fec_ids": "H2IL13153",
-    "slug": "",
+    "slug": "nikki-budzinski",
     "finance": null,
     "donors": null
   },
@@ -1678,7 +1678,7 @@
     "district": "14",
     "party": "D",
     "fec_ids": "H8IL14174",
-    "slug": "",
+    "slug": "lauren-underwood",
     "finance": null,
     "donors": null
   },
@@ -1689,7 +1689,7 @@
     "district": "15",
     "party": "R",
     "fec_ids": "H0IL15129",
-    "slug": "",
+    "slug": "mary-e-miller",
     "finance": null,
     "donors": null
   },
@@ -1700,7 +1700,7 @@
     "district": "16",
     "party": "R",
     "fec_ids": "H6IL18088",
-    "slug": "",
+    "slug": "darin-lahood",
     "finance": null,
     "donors": null
   },
@@ -1711,7 +1711,7 @@
     "district": "17",
     "party": "D",
     "fec_ids": "H2IL17147",
-    "slug": "",
+    "slug": "eric-sorensen",
     "finance": null,
     "donors": null
   },
@@ -1722,7 +1722,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H0IN01150",
-    "slug": "",
+    "slug": "frank-j-mrvan",
     "finance": null,
     "donors": null
   },
@@ -1733,7 +1733,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H2IN02295",
-    "slug": "",
+    "slug": "rudy-yakym-iii",
     "finance": null,
     "donors": null
   },
@@ -1744,7 +1744,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H0IN03198,S0IN00095",
-    "slug": "",
+    "slug": "marlin-a-stutzman",
     "finance": null,
     "donors": null
   },
@@ -1755,7 +1755,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H8IN04199",
-    "slug": "",
+    "slug": "james-r-baird",
     "finance": null,
     "donors": null
   },
@@ -1766,7 +1766,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H0IN05326",
-    "slug": "",
+    "slug": "victoria-spartz",
     "finance": null,
     "donors": null
   },
@@ -1777,7 +1777,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H4IN06185",
-    "slug": "",
+    "slug": "jefferson-shreve",
     "finance": null,
     "donors": null
   },
@@ -1788,7 +1788,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H8IN07184",
-    "slug": "",
+    "slug": "andr-carson",
     "finance": null,
     "donors": null
   },
@@ -1799,7 +1799,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H4IN08249",
-    "slug": "",
+    "slug": "mark-b-messmer",
     "finance": null,
     "donors": null
   },
@@ -1810,7 +1810,7 @@
     "district": "9",
     "party": "R",
     "fec_ids": "H6IN09143",
-    "slug": "",
+    "slug": "erin-houchin",
     "finance": null,
     "donors": null
   },
@@ -1821,7 +1821,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H0KS01123",
-    "slug": "",
+    "slug": "tracey-mann",
     "finance": null,
     "donors": null
   },
@@ -1832,7 +1832,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H4KS02164",
-    "slug": "",
+    "slug": "derek-schmidt",
     "finance": null,
     "donors": null
   },
@@ -1843,7 +1843,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H8KS03155",
-    "slug": "",
+    "slug": "sharice-davids",
     "finance": null,
     "donors": null
   },
@@ -1854,7 +1854,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H8KS04112",
-    "slug": "",
+    "slug": "ron-estes",
     "finance": null,
     "donors": null
   },
@@ -1865,7 +1865,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H6KY01110",
-    "slug": "",
+    "slug": "james-comer",
     "finance": null,
     "donors": null
   },
@@ -1876,7 +1876,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H8KY02031",
-    "slug": "",
+    "slug": "brett-guthrie",
     "finance": null,
     "donors": null
   },
@@ -1887,7 +1887,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H2KY03206",
-    "slug": "",
+    "slug": "morgan-mcgarvey",
     "finance": null,
     "donors": null
   },
@@ -1898,7 +1898,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H2KY04121",
-    "slug": "",
+    "slug": "thomas-massie",
     "finance": null,
     "donors": null
   },
@@ -1909,7 +1909,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H0KY05015",
-    "slug": "",
+    "slug": "harold-rogers",
     "finance": null,
     "donors": null
   },
@@ -1920,7 +1920,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H0KY06104",
-    "slug": "",
+    "slug": "andy-barr",
     "finance": null,
     "donors": null
   },
@@ -1931,7 +1931,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H0LA01087",
-    "slug": "",
+    "slug": "steve-scalise",
     "finance": null,
     "donors": null
   },
@@ -1942,7 +1942,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2LA02149",
-    "slug": "",
+    "slug": "troy-a-carter",
     "finance": null,
     "donors": null
   },
@@ -1953,7 +1953,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H6LA03148",
-    "slug": "",
+    "slug": "clay-higgins",
     "finance": null,
     "donors": null
   },
@@ -1964,7 +1964,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H6LA04138",
-    "slug": "",
+    "slug": "mike-johnson",
     "finance": null,
     "donors": null
   },
@@ -1975,7 +1975,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H2LA05126",
-    "slug": "",
+    "slug": "julia-letlow",
     "finance": null,
     "donors": null
   },
@@ -1986,7 +1986,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "",
-    "slug": "",
+    "slug": "cleo-fields",
     "finance": null,
     "donors": null
   },
@@ -1997,7 +1997,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H8MA02041",
-    "slug": "",
+    "slug": "richard-e-neal",
     "finance": null,
     "donors": null
   },
@@ -2008,7 +2008,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H4MA03022",
-    "slug": "",
+    "slug": "james-p-mcgovern",
     "finance": null,
     "donors": null
   },
@@ -2019,7 +2019,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H8MA03106",
-    "slug": "",
+    "slug": "lori-trahan",
     "finance": null,
     "donors": null
   },
@@ -2030,7 +2030,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H0MA04192",
-    "slug": "",
+    "slug": "jake-auchincloss",
     "finance": null,
     "donors": null
   },
@@ -2041,7 +2041,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H4MA05084",
-    "slug": "",
+    "slug": "katherine-m-clark",
     "finance": null,
     "donors": null
   },
@@ -2052,7 +2052,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H4MA06090",
-    "slug": "",
+    "slug": "seth-moulton",
     "finance": null,
     "donors": null
   },
@@ -2063,7 +2063,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H8MA07032",
-    "slug": "",
+    "slug": "ayanna-pressley",
     "finance": null,
     "donors": null
   },
@@ -2074,7 +2074,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H2MA09072,S0MA00083",
-    "slug": "",
+    "slug": "stephen-f-lynch",
     "finance": null,
     "donors": null
   },
@@ -2085,7 +2085,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H0MA10082",
-    "slug": "",
+    "slug": "william-r-keating",
     "finance": null,
     "donors": null
   },
@@ -2096,7 +2096,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8MD01094",
-    "slug": "",
+    "slug": "andy-harris",
     "finance": null,
     "donors": null
   },
@@ -2107,7 +2107,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H4MD02232",
-    "slug": "",
+    "slug": "johnny-olszewski-jr",
     "finance": null,
     "donors": null
   },
@@ -2118,7 +2118,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H4MD03156",
-    "slug": "",
+    "slug": "sarah-elfreth",
     "finance": null,
     "donors": null
   },
@@ -2129,7 +2129,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H2MD04315",
-    "slug": "",
+    "slug": "glenn-ivey",
     "finance": null,
     "donors": null
   },
@@ -2140,7 +2140,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H2MD05155",
-    "slug": "",
+    "slug": "steny-h-hoyer",
     "finance": null,
     "donors": null
   },
@@ -2151,7 +2151,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H4MD06340",
-    "slug": "",
+    "slug": "april-mcclain-delaney",
     "finance": null,
     "donors": null
   },
@@ -2162,7 +2162,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "S6MD03185,H6MD07020,H0MD07114",
-    "slug": "",
+    "slug": "kweisi-mfume",
     "finance": null,
     "donors": null
   },
@@ -2173,7 +2173,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H6MD08457",
-    "slug": "",
+    "slug": "jamie-raskin",
     "finance": null,
     "donors": null
   },
@@ -2184,7 +2184,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H8ME01120,S0ME00038",
-    "slug": "",
+    "slug": "chellie-pingree",
     "finance": null,
     "donors": null
   },
@@ -2195,7 +2195,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H8ME02185",
-    "slug": "",
+    "slug": "jared-f-golden",
     "finance": null,
     "donors": null
   },
@@ -2206,7 +2206,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H6MI01226",
-    "slug": "",
+    "slug": "jack-bergman",
     "finance": null,
     "donors": null
   },
@@ -2217,7 +2217,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H4MI04126",
-    "slug": "",
+    "slug": "john-r-moolenaar",
     "finance": null,
     "donors": null
   },
@@ -2228,7 +2228,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H0MI03316",
-    "slug": "",
+    "slug": "hillary-j-scholten",
     "finance": null,
     "donors": null
   },
@@ -2239,7 +2239,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H0MI02094",
-    "slug": "",
+    "slug": "bill-huizenga",
     "finance": null,
     "donors": null
   },
@@ -2250,7 +2250,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H4MI07103",
-    "slug": "",
+    "slug": "tim-walberg",
     "finance": null,
     "donors": null
   },
@@ -2261,7 +2261,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H4MI12079",
-    "slug": "",
+    "slug": "debbie-dingell",
     "finance": null,
     "donors": null
   },
@@ -2272,7 +2272,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H2MI07123",
-    "slug": "",
+    "slug": "tom-barrett",
     "finance": null,
     "donors": null
   },
@@ -2283,7 +2283,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H4MI08218",
-    "slug": "",
+    "slug": "kristen-mcdonald-rivet",
     "finance": null,
     "donors": null
   },
@@ -2294,7 +2294,7 @@
     "district": "9",
     "party": "R",
     "fec_ids": "H0MI10287",
-    "slug": "",
+    "slug": "lisa-c-mcclain",
     "finance": null,
     "donors": null
   },
@@ -2305,7 +2305,7 @@
     "district": "10",
     "party": "R",
     "fec_ids": "H2MI10150",
-    "slug": "",
+    "slug": "john-james",
     "finance": null,
     "donors": null
   },
@@ -2316,7 +2316,7 @@
     "district": "11",
     "party": "D",
     "fec_ids": "H8MI11254",
-    "slug": "",
+    "slug": "haley-m-stevens",
     "finance": null,
     "donors": null
   },
@@ -2327,7 +2327,7 @@
     "district": "12",
     "party": "D",
     "fec_ids": "H8MI13250",
-    "slug": "",
+    "slug": "rashida-tlaib",
     "finance": null,
     "donors": null
   },
@@ -2338,7 +2338,7 @@
     "district": "13",
     "party": "D",
     "fec_ids": "H2MI13204",
-    "slug": "",
+    "slug": "shri-thanedar",
     "finance": null,
     "donors": null
   },
@@ -2349,7 +2349,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H2MN01223",
-    "slug": "",
+    "slug": "brad-finstad",
     "finance": null,
     "donors": null
   },
@@ -2360,7 +2360,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H6MN02131",
-    "slug": "",
+    "slug": "angie-craig",
     "finance": null,
     "donors": null
   },
@@ -2371,7 +2371,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H4MN03118",
-    "slug": "",
+    "slug": "kelly-morrison",
     "finance": null,
     "donors": null
   },
@@ -2382,7 +2382,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H0MN04049",
-    "slug": "",
+    "slug": "betty-mccollum",
     "finance": null,
     "donors": null
   },
@@ -2393,7 +2393,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H8MN05239",
-    "slug": "",
+    "slug": "ilhan-omar",
     "finance": null,
     "donors": null
   },
@@ -2404,7 +2404,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H4MN06087",
-    "slug": "",
+    "slug": "tom-emmer",
     "finance": null,
     "donors": null
   },
@@ -2415,7 +2415,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H0MN07091",
-    "slug": "",
+    "slug": "michelle-fischbach",
     "finance": null,
     "donors": null
   },
@@ -2426,7 +2426,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H8MN08043",
-    "slug": "",
+    "slug": "pete-stauber",
     "finance": null,
     "donors": null
   },
@@ -2437,7 +2437,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H4MO01134",
-    "slug": "",
+    "slug": "wesley-bell",
     "finance": null,
     "donors": null
   },
@@ -2448,7 +2448,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H2MO02102",
-    "slug": "",
+    "slug": "ann-wagner",
     "finance": null,
     "donors": null
   },
@@ -2459,7 +2459,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H8MO09146",
-    "slug": "",
+    "slug": "robert-f-onder-jr",
     "finance": null,
     "donors": null
   },
@@ -2470,7 +2470,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H2MO04207",
-    "slug": "",
+    "slug": "mark-alford",
     "finance": null,
     "donors": null
   },
@@ -2481,7 +2481,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H4MO05234",
-    "slug": "",
+    "slug": "emanuel-cleaver",
     "finance": null,
     "donors": null
   },
@@ -2492,7 +2492,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H0MO06073",
-    "slug": "",
+    "slug": "sam-graves",
     "finance": null,
     "donors": null
   },
@@ -2503,7 +2503,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H2MO07143",
-    "slug": "",
+    "slug": "eric-burlison",
     "finance": null,
     "donors": null
   },
@@ -2514,7 +2514,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H4MO08162",
-    "slug": "",
+    "slug": "jason-smith",
     "finance": null,
     "donors": null
   },
@@ -2525,7 +2525,7 @@
     "district": "0",
     "party": "R",
     "fec_ids": "H4MP01022",
-    "slug": "",
+    "slug": "kimberlyn-king-hinds",
     "finance": null,
     "donors": null
   },
@@ -2536,7 +2536,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H6MS01131",
-    "slug": "",
+    "slug": "trent-kelly",
     "finance": null,
     "donors": null
   },
@@ -2547,7 +2547,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H4MS02068",
-    "slug": "",
+    "slug": "bennie-g-thompson",
     "finance": null,
     "donors": null
   },
@@ -2558,7 +2558,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H8MS03125",
-    "slug": "",
+    "slug": "michael-guest",
     "finance": null,
     "donors": null
   },
@@ -2569,7 +2569,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H2MS04258",
-    "slug": "",
+    "slug": "mike-ezell",
     "finance": null,
     "donors": null
   },
@@ -2580,7 +2580,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H4MT01041",
-    "slug": "",
+    "slug": "ryan-k-zinke",
     "finance": null,
     "donors": null
   },
@@ -2591,7 +2591,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H4MT02098",
-    "slug": "",
+    "slug": "troy-downing",
     "finance": null,
     "donors": null
   },
@@ -2602,7 +2602,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H2NC02287",
-    "slug": "",
+    "slug": "donald-g-davis",
     "finance": null,
     "donors": null
   },
@@ -2613,7 +2613,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H0NC02125",
-    "slug": "",
+    "slug": "deborah-k-ross",
     "finance": null,
     "donors": null
   },
@@ -2624,7 +2624,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H0NC03172",
-    "slug": "",
+    "slug": "gregory-f-murphy",
     "finance": null,
     "donors": null
   },
@@ -2635,7 +2635,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H2NC06114",
-    "slug": "",
+    "slug": "valerie-p-foushee",
     "finance": null,
     "donors": null
   },
@@ -2646,7 +2646,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H4NC05146",
-    "slug": "",
+    "slug": "virginia-foxx",
     "finance": null,
     "donors": null
   },
@@ -2657,7 +2657,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H4NC06177",
-    "slug": "",
+    "slug": "addison-p-mcdowell",
     "finance": null,
     "donors": null
   },
@@ -2668,7 +2668,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H2NC07096",
-    "slug": "",
+    "slug": "david-rouzer",
     "finance": null,
     "donors": null
   },
@@ -2679,7 +2679,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H6NC09200",
-    "slug": "",
+    "slug": "mark-harris",
     "finance": null,
     "donors": null
   },
@@ -2690,7 +2690,7 @@
     "district": "9",
     "party": "R",
     "fec_ids": "H2NC08185",
-    "slug": "",
+    "slug": "richard-hudson",
     "finance": null,
     "donors": null
   },
@@ -2701,7 +2701,7 @@
     "district": "10",
     "party": "R",
     "fec_ids": "H2NC13243",
-    "slug": "",
+    "slug": "pat-harrigan",
     "finance": null,
     "donors": null
   },
@@ -2712,7 +2712,7 @@
     "district": "11",
     "party": "R",
     "fec_ids": "H2NC14050",
-    "slug": "",
+    "slug": "chuck-edwards",
     "finance": null,
     "donors": null
   },
@@ -2723,7 +2723,7 @@
     "district": "12",
     "party": "D",
     "fec_ids": "H4NC12100",
-    "slug": "",
+    "slug": "alma-s-adams",
     "finance": null,
     "donors": null
   },
@@ -2734,7 +2734,7 @@
     "district": "13",
     "party": "R",
     "fec_ids": "H4NC13116",
-    "slug": "",
+    "slug": "brad-knott",
     "finance": null,
     "donors": null
   },
@@ -2745,7 +2745,7 @@
     "district": "14",
     "party": "R",
     "fec_ids": "H4NC14015",
-    "slug": "",
+    "slug": "tim-moore",
     "finance": null,
     "donors": null
   },
@@ -2756,7 +2756,7 @@
     "district": "0",
     "party": "R",
     "fec_ids": "H4ND00061",
-    "slug": "",
+    "slug": "julie-fedorchak",
     "finance": null,
     "donors": null
   },
@@ -2767,7 +2767,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H2NE01118",
-    "slug": "",
+    "slug": "mike-flood",
     "finance": null,
     "donors": null
   },
@@ -2778,7 +2778,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H6NE02125",
-    "slug": "",
+    "slug": "don-bacon",
     "finance": null,
     "donors": null
   },
@@ -2789,7 +2789,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H6NE03115",
-    "slug": "",
+    "slug": "adrian-smith",
     "finance": null,
     "donors": null
   },
@@ -2800,7 +2800,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H8NH01210",
-    "slug": "",
+    "slug": "chris-pappas",
     "finance": null,
     "donors": null
   },
@@ -2811,7 +2811,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H4NH02399",
-    "slug": "",
+    "slug": "maggie-goodlander",
     "finance": null,
     "donors": null
   },
@@ -2822,7 +2822,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H4NJ01084",
-    "slug": "",
+    "slug": "donald-norcross",
     "finance": null,
     "donors": null
   },
@@ -2833,7 +2833,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H8NJ02166",
-    "slug": "",
+    "slug": "jefferson-van-drew",
     "finance": null,
     "donors": null
   },
@@ -2844,7 +2844,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H4NJ03080",
-    "slug": "",
+    "slug": "herbert-c-conaway-jr",
     "finance": null,
     "donors": null
   },
@@ -2855,7 +2855,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H8NJ04014",
-    "slug": "",
+    "slug": "christopher-h-smith",
     "finance": null,
     "donors": null
   },
@@ -2866,7 +2866,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H6NJ05171",
-    "slug": "",
+    "slug": "josh-gottheimer",
     "finance": null,
     "donors": null
   },
@@ -2877,7 +2877,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H8NJ03073,S6NJ00263",
-    "slug": "",
+    "slug": "frank-pallone-jr",
     "finance": null,
     "donors": null
   },
@@ -2888,7 +2888,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H0NJ07261",
-    "slug": "",
+    "slug": "thomas-h-kean-jr",
     "finance": null,
     "donors": null
   },
@@ -2899,7 +2899,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H2NJ08232",
-    "slug": "",
+    "slug": "robert-menendez",
     "finance": null,
     "donors": null
   },
@@ -2910,7 +2910,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H4NJ09194",
-    "slug": "",
+    "slug": "nellie-pou",
     "finance": null,
     "donors": null
   },
@@ -2921,7 +2921,7 @@
     "district": "10",
     "party": "D",
     "fec_ids": "H4NJ10176",
-    "slug": "",
+    "slug": "lamonica-mciver",
     "finance": null,
     "donors": null
   },
@@ -2932,7 +2932,7 @@
     "district": "11",
     "party": "D",
     "fec_ids": "H8NJ11142",
-    "slug": "",
+    "slug": "mikie-sherrill",
     "finance": null,
     "donors": null
   },
@@ -2943,7 +2943,7 @@
     "district": "12",
     "party": "D",
     "fec_ids": "H4NJ12149",
-    "slug": "",
+    "slug": "bonnie-watson-coleman",
     "finance": null,
     "donors": null
   },
@@ -2954,7 +2954,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H2NM01144",
-    "slug": "",
+    "slug": "melanie-a-stansbury",
     "finance": null,
     "donors": null
   },
@@ -2965,7 +2965,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2NM02191",
-    "slug": "",
+    "slug": "gabe-vasquez",
     "finance": null,
     "donors": null
   },
@@ -2976,7 +2976,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H0NM03102",
-    "slug": "",
+    "slug": "teresa-leger-fernandez",
     "finance": null,
     "donors": null
   },
@@ -2987,7 +2987,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H8NV03036",
-    "slug": "",
+    "slug": "dina-titus",
     "finance": null,
     "donors": null
   },
@@ -2998,7 +2998,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H2NV02395,H1NV02017,S0NV00237",
-    "slug": "",
+    "slug": "mark-e-amodei",
     "finance": null,
     "donors": null
   },
@@ -3009,7 +3009,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H6NV04020",
-    "slug": "",
+    "slug": "susie-lee",
     "finance": null,
     "donors": null
   },
@@ -3020,7 +3020,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H2NV04011",
-    "slug": "",
+    "slug": "steven-horsford",
     "finance": null,
     "donors": null
   },
@@ -3031,7 +3031,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H2NY01190",
-    "slug": "",
+    "slug": "nick-lalota",
     "finance": null,
     "donors": null
   },
@@ -3042,7 +3042,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H0NY02234",
-    "slug": "",
+    "slug": "andrew-r-garbarino",
     "finance": null,
     "donors": null
   },
@@ -3053,7 +3053,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H6NY03247",
-    "slug": "",
+    "slug": "thomas-r-suozzi",
     "finance": null,
     "donors": null
   },
@@ -3064,7 +3064,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H4NY04158",
-    "slug": "",
+    "slug": "laura-gillen",
     "finance": null,
     "donors": null
   },
@@ -3075,7 +3075,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H8NY06048",
-    "slug": "",
+    "slug": "gregory-w-meeks",
     "finance": null,
     "donors": null
   },
@@ -3086,7 +3086,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H2NY06116",
-    "slug": "",
+    "slug": "grace-meng",
     "finance": null,
     "donors": null
   },
@@ -3097,7 +3097,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H2NY00010",
-    "slug": "",
+    "slug": "nydia-m-vel-zquez",
     "finance": null,
     "donors": null
   },
@@ -3108,7 +3108,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H2NY10092",
-    "slug": "",
+    "slug": "hakeem-s-jeffries",
     "finance": null,
     "donors": null
   },
@@ -3119,7 +3119,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H4NY11138",
-    "slug": "",
+    "slug": "yvette-d-clarke",
     "finance": null,
     "donors": null
   },
@@ -3130,7 +3130,7 @@
     "district": "10",
     "party": "D",
     "fec_ids": "H2NY10308",
-    "slug": "",
+    "slug": "daniel-s-goldman",
     "finance": null,
     "donors": null
   },
@@ -3141,7 +3141,7 @@
     "district": "11",
     "party": "R",
     "fec_ids": "H0NY11078",
-    "slug": "",
+    "slug": "nicole-malliotakis",
     "finance": null,
     "donors": null
   },
@@ -3152,7 +3152,7 @@
     "district": "12",
     "party": "D",
     "fec_ids": "H2NY17071",
-    "slug": "",
+    "slug": "jerrold-nadler",
     "finance": null,
     "donors": null
   },
@@ -3163,7 +3163,7 @@
     "district": "13",
     "party": "D",
     "fec_ids": "H2NY13096",
-    "slug": "",
+    "slug": "adriano-espaillat",
     "finance": null,
     "donors": null
   },
@@ -3174,7 +3174,7 @@
     "district": "14",
     "party": "D",
     "fec_ids": "H8NY15148",
-    "slug": "",
+    "slug": "alexandria-ocasio-cortez",
     "finance": null,
     "donors": null
   },
@@ -3185,7 +3185,7 @@
     "district": "15",
     "party": "D",
     "fec_ids": "H0NY15160",
-    "slug": "",
+    "slug": "ritchie-torres",
     "finance": null,
     "donors": null
   },
@@ -3196,7 +3196,7 @@
     "district": "16",
     "party": "D",
     "fec_ids": "H4NY16087",
-    "slug": "",
+    "slug": "george-latimer",
     "finance": null,
     "donors": null
   },
@@ -3207,7 +3207,7 @@
     "district": "17",
     "party": "R",
     "fec_ids": "H2NY17162",
-    "slug": "",
+    "slug": "michael-lawler",
     "finance": null,
     "donors": null
   },
@@ -3218,7 +3218,7 @@
     "district": "18",
     "party": "D",
     "fec_ids": "H8NY19223",
-    "slug": "",
+    "slug": "patrick-ryan",
     "finance": null,
     "donors": null
   },
@@ -3229,7 +3229,7 @@
     "district": "19",
     "party": "D",
     "fec_ids": "H8NY22177",
-    "slug": "",
+    "slug": "josh-riley",
     "finance": null,
     "donors": null
   },
@@ -3240,7 +3240,7 @@
     "district": "20",
     "party": "D",
     "fec_ids": "H8NY21203",
-    "slug": "",
+    "slug": "paul-tonko",
     "finance": null,
     "donors": null
   },
@@ -3251,7 +3251,7 @@
     "district": "21",
     "party": "R",
     "fec_ids": "H4NY21079",
-    "slug": "",
+    "slug": "elise-m-stefanik",
     "finance": null,
     "donors": null
   },
@@ -3262,7 +3262,7 @@
     "district": "22",
     "party": "D",
     "fec_ids": "H4NY22085",
-    "slug": "",
+    "slug": "john-w-mannion",
     "finance": null,
     "donors": null
   },
@@ -3273,7 +3273,7 @@
     "district": "23",
     "party": "R",
     "fec_ids": "H2NY23228",
-    "slug": "",
+    "slug": "nicholas-a-langworthy",
     "finance": null,
     "donors": null
   },
@@ -3284,7 +3284,7 @@
     "district": "24",
     "party": "R",
     "fec_ids": "H4NY22051",
-    "slug": "",
+    "slug": "claudia-tenney",
     "finance": null,
     "donors": null
   },
@@ -3295,7 +3295,7 @@
     "district": "25",
     "party": "D",
     "fec_ids": "H8NY25105",
-    "slug": "",
+    "slug": "joseph-d-morelle",
     "finance": null,
     "donors": null
   },
@@ -3306,7 +3306,7 @@
     "district": "26",
     "party": "D",
     "fec_ids": "H4NY26078",
-    "slug": "",
+    "slug": "timothy-m-kennedy",
     "finance": null,
     "donors": null
   },
@@ -3317,7 +3317,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H2OH01194",
-    "slug": "",
+    "slug": "greg-landsman",
     "finance": null,
     "donors": null
   },
@@ -3328,7 +3328,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H4OH02248",
-    "slug": "",
+    "slug": "david-j-taylor",
     "finance": null,
     "donors": null
   },
@@ -3339,7 +3339,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H2OH03125",
-    "slug": "",
+    "slug": "joyce-beatty",
     "finance": null,
     "donors": null
   },
@@ -3350,7 +3350,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H6OH04082",
-    "slug": "",
+    "slug": "jim-jordan",
     "finance": null,
     "donors": null
   },
@@ -3361,7 +3361,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H8OH05036",
-    "slug": "",
+    "slug": "robert-e-latta",
     "finance": null,
     "donors": null
   },
@@ -3372,7 +3372,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H4OH06165",
-    "slug": "",
+    "slug": "michael-a-rulli",
     "finance": null,
     "donors": null
   },
@@ -3383,7 +3383,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H2OH16051",
-    "slug": "",
+    "slug": "max-l-miller",
     "finance": null,
     "donors": null
   },
@@ -3394,7 +3394,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H6OH08315",
-    "slug": "",
+    "slug": "warren-davidson",
     "finance": null,
     "donors": null
   },
@@ -3405,7 +3405,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H2OH09031",
-    "slug": "",
+    "slug": "marcy-kaptur",
     "finance": null,
     "donors": null
   },
@@ -3416,7 +3416,7 @@
     "district": "10",
     "party": "R",
     "fec_ids": "H2OH03067,H2OH03091",
-    "slug": "",
+    "slug": "michael-r-turner",
     "finance": null,
     "donors": null
   },
@@ -3427,7 +3427,7 @@
     "district": "11",
     "party": "D",
     "fec_ids": "H2OH11169",
-    "slug": "",
+    "slug": "shontel-m-brown",
     "finance": null,
     "donors": null
   },
@@ -3438,7 +3438,7 @@
     "district": "12",
     "party": "R",
     "fec_ids": "H8OH12180",
-    "slug": "",
+    "slug": "troy-balderson",
     "finance": null,
     "donors": null
   },
@@ -3449,7 +3449,7 @@
     "district": "13",
     "party": "D",
     "fec_ids": "H2OH13264",
-    "slug": "",
+    "slug": "emilia-strong-sykes",
     "finance": null,
     "donors": null
   },
@@ -3460,7 +3460,7 @@
     "district": "14",
     "party": "R",
     "fec_ids": "H2OH14064",
-    "slug": "",
+    "slug": "david-p-joyce",
     "finance": null,
     "donors": null
   },
@@ -3471,7 +3471,7 @@
     "district": "15",
     "party": "R",
     "fec_ids": "H2OH15228",
-    "slug": "",
+    "slug": "mike-carey",
     "finance": null,
     "donors": null
   },
@@ -3482,7 +3482,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8OK01157",
-    "slug": "",
+    "slug": "kevin-hern",
     "finance": null,
     "donors": null
   },
@@ -3493,7 +3493,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H2OK02315",
-    "slug": "",
+    "slug": "josh-brecheen",
     "finance": null,
     "donors": null
   },
@@ -3504,7 +3504,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H4OK06056",
-    "slug": "",
+    "slug": "frank-d-lucas",
     "finance": null,
     "donors": null
   },
@@ -3515,7 +3515,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H2OK04055",
-    "slug": "",
+    "slug": "tom-cole",
     "finance": null,
     "donors": null
   },
@@ -3526,7 +3526,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H0OK05205",
-    "slug": "",
+    "slug": "stephanie-i-bice",
     "finance": null,
     "donors": null
   },
@@ -3537,7 +3537,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H2OR01133",
-    "slug": "",
+    "slug": "suzanne-bonamici",
     "finance": null,
     "donors": null
   },
@@ -3548,7 +3548,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H0OR02127",
-    "slug": "",
+    "slug": "cliff-bentz",
     "finance": null,
     "donors": null
   },
@@ -3559,7 +3559,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H4OR03192",
-    "slug": "",
+    "slug": "maxine-dexter",
     "finance": null,
     "donors": null
   },
@@ -3570,7 +3570,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H2OR04095",
-    "slug": "",
+    "slug": "val-t-hoyle",
     "finance": null,
     "donors": null
   },
@@ -3581,7 +3581,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H4OR05304",
-    "slug": "",
+    "slug": "janelle-s-bynum",
     "finance": null,
     "donors": null
   },
@@ -3592,7 +3592,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H2OR06066",
-    "slug": "",
+    "slug": "andrea-salinas",
     "finance": null,
     "donors": null
   },
@@ -3603,7 +3603,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H6PA08277",
-    "slug": "",
+    "slug": "brian-k-fitzpatrick",
     "finance": null,
     "donors": null
   },
@@ -3614,7 +3614,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H4PA13199",
-    "slug": "",
+    "slug": "brendan-f-boyle",
     "finance": null,
     "donors": null
   },
@@ -3625,7 +3625,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H6PA02171",
-    "slug": "",
+    "slug": "dwight-evans",
     "finance": null,
     "donors": null
   },
@@ -3636,7 +3636,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H8PA04116",
-    "slug": "",
+    "slug": "madeleine-dean",
     "finance": null,
     "donors": null
   },
@@ -3647,7 +3647,7 @@
     "district": "5",
     "party": "D",
     "fec_ids": "H8PA07200",
-    "slug": "",
+    "slug": "mary-gay-scanlon",
     "finance": null,
     "donors": null
   },
@@ -3658,7 +3658,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H8PA06087",
-    "slug": "",
+    "slug": "chrissy-houlahan",
     "finance": null,
     "donors": null
   },
@@ -3669,7 +3669,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H8PA15195",
-    "slug": "",
+    "slug": "ryan-mackenzie",
     "finance": null,
     "donors": null
   },
@@ -3680,7 +3680,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H4PA08124",
-    "slug": "",
+    "slug": "robert-p-bresnahan-jr",
     "finance": null,
     "donors": null
   },
@@ -3691,7 +3691,7 @@
     "district": "9",
     "party": "R",
     "fec_ids": "H8PA10147",
-    "slug": "",
+    "slug": "daniel-meuser",
     "finance": null,
     "donors": null
   },
@@ -3702,7 +3702,7 @@
     "district": "10",
     "party": "R",
     "fec_ids": "H2PA04135",
-    "slug": "",
+    "slug": "scott-perry",
     "finance": null,
     "donors": null
   },
@@ -3713,7 +3713,7 @@
     "district": "11",
     "party": "R",
     "fec_ids": "H6PA16320",
-    "slug": "",
+    "slug": "lloyd-smucker",
     "finance": null,
     "donors": null
   },
@@ -3724,7 +3724,7 @@
     "district": "12",
     "party": "D",
     "fec_ids": "H2PA18200",
-    "slug": "",
+    "slug": "summer-l-lee",
     "finance": null,
     "donors": null
   },
@@ -3735,7 +3735,7 @@
     "district": "13",
     "party": "R",
     "fec_ids": "H8PA13125",
-    "slug": "",
+    "slug": "john-joyce",
     "finance": null,
     "donors": null
   },
@@ -3746,7 +3746,7 @@
     "district": "14",
     "party": "R",
     "fec_ids": "H8PA18199",
-    "slug": "",
+    "slug": "guy-reschenthaler",
     "finance": null,
     "donors": null
   },
@@ -3757,7 +3757,7 @@
     "district": "15",
     "party": "R",
     "fec_ids": "H8PA05071",
-    "slug": "",
+    "slug": "glenn-thompson",
     "finance": null,
     "donors": null
   },
@@ -3768,7 +3768,7 @@
     "district": "16",
     "party": "R",
     "fec_ids": "H0PA03271",
-    "slug": "",
+    "slug": "mike-kelly",
     "finance": null,
     "donors": null
   },
@@ -3779,7 +3779,7 @@
     "district": "17",
     "party": "D",
     "fec_ids": "H2PA17103",
-    "slug": "",
+    "slug": "christopher-r-deluzio",
     "finance": null,
     "donors": null
   },
@@ -3790,7 +3790,7 @@
     "district": "0",
     "party": "D",
     "fec_ids": "H4PR01010",
-    "slug": "",
+    "slug": "pablo-jos-hern-ndez",
     "finance": null,
     "donors": null
   },
@@ -3801,7 +3801,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H4RI01265",
-    "slug": "",
+    "slug": "gabe-amo",
     "finance": null,
     "donors": null
   },
@@ -3812,7 +3812,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2RI02184",
-    "slug": "",
+    "slug": "seth-magaziner",
     "finance": null,
     "donors": null
   },
@@ -3823,7 +3823,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H0SC01394",
-    "slug": "",
+    "slug": "nancy-mace",
     "finance": null,
     "donors": null
   },
@@ -3834,7 +3834,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H2SC02059",
-    "slug": "",
+    "slug": "joe-wilson",
     "finance": null,
     "donors": null
   },
@@ -3845,7 +3845,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H4SC01313",
-    "slug": "",
+    "slug": "sheri-biggs",
     "finance": null,
     "donors": null
   },
@@ -3856,7 +3856,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H8SC04250",
-    "slug": "",
+    "slug": "william-r-timmons-iv",
     "finance": null,
     "donors": null
   },
@@ -3867,7 +3867,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H8SC05158",
-    "slug": "",
+    "slug": "ralph-norman",
     "finance": null,
     "donors": null
   },
@@ -3878,7 +3878,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H2SC02042",
-    "slug": "",
+    "slug": "james-e-clyburn",
     "finance": null,
     "donors": null
   },
@@ -3889,7 +3889,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H2SC07280",
-    "slug": "",
+    "slug": "russell-fry",
     "finance": null,
     "donors": null
   },
@@ -3900,7 +3900,7 @@
     "district": "0",
     "party": "R",
     "fec_ids": "H8SD01055",
-    "slug": "",
+    "slug": "dusty-johnson",
     "finance": null,
     "donors": null
   },
@@ -3911,7 +3911,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H0TN01118",
-    "slug": "",
+    "slug": "diana-harshbarger",
     "finance": null,
     "donors": null
   },
@@ -3922,7 +3922,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H8TN02119",
-    "slug": "",
+    "slug": "tim-burchett",
     "finance": null,
     "donors": null
   },
@@ -3933,7 +3933,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H0TN03254",
-    "slug": "",
+    "slug": "charles-j-chuck-fleischmann",
     "finance": null,
     "donors": null
   },
@@ -3944,7 +3944,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H0TN04195",
-    "slug": "",
+    "slug": "scott-desjarlais",
     "finance": null,
     "donors": null
   },
@@ -3955,7 +3955,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H2TN05446",
-    "slug": "",
+    "slug": "andrew-ogles",
     "finance": null,
     "donors": null
   },
@@ -3966,7 +3966,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H8TN06094",
-    "slug": "",
+    "slug": "john-w-rose",
     "finance": null,
     "donors": null
   },
@@ -3977,7 +3977,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H2TN07103",
-    "slug": "",
+    "slug": "david-kustoff",
     "finance": null,
     "donors": null
   },
@@ -3988,7 +3988,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H6TN09068",
-    "slug": "",
+    "slug": "steve-cohen",
     "finance": null,
     "donors": null
   },
@@ -3999,7 +3999,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H2TX01112",
-    "slug": "",
+    "slug": "nathaniel-moran",
     "finance": null,
     "donors": null
   },
@@ -4010,7 +4010,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H8TX02166",
-    "slug": "",
+    "slug": "dan-crenshaw",
     "finance": null,
     "donors": null
   },
@@ -4021,7 +4021,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H2TX03290",
-    "slug": "",
+    "slug": "keith-self",
     "finance": null,
     "donors": null
   },
@@ -4032,7 +4032,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H0TX04219",
-    "slug": "",
+    "slug": "pat-fallon",
     "finance": null,
     "donors": null
   },
@@ -4043,7 +4043,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H8TX05144",
-    "slug": "",
+    "slug": "lance-gooden",
     "finance": null,
     "donors": null
   },
@@ -4054,7 +4054,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H8TX06266",
-    "slug": "",
+    "slug": "jake-ellzey",
     "finance": null,
     "donors": null
   },
@@ -4065,7 +4065,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H8TX07140",
-    "slug": "",
+    "slug": "lizzie-fletcher",
     "finance": null,
     "donors": null
   },
@@ -4076,7 +4076,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H2TX08182",
-    "slug": "",
+    "slug": "morgan-luttrell",
     "finance": null,
     "donors": null
   },
@@ -4087,7 +4087,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H4TX09095",
-    "slug": "",
+    "slug": "al-green",
     "finance": null,
     "donors": null
   },
@@ -4098,7 +4098,7 @@
     "district": "10",
     "party": "R",
     "fec_ids": "H4TX10093",
-    "slug": "",
+    "slug": "michael-t-mccaul",
     "finance": null,
     "donors": null
   },
@@ -4109,7 +4109,7 @@
     "district": "11",
     "party": "R",
     "fec_ids": "H0TX11230",
-    "slug": "",
+    "slug": "august-pfluger",
     "finance": null,
     "donors": null
   },
@@ -4120,7 +4120,7 @@
     "district": "12",
     "party": "R",
     "fec_ids": "H4TX12065",
-    "slug": "",
+    "slug": "craig-a-goldman",
     "finance": null,
     "donors": null
   },
@@ -4131,7 +4131,7 @@
     "district": "13",
     "party": "R",
     "fec_ids": "H0TX13228",
-    "slug": "",
+    "slug": "ronny-jackson",
     "finance": null,
     "donors": null
   },
@@ -4142,7 +4142,7 @@
     "district": "14",
     "party": "R",
     "fec_ids": "H2TX14149",
-    "slug": "",
+    "slug": "randy-k-weber-sr",
     "finance": null,
     "donors": null
   },
@@ -4153,7 +4153,7 @@
     "district": "15",
     "party": "R",
     "fec_ids": "H0TX15124",
-    "slug": "",
+    "slug": "monica-de-la-cruz",
     "finance": null,
     "donors": null
   },
@@ -4164,7 +4164,7 @@
     "district": "16",
     "party": "D",
     "fec_ids": "H8TX16109",
-    "slug": "",
+    "slug": "veronica-escobar",
     "finance": null,
     "donors": null
   },
@@ -4175,7 +4175,7 @@
     "district": "17",
     "party": "R",
     "fec_ids": "H2TX03126",
-    "slug": "",
+    "slug": "pete-sessions",
     "finance": null,
     "donors": null
   },
@@ -4186,7 +4186,7 @@
     "district": "19",
     "party": "R",
     "fec_ids": "H6TX19099",
-    "slug": "",
+    "slug": "jodey-c-arrington",
     "finance": null,
     "donors": null
   },
@@ -4197,7 +4197,7 @@
     "district": "20",
     "party": "D",
     "fec_ids": "H2TX35011",
-    "slug": "",
+    "slug": "joaquin-castro",
     "finance": null,
     "donors": null
   },
@@ -4208,7 +4208,7 @@
     "district": "21",
     "party": "R",
     "fec_ids": "H8TX21307",
-    "slug": "",
+    "slug": "chip-roy",
     "finance": null,
     "donors": null
   },
@@ -4219,7 +4219,7 @@
     "district": "22",
     "party": "R",
     "fec_ids": "H0TX22302",
-    "slug": "",
+    "slug": "troy-e-nehls",
     "finance": null,
     "donors": null
   },
@@ -4230,7 +4230,7 @@
     "district": "23",
     "party": "R",
     "fec_ids": "H0TX35015",
-    "slug": "",
+    "slug": "tony-gonzales",
     "finance": null,
     "donors": null
   },
@@ -4241,7 +4241,7 @@
     "district": "24",
     "party": "R",
     "fec_ids": "H0TX24209",
-    "slug": "",
+    "slug": "beth-van-duyne",
     "finance": null,
     "donors": null
   },
@@ -4252,7 +4252,7 @@
     "district": "25",
     "party": "R",
     "fec_ids": "H2TX33040,S2TX00270",
-    "slug": "",
+    "slug": "roger-williams",
     "finance": null,
     "donors": null
   },
@@ -4263,7 +4263,7 @@
     "district": "26",
     "party": "R",
     "fec_ids": "H4TX26149",
-    "slug": "",
+    "slug": "brandon-gill",
     "finance": null,
     "donors": null
   },
@@ -4274,7 +4274,7 @@
     "district": "27",
     "party": "R",
     "fec_ids": "H8TX27049",
-    "slug": "",
+    "slug": "michael-cloud",
     "finance": null,
     "donors": null
   },
@@ -4285,7 +4285,7 @@
     "district": "28",
     "party": "D",
     "fec_ids": "H2TX23082",
-    "slug": "",
+    "slug": "henry-cuellar",
     "finance": null,
     "donors": null
   },
@@ -4296,7 +4296,7 @@
     "district": "29",
     "party": "D",
     "fec_ids": "H8TX29052",
-    "slug": "",
+    "slug": "sylvia-r-garcia",
     "finance": null,
     "donors": null
   },
@@ -4307,7 +4307,7 @@
     "district": "30",
     "party": "D",
     "fec_ids": "H2TX30178",
-    "slug": "",
+    "slug": "jasmine-crockett",
     "finance": null,
     "donors": null
   },
@@ -4318,7 +4318,7 @@
     "district": "31",
     "party": "R",
     "fec_ids": "H2TX31044",
-    "slug": "",
+    "slug": "john-r-carter",
     "finance": null,
     "donors": null
   },
@@ -4329,7 +4329,7 @@
     "district": "32",
     "party": "D",
     "fec_ids": "H4TX32089",
-    "slug": "",
+    "slug": "julie-johnson",
     "finance": null,
     "donors": null
   },
@@ -4340,7 +4340,7 @@
     "district": "33",
     "party": "D",
     "fec_ids": "H2TX33073",
-    "slug": "",
+    "slug": "marc-a-veasey",
     "finance": null,
     "donors": null
   },
@@ -4351,7 +4351,7 @@
     "district": "34",
     "party": "D",
     "fec_ids": "H6TX15162",
-    "slug": "",
+    "slug": "vicente-gonzalez",
     "finance": null,
     "donors": null
   },
@@ -4362,7 +4362,7 @@
     "district": "35",
     "party": "D",
     "fec_ids": "H2TX35144",
-    "slug": "",
+    "slug": "greg-casar",
     "finance": null,
     "donors": null
   },
@@ -4373,7 +4373,7 @@
     "district": "36",
     "party": "R",
     "fec_ids": "H6TX02079",
-    "slug": "",
+    "slug": "brian-babin",
     "finance": null,
     "donors": null
   },
@@ -4384,7 +4384,7 @@
     "district": "37",
     "party": "D",
     "fec_ids": "H4TX10028",
-    "slug": "",
+    "slug": "lloyd-doggett",
     "finance": null,
     "donors": null
   },
@@ -4395,7 +4395,7 @@
     "district": "38",
     "party": "R",
     "fec_ids": "H0TX07170",
-    "slug": "",
+    "slug": "wesley-hunt",
     "finance": null,
     "donors": null
   },
@@ -4406,7 +4406,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H0UT01205",
-    "slug": "",
+    "slug": "blake-d-moore",
     "finance": null,
     "donors": null
   },
@@ -4417,7 +4417,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H4UT02296",
-    "slug": "",
+    "slug": "celeste-maloy",
     "finance": null,
     "donors": null
   },
@@ -4428,7 +4428,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H4UT03260",
-    "slug": "",
+    "slug": "mike-kennedy",
     "finance": null,
     "donors": null
   },
@@ -4439,7 +4439,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H0UT04076",
-    "slug": "",
+    "slug": "burgess-owens",
     "finance": null,
     "donors": null
   },
@@ -4450,7 +4450,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8VA01147",
-    "slug": "",
+    "slug": "robert-j-wittman",
     "finance": null,
     "donors": null
   },
@@ -4461,7 +4461,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H2VA02064",
-    "slug": "",
+    "slug": "jennifer-a-kiggans",
     "finance": null,
     "donors": null
   },
@@ -4472,7 +4472,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H6VA01117",
-    "slug": "",
+    "slug": "robert-c-bobby-scott",
     "finance": null,
     "donors": null
   },
@@ -4483,7 +4483,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H4VA04066",
-    "slug": "",
+    "slug": "jennifer-l-mcclellan",
     "finance": null,
     "donors": null
   },
@@ -4494,7 +4494,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H4VA05071",
-    "slug": "",
+    "slug": "john-j-mcguire-iii",
     "finance": null,
     "donors": null
   },
@@ -4505,7 +4505,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H8VA06104",
-    "slug": "",
+    "slug": "ben-cline",
     "finance": null,
     "donors": null
   },
@@ -4516,7 +4516,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H4VA07234",
-    "slug": "",
+    "slug": "eugene-simon-vindman",
     "finance": null,
     "donors": null
   },
@@ -4527,7 +4527,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H4VA08224",
-    "slug": "",
+    "slug": "donald-s-beyer-jr",
     "finance": null,
     "donors": null
   },
@@ -4538,7 +4538,7 @@
     "district": "9",
     "party": "R",
     "fec_ids": "H0VA09055",
-    "slug": "",
+    "slug": "h-morgan-griffith",
     "finance": null,
     "donors": null
   },
@@ -4549,7 +4549,7 @@
     "district": "10",
     "party": "D",
     "fec_ids": "H4VA10279",
-    "slug": "",
+    "slug": "suhas-subramanyam",
     "finance": null,
     "donors": null
   },
@@ -4560,7 +4560,7 @@
     "district": "0",
     "party": "D",
     "fec_ids": "H2VI00082",
-    "slug": "",
+    "slug": "stacey-e-plaskett",
     "finance": null,
     "donors": null
   },
@@ -4571,7 +4571,7 @@
     "district": "0",
     "party": "D",
     "fec_ids": "H2VT01076",
-    "slug": "",
+    "slug": "becca-balint",
     "finance": null,
     "donors": null
   },
@@ -4582,7 +4582,7 @@
     "district": "1",
     "party": "D",
     "fec_ids": "H0WA08046",
-    "slug": "",
+    "slug": "suzan-k-delbene",
     "finance": null,
     "donors": null
   },
@@ -4593,7 +4593,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H0WA02080",
-    "slug": "",
+    "slug": "rick-larsen",
     "finance": null,
     "donors": null
   },
@@ -4604,7 +4604,7 @@
     "district": "3",
     "party": "D",
     "fec_ids": "H2WA03217",
-    "slug": "",
+    "slug": "marie-gluesenkamp-perez",
     "finance": null,
     "donors": null
   },
@@ -4615,7 +4615,7 @@
     "district": "4",
     "party": "R",
     "fec_ids": "H4WA04104",
-    "slug": "",
+    "slug": "dan-newhouse",
     "finance": null,
     "donors": null
   },
@@ -4626,7 +4626,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H4WA05234",
-    "slug": "",
+    "slug": "michael-baumgartner",
     "finance": null,
     "donors": null
   },
@@ -4637,7 +4637,7 @@
     "district": "6",
     "party": "D",
     "fec_ids": "H4WA06117",
-    "slug": "",
+    "slug": "emily-randall",
     "finance": null,
     "donors": null
   },
@@ -4648,7 +4648,7 @@
     "district": "7",
     "party": "D",
     "fec_ids": "H6WA07458",
-    "slug": "",
+    "slug": "pramila-jayapal",
     "finance": null,
     "donors": null
   },
@@ -4659,7 +4659,7 @@
     "district": "8",
     "party": "D",
     "fec_ids": "H8WA08189",
-    "slug": "",
+    "slug": "kim-schrier",
     "finance": null,
     "donors": null
   },
@@ -4670,7 +4670,7 @@
     "district": "9",
     "party": "D",
     "fec_ids": "H6WA09025",
-    "slug": "",
+    "slug": "adam-smith",
     "finance": null,
     "donors": null
   },
@@ -4681,7 +4681,7 @@
     "district": "10",
     "party": "D",
     "fec_ids": "H0WA10034",
-    "slug": "",
+    "slug": "marilyn-strickland",
     "finance": null,
     "donors": null
   },
@@ -4692,7 +4692,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8WI01156",
-    "slug": "",
+    "slug": "bryan-steil",
     "finance": null,
     "donors": null
   },
@@ -4703,7 +4703,7 @@
     "district": "2",
     "party": "D",
     "fec_ids": "H2WI02124",
-    "slug": "",
+    "slug": "mark-pocan",
     "finance": null,
     "donors": null
   },
@@ -4714,7 +4714,7 @@
     "district": "3",
     "party": "R",
     "fec_ids": "H0WI03175",
-    "slug": "",
+    "slug": "derrick-van-orden",
     "finance": null,
     "donors": null
   },
@@ -4725,7 +4725,7 @@
     "district": "4",
     "party": "D",
     "fec_ids": "H4WI04183",
-    "slug": "",
+    "slug": "gwen-moore",
     "finance": null,
     "donors": null
   },
@@ -4736,7 +4736,7 @@
     "district": "5",
     "party": "R",
     "fec_ids": "H0WI05113",
-    "slug": "",
+    "slug": "scott-fitzgerald",
     "finance": null,
     "donors": null
   },
@@ -4747,7 +4747,7 @@
     "district": "6",
     "party": "R",
     "fec_ids": "H4WI06048",
-    "slug": "",
+    "slug": "glenn-grothman",
     "finance": null,
     "donors": null
   },
@@ -4758,7 +4758,7 @@
     "district": "7",
     "party": "R",
     "fec_ids": "H0WI07101",
-    "slug": "",
+    "slug": "thomas-p-tiffany",
     "finance": null,
     "donors": null
   },
@@ -4769,7 +4769,7 @@
     "district": "8",
     "party": "R",
     "fec_ids": "H4WI08119",
-    "slug": "",
+    "slug": "tony-wied",
     "finance": null,
     "donors": null
   },
@@ -4780,7 +4780,7 @@
     "district": "1",
     "party": "R",
     "fec_ids": "H8WV03097",
-    "slug": "",
+    "slug": "carol-d-miller",
     "finance": null,
     "donors": null
   },
@@ -4791,7 +4791,7 @@
     "district": "2",
     "party": "R",
     "fec_ids": "H4WV02205",
-    "slug": "",
+    "slug": "riley-m-moore",
     "finance": null,
     "donors": null
   },
@@ -4802,7 +4802,7 @@
     "district": "0",
     "party": "R",
     "fec_ids": "H2WY00166",
-    "slug": "",
+    "slug": "harriet-m-hageman",
     "finance": null,
     "donors": null
   },
@@ -4813,7 +4813,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4AK00099",
-    "slug": "",
+    "slug": "lisa-murkowski",
     "finance": null,
     "donors": null
   },
@@ -4824,7 +4824,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4AK00214",
-    "slug": "",
+    "slug": "dan-sullivan",
     "finance": null,
     "donors": null
   },
@@ -4835,7 +4835,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0AL00230",
-    "slug": "",
+    "slug": "tommy-tuberville",
     "finance": null,
     "donors": null
   },
@@ -4846,7 +4846,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2AL00145",
-    "slug": "",
+    "slug": "katie-boyd-britt",
     "finance": null,
     "donors": null
   },
@@ -4857,7 +4857,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H2AR03176,S0AR00150",
-    "slug": "",
+    "slug": "john-boozman",
     "finance": null,
     "donors": null
   },
@@ -4868,7 +4868,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H2AR04083,S4AR00103",
-    "slug": "",
+    "slug": "tom-cotton",
     "finance": null,
     "donors": null
   },
@@ -4879,7 +4879,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H4AZ07043",
-    "slug": "",
+    "slug": "ruben-gallego",
     "finance": null,
     "donors": null
   },
@@ -4890,7 +4890,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S0AZ00350",
-    "slug": "",
+    "slug": "mark-kelly",
     "finance": null,
     "donors": null
   },
@@ -4901,7 +4901,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H0CA27085",
-    "slug": "",
+    "slug": "adam-b-schiff",
     "finance": null,
     "donors": null
   },
@@ -4912,7 +4912,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S2CA00955",
-    "slug": "",
+    "slug": "alex-padilla",
     "finance": null,
     "donors": null
   },
@@ -4923,7 +4923,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S0CO00211",
-    "slug": "",
+    "slug": "michael-f-bennet",
     "finance": null,
     "donors": null
   },
@@ -4934,7 +4934,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S0CO00575",
-    "slug": "",
+    "slug": "john-w-hickenlooper",
     "finance": null,
     "donors": null
   },
@@ -4945,7 +4945,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S0CT00177",
-    "slug": "",
+    "slug": "richard-blumenthal",
     "finance": null,
     "donors": null
   },
@@ -4956,7 +4956,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6CT05124,S2CT00132",
-    "slug": "",
+    "slug": "christopher-murphy",
     "finance": null,
     "donors": null
   },
@@ -4967,7 +4967,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S0DE00092",
-    "slug": "",
+    "slug": "christopher-a-coons",
     "finance": null,
     "donors": null
   },
@@ -4978,7 +4978,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6DE00206",
-    "slug": "",
+    "slug": "lisa-blunt-rochester",
     "finance": null,
     "donors": null
   },
@@ -4989,7 +4989,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S8FL00273",
-    "slug": "",
+    "slug": "rick-scott",
     "finance": null,
     "donors": null
   },
@@ -5000,7 +5000,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "",
-    "slug": "",
+    "slug": "ashley-moody",
     "finance": null,
     "donors": null
   },
@@ -5011,7 +5011,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H8GA06195,S8GA00180",
-    "slug": "",
+    "slug": "jon-ossoff",
     "finance": null,
     "donors": null
   },
@@ -5022,7 +5022,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S0GA00559",
-    "slug": "",
+    "slug": "raphael-g-warnock",
     "finance": null,
     "donors": null
   },
@@ -5033,7 +5033,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6HI02251,S2HI00106",
-    "slug": "",
+    "slug": "mazie-k-hirono",
     "finance": null,
     "donors": null
   },
@@ -5044,7 +5044,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S4HI00136,H6HI02244",
-    "slug": "",
+    "slug": "brian-schatz",
     "finance": null,
     "donors": null
   },
@@ -5055,7 +5055,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0IA00028",
-    "slug": "",
+    "slug": "chuck-grassley",
     "finance": null,
     "donors": null
   },
@@ -5066,7 +5066,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4IA00129",
-    "slug": "",
+    "slug": "joni-ernst",
     "finance": null,
     "donors": null
   },
@@ -5077,7 +5077,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S8ID00092",
-    "slug": "",
+    "slug": "james-e-risch",
     "finance": null,
     "donors": null
   },
@@ -5088,7 +5088,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S8ID00027,H2ID02034",
-    "slug": "",
+    "slug": "mike-crapo",
     "finance": null,
     "donors": null
   },
@@ -5099,7 +5099,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6IL00151,H2IL20026",
-    "slug": "",
+    "slug": "richard-j-durbin",
     "finance": null,
     "donors": null
   },
@@ -5110,7 +5110,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6IL06141,S6IL00292",
-    "slug": "",
+    "slug": "tammy-duckworth",
     "finance": null,
     "donors": null
   },
@@ -5121,7 +5121,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H0IN09070,S6IN00191",
-    "slug": "",
+    "slug": "todd-young",
     "finance": null,
     "donors": null
   },
@@ -5132,7 +5132,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H6IN03229",
-    "slug": "",
+    "slug": "jim-banks",
     "finance": null,
     "donors": null
   },
@@ -5143,7 +5143,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H6KS01096,S0KS00091",
-    "slug": "",
+    "slug": "jerry-moran",
     "finance": null,
     "donors": null
   },
@@ -5154,7 +5154,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H6KS01179,S0KS00315",
-    "slug": "",
+    "slug": "roger-marshall",
     "finance": null,
     "donors": null
   },
@@ -5165,7 +5165,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2KY00012",
-    "slug": "",
+    "slug": "mitch-mcconnell",
     "finance": null,
     "donors": null
   },
@@ -5176,7 +5176,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0KY00156",
-    "slug": "",
+    "slug": "rand-paul",
     "finance": null,
     "donors": null
   },
@@ -5187,7 +5187,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H8LA00017,S4LA00107",
-    "slug": "",
+    "slug": "bill-cassidy",
     "finance": null,
     "donors": null
   },
@@ -5198,7 +5198,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4LA00065",
-    "slug": "",
+    "slug": "john-kennedy",
     "finance": null,
     "donors": null
   },
@@ -5209,7 +5209,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6MA07101,S4MA00028",
-    "slug": "",
+    "slug": "edward-j-markey",
     "finance": null,
     "donors": null
   },
@@ -5220,7 +5220,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S2MA00170",
-    "slug": "",
+    "slug": "elizabeth-warren",
     "finance": null,
     "donors": null
   },
@@ -5231,7 +5231,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H2MD08126,S6MD03441",
-    "slug": "",
+    "slug": "chris-van-hollen",
     "finance": null,
     "donors": null
   },
@@ -5242,7 +5242,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S4MD00327",
-    "slug": "",
+    "slug": "angela-d-alsobrooks",
     "finance": null,
     "donors": null
   },
@@ -5253,7 +5253,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S6ME00159",
-    "slug": "",
+    "slug": "susan-m-collins",
     "finance": null,
     "donors": null
   },
@@ -5264,7 +5264,7 @@
     "district": "",
     "party": "I",
     "fec_ids": "S2ME00109",
-    "slug": "",
+    "slug": "angus-s-king-jr",
     "finance": null,
     "donors": null
   },
@@ -5275,7 +5275,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H8MI09068,S4MI00355",
-    "slug": "",
+    "slug": "gary-c-peters",
     "finance": null,
     "donors": null
   },
@@ -5286,7 +5286,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H8MI08102",
-    "slug": "",
+    "slug": "elissa-slotkin",
     "finance": null,
     "donors": null
   },
@@ -5297,7 +5297,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6MN00267",
-    "slug": "",
+    "slug": "amy-klobuchar",
     "finance": null,
     "donors": null
   },
@@ -5308,7 +5308,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S8MN00578",
-    "slug": "",
+    "slug": "tina-smith",
     "finance": null,
     "donors": null
   },
@@ -5319,7 +5319,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S8MO00160",
-    "slug": "",
+    "slug": "josh-hawley",
     "finance": null,
     "donors": null
   },
@@ -5330,7 +5330,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2MO00544",
-    "slug": "",
+    "slug": "eric-schmitt",
     "finance": null,
     "donors": null
   },
@@ -5341,7 +5341,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H4MS01078,S8MS00196",
-    "slug": "",
+    "slug": "roger-f-wicker",
     "finance": null,
     "donors": null
   },
@@ -5352,7 +5352,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S8MS00261",
-    "slug": "",
+    "slug": "cindy-hyde-smith",
     "finance": null,
     "donors": null
   },
@@ -5363,7 +5363,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H2MT01060,S2MT00096",
-    "slug": "",
+    "slug": "steve-daines",
     "finance": null,
     "donors": null
   },
@@ -5374,7 +5374,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4MT00183",
-    "slug": "",
+    "slug": "tim-sheehy",
     "finance": null,
     "donors": null
   },
@@ -5385,7 +5385,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4NC00162",
-    "slug": "",
+    "slug": "thom-tillis",
     "finance": null,
     "donors": null
   },
@@ -5396,7 +5396,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H6NC13129",
-    "slug": "",
+    "slug": "ted-budd",
     "finance": null,
     "donors": null
   },
@@ -5407,7 +5407,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0ND00093",
-    "slug": "",
+    "slug": "john-hoeven",
     "finance": null,
     "donors": null
   },
@@ -5418,7 +5418,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H0ND01026,H6ND00074,S8ND00120",
-    "slug": "",
+    "slug": "kevin-cramer",
     "finance": null,
     "donors": null
   },
@@ -5429,7 +5429,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2NE00094",
-    "slug": "",
+    "slug": "deb-fischer",
     "finance": null,
     "donors": null
   },
@@ -5440,7 +5440,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S6NE00129",
-    "slug": "",
+    "slug": "pete-ricketts",
     "finance": null,
     "donors": null
   },
@@ -5451,7 +5451,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S0NH00219",
-    "slug": "",
+    "slug": "jeanne-shaheen",
     "finance": null,
     "donors": null
   },
@@ -5462,7 +5462,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6NH00091",
-    "slug": "",
+    "slug": "margaret-wood-hassan",
     "finance": null,
     "donors": null
   },
@@ -5473,7 +5473,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S4NJ00185",
-    "slug": "",
+    "slug": "cory-a-booker",
     "finance": null,
     "donors": null
   },
@@ -5484,7 +5484,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H8NJ03206",
-    "slug": "",
+    "slug": "andy-kim",
     "finance": null,
     "donors": null
   },
@@ -5495,7 +5495,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H8NM01224,S2NM00088",
-    "slug": "",
+    "slug": "martin-heinrich",
     "finance": null,
     "donors": null
   },
@@ -5506,7 +5506,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H8NM03196,S0NM00058",
-    "slug": "",
+    "slug": "ben-ray-luj-n",
     "finance": null,
     "donors": null
   },
@@ -5517,7 +5517,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6NV00200",
-    "slug": "",
+    "slug": "catherine-cortez-masto",
     "finance": null,
     "donors": null
   },
@@ -5528,7 +5528,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6NV03139,S8NV00156",
-    "slug": "",
+    "slug": "jacky-rosen",
     "finance": null,
     "donors": null
   },
@@ -5539,7 +5539,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6NY20167,S0NY00410",
-    "slug": "",
+    "slug": "kirsten-e-gillibrand",
     "finance": null,
     "donors": null
   },
@@ -5550,7 +5550,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S8NY00082,H0NY16010",
-    "slug": "",
+    "slug": "charles-e-schumer",
     "finance": null,
     "donors": null
   },
@@ -5561,7 +5561,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4OH00192",
-    "slug": "",
+    "slug": "bernie-moreno",
     "finance": null,
     "donors": null
   },
@@ -5572,7 +5572,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "",
-    "slug": "",
+    "slug": "jon-husted",
     "finance": null,
     "donors": null
   },
@@ -5583,7 +5583,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H0OK05114,S4OK00232",
-    "slug": "",
+    "slug": "james-lankford",
     "finance": null,
     "donors": null
   },
@@ -5594,7 +5594,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H2OK02083",
-    "slug": "",
+    "slug": "markwayne-mullin",
     "finance": null,
     "donors": null
   },
@@ -5605,7 +5605,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S8OR00207",
-    "slug": "",
+    "slug": "jeff-merkley",
     "finance": null,
     "donors": null
   },
@@ -5616,7 +5616,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6OR00110,H0OR03026",
-    "slug": "",
+    "slug": "ron-wyden",
     "finance": null,
     "donors": null
   },
@@ -5627,7 +5627,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6PA00274",
-    "slug": "",
+    "slug": "john-fetterman",
     "finance": null,
     "donors": null
   },
@@ -5638,7 +5638,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2PA00661",
-    "slug": "",
+    "slug": "david-mccormick",
     "finance": null,
     "donors": null
   },
@@ -5649,7 +5649,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6RI00221",
-    "slug": "",
+    "slug": "sheldon-whitehouse",
     "finance": null,
     "donors": null
   },
@@ -5660,7 +5660,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6RI00163,H0RI02071",
-    "slug": "",
+    "slug": "jack-reed",
     "finance": null,
     "donors": null
   },
@@ -5671,7 +5671,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0SC00149,H4SC03087",
-    "slug": "",
+    "slug": "lindsey-graham",
     "finance": null,
     "donors": null
   },
@@ -5682,7 +5682,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H0SC01279,S4SC00240",
-    "slug": "",
+    "slug": "tim-scott",
     "finance": null,
     "donors": null
   },
@@ -5693,7 +5693,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2SD00068,H6SD00085",
-    "slug": "",
+    "slug": "john-thune",
     "finance": null,
     "donors": null
   },
@@ -5704,7 +5704,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4SD00049",
-    "slug": "",
+    "slug": "mike-rounds",
     "finance": null,
     "donors": null
   },
@@ -5715,7 +5715,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H2TN06030,S8TN00337",
-    "slug": "",
+    "slug": "marsha-blackburn",
     "finance": null,
     "donors": null
   },
@@ -5726,7 +5726,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0TN00169",
-    "slug": "",
+    "slug": "bill-hagerty",
     "finance": null,
     "donors": null
   },
@@ -5737,7 +5737,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2TX00106",
-    "slug": "",
+    "slug": "john-cornyn",
     "finance": null,
     "donors": null
   },
@@ -5748,7 +5748,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S2TX00312",
-    "slug": "",
+    "slug": "ted-cruz",
     "finance": null,
     "donors": null
   },
@@ -5759,7 +5759,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0UT00165",
-    "slug": "",
+    "slug": "mike-lee",
     "finance": null,
     "donors": null
   },
@@ -5770,7 +5770,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H8UT03238",
-    "slug": "",
+    "slug": "john-r-curtis",
     "finance": null,
     "donors": null
   },
@@ -5781,7 +5781,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S6VA00093,P80003023",
-    "slug": "",
+    "slug": "mark-r-warner",
     "finance": null,
     "donors": null
   },
@@ -5792,7 +5792,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S2VA00142",
-    "slug": "",
+    "slug": "tim-kaine",
     "finance": null,
     "donors": null
   },
@@ -5803,7 +5803,7 @@
     "district": "",
     "party": "I",
     "fec_ids": "H8VT01016,S4VT00033",
-    "slug": "",
+    "slug": "bernard-sanders",
     "finance": null,
     "donors": null
   },
@@ -5814,7 +5814,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H6VT00160,H8VT00034",
-    "slug": "",
+    "slug": "peter-welch",
     "finance": null,
     "donors": null
   },
@@ -5825,7 +5825,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S8WA00194,H2WA01054",
-    "slug": "",
+    "slug": "maria-cantwell",
     "finance": null,
     "donors": null
   },
@@ -5836,7 +5836,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "S2WA00189",
-    "slug": "",
+    "slug": "patty-murray",
     "finance": null,
     "donors": null
   },
@@ -5847,7 +5847,7 @@
     "district": "",
     "party": "D",
     "fec_ids": "H8WI00018,S2WI00219",
-    "slug": "",
+    "slug": "tammy-baldwin",
     "finance": null,
     "donors": null
   },
@@ -5858,7 +5858,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S0WI00197",
-    "slug": "",
+    "slug": "ron-johnson",
     "finance": null,
     "donors": null
   },
@@ -5869,7 +5869,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H0WV02138,S4WV00159",
-    "slug": "",
+    "slug": "shelley-moore-capito",
     "finance": null,
     "donors": null
   },
@@ -5880,7 +5880,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S4WV00332",
-    "slug": "",
+    "slug": "james-c-justice",
     "finance": null,
     "donors": null
   },
@@ -5891,7 +5891,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "S6WY00068",
-    "slug": "",
+    "slug": "john-barrasso",
     "finance": null,
     "donors": null
   },
@@ -5902,7 +5902,7 @@
     "district": "",
     "party": "R",
     "fec_ids": "H8WY00148,S0WY00137",
-    "slug": "",
+    "slug": "cynthia-m-lummis",
     "finance": null,
     "donors": null
   }
