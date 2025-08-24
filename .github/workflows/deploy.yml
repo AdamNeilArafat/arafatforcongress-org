@@ -1,10 +1,10 @@
+# .github/workflows/deploy.yml
 name: Deploy GitHub Pages
 
 on:
   push:
     branches: [ main ]
-    paths:
-      - '**/*'
+    paths: ['**/*']
   workflow_dispatch: {}
 
 permissions:
@@ -22,30 +22,24 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FEC_API_KEY: ${{ secrets.FEC_API_KEY }}   # <-- make key available to all steps in this job
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-
       - name: Install deps
         run: npm ci
 
-      # --- FEC/AI pipeline in order ---
-      - name: Ingest FEC raw data (creates data/raw/YYYY-MM-DD)
-        env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+      - name: Ingest FEC raw data
         run: npm run fec:ingest
 
       - name: Fetch receipts
-        env:
-          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
         run: npm run fec:fetch:receipts
 
-      - name: Build warehouse (dims/facts from latest raw folder)
+      - name: Build warehouse
         run: npm run fec:warehouse
 
       - name: Build warehouse metrics
@@ -53,17 +47,14 @@ jobs:
 
       - name: Build site bundles
         run: npm run fec:site
-      # --- end pipeline ---
 
-      # Trim dev-only stuff from the artifact
       - name: Remove node_modules to shrink artifact
         run: rm -rf node_modules
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .  # site is at repo root
-
+          path: .
   deploy:
     environment:
       name: github-pages
