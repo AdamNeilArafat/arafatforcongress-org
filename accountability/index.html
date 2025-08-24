@@ -285,6 +285,13 @@ async function loadFinanceSummary(){
   return await loadJSON('data/member-finance-summary.json', {});
 }
 
+
+// Load donors data to populate receipts and donor breakdown. Each entry maps a bioguide
+// to contribution metrics and an array of individual receipt links.
+async function loadDonors(){
+  // { [bioguide]: { pac_pct, small_donor_pct, in_state_dollars, out_state_dollars, industries, receipts } }
+  return await loadJSON('data/donors-by-member.json', {});
+}
 /** ---------------------------------------------------------
  *  BADGE RENDERING
  *  --------------------------------------------------------- */
@@ -336,6 +343,8 @@ let VOTES = {};
 let BADGES = {};
 let INDEX = []; // rows to render (neutral + offenders)
 let FINANCE = {}; // finance summary by bioguide
+// donors data by bioguide
+let DONORS = {};
 
 function buildFilters(){
   // Bills
@@ -631,6 +640,8 @@ document.getElementById('resetFilters').addEventListener('click', ()=>{
   BADGES  = await loadBadges(); // may be {}
   // Load finance summary so we can decorate cards with donor/vote metrics.
   FINANCE = await loadFinanceSummary() || {};
+  // Load donors so we can surface receipts in the modal
+  DONORS = await loadDonors() || {};
   joinData();
   buildFilters();
   render();

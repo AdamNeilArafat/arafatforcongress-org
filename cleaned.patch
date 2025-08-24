@@ -1,0 +1,241 @@
+diff --git a/accountability/index.html b/accountability/index.html
+--- a/accountability/index.html
++++ b/accountability/index.html
+@@
+ let FINANCE = {}; // finance summary by bioguide
++// donors data by bioguide
++let DONORS = {};
+diff --git a/accountability/index.html b/accountability/index.html
+--- a/accountability/index.html
++++ b/accountability/index.html
+@@
+ async function loadFinanceSummary(){
+   // { [bioguide]: { small_donor_pct, pac_donor_pct, in_dist_pct, industry_top:[{industry,amount}], vote_align_pct } }
+   return await loadJSON('data/member-finance-summary.json', {});
+ }
++
++// Load donors data to populate receipts and donor breakdown. Each entry maps a bioguide
++// to contribution metrics and an array of individual receipt links.
++async function loadDonors(){
++  // { [bioguide]: { pac_pct, small_donor_pct, in_state_dollars, out_state_dollars, industries, receipts } }
++  return await loadJSON('data/donors-by-member.json', {});
++}
+diff --git a/accountability/index.html b/accountability/index.html
+--- a/accountability/index.html
++++ b/accountability/index.html
+@@ (async function init(){
+   BADGES  = await loadBadges(); // may be {}
+   // Load finance summary so we can decorate cards with donor/vote metrics.
+   FINANCE = await loadFinanceSummary() || {};
++  // Load donors so we can surface receipts in the modal
++  DONORS = await loadDonors() || {};
+   joinData();
+diff --git a/accountability/index.html b/accountability/index.html
+--- a/accountability/index.html
++++ b/accountability/index.html
+@@ function openReceipt(bio, billKey){
+-       if(Array.isArray(f.industry_top) && f.industry_top.length){
+-         const top = f.industry_top.slice(0,2).map(x=>x.industry).join(', ');
+-         items.push(`<li>Top industries: <strong>${top}</strong></li>`);
+-       }
+-       if(items.length){
+-         ul.innerHTML = items.join('');
+-         wrap.hidden = false;
+-       }
++       if(Array.isArray(f.industry_top) && f.industry_top.length){
++         const top = f.industry_top.slice(0,2).map(x=>x.industry).join(', ');
++         items.push(`<li>Top industries: <strong>${top}</strong></li>`);
++       }
++       // Append up to 3 receipt links from the donors file, if available.
++       const recs = DONORS[bio]?.receipts || [];
++       if(Array.isArray(recs) && recs.length){
++         const links = recs.slice(0,3).map(r=>{
++           const title = r.title || r.url || 'Receipt';
++           return `<a href="\${r.url}" target="_blank" rel="noopener">\${title}</a>`;
++         }).join(', ');
++         items.push(`<li>Receipts: \${links}</li>`);
++       }
++       if(items.length){
++         ul.innerHTML = items.join('');
++         wrap.hidden = false;
++       }
+diff --git a/accountability/financial-alignment.html b/accountability/financial-alignment.html
+--- a/accountability/financial-alignment.html
++++ b/accountability/financial-alignment.html
+@@ const THRESH = {
+   PAC_FLAG: 0.50,            // 50% PAC or more -> flag
+   INDUSTRY_DOMINATE: 0.40,   // 40%+ single industry share -> dominate
+   ALIGN_HIGH: 0.60           // 60%+ donor-aligned votes -> flag
+ };
++
++// Global caches for members, donors, awards and alignments. These will be
++// assigned in render() and consumed by rowData() and filters.
++let members = {};
++let donorsByMember = {};
++let awardsByMember = {};
++let voteAlignByMember = {};
++
++/**
++ * Generate HTML for a set of chips. Each chip is a tuple of [class, icon, label].
++ * @param {Array} chips
++ * @returns {string}
++ */
++function chipHTML(chips){
++  return chips.map(([cls, icon, label])=>{
++    const ico = icon ? `<i class="fa-solid \${icon} me-1"></i>` : '';
++    return `<span class="chip \${cls}">\${ico}\${label}</span>`;
++  }).join('');
++}
++
++/**
++ * Compute aggregated financial alignment data for a member.
++ * Returns an object with computed metrics and convenience fields for rendering.
++ * @param {string} mid
++ */
++function rowData(mid){
++  const m = members[mid] || {};
++  const d = donorsByMember[mid] || {};
++  const v = voteAlignByMember[mid] || {};
++  const awards = awardsByMember[mid] || [];
++  const name = m.name || mid;
++  const seat = `\${m.chamber==='senate'?'Senate':'House'} \${m.state || ''}\${m.district ? ('-'+m.district) : ''}`.trim();
++  const photo = m.photo || `/assets/members/\${mid}.jpg`;
++  const pac = Number(d.pac_pct || 0);
++  const small = (d.small_donor_pct != null) ? Number(d.small_donor_pct) : (1 - pac);
++  const in$  = Number(d.in_state_dollars || d.in_district_dollars || 0);
++  const out$ = Number(d.out_state_dollars || d.out_district_dollars || 0);
++  const ti   = topIndustry(d);
++  let align = null;
++  if (typeof v.donor_alignment_index === 'number') {
++    align = Math.round(v.donor_alignment_index * 100);
++  } else if (typeof v.vote_align_pct === 'number') {
++    align = Math.round(v.vote_align_pct * 100);
++  }
++  const receipts = Array.isArray(d.receipts) ? d.receipts : [];
++  const votes = Array.isArray(v.votes) ? v.votes : [];
++  const chips = [];
++  if(pac >= THRESH.PAC_FLAG) chips.push(['chip-danger','fa-circle-exclamation','High PAC share']);
++  if(ti.share >= THRESH.INDUSTRY_DOMINATE && ti.key && ti.key !== '—') chips.push(['chip-warn','fa-chart-pie','Dominant sector']);
++  if(align !== null && (align/100) >= THRESH.ALIGN_HIGH) chips.push(['chip-ok','fa-thumbs-up','High alignment']);
++  for(const b of awards){
++    const tone = String(b.tone || '').toLowerCase();
++    let cls = 'chip-ok';
++    if(tone === 'red' || tone === 'black') cls = 'chip-danger';
++    else if(tone === 'gold' || tone === 'gray') cls = 'chip-warn';
++    chips.push([cls, '', b.label || b.id || 'Badge']);
++  }
++  return {
++    id: mid,
++    name,
++    seat,
++    party: m.partyCode || '',
++    photo,
++    pac,
++    small,
++    pacP: Math.round(pac * 100),
++    smlP: Math.round(small * 100),
++    in$,
++    out$,
++    topIndustryKey: ti.key || '—',
++    topIndustryShare: ti.share || 0,
++    align,
++    chips,
++    receipts,
++    votes
++  };
++}
++
++/**
++ * Render the members list and table with computed data.
++ * @param {Object} mems Map of members
++ * @param {Object} donors Map of donors
++ * @param {Object} awards Map of awards/badges
++ * @param {Object} align Map of vote alignments
++ */
++function render(mems, donors, awards, align){
++  members = mems;
++  donorsByMember = donors;
++  awardsByMember = awards;
++  voteAlignByMember = align;
++  const listEl = $('#fa-list');
++  const tableEl = $('#fa-table');
++  if(!listEl || !tableEl) return;
++  const fragList = document.createDocumentFragment();
++  const fragTable = document.createDocumentFragment();
++  Object.keys(members).forEach(mid=>{
++    const d = rowData(mid);
++    const wrap = document.createElement('div');
++    wrap.className = 'person';
++    wrap.setAttribute('data-mid', mid);
++    wrap.setAttribute('data-name', d.name.toLowerCase());
++    wrap.setAttribute('data-state', (members[mid].state || '').toLowerCase());
++    wrap.setAttribute('data-seat', d.seat.toLowerCase());
++    wrap.setAttribute('data-party', (members[mid].partyCode || '').toUpperCase());
++    wrap.setAttribute('data-chamber', (members[mid].chamber || '').toLowerCase());
++    wrap.innerHTML = `
++      <div class="rowwrap">
++        <div class="thumb"><img src="\${d.photo}" alt="\${d.name}" onerror="this.src='/assets/no-photo.png'"></div>
++        <div class="pdata">
++          <h5 class="name mb-1">\${d.name}</h5>
++          <div class="sub">\${d.seat}\${d.party ? ' • '+d.party : ''}</div>
++          <div class="chips">\${chipHTML(d.chips)}</div>
++          <div class="actions mt-2">
++            <button type="button" class="btn btn-sm btn-outline-dark" onclick="openModal('\${mid}')">Details</button>
++            <label class="form-check-label ms-2"><input type="checkbox" class="form-check-input compare-pick" data-pick="\${mid}"> Compare</label>
++          </div>
++        </div>
++      </div>`;
++    fragList.appendChild(wrap);
++    const tr = document.createElement('tr');
++    tr.setAttribute('data-mid', mid);
++    tr.setAttribute('data-name', d.name.toLowerCase());
++    tr.setAttribute('data-state', (members[mid].state || '').toLowerCase());
++    tr.setAttribute('data-seat', d.seat.toLowerCase());
++    tr.setAttribute('data-party', (members[mid].partyCode || '').toUpperCase());
++    tr.setAttribute('data-chamber', (members[mid].chamber || '').toLowerCase());
++    tr.innerHTML = `
++      <td><img src="\${d.photo}" width="36" height="36" alt="\${d.name}" onerror="this.src='/assets/no-photo.png'"></td>
++      <td><span class="fw-bold">\${d.name}</span><br><small class="text-muted">\${d.seat}\${d.party ? ' • '+d.party : ''}</small></td>
++      <td data-val="\${d.pac}">\${d.pacP}%</td>
++      <td data-val="\${d.small}">\${d.smlP}%</td>
++      <td data-val="\${d.out$ - d.in$}">\${money(d.in$)} / \${money(d.out$)}</td>
++      <td data-val="\${d.topIndustryShare}">\${d.topIndustryKey==='—'?'—':\`\${d.topIndustryKey} (\${pct(d.topIndustryShare)}%)\`}</td>
++      <td data-val="\${d.align===null?-1:(d.align/100)}">\${d.align===null?'—':d.align+'%'}</td>
++      <td>\${chipHTML(d.chips)}</td>
++      <td><button type="button" class="btn btn-sm btn-outline-dark" onclick="openModal('\${mid}')">Details</button></td>
++    `;
++    fragTable.appendChild(tr);
++  });
++  listEl.innerHTML = '';
++  listEl.appendChild(fragList);
++  tableEl.innerHTML = '';
++  tableEl.appendChild(fragTable);
++  applyFilters(false);
++}
+diff --git a/accountability/financial-alignment.html b/accountability/financial-alignment.html
+--- a/accountability/financial-alignment.html
++++ b/accountability/financial-alignment.html
+@@ document.addEventListener('DOMContentLoaded', async () => {
+-  // TODO: call your real renderer here:
+-  // render(members, donorsByMember, awardsByMember, voteAlignByMember);
+-
+-  // If you need quick smoke output:
+-  const tbody = $('#fa-table'); // optional
+-  if (tbody) {
+-    const mid = Object.keys(members)[0];
+-    if (mid) {
+-      const m = resolveMember(mid);
+-      const d = donorsByMember[mid] || {};
+-      const v = voteAlignByMember[mid] || {};
+-      tbody.innerHTML = `
+-        <tr>
+-          <td><img src="${resolvePhoto(m)}" width="48" height="48" onerror="this.src='/assets/no-photo.png'"></td>
+-          <td>${m?.name || mid}</td>
+-          <td>${m?.state || '—'}</td>
+-          <td>${pct(d.pac_pct||0)}% PAC</td>
+-          <td>${v.donor_alignment_index!=null ? pct(v.donor_alignment_index)+'%' : '—'}</td>
+-        </tr>`;
+-    }
+-  }
++  // Render the full list and table with computed metrics
++  render(members, donorsByMember, awardsByMember, voteAlignByMember);
