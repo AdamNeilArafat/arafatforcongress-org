@@ -2,12 +2,15 @@
   "name": "arafatforcongress-fec",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "fec:ingest": "node scripts/fec/ingest.mjs",
     "fec:warehouse": "node scripts/fec/build-warehouse.mjs",
     "fec:site": "node scripts/fec/build-site-bundles.mjs",
-    "build:data": "npm run fec:ingest && npm run fec:warehouse && npm run fec:site"
+    "build:data": "npm run fec:ingest && npm run fec:warehouse && npm run fec:site",
+    "fec:resolve": "node scripts/fec/resolve-ids.mjs"
   },
   "dependencies": {}
 }

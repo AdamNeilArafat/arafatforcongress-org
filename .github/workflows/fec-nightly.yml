@@ -1,41 +1,39 @@
-name: FEC Nightly Ingest
+name: FEC Nightly
 on:
   schedule:
-    # 09:20 UTC daily (02:20 Pacific)
-    - cron: "20 09 * * *"
+    - cron: "20 9 * * *"   # daily 09:20 UTC (02:20 PT)
   workflow_dispatch: {}
 permissions:
   contents: write
-
 jobs:
-  ingest:
+  build:
     runs-on: ubuntu-latest
-    concurrency:
-      group: fec-nightly
-      cancel-in-progress: false
-    env:
-      FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-      NODE_ENV: production
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
       - name: Install deps
         run: npm ci
 
-      - name: Ingest FEC raw -> warehouse -> site bundles
+      - name: Build pipeline (ingest → warehouse → site)
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
         run: |
-          npm run build:data
+          npm run fec:ingest
+          npm run fec:warehouse
+          npm run fec:site
 
-      - name: Commit data updates
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "ci(fec): nightly data refresh"
-          file_pattern: |
-            data/raw/**
-            data/warehouse/**
-            data/site/**
+      - name: Commit data changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A data/
+          if ! git diff --cached --quiet; then
+            git commit -m "ci(fec): nightly data refresh"
+            git push
+          else
+            echo "No data changes to commit."
+          fi
