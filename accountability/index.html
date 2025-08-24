@@ -4,12 +4,12 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Wall of Shame — Faces, Votes, Receipts | Adam Neil Arafat for Congress</title>
-  <meta name="description" content="See how money and votes line up. Filter by bill, state, or party—then open the receipts."/>
+  <meta name="description" content="See how money and votes line up. Filter by bill, state, or party, then open the receipts."/>
   <meta name="theme-color" content="#0d3b66"/>
 
   <!-- Open Graph -->
   <meta property="og:title" content="Wall of Shame — Faces, Votes, Receipts"/>
-  <meta property="og:description" content="See how money and votes line up. Filter by bill, state, or party—then open the receipts."/>
+  <meta property="og:description" content="See how money and votes line up. Filter by bill, state, or party, then open the receipts."/>
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="assets/share-wall.png"/>
 
@@ -35,6 +35,7 @@
 
     .tools{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center}
     .search{max-width:380px}
+    .result-count{color:#e7eef7; font-weight:700; font-size:.85rem; padding:.25rem .5rem; border:1px solid rgba(255,255,255,.25); border-radius:999px}
 
     .grid{display:grid; grid-template-columns:repeat(1,minmax(0,1fr)); gap:.8rem}
     @media (min-width:576px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
@@ -51,12 +52,7 @@
     .name{font-weight:800}
     .meta{color:var(--muted); font-size:.9rem}
     .harm{margin:.35rem 0 .45rem; color:#334155; font-size:.92rem}
-    /* Finance summary line for cards */
-    .finance{
-      color:var(--muted);
-      font-size:.78rem;
-      margin-top:.25rem;
-    }
+    .finance{color:var(--muted); font-size:.78rem; margin-top:.25rem}
     .avatar{
       grid-row: 1 / span 2;
       width:88px; height:auto; aspect-ratio:4/5; object-fit:cover; background:#e6edf3;
@@ -80,7 +76,6 @@
     .pill.black{background:#1f2937; color:#fff; border-color:#0b1220}
     .pill.blue{background:#eaf3ff; color:#0d3b66; border-color:#cfe3ff}
     .pill.gray{background:#eef2f7; color:#334155; border-color:#d7dde7}
-
     .pill.more{cursor:pointer}
 
     .chip{font-size:.7rem; font-weight:800; border-radius:999px; padding:.2rem .5rem; display:inline-block; background:#eef6ff; color:#0d3b66}
@@ -90,6 +85,15 @@
     .stamp{position:absolute; right:-14px; bottom:6px; transform:rotate(-6deg); font-weight:900; font-size:.9rem; color:#b3262a; opacity:.16; letter-spacing:.08em}
 
     footer{background:#0d3b66; color:#fff; padding:1.25rem 0; margin-top:2rem}
+
+    /* Modal donors */
+    .kv{display:flex; align-items:center; justify-content:space-between; gap:.75rem; font-size:.92rem}
+    .kv .k{color:#475569}
+    .kv .v{font-weight:700}
+    .receipt-list{list-style:none; padding-left:0; margin:0}
+    .receipt-list li{display:flex; justify-content:space-between; align-items:center; gap:.75rem; padding:.4rem 0; border-bottom:1px dashed #e5eaf0}
+    .receipt-list li:last-child{border-bottom:none}
+    .receipt-meta{font-size:.85rem; color:#64748b}
   </style>
 </head>
 <body>
@@ -118,9 +122,9 @@
 <header class="hero">
   <div class="container text-center">
     <h1 class="mb-2">Wall of Shame</h1>
-    <p class="lead mb-3">See how money and votes line up. Filter by bill, state, or party—then open the receipts.</p>
+    <p class="lead mb-3">See how money and votes line up. Filter by bill, state, or party, then open the receipts.</p>
     <div class="tools justify-content-center">
-      <div class="input-group input-group-sm search">
+      <div class="input-group input-group-sm search" role="search">
         <span class="input-group-text" id="basic-addon1" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
         <input type="search" id="wfSearch" class="form-control" placeholder="Search name, state, bill, badge…" aria-label="Search wall"/>
       </div>
@@ -132,8 +136,9 @@
         <option value="R">Republican</option>
         <option value="I">Independent</option>
       </select>
-      <button id="resetFilters" class="btn btn-outline-light btn-sm">Reset</button>
-      <a href="#grid" class="btn btn-outline-secondary btn-sm">Skip to the Wall</a>
+      <button id="resetFilters" class="btn btn-outline-light btn-sm" type="button">Reset</button>
+      <a href="#grid" class="btn btn-outline-secondary btn-sm">Skip to the wall</a>
+      <span id="resultCount" class="result-count" aria-live="polite">Loading…</span>
     </div>
   </div>
 </header>
@@ -162,14 +167,30 @@
           <div class="flex-grow-1">
             <div class="name h4 mb-0" id="receiptName"></div>
             <div class="meta" id="receiptMeta"></div>
+
             <div class="mt-2" id="receiptBadgesWrap" hidden>
               <div class="fw-semibold mb-1">Badges earned</div>
               <div id="receiptBadges" class="d-flex flex-wrap gap-2"></div>
             </div>
+
             <div class="mt-3 small" id="financeSummaryWrap" hidden>
               <div class="fw-semibold mb-1">Financial snapshot</div>
               <ul id="financeSummary" class="mb-0"></ul>
             </div>
+
+            <div class="mt-3 small" id="donorsSummaryWrap" hidden>
+              <div class="fw-semibold mb-1">Donor breakdown</div>
+              <div id="donorsKVs" class="d-grid gap-1"></div>
+              <div id="donorIndustriesWrap" class="mt-2" hidden>
+                <div class="fw-semibold mb-1">Top industries</div>
+                <ul id="donorIndustries" class="mb-0"></ul>
+              </div>
+              <div id="donorReceiptsWrap" class="mt-2" hidden>
+                <div class="fw-semibold mb-1">Recent receipts</div>
+                <ul id="donorReceipts" class="receipt-list"></ul>
+              </div>
+            </div>
+
             <div class="harm mt-3 mb-2" id="receiptHarm"></div>
             <div class="small text-muted"><span class="fw-semibold">Bill:</span> <a id="receiptBill" href="#" target="_blank" rel="noopener"></a></div>
           </div>
@@ -199,6 +220,9 @@
  *  DATA LOADERS + HELPERS
  *  --------------------------------------------------------- */
 function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+const fmtUSD = n => (typeof n === 'number')
+  ? n.toLocaleString(undefined,{style:'currency', currency:'USD', maximumFractionDigits:0})
+  : '';
 
 function normalizeParty(p){
   const s = (p||'').trim().toUpperCase();
@@ -235,13 +259,13 @@ async function loadMembers(){
       const pCode = normalizeParty(m.party || '');
       norm[bioguide] = {
         bioguide,
-        name: m.name || `${m.first||m.name_first||''} ${m.last||m.name_last||''}`.trim(),
+        name: m.name || \`\${m.first||m.name_first||''} \${m.last||m.name_last||''}\`.trim(),
         partyCode: pCode,
         partyLabel: partyLabel(pCode),
         chamber: m.chamber || '',
         state: m.state || '',
         district: m.district || '',
-        photo: m.photo || `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+        photo: m.photo || \`https://unitedstates.github.io/images/congress/225x275/\${bioguide}.jpg\`
       };
     }
     return norm;
@@ -257,13 +281,13 @@ async function loadMembers(){
     const pCode = normalizeParty(t.party || '');
     byBio[bioguide] = {
       bioguide,
-      name: `${m.name?.first||''} ${m.name?.last||''}`.trim(),
+      name: \`\${m.name?.first||''} \${m.name?.last||''}\`.trim(),
       partyCode: pCode,
       partyLabel: partyLabel(pCode),
       chamber: (t.type==='sen')?'senate':'house',
       state: t.state || '',
       district: (t.type==='rep') ? (t.district||'') : '',
-      photo: `https://unitedstates.github.io/images/congress/225x275/${bioguide}.jpg`
+      photo: \`https://unitedstates.github.io/images/congress/225x275/\${bioguide}.jpg\`
     };
   }
   return byBio;
@@ -285,18 +309,15 @@ async function loadFinanceSummary(){
   return await loadJSON('data/member-finance-summary.json', {});
 }
 
-
-// Load donors data to populate receipts and donor breakdown. Each entry maps a bioguide
-// to contribution metrics and an array of individual receipt links.
+// donors data to populate receipts and donor breakdown.
+// Expected: { [bioguide]: { pac_pct, small_donor_pct, in_state_dollars, out_state_dollars, industries:[{industry,amount}], receipts:[{date,amount,employer,occupation,link}] } }
 async function loadDonors(){
-  // { [bioguide]: { pac_pct, small_donor_pct, in_state_dollars, out_state_dollars, industries, receipts } }
   return await loadJSON('data/donors-by-member.json', {});
 }
 /** ---------------------------------------------------------
  *  BADGE RENDERING
  *  --------------------------------------------------------- */
 function badgeToneClass(b){
-  // pick color tone by badge family or explicit tone
   if(b.tone) return b.tone;
   const id = (b.id||'').toLowerCase();
   if(id.includes('crown')||id.includes('cash')||id.includes('sale')) return 'gold';
@@ -308,11 +329,11 @@ function badgeToneClass(b){
 function badgeIconClass(b){
   const id = (b.id||'').toLowerCase();
   if(id.includes('crown')) return 'fa-crown';
-  if(id.includes('puppet')) return 'fa-masks-theater'; // marionette vibe
+  if(id.includes('puppet')) return 'fa-masks-theater';
   if(id.includes('leash')) return 'fa-dog';
   if(id.includes('blood')) return 'fa-droplet';
   if(id.includes('genocide')) return 'fa-skull';
-  if(id.includes('judas')||id.includes('snake')) return 'fa-staff-snake'; // closest FA
+  if(id.includes('judas')||id.includes('snake')) return 'fa-staff-snake';
   if(id.includes('backstabber')||id.includes('knife')||id.includes('dagger')) return 'fa-knife';
   if(id.includes('oil')) return 'fa-oil-can';
   if(id.includes('pharma')||id.includes('pill')) return 'fa-capsules';
@@ -324,8 +345,8 @@ function badgePillHTML(b){
   const tone = badgeToneClass(b);
   const icon = badgeIconClass(b);
   const label = b.label || b.id || 'Badge';
-  const tip = (b.reason ? `${label}: ${b.reason}` : label).replace(/"/g,'&quot;');
-  return `<span class="pill ${tone}" data-bs-toggle="tooltip" data-bs-title="${tip}"><i class="fa-solid ${icon}" aria-hidden="true"></i>${label}</span>`;
+  const tip = (b.reason ? \`\${label}: \${b.reason}\` : label).replace(/"/g,'&quot;');
+  return \`<span class="pill \${tone}" data-bs-toggle="tooltip" data-bs-title="\${tip}"><i class="fa-solid \${icon}" aria-hidden="true"></i>\${label}</span>\`;
 }
 
 /** ---------------------------------------------------------
@@ -337,20 +358,20 @@ const wfSearch = document.getElementById('wfSearch');
 const wfBill   = document.getElementById('wfBill');
 const wfState  = document.getElementById('wfState');
 const wfParty  = document.getElementById('wfParty');
+const resultCount = document.getElementById('resultCount');
 
 let MEMBERS = {};
 let VOTES = {};
 let BADGES = {};
 let INDEX = []; // rows to render (neutral + offenders)
 let FINANCE = {}; // finance summary by bioguide
-// donors data by bioguide
-let DONORS = {};
+let DONORS = {};  // donors by bioguide
 
 function buildFilters(){
   // Bills
   const billOptions = ['<option value="">All bills</option>'];
   Object.entries(VOTES).forEach(([key, b])=>{
-    billOptions.push(`<option value="${key}">${b.title}</option>`);
+    billOptions.push(\`<option value="\${key}">\${b.title}</option>\`);
   });
   wfBill.innerHTML = billOptions.join('');
 
@@ -358,7 +379,7 @@ function buildFilters(){
   const states = new Set();
   Object.values(MEMBERS).forEach(m=>{ if(m.state) states.add(m.state); });
   const stateList = Array.from(states).sort();
-  wfState.innerHTML = ['<option value="">All states</option>', ...stateList.map(s=>`<option value="${s}">${s}</option>`)].join('');
+  wfState.innerHTML = ['<option value="">All states</option>', ...stateList.map(s=>\`<option value="\${s}">\${s}</option>\`)].join('');
 }
 
 function badgeRailHTML(bio){
@@ -367,62 +388,61 @@ function badgeRailHTML(bio){
   const maxShow = 3;
   const shown = list.slice(0, maxShow).map(badgePillHTML).join('');
   const overflow = list.length - maxShow;
-  const more = overflow>0 ? `<span class="pill gray more" data-more-bio="${bio}"><i class="fa-solid fa-plus" aria-hidden="true"></i>${overflow} more</span>` : '';
-  return `<div class="badge-rail">${shown}${more}</div>`;
+  const more = overflow>0 ? \`<span class="pill gray more" data-more-bio="\${bio}"><i class="fa-solid fa-plus" aria-hidden="true"></i>\${overflow} more</span>\` : '';
+  return \`<div class="badge-rail">\${shown}\${more}</div>\`;
 }
 
 function cardHTML(o){
-  const isOffender = !!o.billKey; // offenders have a billKey
+  const isOffender = !!o.billKey;
   const harm  = isOffender ? (o.meaning || '') : '';
   const encodedHref = isOffender ? encodeURI(o.href||'#') : '#';
-
   const badgeRail = badgeRailHTML(o.bioguide);
 
-  return `
+  return \`
   <article class="card-person"
-           data-bill="${o.billKey||''}"
-           data-party="${o.partyCode||''}"
-           data-state="${o.state}"
-           data-name="${o.name.toLowerCase()}"
-           data-badges="${(BADGES[o.bioguide]||[]).map(b=> (b.label||b.id||'').toLowerCase()).join(' ')}">
-    <img class="avatar" src="${o.photo}" alt="${o.name}" loading="lazy"
+           data-bill="\${o.billKey||''}"
+           data-party="\${o.partyCode||''}"
+           data-state="\${o.state}"
+           data-name="\${o.name.toLowerCase()}"
+           data-badges="\${(BADGES[o.bioguide]||[]).map(b=> (b.label||b.id||'').toLowerCase()).join(' ')}">
+    <img class="avatar" src="\${o.photo}" alt="\${o.name}" loading="lazy"
          onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22375%22><rect width=%22300%22 height=%22375%22 fill=%22%23e6edf3%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22>NO IMAGE</text></svg>'"/>
-    ${badgeRail}
+    \${badgeRail}
     <div class="body">
-      <div class="name">${o.name}</div>
-      <div class="meta">${o.chamber==='senate'?'Senate':'House'} • ${o.state}${o.district?('-'+o.district):''} • ${o.partyLabel||''}</div>
+      <div class="name">\${o.name}</div>
+      <div class="meta">\${o.chamber==='senate'?'Senate':'House'} • \${o.state}\${o.district?('-'+o.district):''} • \${o.partyLabel||''}</div>
 
-      ${isOffender && harm ? `<div class="harm">${harm}</div>` : ``}
+      \${isOffender && harm ? \`<div class="harm">\${harm}</div>\` : ``}
 
-      ${isOffender ? `
+      \${isOffender ? \`
         <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
-          <span class="chip">Bill: ${o.billShort}</span><span class="chip no">${o.vote||'NO'} vote</span>
-        </div>` : ``}
+          <span class="chip">Bill: \${o.billShort}</span><span class="chip no">\${o.vote||'NO'} vote</span>
+        </div>\` : ``}
 
-      ${(()=>{
+      \${(()=>{
          const f = FINANCE[o.bioguide] || null;
          if(!f) return '';
          const pct = v => (typeof v==='number' ? Math.round(v*100)+'%' : '—');
          const parts = [];
-         if('small_donor_pct' in f) parts.push(`Small ${pct(f.small_donor_pct)}`);
-         if('pac_donor_pct'   in f) parts.push(`PAC ${pct(f.pac_donor_pct)}`);
-         if('in_dist_pct'     in f) parts.push(`In ${pct(f.in_dist_pct)}`);
-         if('vote_align_pct'  in f) parts.push(`Align ${pct(f.vote_align_pct)}`);
+         if('small_donor_pct' in f) parts.push(\`Small \${pct(f.small_donor_pct)}\`);
+         if('pac_donor_pct'   in f) parts.push(\`PAC \${pct(f.pac_donor_pct)}\`);
+         if('in_dist_pct'     in f) parts.push(\`In \${pct(f.in_dist_pct)}\`);
+         if('vote_align_pct'  in f) parts.push(\`Align \${pct(f.vote_align_pct)}\`);
          if(Array.isArray(f.industry_top) && f.industry_top.length){
            const top = f.industry_top[0]?.industry || '';
-           if(top) parts.push(`Top ${top}`);
+           if(top) parts.push(\`Top \${top}\`);
          }
-         return parts.length ? `<div class="finance">${parts.join(' • ')}</div>` : '';
+         return parts.length ? \`<div class="finance">\${parts.join(' • ')}</div>\` : '';
       })()}
 
       <div class="mt-2 d-flex gap-2">
         <button class="btn btn-outline-dark btn-sm btn-icon" type="button"
-                data-open-receipt='${JSON.stringify({bio:o.bioguide,bill:o.billKey||''}).replace(/"/g,"&quot;")}'><i class="fa-solid fa-receipt"></i>View receipt</button>
-        ${isOffender ? `<a class="btn btn-danger btn-sm btn-icon" href="${encodedHref}" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>` : ``}
+                data-open-receipt='\${JSON.stringify({bio:o.bioguide,bill:o.billKey||''}).replace(/"/g,"&quot;")}'><i class="fa-solid fa-receipt"></i>View receipt</button>
+        \${isOffender ? \`<a class="btn btn-danger btn-sm btn-icon" href="\${encodedHref}" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i>Open blueprint</a>\` : ``}
       </div>
     </div>
-    ${isOffender ? `<span class="stamp">RECEIPT</span>` : ``}
-  </article>`;
+    \${isOffender ? \`<span class="stamp">RECEIPT</span>\` : ``}
+  </article>\`;
 }
 
 /**
@@ -468,6 +488,10 @@ function joinData(){
   INDEX.sort((a,b)=> ((b.billKey?1:0) - (a.billKey?1:0)) || a.name.localeCompare(b.name));
 }
 
+function updateResultCount(n, total){
+  resultCount.textContent = \`\${n} shown of \${total}\`;
+}
+
 function render(){
   grid.setAttribute('aria-busy','true');
 
@@ -485,7 +509,7 @@ function render(){
     if(state && o.state!==state) return false;
     if(q){
       const badges = (BADGES[o.bioguide]||[]).map(b=> (b.label||b.id||'')).join(' ');
-      const hay = `${o.name} ${o.state}-${o.district} ${o.partyLabel} ${o.billTitle} ${o.award} ${o.meaning} ${badges}`.toLowerCase();
+      const hay = \`\${o.name} \${o.state}-\${o.district} \${o.partyLabel} \${o.billTitle} \${o.award} \${o.meaning} \${badges}\`.toLowerCase();
       if(!hay.includes(q)) return false;
     }
     return true;
@@ -503,6 +527,8 @@ function render(){
   // Activate tooltips for newly-rendered badges
   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+
+  updateResultCount(pass.length, INDEX.length);
 }
 
 function openReceipt(bio, billKey){
@@ -518,7 +544,7 @@ function openReceipt(bio, billKey){
 
   document.getElementById('receiptName').textContent = m.name;
   document.getElementById('receiptMeta').textContent =
-    `${m.chamber==='senate'?'Senate':'House'} • ${m.state}${m.district?('-'+m.district):''} • ${m.partyLabel||''}`;
+    \`\${m.chamber==='senate'?'Senate':'House'} • \${m.state}\${m.district?('-'+m.district):''} • \${m.partyLabel||''}\`;
 
   // badges into modal
   const rbWrap = document.getElementById('receiptBadgesWrap');
@@ -527,7 +553,6 @@ function openReceipt(bio, billKey){
   if(list.length){
     rb.innerHTML = list.map(badgePillHTML).join('');
     rbWrap.hidden = false;
-    // enable tooltips inside modal
     const tts = [].slice.call(rb.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tts.forEach(el => new bootstrap.Tooltip(el));
   }else{
@@ -550,18 +575,18 @@ function openReceipt(bio, billKey){
     const ul = document.getElementById('financeSummary');
     wrap.hidden = true; ul.innerHTML = '';
     try{
-      const FIN = await loadFinanceSummary(); // cached by browser within session
+      const FIN = FINANCE; // already loaded globally
       const f = FIN[bio];
       if(!f) return;
       const pct = v => (typeof v==='number' ? Math.round(v*100) + '%' : '—');
       const items = [];
-      if('small_donor_pct' in f) items.push(`<li>Small donors: <strong>${pct(f.small_donor_pct)}</strong></li>`);
-      if('pac_donor_pct' in f) items.push(`<li>PAC share: <strong>${pct(f.pac_donor_pct)}</strong></li>`);
-      if('in_dist_pct' in f) items.push(`<li>In-district/state: <strong>${pct(f.in_dist_pct)}</strong></li>`);
-      if('vote_align_pct' in f) items.push(`<li>Vote alignment with donors: <strong>${pct(f.vote_align_pct)}</strong></li>`);
+      if('small_donor_pct' in f) items.push(\`<li>Small donors: <strong>\${pct(f.small_donor_pct)}</strong></li>\`);
+      if('pac_donor_pct'   in f) items.push(\`<li>PAC share: <strong>\${pct(f.pac_donor_pct)}</strong></li>\`);
+      if('in_dist_pct'     in f) items.push(\`<li>In district or state: <strong>\${pct(f.in_dist_pct)}</strong></li>\`);
+      if('vote_align_pct'  in f) items.push(\`<li>Vote alignment with donors: <strong>\${pct(f.vote_align_pct)}</strong></li>\`);
       if(Array.isArray(f.industry_top) && f.industry_top.length){
         const top = f.industry_top.slice(0,2).map(x=>x.industry).join(', ');
-        items.push(`<li>Top industries: <strong>${top}</strong></li>`);
+        items.push(\`<li>Top industries: <strong>\${top}</strong></li>\`);
       }
       if(items.length){
         ul.innerHTML = items.join('');
@@ -570,19 +595,69 @@ function openReceipt(bio, billKey){
     }catch(e){}
   })();
 
+  // Donor breakdown (uses DONORS if available)
+  (()=>{
+    const wrap = document.getElementById('donorsSummaryWrap');
+    const kvs  = document.getElementById('donorsKVs');
+    const indWrap = document.getElementById('donorIndustriesWrap');
+    const indUl   = document.getElementById('donorIndustries');
+    const recWrap = document.getElementById('donorReceiptsWrap');
+    const recUl   = document.getElementById('donorReceipts');
+
+    wrap.hidden = true; kvs.innerHTML = '';
+    indWrap.hidden = true; indUl.innerHTML = '';
+    recWrap.hidden = true; recUl.innerHTML = '';
+
+    const d = DONORS[bio];
+    if(!d) return;
+
+    const pct = v => (typeof v==='number' ? Math.round(v*100) + '%' : '—');
+    const rows = [];
+    if('small_donor_pct' in d) rows.push(\`<div class="kv"><span class="k">Small donors</span><span class="v">\${pct(d.small_donor_pct)}</span></div>\`);
+    if('pac_pct' in d) rows.push(\`<div class="kv"><span class="k">PAC share</span><span class="v">\${pct(d.pac_pct)}</span></div>\`);
+    if('in_state_dollars' in d || 'out_state_dollars' in d){
+      const inD = 'in_state_dollars' in d ? fmtUSD(d.in_state_dollars) : '';
+      const outD = 'out_state_dollars' in d ? fmtUSD(d.out_state_dollars) : '';
+      rows.push(\`<div class="kv"><span class="k">In state</span><span class="v">\${inD}</span></div>\`);
+      rows.push(\`<div class="kv"><span class="k">Out of state</span><span class="v">\${outD}</span></div>\`);
+    }
+    kvs.innerHTML = rows.join('');
+    wrap.hidden = rows.length===0;
+
+    if(Array.isArray(d.industries) && d.industries.length){
+      const top = d.industries.slice(0,5).map(x => \`<li>\${x.industry || 'Industry'} — <strong>\${fmtUSD(x.amount)}</strong></li>\`).join('');
+      indUl.innerHTML = top;
+      indWrap.hidden = false;
+    }
+
+    if(Array.isArray(d.receipts) && d.receipts.length){
+      const entries = d.receipts.slice(0,8).map(r=>{
+        const left = \`
+          <div>
+            <a href="\${r.link||'#'}" target="_blank" rel="noopener">\${fmtUSD(r.amount) || 'Receipt'}</a>
+            <div class="receipt-meta">\${r.employer||''}\${r.occupation?(' • '+r.occupation):''}</div>
+          </div>\`;
+        const right = \`<span class="receipt-meta">\${r.date||''}</span>\`;
+        return \`<li>\${left}\${right}</li>\`;
+      }).join('');
+      recUl.innerHTML = entries;
+      recWrap.hidden = false;
+    }
+  })();
+
   const modal = new bootstrap.Modal(document.getElementById('receiptModal'));
   modal.show();
 
   // share handler
   const url = new URL(location.href);
   url.hash = ''; url.search = ''; url.pathname = location.pathname;
-  const deeplink = `/#?bill=${encodeURIComponent(billKey||'')}&bio=${encodeURIComponent(bio)}`;
+  const deeplink = \"/#?bill=\" + encodeURIComponent(billKey||'') + \"&bio=\" + encodeURIComponent(bio);
   const shareBtn = document.getElementById('shareBtn');
   shareBtn.onclick = async () => {
     const shareUrl = url.origin + url.pathname + deeplink;
     try{
       if(navigator.share){
-        await navigator.share({title:'Wall of Shame — Receipt', text:`${m.name}${b.title?(' — '+b.title):''}`, url: shareUrl});
+        await navigator.share({title:'Wall of Shame — Receipt', text:\`\${m.name}\${b.title?(' — '+b.title):''}\`, url: shareUrl});
       }else{
         await navigator.clipboard.writeText(shareUrl);
         shareBtn.textContent = 'Link copied';
@@ -612,7 +687,7 @@ document.addEventListener('click', (e)=>{
   const more = e.target.closest('.pill.more');
   if(more){
     const bio = more.getAttribute('data-more-bio');
-    if(bio) openReceipt(bio, ''); // open modal even without bill to show badges/finance
+    if(bio) openReceipt(bio, ''); // open modal even without bill to show badges/finance/donors
     return;
   }
   const btn = e.target.closest('[data-open-receipt]');
@@ -638,10 +713,8 @@ document.getElementById('resetFilters').addEventListener('click', ()=>{
   MEMBERS = await loadMembers();
   VOTES   = await loadVotes();
   BADGES  = await loadBadges(); // may be {}
-  // Load finance summary so we can decorate cards with donor/vote metrics.
   FINANCE = await loadFinanceSummary() || {};
-  // Load donors so we can surface receipts in the modal
-  DONORS = await loadDonors() || {};
+  DONORS  = await loadDonors() || {};
   joinData();
   buildFilters();
   render();
