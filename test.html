@@ -228,11 +228,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
   // ------- helpers
+ <script>
+  // ------- helpers
   const STORE_KEY = 'evergreen_plan_v2';
 
-  function saveState(obj){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }catch(e){} }
+  function saveState(obj){ localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }
   function loadState(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
-  function clearState(){ try{ localStorage.removeItem(STORE_KEY); }catch(e){} }
+  function clearState(){ localStorage.removeItem(STORE_KEY); }
 
   function oddsFlash(container){
     if(!container) return;
@@ -256,40 +258,52 @@
     });
     if(firstEl && focusFirst){
       const card = firstEl.querySelector('.card-step') || firstEl;
-      if(card && card.focus) card.focus({preventScroll:true});
-      firstEl.scrollIntoView({behavior:'smooth', block:'center'});
+      try { card.focus({preventScroll:true}); } catch(_) {}
+      try { firstEl.scrollIntoView({behavior:'smooth', block:'center'}); } catch(_) {}
     }
+  }
+
+  // choose a single value to display (don't overwrite repeatedly)
+  function pickOddsValue(span, passed){
+    const keys = passed
+      ? ['pass','passB','passR','passStd']
+      : ['fail','failB','failR','failStd'];
+    for(const k of keys){
+      const dataKey = k.replace(/[A-Z]/g, m => '-'+m.toLowerCase()); // passB -> pass-b
+      const v = span.dataset[k] || span.dataset[dataKey];
+      if(v) return v;
+    }
+    // if no variant, try the base shown value the author included
+    return span.textContent || '';
   }
 
   function updateOdds(container, passed){
     if(!container) return;
     container.querySelectorAll('.odds-now').forEach(span=>{
-      const passStandalone = span.dataset.pass;
-      const passBundled   = span.dataset.passB;
-      const passRider     = span.dataset.passR;
-      const passStd       = span.dataset.passStd;
-      const failStandalone= span.dataset.fail;
-      const failBundled   = span.dataset.failB;
-      const failRider     = span.dataset.failR;
-      const failStd       = span.dataset.failStd;
-      if(passed){
-        if(passStandalone) span.textContent = passStandalone;
-        if(passBundled)   span.textContent = passBundled;
-        if(passRider)     span.textContent = passRider;
-        if(passStd)       span.textContent = passStd;
-      } else {
-        if(failStandalone) span.textContent = failStandalone;
-        if(failBundled)   span.textContent = failBundled;
-        if(failRider)     span.textContent = failRider;
-        if(failStd)       span.textContent = failStd;
-      }
+      const next = pickOddsValue(span, passed);
+      if(next) span.textContent = next;
     });
     oddsFlash(container);
   }
 
+  function ensureEffectPanel(card, stepId){
+    if(!card || card.querySelector('.effect-panel')) return;
+    const panel = document.createElement('div');
+    panel.className = 'collapse effect-panel mt-2';
+    const panelId = 'eff-'+stepId;
+    panel.id = panelId;
+    panel.innerHTML = `
+      <div class="effect-header" role="button" tabindex="0" data-target="#${panelId}" aria-controls="${panelId}" aria-expanded="false">
+        <p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+      </div>
+      <div class="effect-body"></div>`;
+    const body = card.querySelector('.card-body') || card;
+    body.appendChild(panel);
+  }
+
   function setEffect(card, title, lines){
     if(!card) return;
-    const box  = card.querySelector('.effect-panel');
+    const box = card.querySelector('.effect-panel');
     const body = card.querySelector('.effect-panel .effect-body');
     if(!box || !body) return;
     const list = Array.isArray(lines) ? lines : [String(lines||'')];
@@ -301,6 +315,7 @@
   }
 
   function recordButtons(card, passed){
+    if(!card) return;
     const buttons = card.querySelectorAll('.branch');
     buttons.forEach(b=>{
       b.disabled = true;
@@ -314,8 +329,8 @@
   function applyDecision(stepId, passed, save=true){
     const cardWrap = document.getElementById(stepId);
     if(!cardWrap) return;
-    const card = cardWrap.querySelector('.card-step') || cardWrap.querySelector('.card');
-    if(!card) return;
+    const card = cardWrap.querySelector('.card-step') || cardWrap;
+
     const passBtn = card.querySelector('.branch.btn-success');
     const failBtn = card.querySelector('.branch.btn-danger');
     const btn = passed ? passBtn : failBtn;
@@ -326,19 +341,7 @@
     let lines = [];
     try { lines = effTxt ? JSON.parse(effTxt) : []; } catch(e){ lines = []; }
 
-    if(!card.querySelector('.effect-panel')){
-      const panel = document.createElement('div');
-      panel.className = 'collapse effect-panel mt-2';
-      const panelId = 'eff-'+stepId;
-      panel.id = panelId;
-      panel.innerHTML = `
-        <div class="effect-header" role="button" tabindex="0" data-target="#${panelId}" aria-controls="${panelId}" aria-expanded="false">
-          <p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-        </div>
-        <div class="effect-body"></div>`;
-      const body = card.querySelector('.card-body') || card;
-      body.appendChild(panel);
-    }
+    ensureEffectPanel(card, stepId);
     setEffect(card, passed ? 'Effects of passage' : 'Effects of failure', lines);
     recordButtons(card, passed);
 
@@ -355,9 +358,9 @@
     ['A','B'].forEach(path=>{
       const scope = document.querySelector('[data-path="'+path+'"]');
       if(!scope) return;
-      const all = scope.querySelectorAll('.card-step, [data-step]');
+      const all = scope.querySelectorAll('.card-step');
       let decided = 0;
-      all.forEach(c=>{ if(c.querySelectorAll?.('.branch[disabled]').length > 0) decided += 1; });
+      all.forEach(c=>{ if(c.querySelectorAll('.branch[disabled]').length > 0) decided += 1; });
       const totalCards = all.length;
       const bar = document.getElementById('progress'+path);
       const count = document.getElementById('count'+path);
@@ -365,34 +368,20 @@
       if(bar){
         const pct = totalCards ? Math.round((decided/totalCards)*100) : 0;
         bar.style.width = pct+'%';
-        bar.setAttribute('aria-valuenow', String(pct));
+        bar.setAttribute('aria-valuenow', pct);
       }
       if(count) count.textContent = decided;
       if(total) total.textContent = totalCards;
     });
   }
 
-  // Accordion toggle (click)
+  // ---------- delegated UI handlers (defensive)
   document.addEventListener('click', (e)=>{
-    const header = e.target.closest('.effect-header');
-    if(!header) return;
-    const targetSel = header.getAttribute('data-target');
-    const target = targetSel ? document.querySelector(targetSel) : header.parentElement;
-    if(!target) return;
-    const c = bootstrap.Collapse.getOrCreateInstance(target, {toggle:false});
-    const expanded = header.getAttribute('aria-expanded') === 'true';
-    c.toggle();
-    header.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  });
-
-  // Accordion toggle (keyboard: Enter/Space)
-  document.addEventListener('keydown', (e)=>{
-    if(e.key !== 'Enter' && e.key !== ' ') return;
     const header = e.target.closest?.('.effect-header');
     if(!header) return;
-    e.preventDefault();
     const targetSel = header.getAttribute('data-target');
-    const target = targetSel ? document.querySelector(targetSel) : header.parentElement;
+    if(!targetSel) return;
+    const target = document.querySelector(targetSel);
     if(!target) return;
     const c = bootstrap.Collapse.getOrCreateInstance(target, {toggle:false});
     const expanded = header.getAttribute('aria-expanded') === 'true';
@@ -400,85 +389,107 @@
     header.setAttribute('aria-expanded', expanded ? 'false' : 'true');
   });
 
-  // Branch buttons
   document.addEventListener('click', (e)=>{
-    const btn = e.target.closest('.branch');
+    const btn = e.target.closest?.('.branch');
     if(!btn) return;
-    const card = btn.closest('.card-step, [data-step]');
+    const card = btn.closest('.card-step');
     if(!card) return;
-    const stepId = card.parentElement?.id || card.id;
-    if(!stepId) return;
+    const wrap = card.parentElement || card;
+    const stepId = wrap.id || card.dataset.step;
     const passed = btn.classList.contains('btn-success');
     applyDecision(stepId, passed, true);
   });
 
-  // Search
-  const searchEl = document.getElementById('search');
-  if(searchEl){
-    searchEl.addEventListener('input', (e)=>{
-      const term = (e.target.value || '').toLowerCase().trim();
-      const activePane = document.querySelector('.tab-pane.active');
-      if(!activePane) return;
-      activePane.querySelectorAll('.card-step').forEach(card=>{
-        const text = card.innerText.toLowerCase();
-        const wrap = card.closest('.col-md-4, .col-md-6');
-        if(!wrap) return;
-        const isShownByState = !wrap.classList.contains('locked') || document.getElementById('showAll')?.checked;
-        const matches = !term || text.includes(term);
-        wrap.style.display = isShownByState && matches ? '' : 'none';
-      });
-    });
-  }
+  // ---------- init (runs only after DOM is fully parsed)
+  document.addEventListener('DOMContentLoaded', ()=>{
+    // If any of these controls are missing, safely skip listeners
+    const search = document.getElementById('search');
+    const showAll = document.getElementById('showAll');
+    const resetPlan = document.getElementById('resetPlan');
+    const pathTabs = document.getElementById('pathTabs');
 
-  // Show all toggle
-  const showAllEl = document.getElementById('showAll');
-  if(showAllEl){
-    showAllEl.addEventListener('change', (e)=>{
-      const activePane = document.querySelector('.tab-pane.active');
-      if(!activePane) return;
-      const showAll = e.target.checked;
-      activePane.querySelectorAll('.col-md-4.locked, .col-md-6.locked').forEach(el=>{
-        if(showAll){
-          el.classList.remove('locked');
-        } else {
-          const id = el.id;
-          const state = loadState();
-          const revealedByState = !!state[id];
-          if(!revealedByState) el.classList.add('locked');
+    if(search){
+      search.addEventListener('input', (e)=>{
+        const term = e.target.value.toLowerCase().trim();
+        const activePane = document.querySelector('.tab-pane.active');
+        if(!activePane) return;
+        activePane.querySelectorAll('.card-step').forEach(card=>{
+          const text = card.innerText.toLowerCase();
+          const wrap = card.closest('.col-md-4, .col-md-6');
+          if(!wrap) return;
+          const isShownByState = !wrap.classList.contains('locked') || (showAll && showAll.checked);
+          const matches = !term || text.includes(term);
+          wrap.style.display = (isShownByState && matches) ? '' : 'none';
+        });
+      });
+    }
+
+    if(showAll){
+      showAll.addEventListener('change', ()=>{
+        const activePane = document.querySelector('.tab-pane.active');
+        if(!activePane) return;
+        const preview = showAll.checked;
+        activePane.querySelectorAll('.col-md-4.locked, .col-md-6.locked').forEach(el=>{
+          if(preview){
+            el.classList.remove('locked');
+          } else {
+            const id = el.id;
+            const state = loadState();
+            const revealedByState = !!state[id];
+            if(!revealedByState) el.classList.add('locked');
+          }
+        });
+        if(search) search.dispatchEvent(new Event('input'));
+      });
+    }
+
+    if(resetPlan){
+      resetPlan.addEventListener('click', ()=>{
+        clearState();
+        // re-lock everything except the initial seeds
+        document.querySelectorAll('#pathA .col-md-4, #pathA .col-md-6, #pathB .col-md-4, #pathB .col-md-6')
+          .forEach(el=>{
+            el.classList.toggle('locked', !['A-G1','B-G1'].includes(el.id));
+          });
+        if(search) search.value = '';
+        updateProgress();
+        // focus the first visible seed
+        const seed = document.getElementById('A-G1') || document.getElementById('B-G1');
+        if(seed) seed.scrollIntoView({behavior:'smooth', block:'center'});
+      });
+    }
+
+    if(pathTabs){
+      pathTabs.addEventListener('click', ()=>{ setTimeout(updateProgress, 50); });
+    }
+
+    // Restore state; if no state yet, make sure seed cards are visible
+    function ensureSeeds(){
+      const seeds = ['A-G1','B-G1'];
+      seeds.forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.classList.remove('locked');
+      });
+    }
+
+    function restoreState(){
+      const state = loadState();
+      const keys = Object.keys(state || {});
+      if(keys.length === 0){
+        ensureSeeds();
+        return;
+      }
+      // apply in DOM order to preserve reveal flow
+      const allWraps = Array.from(document.querySelectorAll('.card-step')).map(c=>c.parentElement.id).filter(Boolean);
+      allWraps.forEach(id=>{
+        if(state[id]){
+          const passed = state[id] === 'pass';
+          applyDecision(id, passed, false);
         }
       });
-      searchEl?.dispatchEvent(new Event('input'));
-      updateProgress();
-    });
-  }
+    }
 
-  // Reset
-  const resetBtn = document.getElementById('resetPlan');
-  if(resetBtn){
-    resetBtn.addEventListener('click', ()=>{
-      clearState();
-      location.reload();
-    });
-  }
-
-  function restoreState(){
-    const state = loadState();
-    const allCards = Array.from(document.querySelectorAll('.card-step, [data-step]')).map(c=>c.parentElement?.id || c.id).filter(Boolean);
-    allCards.forEach(id=>{
-      if(state[id]){
-        const passed = state[id] === 'pass';
-        applyDecision(id, passed, false);
-      }
-    });
-    updateProgress();
-  }
-
-  const pathTabs = document.getElementById('pathTabs');
-  if(pathTabs){
-    pathTabs.addEventListener('click', ()=>{ setTimeout(updateProgress, 50); });
-  }
-
-  document.addEventListener('DOMContentLoaded', ()=>{
+    ensureSeeds();
     restoreState();
     updateProgress();
   });
