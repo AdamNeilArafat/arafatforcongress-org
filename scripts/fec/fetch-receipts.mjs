@@ -2,6 +2,27 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { preflight, ensureDir, ymd, getJSON, readJSON, appendNDJSON, collectPaged, sleep } from "./lib.mjs";
 
+
+const BURST_SLEEP_MS = Number(process.env.FEC_BURST_SLEEP_MS || 1200); // ~50/min
+const MAX_RETRIES = Number(process.env.FEC_MAX_RETRIES || 5);
+
+async function getJSONWithBackoff(url) {
+  let lastErr;
+  for (let i = 0; i < MAX_RETRIES; i++) {
+    try {
+      return await getJSONWithBackoff(url); // call the real getter
+    } catch (e) {
+      lastErr = e;
+      const msg = String((e && (e.message || e)) || '');
+      const is429 = msg.includes('429') || (e && e.code === 429);
+      if (!is429) throw e;
+      const wait = Math.min(60000, (i + 1) * 5000); // 5s,10s,... cap 60s
+      console.warn(`[fec] 429 rate limit; retry ${i+1}/${MAX_RETRIES} after ${wait}ms`);
+      await sleep(wait);
+    }
+  }
+  throw lastErr;
+}
 await preflight();
 
 const cfg = (await readJSON("config/fec-targets.json", {})) || {};
