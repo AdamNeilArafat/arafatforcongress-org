@@ -25,47 +25,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: "npm"
 
       - name: Install deps
         run: npm ci
 
-      - name: Build chart-ready data (no-op if unchanged)
+      - name: Build data & site
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
-          SKIP_FEC_PREFLIGHT: 1
-        run: npm run fec:site
-
-      - name: Check data (fail fast if JSONs missing/empty)
-        run: npm run check:data
-
-      - name: AI analysis (incremental; non-blocking)
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          AI_MAX_ITEMS: 0
-          AI_DISABLED: ${{ secrets.AI_DISABLED }}
-        run: npm run ai:analyze:delta
-        continue-on-error: true
-
-      - name: Compact AI outputs (optional; non-blocking)
-        run: npm run ai:compact || true
-
-      - name: Assemble static site
         run: |
-          mkdir -p _site
-          rsync -a --delete ./ _site/ \
-            --exclude "_site" \
-            --exclude "node_modules" \
-            --exclude ".git" \
-            --exclude ".github" \
-            --exclude "scripts" \
-            --exclude "config" \
-            --exclude "package*.json"
+          npm run build:data
+          # OPTIONAL: basic sanity checks (fail fast if empties)
+          bash scripts/check-data.sh
 
-      - name: Upload artifact
+      # If your site is static in repo root (HTML + /data directory):
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: .
 
   deploy:
     needs: build
@@ -74,5 +51,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
       - id: deployment
+        name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
