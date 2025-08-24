@@ -33,13 +33,17 @@ jobs:
       - name: Build chart-ready data (no-op if unchanged)
         env:
           FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+          SKIP_FEC_PREFLIGHT: 1
         run: npm run fec:site
+
+      - name: Check data (fail fast if JSONs missing/empty)
+        run: npm run check:data
 
       - name: AI analysis (incremental; non-blocking)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           AI_MAX_ITEMS: 0
-          AI_DISABLED: ${{ secrets.AI_DISABLED }}  # optional kill switch
+          AI_DISABLED: ${{ secrets.AI_DISABLED }}
         run: npm run ai:analyze:delta
         continue-on-error: true
 
