@@ -59,14 +59,14 @@
       padding:.2rem .55rem;
       border-radius:999px;
       font-weight:700;
-      white-space: nowrap; /* single-line on wider screens */
+      white-space: nowrap;
     }
     @media (max-width: 767.98px){
       .rallies span{
         display:block;
-        white-space: normal;       /* allow wrapping */
+        white-space: normal;
         max-width: 320px;
-        margin: 0 auto;            /* centered full-width pill */
+        margin: 0 auto;
         line-height: 1.2;
         word-break: break-word;
         overflow-wrap: anywhere;
@@ -174,7 +174,7 @@
   </div>
 </section>
 
-<!-- HEADER BREAK (wrapped in container for better line length) -->
+<!-- HEADER BREAK -->
 <div class="header-break">
   <div class="container">
     <p class="kicker">Get in Touch</p>
@@ -187,34 +187,7 @@
   </div>
 </div>
 
-<!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="/index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="/digging-into-the-issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
-        <li class="nav-item"><a class="nav-link active" href="/contact.html" aria-current="page">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero py-5">
-  <div class="container">
-    <div class="wrap p-4">
-      <h1 class="mb-1 h3">Contact the Campaign</h1>
-      <p class="mb-0">Questions, feedback, press, or getting involved. Your voice guides this effort.</p>
-    </div>
-  </div>
-</section>
-
+<!-- STORY BOX -->
 <main id="main" class="py-5">
   <div class="container px-4">
 
@@ -224,36 +197,6 @@
     </div>
 
     <div class="row g-4">
-      <!-- General -->
-      <div class="col-md-6">
-        <div class="contact-card h-100">
-          <div class="d-flex align-items-center mb-2">
-            <div class="icon"><i class="fa-regular fa-envelope"></i></div>
-            <h2 class="h5 m-0">General</h2>
-          </div>
-          <p class="mb-3">Questions, ideas, and media inquiries.</p>
-          <a class="btn btn-outline-primary"
-             href="mailto:info@arafatforcongress.org?subject=General%20Question%20for%20the%20Campaign">
-             <i class="fa-regular fa-paper-plane me-1"></i>Email: info@arafatforcongress.org
-          </a>
-        </div>
-      </div>
-
-      <!-- Volunteer / Join the Team -->
-      <div class="col-md-6">
-        <div class="contact-card h-100">
-          <div class="d-flex align-items-center mb-2">
-            <div class="icon"><i class="fa-solid fa-users"></i></div>
-            <h2 class="h5 m-0">Join the Team Building WA-10</h2>
-          </div>
-          <p class="mb-3">Be part of the team fighting for working families in WA-10. Pick your level of involvement.</p>
-          <a class="btn btn-outline-primary"
-             href="mailto:volunteer@arafatforcongress.org?subject=I%20Want%20to%20Join%20the%20Team%20Building%20WA-10">
-             <i class="fa-regular fa-handshake me-1"></i>Email: volunteer@arafatforcongress.org
-          </a>
-        </div>
-      </div>
-
       <!-- Share Your Story -->
       <div class="col-12">
         <div class="story-box">
@@ -265,7 +208,7 @@
           </div>
           <p class="mb-3">Tell me how healthcare, high costs, or corruption affect your family. I read every message.</p>
 
-          <!-- This is NOT a remote form. It just opens an email with your text. -->
+          <!-- Form for Story Submission -->
           <form id="storyEmailForm" class="row g-3" onsubmit="return sendStoryEmail(event);" novalidate>
             <div class="col-md-6">
               <label for="storyName" class="form-label">Your name <span class="text-muted">(optional)</span></label>
@@ -299,61 +242,11 @@
           </form>
         </div>
       </div>
-
-      <!-- Office Locations -->
-      <div class="col-12">
-        <div class="contact-card h-100">
-          <div class="d-flex align-items-center mb-2">
-            <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-            <h2 class="h5 m-0">Office Locations</h2>
-          </div>
-          <p class="mb-1"><strong>Main Campaign Office:</strong> Details forthcoming.</p>
-          <p class="mb-0"><strong>District Office:</strong> Planned for WA-10. Details to follow.</p>
-        </div>
-      </div>
     </div>
-
-    <!-- Donate CTA -->
-    <div class="mt-5 text-center">
-      <a class="btn btn-lg btn-donate" target="_blank" rel="noopener"
-         href="https://secure.actblue.com/donate/adam-arafat-1">
-         <i class="fa-solid fa-heart me-1"></i> Donate
-      </a>
-    </div>
-
   </div>
 </main>
 
-<!-- FOOTER (Social strip + legal) -->
-<section class="footer-social py-3">
-  <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <span class="me-2 fw-semibold">Follow Adam:</span>
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Reddit">
-      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
-    </a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
-      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
-      <span>Bluesky</span>
-    </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="TikTok">
-      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
-    </a>
-  </div>
-</section>
-
-<footer class="footer-legal py-4 border-top text-center">
-  <div class="container">
-    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">2007 197th St Ct E, Spanaway, WA 98387</p>
-    <p class="small text-muted mb-0">Not authorized by any other candidate or candidate's committee.</p>
-  </div>
-</footer>
-
 <script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // Mailto composer for "Share Your Story" - no external form or service.
   function sendStoryEmail(e){
     e.preventDefault();
     const name = document.getElementById('storyName').value.trim();
@@ -361,22 +254,74 @@
     const topic = document.getElementById('storyCategory').value;
     const message = document.getElementById('storyMessage').value.trim();
 
-    const to = 'info@arafatforcongress.org';
-    const subject = encodeURIComponent(`Story: ${topic}${name ? ' - ' + name : ''}`);
-    const bodyLines = [];
+    // Prepare data to log to Google Sheets
+    const payload = {
+      type: 'contact',
+      firstName: name || '',
+      lastName: '',
+      email: contact || '',
+      city: '',
+      state: '',
+      userAgent: navigator.userAgent,
+      emailConfirm: '',
+      candidateConfirmed: false
+    };
 
-    if (name) bodyLines.push(`Name: ${name}`);
-    if (contact) bodyLines.push(`Best contact: ${contact}`);
-    bodyLines.push(`Topic: ${topic}`);
-    bodyLines.push('');
-    bodyLines.push('Story:');
-    bodyLines.push(message || '(Your story here)');
+    // Send data to Google Sheets via your backend endpoint
+    fetch('YOUR_BACKEND_URL_HERE', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Contact data logged:', data);
+    })
+    .catch(error => {
+      console.error('Error logging contact data:', error);
+    });
 
-    const body = encodeURIComponent(bodyLines.join('\n'));
-    const href = `mailto:${to}?subject=${subject}&body=${body}`;
-    window.location.href = href;
     return false;
   }
+  function sendStoryEmail(e){
+    e.preventDefault();
+    const name = document.getElementById('storyName').value.trim();
+    const contact = document.getElementById('storyContact').value.trim();
+    const topic = document.getElementById('storyCategory').value;
+    const message = document.getElementById('storyMessage').value.trim();
+
+    // Prepare data to log to Google Sheets
+    const payload = {
+      type: 'contact',
+      name: name || '',
+      email: contact || '',
+      phone: '',  // You can add phone number here if desired
+      zip: '',    // Add zip code if needed
+      topic: topic || '',
+      message: message || '',
+      utm_source: '', // Add UTM source here if needed
+      utm_medium: '', // Add UTM medium here if needed
+      utm_campaign: '', // Add UTM campaign here if needed
+      userAgent: navigator.userAgent
+    };
+
+    // Send data to Google Sheets via your backend endpoint
+    fetch('YOUR_BACKEND_URL_HERE', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Contact data logged:', data);
+    })
+    .catch(error => {
+      console.error('Error logging contact data:', error);
+    });
+
+    return false;
+}
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
