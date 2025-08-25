@@ -110,7 +110,33 @@
 <header class="py-5 hero">
   <div class="container text-center">
     <h1 class="display-5 mb-2">🌲 The Evergreen Pact</h1>
-    <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
+    <!-- Signature block in header -->
+    <div class="row justify-content-center g-4 mb-4">
+      <!-- Candidates -->
+      <div class="col-md-5">
+        <div class="p-4 rounded bg-light text-dark shadow-sm">
+          <h2 class="h5 fw-bold mb-2">✍️ Candidate Signatures</h2>
+          <p class="display-6 fw-bold mb-3 text-success"><span id="candidateCount">—</span></p>
+          <form id="candidateForm" class="needs-validation" novalidate>
+            <input type="email" class="form-control mb-2" id="candidateEmail" placeholder="name@campaign.org" required>
+            <button type="submit" class="btn btn-success w-100">Sign as Candidate</button>
+            <div id="candidateMsg" class="small mt-2"></div>
+          </form>
+        </div>
+      </div>
+      <!-- Voters -->
+      <div class="col-md-5">
+        <div class="p-4 rounded bg-light text-dark shadow-sm">
+          <h2 class="h5 fw-bold mb-2">🗳️ Voter Signatures</h2>
+          <p class="display-6 fw-bold mb-3 text-primary"><span id="voterCount">—</span></p>
+          <form id="voterForm" class="needs-validation" novalidate>
+            <input type="email" class="form-control mb-2" id="voterEmail" placeholder="name@email.com" required>
+            <button type="submit" class="btn btn-primary w-100">Sign as Voter</button>
+            <div id="voterMsg" class="small mt-2"></div>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <div class="d-flex justify-content-center gap-2 flex-wrap">
       <a class="btn btn-outline-light btn-pill fw-bold ../Overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open Overview PDF (Overview.html)">
@@ -1395,7 +1421,7 @@
 <footer>
   <div class="container text-center small">
     <p class="mb-1">Paid for by Adam Neil Arafat for Congress</p>
-    <p class="mb-0">&copy; 2027 Adam Neil Arafat. All Rights Reserved.</p>
+    <p class="mb-0">&copy; 2025 Adam Neil Arafat. All Rights Reserved.</p>
   </div>
 </footer>
 
@@ -1615,6 +1641,101 @@
   document.addEventListener('DOMContentLoaded', ()=>{
     restoreState();
     updateProgress();
+  });
+</script>
+
+<!-- Global signature logic -->
+<script>
+  // ====== True global counter via Google Apps Script ======
+  // Replace this with your deployed Apps Script Web App URL
+  const SIGN_API = 'https://script.google.com/macros/s/AKfycbwkukUijP7XiUMVeHh2wsrywdmxE5129qOMvrZRjIM0Mpiqftc6LE-3yt-0TurzwamB/exec';
+
+  // Bootstrap validation helper for forms
+  (function () {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+
+  // Fetch current counts from the API
+  async function fetchCounts() {
+    try {
+      const res = await fetch(SIGN_API, { method: 'GET' });
+      const data = await res.json();
+      if (data && data.ok && data.counts) {
+        document.getElementById('candidateCount').textContent = data.counts.candidates;
+        document.getElementById('voterCount').textContent = data.counts.voters;
+      }
+    } catch (e) {
+      console.warn('Count fetch failed', e);
+    }
+  }
+
+  // Send a signature to the API
+  async function sendSignature(type, email, msgEl, buttonEl) {
+    try {
+      buttonEl.disabled = true;
+      const res = await fetch(SIGN_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, email })
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Unknown error');
+      const { counts, duplicate } = data;
+
+      // Update counters on the page
+      document.getElementById('candidateCount').textContent = counts.candidates;
+      document.getElementById('voterCount').textContent = counts.voters;
+
+      msgEl.className = 'small mt-2 ' + (duplicate ? 'text-warning' : 'text-success');
+      msgEl.textContent = duplicate ? 'You already signed. Thank you!' : 'Thank you for signing!';
+
+    } catch (err) {
+      console.error(err);
+      msgEl.className = 'small mt-2 text-danger';
+      msgEl.textContent = 'Sorry—something went wrong. Please try again in a moment.';
+    } finally {
+      buttonEl.disabled = false;
+    }
+  }
+
+  // Initialize form listeners and load counts when the DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    // Load counts on page load
+    fetchCounts();
+
+    // Candidate form submission handler
+    const cForm = document.getElementById('candidateForm');
+    if (cForm) {
+      cForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!cForm.checkValidity()) return;
+        const email = document.getElementById('candidateEmail').value.trim();
+        sendSignature('candidate', email, document.getElementById('candidateMsg'), cForm.querySelector('button[type="submit"]'))
+          .then(() => cForm.reset());
+      });
+    }
+
+    // Voter form submission handler
+    const vForm = document.getElementById('voterForm');
+    if (vForm) {
+      vForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!vForm.checkValidity()) return;
+        const email = document.getElementById('voterEmail').value.trim();
+        sendSignature('voter', email, document.getElementById('voterMsg'), vForm.querySelector('button[type="submit"]'))
+          .then(() => vForm.reset());
+      });
+    }
   });
 </script>
 </body>
