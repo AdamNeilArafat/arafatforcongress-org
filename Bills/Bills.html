@@ -1828,14 +1828,13 @@
 </script>
 
 
-<!-- Evergreen Pact signature/validation enhancements (merged) -->
+
+<!-- Evergreen Pact signature/validation enhancements (merged v2) -->
 <script>
 (() => {
-  // Do not run twice
-  if (window.__ep_enhanced__) return;
-  window.__ep_enhanced__ = true;
+  if (window.__ep_enhanced_v2__) return;
+  window.__ep_enhanced_v2__ = true;
 
-  // === CONFIG ===
   const API = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
 
   const $ = (sel, root=document) => root.querySelector(sel);
@@ -1874,13 +1873,7 @@
       utm_content: p.get("utm_content") || ""
     };
   }
-  function forceValidateAutofill(form) {
-    setTimeout(() => validateAllInputs(form), 150);
-    setTimeout(() => validateAllInputs(form), 800);
-  }
-  function validateAllInputs(form) {
-    $$("input,textarea,select", form).forEach(markValidity);
-  }
+
   function markValidity(input) {
     const optionalEmpty = !input.required && !input.value;
     const valid = optionalEmpty ? true : input.checkValidity();
@@ -1892,10 +1885,20 @@
     }
     return valid;
   }
+  function validateAllInputs(form) {
+    $$("input,textarea,select", form).forEach(markValidity);
+  }
   function clearValidation(form) {
     form.classList.remove("was-validated");
     $$("input,textarea,select", form).forEach((i)=>i.classList.remove("is-valid","is-invalid"));
   }
+
+  // Aggressive autofill detection: run several passes + on pageshow
+  function kickAutofill(form) {
+    const passes = [120, 350, 800, 1400, 2200];
+    passes.forEach(ms => setTimeout(() => validateAllInputs(form), ms));
+  }
+
   async function postJSON(url, payload) {
     const res = await fetch(url, {
       method: "POST",
@@ -1917,7 +1920,6 @@
     el.classList.add("flash");
     setTimeout(()=>el.classList.remove("flash"), 600);
   }
-
   function ensureAttrs(el, {name, autocomplete}) {
     if (!el) return;
     if (name && !el.name) el.name = name;
@@ -1928,26 +1930,23 @@
     const form = byId(formId);
     if (!form) return;
 
-    // Kill any previous handlers to avoid duplicate or broken logic
-    form.addEventListener("submit", (e) => { e.preventDefault(); e.stopImmediatePropagation(); }, {capture:true});
-    form.removeEventListener && form.removeEventListener("submit", ()=>{}, true);
-
     const msgEl = byId(msgElId);
     const btn = $("button[type=submit]", form);
 
-    // Make sure key inputs have names/autocomplete for autofill
-    for (const [key, meta] of Object.entries(fieldMap)) {
-      ensureAttrs(byId(meta.id), {name: meta.name, autocomplete: meta.autocomplete});
-    }
+    // Ensure expected attrs (helps autofill)
+    for (const meta of Object.values(fieldMap)) ensureAttrs(byId(meta.id), meta);
 
-    // Live validation (incl. autofill)
+    // Live validation hooks
     $$("input,textarea,select", form).forEach((inp) => {
       ["input","change","blur"].forEach(evt =>
         inp.addEventListener(evt, () => markValidity(inp), { passive: true })
       );
     });
-    forceValidateAutofill(form);
 
+    kickAutofill(form);
+    window.addEventListener("pageshow", () => kickAutofill(form));
+
+    // Our submit handler (no capture, we just prevent default here)
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -1960,7 +1959,6 @@
       }
 
       const base = formToJSON(form);
-      // Build payload using fieldMap fallbacks
       const payload = {
         type,
         timestamp: new Date().toISOString(),
@@ -1994,21 +1992,19 @@
         bumpCount(countElId);
         form.reset();
         clearValidation(form);
-        forceValidateAutofill(form);
+        kickAutofill(form);
       } catch (err) {
         console.error(err);
         setMsg(msgEl, "Sorry—could not submit. Please try again in a moment.", false);
       } finally {
         toggleBtn(btn, true);
       }
-    });
+    }, { once: false });
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    // Footer year if present
     const y = document.getElementById("year"); if (y) y.textContent = new Date().getFullYear();
 
-    // Candidate form mapping (tolerant to different IDs/names)
     wireSignatureForm({
       formId: "candidateForm",
       type: "candidate",
@@ -2024,7 +2020,6 @@
       }
     });
 
-    // Voter form mapping
     wireSignatureForm({
       formId: "voterForm",
       type: "voter",
@@ -2041,6 +2036,7 @@
   });
 })();
 </script>
+
 
 </body>
 </html>
