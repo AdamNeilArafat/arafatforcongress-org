@@ -173,11 +173,10 @@
       userAgent: navigator.userAgent
     };
 
-    // 1) Try POST with fetch — show success ONLY on {ok:true}
     try {
       const form = new URLSearchParams();
       Object.entries(payload).forEach(([k, v]) => form.append(k, v));
-      const res = await fetch(WEBAPP_URL, { method:"POST", body: form });
+      const res = await fetch(WEBAPP_URL, { method: "POST", body: form });
       const text = await res.text();
       let data;
       try { data = JSON.parse(text); } catch { data = null; }
@@ -186,38 +185,17 @@
         document.getElementById('contactForm').reset();
         return false;
       }
-      // If JSON came back but not ok, throw to pixel fallback
-      if (data && !data.ok) throw new Error(data.error || "Server rejected");
-      // If non-JSON, also fall through to pixel
+      if (data && data.error) {
+        alert(`Error: ${data.error}`);
+        return false;
+      }
+      // If response isn't JSON or missing expected fields, treat as failure
+      throw new Error("Invalid response");
     } catch (err) {
-      // continue to pixel attempt
-      console.warn("POST failed or not OK; trying pixel...", err);
-    }
-
-    // 2) Try GET tracking pixel (logs via doGet and confirms via onload)
-    try {
-      const qs = new URLSearchParams();
-      Object.entries(payload).forEach(([k, v]) => qs.append(k, v));
-      qs.append('via','pixel');
-      qs.append('t', Date.now()); // cache-buster
-      const img = new Image();
-      const pixelPromise = new Promise((resolve, reject)=>{
-        img.onload = resolve;
-        img.onerror = reject;
-        // Note: Apps Script returns JSON, but we just need the hit to succeed
-      });
-      img.src = WEBAPP_URL + '?' + qs.toString();
-      await pixelPromise;
-      alert("Thanks for sharing your story! We received it.");
-      document.getElementById('contactForm').reset();
+      console.warn("POST failed; falling back to mailto.", err);
+      window.location.href = composeMailto(payload);
       return false;
-    } catch (err) {
-      console.warn("Pixel logging failed; falling back to mailto.", err);
     }
-
-    // 3) Mailto fallback so nothing is lost
-    window.location.href = composeMailto(payload);
-    return false;
   }
 </script>
 
