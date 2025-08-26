@@ -354,6 +354,11 @@
   document.getElementById('yr').textContent = new Date().getFullYear();
 
 
+    if (!contact && !message) {
+      alert('Please provide at least your email, phone, or a message.');
+      return false;
+    }
+
     const to = 'info@arafatforcongress.org';
 
     try {

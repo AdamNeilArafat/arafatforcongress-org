@@ -158,15 +158,25 @@
   async function submitContact(e){
     e.preventDefault();
 
+    const name = document.getElementById('storyName').value.trim();
+    const email = document.getElementById('storyContact').value.trim();
+    const phone = '';
+    const message = document.getElementById('storyMessage').value.trim();
+
+    if (!email && !phone && !message) {
+      alert('Please provide at least your email, phone, or a message.');
+      return false;
+    }
+
     const payload = {
       source: 'website',
       type: 'contact',
-      name: document.getElementById('storyName').value.trim(),
-      email: document.getElementById('storyContact').value.trim(),
-      phone: '',
+      name,
+      email,
+      phone,
       zip: '',
       topic: document.getElementById('storyCategory').value,
-      message: document.getElementById('storyMessage').value.trim(),
+      message,
       utm_source: getUTM('utm_source'),
       utm_medium: getUTM('utm_medium'),
       utm_campaign: getUTM('utm_campaign'),
