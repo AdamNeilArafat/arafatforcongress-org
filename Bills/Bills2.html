@@ -242,6 +242,22 @@
     const ok = res.status >= 200 && res.status < 300;
     return { ok, status: res.status };
   }
+
+  async function loadCounts() {
+    const candEl = byId('candidateCount');
+    const voterEl = byId('voterCount');
+    if (candEl) candEl.textContent = '';
+    if (voterEl) voterEl.textContent = '';
+    try {
+      const res = await fetch(API);
+      if (!res.ok) throw new Error('network');
+      const data = await res.json();
+      if (candEl && data.candidateCount != null) candEl.textContent = data.candidateCount;
+      if (voterEl && data.voterCount != null) voterEl.textContent = data.voterCount;
+    } catch (err) {
+      console.error('Failed to load counts', err);
+    }
+  }
   function bumpCount(elId) {
     const el = byId(elId);
     if (!el) return;
@@ -335,6 +351,8 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const y = document.getElementById("year"); if (y) y.textContent = new Date().getFullYear();
+
+    loadCounts();
 
     wireSignatureForm({
       formId: "candidateForm",
