@@ -49,9 +49,16 @@
     .rallies { display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin:.5rem 0 0; }
     .rallies span { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:.2rem .55rem; border-radius:999px; font-weight:700; white-space:nowrap; }
 
+    /* Hero */
+    .hero {
+      background-image: url('images/Tacoma-narrows-bridge-image-8.jpg');
+      background-position:center; background-size:cover; background-repeat:no-repeat;
+    }
+
     /* Cards & Boxes */
     .contact-card { border:1px solid #e9eef3; background:#f8fafc; border-radius:14px; padding:1.25rem; box-shadow:0 6px 16px rgba(13,59,102,.06); }
     .story-box { border:1px solid #e9eef3; border-radius:14px; padding:1.25rem; background:#fff; box-shadow:0 6px 16px rgba(13,59,102,.06); }
+    .form-control:focus { box-shadow: 0 0 0 .2rem rgba(13,59,102,.15); border-color:#bcd0e1; }
 
     .btn-donate { background:var(--donate); color:#fff; border:0; border-radius:999px; padding:.65rem 1.2rem; font-weight:800; }
     .btn-donate:hover { transform: translateY(-1px); box-shadow:0 8px 20px rgba(193,18,31,.35); color:#fff; }
@@ -124,7 +131,7 @@
               </button>
               <small class="text-muted me-2">We’ll log this securely.</small>
 
-              <!-- Added back: direct email option -->
+              <!-- Direct email option -->
               <a class="btn btn-outline-secondary"
                  href="mailto:info@arafatforcongress.org?subject=General%20Question%20for%20the%20Campaign">
                  <i class="fa-regular fa-envelope me-1"></i>Email info@arafatforcongress.org
@@ -155,6 +162,22 @@
     return p.get(name) || '';
   }
 
+  function composeMailtoFallback(payload) {
+    const to = 'info@arafatforcongress.org';
+    const subject = encodeURIComponent(`Story: ${payload.topic}${payload.name ? ' - ' + payload.name : ''}`);
+    const lines = [];
+    if (payload.name) lines.push(`Name: ${payload.name}`);
+    if (payload.email) lines.push(`Best contact: ${payload.email}`);
+    if (payload.phone) lines.push(`Phone: ${payload.phone}`);
+    if (payload.zip) lines.push(`Zip: ${payload.zip}`);
+    lines.push(`Topic: ${payload.topic}`);
+    lines.push('');
+    lines.push('Story:');
+    lines.push(payload.message || '(Your story here)');
+    const body = encodeURIComponent(lines.join('\n'));
+    return `mailto:${to}?subject=${subject}&body=${body}`;
+  }
+
   async function submitContact(e) {
     e.preventDefault();
     const payload = {
@@ -171,27 +194,30 @@
       userAgent: navigator.userAgent
     };
 
+    // Build URL-encoded body to avoid CORS preflight
+    const form = new URLSearchParams();
+    Object.entries(payload).forEach(([k, v]) => form.append(k, v));
+
     const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
 
     try {
       const res = await fetch(WEBAPP_URL, {
         method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(payload)
+        body: form // no custom headers -> application/x-www-form-urlencoded
       });
 
-      // Guard against non-JSON responses (e.g., auth page if access not set to Anyone)
       const text = await res.text();
       let data;
       try { data = JSON.parse(text); }
-      catch { throw new Error("Non-JSON response from backend. Check Web App URL/access (must be /exec and 'Anyone')."); }
+      catch { throw new Error("Non-JSON response from backend. Ensure Web App URL is the /exec URL and access is 'Anyone'."); }
 
       if (!data.ok) throw new Error(data.error || "Unknown error");
       alert("Thanks for sharing your story! We received it.");
       document.getElementById('contactForm').reset();
     } catch (err) {
-      alert("Error submitting: " + err.message);
       console.error(err);
+      alert("Error submitting (network/CORS). Your mail app will open so nothing is lost.");
+      window.location.href = composeMailtoFallback(payload);
     }
     return false;
   }
