@@ -1826,5 +1826,221 @@
     });
   });
 </script>
+
+
+<!-- Evergreen Pact signature/validation enhancements (merged) -->
+<script>
+(() => {
+  // Do not run twice
+  if (window.__ep_enhanced__) return;
+  window.__ep_enhanced__ = true;
+
+  // === CONFIG ===
+  const API = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
+
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+  const byId = (id) => document.getElementById(id);
+
+  function setMsg(el, text, ok = true) {
+    if (!el) return;
+    el.textContent = text || "";
+    el.classList.remove("text-danger","text-muted");
+    el.classList.add(ok ? "text-success" : "text-danger");
+  }
+  function toggleBtn(btn, on) {
+    if (!btn) return;
+    btn.disabled = !on;
+    btn.setAttribute("aria-busy", on ? "false" : "true");
+    btn.classList.toggle("disabled", !on);
+  }
+  function formToJSON(form) {
+    const data = {};
+    $$("input,select,textarea", form).forEach((f) => {
+      const key = f.name || f.id;
+      if (!key) return;
+      if (f.type === "checkbox") data[key] = String(f.checked);
+      else data[key] = f.value.trim();
+    });
+    return data;
+  }
+  function utmFromURL() {
+    const p = new URLSearchParams(location.search);
+    return {
+      utm_source: p.get("utm_source") || "",
+      utm_medium: p.get("utm_medium") || "",
+      utm_campaign: p.get("utm_campaign") || "",
+      utm_term: p.get("utm_term") || "",
+      utm_content: p.get("utm_content") || ""
+    };
+  }
+  function forceValidateAutofill(form) {
+    setTimeout(() => validateAllInputs(form), 150);
+    setTimeout(() => validateAllInputs(form), 800);
+  }
+  function validateAllInputs(form) {
+    $$("input,textarea,select", form).forEach(markValidity);
+  }
+  function markValidity(input) {
+    const optionalEmpty = !input.required && !input.value;
+    const valid = optionalEmpty ? true : input.checkValidity();
+    input.classList.remove("is-valid","is-invalid");
+    if (!input.form.classList.contains("was-validated")) {
+      if (input.value) input.classList.add(valid ? "is-valid" : "is-invalid");
+    } else {
+      input.classList.add(valid ? "is-valid" : "is-invalid");
+    }
+    return valid;
+  }
+  function clearValidation(form) {
+    form.classList.remove("was-validated");
+    $$("input,textarea,select", form).forEach((i)=>i.classList.remove("is-valid","is-invalid"));
+  }
+  async function postJSON(url, payload) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+      redirect: "follow",
+      mode: "cors"
+    });
+    const text = await res.text();
+    try { return { ok: res.ok, data: JSON.parse(text) }; }
+    catch { return { ok: res.ok, data: text }; }
+  }
+  function bumpCount(elId) {
+    const el = byId(elId);
+    if (!el) return;
+    const cur = parseInt((el.textContent || "").replace(/[^0-9]/g,""),10);
+    const next = Number.isFinite(cur) ? cur + 1 : 1;
+    el.textContent = String(next);
+    el.classList.add("flash");
+    setTimeout(()=>el.classList.remove("flash"), 600);
+  }
+
+  function ensureAttrs(el, {name, autocomplete}) {
+    if (!el) return;
+    if (name && !el.name) el.name = name;
+    if (autocomplete && !el.getAttribute("autocomplete")) el.setAttribute("autocomplete", autocomplete);
+  }
+
+  function wireSignatureForm({ formId, type, countElId, msgElId, fieldMap }) {
+    const form = byId(formId);
+    if (!form) return;
+
+    // Kill any previous handlers to avoid duplicate or broken logic
+    form.addEventListener("submit", (e) => { e.preventDefault(); e.stopImmediatePropagation(); }, {capture:true});
+    form.removeEventListener && form.removeEventListener("submit", ()=>{}, true);
+
+    const msgEl = byId(msgElId);
+    const btn = $("button[type=submit]", form);
+
+    // Make sure key inputs have names/autocomplete for autofill
+    for (const [key, meta] of Object.entries(fieldMap)) {
+      ensureAttrs(byId(meta.id), {name: meta.name, autocomplete: meta.autocomplete});
+    }
+
+    // Live validation (incl. autofill)
+    $$("input,textarea,select", form).forEach((inp) => {
+      ["input","change","blur"].forEach(evt =>
+        inp.addEventListener(evt, () => markValidity(inp), { passive: true })
+      );
+    });
+    forceValidateAutofill(form);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      form.classList.add("was-validated");
+      let allValid = true;
+      $$("input,textarea,select", form).forEach((i)=>{ if (!markValidity(i)) allValid = false; });
+      if (!allValid) {
+        setMsg(msgEl, "Please fix the highlighted fields.", false);
+        return;
+      }
+
+      const base = formToJSON(form);
+      // Build payload using fieldMap fallbacks
+      const payload = {
+        type,
+        timestamp: new Date().toISOString(),
+        referrer: document.referrer || "",
+        user_agent: navigator.userAgent || "",
+        page: location.href,
+        ...utmFromURL(),
+        first_name: base[fieldMap.first.id] || "",
+        last_name:  base[fieldMap.last.id]  || "",
+        email:      base[fieldMap.email.id] || "",
+        city:       base[fieldMap.city.id]  || "",
+        state:      base[fieldMap.state.id] || "",
+        is_candidate: type === "candidate" ? "true" : "false",
+        candidate_confirm: (base["candidateConfirm"] || base[fieldMap.confirm?.id] || "false"),
+        source: "Evergreen Pact Page"
+      };
+
+      if (type === "candidate" && payload.candidate_confirm !== "true") {
+        setMsg(msgEl, "You must confirm you are a candidate.", false);
+        return;
+      }
+
+      toggleBtn(btn, false);
+      setMsg(msgEl, "Submitting…", true);
+
+      try {
+        const { ok, data } = await postJSON(API, payload);
+        if (!ok) throw new Error(typeof data === "string" ? data : "Request failed");
+
+        setMsg(msgEl, "Thank you! Your signature was recorded.", true);
+        bumpCount(countElId);
+        form.reset();
+        clearValidation(form);
+        forceValidateAutofill(form);
+      } catch (err) {
+        console.error(err);
+        setMsg(msgEl, "Sorry—could not submit. Please try again in a moment.", false);
+      } finally {
+        toggleBtn(btn, true);
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Footer year if present
+    const y = document.getElementById("year"); if (y) y.textContent = new Date().getFullYear();
+
+    // Candidate form mapping (tolerant to different IDs/names)
+    wireSignatureForm({
+      formId: "candidateForm",
+      type: "candidate",
+      countElId: "candidateCount",
+      msgElId: "candidateMsg",
+      fieldMap: {
+        first:  { id: "candidateFirst", name: "candidateFirst", autocomplete: "given-name" },
+        last:   { id: "candidateLast",  name: "candidateLast",  autocomplete: "family-name" },
+        email:  { id: "candidateEmail", name: "candidateEmail", autocomplete: "email" },
+        city:   { id: "candidateCity",  name: "candidateCity",  autocomplete: "address-level2" },
+        state:  { id: "candidateState", name: "candidateState", autocomplete: "address-level1" },
+        confirm:{ id: "candidateConfirm", name:"candidateConfirm" }
+      }
+    });
+
+    // Voter form mapping
+    wireSignatureForm({
+      formId: "voterForm",
+      type: "voter",
+      countElId: "voterCount",
+      msgElId: "voterMsg",
+      fieldMap: {
+        first:  { id: "voterFirst", name: "voterFirst", autocomplete: "given-name" },
+        last:   { id: "voterLast",  name: "voterLast",  autocomplete: "family-name" },
+        email:  { id: "voterEmail", name: "voterEmail", autocomplete: "email" },
+        city:   { id: "voterCity",  name: "voterCity",  autocomplete: "address-level2" },
+        state:  { id: "voterState", name: "voterState", autocomplete: "address-level1" }
+      }
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
