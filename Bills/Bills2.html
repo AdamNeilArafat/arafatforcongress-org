@@ -231,12 +231,6 @@
     Object.entries(obj).forEach(([k,v]) => p.append(k, v == null ? "" : String(v)));
     return p;
   }
-  async function sha256Hex(s) {
-    const enc = new TextEncoder().encode(s);
-    const buf = await crypto.subtle.digest("SHA-256", enc);
-    const bytes = Array.from(new Uint8Array(buf));
-    return bytes.map(b => b.toString(16).padStart(2,"0")).join("");
-  }
   async function postForm(url, payload) {
     const res = await fetch(url, {
       method: "POST",
@@ -295,7 +289,7 @@
 
       const base = formToJSON(form);
       const email = (base[fieldMap.email.id] || "").toLowerCase();
-      const email_hash = email ? await sha256Hex(email) : "";
+      // Backend computes SHA-256 email hash in hex for duplicate checks
       const candidate_confirmed = type === "candidate"
         ? ((base[fieldMap.confirm.id] === "true") ? "true" : "false")
         : "false";
@@ -310,7 +304,6 @@
         timestamp: new Date().toISOString(),
         type,
         email,
-        email_hash,
         ip: "", // let backend fill if desired
         city: base[fieldMap.city.id] || "",
         state: base[fieldMap.state.id] || "",
