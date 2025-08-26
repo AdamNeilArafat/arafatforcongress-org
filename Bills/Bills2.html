@@ -249,7 +249,7 @@
     if (candEl) candEl.textContent = '';
     if (voterEl) voterEl.textContent = '';
     try {
-      const res = await fetch(API);
+      const res = await fetch(API, { cache: "no-cache" });
       if (!res.ok) throw new Error('network');
       const data = await res.json();
       if (candEl && data.candidateCount != null) candEl.textContent = data.candidateCount;
@@ -305,8 +305,8 @@
 
       const base = formToJSON(form);
       const email = (base[fieldMap.email.id] || "").toLowerCase();
-
-        ? ((base[fieldMap.confirm.id] === "true") ? "true" : "false")
+      const candidateConfirmed = fieldMap.confirm
+        ? (base[fieldMap.confirm.id] === "true" ? "true" : "false")
         : "false";
 
       if (type === "candidate" && candidateConfirmed !== "true") {
@@ -337,6 +337,7 @@
         if (!ok) { setMsg(msgEl, "Submit error. Please try again.", false); return; }
         setMsg(msgEl, "Thank you! Your signature was recorded.", true);
         bumpCount(countElId);
+        loadCounts();
         form.reset();
         clearValidation(form);
         kickAutofill(form);
