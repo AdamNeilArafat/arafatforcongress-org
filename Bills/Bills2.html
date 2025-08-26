@@ -246,18 +246,16 @@
   }
 
   async function loadCounts() {
-    const candEl = byId('candidateCount');
-    const voterEl = byId('voterCount');
-    if (candEl) candEl.textContent = '';
-    if (voterEl) voterEl.textContent = '';
     try {
       const res = await fetch(API, { cache: "no-cache" });
       if (!res.ok) throw new Error('network');
       const data = await res.json();
-      if (candEl && data.candidateCount != null) candEl.textContent = data.candidateCount;
-      if (voterEl && data.voterCount != null) voterEl.textContent = data.voterCount;
+      if (data.candidateCount != null) setCount('candidateCount', data.candidateCount);
+      if (data.voterCount != null) setCount('voterCount', data.voterCount);
     } catch (err) {
       console.error('Failed to load counts', err);
+      setCount('candidateCount', 0);
+      setCount('voterCount', 0);
     }
   }
   function setCount(elId, value) {

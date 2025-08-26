@@ -21,11 +21,7 @@ function ensureHeader(name) {
   const sh = sheet(name);
   const headers = [
     'timestamp', 'type', 'email', 'email_hash', 'ip', 'city', 'state',
- codex/fix-form-submission-and-validation-issues
     'user_agent', 'first_name', 'last_name', 'candidate_confirmed'
-
-    'user_agent', 'first_name', 'last_name'
- main
   ];
   const first = sh.getRange(1, 1, 1, headers.length).getValues()[0];
   const empty = first.every(v => String(v).trim() === '');
@@ -52,7 +48,6 @@ function doGet(e) {
     return ContentService.createTextOutput(cached)
       .setMimeType(ContentService.MimeType.JSON);
   }
-
   const sh = sheet(SIGNATURES_SHEET);
   const values = sh.getDataRange().getValues();
   let candidateCount = 0;
@@ -78,10 +73,7 @@ function doPost(e) {
     const city = String(body.city || '').trim();
     const state = String(body.state || '').trim();
     const userAgent = String(body.userAgent || '').trim();
- codex/fix-form-submission-and-validation-issues
     const candidateConfirmed = String(body.candidateConfirmed || '').toLowerCase() === 'true';
-
- main
 
     if (!['candidate', 'voter'].includes(type)) throw new Error('Invalid "type".');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Invalid "email".');
@@ -96,7 +88,6 @@ function doPost(e) {
     ensureHeader(SIGNATURES_SHEET);
     const sh = sheet(SIGNATURES_SHEET);
     const values = sh.getDataRange().getValues();
- codex/fix-form-submission-and-validation-issues
     let candidateCount = 0;
     let voterCount = 0;
     for (let r = 1; r < values.length; r++) {
@@ -106,13 +97,6 @@ function doPost(e) {
       else if (rowType === 'voter') voterCount++;
       if (rowType === type && rowHash === emailHash) {
         return out({ ok: true, duplicate: true, candidateCount, voterCount });
-
-    for (let r = 1; r < values.length; r++) {
-      const rowType = (values[r][1] || '').toString().toLowerCase();
-      const rowHash = (values[r][3] || '').toString();
-      if (rowType === type && rowHash === emailHash) {
-        return out({ ok: true, duplicate: true });
- main
       }
     }
 
@@ -126,7 +110,6 @@ function doPost(e) {
       state,
       userAgent,
       firstName,
- codex/fix-form-submission-and-validation-issues
       lastName,
       candidateConfirmed ? 'true' : 'false'
     ]);
@@ -137,13 +120,6 @@ function doPost(e) {
     CacheService.getScriptCache().remove(CACHE_KEY);
 
     return out({ ok: true, duplicate: false, candidateCount, voterCount });
-
-      lastName
-    ]);
-
-    CacheService.getScriptCache().remove(CACHE_KEY);
-
-    return out({ ok: true, duplicate: false });
   } catch (err) {
     return out({ ok: false, error: String(err) });
   }
