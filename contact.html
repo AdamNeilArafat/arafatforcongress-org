@@ -353,13 +353,47 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Mailto composer for "Share Your Story" - no external form or service.
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
+
+  function getUTM(name){
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || '';
+  }
+
+  // Send to Apps Script then open mailto composer for "Share Your Story"
   function sendStoryEmail(e){
     e.preventDefault();
     const name = document.getElementById('storyName').value.trim();
     const contact = document.getElementById('storyContact').value.trim();
     const topic = document.getElementById('storyCategory').value;
     const message = document.getElementById('storyMessage').value.trim();
+
+    const payload = {
+      source: 'website',
+      type: 'contact',
+      name,
+      email: contact,
+      phone: '',
+      zip: '',
+      topic,
+      message,
+      utm_source: getUTM('utm_source'),
+      utm_medium: getUTM('utm_medium'),
+      utm_campaign: getUTM('utm_campaign'),
+      userAgent: navigator.userAgent
+    };
+
+    try {
+      const form = new URLSearchParams();
+      Object.entries(payload).forEach(([k,v]) => form.append(k, v || ''));
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(WEBAPP_URL, form);
+      } else {
+        fetch(WEBAPP_URL, { method: 'POST', body: form, keepalive: true });
+      }
+    } catch(err) {
+      console.warn('Apps Script logging failed', err);
+    }
 
     const to = 'info@arafatforcongress.org';
     const subject = encodeURIComponent(`Story: ${topic}${name ? ' - ' + name : ''}`);
