@@ -231,12 +231,6 @@
     Object.entries(obj).forEach(([k,v]) => p.append(k, v == null ? "" : String(v)));
     return p;
   }
-  async function sha256Hex(s) {
-    const enc = new TextEncoder().encode(s);
-    const buf = await crypto.subtle.digest("SHA-256", enc);
-    const bytes = Array.from(new Uint8Array(buf));
-    return bytes.map(b => b.toString(16).padStart(2,"0")).join("");
-  }
   async function postForm(url, payload) {
     const res = await fetch(url, {
       method: "POST",
@@ -247,6 +241,22 @@
     });
     const ok = res.status >= 200 && res.status < 300;
     return { ok, status: res.status };
+  }
+
+  async function loadCounts() {
+    const candEl = byId('candidateCount');
+    const voterEl = byId('voterCount');
+    if (candEl) candEl.textContent = '';
+    if (voterEl) voterEl.textContent = '';
+    try {
+      const res = await fetch(API);
+      if (!res.ok) throw new Error('network');
+      const data = await res.json();
+      if (candEl && data.candidateCount != null) candEl.textContent = data.candidateCount;
+      if (voterEl && data.voterCount != null) voterEl.textContent = data.voterCount;
+    } catch (err) {
+      console.error('Failed to load counts', err);
+    }
   }
   function bumpCount(elId) {
     const el = byId(elId);
@@ -295,8 +305,7 @@
 
       const base = formToJSON(form);
       const email = (base[fieldMap.email.id] || "").toLowerCase();
-      const emailHash = email ? await sha256Hex(email) : "";
-      const candidateConfirmed = type === "candidate"
+
         ? ((base[fieldMap.confirm.id] === "true") ? "true" : "false")
         : "false";
 
@@ -310,7 +319,7 @@
         timestamp: new Date().toISOString(),
         type,
         email,
-        emailHash,
+
         ip: "", // let backend fill if desired
         city: base[fieldMap.city.id] || "",
         state: base[fieldMap.state.id] || "",
@@ -342,6 +351,8 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const y = document.getElementById("year"); if (y) y.textContent = new Date().getFullYear();
+
+    loadCounts();
 
     wireSignatureForm({
       formId: "candidateForm",
