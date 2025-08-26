@@ -201,16 +201,11 @@
     const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
 
     try {
-      const res = await fetch(WEBAPP_URL, {
-        method: "POST",
-        body: form // no custom headers -> application/x-www-form-urlencoded
-      });
-
+      const res = await fetch(WEBAPP_URL, { method: "POST", body: form });
       const text = await res.text();
       let data;
       try { data = JSON.parse(text); }
       catch { throw new Error("Non-JSON response from backend. Ensure Web App URL is the /exec URL and access is 'Anyone'."); }
-
       if (!data.ok) throw new Error(data.error || "Unknown error");
       alert("Thanks for sharing your story! We received it.");
       document.getElementById('contactForm').reset();
