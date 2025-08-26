@@ -265,8 +265,8 @@
           </div>
           <p class="mb-3">Tell me how healthcare, high costs, or corruption affect your family. I read every message.</p>
 
-          <!-- This is NOT a remote form. It just opens an email with your text. -->
-          <form id="storyEmailForm" class="row g-3" onsubmit="return sendStoryEmail(event);" novalidate>
+          <!-- Story form submits via Apps Script with mailto fallback -->
+          <form id="storyEmailForm" class="row g-3" onsubmit="return submitContact(event);" novalidate>
             <div class="col-md-6">
               <label for="storyName" class="form-label">Your name <span class="text-muted">(optional)</span></label>
               <input type="text" class="form-control" id="storyName" autocomplete="name" />
@@ -294,7 +294,7 @@
               <button type="submit" class="btn btn-primary">
                 <i class="fa-regular fa-paper-plane me-1"></i>Send via Email
               </button>
-              <small class="text-muted">This opens your email app with your message prefilled. No data is stored on this site.</small>
+              <small class="text-muted">We'll try to send this securely; if it fails, your email app opens with your message.</small>
             </div>
           </form>
         </div>
@@ -353,62 +353,32 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
-
-  function getUTM(name){
-    const params = new URLSearchParams(window.location.search);
-    return params.get(name) || '';
-  }
-
-  // Send to Apps Script then open mailto composer for "Share Your Story"
-  function sendStoryEmail(e){
-    e.preventDefault();
-    const name = document.getElementById('storyName').value.trim();
-    const contact = document.getElementById('storyContact').value.trim();
-    const topic = document.getElementById('storyCategory').value;
-    const message = document.getElementById('storyMessage').value.trim();
-
-    const payload = {
-      source: 'website',
-      type: 'contact',
-      name,
-      email: contact,
-      phone: '',
-      zip: '',
-      topic,
-      message,
-      utm_source: getUTM('utm_source'),
-      utm_medium: getUTM('utm_medium'),
-      utm_campaign: getUTM('utm_campaign'),
-      userAgent: navigator.userAgent
-    };
-
-    try {
-      const form = new URLSearchParams();
-      Object.entries(payload).forEach(([k,v]) => form.append(k, v || ''));
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(WEBAPP_URL, form);
-      } else {
-        fetch(WEBAPP_URL, { method: 'POST', body: form, keepalive: true });
-      }
-    } catch(err) {
-      console.warn('Apps Script logging failed', err);
-    }
 
     const to = 'info@arafatforcongress.org';
-    const subject = encodeURIComponent(`Story: ${topic}${name ? ' - ' + name : ''}`);
-    const bodyLines = [];
 
-    if (name) bodyLines.push(`Name: ${name}`);
-    if (contact) bodyLines.push(`Best contact: ${contact}`);
-    bodyLines.push(`Topic: ${topic}`);
-    bodyLines.push('');
-    bodyLines.push('Story:');
-    bodyLines.push(message || '(Your story here)');
-
-    const body = encodeURIComponent(bodyLines.join('\n'));
-    const href = `mailto:${to}?subject=${subject}&body=${body}`;
-    window.location.href = href;
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+      });
+      if (!response.ok) throw new Error('Request failed');
+      alert('Thank you! Your story has been sent.');
+      e.target.reset();
+    } catch (err) {
+      const subject = encodeURIComponent(`Story: ${topic}${name ? ' - ' + name : ''}`);
+      const bodyLines = [];
+      if (name) bodyLines.push(`Name: ${name}`);
+      if (email) bodyLines.push(`Best contact: ${email}`);
+      bodyLines.push(`Topic: ${topic}`);
+      bodyLines.push('');
+      bodyLines.push('Story:');
+      bodyLines.push(message || '(Your story here)');
+      bodyLines.push('');
+      bodyLines.push(`User-Agent: ${userAgent}`);
+      const body = encodeURIComponent(bodyLines.join('\n'));
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    }
     return false;
   }
 </script>
