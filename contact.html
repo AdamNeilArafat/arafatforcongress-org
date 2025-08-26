@@ -353,15 +353,7 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  async function submitContact(e){
-    e.preventDefault();
-    const name = document.getElementById('storyName').value.trim();
-    const email = document.getElementById('storyContact').value.trim();
-    const topic = document.getElementById('storyCategory').value;
-    const message = document.getElementById('storyMessage').value.trim();
-    const userAgent = navigator.userAgent;
 
-    const params = new URLSearchParams({ name, email, topic, message, userAgent });
     const to = 'info@arafatforcongress.org';
 
     try {
