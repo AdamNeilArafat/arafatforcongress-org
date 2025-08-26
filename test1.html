@@ -64,7 +64,7 @@
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
     <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank"><i class="fa-brands fa-reddit-alien"></i> Reddit</a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank"><svg class="bsky-icon" viewBox="0 0 600 600"><path fill="#fff" d="M300 352c-48-68-151-157-214-193..."/></svg> Bluesky</a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank"><svg class="bsky-icon" viewBox="0 0 600 600"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> Bluesky</a>
     <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8" target="_blank"><i class="fa-brands fa-tiktok"></i> TikTok</a>
   </div>
 </section>
@@ -118,9 +118,17 @@
               <label class="form-label">Your Story</label>
               <textarea id="storyMessage" class="form-control" rows="5"></textarea>
             </div>
-            <div class="col-12 d-flex align-items-center gap-2">
-              <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane me-1"></i> Send</button>
-              <small class="text-muted">We’ll log this securely; your email client is optional.</small>
+            <div class="col-12 d-flex flex-wrap align-items-center gap-2">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-regular fa-paper-plane me-1"></i> Send
+              </button>
+              <small class="text-muted me-2">We’ll log this securely.</small>
+
+              <!-- Added back: direct email option -->
+              <a class="btn btn-outline-secondary"
+                 href="mailto:info@arafatforcongress.org?subject=General%20Question%20for%20the%20Campaign">
+                 <i class="fa-regular fa-envelope me-1"></i>Email info@arafatforcongress.org
+              </a>
             </div>
           </form>
         </div>
@@ -142,7 +150,12 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  function submitContact(e) {
+  function getUTM(name) {
+    const p = new URLSearchParams(window.location.search);
+    return p.get(name) || '';
+  }
+
+  async function submitContact(e) {
     e.preventDefault();
     const payload = {
       type: 'contact',
@@ -152,20 +165,34 @@
       zip: '',
       topic: document.getElementById('storyCategory').value,
       message: document.getElementById('storyMessage').value.trim(),
-      utm_source: '',
-      utm_medium: '',
-      utm_campaign: '',
+      utm_source: getUTM('utm_source'),
+      utm_medium: getUTM('utm_medium'),
+      utm_campaign: getUTM('utm_campaign'),
       userAgent: navigator.userAgent
     };
 
-    fetch("https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(data => alert("Thanks for sharing your story!"))
-    .catch(err => alert("Error submitting: " + err));
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
+
+    try {
+      const res = await fetch(WEBAPP_URL, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+
+      // Guard against non-JSON responses (e.g., auth page if access not set to Anyone)
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); }
+      catch { throw new Error("Non-JSON response from backend. Check Web App URL/access (must be /exec and 'Anyone')."); }
+
+      if (!data.ok) throw new Error(data.error || "Unknown error");
+      alert("Thanks for sharing your story! We received it.");
+      document.getElementById('contactForm').reset();
+    } catch (err) {
+      alert("Error submitting: " + err.message);
+      console.error(err);
+    }
     return false;
   }
 </script>
