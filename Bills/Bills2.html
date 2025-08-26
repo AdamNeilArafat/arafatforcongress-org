@@ -239,8 +239,10 @@
       redirect: "follow",
       mode: "cors"
     });
-    const ok = res.status >= 200 && res.status < 300;
-    return { ok, status: res.status };
+    let data = null;
+    try { data = await res.json(); } catch (err) {}
+    const ok = res.ok && data && data.ok;
+    return { ok, status: res.status, data };
   }
 
   async function loadCounts() {
@@ -258,12 +260,10 @@
       console.error('Failed to load counts', err);
     }
   }
-  function bumpCount(elId) {
+  function setCount(elId, value) {
     const el = byId(elId);
     if (!el) return;
-    const cur = parseInt((el.textContent || "").replace(/[^0-9]/g,""),10);
-    const next = Number.isFinite(cur) ? cur + 1 : 1;
-    el.textContent = String(next);
+    el.textContent = String(value);
     el.classList.add("flash");
     setTimeout(()=>el.classList.remove("flash"), 600);
   }
@@ -273,7 +273,7 @@
     if (autocomplete && !el.getAttribute("autocomplete")) el.setAttribute("autocomplete", autocomplete);
   }
 
-  function wireSignatureForm({ formId, type, countElId, msgElId, fieldMap }) {
+  function wireSignatureForm({ formId, type, msgElId, fieldMap }) {
     const form = byId(formId);
     if (!form) return;
     const msgEl = byId(msgElId);
@@ -333,11 +333,21 @@
       setMsg(msgEl, "Submitting…", true);
 
       try {
-        const { ok } = await postForm(API, payload);
-        if (!ok) { setMsg(msgEl, "Submit error. Please try again.", false); return; }
+        const { ok, data } = await postForm(API, payload);
+        if (!ok) { setMsg(msgEl, "Submit error. Please try again.", false); return; 
+                  
+                codex/fix-form-submission-and-validation-issues
+        if (data.duplicate) {
+          setMsg(msgEl, "You already signed.", true);
+        } else {
+          setMsg(msgEl, "Thank you! Your signature was recorded.", true);
+        }
+        if (data.candidateCount != null) setCount('candidateCount', data.candidateCount);
+        if (data.voterCount != null) setCount('voterCount', data.voterCount);
         setMsg(msgEl, "Thank you! Your signature was recorded.", true);
         bumpCount(countElId);
         loadCounts();
+                 main
         form.reset();
         clearValidation(form);
         kickAutofill(form);
@@ -358,7 +368,6 @@
     wireSignatureForm({
       formId: "candidateForm",
       type: "candidate",
-      countElId: "candidateCount",
       msgElId: "candidateMsg",
       fieldMap: {
         first:  { id: "candidateFirst", name: "candidateFirst", autocomplete: "given-name" },
@@ -373,7 +382,6 @@
     wireSignatureForm({
       formId: "voterForm",
       type: "voter",
-      countElId: "voterCount",
       msgElId: "voterMsg",
       fieldMap: {
         first:  { id: "voterFirst", name: "voterFirst", autocomplete: "given-name" },
