@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <base href="/">
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -22,18 +23,30 @@
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     a { text-decoration: none; }
+
+    /* Social bar */
     .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
     .social-pill { display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;
       border-radius:999px;border:1px solid rgba(255,255,255,.25);color:#fff;
       background:rgba(255,255,255,.08);backdrop-filter:blur(4px);font-weight:700; }
     .social-pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.16);}
+
+    /* Header break */
     .header-break{background:#0d3b66;color:#fff;text-align:center;padding:.9rem 1rem;}
     .rallies{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:.5rem 0 0;}
+
+    /* Cards & Boxes */
     .contact-card{border:1px solid #e9eef3;background:#f8fafc;border-radius:14px;padding:1.25rem;box-shadow:0 6px 16px rgba(13,59,102,.06);}
     .story-box{border:1px solid #e9eef3;border-radius:14px;padding:1.25rem;background:#fff;box-shadow:0 6px 16px rgba(13,59,102,.06);}
     .form-control:focus{box-shadow:0 0 0 .2rem rgba(13,59,102,.15);border-color:#bcd0e1;}
+
+    /* Hero */
+    .hero .wrap { background: rgba(13,59,102,.68); color:#fff; border-radius:14px; }
+
+    /* Donate */
     .btn-donate{background:var(--donate);color:#fff;border:0;border-radius:999px;padding:.65rem 1.2rem;font-weight:800;}
     .btn-donate:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(193,18,31,.35);}
+
     .footer-social{background:linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%);color:#fff;}
   </style>
 </head>
@@ -66,9 +79,9 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero py-5">
+<section class="hero py-5" style="background-image:url('images/Tacoma-narrows-bridge-image-8.jpg');background-position:center;background-size:cover;">
   <div class="container">
-    <div class="wrap p-4" style="background:rgba(13,59,102,.68);color:#fff;border-radius:14px;">
+    <div class="wrap p-4">
       <h1 class="mb-1 h3">Contact the Campaign</h1>
       <p class="mb-0">Questions, feedback, press, or getting involved. Your voice guides this effort.</p>
     </div>
@@ -78,18 +91,16 @@
 <!-- CONTACT -->
 <main id="main" class="py-5">
   <div class="container px-4">
-
-    <!-- Share Your Story -->
     <div class="story-box">
       <h2 class="h5 mb-2"><i class="fa-solid fa-comment-dots me-2"></i> Share Your Story</h2>
       <form id="contactForm" class="row g-3" onsubmit="return submitContact(event);">
         <div class="col-md-6">
           <label class="form-label">Your Name</label>
-          <input type="text" id="storyName" class="form-control" />
+          <input type="text" id="storyName" class="form-control" autocomplete="name"/>
         </div>
         <div class="col-md-6">
           <label class="form-label">Best Contact (email/phone)</label>
-          <input type="text" id="storyContact" class="form-control" />
+          <input type="text" id="storyContact" class="form-control" autocomplete="email"/>
         </div>
         <div class="col-12">
           <label class="form-label">Topic</label>
@@ -108,11 +119,14 @@
         </div>
         <div class="col-12 d-flex align-items-center gap-2">
           <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane me-1"></i> Send</button>
-          <small class="text-muted">If submission fails, your mail app will open so nothing is lost.</small>
+          <a class="btn btn-outline-secondary"
+             href="mailto:info@arafatforcongress.org?subject=General%20Question%20for%20the%20Campaign">
+             <i class="fa-regular fa-envelope me-1"></i>Email info@arafatforcongress.org
+          </a>
+          <small class="text-muted">If submit fails, we open your mail app so nothing is lost.</small>
         </div>
       </form>
     </div>
-
   </div>
 </main>
 
@@ -124,8 +138,14 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // === CONFIG ===
   const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
 
+  // UTM helpers
+  function getUTM(name) { const p = new URLSearchParams(window.location.search); return p.get(name) || ''; }
+
+  // mailto fallback
   function composeMailto(payload){
     const to = 'info@arafatforcongress.org';
     const subject = encodeURIComponent(`Story: ${payload.topic}${payload.name ? ' - ' + payload.name : ''}`);
@@ -137,35 +157,70 @@
 
   async function submitContact(e){
     e.preventDefault();
+
     const payload = {
+      source: 'website',
       type: 'contact',
       name: document.getElementById('storyName').value.trim(),
       email: document.getElementById('storyContact').value.trim(),
+      phone: '',
+      zip: '',
       topic: document.getElementById('storyCategory').value,
       message: document.getElementById('storyMessage').value.trim(),
+      utm_source: getUTM('utm_source'),
+      utm_medium: getUTM('utm_medium'),
+      utm_campaign: getUTM('utm_campaign'),
       userAgent: navigator.userAgent
     };
 
-    const form = new URLSearchParams(payload).toString();
-
+    // 1) Try POST with fetch — show success ONLY on {ok:true}
     try {
-      if (navigator.sendBeacon && navigator.sendBeacon(WEBAPP_URL, form)) {
+      const form = new URLSearchParams();
+      Object.entries(payload).forEach(([k, v]) => form.append(k, v));
+      const res = await fetch(WEBAPP_URL, { method:"POST", body: form });
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch { data = null; }
+      if (data && data.ok) {
         alert("Thanks for sharing your story! We received it.");
         document.getElementById('contactForm').reset();
         return false;
       }
-      const res = await fetch(WEBAPP_URL, { method:"POST", body:form });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.error);
+      // If JSON came back but not ok, throw to pixel fallback
+      if (data && !data.ok) throw new Error(data.error || "Server rejected");
+      // If non-JSON, also fall through to pixel
+    } catch (err) {
+      // continue to pixel attempt
+      console.warn("POST failed or not OK; trying pixel...", err);
+    }
+
+    // 2) Try GET tracking pixel (logs via doGet and confirms via onload)
+    try {
+      const qs = new URLSearchParams();
+      Object.entries(payload).forEach(([k, v]) => qs.append(k, v));
+      qs.append('via','pixel');
+      qs.append('t', Date.now()); // cache-buster
+      const img = new Image();
+      const pixelPromise = new Promise((resolve, reject)=>{
+        img.onload = resolve;
+        img.onerror = reject;
+        // Note: Apps Script returns JSON, but we just need the hit to succeed
+      });
+      img.src = WEBAPP_URL + '?' + qs.toString();
+      await pixelPromise;
       alert("Thanks for sharing your story! We received it.");
       document.getElementById('contactForm').reset();
-    } catch(err){
-      alert("Error submitting (network/CORS). Opening email instead.");
-      window.location.href = composeMailto(payload);
+      return false;
+    } catch (err) {
+      console.warn("Pixel logging failed; falling back to mailto.", err);
     }
+
+    // 3) Mailto fallback so nothing is lost
+    window.location.href = composeMailto(payload);
     return false;
   }
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
