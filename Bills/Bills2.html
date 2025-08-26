@@ -295,12 +295,12 @@
 
       const base = formToJSON(form);
       const email = (base[fieldMap.email.id] || "").toLowerCase();
-      const email_hash = email ? await sha256Hex(email) : "";
-      const candidate_confirmed = type === "candidate"
+      const emailHash = email ? await sha256Hex(email) : "";
+      const candidateConfirmed = type === "candidate"
         ? ((base[fieldMap.confirm.id] === "true") ? "true" : "false")
         : "false";
 
-      if (type === "candidate" && candidate_confirmed !== "true") {
+      if (type === "candidate" && candidateConfirmed !== "true") {
         setMsg(msgEl, "You must confirm you are a candidate.", false);
         return;
       }
@@ -310,14 +310,14 @@
         timestamp: new Date().toISOString(),
         type,
         email,
-        email_hash,
+        emailHash,
         ip: "", // let backend fill if desired
         city: base[fieldMap.city.id] || "",
         state: base[fieldMap.state.id] || "",
-        user_agent: navigator.userAgent || "",
-        first_name: base[fieldMap.first.id] || "",
-        last_name: base[fieldMap.last.id] || "",
-        candidate_confirmed
+        userAgent: navigator.userAgent || "",
+        firstName: base[fieldMap.first.id] || "",
+        lastName: base[fieldMap.last.id] || "",
+        candidateConfirmed
       };
 
       toggleBtn(btn, false);
