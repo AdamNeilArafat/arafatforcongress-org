@@ -4,18 +4,17 @@
 <base href="/">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🌲 Evergreen Pact — Two Paths, Clear Steps | Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Two ladders for 2027. Path A if Democrats win the House and Senate. Path B if Democrats win the House only. Click Pass or Fail to reveal the next branch and updated chances." />
+  <title>🌲 Evergreen Pact| Adam Neil Arafat for Congress</title>
+Click Pass or Fail to reveal the next branch and updated chances." />
   <meta name="theme-color" content="#0d3b66" />
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Evergreen Pact — Two Paths, Clear Steps" />
-  <meta property="og:description" content="Two ladders for 2027. Each step helps working people without raising their taxes and restores checks and balances to the full legal extent." />
+  <meta property="og:title" content="Evergreen Pact" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="../assets/evergreen-tree.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Evergreen Pact — Two Paths, Clear Steps" />
-  <meta name="twitter:description" content="Two ladders for 2027. Each step helps working people without raising their taxes and restores checks and balances." />
+  <meta name="twitter:title" content="Evergreen Pact" />
+  <meta name="twitter:description" content="Each step helps working people without raising their taxes and restores checks and balances." />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
@@ -83,6 +82,16 @@
     .acct-link{font-size:.8rem; color:#6b7280; margin-left:.25rem}
     .acct-link i{margin-right:.3rem}
     .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    /* Signature cards */
+    .sig-card{background:#ffffff;color:#0b2847;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:1rem;box-shadow:0 8px 18px rgba(0,0,0,.08)}
+    .sig-card h2{font-size:1rem;margin:0 0 .25rem 0;letter-spacing:.2px}
+    .sig-count{font-weight:800;line-height:1;margin:0}
+    .sig-count .num{font-size:2.4rem}
+    .sig-count .lbl{font-size:.8rem;opacity:.85}
+    .sig-form .form-control{padding:.475rem .6rem}
+    .sig-form .btn{padding:.5rem .8rem;font-weight:700}
+    .sig-hint{font-size:.85rem;opacity:.95;min-height:1.2em}
+    .toast-fixed{position:fixed;bottom:20px;right:20px;background:var(--ok);color:#fff;padding:10px 14px;border-radius:6px;z-index:9999;opacity:.95}
   </style>
     <script src="evergreen-enhancements.js" defer></script>
 </head>
@@ -110,39 +119,92 @@
 <header class="py-5 hero">
   <div class="container text-center">
     <h1 class="display-5 mb-2">🌲 The Evergreen Pact</h1>
-    <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
+    <p class="lead mb-3">Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
 
     <div class="d-flex justify-content-center gap-2 flex-wrap">
       <a class="btn btn-outline-light btn-pill fw-bold ../Overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open Overview PDF (Overview.html)">
         <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF
       </a>
     </div>
+    <!-- Signature Sign & Verify section -->
+    <div class="row justify-content-center g-3 mb-4 mt-4">
+      <div class="col-md-5">
+        <div class="sig-card text-dark">
+     	<h2 class="fw-bold display-1">✍️ Candidate Signatures</h2>
+          <p class="sig-count mb-3">
+            <span class="num text-success" id="candidateCount">—</span>
+            <span class="lbl d-block">total signed</span>
+          </p>
+          <form id="candidateForm" class="needs-validation sig-form" novalidate>
+            <div class="row g-2">
+              <div class="col-6">
+                <input type="text" class="form-control form-control-sm" id="candidateFirst" placeholder="First name" required>
+                <div class="invalid-feedback">First name required.</div>
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control form-control-sm" id="candidateLast" placeholder="Last name" required>
+                <div class="invalid-feedback">Last name required.</div>
+              </div>
+            </div>
+            <input type="email" class="form-control form-control-sm mt-2" id="candidateEmail" placeholder="name@campaign.org" required>
+            <div class="invalid-feedback">Valid email required.</div>
+            <div class="invalid-feedback">Please confirm your email.</div>
+            <div class="row g-2 mt-2">
+              <div class="col-7">
+                <input type="text" class="form-control form-control-sm" id="candidateCity" placeholder="City (optional)">
+              </div>
+              <div class="col-5">
+                <input type="text" class="form-control form-control-sm" id="candidateState" placeholder="State (optional)">
+              </div>
+            </div>
+            <div class="form-check text-start mt-2">
+              <input class="form-check-input" type="checkbox" id="candidateConfirm" required>
+              <label class="form-check-label small" for="candidateConfirm">
+                I confirm I am signing as a candidate.
+              </label>
+              <div class="invalid-feedback">You must confirm to continue.</div>
+            </div>
+            <button type="submit" class="btn btn-success w-100 mt-2">Sign as Candidate</button>
+            <div id="candidateMsg" class="sig-hint mt-2" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="sig-card text-dark">
+          <h2 class="fw-bold" display-6">🗳️ Voter Signatures</h2>
+          <p class="sig-count mb-3">
+            <span class="num text-primary" id="voterCount">—</span>
+            <span class="lbl d-block">total signed</span>
+          </p>
+          <form id="voterForm" class="needs-validation sig-form" novalidate>
+            <div class="row g-2">
+              <div class="col-6">
+                <input type="text" class="form-control form-control-sm" id="voterFirst" placeholder="First name" required>
+                <div class="invalid-feedback">First name required.</div>
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control form-control-sm" id="voterLast" placeholder="Last name" required>
+                <div class="invalid-feedback">Last name required.</div>
+              </div>
+            </div>
+            <input type="email" class="form-control form-control-sm mt-2" id="voterEmail" placeholder="name@email.com" required>
+            <div class="invalid-feedback">Valid email required.</div>
+            <div class="row g-2 mt-2">
+              <div class="col-7">
+                <input type="text" class="form-control form-control-sm" id="voterCity" placeholder="City (optional)">
+              </div>
+              <div class="col-5">
+                <input type="text" class="form-control form-control-sm" id="voterState" placeholder="State (optional)">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Sign as Voter</button>
+            <div id="voterMsg" class="sig-hint mt-2" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
-
-<!-- EXPLANATION -->
-<section class="container my-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-10">
-      <h2 class="h4">What the Evergreen Pact is</h2>
-      <p class="mb-2"><strong>The Evergreen Pact is triage, then reform.</strong> We stop the bleeding now, then install hard blocks, transparency, and oversight to restore checks and balances to the full legal extent using every lawful tool, even the obscure ones. Every step lowers costs for working people without raising their taxes and reins in executive power.</p>
-    </div>
-  </div>
-</section>
-
-<!-- HOW TO USE -->
-<section class="container my-4">
-  <div class="row g-3">
-    <div class="col-lg-12">
-      <h2 class="h4">How to use this page</h2>
-      <p class="mb-2">You will see the current step only. Click Pass or Fail. The next active items appear and the displayed chances update. Each card shows two things in plain language:</p>
-      <ul class="mb-0">
-        <li><strong>For working people</strong> — the near-term benefit at home.</li>
-        <li><strong>Checks on executive power</strong> — how it restores balance.</li>
-      </ul>
-    </div>
-  </div>
-</section>
 
 <noscript>
   <section class="container my-4">
@@ -153,7 +215,7 @@
 </noscript>
 
 <!-- PATH TOOLBAR -->
-<section class="container mb-3">
+<section class="container mb-3 mt-5">
   <div class="tools-bar">
     <ul class="nav nav-pills me-auto" id="pathTabs" role="tablist" aria-label="Choose plan path">
       <li class="nav-item" role="presentation">
@@ -1615,6 +1677,154 @@
   document.addEventListener('DOMContentLoaded', ()=>{
     restoreState();
     updateProgress();
+  });
+</script>
+<script>
+  // Signature Sign & Verify logic
+  // === Replace with your deployed Apps Script Web App URL (must end with /exec) ===
+  const SIGN_API = 'https://script.google.com/macros/s/AKfycbxEDkYCiOA20lxfdIj2Aspqg6jH4a3i-OcWdjHOg6wYHLq1WrJLxudJcilTSjNkb6A/exec';
+
+  const UA_STRING = navigator.userAgent || '';
+
+  // Bootstrap validation helper
+  (function () {
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', evt => {
+        if (!form.checkValidity()) {
+          evt.preventDefault(); evt.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+
+  // Toast helper
+  function toast(msg, ok = true) {
+    const t = document.createElement('div');
+    t.className = 'toast-fixed';
+    t.style.background = ok ? 'var(--ok)' : 'var(--bad)';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2600);
+  }
+
+  // Fetch and paint counts
+  async function fetchCounts() {
+    try {
+      const res = await fetch(`${SIGN_API}?t=${Date.now()}`, { method: 'GET' });
+      const data = await res.json();
+      if (data?.ok && data.counts) {
+        document.getElementById('candidateCount').textContent = (data.counts.candidates ?? 0).toLocaleString();
+        document.getElementById('voterCount').textContent     = (data.counts.voters ?? 0).toLocaleString();
+      }
+    } catch (e) {
+      console.warn('Count fetch failed', e);
+    }
+  }
+
+  // POST via form-encoded body (works with backend parseBody)
+  async function sendSignature(payload, msgEl, buttonEl) {
+    try {
+      buttonEl.disabled = true;
+      msgEl.className = 'sig-hint mt-2';
+      msgEl.textContent = 'Submitting…';
+
+      const params = new URLSearchParams(payload);
+      const res = await fetch(SIGN_API, { method: 'POST', body: params });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      const data = await res.json().catch(() => { throw new Error('Non-JSON response'); });
+      if (!data.ok) throw new Error(data.error || 'Backend error');
+
+      // Update counts from response
+      if (data.counts) {
+        document.getElementById('candidateCount').textContent = (data.counts.candidates ?? 0).toLocaleString();
+        document.getElementById('voterCount').textContent     = (data.counts.voters ?? 0).toLocaleString();
+      }
+
+      msgEl.className = 'sig-hint mt-2 text-success';
+      msgEl.textContent = data.duplicate ? 'Already signed. Thank you!' : 'Thank you for signing!';
+      toast(data.duplicate ? 'Already signed' : 'Signed successfully');
+    } catch (err) {
+      console.error('Sign error:', err);
+      msgEl.className = 'sig-hint mt-2 text-danger';
+      msgEl.textContent = 'Sorry—something went wrong. Check that the URL ends with /exec and access is set to Anyone.';
+      toast('Submission failed', false);
+    } finally {
+      buttonEl.disabled = false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchCounts();
+
+    // Candidate form
+    const cForm = document.getElementById('candidateForm');
+    if (cForm) cForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!cForm.checkValidity()) return;
+
+      const first = document.getElementById('candidateFirst').value.trim();
+      const last  = document.getElementById('candidateLast').value.trim();
+      const email = document.getElementById('candidateEmail').value.trim().toLowerCase();
+      const city  = document.getElementById('candidateCity')?.value?.trim() || '';
+      const state = document.getElementById('candidateState')?.value?.trim() || '';
+      const okBox = document.getElementById('candidateConfirm').checked;
+
+      // Client-side candidate extra checks
+      if (email !== email2) {
+        const msgEl = document.getElementById('candidateMsg');
+        msgEl.className = 'sig-hint mt-2 text-danger';
+        msgEl.textContent = 'Emails do not match.';
+        return;
+      }
+      if (!okBox) {
+        const msgEl = document.getElementById('candidateMsg');
+        msgEl.className = 'sig-hint mt-2 text-danger';
+        msgEl.textContent = 'You must confirm you are signing as a candidate.';
+        return;
+      }
+
+      const payload = {
+        type: 'candidate',
+        firstName: first,
+        lastName: last,
+        email: email,
+        emailConfirm: email2,
+        candidateConfirmed: 'true',
+        city, state,
+        ua: UA_STRING
+      };
+
+      sendSignature(payload, document.getElementById('candidateMsg'), cForm.querySelector('button[type="submit"]'))
+        .then(() => cForm.reset());
+    });
+
+    // Voter form
+    const vForm = document.getElementById('voterForm');
+    if (vForm) vForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!vForm.checkValidity()) return;
+
+      const first = document.getElementById('voterFirst').value.trim();
+      const last  = document.getElementById('voterLast').value.trim();
+      const email = document.getElementById('voterEmail').value.trim().toLowerCase();
+      const city  = document.getElementById('voterCity')?.value?.trim() || '';
+      const state = document.getElementById('voterState')?.value?.trim() || '';
+
+      const payload = {
+        type: 'voter',
+        firstName: first,
+        lastName: last,
+        email: email,
+        city, state,
+        ua: UA_STRING
+      };
+
+      sendSignature(payload, document.getElementById('voterMsg'), vForm.querySelector('button[type="submit"]'))
+        .then(() => vForm.reset());
+    });
   });
 </script>
 </body>
