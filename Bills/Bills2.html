@@ -334,7 +334,9 @@
 
       try {
         const { ok, data } = await postForm(API, payload);
-        if (!ok) { setMsg(msgEl, "Submit error. Please try again.", false); return; }
+        if (!ok) { setMsg(msgEl, "Submit error. Please try again.", false); return; 
+                  
+                codex/fix-form-submission-and-validation-issues
         if (data.duplicate) {
           setMsg(msgEl, "You already signed.", true);
         } else {
@@ -342,6 +344,10 @@
         }
         if (data.candidateCount != null) setCount('candidateCount', data.candidateCount);
         if (data.voterCount != null) setCount('voterCount', data.voterCount);
+        setMsg(msgEl, "Thank you! Your signature was recorded.", true);
+        bumpCount(countElId);
+        loadCounts();
+                 main
         form.reset();
         clearValidation(form);
         kickAutofill(form);
