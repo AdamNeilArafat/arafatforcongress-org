@@ -20,8 +20,8 @@ function out(obj) {
 function ensureHeader(name) {
   const sh = sheet(name);
   const headers = [
-    'timestamp','type','email','email_hash','ip','city','state',
-    'user_agent','first_name','last_name','candidate_confirmed'
+    'timestamp', 'type', 'email', 'email_hash', 'ip', 'city', 'state',
+    'user_agent', 'first_name', 'last_name', 'candidate_confirmed'
   ];
   const first = sh.getRange(1, 1, 1, headers.length).getValues()[0];
   const empty = first.every(v => String(v).trim() === '');
@@ -48,7 +48,6 @@ function doGet(e) {
     return ContentService.createTextOutput(cached)
       .setMimeType(ContentService.MimeType.JSON);
   }
-
   const sh = sheet(SIGNATURES_SHEET);
   const values = sh.getDataRange().getValues();
   let candidateCount = 0;
