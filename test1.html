@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <base href="/">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -16,52 +15,26 @@
   <meta name="theme-color" content="#0d3b66" />
   <meta name="description" content="Reach the campaign. Join the team building WA-10. Share your story. We read every message." />
 
-  <!-- Bootstrap + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
-
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     a { text-decoration: none; }
-
-    /* Social bar */
-    .social-top {
-      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
-      color: #fff;
-    }
-    .social-pill {
-      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
-      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
-      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
-      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
-      font-weight:700;
-    }
-    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
-    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
-
-    /* Header band */
-    .header-break { background:#0d3b66; color:#fff; text-align:center; padding:.9rem 1rem; }
-    .header-break .kicker { margin:0; font-weight:800; text-transform:uppercase; }
-    .header-break p { margin:.35rem 0 0; font-weight:500; opacity:.95; }
-
-    .rallies { display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin:.5rem 0 0; }
-    .rallies span { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:.2rem .55rem; border-radius:999px; font-weight:700; white-space:nowrap; }
-
-    /* Hero */
-    .hero {
-      background-image: url('images/Tacoma-narrows-bridge-image-8.jpg');
-      background-position:center; background-size:cover; background-repeat:no-repeat;
-    }
-
-    /* Cards & Boxes */
-    .contact-card { border:1px solid #e9eef3; background:#f8fafc; border-radius:14px; padding:1.25rem; box-shadow:0 6px 16px rgba(13,59,102,.06); }
-    .story-box { border:1px solid #e9eef3; border-radius:14px; padding:1.25rem; background:#fff; box-shadow:0 6px 16px rgba(13,59,102,.06); }
-    .form-control:focus { box-shadow: 0 0 0 .2rem rgba(13,59,102,.15); border-color:#bcd0e1; }
-
-    .btn-donate { background:var(--donate); color:#fff; border:0; border-radius:999px; padding:.65rem 1.2rem; font-weight:800; }
-    .btn-donate:hover { transform: translateY(-1px); box-shadow:0 8px 20px rgba(193,18,31,.35); color:#fff; }
+    .social-top { background: linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%); color:#fff; }
+    .social-pill { display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;
+      border-radius:999px;border:1px solid rgba(255,255,255,.25);color:#fff;
+      background:rgba(255,255,255,.08);backdrop-filter:blur(4px);font-weight:700; }
+    .social-pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.16);}
+    .header-break{background:#0d3b66;color:#fff;text-align:center;padding:.9rem 1rem;}
+    .rallies{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:.5rem 0 0;}
+    .contact-card{border:1px solid #e9eef3;background:#f8fafc;border-radius:14px;padding:1.25rem;box-shadow:0 6px 16px rgba(13,59,102,.06);}
+    .story-box{border:1px solid #e9eef3;border-radius:14px;padding:1.25rem;background:#fff;box-shadow:0 6px 16px rgba(13,59,102,.06);}
+    .form-control:focus{box-shadow:0 0 0 .2rem rgba(13,59,102,.15);border-color:#bcd0e1;}
+    .btn-donate{background:var(--donate);color:#fff;border:0;border-radius:999px;padding:.65rem 1.2rem;font-weight:800;}
+    .btn-donate:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(193,18,31,.35);}
+    .footer-social{background:linear-gradient(90deg,#0d3b66 0%,#0b6e4f 50%,#0d3b66 100%);color:#fff;}
   </style>
 </head>
 <body>
@@ -70,25 +43,32 @@
 <!-- SOCIAL MEDIA BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank"><i class="fa-brands fa-reddit-alien"></i> Reddit</a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank"><svg class="bsky-icon" viewBox="0 0 600 600"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> Bluesky</a>
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat" target="_blank"><i class="fa-brands fa-reddit-alien"></i> Reddit</a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank">Bluesky</a>
     <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8" target="_blank"><i class="fa-brands fa-tiktok"></i> TikTok</a>
   </div>
 </section>
 
-<!-- HEADER -->
+<!-- HEADER BREAK -->
 <div class="header-break">
   <div class="container">
     <p class="kicker">Get in Touch</p>
-    <p>This is a grassroots campaign. I may be slow to respond, but I read every message. Thank you for reaching out.</p>
+    <p>This is a grassroots campaign. I may be slow to respond, but I read every message.</p>
     <div class="rallies"><span>Trust is built, not bought.</span><span>People over PACs.</span><span>Built for Families. Built for WA-10.</span></div>
   </div>
 </div>
 
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/index.html">Adam Neil Arafat for Congress</a>
+  </div>
+</nav>
+
 <!-- HERO -->
 <section class="hero py-5">
   <div class="container">
-    <div class="wrap p-4" style="background:rgba(13,59,102,.68); color:#fff; border-radius:14px;">
+    <div class="wrap p-4" style="background:rgba(13,59,102,.68);color:#fff;border-radius:14px;">
       <h1 class="mb-1 h3">Contact the Campaign</h1>
       <p class="mb-0">Questions, feedback, press, or getting involved. Your voice guides this effort.</p>
     </div>
@@ -99,125 +79,93 @@
 <main id="main" class="py-5">
   <div class="container px-4">
 
-    <div class="row g-4">
-      <!-- Share Your Story -->
-      <div class="col-12">
-        <div class="story-box">
-          <h2 class="h5 mb-2"><i class="fa-solid fa-comment-dots me-2"></i> Share Your Story</h2>
-          <p class="mb-3">Tell me how healthcare, high costs, or corruption affect your family. I read every message.</p>
-
-          <form id="contactForm" class="row g-3" onsubmit="return submitContact(event);">
-            <div class="col-md-6">
-              <label class="form-label">Your Name</label>
-              <input type="text" id="storyName" class="form-control" />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Best Contact (email/phone)</label>
-              <input type="text" id="storyContact" class="form-control" />
-            </div>
-            <div class="col-12">
-              <label class="form-label">Topic</label>
-              <select id="storyCategory" class="form-select">
-                <option>Healthcare</option><option>Cost of Living</option><option>Corruption and Special Interests</option><option>Fair Taxation</option><option>Corporate Accountability</option><option>Other</option>
-              </select>
-            </div>
-            <div class="col-12">
-              <label class="form-label">Your Story</label>
-              <textarea id="storyMessage" class="form-control" rows="5"></textarea>
-            </div>
-            <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-              <button type="submit" class="btn btn-primary">
-                <i class="fa-regular fa-paper-plane me-1"></i> Send
-              </button>
-              <small class="text-muted me-2">We’ll log this securely.</small>
-
-              <!-- Direct email option -->
-              <a class="btn btn-outline-secondary"
-                 href="mailto:info@arafatforcongress.org?subject=General%20Question%20for%20the%20Campaign">
-                 <i class="fa-regular fa-envelope me-1"></i>Email info@arafatforcongress.org
-              </a>
-            </div>
-          </form>
+    <!-- Share Your Story -->
+    <div class="story-box">
+      <h2 class="h5 mb-2"><i class="fa-solid fa-comment-dots me-2"></i> Share Your Story</h2>
+      <form id="contactForm" class="row g-3" onsubmit="return submitContact(event);">
+        <div class="col-md-6">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="storyName" class="form-control" />
         </div>
-      </div>
+        <div class="col-md-6">
+          <label class="form-label">Best Contact (email/phone)</label>
+          <input type="text" id="storyContact" class="form-control" />
+        </div>
+        <div class="col-12">
+          <label class="form-label">Topic</label>
+          <select id="storyCategory" class="form-select">
+            <option>Healthcare</option>
+            <option>Cost of Living</option>
+            <option>Corruption and Special Interests</option>
+            <option>Fair Taxation</option>
+            <option>Corporate Accountability</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Your Story</label>
+          <textarea id="storyMessage" class="form-control" rows="5"></textarea>
+        </div>
+        <div class="col-12 d-flex align-items-center gap-2">
+          <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane me-1"></i> Send</button>
+          <small class="text-muted">If submission fails, your mail app will open so nothing is lost.</small>
+        </div>
+      </form>
     </div>
 
   </div>
 </main>
 
-<!-- FOOTER -->
 <footer class="footer-legal py-4 border-top text-center">
   <div class="container">
     <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
-    <p class="small text-muted mb-0">Not authorized by any other candidate or candidate's committee.</p>
   </div>
 </footer>
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
 
-  function getUTM(name) {
-    const p = new URLSearchParams(window.location.search);
-    return p.get(name) || '';
-  }
-
-  function composeMailtoFallback(payload) {
+  function composeMailto(payload){
     const to = 'info@arafatforcongress.org';
     const subject = encodeURIComponent(`Story: ${payload.topic}${payload.name ? ' - ' + payload.name : ''}`);
-    const lines = [];
-    if (payload.name) lines.push(`Name: ${payload.name}`);
-    if (payload.email) lines.push(`Best contact: ${payload.email}`);
-    if (payload.phone) lines.push(`Phone: ${payload.phone}`);
-    if (payload.zip) lines.push(`Zip: ${payload.zip}`);
-    lines.push(`Topic: ${payload.topic}`);
-    lines.push('');
-    lines.push('Story:');
-    lines.push(payload.message || '(Your story here)');
-    const body = encodeURIComponent(lines.join('\n'));
+    const body = encodeURIComponent(
+      `Name: ${payload.name}\nContact: ${payload.email}\nTopic: ${payload.topic}\n\nStory:\n${payload.message}`
+    );
     return `mailto:${to}?subject=${subject}&body=${body}`;
   }
 
-  async function submitContact(e) {
+  async function submitContact(e){
     e.preventDefault();
     const payload = {
       type: 'contact',
       name: document.getElementById('storyName').value.trim(),
       email: document.getElementById('storyContact').value.trim(),
-      phone: '',
-      zip: '',
       topic: document.getElementById('storyCategory').value,
       message: document.getElementById('storyMessage').value.trim(),
-      utm_source: getUTM('utm_source'),
-      utm_medium: getUTM('utm_medium'),
-      utm_campaign: getUTM('utm_campaign'),
       userAgent: navigator.userAgent
     };
 
-    // Build URL-encoded body to avoid CORS preflight
-    const form = new URLSearchParams();
-    Object.entries(payload).forEach(([k, v]) => form.append(k, v));
-
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
+    const form = new URLSearchParams(payload).toString();
 
     try {
-      const res = await fetch(WEBAPP_URL, { method: "POST", body: form });
-      const text = await res.text();
-      let data;
-      try { data = JSON.parse(text); }
-      catch { throw new Error("Non-JSON response from backend. Ensure Web App URL is the /exec URL and access is 'Anyone'."); }
-      if (!data.ok) throw new Error(data.error || "Unknown error");
+      if (navigator.sendBeacon && navigator.sendBeacon(WEBAPP_URL, form)) {
+        alert("Thanks for sharing your story! We received it.");
+        document.getElementById('contactForm').reset();
+        return false;
+      }
+      const res = await fetch(WEBAPP_URL, { method:"POST", body:form });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error);
       alert("Thanks for sharing your story! We received it.");
       document.getElementById('contactForm').reset();
-    } catch (err) {
-      console.error(err);
-      alert("Error submitting (network/CORS). Your mail app will open so nothing is lost.");
-      window.location.href = composeMailtoFallback(payload);
+    } catch(err){
+      alert("Error submitting (network/CORS). Opening email instead.");
+      window.location.href = composeMailto(payload);
     }
     return false;
   }
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
