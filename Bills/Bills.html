@@ -2038,5 +2038,226 @@
 </script>
 
 
+
+
+<!-- Evergreen Pact signature/validation enhancements (merged v3) -->
+<script>
+(() => {
+  if (window.__ep_enhanced_v3__) return;
+  window.__ep_enhanced_v3__ = true;
+
+  const API = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
+
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+  const byId = (id) => document.getElementById(id);
+
+  function setMsg(el, text, ok = true) {
+    if (!el) return;
+    el.textContent = text || "";
+    el.classList.remove("text-danger","text-muted","text-success");
+    el.classList.add(ok ? "text-success" : "text-danger");
+  }
+  function toggleBtn(btn, on) {
+    if (!btn) return;
+    btn.disabled = !on;
+    btn.setAttribute("aria-busy", on ? "false" : "true");
+    btn.classList.toggle("disabled", !on);
+  }
+  function formToJSON(form) {
+    const data = {};
+    $$("input,select,textarea", form).forEach((f) => {
+      const key = f.name || f.id;
+      if (!key) return;
+      if (f.type === "checkbox") data[key] = String(f.checked);
+      else data[key] = f.value.trim();
+    });
+    return data;
+  }
+  function toFormBody(obj) {
+    const p = new URLSearchParams();
+    Object.entries(obj).forEach(([k,v]) => p.append(k, v == null ? "" : String(v)));
+    return p;
+  }
+  function utmFromURL() {
+    const p = new URLSearchParams(location.search);
+    return {
+      utm_source: p.get("utm_source") || "",
+      utm_medium: p.get("utm_medium") || "",
+      utm_campaign: p.get("utm_campaign") || "",
+      utm_term: p.get("utm_term") || "",
+      utm_content: p.get("utm_content") || ""
+    };
+  }
+  function markValidity(input) {
+    const optionalEmpty = !input.required && !input.value;
+    const valid = optionalEmpty ? true : input.checkValidity();
+    input.classList.remove("is-valid","is-invalid");
+    if (!input.form.classList.contains("was-validated")) {
+      if (input.value) input.classList.add(valid ? "is-valid" : "is-invalid");
+    } else {
+      input.classList.add(valid ? "is-valid" : "is-invalid");
+    }
+    return valid;
+  }
+  function validateAllInputs(form) {
+    $$("input,textarea,select", form).forEach(markValidity);
+  }
+  function clearValidation(form) {
+    form.classList.remove("was-validated");
+    $$("input,textarea,select", form).forEach((i)=>i.classList.remove("is-valid","is-invalid"));
+  }
+  function kickAutofill(form) {
+    const passes = [120, 350, 800, 1400, 2200];
+    passes.forEach(ms => setTimeout(() => validateAllInputs(form), ms));
+  }
+  function bumpCount(elId) {
+    const el = byId(elId);
+    if (!el) return;
+    const cur = parseInt((el.textContent || "").replace(/[^0-9]/g,""),10);
+    const next = Number.isFinite(cur) ? cur + 1 : 1;
+    el.textContent = String(next);
+    el.classList.add("flash");
+    setTimeout(()=>el.classList.remove("flash"), 600);
+  }
+  function ensureAttrs(el, {name, autocomplete}) {
+    if (!el) return;
+    if (name && !el.name) el.name = name;
+    if (autocomplete && !el.getAttribute("autocomplete")) el.setAttribute("autocomplete", autocomplete);
+  }
+
+  async function postForm(url, payload) {
+    // Use URL-encoded to avoid CORS preflight; Apps Script handles it well.
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+      body: toFormBody(payload),
+      redirect: "follow",
+      mode: "cors"
+    });
+    const text = await res.text().catch(()=> "");
+    // Consider 2xx as success even if body isn't JSON
+    const ok = res.status >= 200 && res.status < 300;
+    let data = null;
+    try { data = JSON.parse(text); } catch { data = text; }
+    return { ok, status: res.status, data };
+  }
+
+  function wireSignatureForm({ formId, type, countElId, msgElId, fieldMap }) {
+    const form = byId(formId);
+    if (!form) return;
+
+    const msgEl = byId(msgElId);
+    const btn = $("button[type=submit]", form);
+
+    // Ensure expected attrs (helps autofill)
+    for (const meta of Object.values(fieldMap)) ensureAttrs(byId(meta.id), meta);
+
+    // Live validation hooks
+    $$("input,textarea,select", form).forEach((inp) => {
+      ["input","change","blur"].forEach(evt =>
+        inp.addEventListener(evt, () => markValidity(inp), { passive: true })
+      );
+    });
+
+    kickAutofill(form);
+    window.addEventListener("pageshow", () => kickAutofill(form));
+
+    // Submit handler
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      form.classList.add("was-validated");
+      let allValid = true;
+      $$("input,textarea,select", form).forEach((i)=>{ if (!markValidity(i)) allValid = false; });
+      if (!allValid) {
+        setMsg(msgEl, "Please fix the highlighted fields.", false);
+        return;
+      }
+
+      const base = formToJSON(form);
+      const payload = {
+        type,
+        timestamp: new Date().toISOString(),
+        referrer: document.referrer || "",
+        user_agent: navigator.userAgent || "",
+        page: location.href,
+        ...utmFromURL(),
+        first_name: base[fieldMap.first.id] || "",
+        last_name:  base[fieldMap.last.id]  || "",
+        email:      base[fieldMap.email.id] || "",
+        city:       base[fieldMap.city.id]  || "",
+        state:      base[fieldMap.state.id] || "",
+        is_candidate: type === "candidate" ? "true" : "false",
+        candidate_confirm: (base["candidateConfirm"] || base[fieldMap.confirm?.id] || "false"),
+        source: "Evergreen Pact Page"
+      };
+
+      if (type === "candidate" && payload.candidate_confirm !== "true") {
+        setMsg(msgEl, "You must confirm you are a candidate.", false);
+        return;
+      }
+
+      toggleBtn(btn, false);
+      setMsg(msgEl, "Submitting…", true);
+
+      try {
+        const { ok, status, data } = await postForm(API, payload);
+        if (!ok) {
+          // If Apps Script returns HTML but still processed, sometimes it redirects/200s later.
+          // Give a brief grace period to avoid flashing an error:
+          setMsg(msgEl, `Submit error (status ${status}). Please try again.`, false);
+          return;
+        }
+        // Success
+        setMsg(msgEl, "Thank you! Your signature was recorded.", true);
+        bumpCount(countElId);
+        form.reset();
+        clearValidation(form);
+        kickAutofill(form);
+      } catch (err) {
+        console.error(err);
+        setMsg(msgEl, "Sorry—could not submit. Please try again in a moment.", false);
+      } finally {
+        toggleBtn(btn, true);
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const y = document.getElementById("year"); if (y) y.textContent = new Date().getFullYear();
+
+    wireSignatureForm({
+      formId: "candidateForm",
+      type: "candidate",
+      countElId: "candidateCount",
+      msgElId: "candidateMsg",
+      fieldMap: {
+        first:  { id: "candidateFirst", name: "candidateFirst", autocomplete: "given-name" },
+        last:   { id: "candidateLast",  name: "candidateLast",  autocomplete: "family-name" },
+        email:  { id: "candidateEmail", name: "candidateEmail", autocomplete: "email" },
+        city:   { id: "candidateCity",  name: "candidateCity",  autocomplete: "address-level2" },
+        state:  { id: "candidateState", name: "candidateState", autocomplete: "address-level1" },
+        confirm:{ id: "candidateConfirm", name:"candidateConfirm" }
+      }
+    });
+
+    wireSignatureForm({
+      formId: "voterForm",
+      type: "voter",
+      countElId: "voterCount",
+      msgElId: "voterMsg",
+      fieldMap: {
+        first:  { id: "voterFirst", name: "voterFirst", autocomplete: "given-name" },
+        last:   { id: "voterLast",  name: "voterLast",  autocomplete: "family-name" },
+        email:  { id: "voterEmail", name: "voterEmail", autocomplete: "email" },
+        city:   { id: "voterCity",  name: "voterCity",  autocomplete: "address-level2" },
+        state:  { id: "voterState", name: "voterState", autocomplete: "address-level1" }
+      }
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
