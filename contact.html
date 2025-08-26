@@ -361,6 +361,11 @@
     const topic = document.getElementById('storyCategory').value;
     const message = document.getElementById('storyMessage').value.trim();
 
+    if (!contact && !message) {
+      alert('Please provide at least your email, phone, or a message.');
+      return false;
+    }
+
     const to = 'info@arafatforcongress.org';
     const subject = encodeURIComponent(`Story: ${topic}${name ? ' - ' + name : ''}`);
     const bodyLines = [];
