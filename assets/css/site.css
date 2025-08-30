@@ -82,3 +82,22 @@ footer a:hover::after, footer a:focus::after { width:100%; }
 .btn-donate:hover { filter: brightness(.95); }
 .btn-ghost { background:#fff; border:1px solid #cfd8e3; color:#0d3b66; }
 .btn-ghost:hover { background:#eef3f8; }
+
+.skip-link { position:absolute; left:-999px; top:auto; }
+.skip-link:focus { left:1rem; top:1rem; background:#fff; padding:.5rem 1rem; border:2px solid currentColor; }
+
+.acc-trigger { display:flex; width:100%; text-align:left; font-size:1.125rem; padding:1rem; border:1px solid #ddd; border-radius:.5rem; }
+.acc-trigger:focus { outline:2px solid currentColor; outline-offset:2px; }
+.acc-panel { padding:0 1rem 1rem; }
+
+.why-toggle { margin-top:.5rem; font-size:.95rem; }
+.why-panel { padding:.5rem 0 0; }
+
+.bill { margin:.75rem 0; }
+.bill-summary { margin-left:.5rem; font-size:.95rem; opacity:.85; }
+
+.micro-cta { display:flex; gap:.5rem; margin-top:1rem; }
+.btn { padding:.5rem .9rem; border-radius:.4rem; }
+.btn-secondary { padding:.5rem .9rem; border:1px solid currentColor; border-radius:.4rem; background:transparent; }
+.updated { font-size:.9rem; opacity:.8; margin:.5rem 0 1rem; }
+
