@@ -8,7 +8,7 @@
     :root { --ink:#111; --muted:#5a5a5a; --brand:#0b3d91; --wash:#f6f8fb; --line:#e9eef5; --ok:#0a7f32; --warn:#a66b00; --risk:#b00020 }
     *{box-sizing:border-box}
     body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; color:var(--ink); margin:0; line-height:1.5}
-    header, main, footer{max-width:1100px; margin:0 auto; padding:20px}
+    header, main{max-width:1100px; margin:0 auto; padding:20px}
     header{background:var(--brand); color:#fff; border-bottom:4px solid #072e6d}
     h1,h2,h3{margin:0.6em 0}
     p{margin:0.4em 0}
@@ -21,7 +21,7 @@
     .note{font-size:14px; color:var(--muted)}
     .pill{display:inline-block; padding:2px 8px; border:1px solid var(--line); border-radius:999px; font-size:12px; color:var(--muted)}
     .ok{color:var(--ok)} .warn{color:var(--warn)} .risk{color:var(--risk)}
-    footer{background:#fafafa; border-top:1px solid var(--line); font-size:14px; color:var(--muted)}
+    
     code{background:#f4f6f9; padding:2px 4px; border-radius:4px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
     .linkrow{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
     .linkbtn{display:inline-block; border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:12px; text-decoration:none; color:#0b3d91; background:#fff}
@@ -318,9 +318,7 @@
 
 </main>
 
-<footer>
-  <p><strong>Next pages coming:</strong> House minority with Senate minority. House minority with Senate majority. House majority with Senate majority. Speaker toolkit. Senate floor leader toolkit.</p>
-</footer>
+<div id="footer-placeholder"></div><script src="/assets/footer.js" defer></script>
 
 </body>
 </html>
