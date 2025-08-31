@@ -49,15 +49,20 @@
       display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; /* desktop: row */
       text-align:center;
     }
-   .header-break .pill {
-  display: inline-block;              /* NEW: let width/padding apply */
-  padding:.4rem .9rem;
-  border-radius:999px;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.25);
-  font-weight:800;
-  white-space: nowrap;                 /* keep single-line on desktop */
-}
+    .header-break .title {
+      flex-basis:100%;
+      font-size:1.6rem;
+      font-weight:800;
+    }
+    .header-break .pill {
+      display:inline-block;              /* NEW: let width/padding apply */
+      padding:.4rem .9rem;
+      border-radius:999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      font-weight:800;
+      white-space: nowrap;                 /* keep single-line on desktop */
+    }
 
 @media (max-width: 767.98px) {
   .header-break { flex-direction:column; align-items:center; }
@@ -141,10 +146,11 @@
 
 <!-- HEADER PILLS -->
 <div class="header-break">
-  <span class="pill">I live here. WA-10 does not need a seat-warmer.</span>
-  <span class="pill">We need a fighter who delivers for working families.</span>
-  <span class="pill">Washington District 10</span>
-  <div class="sub small">Power People, Not PACs. For WA-10.</div>
+  <div class="title">Choose independence over influence. Choose results over talk.</div>
+  <span class="pill">No AIPAC. No corporate PACs.</span>
+  <span class="pill">I work for WA‑10, not lobbyists.</span>
+  <span class="pill">Bills that cut costs and expand care.</span>
+  <span class="pill">Radical transparency: votes + calendar.</span>
 </div>
 
 <!-- NAV -->
