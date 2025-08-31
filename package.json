@@ -2,7 +2,5 @@
   "name": "arafatforcongress-site",
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
-    "prebuild": "node scripts/pull-opensecrets.js"
-  }
+  "scripts": {}
 }
