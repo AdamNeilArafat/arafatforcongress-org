@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
 <base href="/">
-  <!-- Google tag (gtag.js) -->
+  <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-TSHYRZVZ97');
+    gtag('config','G-TSHYRZVZ97');
   </script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Strickland is not delivering. I will. - Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Clear, sourced contrast. Finance data, policy receipts, and accountability for WA-10." />
+  <meta name="description" content="Clear, sourced differences in WA-10. Funding, performance, and priorities side by side." />
   <meta name="theme-color" content="#0d3b66" />
   <meta property="og:title" content="Strickland is not delivering. I will." />
   <meta property="og:description" content="Funding and performance contrast for WA-10." />
@@ -22,8 +22,6 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/compact.css" />
-  <link rel="stylesheet" href="assets/css/site.css" />
 
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --soft:#f6f9fc; }
@@ -106,25 +104,11 @@
 
     /* Comparison table */
     .compare-wrap { background:#f8fafc; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
-    .contrast-table{
-      width:100%;
-      border-collapse:collapse;
-      margin-block:1rem 2rem;
-      font-size:clamp(0.95rem,2vw,1rem);
-    }
-    .contrast-table th, .contrast-table td{
-      border:1px solid #E5E7EB;
-      padding:.9rem;
-      vertical-align:top;
-    }
-    .contrast-table th{background:#F9FAFB;text-align:left;}
-    @media (max-width:720px){
-      .contrast-table thead{display:none;}
-      .contrast-table, .contrast-table tbody, .contrast-table tr, .contrast-table td{display:block;width:100%}
-      .contrast-table tr{margin-bottom:1rem;border:1px solid #E5E7EB;border-radius:.5rem;overflow:hidden}
-      .contrast-table td{border:none;border-bottom:1px solid #E5E7EB}
-      .contrast-table td:last-child{border-bottom:none}
-    }
+    .table.compare { background:#fff; border:1px solid #e9eef3; border-radius:12px; overflow:hidden; }
+    .table.compare th { background:#0d3b66; color:#fff; font-weight:700; }
+    .table.compare td, .table.compare th { vertical-align:top; }
+    .ok { color:#0b6e4f; font-weight:700; }
+    .no { color:#b11e2d; font-weight:700; }
 
     /* Sticky donate (mobile) */
     .sticky-donate { position: fixed; right:16px; bottom:16px; z-index:1030; border-radius:999px; padding:.75rem .9rem; box-shadow:0 6px 16px rgba(0,0,0,.25); }
@@ -138,7 +122,6 @@
   </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- SOCIAL BAR -->
 <section class="social-top py-2">
@@ -173,8 +156,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="/issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link active" href="Bills/Bills.html" aria-current="page"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
         <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
       </ul>
@@ -182,84 +165,184 @@
   </div>
 </nav>
 
-<main id="main">
-  <h1 class="visually-hidden">Record &amp; Contrast</h1>
-  <section class="section section-narrow">
+<main>
+
+  <!-- WHY IT MATTERS -->
+  <section class="py-5 border-bottom">
     <div class="container">
-      <p id="last-updated" class="meta">Last updated: <span data-last-updated></span></p>
-      <p class="lede">Voters deserve receipts. Below is a direct comparison, current finance data, and links to sources.</p>
+      <h2 class="section-title mb-3">Why this choice matters</h2>
+      <p class="lead mb-2">
+        Do not settle for polished politicians. WA-10 needs a fighter ready with day one bills to lower costs, expand healthcare, and clean up corruption.
+        I have spent months researching and drafting <a href="Bills/Bills.html">blueprints to action</a>. I am ready to take them to Congress and go to work for you.
+      </p>
     </div>
   </section>
 
-  <section class="section">
+  <!-- FUNDING SNAPSHOT -->
+  <section class="py-5" style="background:var(--soft);">
     <div class="container">
-      <div class="stats-grid">
-        <div class="stat">
-          <div class="stat-label">Out of District</div>
-          <div class="stat-value" id="out-district">—</div>
+      <h3 class="h5 section-title mb-3">Funding snapshot</h3>
+      <p class="mb-3">
+        When more than 4 of 5 individual donor dollars come from outside WA-10, those are not our neighbors shaping priorities. It is national networks and lobby groups.
+        That is why I refuse corporate PAC money and why I have proposed a <a href="Bills/Clean Campaigns and Elections Bill (2027).html">Clean Campaigns Bill</a> to end pay to play.
+      </p>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="fund-card h-100">
+            <h3>$2.05M</h3>
+            <div class="pct">82% out of district</div>
+            <div class="small text-muted mt-1">2023–2024 cycle. Geography from itemized individual donors only. See sources.</div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-label">PAC Money</div>
-          <div class="stat-value" id="pac-pct">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Small Donors</div>
-          <div class="stat-value" id="small-pct">—</div>
+        <div class="col-md-6">
+          <div class="fund-card h-100">
+            <h3>44%</h3>
+            <div class="pct">from PACs</div>
+            <div class="small text-muted mt-1">Share of campaign committee receipts in 2023–2024. See sources.</div>
+          </div>
         </div>
       </div>
-      <p class="caption">Source: FEC itemized data. Updated each quarter.</p>
-      <div class="bars">
-        <div class="bar">
-          <span>Out of District</span>
-          <progress id="bar-out" max="100" value="0"></progress>
-        </div>
-        <div class="bar">
-          <span>PAC Money</span>
-          <progress id="bar-pac" max="100" value="0"></progress>
-        </div>
-        <div class="bar">
-          <span>Small Donors</span>
-          <progress id="bar-small" max="100" value="0"></progress>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2>Record and Contrast</h2>
-      <div class="compare">
-        <div class="col">
-          <h3>Adam Neil Arafat</h3>
-          <ul class="clean-list">
-            <li>Medicare for All. Automatic enrollment. Lower drug costs.</li>
-            <li>No corporate PAC money. Quarterly open town halls.</li>
-            <li>Cost of living bills: housing, childcare, groceries. Drafts ready.</li>
-            <li>Veterans and families first. Benefits access at the local level.</li>
-          </ul>
-        </div>
-        <div class="col">
-          <h3>Incumbent Pattern</h3>
-          <ul class="clean-list">
-            <li>Public option talk with no path to universal coverage.</li>
-            <li>Significant PAC support each cycle.</li>
-            <li>Symbolic votes. Few cost-cutting results at home.</li>
-            <li>Town halls infrequent. Limited direct accountability.</li>
-          </ul>
-        </div>
+      <div class="alert alert-secondary small mt-3 mb-0" role="note">
+        AIPAC is listed as a top contributor in 2023–2024. This speaks to incentives and alignment. See sources.
       </div>
     </div>
   </section>
 
-  <section class="section section-narrow">
+  <!-- COMPARISON TABLE -->
+  <section class="compare-wrap py-5">
     <div class="container">
-      <h2>Receipts</h2>
-      <ul class="sources">
-        <li>FEC Filings: <a href="https://www.fec.gov/data/" rel="noopener" target="_blank">fec.gov/data</a></li>
-        <li>OpenSecrets Summary: <a href="https://www.opensecrets.org/" rel="noopener" target="_blank">opensecrets.org</a></li>
-        <li>Town Hall Calendar: <a href="/events.html">events</a></li>
-        <li>Policy Blueprints: <a href="/bills.html">bills</a></li>
-      </ul>
+      <h3 class="section-title mb-3 text-center">Side by side</h3>
+      <div class="table-responsive">
+        <table class="table compare align-middle">
+          <thead>
+            <tr>
+              <th style="width:48%">Adam Neil Arafat</th>
+              <th style="width:52%">Status quo pattern</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="ok">✔</span> Fight for hard wins. Write, negotiate, and move bills that matter for working families.</td>
+              <td><span class="no">✘</span> Focus on low conflict and ceremonial items. Plays it safe instead of taking on big fights.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Fight for Medicare for All with automatic enrollment and lower drug costs.</td>
+              <td><span class="no">✘</span> Favors a limited public option over universal healthcare. This keeps the private insurance market in charge.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Deliver lower costs and more housing with accountability for bad actors.</td>
+              <td><span class="no">✘</span> Opposed Seattle's 2018 head tax that funded homelessness and affordable housing work.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Refuse corporate PAC money. Hold open town halls. Put people first.</td>
+              <td><span class="no">✘</span> About 82% of individual donor dollars from outside WA-10 and 44% of receipts from PACs. Tied to national donor networks.</td>
+            </tr>
+            <tr>
+              <td><span class="ok">✔</span> Defend the First Amendment while standing up to lobby pressure.</td>
+              <td><span class="no">✘</span> Voted Yea on the Antisemitism Awareness Act of 2023 (H.R. 6090) that civil liberties groups warn chills protected speech.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fineprint mt-2 mb-0">Figures use rounded percentages consistent with public tracker categories.</p>
+      <p class="fineprint mb-0">Sources are public. They show patterns and incentives. They do not allege illegality.</p>
+    </div>
+  </section>
+
+  <!-- EXPANDED RECEIPTS -->
+  <section class="py-5">
+    <div class="container">
+      <h3 class="section-title mb-3">🔦 Expanded Receipts on Strickland</h3>
+
+      <h5>Corporate and PAC money</h5>
+      <p>She takes AIPAC and corporate PAC cash. Those networks spend to protect the status quo. I refuse corporate PAC money. My votes will never be bought.</p>
+
+      <h5>Free speech and the First Amendment</h5>
+      <p>She voted for the Antisemitism Awareness Act, a bill civil liberties groups warned would silence constitutionally protected speech and protest. That is a vote against the First Amendment. I will always defend your right to speak freely.</p>
+
+      <h5>Healthcare</h5>
+      <p>She favors a limited public option, not universal coverage. A public option just adds another plan to the insurance market. It leaves families stuck with high premiums, co-pays, and medical debt. I will co-sponsor a roadmap to Medicare for All so every family is covered.</p>
+
+      <h5>Housing and cost of living</h5>
+      <p>While housing costs skyrocket, she has delivered piecemeal grants and ribbon cuttings. No bold supply expansion and no permitting reform. I will fight to cut red tape, build faster, and offer 3 percent mortgages for first time buyers.</p>
+
+      <h5>Military vs. families</h5>
+      <p>She votes for bloated Pentagon budgets while failing to deliver relief at the grocery store or pharmacy. I will cut waste and invest in working families instead of defense contractors.</p>
+
+      <div class="border rounded p-3 mt-3">
+        <strong>Key contrast soundbite</strong>
+        <p class="mb-0">She took AIPAC money and voted against free speech. She backs a public option that preserves the insurance industry instead of fighting for universal care. She funds the Pentagon but leaves families drowning in bills. I will deliver real healthcare, lower costs, and integrity in office.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLANATIONS / ROLL-UP -->
+  <section class="py-4">
+    <div class="container">
+      <h3 class="h6 section-title mb-3">Notes and methods</h3>
+      <div class="accordion" id="notes">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="n1h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n1" aria-expanded="false" aria-controls="n1">
+              Funding context
+            </button>
+          </h2>
+          <div id="n1" class="accordion-collapse collapse" aria-labelledby="n1h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              Percentages use OpenSecrets categories. Out of district is calculated only from itemized individual donors. PAC share uses FEC summary. See linked OpenSecrets pages for methodology notes and update timestamps.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n2" aria-expanded="false" aria-controls="n2">
+              AIPAC shorthand
+            </button>
+          </h2>
+          <div id="n2" class="accordion-collapse collapse" aria-labelledby="n2h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              "AIPAC" refers to contributions from AIPAC and aligned donors as categorized by OpenSecrets. Mention here signals alignment and incentives. It does not allege illegality or foreign money.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n3h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n3" aria-expanded="false" aria-controls="n3">
+              Bipartisan scores vs leadership
+            </button>
+          </h2>
+          <div id="n3" class="accordion-collapse collapse" aria-labelledby="n3h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              Bipartisan index scores reward cross party cosponsorship and routine votes. Leadership on hard fights shows up in initiating, organizing, and moving contested policy that lowers costs and expands rights.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="n4h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n4" aria-expanded="false" aria-controls="n4">
+              Sources
+            </button>
+          </h2>
+          <div id="n4" class="accordion-collapse collapse" aria-labelledby="n4h" data-bs-parent="#notes">
+            <div class="accordion-body small">
+              <ul class="mb-2">
+                <li>OpenSecrets — Source of Funds 2023–2024: PAC share ~44% — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>OpenSecrets — Geography 2023–2024: Out of district ~82% of itemized individual giving — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>OpenSecrets — Top contributors: AIPAC listed among top contributors in 2023–2024 — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
+                <li>House Roll Call on H.R. 6090 Antisemitism Awareness Act 2024-05-01: Strickland Yea — <a href="https://www.congress.gov/votes/house/118-2/172" target="_blank" rel="noopener">congress.gov</a> and <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">clerk.house.gov</a></li>
+                <li>Healthcare stance — public option: campaign site and materials — <a href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">stricklandforwashington.com</a>, <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf" target="_blank" rel="noopener">healthcare plan PDF</a>, reporting: <a href="https://www.cascadepbs.org/politics/2020/08/what-separates-strickland-and-doglio-was-10th-congressional-district/" target="_blank" rel="noopener">Cascade PBS</a></li>
+                <li>Opposed Seattle head tax as Chamber president in 2018 — <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX</a>, <a href="https://www.klgates.com/Congressional-Meet-and-Greet-with-Marilyn-Strickland-WA-10-D-11-20-2020" target="_blank" rel="noopener">K&L Gates bio</a></li>
+                <li>Lugar Center Bipartisan Index context — <a href="https://www.thelugarcenter.org/ourwork-Bipartisan-Index.html" target="_blank" rel="noopener">thelugacenter.org</a></li>
+              </ul>
+              <div class="small text-muted">Update windows: OpenSecrets summary last updated 2025-08-18 for funds and source of funds. Geography page reflects itemized individual data as of 2025-02-06. Always check timestamps on linked pages.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -289,50 +372,7 @@
   <i class="fa-solid fa-heart"></i>
 </a>
 
-<script>
-document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
-<script>
-  document.querySelector('[data-last-updated]').textContent =
-    new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'2-digit' });
-</script>
-<script type="application/json" id="finance-data">
-{
-  "cycle": "2025–2026",
-  "outOfDistrictPct": 0.0,
-  "pacPct": 0.0,
-  "smallDollarPct": 0.0,
-  "updatedOn": ""
-}
-</script>
-<script>
-(function(){
-  const el = id => document.getElementById(id);
-  const dataTag = document.getElementById('finance-data');
-  if (!dataTag) return;
-  const d = JSON.parse(dataTag.textContent);
-  const pct = x => (x*100).toFixed(1) + '%';
-  if (d.outOfDistrictPct != null) {
-    el('out-district').textContent = pct(d.outOfDistrictPct);
-    const barOut = document.getElementById('bar-out');
-    if (barOut) barOut.value = Math.round((d.outOfDistrictPct || 0) * 100);
-  }
-  if (d.pacPct != null) {
-    el('pac-pct').textContent = pct(d.pacPct);
-    const barPac = document.getElementById('bar-pac');
-    if (barPac) barPac.value = Math.round((d.pacPct || 0) * 100);
-  }
-  if (d.smallDollarPct != null) {
-    el('small-pct').textContent = pct(d.smallDollarPct);
-    const barSmall = document.getElementById('bar-small');
-    if (barSmall) barSmall.value = Math.round((d.smallDollarPct || 0) * 100);
-  }
-  if (d.updatedOn) {
-    document.querySelector('[data-last-updated]').textContent = d.updatedOn;
-  }
-})();
-</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/site.js" defer></script>
 </body>
 </html>
