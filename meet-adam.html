@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meet Adam - Adam Neil Arafat for Congress – WA-10</title>
+  <meta name="theme-color" content="#0d3b66" />
+  <meta name="description" content="Learn more about Adam Neil Arafat, his service, roots, and why he's running for Congress." />
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; --soft:#f6f9fc; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
+    a { text-decoration: none; }
+
+    /* Utilities */
+    .section-pad { padding:4rem 0; }
+    @media (max-width:767.98px){ .section-pad{ padding:2rem 0; } }
+    .section-title { font-weight:800; color:#0b2540; }
+    .lead { color:#1c2b3a; }
+
+    /* Social bar */
+    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+      font-weight:700;
+    }
+    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+
+    /* Header pills */
+    .header-break {
+      background:#0d3b66; color:#fff; padding:1rem;
+      display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center;
+      text-align:center;
+    }
+    .header-break .pill {
+      display: inline-block;
+      padding:.4rem .9rem;
+      border-radius:999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      font-weight:800;
+      white-space: nowrap;
+    }
+    @media (max-width: 767.98px) {
+      .header-break { flex-direction:column; align-items:center; }
+      .header-break .pill {
+        display:block;
+        width:100%;
+        max-width:320px;
+        white-space:normal;
+        line-height:1.2;
+        word-break:break-word;
+        overflow-wrap:anywhere;
+        text-align:center;
+      }
+    }
+
+    /* Navbar underline hover */
+    .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
+    .navbar .nav-link:hover { color: var(--link); }
+    .navbar .nav-link::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
+      background: currentColor; border-radius:2px; transition: width .18s ease;
+    }
+    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
+
+    /* Buttons */
+    .btn-primary { background: var(--primary); border-color: var(--primary); }
+    .btn-primary:hover { background:#0b2f52; border-color:#0b2f52; }
+    .btn-outline-primary { color: var(--primary); border-color: var(--primary); }
+    .btn-outline-primary:hover { background: var(--primary); color:#fff; }
+    .btn:focus-visible { outline:2px solid #000; outline-offset:2px; }
+
+    footer p { color:#6b7280; }
+  </style>
+</head>
+<body>
+<a class="visually-hidden-focusable" href="#main">Skip to content</a>
+
+<!-- SOCIAL BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener"><i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span></a>
+    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
+      <span>Bluesky</span>
+    </a>
+    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+  </div>
+</section>
+
+<!-- HEADER PILLS -->
+<div class="header-break">
+  <span class="pill">Trust is built, not bought.</span>
+  <span class="pill">WA-10 deserves a fighter for working families</span>
+  <span class="pill">For Working Families. For WA-10.</span>
+</div>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="/meet-adam.html" aria-current="page">Meet Adam</a></li>
+        <li class="nav-item"><a class="nav-link" href="/issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+        <li class="nav-item ms-lg-3"><a class="btn btn-primary" href="/contact.html">Join the Movement</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+  <section class="section-pad">
+    <div class="container">
+      <h1 class="section-title mb-4">Meet Adam</h1>
+      <p class="lead">I’m Adam Neil Arafat. I’ve spent my life serving my country, my community, and my family. Now I’m asking to serve you in Congress.</p>
+
+      <h2 class="mt-4 mb-3">Service and Experience</h2>
+      <p>I served 20 years in the U.S. Army, leading soldiers, solving problems under pressure, and making decisions that mattered. That experience taught me discipline, accountability, and what it means to have people’s lives depend on your judgment.</p>
+      <p>After the Army, I carried that same commitment into public service here at home. As a project manager, I have overseen multimillion dollar infrastructure projects that keep our communities running. I have worked to modernize critical systems, protect public health, and make sure taxpayer money is spent wisely. I know what it takes to manage big budgets, complex timelines, and teams with high stakes.</p>
+
+      <h2 class="mt-4 mb-3">Family and Roots</h2>
+      <p>I’m raising my family right here in the school district, the same community I want to represent. Like you, I juggle bills, schools, healthcare, and the everyday grind. I don’t come from political royalty or corporate boardrooms. I come from the working class.</p>
+
+      <h2 class="mt-4 mb-3">Why I’m Running</h2>
+      <p>I’m running for Congress because I believe politics should work for ordinary people, not for corporate PACs, lobbyists, or special interests. Too many politicians talk about “working families” while cashing checks from the very industries driving up our costs. That is not representation. That is betrayal.</p>
+
+      <h2 class="mt-4 mb-3">My Promise</h2>
+      <ul>
+        <li>I will never take corporate PAC money.</li>
+        <li>I will fight for affordable housing, healthcare, and lower everyday costs.</li>
+        <li>I will put veterans and families first.</li>
+        <li>I will bring the same discipline I used to manage multimillion dollar projects to making government work for you.</li>
+      </ul>
+
+      <p class="mt-4">This campaign is not about me. It is about us. Our voices, our struggles, and our future.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="py-4 bg-white border-top text-center">
+  <div class="container">
+    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-1">Paid for by Adam Neil Arafat for Congress</p>
+    <p class="small text-muted mb-3">Not authorized by any other candidate or candidate's committee</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
+
