@@ -14,7 +14,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Strickland is not delivering. I will. - Adam Neil Arafat for Congress</title>
-  <meta name="description" content="Clear, sourced differences in WA-10. Funding, performance, and priorities side by side." />
+  <meta name="description" content="Clear, sourced contrast. Finance data, policy receipts, and accountability for WA-10." />
   <meta name="theme-color" content="#0d3b66" />
   <meta property="og:title" content="Strickland is not delivering. I will." />
   <meta property="og:description" content="Funding and performance contrast for WA-10." />
@@ -23,6 +23,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/compact.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
 
   <style>
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --soft:#f6f9fc; }
@@ -183,156 +184,82 @@
 
 <main id="main">
   <h1 class="visually-hidden">Record &amp; Contrast</h1>
-
-  <!-- WHY IT MATTERS -->
-  <section class="py-5 border-bottom">
+  <section class="section section-narrow">
     <div class="container">
-      <h2 class="section-title mb-3">Why this choice matters</h2>
-      <p class="lead mb-2">
-        Do not settle for polished politicians. WA-10 needs a fighter ready with day one bills to lower costs, expand healthcare, and clean up corruption.
-        I have spent months researching and drafting <a href="Bills/Bills.html">blueprints to action</a>. I am ready to take them to Congress and go to work for you.
-      </p>
+      <p id="last-updated" class="meta">Last updated: <span data-last-updated></span></p>
+      <p class="lede">Voters deserve receipts. Below is a direct comparison, current finance data, and links to sources.</p>
     </div>
   </section>
 
-  <!-- COMPARISON TABLE -->
-  <section class="compare-wrap py-5" aria-labelledby="contrast-heading">
+  <section class="section">
     <div class="container">
-      <h2 id="contrast-heading" class="section-title mb-3">Side by side</h2>
-      <table class="contrast-table" role="table">
-        <thead>
-          <tr><th scope="col">Adam Neil Arafat</th><th scope="col">Status quo pattern</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Fight for hard wins. Write and move bills that lower costs.</td>
-            <td>Focus on low-conflict or ceremonial items.</td>
-          </tr>
-          <tr>
-            <td>Back Medicare for All (automatic enrollment, lower drug costs).</td>
-            <td>Supports a public option; not universal coverage.<br>
-              <a href="https://stricklandforwashington.com/priorities/universal-health-care/">Campaign site</a> ·
-              <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf">Healthcare plan PDF</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Refuse corporate PAC money. Open town halls. People first.</td>
-            <td>Over half of funding from outside the district and significant PAC contributions.
-              <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets summary</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Defend the First Amendment while standing up to lobby pressure.</td>
-            <td>Yea on H.R. 6090 (5/1/2024).
-              <a href="https://clerk.house.gov/Votes/2024172">Clerk roll call</a> ·
-              <a href="https://www.congress.gov/votes/house/118-2/172">Congress.gov record</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Cut red tape, build faster; 3% mortgages for first-time buyers.</td>
-            <td>Opposed Seattle’s 2018 head tax as Chamber president.
-              <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council">KNKX report</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- EXPANDED RECEIPTS -->
-  <section class="py-5">
-    <div class="container">
-      <h3 class="section-title mb-3">🔦 Expanded Receipts on Strickland</h3>
-
-      <h5>Corporate and PAC money</h5>
-      <p>She takes AIPAC and corporate PAC cash. Those networks spend to protect the status quo. I refuse corporate PAC money. My votes will never be bought.</p>
-
-      <h5>Free speech and the First Amendment</h5>
-      <p>She voted for the Antisemitism Awareness Act, a bill civil liberties groups warned would silence constitutionally protected speech and protest. That is a vote against the First Amendment. I will always defend your right to speak freely.</p>
-
-      <h5>Healthcare</h5>
-      <p>She favors a limited public option, not universal coverage. A public option just adds another plan to the insurance market. It leaves families stuck with high premiums, co-pays, and medical debt. I will co-sponsor a roadmap to Medicare for All so every family is covered.</p>
-
-      <h5>Housing and cost of living</h5>
-      <p>While housing costs skyrocket, she has delivered piecemeal grants and ribbon cuttings. No bold supply expansion and no permitting reform. I will fight to cut red tape, build faster, and offer 3 percent mortgages for first time buyers.</p>
-
-      <h5>Military vs. families</h5>
-      <p>She votes for bloated Pentagon budgets while failing to deliver relief at the grocery store or pharmacy. I will cut waste and invest in working families instead of defense contractors.</p>
-
-      <div class="border rounded p-3 mt-3">
-        <strong>Key contrast soundbite</strong>
-        <p class="mb-0">She took AIPAC money and voted against free speech. She backs a public option that preserves the insurance industry instead of fighting for universal care. She funds the Pentagon but leaves families drowning in bills. I will deliver real healthcare, lower costs, and integrity in office.</p>
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-label">Out of District</div>
+          <div class="stat-value" id="out-district">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">PAC Money</div>
+          <div class="stat-value" id="pac-pct">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Small Donors</div>
+          <div class="stat-value" id="small-pct">—</div>
+        </div>
+      </div>
+      <p class="caption">Source: FEC itemized data. Updated each quarter.</p>
+      <div class="bars">
+        <div class="bar">
+          <span>Out of District</span>
+          <progress id="bar-out" max="100" value="0"></progress>
+        </div>
+        <div class="bar">
+          <span>PAC Money</span>
+          <progress id="bar-pac" max="100" value="0"></progress>
+        </div>
+        <div class="bar">
+          <span>Small Donors</span>
+          <progress id="bar-small" max="100" value="0"></progress>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- EXPLANATIONS / ROLL-UP -->
-  <section class="py-4">
+  <section class="section">
     <div class="container">
-      <h3 class="h6 section-title mb-3">Notes and methods</h3>
-      <div class="accordion" id="notes">
-        <div class="accordion-item">
-          <h3 class="accordion-header" id="n1h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n1" aria-expanded="false" aria-controls="n1">
-              Update windows
-            </button>
-          </h3>
-          <div id="n1" class="accordion-collapse collapse" aria-labelledby="n1h" data-bs-parent="#notes">
-            <div class="accordion-body small">
-              Source of Funds updated <span id="note-updated" aria-live="polite"></span>; Contributors/Industries updated after the 20th each month; Geography based on itemized data updated less frequently.
-            </div>
-          </div>
+      <h2>Record and Contrast</h2>
+      <div class="compare">
+        <div class="col">
+          <h3>Adam Neil Arafat</h3>
+          <ul class="clean-list">
+            <li>Medicare for All. Automatic enrollment. Lower drug costs.</li>
+            <li>No corporate PAC money. Quarterly open town halls.</li>
+            <li>Cost of living bills: housing, childcare, groceries. Drafts ready.</li>
+            <li>Veterans and families first. Benefits access at the local level.</li>
+          </ul>
         </div>
-
-        <div class="accordion-item mt-2">
-          <h3 class="accordion-header" id="n2h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n2" aria-expanded="false" aria-controls="n2">
-              AIPAC shorthand
-            </button>
-          </h3>
-          <div id="n2" class="accordion-collapse collapse" aria-labelledby="n2h" data-bs-parent="#notes">
-            <div class="accordion-body small">
-              "AIPAC" refers to contributions from AIPAC and aligned donors as categorized by OpenSecrets.
-            </div>
-          </div>
+        <div class="col">
+          <h3>Incumbent Pattern</h3>
+          <ul class="clean-list">
+            <li>Public option talk with no path to universal coverage.</li>
+            <li>Significant PAC support each cycle.</li>
+            <li>Symbolic votes. Few cost-cutting results at home.</li>
+            <li>Town halls infrequent. Limited direct accountability.</li>
+          </ul>
         </div>
-
-        <div class="accordion-item mt-2">
-          <h3 class="accordion-header" id="n3h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n3" aria-expanded="false" aria-controls="n3">
-              Bipartisan Index context
-            </button>
-          </h3>
-          <div id="n3" class="accordion-collapse collapse" aria-labelledby="n3h" data-bs-parent="#notes">
-            <div class="accordion-body small">
-              Bipartisan index scores reward cross party cosponsorship and routine votes. Leadership on hard fights shows up in initiating, organizing, and moving contested policy that lowers costs and expands rights.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item mt-2">
-          <h3 class="accordion-header" id="n4h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n4" aria-expanded="false" aria-controls="n4">
-              Sources
-            </button>
-          </h3>
-          <div id="n4" class="accordion-collapse collapse" aria-labelledby="n4h" data-bs-parent="#notes">
-            <div class="accordion-body small">
-              <ul class="mb-2">
-                <li>OpenSecrets — Source of Funds 2023–2024: <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets summary</a></li>
-                <li>OpenSecrets — Geography 2023–2024: <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">OpenSecrets geography</a></li>
-                <li>OpenSecrets — Top contributors: AIPAC listed among top contributors in 2023–2024 — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets top contributors</a></li>
-                <li>H.R. 6090 Antisemitism Awareness Act vote — <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">Clerk roll call</a> · <a href="https://www.congress.gov/votes/house/118-2/172" target="_blank" rel="noopener">Congress.gov record</a></li>
-                <li>Healthcare stance — public option: <a href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">Campaign site</a> · <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf" target="_blank" rel="noopener">Healthcare plan PDF</a></li>
-                <li>Opposed Seattle head tax as Chamber president in 2018 — <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX report</a></li>
-                <li>Lugar Center Bipartisan Index methodology — <a href="https://www.thelugarcenter.org/ourwork-Bipartisan-Index.html" target="_blank" rel="noopener">Lugar Center</a></li>
-              </ul>
-              <div class="small text-muted">Patterns and incentives only; no illegality alleged.</div>
-            </div>
-          </div>
-        </div>
-
       </div>
+    </div>
+  </section>
+
+  <section class="section section-narrow">
+    <div class="container">
+      <h2>Receipts</h2>
+      <ul class="sources">
+        <li>FEC Filings: <a href="https://www.fec.gov/data/" rel="noopener" target="_blank">fec.gov/data</a></li>
+        <li>OpenSecrets Summary: <a href="https://www.opensecrets.org/" rel="noopener" target="_blank">opensecrets.org</a></li>
+        <li>Town Hall Calendar: <a href="/events.html">events</a></li>
+        <li>Policy Blueprints: <a href="/bills.html">bills</a></li>
+      </ul>
     </div>
   </section>
 
@@ -364,6 +291,46 @@
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+<script>
+  document.querySelector('[data-last-updated]').textContent =
+    new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'2-digit' });
+</script>
+<script type="application/json" id="finance-data">
+{
+  "cycle": "2025–2026",
+  "outOfDistrictPct": 0.0,
+  "pacPct": 0.0,
+  "smallDollarPct": 0.0,
+  "updatedOn": ""
+}
+</script>
+<script>
+(function(){
+  const el = id => document.getElementById(id);
+  const dataTag = document.getElementById('finance-data');
+  if (!dataTag) return;
+  const d = JSON.parse(dataTag.textContent);
+  const pct = x => (x*100).toFixed(1) + '%';
+  if (d.outOfDistrictPct != null) {
+    el('out-district').textContent = pct(d.outOfDistrictPct);
+    const barOut = document.getElementById('bar-out');
+    if (barOut) barOut.value = Math.round((d.outOfDistrictPct || 0) * 100);
+  }
+  if (d.pacPct != null) {
+    el('pac-pct').textContent = pct(d.pacPct);
+    const barPac = document.getElementById('bar-pac');
+    if (barPac) barPac.value = Math.round((d.pacPct || 0) * 100);
+  }
+  if (d.smallDollarPct != null) {
+    el('small-pct').textContent = pct(d.smallDollarPct);
+    const barSmall = document.getElementById('bar-small');
+    if (barSmall) barSmall.value = Math.round((d.smallDollarPct || 0) * 100);
+  }
+  if (d.updatedOn) {
+    document.querySelector('[data-last-updated]').textContent = d.updatedOn;
+  }
+})();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/site.js" defer></script>
