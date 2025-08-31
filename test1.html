@@ -130,84 +130,8 @@
   </div>
 </main>
 
-<footer class="footer-legal py-4 border-top text-center">
-  <div class="container">
-    <p class="small text-muted mb-1">© <span id="yr"></span> Adam Neil Arafat for Congress</p>
-  </div>
-</footer>
-
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // === CONFIG ===
-  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHPZAWXfICEXJI6ipXLXF5cAh5gQe3U_616AV2y_XROk0vjex_fYG9MmL9aI9TMcgA/exec";
-
-  // UTM helpers
-  function getUTM(name) { const p = new URLSearchParams(window.location.search); return p.get(name) || ''; }
-
-  // mailto fallback
-  function composeMailto(payload){
-    const to = 'info@arafatforcongress.org';
-    const subject = encodeURIComponent(`Story: ${payload.topic}${payload.name ? ' - ' + payload.name : ''}`);
-    const body = encodeURIComponent(
-      `Name: ${payload.name}\nContact: ${payload.email}\nTopic: ${payload.topic}\n\nStory:\n${payload.message}`
-    );
-    return `mailto:${to}?subject=${subject}&body=${body}`;
-  }
-
-  async function submitContact(e){
-    e.preventDefault();
-
-    const name = document.getElementById('storyName').value.trim();
-    const email = document.getElementById('storyContact').value.trim();
-    const phone = '';
-    const message = document.getElementById('storyMessage').value.trim();
-
-    if (!email && !phone && !message) {
-      alert('Please provide at least your email, phone, or a message.');
-      return false;
-    }
-
-    const payload = {
-      source: 'website',
-      type: 'contact',
-      name,
-      email,
-      phone,
-      zip: '',
-      topic: document.getElementById('storyCategory').value,
-      message,
-      utm_source: getUTM('utm_source'),
-      utm_medium: getUTM('utm_medium'),
-      utm_campaign: getUTM('utm_campaign'),
-      userAgent: navigator.userAgent
-    };
-
-    try {
-      const form = new URLSearchParams();
-      Object.entries(payload).forEach(([k, v]) => form.append(k, v));
-      const res = await fetch(WEBAPP_URL, { method: "POST", body: form });
-      const text = await res.text();
-      let data;
-      try { data = JSON.parse(text); } catch { data = null; }
-      if (data && data.ok) {
-        alert("Thanks for sharing your story! We received it.");
-        document.getElementById('contactForm').reset();
-        return false;
-      }
-      if (data && data.error) {
-        alert(`Error: ${data.error}`);
-        return false;
-      }
-      // If response isn't JSON or missing expected fields, treat as failure
-      throw new Error("Invalid response");
-    } catch (err) {
-      console.warn("POST failed; falling back to mailto.", err);
-      window.location.href = composeMailto(payload);
-      return false;
-    }
-  }
-</script>
+<div id="footer"></div>
+<script src="footer.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
