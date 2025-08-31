@@ -24,7 +24,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --soft:#f6f9fc; }
+    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --ink:#10324f; --soft:#f6f9fc; --border:#e6edf5; --radius:12px; --shadow-soft:0 6px 14px rgba(13,59,102,.06); }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     a { text-decoration: none; }
 
@@ -106,6 +106,20 @@
     }
     .fund-card h3 { margin:0; font-size:1.6rem; font-weight:800; color:#0d3b66; }
     .fund-card .pct { color:#10324f; font-weight:700; }
+
+    /* Side-by-side contrast */
+    .grid-2 { display:grid; gap:1rem; }
+    @media (min-width: 768px){ .grid-2 { grid-template-columns:1fr 1fr; } }
+    .card-lite { background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-soft); }
+    .good { border-top:4px solid var(--accent); }
+    .warn { border-top:4px solid #b11e2d; }
+    .contrast-badge { font-weight:700; margin-bottom:.5rem; }
+    .flag-badge { background:#b11e2d; color:#fff; border-radius:4px; padding:0 .4rem; font-size:.75rem; }
+    .contrast-row { display:flex; align-items:flex-start; gap:.5rem; margin-bottom:.5rem; }
+    .contrast-row:last-child { margin-bottom:0; }
+    .icon { width:1em; height:1em; flex-shrink:0; }
+    .check { color:var(--accent); }
+    .x { color:#b11e2d; }
 
     /* Comparison table */
     .compare-wrap { background:#f8fafc; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
