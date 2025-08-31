@@ -92,6 +92,11 @@
     .acct-link{font-size:.8rem; color:#6b7280; margin-left:.25rem}
     .acct-link i{margin-right:.3rem}
     .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+
+    /* Page-specific polish for Bills/Bills.html */
+    h2 { margin-top: 1.5rem; margin-bottom: .5rem; }
+    .snapshot-table th, .snapshot-table td { padding: .5rem .75rem; }
+    .help-text, .last-updated { font-size: .9rem; color: #555; }
   </style>
     <script src="evergreen-enhancements.js" defer></script>
   <script src="/assets/js/pact.js" defer></script>
@@ -125,7 +130,7 @@
     <p class="lead mb-3">Two ladders for 2027. Each step helps working people without raising their taxes. Each step adds checks on executive power.</p>
 
     <div class="d-flex justify-content-center gap-2 flex-wrap">
-      <a class="btn btn-outline-light btn-pill fw-bold ../Overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open Overview PDF (Overview.html)">
+      <a class="btn btn-outline-light btn-pill fw-bold ../Overview-btn btn-icon" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Download Evergreen Pact PDF">
         <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF
       </a>
     </div>
@@ -147,22 +152,23 @@
   <div class="row g-3">
     <div class="col-lg-12">
       <h2 class="h4">How to use this page</h2>
-      <p class="mb-2">You will see the current step only. Click Pass or Fail. The next active items appear and the displayed chances update. Each card shows two things in plain language:</p>
-      <ul class="mb-0">
-        <li><strong>For working people</strong> — the near-term benefit at home.</li>
-        <li><strong>Checks on executive power</strong> — how it restores balance.</li>
+      <p class="help-text mb-2">See the current step. Click “Pass” or “Fail” to reveal what’s next and update the odds.</p>
+      <p class="help-text mb-0">Each card shows:</p>
+      <ul class="help-text mb-0">
+        <li>For working people — the near-term benefit at home</li>
+        <li>Checks on executive power — how it restores balance</li>
       </ul>
     </div>
   </div>
 </section>
 <section class="container my-4">
-  <p class="updated" aria-live="polite">Pact last updated: August 30, 2025</p>
+  <p class="last-updated">Pact last updated: August 30, 2025</p>
 </section>
 
-<section class="container my-4" id="pact-tldr" aria-label="Pact TL;DR">
-  <h2>TL;DR — What you get, how it passes, when</h2>
-  <table class="tldr">
-    <thead><tr><th>Step</th><th>What you get at home</th><th>Route</th><th>When</th></tr></thead>
+<section class="container my-4" id="pact-snapshot" aria-label="Pact quick snapshot">
+  <h2>Quick snapshot: Benefits | Legislative route | Timeline</h2>
+  <table class="tldr snapshot-table">
+    <thead><tr><th>Step</th><th>Local impact</th><th>Legislative route</th><th>Target date</th></tr></thead>
     <tbody>
       <tr>
         <td><a href="#cost-of-living-savings">Energy Savings &amp; Lower Bills</a></td>
@@ -218,7 +224,7 @@
         <div class="progress flex-grow-1" role="progressbar" aria-label="Path A progress" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar bg-success" id="progressA" style="width:0%"></div>
         </div>
-        <div class="mini"><span id="countA">0</span>/<span id="totalA">0</span> decided</div>
+        <div class="mini" aria-live="polite"><span id="countA">0</span>/<span id="totalA">0</span> decided</div>
       </div>
 
       <!-- T0 -->
@@ -864,7 +870,7 @@
         <div class="progress flex-grow-1" role="progressbar" aria-label="Path B progress" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar bg-success" id="progressB" style="width:0%"></div>
         </div>
-        <div class="mini"><span id="countB">0</span>/<span id="totalB">0</span> decided</div>
+        <div class="mini" aria-live="polite"><span id="countB">0</span>/<span id="totalB">0</span> decided</div>
       </div>
 
       <!-- T0 -->
