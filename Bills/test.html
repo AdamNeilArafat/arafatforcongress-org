@@ -61,30 +61,90 @@
 
     footer{background:#0d3b66;color:#fff;padding:1.25rem 0}
   </style>
-  <link rel="stylesheet" href="/assets/site.css">
-  <script defer src="/assets/site.js"></script>
 </head>
 <body>
-<header class="site-header">
-  <nav class="container">
-    <a class="brand" href="/">Adam Neil Arafat for Congress – WA-10</a>
-    <ul class="nav">
-      <li><a href="/issues.html">Issues</a></li>
-      <li><a href="/contrast.html">Contrast</a></li>
-      <li><a href="/Bills/Bills.html">Evergreen Pact</a></li>
-      <li><a href="/contact.html">Contact</a></li>
-      <li class="social"><a href="https://www.reddit.com" rel="me" aria-label="Reddit">Reddit</a></li>
-      <li class="social"><a href="https://bsky.app" rel="me" aria-label="Bluesky">Bluesky</a></li>
-      <li class="social"><a href="https://www.tiktok.com" rel="me" aria-label="TikTok">TikTok</a></li>
-    </ul>
-  </nav>
-</header>
 
 <!-- NAV -->
-
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Adam Neil Arafat for Congress - WA-10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/Bills/Bills.html" aria-current="page"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
 <!-- HERO -->
+<header class="py-5 hero">
+  <div class="container text-center">
+    <h1 class="display-6 mb-3">🌲 The Evergreen Pact</h1>
 
+    <!-- Signature block in header -->
+    <div class="row justify-content-center g-3 mb-4">
+      <!-- Candidates -->
+      <div class="col-md-5">
+        <div class="sig-card text-dark">
+          <h2 class="fw-bold">✍️ Candidate Signatures</h2>
+          <p class="sig-count mb-3">
+            <span class="num text-success" id="candidateCount">—</span>
+            <span class="lbl d-block">total signed</span>
+          </p>
+          <form id="candidateForm" class="needs-validation sig-form" novalidate>
+            <input type="email" class="form-control form-control-sm mb-2" id="candidateEmail" placeholder="name@campaign.org" required>
+            <div class="row g-2 mt-0">
+              <div class="col-7">
+                <input type="text" class="form-control form-control-sm" id="candidateCity" placeholder="City (optional)">
+              </div>
+              <div class="col-5">
+                <input type="text" class="form-control form-control-sm" id="candidateState" placeholder="State (optional)">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success w-100 mt-2">Sign as Candidate</button>
+            <div id="candidateMsg" class="sig-hint mt-2" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Voters -->
+      <div class="col-md-5">
+        <div class="sig-card text-dark">
+          <h2 class="fw-bold">🗳️ Voter Signatures</h2>
+          <p class="sig-count mb-3">
+            <span class="num text-primary" id="voterCount">—</span>
+            <span class="lbl d-block">total signed</span>
+          </p>
+          <form id="voterForm" class="needs-validation sig-form" novalidate>
+            <input type="email" class="form-control form-control-sm mb-2" id="voterEmail" placeholder="name@email.com" required>
+            <div class="row g-2 mt-0">
+              <div class="col-7">
+                <input type="text" class="form-control form-control-sm" id="voterCity" placeholder="City (optional)">
+              </div>
+              <div class="col-5">
+                <input type="text" class="form-control form-control-sm" id="voterState" placeholder="State (optional)">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Sign as Voter</button>
+            <div id="voterMsg" class="sig-hint mt-2" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+      <a class="btn btn-outline-light fw-bold" href="Overview.html" target="_blank" rel="noopener noreferrer" aria-label="Open Overview PDF (Overview.html)">
+        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF
+      </a>
+    </div>
+  </div>
+</header>
 
 <!-- EXPLANATION -->
 <section class="container my-4">
@@ -100,8 +160,8 @@
   <div class="alert alert-info small">This demo file focuses on the header signature blocks and API wiring. Plug it into your full Bills page to replace the top section.</div>
 </section>
 
-
-
+<div id="footer"></div>
+<script src="footer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ===== Replace with your deployed Apps Script Web App URL (must end with /exec)
@@ -206,18 +266,5 @@
     });
   });
 </script>
-<footer class="site-footer">
-  <div class="container">
-    <p>Paid for by Adam Neil Arafat for Congress</p>
-    <nav class="foot-nav">
-      <a href="/about.html">About</a>
-      <a href="/issues.html">Issues</a>
-      <a href="/contrast.html">Contrast</a>
-      <a href="/Bills/Bills.html">Evergreen Pact</a>
-      <a href="/contact.html">Contact</a>
-    </nav>
-    <p class="small">Power People. Not PACs.</p>
-  </div>
-</footer>
 </body>
 </html>
