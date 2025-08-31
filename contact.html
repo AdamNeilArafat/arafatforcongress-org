@@ -24,7 +24,9 @@
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
 
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    a { text-decoration: none; }
+    a { text-decoration: underline; }
+    a:hover { text-decoration-thickness: from-font; }
+    a:focus-visible { outline:2px solid #0a84ff; outline-offset:2px; }
 
     /* Top social bar */
     .social-top {
@@ -196,8 +198,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="/digging-into-the-issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="Bills/Bills.html"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="/Bills/Bills.html"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
         <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link active" href="/contact.html" aria-current="page">Contact</a></li>
       </ul>

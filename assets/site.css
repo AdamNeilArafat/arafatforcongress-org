@@ -1,7 +1,9 @@
 :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
 
 body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-a { text-decoration: none; }
+a { text-decoration: underline; }
+a:hover { text-decoration-thickness: from-font; }
+a:focus-visible { outline:2px solid #0a84ff; outline-offset:2px; }
 
 /* Top social bar */
 .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color: #fff; }
@@ -55,13 +57,9 @@ a { text-decoration: none; }
 .muted { color:#6b7280; }
 
 /* Footer links underline */
-footer a { position:relative; color:#1c2b3a; text-decoration:none; font-weight:600; }
-footer a:hover { color: var(--link); }
-footer a::after {
-  content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-  background: currentColor; border-radius:2px; transition: width .18s ease;
-}
-footer a:hover::after, footer a:focus::after { width:100%; }
+footer a { position:relative; color:#1c2b3a; font-weight:600; text-decoration:underline; }
+footer a:hover { color: var(--link); text-decoration-thickness: from-font; }
+footer a:focus-visible { outline:2px solid #0a84ff; outline-offset:2px; }
 
 /* CTA links under bullets */
 .cta-links a { display:inline-flex; align-items:center; gap:.4rem; margin-right:.75rem; margin-top:.25rem; }

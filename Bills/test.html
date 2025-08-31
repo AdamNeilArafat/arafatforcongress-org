@@ -24,8 +24,9 @@
       --flash:#fff3cd;
     }
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--soft);color:var(--ink)}
-    a{color:var(--primary);text-decoration:none}
-    a:hover{text-decoration:underline}
+    a{color:var(--primary);text-decoration:underline}
+    a:hover{text-decoration-thickness:from-font}
+    a:focus-visible{outline:2px solid #0a84ff;outline-offset:2px}
     .navbar .nav-link{position:relative;padding:.25rem .5rem;font-weight:600;color:#122133}
     .navbar .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
     .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
@@ -73,7 +74,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="/issues.html">Issues</a></li>
         <li class="nav-item"><a class="nav-link active" href="/Bills/Bills.html" aria-current="page"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
         <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>

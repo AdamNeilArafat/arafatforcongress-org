@@ -28,8 +28,9 @@
     }
   
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--soft);color:var(--ink)}
-    a{color:var(--primary);text-decoration:none}
-    a:hover{text-decoration:underline}
+    a{color:var(--primary);text-decoration:underline}
+    a:hover{text-decoration-thickness:from-font}
+    a:focus-visible{outline:2px solid #0a84ff;outline-offset:2px}
     .navbar .nav-link{position:relative;padding:.25rem .5rem;font-weight:600;color:#122133}
     .navbar .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:currentColor;border-radius:2px;transition:width .18s}
     .navbar .nav-link:hover::after,.navbar .nav-link.active::after{width:100%}
@@ -97,7 +98,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="digging-into-the-issues.html">Issues</a></li>
+        <li class="nav-item"><a class="nav-link" href="/issues.html">Issues</a></li>
         <li class="nav-item"><a class="nav-link active" href="/Bills/Bills.html" aria-current="page"><i class="fa-solid fa-tree me-1 text-success" aria-hidden="true"></i>Evergreen Pact</a></li>
         <li class="nav-item"><a class="nav-link" href="contrast.html">Record &amp; Contrast</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
@@ -211,7 +212,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="75–85%">75–85%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/minibus-implementation-safeguards-bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/minibus-implementation-safeguards-bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
 
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -266,7 +267,7 @@
                 <div><strong>Standards effect:</strong> <span class="odds-now" data-std="80–90%">80–90%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/fallback-oversight-toolkit-bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open fallback kit</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/fallback-oversight-toolkit-bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open fallback kit</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Apply fallback to proceed" data-pass="#A-G2" data-pass-effects='["Fallback in place. Continue to Communications and Seals."]'>Applied</button>
@@ -297,7 +298,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="65–75%" data-pass-b="75–85%" data-fail-b="70–80%">65–75%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/communications-integrity-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/communications-integrity-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
 
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -352,7 +353,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="60–70%" data-fail-b="55–65%">55–65%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/emergency-powers-spend-pilot-dod-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/emergency-powers-spend-pilot-dod-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
 
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -405,7 +406,7 @@
                 <div><strong>Base:</strong> <span class="odds-now" data-standalone="35–50%" data-pass="50–60%" data-fail="35–50%">35–50%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/continuity-integrity-expansion-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/continuity-integrity-expansion-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 4 as Passed" data-pass="#A-K1" data-pass-effects='["Expansion passed. Continue with cost of living wins."]'>Mark as Passed</button>
@@ -438,7 +439,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="80–90%" data-pass-b="85–95%" data-fail-b="75–85%">80–90%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Energy%20Savings%20and%20Lower%20Bills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Energy%20Savings%20and%20Lower%20Bills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=energy&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Energy Savings"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -468,7 +469,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="65–75%" data-pass-b="70–80%" data-fail-b="60–70%">65–75%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=grocery&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Grocery Competition"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -498,7 +499,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="70–80%" data-pass-b="75–85%" data-fail-b="65–75%">70–80%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Good%20Jobs%20%26%20Skills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Good%20Jobs%20%26%20Skills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=jobs&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Good Jobs & Skills"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -532,7 +533,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="60–70%" data-fail-b="55–65%">55–65%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Affordable%20Child%20and%20Dependent%20Care%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Affordable%20Child%20and%20Dependent%20Care%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=childcare&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Child and Dependent Care"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -562,7 +563,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="70–80%" data-pass-b="75–85%" data-fail-b="70–80%">70–80%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Housing%20Supply%20and%20Permitting%20Modernization%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Housing%20Supply%20and%20Permitting%20Modernization%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=housing&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Housing Permitting"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -592,7 +593,7 @@
                 <div><strong>Pilot:</strong> <span class="odds-now" data-rider="60–70%" data-pass-r="65–75%" data-fail-r="60–70%">60–70%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/First-Time%20Homebuyer%203%25%20Mortgage%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/First-Time%20Homebuyer%203%25%20Mortgage%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=mortgage&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for First-time Homebuyer Mortgage"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -626,7 +627,7 @@
                 <div><strong>Paired with Corporate Responsibility:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="60–70%" data-fail-b="50–60%">55–65%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Tax%20Fairness%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Tax%20Fairness%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=tax&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Tax Fairness"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -657,7 +658,7 @@
                   <div><strong>Paired with Tax Fairness:</strong> <span class="odds-now" data-bundled="55–65%" data-pass-b="55–65%" data-fail-b="45–55%">55–65%</span></div>
                 </div>
                 <div class="btn-row">
-                  <a class="btn btn-outline-dark btn-sm" href="Bills/Corporate%20Responsibility%20(CSR)%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                  <a class="btn btn-outline-dark btn-sm" href="/Bills/Corporate%20Responsibility%20(CSR)%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                   <a class="acct-link" href="accountability/index.html#awards?bill=csr&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Corporate Responsibility"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 </div>
                 <div class="d-flex gap-2 flex-wrap mt-2">
@@ -692,7 +693,7 @@
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="40–50%">40–50%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Clean%20Campaigns%20and%20Elections%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Clean%20Campaigns%20and%20Elections%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=clean-elections&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Clean Campaigns and Elections"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -723,7 +724,7 @@
                 <div><strong>Statute:</strong> <span class="odds-now" data-bundled="35–50%">35–50%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Congressional%20Vote%20Justification%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Congressional%20Vote%20Justification%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=justify&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Vote Justification"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
 
@@ -770,7 +771,7 @@
                 <div><strong>Drug pricing plus auto enrollment pilots:</strong> <span class="odds-now" data-bundled="40–55%">40–55%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Universal%20Healthcare%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Universal%20Healthcare%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=uhc&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Universal Healthcare"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-L1">
@@ -795,7 +796,7 @@
                 <div><strong>Commission with action triggers:</strong> <span class="odds-now" data-bundled="40–60%">40–60%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Social%20Security%20Solvency%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Social%20Security%20Solvency%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=social-security&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Social Security Solvency"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-L2">
@@ -839,7 +840,7 @@
                 <div><strong>Adoption:</strong> <span class="odds-now" data-standalone="70–85%">70–85%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/house-rules-guardrails-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/house-rules-guardrails-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch"
@@ -883,7 +884,7 @@
                 <div><strong>Standards (admin uptake):</strong> <span class="odds-now" data-std="70–85%" data-pass-std="75–90%" data-fail-std="65–80%">70–85%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/communications-integrity-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/communications-integrity-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch"
@@ -925,7 +926,7 @@
                 <div><strong>Survive conference:</strong> <span class="odds-now" data-bundled="30–45%">30–45%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/holman-amendments-toolkit-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/holman-amendments-toolkit-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch"
@@ -967,7 +968,7 @@
                 <div><strong>Agency compliance:</strong> <span class="odds-now" data-std="55–75%">55–75%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/committee-directives-gao-guards-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/committee-directives-gao-guards-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch"
@@ -1010,7 +1011,7 @@
                 <div><strong>Bicameral completion:</strong> <span class="odds-now" data-bundled="45–60%">45–60%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Energy%20Savings%20and%20Lower%20Bills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Energy%20Savings%20and%20Lower%20Bills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=energy&src=bills" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1040,7 +1041,7 @@
                 <div><strong>Bicameral completion:</strong> <span class="odds-now" data-bundled="40–55%">40–55%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=grocery&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1070,7 +1071,7 @@
                 <div><strong>Bicameral completion:</strong> <span class="odds-now" data-bundled="45–60%">45–60%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Good%20Jobs%20%26%20Skills%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Good%20Jobs%20%26%20Skills%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=jobs&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1104,7 +1105,7 @@
                 <div><strong>Bicameral completion:</strong> <span class="odds-now" data-bundled="35–50%">35–50%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Affordable%20Child%20and%20Dependent%20Care%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Affordable%20Child%20and%20Dependent%20Care%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=childcare&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1134,7 +1135,7 @@
                 <div><strong>Bicameral completion:</strong> <span class="odds-now" data-bundled="40–55%">40–55%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Housing%20Supply%20and%20Permitting%20Modernization%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Housing%20Supply%20and%20Permitting%20Modernization%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=housing&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1164,7 +1165,7 @@
                 <div><strong>Full statute later:</strong> <span class="odds-now" data-standalone="35–50%">35–50%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/First-Time%20Homebuyer%203%25%20Mortgage%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/First-Time%20Homebuyer%203%25%20Mortgage%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=mortgage&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1198,7 +1199,7 @@
                 <div><strong>Paired w/ CSR, bicameral:</strong> <span class="odds-now" data-bundled="40–55%">40–55%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Tax%20Fairness%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Tax%20Fairness%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=tax&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1228,7 +1229,7 @@
                 <div><strong>Paired, bicameral:</strong> <span class="odds-now" data-bundled="35–50%">35–50%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Corporate%20Responsibility%20(CSR)%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Corporate%20Responsibility%20(CSR)%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=csr&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1262,7 +1263,7 @@
                 <div><strong>Bicameral completion:</strong> <span class="odds-now" data-bundled="30–45%">30–45%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Clean%20Campaigns%20and%20Elections%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Clean%20Campaigns%20and%20Elections%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=clean-elections&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1292,7 +1293,7 @@
                 <div><strong>Statute later:</strong> <span class="odds-now" data-bundled="30–45%">30–45%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Congressional%20Vote%20Justification%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Congressional%20Vote%20Justification%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=justify&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
@@ -1326,7 +1327,7 @@
                 <div><strong>Phased start statute:</strong> <span class="odds-now" data-standalone="15–25%">15–25%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Universal%20Healthcare%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Universal%20Healthcare%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=uhc&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-L1">
@@ -1352,7 +1353,7 @@
                 <div><strong>Full package now:</strong> <span class="odds-now" data-standalone="20–35%">20–35%</span></div>
               </div>
               <div class="btn-row">
-                <a class="btn btn-outline-dark btn-sm" href="Bills/Social%20Security%20Solvency%20Bill%20(2027).html" target="_blank">Open blueprint</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Bills/Social%20Security%20Solvency%20Bill%20(2027).html" target="_blank">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=social-security&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-L2">
@@ -1377,7 +1378,7 @@
         <div class="p-4 h-100 rounded" style="background:#0b6e4f;color:#fff">
           <h2 class="h5 fw-bold mb-2">Join the fight</h2>
           <p class="mb-3">This campaign runs on people, not corporate political action committee money.</p>
-          <a href="../contact.html" class="btn btn-light fw-bold" target="_blank" rel="noopener noreferrer">I will volunteer</a>
+          <a href="/contact.html" class="btn btn-light fw-bold" target="_blank" rel="noopener noreferrer">I will volunteer</a>
         </div>
       </div>
       <div class="col-md-6">
