@@ -9,11 +9,13 @@
   --bg: #ffffff;
   --ink: #0b2240;
   --ink-subtle: #253b5a;
+  --ink-sub: #253b5a;
   --muted: #e6ebf2;
   --tint: #f5f7fb;
 
   --link: #0a3d8f;
   --link-hover: #072b64;
+  --brand: #0b2750;
   --accent: #0b4db8;
   --accent-ink: #ffffff;
   --accent-weak: #dbe7ff;
@@ -121,7 +123,7 @@ a:hover{ color: var(--link-hover); text-decoration: underline; }
 /* ---------- Header / Nav ---------- */
 .site-header{
   position: sticky; top: 0; z-index: 50;
-  background: #0b2750; border-bottom: 1px solid rgba(255,255,255,0.12);
+  background: var(--brand); border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 .site-header .row{ display:flex; align-items:center; justify-content:space-between; max-width: var(--maxw); margin:0 auto; padding:10px 16px; }
 .brand a{ color:#fff; font-weight:800; text-decoration:none; }
@@ -337,52 +339,43 @@ label{ font-weight:600; margin-bottom:.25rem; }
   .btn-primary{ background:#2b5da6; }
 }
 
-/* ==== Issues page (high contrast) ==== */
-.hero{ text-align:center; padding: 20px 0 8px; }
-.hero h1{ font-size: var(--fs-600); }
-.hero p{ margin: 0 auto 12px; max-width: 760px; font-size: var(--fs-300); color: var(--ink-subtle); }
+/* ===== Issues page ===== */
+#issues-page .hero{ text-align:center; padding:20px 0 8px; }
+#issues-page .hero h1{ font-size:var(--fs-600); margin:0 0 8px; }
+#issues-page .hero p{ margin:0 auto 12px; max-width:760px; color:var(--ink-sub); }
 
-.top-priorities{
+/* Summary “pills” */
+#issues-page .top-priorities{
   display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
-  gap: var(--gap); margin: 18px 0 24px;
+  gap:var(--gap); margin:18px 0 24px;
 }
-.pill{ padding:14px 16px; }
-.pill strong{ display:block; margin-bottom:6px; font-size: 18px; }
+#issues-page .pill{ background:#fff; border:1px solid var(--muted); border-radius:var(--radius); padding:14px 16px; }
+#issues-page .pill strong{ display:block; margin-bottom:6px; }
 
-/* Sticky jump links with strong contrast */
-nav.issue-nav{
-  position: sticky; top: 54px; z-index: 40;
-  background: var(--tint); border-block: 1px solid var(--muted);
+/* Sticky Jump bar */
+#issues-page .issue-nav{ position:sticky; top:54px; z-index:40; background:var(--tint); border-block:1px solid var(--muted); }
+#issues-page .issue-nav .inner{ max-width:var(--maxw); margin:0 auto; padding:8px 16px; display:flex; gap:10px; overflow:auto; }
+#issues-page .issue-nav a{
+  white-space:nowrap; padding:8px 12px; border:1px solid var(--muted);
+  border-radius:999px; background:#fff; color:var(--ink); text-decoration:none;
 }
-nav.issue-nav .inner{
-  max-width: var(--maxw); margin:0 auto; padding:8px 16px;
-  display:flex; gap:10px; overflow:auto;
-}
-nav.issue-nav a{
-  white-space:nowrap; padding:8px 12px;
-  border:1px solid var(--muted); border-radius:999px;
-  text-decoration:none; color: var(--ink);
-  background: #fff;
-}
-nav.issue-nav a:hover{ background: var(--accent-weak); }
+#issues-page .issue-nav a:hover{ background:#eef4ff; }
 
 /* Sections */
-section.issue{ padding: 26px 0; border-bottom:1px solid var(--muted); }
-section.issue h2{ color: var(--ink); }
-section.issue p.kicker{ font-size: var(--fs-300); color: var(--ink-subtle); }
+#issues-page section.issue{ padding:26px 0; border-bottom:1px solid var(--muted); }
+#issues-page section.issue h2{ margin:0 0 6px; }
+#issues-page section.issue .kicker{ margin:0 0 10px; color:var(--ink-sub); }
 
-/* Details (accordion) with readable summary */
-details.plan{
-  padding: 12px 14px; background:#fff; border:1px solid var(--muted); border-radius: var(--radius);
-}
-details.plan summary{
-  cursor:pointer; font-weight:700; color: var(--ink);
-  list-style: none;
-}
-details.plan summary::-webkit-details-marker{ display:none; }
-details.plan[open]{ box-shadow: 0 1px 0 0 var(--muted) inset; }
-ul.clean{ margin: 8px 0 0 18px; }
+/* Optional details accordion to collapse long bullets */
+#issues-page details.plan{ background:#fff; border:1px solid var(--muted); border-radius:var(--radius); padding:12px 14px; }
+#issues-page details.plan summary{ cursor:pointer; font-weight:700; list-style:none; }
+#issues-page details.plan summary::-webkit-details-marker{ display:none; }
+#issues-page ul.clean{ margin:8px 0 0 18px; }
 
 /* CTA row */
-.cta-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin: 18px 0 8px; }
-.foot-cta{ text-align:center; margin-top:36px; }
+#issues-page .cta-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:18px 0 8px; }
+
+/* Hero image overlay for readability */
+.hero.image{ position:relative; color:#fff; text-align:center; padding:48px 16px 28px; background-size:cover; background-position:center; }
+.hero.image::before{ content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.30)); }
+.hero.image > *{ position:relative; }
