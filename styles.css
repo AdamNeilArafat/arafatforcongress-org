@@ -44,8 +44,9 @@ body{
 }
 
 /* Links */
-a{ color:var(--primary); text-decoration:none; }
-a:hover{ text-decoration:underline; }
+a{ color:var(--primary); text-decoration:underline; }
+a:hover{ text-decoration-thickness: from-font; }
+a:focus-visible{ outline:2px solid #0a84ff; outline-offset:2px; }
 
 /* Utilities */
 .lead{ font-size:1.125rem; line-height:1.6; }
