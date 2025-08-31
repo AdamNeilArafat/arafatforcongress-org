@@ -104,11 +104,25 @@
 
     /* Comparison table */
     .compare-wrap { background:#f8fafc; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
-    .table.compare { background:#fff; border:1px solid #e9eef3; border-radius:12px; overflow:hidden; }
-    .table.compare th { background:#0d3b66; color:#fff; font-weight:700; }
-    .table.compare td, .table.compare th { vertical-align:top; }
-    .ok { color:#0b6e4f; font-weight:700; }
-    .no { color:#b11e2d; font-weight:700; }
+    .contrast-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-block:1rem 2rem;
+      font-size:clamp(0.95rem,2vw,1rem);
+    }
+    .contrast-table th, .contrast-table td{
+      border:1px solid #E5E7EB;
+      padding:.9rem;
+      vertical-align:top;
+    }
+    .contrast-table th{background:#F9FAFB;text-align:left;}
+    @media (max-width:720px){
+      .contrast-table thead{display:none;}
+      .contrast-table, .contrast-table tbody, .contrast-table tr, .contrast-table td{display:block;width:100%}
+      .contrast-table tr{margin-bottom:1rem;border:1px solid #E5E7EB;border-radius:.5rem;overflow:hidden}
+      .contrast-table td{border:none;border-bottom:1px solid #E5E7EB}
+      .contrast-table td:last-child{border-bottom:none}
+    }
 
     /* Sticky donate (mobile) */
     .sticky-donate { position: fixed; right:16px; bottom:16px; z-index:1030; border-radius:999px; padding:.75rem .9rem; box-shadow:0 6px 16px rgba(0,0,0,.25); }
@@ -166,6 +180,7 @@
 </nav>
 
 <main>
+  <h1 class="visually-hidden">Record &amp; Contrast</h1>
 
   <!-- WHY IT MATTERS -->
   <section class="py-5 border-bottom">
@@ -181,71 +196,61 @@
   <!-- FUNDING SNAPSHOT -->
   <section class="py-5" style="background:var(--soft);">
     <div class="container">
-      <h3 class="h5 section-title mb-3">Funding snapshot</h3>
-      <p class="mb-3">
-        When more than 4 of 5 individual donor dollars come from outside WA-10, those are not our neighbors shaping priorities. It is national networks and lobby groups.
-        That is why I refuse corporate PAC money and why I have proposed a <a href="Bills/Clean Campaigns and Elections Bill (2027).html">Clean Campaigns Bill</a> to end pay to play.
+      <h2 class="h5 section-title mb-3">Funding snapshot</h2>
+      <p class="mb-3">Out-of-district is based on itemized individual donors; PAC share comes from FEC summary via OpenSecrets.</p>
+      <p class="mb-0">
+        <span id="fs-total" aria-live="polite"></span> total ·
+        <span id="fs-oob" aria-live="polite"></span>% out of district ·
+        <span id="fs-pac" aria-live="polite"></span>% from PACs<br>
+        <small>OpenSecrets summary updated <span id="fs-updated" aria-live="polite"></span>; geography page reflects itemized individual data and may lag.</small>
       </p>
-      <div class="row g-3">
-        <div class="col-md-6">
-          <div class="fund-card h-100">
-            <h3>$2.05M</h3>
-            <div class="pct">82% out of district</div>
-            <div class="small text-muted mt-1">2023–2024 cycle. Geography from itemized individual donors only. See sources.</div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="fund-card h-100">
-            <h3>44%</h3>
-            <div class="pct">from PACs</div>
-            <div class="small text-muted mt-1">Share of campaign committee receipts in 2023–2024. See sources.</div>
-          </div>
-        </div>
-      </div>
       <div class="alert alert-secondary small mt-3 mb-0" role="note">
-        AIPAC is listed as a top contributor in 2023–2024. This speaks to incentives and alignment. See sources.
+        AIPAC listed among top contributors (individuals + PAC). <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets summary</a>
       </div>
     </div>
   </section>
 
   <!-- COMPARISON TABLE -->
-  <section class="compare-wrap py-5">
+  <section class="compare-wrap py-5" aria-labelledby="contrast-heading">
     <div class="container">
-      <h3 class="section-title mb-3 text-center">Side by side</h3>
-      <div class="table-responsive">
-        <table class="table compare align-middle">
-          <thead>
-            <tr>
-              <th style="width:48%">Adam Neil Arafat</th>
-              <th style="width:52%">Status quo pattern</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="ok">✔</span> Fight for hard wins. Write, negotiate, and move bills that matter for working families.</td>
-              <td><span class="no">✘</span> Focus on low conflict and ceremonial items. Plays it safe instead of taking on big fights.</td>
-            </tr>
-            <tr>
-              <td><span class="ok">✔</span> Fight for Medicare for All with automatic enrollment and lower drug costs.</td>
-              <td><span class="no">✘</span> Favors a limited public option over universal healthcare. This keeps the private insurance market in charge.</td>
-            </tr>
-            <tr>
-              <td><span class="ok">✔</span> Deliver lower costs and more housing with accountability for bad actors.</td>
-              <td><span class="no">✘</span> Opposed Seattle's 2018 head tax that funded homelessness and affordable housing work.</td>
-            </tr>
-            <tr>
-              <td><span class="ok">✔</span> Refuse corporate PAC money. Hold open town halls. Put people first.</td>
-              <td><span class="no">✘</span> About 82% of individual donor dollars from outside WA-10 and 44% of receipts from PACs. Tied to national donor networks.</td>
-            </tr>
-            <tr>
-              <td><span class="ok">✔</span> Defend the First Amendment while standing up to lobby pressure.</td>
-              <td><span class="no">✘</span> Voted Yea on the Antisemitism Awareness Act of 2023 (H.R. 6090) that civil liberties groups warn chills protected speech.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="fineprint mt-2 mb-0">Figures use rounded percentages consistent with public tracker categories.</p>
-      <p class="fineprint mb-0">Sources are public. They show patterns and incentives. They do not allege illegality.</p>
+      <h2 id="contrast-heading" class="section-title mb-3">Side by side</h2>
+      <table class="contrast-table" role="table">
+        <thead>
+          <tr><th scope="col">Adam Neil Arafat</th><th scope="col">Status quo pattern</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fight for hard wins. Write and move bills that lower costs.</td>
+            <td>Focus on low-conflict or ceremonial items.</td>
+          </tr>
+          <tr>
+            <td>Back Medicare for All (automatic enrollment, lower drug costs).</td>
+            <td>Supports a public option; not universal coverage.<br>
+              <a href="https://stricklandforwashington.com/priorities/universal-health-care/">Campaign site</a> ·
+              <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf">Healthcare plan PDF</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Refuse corporate PAC money. Open town halls. People first.</td>
+            <td><span id="tbl-oob" aria-live="polite"></span>% out of district; <span id="tbl-pac" aria-live="polite"></span>% from PACs.
+              <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320">OpenSecrets summary</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Defend the First Amendment while standing up to lobby pressure.</td>
+            <td>Yea on H.R. 6090 (5/1/2024).
+              <a href="https://clerk.house.gov/Votes/2024172">Clerk roll call</a> ·
+              <a href="https://www.congress.gov/votes/house/118-2/172">Congress.gov record</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Cut red tape, build faster; 3% mortgages for first-time buyers.</td>
+            <td>Opposed Seattle’s 2018 head tax as Chamber president.
+              <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council">KNKX report</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -282,37 +287,37 @@
       <h3 class="h6 section-title mb-3">Notes and methods</h3>
       <div class="accordion" id="notes">
         <div class="accordion-item">
-          <h2 class="accordion-header" id="n1h">
+          <h3 class="accordion-header" id="n1h">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n1" aria-expanded="false" aria-controls="n1">
-              Funding context
+              Update windows
             </button>
-          </h2>
+          </h3>
           <div id="n1" class="accordion-collapse collapse" aria-labelledby="n1h" data-bs-parent="#notes">
             <div class="accordion-body small">
-              Percentages use OpenSecrets categories. Out of district is calculated only from itemized individual donors. PAC share uses FEC summary. See linked OpenSecrets pages for methodology notes and update timestamps.
+              Source of Funds updated <span id="note-updated" aria-live="polite"></span>; Contributors/Industries updated after the 20th each month; Geography based on itemized data updated less frequently.
             </div>
           </div>
         </div>
 
         <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="n2h">
+          <h3 class="accordion-header" id="n2h">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n2" aria-expanded="false" aria-controls="n2">
               AIPAC shorthand
             </button>
-          </h2>
+          </h3>
           <div id="n2" class="accordion-collapse collapse" aria-labelledby="n2h" data-bs-parent="#notes">
             <div class="accordion-body small">
-              "AIPAC" refers to contributions from AIPAC and aligned donors as categorized by OpenSecrets. Mention here signals alignment and incentives. It does not allege illegality or foreign money.
+              "AIPAC" refers to contributions from AIPAC and aligned donors as categorized by OpenSecrets.
             </div>
           </div>
         </div>
 
         <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="n3h">
+          <h3 class="accordion-header" id="n3h">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n3" aria-expanded="false" aria-controls="n3">
-              Bipartisan scores vs leadership
+              Bipartisan Index context
             </button>
-          </h2>
+          </h3>
           <div id="n3" class="accordion-collapse collapse" aria-labelledby="n3h" data-bs-parent="#notes">
             <div class="accordion-body small">
               Bipartisan index scores reward cross party cosponsorship and routine votes. Leadership on hard fights shows up in initiating, organizing, and moving contested policy that lowers costs and expands rights.
@@ -321,23 +326,23 @@
         </div>
 
         <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="n4h">
+          <h3 class="accordion-header" id="n4h">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#n4" aria-expanded="false" aria-controls="n4">
               Sources
             </button>
-          </h2>
+          </h3>
           <div id="n4" class="accordion-collapse collapse" aria-labelledby="n4h" data-bs-parent="#notes">
             <div class="accordion-body small">
               <ul class="mb-2">
-                <li>OpenSecrets — Source of Funds 2023–2024: PAC share ~44% — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
-                <li>OpenSecrets — Geography 2023–2024: Out of district ~82% of itemized individual giving — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">opensecrets.org</a></li>
-                <li>OpenSecrets — Top contributors: AIPAC listed among top contributors in 2023–2024 — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">opensecrets.org</a></li>
-                <li>House Roll Call on H.R. 6090 Antisemitism Awareness Act 2024-05-01: Strickland Yea — <a href="https://www.congress.gov/votes/house/118-2/172" target="_blank" rel="noopener">congress.gov</a> and <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">clerk.house.gov</a></li>
-                <li>Healthcare stance — public option: campaign site and materials — <a href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">stricklandforwashington.com</a>, <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf" target="_blank" rel="noopener">healthcare plan PDF</a>, reporting: <a href="https://www.cascadepbs.org/politics/2020/08/what-separates-strickland-and-doglio-was-10th-congressional-district/" target="_blank" rel="noopener">Cascade PBS</a></li>
-                <li>Opposed Seattle head tax as Chamber president in 2018 — <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX</a>, <a href="https://www.klgates.com/Congressional-Meet-and-Greet-with-Marilyn-Strickland-WA-10-D-11-20-2020" target="_blank" rel="noopener">K&L Gates bio</a></li>
-                <li>Lugar Center Bipartisan Index context — <a href="https://www.thelugarcenter.org/ourwork-Bipartisan-Index.html" target="_blank" rel="noopener">thelugacenter.org</a></li>
+                <li>OpenSecrets — Source of Funds 2023–2024: <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets summary</a></li>
+                <li>OpenSecrets — Geography 2023–2024: <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">OpenSecrets geography</a></li>
+                <li>OpenSecrets — Top contributors: AIPAC listed among top contributors in 2023–2024 — <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets top contributors</a></li>
+                <li>H.R. 6090 Antisemitism Awareness Act vote — <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">Clerk roll call</a> · <a href="https://www.congress.gov/votes/house/118-2/172" target="_blank" rel="noopener">Congress.gov record</a></li>
+                <li>Healthcare stance — public option: <a href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">Campaign site</a> · <a href="https://stricklandforwashington.com/wp-content/uploads/2020/07/Strickland-Healthcare-Plan.pdf" target="_blank" rel="noopener">Healthcare plan PDF</a></li>
+                <li>Opposed Seattle head tax as Chamber president in 2018 — <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX report</a></li>
+                <li>Lugar Center Bipartisan Index methodology — <a href="https://www.thelugarcenter.org/ourwork-Bipartisan-Index.html" target="_blank" rel="noopener">Lugar Center</a></li>
               </ul>
-              <div class="small text-muted">Update windows: OpenSecrets summary last updated 2025-08-18 for funds and source of funds. Geography page reflects itemized individual data as of 2025-02-06. Always check timestamps on linked pages.</div>
+              <div class="small text-muted">Patterns and incentives only; no illegality alleged.</div>
             </div>
           </div>
         </div>
@@ -372,7 +377,23 @@
   <i class="fa-solid fa-heart"></i>
 </a>
 
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+fetch('/site/_data/contrast.json')
+  .then(r => r.json())
+  .then(d => {
+    const money = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',notation:'compact',maximumFractionDigits:2}).format(n);
+    const set = (id, val) => { const el = document.getElementById(id); if(el && val!==undefined && val!==null) el.textContent = val; };
+    set('fs-total', money(d.total_raised));
+    set('fs-oob', d.out_of_district_pct.toFixed(1));
+    set('fs-pac', d.pac_share_pct.toFixed(2));
+    set('fs-updated', d.updated_on);
+    set('tbl-oob', d.out_of_district_pct.toFixed(1));
+    set('tbl-pac', d.pac_share_pct.toFixed(2));
+    set('note-updated', d.updated_on);
+  })
+  .catch(()=>{});
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
