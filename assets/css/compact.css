@@ -70,3 +70,9 @@ small, .eyebrow { opacity:.9; }
 
 /* Safety reducer for any oversized utility classes in markup */
 .reduce-margins :is(.mt-12,.mb-12,.py-20){ margin: 1rem 0 !important; padding-block: 2rem !important; }
+/* Skip link */
+.skip-link{position:absolute;left:-9999px;}
+.skip-link:focus{left:1rem;top:1rem;background:#fff;padding:.5rem .75rem;outline:2px solid;}
+
+/* Active nav link */
+nav a[aria-current="page"]{text-decoration:underline;font-weight:600;}
