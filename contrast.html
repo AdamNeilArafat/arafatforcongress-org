@@ -77,9 +77,6 @@
     text-align:center;
   }
 }
-
-    }
-
     /* Nav */
     .navbar .nav-link { position:relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
     .navbar .nav-link:hover { color:#0d3b66; }
@@ -98,36 +95,134 @@
     .section-title { color:var(--primary); }
     .fineprint { font-size:.8rem; opacity:.75; }
 
-    /* Funding cards */
-    .fund-card {
-      border-radius:14px; border:1px solid #e6edf5; background:#fff;
-      text-align:center; padding:1rem; height:100%;
-      box-shadow:0 6px 14px rgba(13,59,102,.06);
+    /* Funding snapshot cards */
+    .stats-grid { display:flex; gap:1rem; flex-wrap:wrap; }
+    .stat-card { flex:1 1 260px; background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-soft); padding:1rem; text-align:center; }
+    .stat-number { font-size:1.6rem; font-weight:800; color:var(--primary); }
+    .stat-amount { font-weight:700; color:var(--ink); }
+
+    /* Section lead */
+    .section-lead {
+      margin: 24px 0 8px;
+      text-align: left;
     }
-    .fund-card h3 { margin:0; font-size:1.6rem; font-weight:800; color:#0d3b66; }
-    .fund-card .pct { color:#10324f; font-weight:700; }
+    .section-lead h1 {
+      font-size: 1.375rem;
+      line-height: 1.25;
+      margin: 0 0 4px;
+    }
+    .section-kicker {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 0;
+    }
 
-    /* Side-by-side contrast */
-    .grid-2 { display:grid; gap:1rem; }
-    @media (min-width: 768px){ .grid-2 { grid-template-columns:1fr 1fr; } }
-    .card-lite { background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-soft); }
-    .good { border-top:4px solid var(--accent); }
-    .warn { border-top:4px solid #b11e2d; }
-    .contrast-badge { font-weight:700; margin-bottom:.5rem; }
-    .flag-badge { background:#b11e2d; color:#fff; border-radius:4px; padding:0 .4rem; font-size:.75rem; }
-    .contrast-row { display:flex; align-items:flex-start; gap:.5rem; margin-bottom:.5rem; }
-    .contrast-row:last-child { margin-bottom:0; }
-    .icon { width:1em; height:1em; flex-shrink:0; }
-    .check { color:var(--accent); }
-    .x { color:#b11e2d; }
+    /* Grid + cards */
+    #contrast {
+      margin-block: 16px 32px;
+    }
+    .contrast-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .contrast-card {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 10px;
+      padding: 14px 14px 12px;
+    }
+    .contrast-card h2 {
+      font-size: 1.125rem;
+      line-height: 1.25;
+      margin: 0 0 6px;
+    }
 
-    /* Comparison table */
-    .compare-wrap { background:#f8fafc; border-top:1px solid #e9eef3; border-bottom:1px solid #e9eef3; }
-    .table.compare { background:#fff; border:1px solid #e9eef3; border-radius:12px; overflow:hidden; }
-    .table.compare th { background:#0d3b66; color:#fff; font-weight:700; }
-    .table.compare td, .table.compare th { vertical-align:top; }
-    .ok { color:#0b6e4f; font-weight:700; }
-    .no { color:#b11e2d; font-weight:700; }
+    /* Booster line: short, bold, single scan line */
+    .booster {
+      font-weight: 600;
+      margin: 0 0 10px;
+      font-size: 0.98rem;
+      color: #222;
+    }
+
+    /* Claims: short bullets, tight rhythm */
+    .claims {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .claims li {
+      margin: 8px 0;
+      line-height: 1.35;
+      position: relative;
+      padding-left: 1.4em;
+    }
+    .contrast-opponent .claims li::before,
+    .contrast-self .claims li::before {
+      position: absolute;
+      left: 0;
+      top: 0.1em;
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+    }
+    .contrast-opponent .claims li::before {
+      content: "\f024"; /* flag */
+      color: #dc3545;
+    }
+    .contrast-self .claims li::before {
+      content: "\f00c"; /* check */
+      color: #198754;
+    }
+    .claims li strong {
+      display: inline;
+    }
+
+    /* Citations as collapsible */
+    .citations {
+      margin-top: 10px;
+    }
+    .citations > summary {
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #0a58ca;
+      list-style: none;
+    }
+    .citations > summary::-webkit-details-marker {
+      display: none;
+    }
+    .citations ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    /* Opponent vs self subtle tints (keeps it readable on mobile) */
+    .contrast-opponent { background: #fff; }
+    .contrast-self     { background: #fff; }
+
+    /* MOBILE FIRST: stack, bigger tap targets, balanced spacing */
+    @media (max-width: 768px) {
+      .contrast-grid {
+        grid-template-columns: 1fr; /* stack */
+        gap: 14px;
+      }
+      .contrast-card {
+        padding: 12px 12px 10px;
+      }
+      .claims li {
+        margin: 6px 0;
+        font-size: 0.98rem;
+      }
+      .section-lead h1 { font-size: 1.25rem; }
+
+      p, li { line-height: 1.35; }
+      h1, h2, h3 { line-height: 1.2; }
+    }
+
+    /* Micro spacing tune for very small screens */
+    @media (max-width: 360px) {
+      .claims li { line-height: 1.3; }
+    }
 
     /* Sticky donate (mobile) */
     .sticky-donate { position: fixed; right:16px; bottom:16px; z-index:1030; border-radius:999px; padding:.75rem .9rem; box-shadow:0 6px 16px rgba(0,0,0,.25); }
@@ -188,43 +283,54 @@
 
 <main>
 
-  <!-- START: RIGHT_CHOICE_TO_SOURCES -->
-<!-- Only real choice (callout) -->
-<section class="section" id="only-real-choice">
-  <div class="container">
-    <h2 class="h4 fw-bold mb-2">Why I’m the Right Choice</h2>
-    <div class="card card-lite good p-3">
-      <p class="mb-0 fw-semibold">I refuse AIPAC and corporate PAC money, no strings. I work for WA-10, not lobbyists. I deliver kitchen-table bills that cut costs and expand care, and I publish every vote, meeting, and dollar. I’m the only candidate in WA-10 you can trust.</p>
-    </div>
-  </div>
-</section>
+  <!-- Section lead -->
+  <header class="section-lead">
+    <h1>Why I’m the Right Choice</h1>
+    <p class="section-kicker">Clear Claims, Clear Records</p>
+  </header>
 
-<!-- Side by side (top) -->
-<section class="section bg-light" id="side-by-side">
-  <div class="container">
-    <h2 class="h3 fw-bold mb-3">Side by side: who fights for you</h2>
-    <div class="grid-2">
-      <div class="card card-lite good p-3">
-        <div class="contrast-badge">Adam</div>
-        <div class="contrast-row"><svg class="icon me-2 check" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.285 6.709l-11 11-5.5-5.5 1.414-1.414 4.086 4.086 9.586-9.586z"/></svg> Refuses AIPAC and corporate PAC cash.</div>
-        <div class="contrast-row"><svg class="icon me-2 check" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.285 6.709l-11 11-5.5-5.5 1.414-1.414 4.086 4.086 9.586-9.586z"/></svg> Drafts kitchen-table bills you feel in your budget.</div>
-        <div class="contrast-row"><svg class="icon me-2 check" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.285 6.709l-11 11-5.5-5.5 1.414-1.414 4.086 4.086 9.586-9.586z"/></svg> Fights for universal coverage you can actually use.</div>
-        <div class="contrast-row"><svg class="icon me-2 check" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.285 6.709l-11 11-5.5-5.5 1.414-1.414 4.086 4.086 9.586-9.586z"/></svg> Protects free speech and civil rights.</div>
-        <div class="contrast-row"><svg class="icon me-2 check" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.285 6.709l-11 11-5.5-5.5 1.414-1.414 4.086 4.086 9.586-9.586z"/></svg> Reports votes and meetings publicly.</div>
-      </div>
-      <div class="card card-lite warn p-3">
-        <div class="contrast-badge">Opponent <span class="flag-badge">Red flags</span></div>
-        <div class="contrast-row"><svg class="icon me-2 x" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M5 3h2v18H5z"/><path d="M7 4h12l-3 3 3 3H7z"/></svg> Voted for the Antisemitism Awareness Act (H.R. 6090), a bill civil-liberties groups warned would chill First Amendment speech, aligning with AIPAC’s agenda <a class="ms-1" href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">(roll call)</a>.</div>
-        <div class="contrast-row"><svg class="icon me-2 x" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M5 3h2v18H5z"/><path d="M7 4h12l-3 3 3 3H7z"/></svg> Accepts money from the Pro-Israel industry and other PACs <a class="ms-1" href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/industries?cid=N00046320&cycle=2024&type=I" target="_blank" rel="noopener">(source)</a>.</div>
-        <div class="contrast-row"><svg class="icon me-2 x" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M5 3h2v18H5z"/><path d="M7 4h12l-3 3 3 3H7z"/></svg> Spends time on symbolic bills that stall <a class="ms-1" href="https://www.congress.gov/bill/118th-congress/house-bill/6090" target="_blank" rel="noopener">(example)</a>.</div>
-        <div class="contrast-row"><svg class="icon me-2 x" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M5 3h2v18H5z"/><path d="M7 4h12l-3 3 3 3H7z"/></svg> Backs a limited public option, not universal care <a class="ms-1" href="https://stricklandforwashington.com/priorities/universal-health-care/" target="_blank" rel="noopener">(source)</a>.</div>
-        <div class="contrast-row"><svg class="icon me-2 x" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M5 3h2v18H5z"/><path d="M7 4h12l-3 3 3 3H7z"/></svg> Opposed Seattle’s 2018 head tax as Chamber CEO <a class="ms-1" href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">(audio)</a>.</div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- Two-column contrast -->
+  <section id="contrast">
+    <div class="container contrast-grid">
+      <article class="contrast-card contrast-opponent" aria-labelledby="her-record">
+        <h2 id="her-record">Her Record</h2>
+        <p class="booster">Takes PAC money. Votes with corporate interests.</p>
+        <ul class="claims">
+          <li><strong>AIPAC &amp; corporate PAC money.</strong> Funding tied to outside interests.</li>
+          <li><strong>Voted to restrict student speech.</strong> Your voice should be heard.</li>
+          <li><strong>Blocked fair-share revenue.</strong> Opposed making big business pay more.</li>
+        </ul>
+        <details class="citations">
+          <summary>Receipts and citations</summary>
+          <ul>
+            <li>Finance filings…</li>
+            <li>Vote record…</li>
+            <li>Public statements…</li>
+          </ul>
+        </details>
+      </article>
 
-<!-- Funding Snapshot -->
+      <article class="contrast-card contrast-self" aria-labelledby="my-record">
+        <h2 id="my-record">My Record</h2>
+        <p class="booster">No PAC money. Full transparency. Kitchen-table bills.</p>
+        <ul class="claims">
+          <li><strong>No PAC or lobbyist money.</strong> I work for WA-10, not donors.</li>
+          <li><strong>Radical transparency.</strong> Every vote, meeting, and dollar online.</li>
+          <li><strong>Cost-cutting bills.</strong> Lower groceries, housing, and healthcare.</li>
+        </ul>
+        <details class="citations">
+          <summary>Receipts and citations</summary>
+          <ul>
+            <li>Finance policy…</li>
+            <li>Transparency repo/page…</li>
+            <li>Bill drafts/one-pagers…</li>
+          </ul>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <!-- Funding Snapshot -->
 <section class="section">
   <div class="container">
     <h2 class="h3 fw-bold mb-3" id="funding-snapshot">Funding snapshot</h2>
@@ -233,35 +339,16 @@
         <div class="stat-kicker">Out of district (itemized individuals)</div>
         <div class="stat-number">85%</div>
         <div class="stat-amount">$1,820,123</div>
-        <div class="stat-note">Based on your compiled totals for 2023–2024. Percentages are computed from the amounts shown and rounded to whole numbers. For itemized-only shares from OpenSecrets Geography, percentages may differ. <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">See itemized breakdown</a>.</div>
       </div>
       <div class="stat-card">
         <div class="stat-kicker">In district (itemized individuals)</div>
         <div class="stat-number">15%</div>
         <div class="stat-amount">$320,123</div>
-        <div class="stat-note">Based on your compiled totals for 2023–2024. Percentages are computed from the amounts shown and rounded to whole numbers. For itemized-only shares from OpenSecrets Geography, percentages may differ. <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">See itemized breakdown</a>.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Clear Claims, Clear Records -->
-<section class="section" id="key-claims">
-  <div class="container">
-    <h2 class="h4 fw-bold mb-3">Clear Claims, Clear Records</h2>
-    <div class="card card-lite p-3">
-      <ul class="source-list small mb-0">
-        <li><strong>I’m the only candidate in WA-10 with no AIPAC or corporate PAC influence.</strong><br><span class="text-muted">Support:</span> OpenSecrets shows the opponent’s PAC money is dominated by <em>business PACs</em> (~76% of PAC receipts, 2023–2024). <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/summary?cid=N00046320" target="_blank" rel="noopener">OpenSecrets summary</a>.</li>
-        <li><strong>My funding comes from right here—not from out-of-district donors pushing corporate agendas.</strong><br><span class="text-muted">Support:</span> Your compiled itemized totals (2020–2024): <strong>$1.82M</strong> out-of-district (~85%) vs <strong>$320K</strong> in-district (~15%). See the <a href="#funding-snapshot">Funding snapshot</a> above; see also OpenSecrets <a href="https://www.opensecrets.org/members-of-congress/marilyn-strickland/geography?cid=N00046320&cycle=2024" target="_blank" rel="noopener">Geography</a> for itemized-only shares.</li>
-        <li><strong>She voted to censor student voices. I defend yours.</strong><br><span class="text-muted">Support:</span> Voted Yea on the Antisemitism Awareness Act (H.R. 6090), which civil-liberties groups warned would chill speech on campus. <a href="https://clerk.house.gov/Votes/2024172" target="_blank" rel="noopener">House roll call</a>, <a href="https://www.congress.gov/bill/118th-congress/house-bill/6090" target="_blank" rel="noopener">Congress.gov</a>.</li>
-        <li><strong>She’s busy with flashy bills. I’m delivering tangible savings on your grocery bill and healthcare.</strong><br><span class="text-muted">Support:</span> You are prioritizing kitchen-table legislation; contrast with her record of symbolic or low-impact bills. <a href="https://www.congress.gov/member/marilyn-strickland" target="_blank" rel="noopener">Member page</a>.</li>
-        <li><strong>Every vote, meeting, and expense I’ve had is online, judged by you almost instantly.</strong><br><span class="text-muted">Support:</span> Public commitment to publish votes, meetings, and spending for radical transparency.</li>
-        <li><strong>When Seattle tried to make big employers pay a little more, she said no. I’d have said yes for working families.</strong><br><span class="text-muted">Support:</span> As Chamber CEO, she opposed the 2018 Seattle head tax. <a href="https://www.knkx.org/business/2018-03-16/business-head-tax-back-on-the-table-for-seattle-city-council" target="_blank" rel="noopener">KNKX report + audio</a>.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-<!-- END: RIGHT_CHOICE_TO_SOURCES -->
 <!-- CALL TO ACTION -->
   <section class="py-5 text-center">
     <div class="container">
