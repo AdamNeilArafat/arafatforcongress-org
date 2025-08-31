@@ -260,3 +260,15 @@ label{ font-weight:600; margin-bottom:.25rem; }
   a{ color:#9ec5ff; }
   .btn-primary{ background:#2b5da6; }
 }
+.container { max-width: 900px; margin: 0 auto; padding: 1.25rem; }
+.page-hero h1 { font-size: clamp(2rem, 3.5vw, 2.5rem); margin-bottom: 0.5rem; }
+.page-hero p { font-size: 1.05rem; line-height: 1.5; margin: 0 0 1.25rem; }
+.toc { margin: 0 0 1.25rem; }
+.toc ul { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; padding-left: 0; list-style: none; }
+.toc a { text-decoration: underline; text-underline-offset: 2px; }
+.pact-section { padding: 1rem 0 0.25rem; border-top: 1px solid rgba(0,0,0,0.08); margin-top: 0.75rem; }
+.pact-section h2 { font-size: 1.4rem; margin: 0 0 0.25rem; }
+.pact-list { padding-left: 1.1rem; margin: 0.25rem 0 0.5rem; }
+.pact-list li { margin: 0.35rem 0; line-height: 1.4; }
+.pact-cta { text-align: center; padding: 1rem 0 1.25rem; }
+.pact-cta .btn { display: inline-block; padding: 0.6rem 1rem; margin: 0.25rem; border-radius: 4px; text-decoration: none; }
