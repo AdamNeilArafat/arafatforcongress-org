@@ -134,6 +134,31 @@
     .btn-donate:hover { filter: brightness(.95); }
     .btn-ghost { background:#fff; border:1px solid #cfd8e3; color:#0d3b66; }
     .btn-ghost:hover { background:#eef3f8; }
+  .issues-container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+.page-header .lede { font-size: 1.1rem; margin: .5rem 0 .75rem; }
+.note-badge { display:inline-block; font-size:.95rem; padding:.3rem .6rem; border:1px solid #e0e4ea; border-radius:6px; background:#f7f9fc; }
+.jump-to { display:flex; flex-wrap:wrap; gap:.5rem; margin:.5rem 0 1rem; }
+.jump-to a { font-size:.95rem; padding:.25rem .5rem; border:1px solid #eef1f5; border-radius:6px; text-decoration:none; }
+
+.issue-block { margin: 2rem 0; }
+.issue-block h2 { margin-bottom:.5rem; }
+.bullets { margin:.75rem 0 .5rem; padding-left:1.25rem; }
+.bullets li { margin:.35rem 0; }
+.inline-links { margin:.5rem 0 0; }
+
+.callouts { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:.75rem; margin-top:.75rem; }
+.callout { border:1px solid #e6ebf2; background:#fbfcff; border-radius:8px; padding:.75rem; }
+.callout h3 { font-size:.9rem; margin:0 0 .3rem; text-transform:uppercase; letter-spacing:.02em; }
+
+.swot { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:.75rem; margin-top:.75rem; }
+.swot > div { border:1px dashed #dfe5ee; background:#fff; border-radius:8px; padding:.75rem; }
+.swot h4 { font-size:.95rem; margin:0 0 .25rem; }
+
+@media (max-width:640px){
+  .issues-container { padding:1rem; }
+  .callouts, .swot { grid-template-columns:1fr; }
+}
+
   </style>
 </head>
 <body>
@@ -180,189 +205,164 @@
 </nav>
 
 <main class="py-5">
-  <div class="container px-4">
+  <section class="container issues-container">
+  <header class="page-header">
+    <h1>Digging Into the Issues</h1>
+    <p class="lede">A ready agenda means action on day one: file bills, build support, deliver for working families.</p>
+    <p class="note-badge">No new taxes on working families.</p>
+  </header>
 
-    <h1 class="h3 mb-4">Digging Into the Issues</h1>
+  <nav class="jump-to">
+    <a href="#cost-of-living">Cost of Living</a>
+    <a href="#healthcare">Healthcare</a>
+    <a href="#corruption">Corruption &amp; Special Interests</a>
+    <a href="#tax-fairness">Tax Fairness, CSR, Good Jobs</a>
+  </nav>
 
-    <!-- Evergreen Pact explainer -->
-    <div class="pact-note text-start">
-      <p class="mb-2">
-        Congress moves slowly when gridlocked. A ready agenda means we act on day one, filing bills, building support, and delivering for working families.
-      </p>
-      <p class="mb-0">
-        The <a href="/Bills/Bills.html">Evergreen Pact</a> is more than a set of policies. It reclaims power from the executive branch, sets guardrails that protect communities, and uses clear branding to hold obstruction accountable.
-      </p>
+  <!-- COST OF LIVING -->
+  <section id="cost-of-living" class="issue-block">
+    <h2>Lowering the Cost of Living</h2>
+    <p>Make housing and childcare attainable, groceries fair, and utilities affordable. Protect Social Security. Keep working families whole.</p>
+
+    <ul class="bullets">
+      <li><strong>Housing supply &amp; permitting:</strong> Faster digital approvals, flexible zoning near jobs/transit, support modular builds.
+        <a href="https://arafatforcongress.org/Bills/Housing%20Supply%20and%20Permitting%20Modernization%20Bill%20%282027%29.html">Housing Supply &amp; Permitting Bill</a>
+        <a href="https://arafatforcongress.org/Bills/First-Time%20Homebuyer%203%25%20Mortgage%20Bill%20%282027%29.html">First-Time Homebuyer 3% Mortgage Bill</a>
+      </li>
+      <li><strong>Groceries &amp; fair markets:</strong> Stop junk fees and MFNs. Standardize fee/contract disclosures. Strengthen regional competition.
+        <a href="https://arafatforcongress.org/Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill%20%282027%29.html">Fair Food &amp; Grocery Competition Bill</a>
+      </li>
+      <li><strong>Childcare:</strong> Expand and refund the CDCTC. Grow quality seat supply.
+        <a href="https://arafatforcongress.org/Bills/Affordable%20Child%20and%20Dependent%20Care%20Bill%20%282027%29.html">Affordable Child &amp; Dependent Care</a>
+      </li>
+      <li><strong>Utilities:</strong> Bigger rebates for weatherization, heat pumps, and community solar; streamline LIHEAP.
+        <a href="https://arafatforcongress.org/Bills/Energy%20Savings%20and%20Lower%20Bills%20Bill%20%282027%29.html">Energy Savings &amp; Lower Bills</a>
+      </li>
+      <li><strong>Social Security:</strong> End taxes on most benefits; fair top-end contributions; protect solvency.
+        <a href="https://arafatforcongress.org/Bills/Social%20Security%20Solvency%20Bill%20%282027%29.html">Working Families Solvency Bill</a>
+      </li>
+      <li><strong>Good jobs access:</strong> Licensing reciprocity, apprenticeships, earn-while-you-learn.
+        <a href="https://arafatforcongress.org/Bills/Good%20Jobs%20%26%20Skills%20Bill%20%282027%29.html">Good Jobs &amp; Skills Bill</a>
+      </li>
+    </ul>
+
+    <div class="callouts">
+      <div class="callout"><h3>Target</h3><p>By 2028, cut combined housing + childcare + utility costs by <strong>15%</strong> for working families.</p></div>
+      <div class="callout"><h3>Funding</h3><p>Close corporate loopholes and wasteful subsidies. <strong>No new taxes</strong> on working families.</p></div>
+      <div class="callout"><h3>Equity</h3><p>Prioritize relief for rural families, seniors, and communities of color most hit by rising costs.</p></div>
     </div>
 
-    <nav class="issue-nav" aria-label="Issue navigation">
-      <h5>Jump to:</h5>
-      <ul>
-        <li><a href="/issues.html#cost-of-living">Cost of Living</a></li>
-        <li><a href="/issues.html#healthcare">Healthcare</a></li>
-        <li><a href="/issues.html#corruption">Corruption &amp; Special Interests</a></li>
-        <li><a href="/issues.html#tax-fairness">Tax Fairness, CSR, Good Jobs</a></li>
-      </ul>
-    </nav>
+    <div class="swot">
+      <div><h4>Strengths</h4><p>Tangible kitchen-table relief focused on monthly bills.</p></div>
+      <div><h4>Weaknesses</h4><p>Permitting/zoning rely on state and local partners; timelines can slip.</p></div>
+      <div><h4>Opportunities</h4><p>Bipartisan room on childcare credits, apprenticeships, and LIHEAP streamlining.</p></div>
+      <div><h4>Threats</h4><p>Grocer/lobby pushback; interest-rate swings affecting housing affordability.</p></div>
+    </div>
+  </section>
 
-    <!-- #1 Cost of Living -->
-    <section id="cost-of-living" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4349.jpeg" alt="Lowering the cost of living">
-        </div>
-        <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #1</span>
-          <h2 class="h4 section-title">Lowering the Cost of Living</h2>
-          <p class="lead-small">Make housing and childcare attainable, groceries fair, utilities affordable, and safeguard Social Security, with no new taxes on working families.</p>
+  <!-- HEALTHCARE -->
+  <section id="healthcare" class="issue-block">
+    <h2>Universal Healthcare</h2>
+    <p>Coverage that follows you for life. Lower drug prices. Real mental-health parity. Primary care close to home.</p>
 
-          <ul class="mt-3">
-            <li><strong>Housing supply &amp; permitting:</strong> faster digital approvals, flexible zoning near jobs and transit, support modular builds.
-              <div class="cta-links">
-                <a href="/Bills/Housing Supply and Permitting Modernization Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Housing Supply &amp; Permitting Bill</span></a>
-                <a href="/Bills/First-Time Homebuyer 3%25 Mortgage Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>First-Time Homebuyer 3% Mortgage Bill</span></a>
-              </div>
-            </li>
+    <ul class="bullets">
+      <li><strong>Automatic coverage:</strong> A national benefits floor so no one falls through the cracks.</li>
+      <li><strong>Lower drug prices:</strong> Expand negotiation; stop patent gaming.</li>
+      <li><strong>Parity &amp; access:</strong> Enforce mental-health parity; grow clinics and workforce in care deserts.</li>
+      <li><strong>Health in all policies:</strong> Align food, water, air, and workplace standards to health outcomes.</li>
+    </ul>
 
-            <li class="mt-2"><strong>Groceries &amp; fair markets:</strong> crack down on junk fees and MFNs, standardize fee and contract disclosures, strengthen regional competition.
-              <div class="cta-links">
-                <a href="/Bills/Fair Food and Grocery Competition Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Fair Food &amp; Grocery Competition Bill</span></a>
-              </div>
-            </li>
+    <p class="inline-links">
+      <a href="https://arafatforcongress.org/Bills/Universal%20Healthcare%20Bill%20%282027%29.html">See the Universal Healthcare Bill (2027)</a>
+      · <a href="#sources">See sources</a>
+    </p>
 
-            <li class="mt-2"><strong>Childcare you can find and afford:</strong> expand and refund the CDCTC, invest in quality seat supply.
-              <div class="cta-links">
-                <a href="/Bills/Affordable Child and Dependent Care Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Affordable Child &amp; Dependent Care</span></a>
-              </div>
-            </li>
+    <div class="callouts">
+      <div class="callout"><h3>Target</h3><p>Universal enrollment by <strong>2030</strong>; reduce out-of-pocket costs by <strong>20%</strong> for working families.</p></div>
+      <div class="callout"><h3>Funding</h3><p>Shift subsidies from private-insurance middlemen; leverage bulk drug purchasing.</p></div>
+      <div class="callout"><h3>Equity</h3><p>Rural towns, veterans, seniors, and people with disabilities get priority access.</p></div>
+    </div>
 
-            <li class="mt-2"><strong>Lower monthly utility bills:</strong> bigger rebates for weatherization, heat pumps, and community solar; streamline LIHEAP.
-              <div class="cta-links">
-                <a href="/Bills/Energy Savings and Lower Bills Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Energy Savings &amp; Lower Bills</span></a>
-              </div>
-            </li>
+    <div class="swot">
+      <div><h4>Strengths</h4><p>Automatic enrollment ends coverage gaps; drug savings are popular and proven.</p></div>
+      <div><h4>Weaknesses</h4><p>Complex transition; requires phased rollout and strong federal-state coordination.</p></div>
+      <div><h4>Opportunities</h4><p>Use price-negotiation wins and parity enforcement to build momentum.</p></div>
+      <div><h4>Threats</h4><p>Industry litigation and disinfo; budget scoring headwinds.</p></div>
+    </div>
+  </section>
 
-            <li class="mt-2"><strong>Protect Social Security checks:</strong> end benefit taxes for most retirees; fair top-end contributions; strengthen trust-fund solvency.
-              <div class="cta-links">
-                <a href="/Bills/Social Security Solvency Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Social Security — Working Families Solvency Bill</span></a>
-              </div>
-            </li>
-          </ul>
+  <!-- CORRUPTION -->
+  <section id="corruption" class="issue-block">
+    <h2>End Corruption &amp; Special Interests</h2>
+    <p>Stop pay-to-play. Make elections people-powered with real-time transparency and real enforcement.</p>
 
-          <ul class="mt-3">
-            <li><strong>Open doors to work:</strong> right-size licensing, universal reciprocity, expand apprenticeships and paid earn-while-you-learn.
-              <div class="cta-links">
-                <a href="/Bills/Good Jobs & Skills Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Good Jobs &amp; Skills Bill</span></a>
-              </div>
-            </li>
-          </ul>
+    <ul class="bullets">
+      <li><strong>Ban corporate PAC &amp; lobbyist bundling;</strong> tighten coordination rules.</li>
+      <li><strong>People-first financing:</strong> vouchers and small donations at the center.</li>
+      <li><strong>Near real-time disclosure:</strong> public, machine-readable, with real penalties.</li>
+      <li><strong>Close dark-money routes:</strong> beneficial-owner and pass-through disclosure.</li>
+      <li><strong>Modernize the FEC:</strong> timely, enforceable decisions and referrals.</li>
+    </ul>
 
-        </div>
-      </div>
-    </section>
+    <p class="inline-links">
+      <a href="https://arafatforcongress.org/Bills/Clean%20Campaigns%20and%20Elections%20Bill%20%282027%29.html">Clean Campaigns &amp; Elections Bill</a>
+      · <a href="https://arafatforcongress.org/Bills/Congressional%20Vote%20Justification%20Bill%20%282027%29.html">Congressional Vote Justification Bill</a>
+      · <a href="#sources">See sources</a>
+    </p>
 
-    <!-- #2 Universal Healthcare -->
-    <section id="healthcare" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4339.jpeg" alt="Universal healthcare">
-        </div>
-        <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #2</span>
-          <h2 class="h4 section-title">Universal Healthcare</h2>
-          <p class="lead-small">Cover everyone automatically, lower drug costs, treat mental health like health, and invest in primary care close to home.</p>
-          <ul class="mt-3">
-            <li><strong>Automatic coverage:</strong> a national benefits floor so no one falls through the cracks.</li>
-            <li><strong>Lower drug prices:</strong> expand negotiation and stop patent gaming.</li>
-            <li><strong>Parity &amp; access:</strong> enforce mental-health parity; grow clinics and workforce where care is scarce.</li>
-            <li><strong>Health in all policies:</strong> align food, water, air, and workplace standards to health goals.</li>
-          </ul>
-          <div class="cta-links mt-2">
-            <a href="/Bills/Universal Healthcare Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>See the Universal Healthcare Bill (2027)</span></a>
-          </div>
-          <p class="small mt-2"><a href="/issues.html#sources">See sources</a></p>
-        </div>
-      </div>
-    </section>
+    <div class="callouts">
+      <div class="callout"><h3>Target</h3><p>By <strong>2026</strong>, pass a clean-elections act that bans corporate PACs.</p></div>
+      <div class="callout"><h3>Funding</h3><p>End lobbying tax breaks; rely on grassroots-funded campaigns.</p></div>
+      <div class="callout"><h3>Equity</h3><p>Every voter’s voice counts equally, no matter income or ZIP code.</p></div>
+    </div>
 
-    <!-- #3 End Corruption & Special Interests -->
-    <section id="corruption" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4480.png" alt="End corruption and special interests">
-        </div>
-        <div class="col-md-7">
-          <span class="badge badge-kicker rounded-pill px-3 py-2 mb-2 d-inline-block">Top Issue #3</span>
-          <h2 class="h4 section-title">End Corruption &amp; Special Interests</h2>
-          <p class="lead-small">Stop pay to play. Make elections people powered with real-time transparency and strong enforcement.</p>
-          <ul class="mt-3">
-            <li><strong>Ban corporate PAC and lobbyist bundling;</strong> tighten coordination rules.</li>
-            <li><strong>Voter vouchers and small donations</strong> to center campaigns on people, not big money.</li>
-            <li><strong>Near real-time, machine-readable reporting</strong> with strong penalties for violators.</li>
-            <li><strong>Close dark-money loopholes</strong> with beneficial owner and pass-through disclosure.</li>
-            <li><strong>Modernize the FEC</strong> for timely, enforceable decisions and referrals.</li>
-          </ul>
-          <div class="cta-links mt-2">
-            <a href="/Bills/Clean Campaigns and Elections Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Clean Campaigns &amp; Elections Bill</span></a>
-            <a href="/Bills/Congressional Vote Justification Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Congressional Vote Justification Bill</span></a>
-          </div>
-          <p class="small mt-2"><a href="/issues.html#sources">See sources</a></p>
-        </div>
-      </div>
-    </section>
+    <div class="swot">
+      <div><h4>Strengths</h4><p>Clear contrast; aligns with public demand for accountability.</p></div>
+      <div><h4>Weaknesses</h4><p>Process reforms can feel abstract; tie to pocketbook wins.</p></div>
+      <div><h4>Opportunities</h4><p>Leverage city/state models (e.g., vouchers) as proof points.</p></div>
+      <div><h4>Threats</h4><p>Court challenges; incumbents’ resistance to enforcement.</p></div>
+    </div>
+  </section>
 
-    <!-- #4 Tax Fairness, CSR & Good Jobs -->
-    <section id="tax-fairness" class="mb-5">
-      <div class="divider"></div>
-      <div class="row g-4 align-items-center">
-        <div class="col-md-5">
-          <img class="issue-img" src="images/IMG_4346.jpeg" alt="Tax fairness, corporate responsibility, and good jobs">
-        </div>
-        <div class="col-md-7">
-          <h2 class="h4 section-title">Tax Fairness, CSR, and Good Jobs</h2>
-          <p class="lead-small">Make the economy work for working people. Close loopholes at the top, hold chronic violators accountable, and open more paths to good-paying work.</p>
-          <ul class="mt-3">
-            <li><strong>Fair tax rules:</strong> 15% book-profit minimum; end offshoring games; expand CTC and EITC; simple fairness credit.
-              <div class="cta-links">
-                <a href="/Bills/Tax Fairness Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Tax Fairness &amp; Relief Bill</span></a>
-              </div>
-            </li>
-            <li class="mt-2"><strong>Corporate responsibility:</strong> surtax for wage theft, extreme pay gaps, repeat OSHA and EPA harm; credits for good actors; standardized disclosures.
-              <div class="cta-links">
-                <a href="/Bills/Corporate Responsibility (CSR) Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Corporate Responsibility (CSR) Bill</span></a>
-              </div>
-            </li>
-            <li class="mt-2"><strong>Good jobs &amp; skills:</strong> licensing reciprocity; apprenticeships; community college and employer alignment; training incentives.
-              <div class="cta-links">
-                <a href="/Bills/Good Jobs & Skills Bill (2027).html"><i class="fa-regular fa-file-lines"></i><span>Good Jobs &amp; Skills Bill</span></a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+  <!-- TAX FAIRNESS / CSR / JOBS -->
+  <section id="tax-fairness" class="issue-block">
+    <h2>Tax Fairness, CSR, and Good Jobs</h2>
+    <p>Close loopholes at the top. Hold chronic violators accountable. Open more paths to good-paying work.</p>
 
-    <!-- Sources -->
-    <div class="divider"></div>
-    <section id="sources" class="pt-3">
-      <h3 class="h6 section-title">Sources</h3>
-      <ul class="small">
-        <li><a href="https://www.oecd.org/en/topics/health-inequality-and-universal-health-coverage.html">OECD: Universal coverage and health outcomes</a></li>
-        <li><a href="https://www.commonwealthfund.org/publications/issue-briefs/2023/jan/us-health-care-global-perspective-2022">Commonwealth Fund: U.S. health care in global perspective</a></li>
-        <li><a href="https://www.seattle.gov/democracyvoucher">City of Seattle: Democracy Voucher Program</a></li>
-        <li><a href="https://www.dol.gov/agencies/whd/minimum-wage">U.S. Department of Labor: Minimum wage history</a></li>
-        <li><a href="https://www.epi.org">Economic Policy Institute: CEO-to-worker pay ratio</a></li>
-        <li><a href="https://itep.org">Institute on Taxation and Economic Policy</a></li>
-        <li><a href="https://www.bls.gov/cpi/">Bureau of Labor Statistics: CPI</a></li>
-        <li><a href="https://www.ers.usda.gov/topics/food-markets-prices/food-prices-outlook/">USDA ERS: Food Prices Outlook</a></li>
-        <li><a href="https://www.childcareaware.org">Child Care Aware: Cost and availability</a></li>
-      </ul>
-    </section>
+    <ul class="bullets">
+      <li><strong>Fair tax rules:</strong> 15% book-profit minimum; end offshoring games; expand CTC/EITC; simple fairness credit.
+        <a href="https://arafatforcongress.org/Bills/Tax%20Fairness%20Bill%20%282027%29.html">Tax Fairness &amp; Relief Bill</a>
+      </li>
+      <li><strong>Corporate responsibility:</strong> Surtax for wage theft, extreme pay gaps, repeat OSHA/EPA harm; credits for good actors; standardized disclosures.
+        <a href="https://arafatforcongress.org/Bills/Corporate%20Responsibility%20%28CSR%29%20Bill%20%282027%29.html">CSR Bill</a>
+      </li>
+      <li><strong>Good jobs &amp; skills:</strong> Licensing reciprocity; apprenticeships; community-college/employer alignment; training incentives.
+        <a href="https://arafatforcongress.org/Bills/Good%20Jobs%20%26%20Skills%20Bill%20%282027%29.html">Good Jobs &amp; Skills Bill</a>
+      </li>
+    </ul>
 
-  </div>
+    <div class="callouts">
+      <div class="callout"><h3>Target</h3><p>Grow middle-income take-home pay by <strong>5–7%</strong> by 2029 via credits, training, and fair-tax enforcement.</p></div>
+      <div class="callout"><h3>Funding</h3><p>Collect on book-profit minimums and repeat-violator surtaxes; reinvest in workforce pipelines.</p></div>
+      <div class="callout"><h3>Equity</h3><p>Direct skills dollars to high-need ZIPs; report gains publicly each quarter.</p></div>
+    </div>
+
+    <div class="swot">
+      <div><h4>Strengths</h4><p>Pairs enforcement with pro-worker incentives; measurable revenue sources.</p></div>
+      <div><h4>Weaknesses</h4><p>Complex implementation; risk of compliance drag on small firms without carve-outs.</p></div>
+      <div><h4>Opportunities</h4><p>Broad support for child credits and skills pipelines; pragmatic wins.</p></div>
+      <div><h4>Threats</h4><p>Corporate lobbying; offshoring workarounds if enforcement is weak.</p></div>
+    </div>
+  </section>
+
+  <!-- SOURCES (anchor kept for internal links) -->
+  <section id="sources" class="issue-block">
+    <h3>Sources</h3>
+    <!-- Keep your existing sources list as-is -->
+  </section>
+</section>
 </main>
+
 
 <!-- Bottom CTA -->
 <section class="cta-band py-4">
