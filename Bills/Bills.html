@@ -85,8 +85,10 @@
     .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
   </style>
     <script src="evergreen-enhancements.js" defer></script>
+  <script src="/assets/js/pact.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#pact-tldr">Skip to content</a>
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
@@ -143,15 +145,34 @@
     </div>
   </div>
 </section>
+<section class="container my-4">
+  <p class="updated" aria-live="polite">Pact last updated: August 30, 2025</p>
+</section>
 
-<noscript>
-  <section class="container my-4">
-    <div class="alert alert-warning">
-      This interactive plan needs JavaScript to reveal steps. You can still open the <a href="Overview.html" target="_blank" rel="noopener noreferrer">static Overview</a>.
-    </div>
-  </section>
-</noscript>
+<section class="container my-4" id="pact-tldr" aria-label="Pact TL;DR">
+  <h2>TL;DR — What you get, how it passes, when</h2>
+  <table class="tldr">
+    <thead><tr><th>Step</th><th>What you get at home</th><th>Route</th><th>When</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="#energy-savings">Energy Savings &amp; Lower Bills</a></td>
+        <td>Bigger rebates, community solar, simple local programs</td>
+        <td>Suspension or Energy title (FSGG/Approps)</td>
+        <td>Jan 2027</td>
+      </tr>
+      <tr>
+        <td><a href="#fair-food">Fair Food &amp; Grocery Competition</a></td>
+        <td>Stop junk fees and exclusionary deals at checkout</td>
+        <td>Suspension / Commerce title</td>
+        <td>Jan 2027</td>
+      </tr>
+      <!-- Continue for Jobs & Skills, Childcare, Permitting, 3% Mortgage, Tax Fairness, Corporate Responsibility, Clean Campaigns, Vote Justification, Universal Healthcare, Social Security -->
+    </tbody>
+  </table>
+</section>
 
+
+<div id="pact-interactive" data-requires-js="true">
 <!-- PATH TOOLBAR -->
 <section class="container mb-3">
   <div class="tools-bar">
@@ -425,21 +446,29 @@
       <div class="row g-3">
         <!-- A5 -->
         <div class="col-md-4 locked" id="A-K1">
-          <div class="card card-step" data-step="A-K1" tabindex="-1" aria-labelledby="A-K1-title">
+          <div class="card card-step" data-step="A-K1" tabindex="-1" aria-labelledby="energy-savings">
             <div class="card-body">
               <div class="crumb">Path A → Tier 1 → Item 5</div>
-              <div class="d-flex justify-content-between"><span class="chip">Item 5</span><span class="mini">When: January 2027</span></div>
-              <h4 class="h5 mt-2" id="A-K1-title">Energy Savings and Lower Bills</h4>
+              <div class="d-flex justify-content-between"><span class="chip">Item 5</span></div>
+              <h4 class="h5 mt-2" id="energy-savings">Energy Savings and Lower Bills</h4>
+              <p class="meta"><span class="vehicle">Vehicle: Appropriations (FSGG/Energy)</span><span class="window">When: Jan 2027</span><span class="status">Status: Drafted</span></p>
               <p class="mini mb-2"><strong>For working people:</strong> bigger rebates, simple local programs, and community solar that cut utility bills. No new taxes on working families.</p>
+              <p class="local"><em>WA-10 impact: lowers average winter bills in Pierce/Thurston, with simple city-level rebates.</em></p>
               <p class="mini mb-2"><strong>Checks on executive power:</strong> requires public dashboards and fraud controls so funds cannot be repurposed by executive offices.</p>
-              <p class="mini mb-2"><strong>How we pass it:</strong> suspension calendar or energy title in appropriations.</p>
               <div class="odds mb-2">
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="70–80%" data-pass="75–85%" data-fail="65–75%">70–80%</span></div>
+              <p class="method">Why these odds: precedent + coalition path (e.g., prior FSGG riders; NDAA subtitle success rates). See background on the Issues page.</p>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="80–90%" data-pass-b="85–95%" data-fail-b="75–85%">80–90%</span></div>
               </div>
               <div class="btn-row">
                 <a class="btn btn-outline-dark btn-sm" href="Bills/Energy%20Savings%20and%20Lower%20Bills%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=energy&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Energy Savings"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
+              </div>
+              <p class="crosslink">Read the background: <a href="/digging-into-the-issues.html#energy">Energy</a></p>
+              <div class="micro-cta">
+                <a class="btn" href="/join.html?step=energy-savings&utm_source=pact">Back this step</a>
+                <a class="btn-secondary" href="/volunteer.html?step=energy-savings&utm_source=pact">Volunteer</a>
+                <a class="text-link" href="/share-your-story.html?topic=energy&utm_source=pact">Tell your story</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 5 as Passed" data-pass="#A-K2" data-pass-effects='["Energy passed. Proceed to grocery fees reform."]'>Pass</button>
@@ -455,21 +484,29 @@
 
         <!-- A6 -->
         <div class="col-md-4 locked" id="A-K2">
-          <div class="card card-step" data-step="A-K2" tabindex="-1" aria-labelledby="A-K2-title">
+          <div class="card card-step" data-step="A-K2" tabindex="-1" aria-labelledby="fair-food">
             <div class="card-body">
               <div class="crumb">Path A → Tier 1 → Item 6</div>
-              <div class="d-flex justify-content-between"><span class="chip">Item 6</span><span class="mini">When: January 2027</span></div>
-              <h4 class="h5 mt-2" id="A-K2-title">Fair Food and Grocery Competition</h4>
+              <div class="d-flex justify-content-between"><span class="chip">Item 6</span></div>
+              <h4 class="h5 mt-2" id="fair-food">Fair Food and Grocery Competition</h4>
+              <p class="meta"><span class="vehicle">Vehicle: Suspension / Commerce title</span><span class="window">When: Jan 2027</span><span class="status">Status: Drafted</span></p>
               <p class="mini mb-2"><strong>For working people:</strong> stops junk fees and exclusionary supplier deals so checkout prices are fair.</p>
+              <p class="local"><em>WA-10 impact: curbs hidden checkout fees in Tacoma and Olympia.</em></p>
               <p class="mini mb-2"><strong>Checks on executive power:</strong> requires rapid reporting on enforcement so the executive branch cannot slow walk cases in the dark.</p>
-              <p class="mini mb-2"><strong>How we pass it:</strong> suspension calendar or a commerce title.</p>
               <div class="odds mb-2">
                 <div><strong>Standalone:</strong> <span class="odds-now" data-standalone="55–65%" data-pass="60–70%" data-fail="50–60%">55–65%</span></div>
+              <p class="method">Why these odds: precedent + coalition path (e.g., prior FSGG riders; NDAA subtitle success rates). See background on the Issues page.</p>
                 <div><strong>Bundled:</strong> <span class="odds-now" data-bundled="65–75%" data-pass-b="70–80%" data-fail-b="60–70%">65–75%</span></div>
               </div>
               <div class="btn-row">
                 <a class="btn btn-outline-dark btn-sm" href="Bills/Fair%20Food%20and%20Grocery%20Competition%20Bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
                 <a class="acct-link" href="accountability/index.html#awards?bill=grocery&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Grocery Competition"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
+              </div>
+              <p class="crosslink">Read the background: <a href="/digging-into-the-issues.html#food">Food &amp; Grocery</a></p>
+              <div class="micro-cta">
+                <a class="btn" href="/join.html?step=fair-food&utm_source=pact">Back this step</a>
+                <a class="btn-secondary" href="/volunteer.html?step=fair-food&utm_source=pact">Volunteer</a>
+                <a class="text-link" href="/share-your-story.html?topic=food&utm_source=pact">Tell your story</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 6 as Passed" data-pass="#A-K3" data-pass-effects='["Grocery reform passed. Move to apprenticeships and skills."]'>Pass</button>
@@ -1000,7 +1037,7 @@
           <div class="card card-step" data-step="B-K1" tabindex="-1" aria-labelledby="B-K1-title">
             <div class="card-body">
               <div class="crumb">Path B → Tier 1 → Item 5</div>
-              <div class="d-flex justify-content-between"><span class="chip">Item 5</span><span class="mini">When: January 2027</span></div>
+              <div class="d-flex justify-content-between"><span class="chip">Item 5</span></div>
               <h4 class="h5 mt-2" id="B-K1-title">Energy Savings and Lower Bills</h4>
               <p class="mini mb-2"><strong>For working people:</strong> bigger rebates, community solar, simple local programs that cut utility bills.</p>
               <p class="mini mb-2"><strong>Checks on executive power:</strong> public dashboards and fraud controls to prevent diversion.</p>
@@ -1030,7 +1067,7 @@
           <div class="card card-step" data-step="B-K2" tabindex="-1" aria-labelledby="B-K2-title">
             <div class="card-body">
               <div class="crumb">Path B → Tier 1 → Item 6</div>
-              <div class="d-flex justify-content-between"><span class="chip">Item 6</span><span class="mini">When: January 2027</span></div>
+              <div class="d-flex justify-content-between"><span class="chip">Item 6</span></div>
               <h4 class="h5 mt-2" id="B-K2-title">Fair Food and Grocery Competition</h4>
               <p class="mini mb-2"><strong>For working people:</strong> clamps down on junk fees and exclusionary deals to make checkout fair.</p>
               <p class="mini mb-2"><strong>Checks on executive power:</strong> rapid reporting so cases cannot be slow‑walked in the dark.</p>
@@ -1391,6 +1428,14 @@
     </div>
   </div>
 </section>
+
+</div>
+<noscript>
+  <section aria-label="All steps (no JavaScript)">
+    <p>JavaScript is off. Here’s the full plan. You can also <a href="Overview.html" target="_blank" rel="noopener noreferrer">download the PDF overview</a>.</p>
+    <!-- TODO: Server-render: show Tier 0 through Tier 5 items expanded in order -->
+  </section>
+</noscript>
 
 <footer>
   <div class="container text-center small">
