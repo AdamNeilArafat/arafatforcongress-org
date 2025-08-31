@@ -103,6 +103,21 @@ a:hover{ color: var(--link-hover); text-decoration: underline; }
 /* High-vis focus */
 :focus{ outline:3px solid var(--focus); outline-offset:2px; }
 
+/* Skip link */
+.skip-link{
+  position:absolute;
+  top:-40px;
+  left:0;
+  background:#fff;
+  color:var(--ink);
+  padding:8px 12px;
+  z-index:100;
+  transition:top .2s ease;
+}
+.skip-link:focus{
+  top:0;
+}
+
 /* Utility */
 .wrap{ max-width: var(--maxw); margin:0 auto; padding:28px 16px 80px; }
 .border{ border:1px solid var(--muted); border-radius:var(--radius); background:#fff; }
@@ -148,6 +163,24 @@ a:hover{ color: var(--link-hover); text-decoration: underline; }
   box-shadow:var(--shadow-soft);
 }
 .btn-donate:hover{ filter:brightness(.96); background:var(--danger-600); text-decoration:none; }
+
+/* Hero with contrast overlay */
+.hero{
+  position:relative;
+  background-size:cover;
+  background-position:center;
+  color:#fff;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.45);
+}
+.hero > *{
+  position:relative;
+  z-index:1;
+}
 
 /* ---------- Hero message bar ---------- */
 .message-bar{
