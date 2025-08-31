@@ -101,3 +101,14 @@ footer a:hover::after, footer a:focus::after { width:100%; }
 .btn-secondary { padding:.5rem .9rem; border:1px solid currentColor; border-radius:.4rem; background:transparent; }
 .updated { font-size:.9rem; opacity:.8; margin:.5rem 0 1rem; }
 
+.tldr { width:100%; border-collapse:collapse; margin:1rem 0; }
+.tldr th, .tldr td { padding:.6rem; border:1px solid #e3e3e3; vertical-align:top; }
+.meta { margin:.25rem 0 .5rem; font-size:.95rem; opacity:.9; display:flex; gap:.75rem; flex-wrap:wrap; }
+.status { border:1px solid currentColor; border-radius:.4rem; padding:.05rem .4rem; font-size:.85rem; }
+.local { margin:.25rem 0 .5rem; }
+.micro-cta { display:flex; gap:.5rem; margin-top:.75rem; flex-wrap:wrap; }
+.btn { padding:.5rem .85rem; border-radius:.4rem; }
+.btn-secondary { padding:.5rem .85rem; border:1px solid currentColor; border-radius:.4rem; background:transparent; }
+.updated { font-size:.9rem; opacity:.75; margin:.5rem 0 1rem; }
+.skip-link { position:absolute; left:-999px; top:auto; }
+.skip-link:focus { left:1rem; top:1rem; background:#fff; padding:.5rem 1rem; border:2px solid currentColor; }
