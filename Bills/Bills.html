@@ -28,6 +28,17 @@
       --t0:#284b63; --t1:#0b6e4f; --t2:#0d3b66; --t3:#7a3e9d; --t4:#1f6feb; --t5:#c1121f;
       --ok:#198754; --bad:#c1121f; --flash:#fff3cd;
     }
+    /* Social bar */
+    .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
+    .social-pill {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff;
+      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
+      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
+      font-weight:700;
+    }
+    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
+    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
     /* spacing tighten */
     .stack > * + * { margin-top: clamp(12px, 2.2vh, 18px); }
     @media (max-width: 640px){
@@ -102,6 +113,15 @@
   .skip-link{position:absolute;left:-9999px;top:auto}
   .skip-link:focus{left:12px;top:12px;background:#fff;padding:8px 12px;outline:2px solid #000}
 </style>
+
+<!-- SOCIAL BAR -->
+<section class="social-top py-2">
+  <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <a class="social-pill" href="https://bsky.app/intent/compose?text=The%20Evergreen%20Pact%20%E2%80%93%20Step%20by%20Step%20https%3A%2F%2Farafatforcongress.org%2FBills%2FBills.html" target="_blank" rel="noopener" aria-label="Share on Bluesky"><svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> <span>Bluesky</span></a>
+    <a class="social-pill" href="https://twitter.com/intent/tweet?text=The%20Evergreen%20Pact%20%E2%80%93%20Step%20by%20Step%20https%3A%2F%2Farafatforcongress.org%2FBills%2FBills.html" target="_blank" rel="noopener" aria-label="Share on X"><i class="fa-brands fa-x-twitter"></i> <span>X</span></a>
+    <a class="social-pill" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2FBills%2FBills.html" target="_blank" rel="noopener" aria-label="Share on Facebook"><i class="fa-brands fa-facebook"></i> <span>Facebook</span></a>
+  </div>
+</section>
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
