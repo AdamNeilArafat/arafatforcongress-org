@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arafatforcongress.org/sitemap.xml
