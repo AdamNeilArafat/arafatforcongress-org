@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <defs>
+    <style>
+      .bg{fill:#0f1f2c}.accent{fill:#db3a34}.light{fill:#fff}.muted{fill:#cfe3f1}
+      .kicker{font:700 24px/1 Inter,system-ui;letter-spacing:.08em;text-transform:uppercase}
+      .title{font:800 62px/1.1 Inter,system-ui}
+      .body{font:600 34px/1.3 Inter,system-ui}
+      .tag{font:600 22px/1 Inter,system-ui;letter-spacing:.08em;text-transform:uppercase}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="630"/>
+  <rect class="accent" width="1200" height="14"/>
+  <text class="kicker light" x="60" y="110">Record and contrast</text>
+  <text class="title light" x="60" y="200">I work for WA-10, not lobbyists.</text>
+  <text class="body muted" x="60" y="280">I refuse corporate PAC money. My votes and budgets are public.</text>
+  <text class="body muted" x="60" y="330">Judge me on receipts, not slogans.</text>
+  <text class="tag light" x="60" y="570">See the receipts • arafatforcongress.org/contrast.html</text>
+</svg>
