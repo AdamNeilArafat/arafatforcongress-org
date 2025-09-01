@@ -151,18 +151,6 @@
     }
     .btn-donate:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(193,18,31,.35); color:#fff; }
 
-    /* Footer: social row + legal */
-    .footer-social {
-      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
-      color: #fff;
-    }
-    .footer-social .social-pill {
-      border-color: rgba(255,255,255,.3);
-      background: rgba(255,255,255,.10);
-    }
-    .footer-legal {
-      background:#ffffff;
-    }
   </style>
 </head>
 <body>
@@ -171,18 +159,21 @@
 <!-- SOCIAL MEDIA BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Follow Adam on Reddit">
-      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
-    </a>
     <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky">
       <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
       <span>Bluesky</span>
     </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
-      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
-    </a>
-  </div>
-</section>
+      <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok">
+        <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
+      </a>
+      <a class="social-pill" href="https://x.com/AdamArafatWA" target="_blank" rel="noopener" aria-label="Follow Adam on X">
+        <i class="fa-brands fa-x-twitter"></i> <span>X</span>
+      </a>
+      <a class="social-pill" href="https://www.facebook.com/AdamArafatWA" target="_blank" rel="noopener" aria-label="Follow Adam on Facebook">
+        <i class="fa-brands fa-facebook"></i> <span>Facebook</span>
+      </a>
+    </div>
+  </section>
 
 <!-- HEADER BREAK (wrapped in container for better line length) -->
 <div class="header-break">
@@ -334,35 +325,11 @@
       </a>
     </div>
 
-    <div class="share" data-url="https://arafatforcongress.org/contact.html">
-      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Farafatforcongress.org%2Fcontact.html" target="_blank" rel="noopener" aria-label="Share on Reddit">Reddit</a>
-      <a href="https://bsky.app/intent/compose?text=Adam%20Arafat%20for%20Congress%20https%3A%2F%2Farafatforcongress.org%2Fcontact.html" target="_blank" rel="noopener" aria-label="Share on Bluesky">Bluesky</a>
-      <a href="https://twitter.com/intent/tweet?text=Lower%20costs.%20Real%20care.%20Clean%20government.%20https%3A%2F%2Farafatforcongress.org%2Fcontact.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2Fcontact.html" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
     </div>
+  </main>
 
-  </div>
-</main>
-
-<!-- FOOTER (Social strip + legal) -->
-<section class="footer-social py-3">
-  <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <span class="me-2 fw-semibold">Follow Adam:</span>
-    <a class="social-pill" href="https://www.reddit.com/u/adam_neil_arafat/s/HkHlNPDrbo" target="_blank" rel="noopener" aria-label="Reddit">
-      <i class="fa-brands fa-reddit-alien"></i> <span>Reddit</span>
-    </a>
-    <a class="social-pill" href="https://bsky.app/profile/adamneila.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
-      <svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg>
-      <span>Bluesky</span>
-    </a>
-    <a class="social-pill" href="https://www.tiktok.com/@adam.arafat.for.wa8?_t=ZT-8yve7Bzjrd0&_r=1" target="_blank" rel="noopener" aria-label="TikTok">
-      <i class="fa-brands fa-tiktok"></i> <span>TikTok</span>
-    </a>
-  </div>
-</section>
-
-<div id="footer"></div>
-<script src="footer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  <div id="footer"></div>
+  <script src="footer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
