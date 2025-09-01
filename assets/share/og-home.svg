@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <defs>
+    <style>
+      .bg{fill:#0b2337}.accent{fill:#26a269}.light{fill:#fff}.muted{fill:#cfe3f1}
+      .title{font:800 70px/1.1 Inter,system-ui}
+      .kicker{font:700 24px/1 Inter,system-ui;letter-spacing:.08em;text-transform:uppercase}
+      .body{font:600 36px/1.25 Inter,system-ui}
+      .tag{font:600 22px/1 Inter,system-ui;letter-spacing:.08em;text-transform:uppercase}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="630"/>
+  <rect class="accent" width="1200" height="14"/>
+  <text class="kicker light" x="60" y="110">Arafat for Congress • WA-10</text>
+  <text class="title light" x="60" y="210">ADAM ARAFAT</text>
+  <text class="body muted" x="60" y="280">Trust is built, not bought.</text>
+  <text class="body muted" x="60" y="330">No corporate PAC money. Accountable to WA-10.</text>
+  <text class="tag light" x="60" y="570">ArafatForCongress.org</text>
+</svg>
