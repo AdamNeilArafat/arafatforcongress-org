@@ -20,12 +20,19 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link rel="preconnect" href="https://secure.actblue.com">
 
   <style>
     :root{
       --primary:#0d3b66; --ink:#1b2634; --soft:#f6f9fc;
       --t0:#284b63; --t1:#0b6e4f; --t2:#0d3b66; --t3:#7a3e9d; --t4:#1f6feb; --t5:#c1121f;
       --ok:#198754; --bad:#c1121f; --flash:#fff3cd;
+    }
+    /* spacing tighten */
+    .stack > * + * { margin-top: clamp(12px, 2.2vh, 18px); }
+    @media (max-width: 640px){
+      .lead { line-height: 1.35; }
+      section { padding-block: 28px; }
     }
   
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--soft);color:var(--ink)}
@@ -57,6 +64,8 @@
     .mini{font-size:.92rem;color:#334155}
     .btn-outline-dark{border-width:2px}
     .nextBox{background:#f7fafc;border:1px solid #e6ebf2;border-radius:12px;padding:.6rem .75rem}
+    .toggle:focus{outline:2px solid #000;outline-offset:2px}
+    @media (max-width:767.98px){ .hero .btn-pill{width:100%;} }
     .locked{display:none !important}
     .crumb{font-size:.8rem;color:#5b748f}
 
@@ -88,6 +97,11 @@
     <script src="evergreen-enhancements.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<style>
+  .skip-link{position:absolute;left:-9999px;top:auto}
+  .skip-link:focus{left:12px;top:12px;background:#fff;padding:8px 12px;outline:2px solid #000}
+</style>
 
 <!-- NAV -->
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Main">
@@ -155,6 +169,8 @@
   </section>
 </noscript>
 
+<p class="text-center"><a href="Overview.html">No JavaScript? See all steps.</a></p>
+
 <!-- PATH TOOLBAR -->
 <section class="container mb-3">
   <div class="tools-bar">
@@ -220,7 +236,7 @@
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button
                   type="button"
-                  class="btn btn-success btn-sm branch"
+                  class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 1 as Passed"
                   data-pass="#A-G2,#A-K1"
                   data-pass-effects='[
@@ -232,7 +248,7 @@
 
                 <button
                   type="button"
-                  class="btn btn-danger btn-sm branch"
+                  class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 1 as Failed"
                   data-fail="#A-G1R,#A-G2,#A-K1"
                   data-fail-effects='[
@@ -272,8 +288,8 @@
                 <a class="btn btn-outline-dark btn-sm" href="Bills/fallback-oversight-toolkit-bill%20(2027).html" target="_blank" rel="noopener noreferrer">Open fallback kit</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Apply fallback to proceed" data-pass="#A-G2" data-pass-effects='["Fallback in place. Continue to Communications and Seals."]'>Applied</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Skip fallback" data-fail="#A-G2" data-fail-effects='["Fallback skipped. Proceed to Communications and Seals; litigation posture stays ready."]'>Skip</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Apply fallback to proceed" data-pass="#A-G2" data-pass-effects='["Fallback in place. Continue to Communications and Seals."]'>Applied</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Skip fallback" data-fail="#A-G2" data-fail-effects='["Fallback skipped. Proceed to Communications and Seals; litigation posture stays ready."]'>Skip</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-G1R">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-G1R" aria-controls="eff-A-G1R" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -306,7 +322,7 @@
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button
                   type="button"
-                  class="btn btn-success btn-sm branch"
+                  class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 2 as Passed"
                   data-pass="#A-G3"
                   data-pass-effects='[
@@ -319,7 +335,7 @@
 
                 <button
                   type="button"
-                  class="btn btn-danger btn-sm branch"
+                  class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 2 as Failed"
                   data-fail="#A-G3"
                   data-fail-effects='[
@@ -361,7 +377,7 @@
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button
                   type="button"
-                  class="btn btn-success btn-sm branch"
+                  class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 3 as Passed"
                   data-pass="#A-G4"
                   data-pass-effects='[
@@ -373,7 +389,7 @@
 
                 <button
                   type="button"
-                  class="btn btn-danger btn-sm branch"
+                  class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 3 as Failed"
                   data-fail="#A-G4"
                   data-fail-effects='[
@@ -411,8 +427,8 @@
                 <a class="btn btn-outline-dark btn-sm" href="Bills/continuity-integrity-expansion-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 4 as Passed" data-pass="#A-K1" data-pass-effects='["Expansion passed. Continue with cost of living wins."]'>Mark as Passed</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 4 as Failed" data-fail="#A-K1" data-fail-effects='["Expansion failed. Keep the pilot running and try again with tighter carve outs while continuing cost of living wins."]'>Mark as Failed</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 4 as Passed" data-pass="#A-K1" data-pass-effects='["Expansion passed. Continue with cost of living wins."]'>Mark as Passed</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 4 as Failed" data-fail="#A-K1" data-fail-effects='["Expansion failed. Keep the pilot running and try again with tighter carve outs while continuing cost of living wins."]'>Mark as Failed</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-G4">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-G4" aria-controls="eff-A-G4" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -445,8 +461,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=energy&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Energy Savings"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 5 as Passed" data-pass="#A-K2" data-pass-effects='["Energy passed. Proceed to grocery fees reform."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 5 as Failed" data-fail="#A-K2" data-fail-effects='["Energy failed. Convert to grant criteria and keep the tracker public. Move on."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 5 as Passed" data-pass="#A-K2" data-pass-effects='["Energy passed. Proceed to grocery fees reform."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 5 as Failed" data-fail="#A-K2" data-fail-effects='["Energy failed. Convert to grant criteria and keep the tracker public. Move on."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-K1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-K1" aria-controls="eff-A-K1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -475,8 +491,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=grocery&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Grocery Competition"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 6 as Passed" data-pass="#A-K3" data-pass-effects='["Grocery reform passed. Move to apprenticeships and skills."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 6 as Failed" data-fail="#A-K3" data-fail-effects='["Grocery reform failed. Use transparency riders and state attorney general grants. Move on."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 6 as Passed" data-pass="#A-K3" data-pass-effects='["Grocery reform passed. Move to apprenticeships and skills."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 6 as Failed" data-fail="#A-K3" data-fail-effects='["Grocery reform failed. Use transparency riders and state attorney general grants. Move on."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-K2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-K2" aria-controls="eff-A-K2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -505,8 +521,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=jobs&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Good Jobs & Skills"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 7 as Passed" data-pass="#A-R1,#A-R2" data-pass-effects='["Jobs passed. Start Tier 2 in parallel."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 7 as Failed" data-fail="#A-R1,#A-R2" data-fail-effects='["Jobs failed. Use guidance and bonus criteria by instruction. Start Tier 2 anyway."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 7 as Passed" data-pass="#A-R1,#A-R2" data-pass-effects='["Jobs passed. Start Tier 2 in parallel."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 7 as Failed" data-fail="#A-R1,#A-R2" data-fail-effects='["Jobs failed. Use guidance and bonus criteria by instruction. Start Tier 2 anyway."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-K3">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-K3" aria-controls="eff-A-K3" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -539,8 +555,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=childcare&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Child and Dependent Care"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 8 as Passed" data-pass="#A-R2" data-pass-effects='["Childcare passed. Move permitting."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 8 as Failed" data-fail="#A-R2" data-fail-effects='["Childcare failed. Run supply grants first, then permitting."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 8 as Passed" data-pass="#A-R2" data-pass-effects='["Childcare passed. Move permitting."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 8 as Failed" data-fail="#A-R2" data-fail-effects='["Childcare failed. Run supply grants first, then permitting."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-R1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-R1" aria-controls="eff-A-R1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -569,8 +585,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=housing&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Housing Permitting"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 9 as Passed" data-pass="#A-R3" data-pass-effects='["Permitting passed. File first time buyer plan in ten days."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 9 as Failed" data-fail="#A-R3" data-fail-effects='["Permitting failed. Run grants only and still file the pilot mortgage."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 9 as Passed" data-pass="#A-R3" data-pass-effects='["Permitting passed. File first time buyer plan in ten days."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 9 as Failed" data-fail="#A-R3" data-fail-effects='["Permitting failed. Run grants only and still file the pilot mortgage."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-R2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-R2" aria-controls="eff-A-R2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -599,8 +615,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=mortgage&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for First-time Homebuyer Mortgage"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 10 as Passed" data-pass="#A-F1,#A-F2" data-pass-effects='["Mortgage passed. Prepare fairness bills."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 10 as Failed" data-fail="#A-F1,#A-F2" data-fail-effects='["Mortgage failed. Launch five metro pilot for first generation buyers. Continue to fairness bills."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 10 as Passed" data-pass="#A-F1,#A-F2" data-pass-effects='["Mortgage passed. Prepare fairness bills."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 10 as Failed" data-fail="#A-F1,#A-F2" data-fail-effects='["Mortgage failed. Launch five metro pilot for first generation buyers. Continue to fairness bills."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-R3">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-R3" aria-controls="eff-A-R3" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -633,8 +649,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=tax&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Tax Fairness"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 11 as Passed" data-pass="#A-F2,#A-S1" data-pass-effects='["Tax fairness passed. Pair Corporate Responsibility and begin system reform."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 11 as Failed" data-fail="#A-F2" data-fail-effects='["Tax fairness failed. Move transparency and enforcement first. Keep rates for next bill."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 11 as Passed" data-pass="#A-F2,#A-S1" data-pass-effects='["Tax fairness passed. Pair Corporate Responsibility and begin system reform."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 11 as Failed" data-fail="#A-F2" data-fail-effects='["Tax fairness failed. Move transparency and enforcement first. Keep rates for next bill."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-F1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-F1" aria-controls="eff-A-F1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -664,8 +680,8 @@
                   <a class="acct-link" href="accountability/index.html#awards?bill=csr&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Corporate Responsibility"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
                 </div>
                 <div class="d-flex gap-2 flex-wrap mt-2">
-                  <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 12 as Passed" data-pass="#A-S1" data-pass-effects='["Corporate Responsibility passed. Move to system reform."]'>Pass</button>
-                  <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 12 as Failed" data-fail="#A-S1" data-fail-effects='["Corporate Responsibility failed. Use repeat offender riders and public lists. Move to system reform."]'>Fail</button>
+                  <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 12 as Passed" data-pass="#A-S1" data-pass-effects='["Corporate Responsibility passed. Move to system reform."]'>Pass</button>
+                  <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 12 as Failed" data-fail="#A-S1" data-fail-effects='["Corporate Responsibility failed. Use repeat offender riders and public lists. Move to system reform."]'>Fail</button>
                 </div>
                 <div class="collapse effect-panel mt-2" id="eff-A-F2">
                   <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-F2" aria-controls="eff-A-F2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -699,8 +715,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=clean-elections&src=bills" target="_blank" rel="noopener noreferrer" aria-label="Accountability for Clean Campaigns and Elections"><i class="fa-regular fa-circle-question" aria-hidden="true"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch" aria-label="Mark Item 13 as Passed" data-pass="#A-S2" data-pass-effects='["Clean Campaigns passed. Pair with vote justification."]'>Pass</button>
-                <button type="button" class="btn btn-danger btn-sm branch" aria-label="Mark Item 13 as Failed" data-fail="#A-S2" data-fail-effects='["Clean Campaigns failed. Run voucher pilots and disclosure riders. Move to vote justification."]'>Fail</button>
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 13 as Passed" data-pass="#A-S2" data-pass-effects='["Clean Campaigns passed. Pair with vote justification."]'>Pass</button>
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Mark Item 13 as Failed" data-fail="#A-S2" data-fail-effects='["Clean Campaigns failed. Run voucher pilots and disclosure riders. Move to vote justification."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-A-S1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-A-S1" aria-controls="eff-A-S1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></div>
@@ -733,7 +749,7 @@
               <div class="d-flex gap-2 flex-wrap mt-2">
                 <button
                   type="button"
-                  class="btn btn-success btn-sm branch"
+                  class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 14 as Passed"
                   data-pass="#A-L1,#A-L2"
                   data-pass-effects='["Vote justification passed. Begin long-term guarantees."]'
@@ -741,7 +757,7 @@
 
                 <button
                   type="button"
-                  class="btn btn-danger btn-sm branch"
+                  class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 14 as Failed"
                   data-fail="#A-L1,#A-L2"
                   data-fail-effects='["Vote justification failed. Proceed to long-term guarantees with House-rules changes only."]'
@@ -845,14 +861,14 @@
                 <a class="btn btn-outline-dark btn-sm" href="Bills/house-rules-guardrails-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch"
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 1 as Passed"
                   data-pass="#B-G2,#B-K1"
                   data-pass-effects='[
                     "Rules in force: faster disclosures, privileged time for guardrails.",
                     "Begin parallel tracks: continue guardrails (Item 2) and start cost-of-living wins (Energy)."
                   ]'>Mark as Passed</button>
-                <button type="button" class="btn btn-danger btn-sm branch"
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 1 as Failed"
                   data-fail="#B-G2,#B-K1"
                   data-fail-effects='[
@@ -889,14 +905,14 @@
                 <a class="btn btn-outline-dark btn-sm" href="Bills/communications-integrity-bill-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch"
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 2 as Passed"
                   data-pass="#B-G3"
                   data-pass-effects='[
                     "Seals/hosting rules in effect via riders/standards. Hidden publication becomes difficult.",
                     "Move to resource pressure via Holman cuts."
                   ]'>Mark as Passed</button>
-                <button type="button" class="btn btn-danger btn-sm branch"
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 2 as Failed"
                   data-fail="#B-G3"
                   data-fail-effects='[
@@ -931,14 +947,14 @@
                 <a class="btn btn-outline-dark btn-sm" href="Bills/holman-amendments-toolkit-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch"
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 3 as Passed"
                   data-pass="#B-G4"
                   data-pass-effects='[
                     "Targeted cuts adopted in the House. Negotiating leverage increased.",
                     "Proceed to committee directives with GAO follow‑up."
                   ]'>Mark as Passed</button>
-                <button type="button" class="btn btn-danger btn-sm branch"
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 3 as Failed"
                   data-fail="#B-G4"
                   data-fail-effects='[
@@ -973,13 +989,13 @@
                 <a class="btn btn-outline-dark btn-sm" href="Bills/committee-directives-gao-guards-2027.html" target="_blank" rel="noopener noreferrer">Open blueprint</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button type="button" class="btn btn-success btn-sm branch"
+                <button type="button" class="btn btn-success btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 4 as Passed"
                   data-pass="#B-K1"
                   data-pass-effects='[
                     "Directives adopted; GAO clock ticking. Begin cost-of-living quick wins in parallel."
                   ]'>Mark as Passed</button>
-                <button type="button" class="btn btn-danger btn-sm branch"
+                <button type="button" class="btn btn-danger btn-sm branch toggle" aria-pressed="false"
                   aria-label="Mark Item 4 as Failed"
                   data-fail="#B-K1"
                   data-fail-effects='[
@@ -1017,8 +1033,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=energy&src=bills" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" aria-label="Pass" data-pass="#B-K2" data-pass-effects='["Energy passed the House. Send it; prep state grants as fallback."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" aria-label="Fail" data-fail="#B-K2" data-fail-effects='["Failed. Convert to grant criteria/letters and publish dashboards anyway."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Pass" data-pass="#B-K2" data-pass-effects='["Energy passed the House. Send it; prep state grants as fallback."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Fail" data-fail="#B-K2" data-fail-effects='["Failed. Convert to grant criteria/letters and publish dashboards anyway."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-K1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-K1" aria-controls="eff-B-K1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1047,8 +1063,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=grocery&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" aria-label="Pass" data-pass="#B-K3" data-pass-effects='["Grocery reform passed the House. Prep joint‑enforcement letters with states."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" aria-label="Fail" data-fail="#B-K3" data-fail-effects='["Failed. Use report directives and state AG grants to force transparency."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Pass" data-pass="#B-K3" data-pass-effects='["Grocery reform passed the House. Prep joint‑enforcement letters with states."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Fail" data-fail="#B-K3" data-fail-effects='["Failed. Use report directives and state AG grants to force transparency."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-K2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-K2" aria-controls="eff-B-K2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1077,8 +1093,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=jobs&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" aria-label="Pass" data-pass="#B-R1,#B-R2" data-pass-effects='["Jobs passed the House. Start Tier 2 items in parallel."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" aria-label="Fail" data-fail="#B-R1,#B-R2" data-fail-effects='["Failed. Use outcome‑bonus guidance and pilot set‑asides administratively; still start Tier 2."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" aria-label="Pass" data-pass="#B-R1,#B-R2" data-pass-effects='["Jobs passed the House. Start Tier 2 items in parallel."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" aria-label="Fail" data-fail="#B-R1,#B-R2" data-fail-effects='["Failed. Use outcome‑bonus guidance and pilot set‑asides administratively; still start Tier 2."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-K3">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-K3" aria-controls="eff-B-K3" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1111,8 +1127,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=childcare&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" data-pass="#B-R2" aria-label="Pass" data-pass-effects='["House passed childcare. Prep state waiver fast‑lanes as backstop."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#B-R2" aria-label="Fail" data-fail-effects='["Failed. Run supply‑side grants via criteria in report language and letters."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" data-pass="#B-R2" aria-label="Pass" data-pass-effects='["House passed childcare. Prep state waiver fast‑lanes as backstop."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" data-fail="#B-R2" aria-label="Fail" data-fail-effects='["Failed. Run supply‑side grants via criteria in report language and letters."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-R1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-R1" aria-controls="eff-B-R1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1141,8 +1157,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=housing&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" data-pass="#B-R3" aria-label="Pass" data-pass-effects='["Permitting passed House. File first‑time buyer plan in ten days."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#B-R3" aria-label="Fail" data-fail-effects='["Failed. Run state/local grants + FHFA coordination letters; still file mortgage pilot."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" data-pass="#B-R3" aria-label="Pass" data-pass-effects='["Permitting passed House. File first‑time buyer plan in ten days."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" data-fail="#B-R3" aria-label="Fail" data-fail-effects='["Failed. Run state/local grants + FHFA coordination letters; still file mortgage pilot."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-R2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-R2" aria-controls="eff-B-R2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1171,8 +1187,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=mortgage&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" data-pass="#B-F1,#B-F2" aria-label="Pass" data-pass-effects='["Pilot direction adopted. Prepare fairness bills next."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#B-F1,#B-F2" aria-label="Fail" data-fail-effects='["Pilot stalled. Launch five‑metro demonstration via GSE eval letters; continue to fairness."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" data-pass="#B-F1,#B-F2" aria-label="Pass" data-pass-effects='["Pilot direction adopted. Prepare fairness bills next."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" data-fail="#B-F1,#B-F2" aria-label="Fail" data-fail-effects='["Pilot stalled. Launch five‑metro demonstration via GSE eval letters; continue to fairness."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-R3">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-R3" aria-controls="eff-B-R3" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1205,8 +1221,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=tax&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" data-pass="#B-F2,#B-S1" aria-label="Pass" data-pass-effects='["Tax fairness passed House. Pair CSR and start system reform."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#B-F2" aria-label="Fail" data-fail-effects='["Failed. Advance transparency/enforcement riders; keep rates for next round."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" data-pass="#B-F2,#B-S1" aria-label="Pass" data-pass-effects='["Tax fairness passed House. Pair CSR and start system reform."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" data-fail="#B-F2" aria-label="Fail" data-fail-effects='["Failed. Advance transparency/enforcement riders; keep rates for next round."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-F1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-F1" aria-controls="eff-B-F1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1235,8 +1251,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=csr&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" data-pass="#B-S1" aria-label="Pass" data-pass-effects='["CSR passed House. Move to system reform."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#B-S1" aria-label="Fail" data-fail-effects='["Failed. Publish repeat‑offender lists via report language; proceed to system reform."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" data-pass="#B-S1" aria-label="Pass" data-pass-effects='["CSR passed House. Move to system reform."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" data-fail="#B-S1" aria-label="Fail" data-fail-effects='["Failed. Publish repeat‑offender lists via report language; proceed to system reform."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-F2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-F2" aria-controls="eff-B-F2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1269,8 +1285,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=clean-elections&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" data-pass="#B-S2" aria-label="Pass" data-pass-effects='["Clean Campaigns passed House. Pair with vote‑justification rules next."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#B-S2" aria-label="Fail" data-fail-effects='["Failed. Launch voucher pilots in districts + disclosure riders. Move to vote justification."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" data-pass="#B-S2" aria-label="Pass" data-pass-effects='["Clean Campaigns passed House. Pair with vote‑justification rules next."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" data-fail="#B-S2" aria-label="Fail" data-fail-effects='["Failed. Launch voucher pilots in districts + disclosure riders. Move to vote justification."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-S1">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-S1" aria-controls="eff-B-S1" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1299,8 +1315,8 @@
                 <a class="acct-link" href="accountability/index.html#awards?bill=justify&src=bills" target="_blank" rel="noopener"><i class="fa-regular fa-circle-question"></i>Accountability</a>
               </div>
               <div class="d-flex gap-2 flex-wrap mt-2">
-                <button class="btn btn-success btn-sm branch" data-pass="#B-L1,#B-L2" aria-label="Pass" data-pass-effects='["House‑rules vote justification adopted. Move to long‑term guarantees."]'>Pass</button>
-                <button class="btn btn-danger btn-sm branch" data-fail="#B-L1,#B-L2" aria-label="Fail" data-fail-effects='["Failed. Proceed to long‑term guarantees with transparency riders only."]'>Fail</button>
+                <button class="btn btn-success btn-sm branch toggle" aria-pressed="false" data-pass="#B-L1,#B-L2" aria-label="Pass" data-pass-effects='["House‑rules vote justification adopted. Move to long‑term guarantees."]'>Pass</button>
+                <button class="btn btn-danger btn-sm branch toggle" aria-pressed="false" data-fail="#B-L1,#B-L2" aria-label="Fail" data-fail-effects='["Failed. Proceed to long‑term guarantees with transparency riders only."]'>Fail</button>
               </div>
               <div class="collapse effect-panel mt-2" id="eff-B-S2">
                 <div class="effect-header" role="button" tabindex="0" data-target="#eff-B-S2" aria-controls="eff-B-S2" aria-expanded="false"><p class="effect-title mb-0">Details</p><i class="fa-solid fa-chevron-down"></i></div>
@@ -1391,6 +1407,17 @@
           <div class="small mt-2 text-light">Secure via ActBlue. People powered only.</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-3">
+  <div class="container">
+    <div class="share">
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Farafatforcongress.org%2FBills%2FBills.html" target="_blank" rel="noopener" aria-label="Share on Reddit">Reddit</a>
+      <a href="https://bsky.app/intent/compose?text=The%20Evergreen%20Pact%20%E2%80%93%20Step%20by%20Step%20https%3A%2F%2Farafatforcongress.org%2FBills%2FBills.html" target="_blank" rel="noopener" aria-label="Share on Bluesky">Bluesky</a>
+      <a href="https://twitter.com/intent/tweet?text=The%20Evergreen%20Pact%20%E2%80%93%20Step%20by%20Step%20https%3A%2F%2Farafatforcongress.org%2FBills%2FBills.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2FBills%2FBills.html" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
     </div>
   </div>
 </section>
@@ -1614,6 +1641,16 @@
     restoreState();
     updateProgress();
   });
+</script>
+
+<script>
+(function(){
+  const key = 'pact-step';
+  const fromHash = location.hash.slice(1);
+  if(fromHash) sessionStorage.setItem(key, fromHash);
+  const saved = sessionStorage.getItem(key);
+  if(saved && !fromHash) location.hash = '#' + saved;
+})();
 </script>
 </body>
 </html>

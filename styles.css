@@ -25,6 +25,13 @@
   --lead:1.15;
 }
 
+/* spacing tighten */
+.stack > * + * { margin-top: clamp(12px, 2.2vh, 18px); }
+@media (max-width: 640px){
+  .lead { line-height: 1.35; }
+  section { padding-block: 28px; }
+}
+
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{

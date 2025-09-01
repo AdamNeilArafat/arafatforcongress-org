@@ -35,6 +35,12 @@
 
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
     a { text-decoration: none; }
+    /* spacing tighten */
+    .stack > * + * { margin-top: clamp(12px, 2.2vh, 18px); }
+    @media (max-width: 640px){
+      .lead { line-height: 1.35; }
+      section { padding-block: 28px; }
+    }
 
     /* Top social bar */
     .social-top {
@@ -130,7 +136,11 @@
   </style>
 </head>
 <body>
-<a class="visually-hidden-focusable" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to content</a>
+<style>
+  .skip-link{position:absolute;left:-9999px;top:auto}
+  .skip-link:focus{left:12px;top:12px;background:#fff;padding:8px 12px;outline:2px solid #000}
+</style>
 
 <!-- SOCIAL MEDIA BAR -->
 <section class="social-top py-2">
@@ -183,15 +193,26 @@
     <div class="container">
       <div class="row align-items-center g-4">
         <div class="col-md-5 text-center">
-          <img class="img-fluid" src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Neil Arafat headshot" />
+          <img class="img-fluid" src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Neil Arafat headshot" width="1024" height="1061" loading="lazy" />
         </div>
         <div class="col-md-7">
           <h1>Meet Adam</h1>
-          <p class="lead text-narrow">I’m a dad and husband raising my kids in Spanaway, where they attend public schools. I served 20 years in the Army and now work in county public service delivering the infrastructure that keeps our communities running.</p>
-          <div class="d-flex flex-wrap gap-2">
-            <a class="btn-refined primary" href="/issues.html">Read my priorities</a>
-            <a class="btn-refined secondary" href="/Bills/Bills.html">See the Evergreen Pact</a>
-            <a class="ms-2" href="/contact.html">Contact my team</a>
+          <div class="stack">
+            <p class="lead text-narrow">Adam Arafat is a dad and husband raising his kids in Spanaway.</p>
+            <p class="lead text-narrow">He served 20 years in the Army and now works in county public service delivering infrastructure for our communities.</p>
+            <p class="lead text-narrow">Adam rejects corporate PAC money and fights to lower costs, expand care, and clean up government.</p>
+            <p class="text-center fw-semibold">Service • Work • Family</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn-refined primary" href="/issues.html">Read my priorities</a>
+              <a class="btn-refined secondary" href="/Bills/Bills.html">See the Evergreen Pact</a>
+              <a class="ms-2" href="/contact.html">Contact my team</a>
+            </div>
+            <div class="share">
+              <a href="https://www.reddit.com/submit?url=https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on Reddit">Reddit</a>
+              <a href="https://bsky.app/intent/compose?text=Meet%20Adam%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on Bluesky">Bluesky</a>
+              <a href="https://twitter.com/intent/tweet?text=Meet%20Adam%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+              <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
+            </div>
           </div>
         </div>
       </div>
