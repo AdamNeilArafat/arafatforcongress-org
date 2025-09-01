@@ -24,6 +24,12 @@
     :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; --soft:#f6f9fc; }
     body { margin:0; font-family: system-ui,-apple-system, Segoe UI, Roboto, Ubuntu, Arial; color:#0f172a; background:#ffffff; line-height:1.5; }
     a { text-decoration:none; }
+    /* spacing tighten */
+    .stack > * + * { margin-top: clamp(12px, 2.2vh, 18px); }
+    @media (max-width: 640px){
+      .lead { line-height: 1.35; }
+      section { padding-block: 28px; }
+    }
 
     /* Social bar */
     .social-top { background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%); color:#fff; }
@@ -112,7 +118,11 @@
   </style>
 </head>
 <body>
-<a class="visually-hidden-focusable" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to content</a>
+<style>
+  .skip-link{position:absolute;left:-9999px;top:auto}
+  .skip-link:focus{left:12px;top:12px;background:#fff;padding:8px 12px;outline:2px solid #000}
+</style>
 
 <!-- SOCIAL BAR -->
 <section class="social-top py-2">
@@ -218,7 +228,6 @@
             <li>Ban stock trading in Congress and strengthen ethics rules.</li>
             <li>Outlaw corporate PAC and lobbyist donations to federal campaigns.</li>
             <li>Protect Inspectors General and whistleblowers from political interference.</li>
-            <li>Require transparency by posting schedules and holding regular town halls.</li>
           </ul>
         </section>
       </div>
@@ -320,9 +329,15 @@
         </section>
       </div>
 
-      <div style="margin-top:22px; display:flex; gap:10px; flex-wrap: wrap;">
+      <div class="stack" style="margin-top:22px; display:flex; gap:10px; flex-wrap: wrap;">
         <a class="btn" href="/donate">Donate</a>
         <a class="btn" style="background:#0b2d33" href="/volunteer.html">Volunteer</a>
+      </div>
+      <div class="share mt-3">
+        <a href="https://www.reddit.com/submit?url=https%3A%2F%2Farafatforcongress.org%2Fissues.html" target="_blank" rel="noopener" aria-label="Share on Reddit">Reddit</a>
+        <a href="https://bsky.app/intent/compose?text=Where%20I%20Stand%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fissues.html" target="_blank" rel="noopener" aria-label="Share on Bluesky">Bluesky</a>
+        <a href="https://twitter.com/intent/tweet?text=Where%20I%20Stand%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fissues.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2Fissues.html" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
       </div>
     </div>
 </main>
