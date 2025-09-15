@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.arafatforcongress.org/sitemap.xml
+Sitemap: https://arafatforcongress.org/sitemap.xml
