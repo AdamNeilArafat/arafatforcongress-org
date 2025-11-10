@@ -5,17 +5,85 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>404 — Page Not Found</title>
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    body{background:#f6f9fc;color:#0d3b66;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;text-align:center;padding:3rem}
+    body{background:#f6f9fc;color:#0d3b66;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0}
+    main{max-width:700px;margin:4rem auto;padding:0 1.5rem;text-align:center}
     img{max-width:80%;height:auto;border-radius:8px;box-shadow:0 6px 20px rgba(13,59,102,.15)}
     h1{font-weight:900;margin-top:2rem}
     p{margin-top:1rem}
   </style>
 </head>
 <body>
-  <img src="/images/dem-404.png" alt="404" />
-  <h1>Oops! Page Not Found</h1>
-  <p>The page you requested doesn’t exist. Let’s get you back on track.</p>
-  <p><a href="/index.html">Return to Home</a></p>
+  <header class="site-header">
+    <div class="site-nav">
+      <a class="nav-brand" href="/index.html">Arafat for Congress • WA-10</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+      <nav class="nav-links" id="primary-navigation" aria-label="Primary">
+        <a href="/index.html">Home</a>
+        <a href="/issues.html">Issues</a>
+        <a href="/record-contrast.html">Record &amp; Contrast</a>
+        <a href="/about.html">Meet Adam</a>
+        <a href="/contact.html">Contact</a>
+        <a class="nav-donate" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="flash-banner">
+  Thanks to neighbors across WA-10, we gathered enough signatures to qualify for the August 4, 2026 primary election. A huge thank-you to the incredible volunteers who made it happen. 
+</div>
+
+  <main>
+    <img src="/images/dem-404.png" alt="404" />
+    <h1>Oops! Page Not Found</h1>
+    <p>The page you requested doesn’t exist. Let’s get you back on track.</p>
+    <p><a href="/index.html">Return to Home</a></p>
+    <div class="cta-block">
+      <a class="btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1">Donate / Chip In</a>
+      <p class="cta-message">
+        What matters most is your voice; talk with friends, share the message, and vote. If you can give, it helps, but spreading the word matters more.
+      </p>
+    </div>
+    <div class="cta-block">
+      <a class="btn-volunteer" href="/contact.html">Volunteer / Join</a>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const toggle = document.querySelector('.nav-toggle');
+      const menu = document.getElementById('primary-navigation');
+      if (!toggle || !menu) return;
+      const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+      const setExpanded = (expanded) => {
+        toggle.setAttribute('aria-expanded', String(expanded));
+        menu.classList.toggle('is-open', expanded);
+        if (isMobile()) {
+          if (expanded) {
+            menu.removeAttribute('hidden');
+          } else {
+            menu.setAttribute('hidden', '');
+          }
+        } else {
+          menu.removeAttribute('hidden');
+        }
+      };
+      setExpanded(false);
+      toggle.addEventListener('click', function () {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        setExpanded(!expanded);
+      });
+      window.addEventListener('resize', function () {
+        if (!isMobile()) {
+          menu.removeAttribute('hidden');
+          menu.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+        } else if (!menu.classList.contains('is-open')) {
+          menu.setAttribute('hidden', '');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
