@@ -56,6 +56,10 @@
     }
     .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
     .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
+    .pill-bsky  { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(0,159,255,.18)); }
+    .pill-bsky:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(0,159,255,.26)); }
+    .pill-tiktok{ background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,0,80,.18)); }
+    .pill-tiktok:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,0,80,.26)); }
 
     /* Header break pills */
     .header-break {
@@ -145,9 +149,10 @@
 <!-- SOCIAL MEDIA BAR -->
 <section class="social-top py-2">
   <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill" href="https://bsky.app/intent/compose?text=Meet%20Adam%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on Bluesky"><svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> <span>Bluesky</span></a>
-    <a class="social-pill" href="https://twitter.com/intent/tweet?text=Meet%20Adam%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on X"><i class="fa-brands fa-x-twitter"></i> <span>X</span></a>
-    <a class="social-pill" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on Facebook"><i class="fa-brands fa-facebook"></i> <span>Facebook</span></a>
+    <a class="social-pill pill-bsky" href="https://bsky.app/profile/arafatforcongress.org" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky"><svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> <span>Bluesky</span></a>
+    <a class="social-pill" href="https://x.com/ArafatForWA" target="_blank" rel="noopener" aria-label="Follow Adam on X"><i class="fa-brands fa-x-twitter"></i> <span>X</span></a>
+    <a class="social-pill" href="https://www.facebook.com/ArafatForCongress" target="_blank" rel="noopener" aria-label="Follow Adam on Facebook"><i class="fa-brands fa-facebook"></i> <span>Facebook</span></a>
+    <a class="social-pill pill-tiktok" href="https://www.tiktok.com/@arafatforcongress" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
   </div>
 </section>
 
