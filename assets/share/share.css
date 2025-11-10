@@ -1,0 +1,141 @@
+.section--share,
+.section--follow {
+  text-align: center;
+}
+
+.section--share .intro,
+.section--follow .intro {
+  color: var(--sub);
+  max-width: 720px;
+  margin: 0 auto 22px;
+}
+
+.share-buttons,
+.follow-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.share-explainer {
+  max-width: 760px;
+  margin: 16px auto 0;
+  color: var(--sub);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.share-assets {
+  max-width: 680px;
+  margin: 34px auto 0;
+  padding: 24px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 12px 28px rgba(12, 16, 37, 0.12);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.share-assets figure {
+  margin: 0;
+}
+
+.share-assets img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(36, 70, 245, 0.15);
+  border: 1px solid #e5e9ff;
+}
+
+.share-assets figcaption {
+  margin-top: 14px;
+  color: var(--sub);
+  font-size: 15px;
+}
+
+.share-assets .share-button {
+  margin-top: 18px;
+}
+
+.share-button,
+.follow-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: filter 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 6px 16px rgba(36, 70, 245, 0.15);
+  background: var(--brand);
+  color: #fff;
+}
+
+.share-button:hover,
+.follow-button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.share-button.share-button--whatsapp {
+  background: #25d366;
+}
+
+.share-button.share-button--sms {
+  background: #2563eb;
+}
+
+.share-button.share-button--facebook {
+  background: #1877f2;
+}
+
+.share-button.share-button--linkedin {
+  background: #0a66c2;
+}
+
+.share-button.share-button--email {
+  background: var(--brand-dark);
+}
+
+.share-button.share-button--x {
+  background: #0f1419;
+}
+
+.share-button.share-button--bsky {
+  background: #0a7aff;
+}
+
+.share-button.share-button--native {
+  background: var(--accent);
+  color: #0c1025;
+  box-shadow: 0 8px 18px rgba(247, 181, 0, 0.35);
+}
+
+.follow-button {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--brand-dark);
+  box-shadow: 0 6px 16px rgba(12, 16, 37, 0.08);
+}
+
+.follow-button:hover {
+  background: #edf0ff;
+  color: var(--brand-dark);
+}
+
+@media (max-width: 600px) {
+  .share-button,
+  .follow-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .share-assets {
+    margin-top: 24px;
+    padding: 18px;
+  }
+}
