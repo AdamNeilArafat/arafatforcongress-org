@@ -62,33 +62,133 @@ a:hover{ text-decoration:underline; }
 .round{ border-radius:var(--radius); }
 
 /* ---------- Header / Nav ---------- */
-header{ background:var(--bg); }
-header .brand h1{ font-size:1.65rem; color:var(--primary); }
-header .brand p{ margin-top:.15rem; }
-nav ul{
-  list-style:none; margin:0; padding:0;
-  display:flex; gap:1rem; align-items:center; flex-wrap:wrap;
+.site-header{
+  background:#ffffffcc;
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(0,0,0,.05);
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
-nav a{ color:var(--text); }
-nav a[aria-current="page"]{ color:var(--primary); font-weight:600; }
-
-/* Home icon (hidden on home page by HTML) */
-.home-icon{ width:40px; height:40px; object-fit:contain; }
+.site-nav{
+  max-width:1100px;
+  margin:0 auto;
+  padding:.9rem 1.25rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  position:relative;
+}
+.nav-brand{
+  font-weight:800;
+  font-size:1.2rem;
+  color:#0a3d9e;
+  letter-spacing:.01em;
+  text-decoration:none;
+}
+.nav-brand:hover{ color:#062b6c; text-decoration:none; }
+.nav-toggle{
+  display:none;
+  background:#0a3d9e;
+  color:#fff;
+  border:none;
+  border-radius:.25rem;
+  padding:.5rem .75rem;
+  font-size:1rem;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
+.nav-links a{
+  color:var(--text);
+  font-weight:600;
+  text-decoration:none;
+  padding:.25rem 0;
+}
+.nav-links a:hover,
+.nav-links a:focus-visible{
+  color:#0a3d9e;
+}
+.nav-links a[aria-current="page"]{
+  color:#0a3d9e;
+}
+.nav-donate{
+  background:#0a3d9e;
+  color:#fff!important;
+  padding:.5rem 1rem;
+  border-radius:.25rem;
+}
+.nav-donate:hover{ filter:brightness(.92); text-decoration:none; }
+@media (max-width:900px){
+  .nav-toggle{ display:inline-flex; align-items:center; gap:.35rem; cursor:pointer; }
+  .nav-links{
+    position:absolute;
+    inset:calc(100% + 1px) 1.25rem auto 1.25rem;
+    background:#fff;
+    flex-direction:column;
+    align-items:flex-start;
+    padding:1rem 1.25rem 1.5rem;
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+    transform:scaleY(0);
+    transform-origin:top;
+    transition:transform .2s ease;
+    opacity:0;
+    pointer-events:none;
+  }
+  .nav-links.is-open{
+    transform:scaleY(1);
+    opacity:1;
+    pointer-events:auto;
+  }
+}
 
 /* ---------- Buttons ---------- */
-.btn-donate{
+.btn-donate,
+.btn-volunteer{
   display:inline-block;
-  background:var(--danger);
+  background:#0a3d9e;
   color:#fff!important;
-  border:none;
-  padding:.55rem .9rem;
+  padding:.75rem 1.5rem;
+  text-decoration:none;
+  border-radius:.25rem;
+  font-size:1rem;
   font-weight:600;
-  border-radius:8px;
-  box-shadow:var(--shadow-soft);
+  box-shadow:0 6px 18px rgba(10,61,158,.2);
 }
-.btn-donate:hover{ filter:brightness(.96); background:var(--danger-600); text-decoration:none; }
+.btn-donate:hover,
+.btn-volunteer:hover{
+  filter:brightness(.92);
+  text-decoration:none;
+}
 .btn-primary{ background:var(--primary); border:none; }
 .btn-primary:hover{ background:var(--primary-600); }
+
+.cta-block{
+  text-align:center;
+  margin:2rem 0;
+}
+.cta-message{
+  font-size:.875rem;
+  color:#333;
+  margin-top:.5rem;
+}
+
+.flash-banner{
+  width:100%;
+  background:linear-gradient(90deg,#b08c6f,#f4b741);
+  color:#fff;
+  text-align:center;
+  padding:.75rem 1rem;
+  font-weight:600;
+  animation:flash-pulse 4s infinite alternate;
+}
+@keyframes flash-pulse{
+  from{ opacity:1; }
+  to{ opacity:.8; }
+}
 
 /* ---------- Hero message bar ---------- */
 .message-bar{
@@ -221,6 +321,34 @@ input:focus, textarea:focus{
   outline:0;
 }
 label{ font-weight:600; margin-bottom:.25rem; }
+
+.form-row{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.form-group{
+  flex:1 1 300px;
+  min-width:250px;
+  margin-bottom:1rem;
+}
+.form-group label{
+  display:block;
+  margin-bottom:.25rem;
+  font-weight:600;
+}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:.75rem 1rem;
+  border:1px solid #ccc;
+  border-radius:.25rem;
+  font-size:1rem;
+}
+@media (max-width:600px){
+  .form-row{ flex-direction:column; }
+}
 
 /* ---------- Layout helpers ---------- */
 .pad-y-4{ padding-top:1.5rem; padding-bottom:1.5rem; }
