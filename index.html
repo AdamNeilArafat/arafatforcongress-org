@@ -9,7 +9,6 @@
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="stylesheet" href="/assets/share/share.css" />
   <style>
     :root {
       --brand: #2446f5;
@@ -80,6 +79,21 @@
     .quote blockquote {font-size:20px;font-weight:700;color:var(--ink);max-width:820px;margin:auto;line-height:1.45;white-space:pre-line;} 
     .quote footer {margin-top:10px;color:var(--sub);font-size:15px;}
 
+    .section--share,.section--follow {text-align:center;}
+    .section--share .intro,.section--follow .intro {color:var(--sub);max-width:720px;margin:0 auto 22px;}
+    .share-buttons,.follow-buttons {display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px;}
+    .share-button,.follow-button {display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:999px;font-weight:600;text-decoration:none;transition:filter .2s ease,transform .2s ease;box-shadow:0 6px 16px rgba(36,70,245,0.15);background:var(--brand);color:#fff;}
+    .share-button:hover,.follow-button:hover {filter:brightness(1.05);transform:translateY(-1px);}
+    .share-button.share-button--whatsapp {background:#25d366;}
+    .share-button.share-button--sms {background:#2563eb;}
+    .share-button.share-button--facebook {background:#1877f2;}
+    .share-button.share-button--linkedin {background:#0a66c2;}
+    .share-button.share-button--email {background:var(--brand-dark);}
+    .share-button.share-button--x {background:#0f1419;}
+    .share-button.share-button--bsky {background:#0a7aff;}
+    .follow-button {background:#fff;border:1px solid var(--border);color:var(--brand-dark);box-shadow:0 6px 16px rgba(12,16,37,0.08);}
+    .follow-button:hover {background:#edf0ff;color:var(--brand-dark);}
+
     footer {background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;}
 
     @media(max-width:900px){
@@ -88,6 +102,9 @@
       .cta{justify-content:center;}
       .nav{gap:10px}
       .nav .links{display:none}
+    }
+    @media(max-width:600px){
+      .share-button,.follow-button {width:100%;justify-content:center;}
     }
   </style>
 </head>
@@ -166,9 +183,7 @@ If you’re working class and tired of politicians who talk big but never fight 
   <section class="section section--share" aria-labelledby="share-heading">
     <h2 id="share-heading">Share the message</h2>
     <p class="intro">Help us reach neighbors across WA-10. Use the buttons below to open your favorite social app with a message that’s ready to send.</p>
-    <p class="share-explainer">Each button launches the official share or repost screen for that platform with our campaign message and tracking link already filled in. Review or edit the text, then confirm to publish. Prefer to post a graphic? Save the campaign poster below and upload it anywhere you connect with neighbors.</p>
     <div class="share-buttons">
-      <a class="share-button share-button--native" data-platform="native" data-text="Your voice and your vote matter most. Share with neighbors in WA-10 and plan to vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=native-share&utm_medium=social&utm_campaign=grassroots" data-subject="Adam Arafat for Congress – WA-10" href="#" aria-label="Share using your device" hidden>Share from your device</a>
       <a class="share-button share-button--bsky" data-platform="bsky" data-text="Your voice and your vote matter most. Please share with friends in WA-10 and plan to vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=bsky&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on Bluesky">Bluesky</a>
       <a class="share-button share-button--x" data-platform="x" data-text="Your voice and your vote matter most. Share with friends in WA-10 and vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=x&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on X">X</a>
       <a class="share-button share-button--facebook" data-platform="facebook" data-text="We gathered the signatures to qualify for the Aug 18, 2026 primary. Change starts with people talking, sharing, and voting. Your voice matters most." data-url="https://arafatforcongress.org/?utm_source=facebook&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on Facebook">Facebook</a>
@@ -176,13 +191,6 @@ If you’re working class and tired of politicians who talk big but never fight 
       <a class="share-button share-button--whatsapp" data-platform="whatsapp" data-text="Change starts with people talking, showing up, and voting. Join us in WA-10. Vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=whatsapp&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on WhatsApp">WhatsApp</a>
       <a class="share-button share-button--sms" data-platform="sms" data-text="Your voice and your vote matter most. Share this and vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=sms&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share via SMS">SMS</a>
       <a class="share-button share-button--email" data-platform="email" data-subject="Your voice matters most" data-text="Change starts with people talking, sharing, and voting. Please share with friends in WA-10 and plan to vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=email&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share via Email">Email</a>
-    </div>
-    <div class="share-assets" aria-label="Downloadable campaign poster">
-      <figure>
-        <img src="assets/share/og-home.svg" alt="Campaign share card showing Adam Arafat for Congress with the message ‘Your voice matters most’" loading="lazy" />
-        <figcaption>Download the share card and upload it to Instagram, Facebook, community groups, or text threads.</figcaption>
-      </figure>
-      <a class="share-button share-button--native" data-platform="download" data-asset="assets/share/og-home.svg" data-filename="adam-arafat-share-card.svg" href="assets/share/og-home.svg" download aria-label="Download campaign share card">Download poster</a>
     </div>
   </section>
 
@@ -201,6 +209,52 @@ If you’re working class and tired of politicians who talk big but never fight 
     Paid for by Arafat for Congress • contact@arafatforcongress.org
   </footer>
 
-  <script src="/assets/share/share.js"></script>
+  <script>
+    (function () {
+      function enc(value) {
+        return encodeURIComponent(value);
+      }
+
+      function linkFor(platform, text, url, subject) {
+        switch (platform) {
+          case 'bsky':
+            return 'https://bsky.app/intent/compose?text=' + enc(text + ' ' + url);
+          case 'x':
+            return 'https://twitter.com/intent/tweet?text=' + enc(text) + '&url=' + enc(url);
+          case 'facebook':
+            return 'https://www.facebook.com/sharer/sharer.php?u=' + enc(url) + '&quote=' + enc(text);
+          case 'linkedin':
+            return 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url);
+          case 'whatsapp':
+            return 'https://api.whatsapp.com/send?text=' + enc(text + ' ' + url);
+          case 'sms':
+            return 'sms:?&body=' + enc(text + ' ' + url);
+          case 'email':
+            return 'mailto:?subject=' + enc(subject || '') + '&body=' + enc(text + '\n\n' + url);
+          default:
+            return url;
+        }
+      }
+
+      document.addEventListener('click', function (event) {
+        var trigger = event.target.closest('a.share-button');
+        if (!trigger) {
+          return;
+        }
+
+        event.preventDefault();
+        var platform = trigger.dataset.platform;
+        if (!platform) {
+          return;
+        }
+
+        var text = trigger.dataset.text || '';
+        var url = trigger.dataset.url || window.location.href;
+        var subject = trigger.dataset.subject || '';
+        var shareUrl = linkFor(platform, text, url, subject);
+        window.open(shareUrl, '_blank', 'noopener,noreferrer');
+      });
+    })();
+  </script>
 </body>
 </html>
