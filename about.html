@@ -1,297 +1,260 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <base href="/">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSHYRZVZ97"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-TSHYRZVZ97');
-  </script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Meet Adam – Adam Arafat</title>
-  <meta name="description" content="Meet Adam Arafat: dad, veteran, and public servant focused on lower costs, real care, and clean government.">
-  <link rel="canonical" href="https://arafatforcongress.org/about.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Arafat for Congress – WA-10">
-  <meta property="og:title" content="Meet Adam – Adam Arafat">
-  <meta property="og:description" content="Dad, veteran, public servant. Trust is built, not bought.">
-  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg">
-  <meta property="og:url" content="https://arafatforcongress.org/about.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Meet Adam – Adam Arafat">
-  <meta name="twitter:description" content="Dad, veteran, public servant. Trust is built, not bought.">
-  <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg">
-
-  <!-- Bootstrap + Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-
+  <title>Meet Adam | Arafat for Congress – WA-10</title>
+  <meta name="description" content="Trust is built, not bought. Meet Adam Arafat — dad, veteran, and public servant fighting for working families in WA-10." />
   <style>
-    :root { --primary:#0d3b66; --donate:#c1121f; --accent:#0b6e4f; --link:#0d3b66; }
+    :root {
+      --brand: #2446f5;
+      --brand-dark: #1b33c9;
+      --accent: #f7b500;
+      --bg: linear-gradient(180deg,#f2f6ff,#e3e9ff);
+      --ink: #0c1025;
+      --sub: #475569;
+      --shadow: 0 6px 25px rgba(0,0,0,0.12);
+      --radius: 18px;
+      --border: #d0d8ff;
+    }
+    body {margin:0;font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--ink);} 
+    a {color:inherit;}
+    /* Header */
+    header {background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);box-shadow:var(--shadow);position:sticky;top:0;z-index:50;}
+    .nav {max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;}
+    .brand {font-weight:900;font-size:22px;color:var(--brand);text-shadow:1px 1px 0 #fff;display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .brand:hover {color:var(--brand-dark);} 
+    .social {display:flex;gap:10px;align-items:center}
+    .social a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:#fff;border:1px solid var(--border);box-shadow:0 3px 10px rgba(0,0,0,.06)}
+    .social a:hover{background:#f2f5ff}
+    .social svg{width:20px;height:20px;fill:#2446f5}
+    .nav nav {display:flex;align-items:center;gap:4px;}
+    .nav .links a {margin-left:16px;text-decoration:none;font-weight:600;color:var(--ink);transition:.2s ease;position:relative;}
+    .nav .links a:hover {color:var(--brand-dark);} 
+    .nav .links a[aria-current="page"] {color:var(--brand-dark);}
+    .nav .links a[aria-current="page"]::after {content:"";position:absolute;left:0;bottom:-6px;height:2px;width:100%;background:var(--brand-dark);border-radius:999px;}
+    .nav a.button {padding:9px 18px;border-radius:var(--radius);background:linear-gradient(90deg,var(--brand),#4f68ff);color:#fff;box-shadow:0 4px 10px rgba(36,70,245,0.35);text-decoration:none;} 
 
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial; }
-    a { text-decoration: none; }
-    /* spacing tighten */
-    .stack > * + * { margin-top: clamp(12px, 2.2vh, 18px); }
-    @media (max-width: 640px){
-      .lead { line-height: 1.35; }
-      section { padding-block: 28px; }
-    }
+    /* Ribbon nav */
+    .ribbon {background:linear-gradient(90deg,#2446f5,#f7b500);color:#fff;padding:14px 10px;text-align:center;font-weight:700;letter-spacing:.3px;box-shadow:var(--shadow);} 
+    .ribbon .links {max-width:1180px;margin:auto;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .ribbon .links a{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);padding:8px 14px;border-radius:999px;color:#fff;text-decoration:none;font-weight:700}
+    .ribbon .links a:hover{background:rgba(255,255,255,.22);} 
 
-    /* Top social bar */
-    .social-top {
-      background: linear-gradient(90deg, #0d3b66 0%, #0b6e4f 50%, #0d3b66 100%);
-      color: #fff;
-    }
-    .social-pill {
-      display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem;
-      border-radius:999px; border:1px solid rgba(255,255,255,.25); color:#fff; text-decoration:none;
-      background: rgba(255,255,255,.08); backdrop-filter: blur(4px);
-      transition: transform .08s ease, background .15s ease, box-shadow .15s ease;
-      font-weight:700;
-    }
-    .social-pill:hover { transform: translateY(-1px); background: rgba(255,255,255,.16); box-shadow: 0 6px 16px rgba(0,0,0,.15); color:#fff; }
-    .bsky-icon { width:18px; height:18px; vertical-align:-2px; }
-    .pill-bsky  { background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(0,159,255,.18)); }
-    .pill-bsky:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(0,159,255,.26)); }
-    .pill-tiktok{ background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,0,80,.18)); }
-    .pill-tiktok:hover { background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,0,80,.26)); }
+    /* Hero */
+    .hero {padding:90px 20px;background:radial-gradient(circle at 15% 40%,rgba(247,181,0,0.12) 0%,transparent 60%),radial-gradient(circle at 85% 30%,rgba(36,70,245,0.15) 0%,transparent 60%);} 
+    .hero__grid {max-width:1150px;margin:auto;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;}
+    .hero__text h1 {font-size:44px;margin:0 0 12px;color:var(--brand-dark);letter-spacing:0.2px;text-shadow:1px 1px 2px rgba(0,0,0,0.05);} 
+    .hero__text p {font-size:18px;color:var(--sub);max-width:620px;}
+    .cta {margin-top:26px;display:flex;gap:14px;flex-wrap:wrap;}
+    .btn {padding:13px 22px;border-radius:var(--radius);font-weight:700;cursor:pointer;border:none;transition:transform .15s ease,box-shadow .2s ease;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;}
+    .btn.primary {background:linear-gradient(90deg,var(--brand),#4f68ff);color:#fff;box-shadow:0 8px 18px rgba(36,70,245,0.3);} 
+    .btn.primary:hover {transform:translateY(-1px);} 
+    .btn.secondary {background:#fff;border:2px solid var(--border);color:var(--brand-dark);} 
+    .btn.secondary:hover {background:#edf0ff;}
+    .hero__image {border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:3px solid #fff;position:relative;}
+    .hero__image::after {content:'';position:absolute;inset:0;box-shadow:inset 0 0 50px rgba(36,70,245,0.15);border-radius:var(--radius);} 
+    .hero__image img {display:block;width:100%;height:100%;object-fit:cover;}
 
-    /* Header break pills */
-    .header-break {
-      background:#0d3b66; color:#fff; padding:1rem;
-      display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center;
-      text-align:center;
-    }
-    .header-break .pill {
-      display:inline-block;
-      padding:.4rem .9rem;
-      border-radius:999px;
-      background: rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.25);
-      font-weight:800;
-      white-space:nowrap;
-    }
-    @media (max-width: 767.98px){
-      .header-break { flex-direction:column; align-items:center; }
-      .header-break .pill {
-        display:block;
-        width:100%;
-        max-width:320px;
-        white-space:normal;
-        line-height:1.2;
-        word-break:break-word;
-        overflow-wrap:anywhere;
-      }
-    }
+    /* Sections */
+    .section {max-width:1100px;margin:70px auto;padding:0 20px;}
+    .section h2 {text-align:center;color:var(--brand-dark);font-size:30px;margin-bottom:12px;}
+    .section > p {text-align:center;color:var(--sub);max-width:820px;margin:0 auto 14px;}
+    .section--tight {margin-top:48px;}
 
-    /* Refined buttons */
-    .btn-refined{
-      display:inline-block;
-      padding:.6rem 1.2rem;
-      border-radius:8px;
-      font-weight:700;
-      text-decoration:none;
+    .tiles {display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:30px;} 
+    .tile {background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .2s ease, box-shadow .2s ease;position:relative;overflow:hidden;border:1px solid var(--border);} 
+    .tile::before {content:'';position:absolute;top:0;left:-80px;width:200px;height:100%;background:linear-gradient(45deg,rgba(247,181,0,0.15),rgba(36,70,245,0.15));transform:skewX(-20deg);}  
+    .tile:hover {transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,0.15);}  
+    .tile h3 {color:var(--brand-dark);margin-top:0;} 
+    .tile p,.tile ul {color:var(--sub);} 
+    .tile ul {margin:12px 0 0 18px;}
+
+    .split {display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px;margin-top:30px;align-items:start;}
+    .card {background:#fff;border-radius:var(--radius);padding:26px;border:1px solid var(--border);box-shadow:0 10px 22px rgba(0,0,0,0.08);}
+    .card h3 {margin-top:0;color:var(--brand-dark);} 
+    .card p,.card li {color:var(--sub);} 
+    .card ul {margin:12px 0 0 18px;}
+
+    .list {display:grid;gap:14px;margin-top:24px;color:var(--sub);} 
+    .list li {background:#fff;border-radius:var(--radius);padding:18px 20px;border:1px solid var(--border);box-shadow:0 6px 16px rgba(0,0,0,0.06);} 
+    .list li strong {color:var(--brand-dark);} 
+
+    .callout {background:linear-gradient(90deg,#e8edff,#f8f9ff);border-radius:var(--radius);padding:28px;border:1px solid var(--border);box-shadow:0 12px 24px rgba(0,0,0,0.08);text-align:center;margin-top:32px;color:var(--sub);} 
+    .callout strong {color:var(--brand-dark);} 
+
+    .faq {margin-top:24px;display:grid;gap:16px;}
+    .faq details {background:#fff;border-radius:var(--radius);padding:18px 22px;border:1px solid var(--border);box-shadow:0 8px 20px rgba(0,0,0,0.08);}
+    .faq summary {font-weight:700;color:var(--brand-dark);cursor:pointer;outline:none;}
+    .faq p {margin:10px 0 0;color:var(--sub);}
+
+    .quote {background:linear-gradient(90deg,#e8edff,#f8f9ff);padding:50px 20px;text-align:center;margin-top:80px;} 
+    .quote blockquote {font-size:20px;font-weight:700;color:var(--ink);max-width:820px;margin:auto;line-height:1.45;white-space:pre-line;} 
+    .quote footer {margin-top:10px;color:var(--sub);font-size:15px;} 
+
+    footer {background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;margin-top:40px;} 
+
+    @media(max-width:900px){
+      .hero__grid{grid-template-columns:1fr;text-align:center;}
+      .hero__text p{margin:auto;}
+      .cta{justify-content:center;}
+      .hero__image{max-width:420px;margin:0 auto;}
+      .nav{gap:10px}
+      .nav .links{display:none}
     }
-    .btn-refined.primary{background:var(--primary);color:#fff;}
-    .btn-refined.secondary{background:var(--accent);color:#fff;}
-    .btn-refined:hover{opacity:.9;color:#fff;}
-
-    .text-narrow{max-width:65ch;}
-
-    /* Pretty nav links: subtle animated underline */
-    .navbar .nav-link {
-      position: relative;
-      padding: .25rem .5rem;
-      color: #1c2b3a;
-      font-weight: 600;
-    }
-    .navbar .nav-link:hover { color: var(--link); }
-    .navbar .nav-link::after {
-      content:"";
-      position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background: currentColor; border-radius:2px; transition: width .18s ease;
-    }
-    .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link[aria-current="page"]::after { width:100%; }
-
-    /* Utility + page sections */
-    .section-title { color: var(--primary); }
-    .divider { border-top:2px solid #e9eef3; margin:3rem 0 1.25rem; }
-
-    /* Donate button (consistent sitewide) */
-    .btn-donate {
-      background: var(--donate);
-      color:#fff;
-      border: 0;
-      border-radius: 999px;
-      padding: .65rem 1.2rem;
-      font-weight: 800;
-      letter-spacing:.2px;
-      box-shadow: 0 6px 16px rgba(193, 18, 31, .25);
-      transition: transform .07s ease, box-shadow .15s ease, opacity .15s ease;
-      white-space: nowrap;
-    }
-    .btn-donate:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(193,18,31,.35); color:#fff; }
-
   </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-<style>
-  .skip-link{position:absolute;left:-9999px;top:auto}
-  .skip-link:focus{left:12px;top:12px;background:#fff;padding:8px 12px;outline:2px solid #000}
-</style>
+  <header>
+    <div class="nav">
+      <a class="brand" href="/index.html">Arafat for Congress • WA-10</a>
+      <div class="social" aria-label="Social media links">
+        <a href="https://bsky.app/profile/arafatforcongress.org" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky" title="Bluesky">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4c1.8 2.7 4.9 6 6.8 6S12 7.5 12 7.5 13.2 10 14.2 10s5-3.3 6.8-6c.8-1.2 2-1.8 3-1 .6.5.8 1.3.6 2.1-.6 2.6-2.6 5.8-4.1 7.3-1.1 1.2-2.4 2.2-3.8 3.1 1.1 3.1.5 6.4-.7 6.4-1.2 0-2.5-2.2-3-3.3-.5 1.1-1.8 3.3-3 3.3-1.2 0-1.8-3.3-.7-6.4-1.4-.9-2.7-1.9-3.8-3.1C1.2 10.9-.8 7.7-.2 5.1 0 4.3.3 3.5.9 3c1-.8 2.2-.2 3 1z"/></svg>
+        </a>
+        <a href="https://x.com/ArafatForWA" target="_blank" rel="noopener" aria-label="Follow Adam on X" title="X">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 2H22l-9.7 11.2L22.7 22h-7.3l-5.8-7.2L2.9 22H1l9.9-11.4L1.6 2h7.3l5.2 6.6L18.3 2z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/ArafatForCongress" target="_blank" rel="noopener" aria-label="Follow Adam on Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.1C22 6.5 17.5 2 12 2S2 6.5 2 12.1c0 5 3.7 9.1 8.5 9.9v-7h-2.6v-3h2.6V9.7c0-2.6 1.6-4 3.9-4 1.1 0 2.2.2 2.2.2v2.4h-1.3c-1.3 0-1.7.8-1.7 1.6v1.9h2.9l-.5 3h-2.4v7C18.3 21.2 22 17.1 22 12.1z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@arafatforcongress" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 2h3.3c.2 2 1.6 3.6 3.7 3.8V9c-1.4-.1-2.7-.5-3.8-1.2v7.4c0 3.9-2.8 7-7.1 7-1.9 0-3.6-.6-4.9-1.9A6.7 6.7 0 0 1 3 15.8c0-3.7 2.7-6.7 6.3-6.9.6 0 1.2 0 1.8.2v3.4c-.4-.2-.9-.2-1.3-.2a2.8 2.8 0 0 0-2.8 2.8 2.8 2.8 0 0 0 2.8 2.8c1.7 0 2.6-.8 2.6-2.7V2z"/></svg>
+        </a>
+      </div>
+      <nav class="links" aria-label="Primary">
+        <a href="/index.html">Home</a>
+        <a href="/issues.html">Issues</a>
+        <a href="/contrast.html">Record &amp; Contrast</a>
+        <a href="/about.html" aria-current="page">Meet Adam</a>
+        <a href="/contact.html">Contact</a>
+        <a class="button" href="/donate">Donate</a>
+      </nav>
+    </div>
+  </header>
 
-<!-- SOCIAL MEDIA BAR -->
-<section class="social-top py-2">
-  <div class="container d-flex flex-wrap justify-content-center gap-2">
-    <a class="social-pill pill-bsky" href="https://bsky.app/profile/arafatforcongress.org" target="_blank" rel="noopener" aria-label="Follow Adam on Bluesky"><svg class="bsky-icon" viewBox="0 0 600 600" aria-hidden="true"><path fill="#fff" d="M300 352c-48-68-151-157-214-193-23-13-53-21-77-21 0 104 29 170 95 236 49 49 120 81 196 81s147-32 196-81c66-66 95-132 95-236-24 0-54 8-77 21-63 36-166 125-214 193z"/></svg> <span>Bluesky</span></a>
-    <a class="social-pill" href="https://x.com/ArafatForWA" target="_blank" rel="noopener" aria-label="Follow Adam on X"><i class="fa-brands fa-x-twitter"></i> <span>X</span></a>
-    <a class="social-pill" href="https://www.facebook.com/ArafatForCongress" target="_blank" rel="noopener" aria-label="Follow Adam on Facebook"><i class="fa-brands fa-facebook"></i> <span>Facebook</span></a>
-    <a class="social-pill pill-tiktok" href="https://www.tiktok.com/@arafatforcongress" target="_blank" rel="noopener" aria-label="Follow Adam on TikTok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
-  </div>
-</section>
-
-<!-- HEADER BREAK -->
-<div class="header-break">
-  <span class="pill">Trust is built, not bought.</span>
-  <span class="pill">WA-10 deserves a fighter for working families.</span>
-  <span class="pill">For Working Families. For WA-10.</span>
-</div>
-
-<!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top" aria-label="Main">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="/index.html">Adam Neil Arafat for Congress - WA-10</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/issues.html">Issues</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contrast.html">Record &amp; Contrast</a></li>
-        <li class="nav-item"><a class="nav-link active" href="/about.html" aria-current="page">Meet Adam</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
-      </ul>
+  <div class="ribbon">
+    <div class="links" aria-label="Site sections">
+      <a href="/index.html">Home</a>
+      <a href="/issues.html">Where I Stand</a>
+      <a href="/contrast.html">Record &amp; Contrast</a>
+      <a href="/about.html">Meet Adam</a>
+      <a href="/volunteer.html">Volunteer</a>
+      <a href="/donate">Donate</a>
+      <a href="/contact.html">Contact</a>
     </div>
   </div>
-</nav>
 
-
-<main id="main">
-  <section class="py-5">
-    <div class="container">
-      <div class="row align-items-center g-4">
-        <div class="col-md-5 text-center">
-          <img class="img-fluid" src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Neil Arafat headshot" width="1024" height="1061" loading="lazy" />
-        </div>
-        <div class="col-md-7">
-          <h1>Meet Adam</h1>
-          <div class="stack">
-            <p class="lead text-narrow">Adam Arafat is a dad and husband raising his kids in Spanaway.</p>
-            <p class="lead text-narrow">He served 20 years in the Army and now works in county public service delivering infrastructure for our communities.</p>
-            <p class="lead text-narrow">Adam rejects corporate PAC money and fights to lower costs, expand care, and clean up government.</p>
-            <p class="text-center fw-semibold">Service • Work • Family</p>
-            <div class="d-flex flex-wrap gap-2">
-              <a class="btn-refined primary" href="/issues.html">Read my priorities</a>
-              <a class="btn-refined secondary" href="/contrast.html">Compare the records</a>
-              <a class="ms-2" href="/contact.html">Contact my team</a>
-            </div>
-            <div class="share">
-              <a href="https://bsky.app/intent/compose?text=Meet%20Adam%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on Bluesky">Bluesky</a>
-              <a href="https://twitter.com/intent/tweet?text=Meet%20Adam%20%E2%80%93%20Adam%20Arafat%20https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
-              <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2Fabout.html" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
-            </div>
-          </div>
+  <section class="hero">
+    <div class="hero__grid">
+      <div class="hero__text">
+        <h1>Meet Adam Arafat</h1>
+        <p>Trust is built, not bought. I’m a dad, veteran, and public servant running to make Congress work for the people of WA-10 — lowering costs, cleaning up government, and fighting for working families.</p>
+        <div class="cta">
+          <a class="btn primary" href="/donate">Chip In</a>
+          <a class="btn secondary" href="/volunteer.html">Volunteer</a>
+          <a class="btn secondary" href="/issues.html">Read the Issues</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="py-4">
-    <div class="container">
-      <h2>Short Bio</h2>
-      <ul class="text-narrow">
-        <li><strong>20 years of service:</strong> Led aviation maintenance and airfield operations, building teams and delivering on mission.</li>
-        <li><strong>Public service today:</strong> Manages complex county capital projects so communities get reliable services without surprises.</li>
-        <li><strong>Rooted here as a dad and husband:</strong> Raising kids in Spanaway with my wife; we see rising costs, crowded classrooms, and housing struggles firsthand.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="py-4">
-    <div class="container">
-      <h2>What I’ve Done</h2>
-      <div class="text-narrow">
-        <p><strong>Army</strong> – Built teams, kept people safe, managed equipment, and delivered under pressure.</p>
-        <p><strong>County Public Service</strong> – Plans and delivers infrastructure projects on time and on budget.</p>
-        <p><strong>Community</strong> – Listens first, brings people together to solve everyday problems.</p>
+      <div class="hero__image">
+        <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat smiling outdoors" loading="lazy" />
       </div>
     </div>
   </section>
 
-  <section class="py-4">
-    <div class="container">
-      <h2>What I’m Fighting For</h2>
-      <ul class="text-narrow">
-        <li><strong>Lower costs:</strong> Focus dollars on families, expose price gouging, stop giveaways.</li>
-        <li><strong>Healthcare you can use:</strong> Expand coverage, end junk fees, simplify care.</li>
-        <li><strong>Protect rights and freedom:</strong> Defend voting, privacy, family decisions, equal protection.</li>
-        <li><strong>A fair shot for every family:</strong> Schools, training, safe neighborhoods, real paths to the middle class.</li>
-        <li><strong>Clean government:</strong> End pay-to-play politics, stop backroom deals, sunlight on every dollar.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="py-4">
-    <div class="container">
-      <h2>Projects &amp; Delivery</h2>
-      <ul class="text-narrow">
-        <li>Worked on multi-million-dollar infrastructure projects.</li>
-        <li>Planned scope, schedule, and budget with cost estimates and risk tracking.</li>
-        <li>Coordinated contractors and departments to avoid delays.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="py-4">
-    <div class="container">
-      <h2>Accountability &amp; Independence</h2>
-      <p class="text-narrow">Rejects corporate and special-interest money. Publishes every dollar and vote. Votes “no” on anything that benefits donors more than families.</p>
-    </div>
-  </section>
-
-  <section class="py-4">
-    <div class="container">
-      <h2>FAQs</h2>
-      <div class="text-narrow">
-        <h3 class="h5">Why are you running?</h3>
-        <p>Because politics should serve ordinary people, not insiders.</p>
-        <h3 class="h5">How will you get results in a divided Congress?</h3>
-        <p>Set goals, build honest coalitions, and deliver step by step.</p>
-        <h3 class="h5">What does independence mean to you?</h3>
-        <p>No favors, no backroom deals, full transparency.</p>
+  <section class="section">
+    <h2>Rooted in Service, Work, and Family</h2>
+    <p>Spanaway is home. I’m raising my kids here with my wife, tackling the same costs, commutes, and classroom challenges as every neighbor.</p>
+    <div class="tiles">
+      <div class="tile">
+        <h3>Service</h3>
+        <p>Twenty years in the Army leading aviation maintenance and airfield teams taught me discipline, accountability, and how to bring people home safe.</p>
+      </div>
+      <div class="tile">
+        <h3>Work</h3>
+        <p>Today I work in county public service delivering infrastructure projects on time and on budget so families have reliable roads, utilities, and services.</p>
+      </div>
+      <div class="tile">
+        <h3>Family</h3>
+        <p>As a dad and husband, I feel the pinch of higher groceries, rent, and childcare. Those lived experiences drive every decision I make.</p>
       </div>
     </div>
   </section>
 
-  <section class="py-4">
-    <div class="container">
-      <h2>Call to Action</h2>
-      <ul class="text-narrow">
-        <li><a href="/contact.html">Join the campaign</a></li>
-        <li><a href="/issues.html">Read the issues</a></li>
-        <li><a href="/index.html#campaign-update">See the latest campaign update</a></li>
-      </ul>
+  <section class="section section--tight">
+    <h2>What I’ve Done</h2>
+    <div class="split">
+      <div class="card">
+        <h3>Army Veteran</h3>
+        <p>I led aviation units, managed complex logistics, and trained teams to succeed under pressure. Mission-first leadership means planning ahead, communicating clearly, and never leaving people behind.</p>
+        <ul>
+          <li>Coordinated maintenance schedules that kept aircraft mission-ready</li>
+          <li>Built diverse teams and mentored young service members</li>
+          <li>Delivered results even when resources were tight</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Public Servant</h3>
+        <p>In local government I manage capital projects that improve daily life — from safer intersections to resilient infrastructure.</p>
+        <ul>
+          <li>Plan scope, schedule, and budget with full transparency</li>
+          <li>Coordinate contractors, engineers, and community stakeholders</li>
+          <li>Guard taxpayer dollars like every project is for my own family</li>
+        </ul>
+      </div>
     </div>
   </section>
-  <div id="footer"></div>
-  <script src="footer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <section class="section section--tight">
+    <h2>What I’m Fighting For</h2>
+    <p>Working families deserve real results: lower costs, stronger services, and a government that answers to you.</p>
+    <ul class="list">
+      <li><strong>Lower costs:</strong> Stop price gouging, end junk fees, and put family budgets ahead of corporate profits.</li>
+      <li><strong>Healthcare you can use:</strong> Expand coverage, cap prescription costs, and invest in mental health and addiction care.</li>
+      <li><strong>Protect rights and freedoms:</strong> Safeguard voting rights, reproductive freedom, and equality for every neighbor.</li>
+      <li><strong>A fair shot for every family:</strong> Fund great public schools, apprenticeships, and safe communities so everyone can thrive.</li>
+      <li><strong>Clean government:</strong> Ban corporate PAC money, end congressional stock trading, and publish every vote, meeting, and dollar.</li>
+    </ul>
+  </section>
+
+  <section class="section section--tight">
+    <h2>Accountability &amp; Independence</h2>
+    <p>I refuse corporate PAC and lobbyist money. That freedom lets me put neighbors first and demand sunlight on every decision in Washington, D.C.</p>
+    <div class="callout">
+      <strong>My promise:</strong> no PAC checks, no backroom deals, full transparency you can verify.
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <h2>Questions I Hear Most</h2>
+    <div class="faq">
+      <details>
+        <summary>Why are you running?</summary>
+        <p>Because families in WA-10 deserve someone who understands rising costs and will fight every day to lower them. Government should work for ordinary people, not the powerful.</p>
+      </details>
+      <details>
+        <summary>How will you get results in a divided Congress?</summary>
+        <p>I’ve built coalitions my entire career. Set clear goals, listen first, find honest partners, and keep working until the job is done — that’s how you deliver.</p>
+      </details>
+      <details>
+        <summary>What does independence mean to you?</summary>
+        <p>It means owing nothing to special interests. Every vote, meeting, and dollar will be public so you always know who I’m fighting for.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="quote">
+    <blockquote>
+I’m running to fight for people, not the powerful.
+If you’re tired of political games and want someone who understands what it costs to raise a family and make ends meet, this campaign is for you. I know what working people are up against, and I’m ready to stand up for us.
+
+If you’re working class and tired of politicians who talk big but never fight for you, vote for someone who will. Vote for me.
+      <footer>Adam Arafat, WA-10</footer>
+    </blockquote>
+  </section>
+
+  <footer>
+    Paid for by Arafat for Congress • <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a>
+  </footer>
 </body>
 </html>
