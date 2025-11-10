@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Arafat for Congress Share Graphic</title>
+  <desc id="desc">Campaign message encouraging voters in Washington's 10th Congressional District.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#1f3aa5" />
+      <stop offset="100%" stop-color="#2f66f3" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fdd26a" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#f4b13f" stop-opacity="0.95" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <g opacity="0.5">
+    <circle cx="1050" cy="-60" r="320" fill="#ffffff" fill-opacity="0.08" />
+    <circle cx="-80" cy="460" r="360" fill="#ffffff" fill-opacity="0.08" />
+    <circle cx="900" cy="570" r="220" fill="url(#accent)" fill-opacity="0.35" />
+  </g>
+  <g transform="translate(120,140)">
+    <rect x="0" y="0" width="320" height="320" rx="28" ry="28" fill="#fff" fill-opacity="0.92" />
+    <path d="M58 80h204c8 0 14 6 14 14v166c0 8-6 14-14 14H58c-8 0-14-6-14-14V94c0-8 6-14 14-14z" fill="#2446f5" fill-opacity="0.85" />
+    <path d="M84 122h152c6 0 10 4 10 10v82c0 6-4 10-10 10H84c-6 0-10-4-10-10v-82c0-6 4-10 10-10z" fill="#fff" fill-opacity="0.2" />
+    <path d="M120 180l24 32 40-56 54 76H84z" fill="#fdd26a" fill-opacity="0.8" />
+  </g>
+  <text x="470" y="210" fill="#f9faff" font-size="72" font-family="'Poppins', 'Segoe UI', sans-serif" font-weight="700" letter-spacing="1">
+    Your voice matters most.
+  </text>
+  <text x="470" y="290" fill="#f9faff" font-size="44" font-family="'Poppins', 'Segoe UI', sans-serif" font-weight="600">
+    Join the movement in WA-10.
+  </text>
+  <text x="470" y="360" fill="#e8ecff" font-size="32" font-family="'Poppins', 'Segoe UI', sans-serif">
+    Talk with neighbors, share the message, and vote.
+  </text>
+  <g transform="translate(470,410)">
+    <rect width="460" height="90" rx="18" ry="18" fill="#ffffff" fill-opacity="0.1" stroke="#fdd26a" stroke-opacity="0.55" />
+    <text x="230" y="58" text-anchor="middle" fill="#fef4d2" font-size="32" font-family="'Poppins', 'Segoe UI', sans-serif" font-weight="600">
+      Arafat for Congress · WA-10
+    </text>
+  </g>
+  <text x="470" y="528" fill="#fef4d2" font-size="26" font-family="'Poppins', 'Segoe UI', sans-serif" letter-spacing=".5">
+    Learn more at https://arafatforcongress.org
+  </text>
+</svg>

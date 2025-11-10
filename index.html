@@ -38,9 +38,10 @@
     .bio-card h3 {margin-top:0;color:var(--brand-dark);} 
     .bio-card p {color:var(--sub);} 
 
-    .section {max-width:1100px;margin:70px auto;padding:0 20px;}
-    .section h2 {text-align:center;color:var(--brand-dark);font-size:30px;margin-bottom:12px;}
-    .section p {text-align:center;color:var(--sub);max-width:800px;margin:auto;} 
+    .section {max-width:1100px;margin:0 auto;padding:1.5rem 1rem;}
+    .section + .section {margin-top:1.25rem;}
+    .section h2 {text-align:center;color:var(--brand-dark);font-size:30px;}
+    .section p {text-align:center;color:var(--sub);max-width:800px;margin:auto;}
 
     .tiles {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:30px;} 
     .tile {background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .2s ease, box-shadow .2s ease;position:relative;overflow:hidden;border:1px solid var(--border);} 
@@ -52,30 +53,20 @@
     .quote blockquote {font-size:20px;font-weight:700;color:var(--ink);max-width:820px;margin:auto;line-height:1.45;white-space:pre-line;} 
     .quote footer {margin-top:10px;color:var(--sub);font-size:15px;}
 
-    .section--share,.section--follow {text-align:center;}
-    .section--share .intro,.section--follow .intro {color:var(--sub);max-width:720px;margin:0 auto 22px;}
-    .share-buttons,.follow-buttons {display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px;}
-    .share-button,.follow-button {display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:999px;font-weight:600;text-decoration:none;transition:filter .2s ease,transform .2s ease;box-shadow:0 6px 16px rgba(36,70,245,0.15);background:var(--brand);color:#fff;}
-    .share-button:hover,.follow-button:hover {filter:brightness(1.05);transform:translateY(-1px);}
-    .share-button.share-button--whatsapp {background:#25d366;}
-    .share-button.share-button--sms {background:#2563eb;}
-    .share-button.share-button--facebook {background:#1877f2;}
-    .share-button.share-button--linkedin {background:#0a66c2;}
-    .share-button.share-button--email {background:var(--brand-dark);}
-    .share-button.share-button--x {background:#0f1419;}
-    .share-button.share-button--bsky {background:#0a7aff;}
-    .follow-button {background:#fff;border:1px solid var(--border);color:var(--brand-dark);box-shadow:0 6px 16px rgba(12,16,37,0.08);}
-    .follow-button:hover {background:#edf0ff;color:var(--brand-dark);}
+    .section--follow {text-align:center;}
+    .section--follow .intro {color:var(--sub);max-width:720px;margin:0 auto 22px;}
+    .follow-buttons {display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px;}
+    .follow-button {display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:999px;font-weight:600;text-decoration:none;transition:filter .2s ease,transform .2s ease;box-shadow:0 6px 16px rgba(12,16,37,0.08);background:#fff;border:1px solid var(--border);color:var(--brand-dark);}
+    .follow-button:hover {filter:brightness(1.05);transform:translateY(-1px);background:#edf0ff;color:var(--brand-dark);}
 
     footer {background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;}
 
     @media(max-width:900px){
       .hero__grid{grid-template-columns:1fr;text-align:center;}
       .hero__text p{margin:auto;}
-      .cta{justify-content:center;}
     }
     @media(max-width:600px){
-      .share-button,.follow-button {width:100%;justify-content:center;}
+      .share-btn,.follow-button {width:100%;justify-content:center;}
     }
   </style>
 </head>
@@ -90,29 +81,73 @@
         <a href="/record-contrast.html">Record &amp; Contrast</a>
         <a href="/about.html">Meet Adam</a>
         <a href="/contact.html">Contact</a>
-        <a class="nav-donate" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a>
       </nav>
+    </div>
+    <div class="header-cta">
+      <a class="btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1">Donate / Chip In</a>
+      <a class="btn-volunteer" href="/contact.html">Volunteer / Join</a>
+      <div class="donate-note">
+        Your voice matters most, talk with friends, share the message, and vote. Donations help, but spreading the word helps even more.
+      </div>
     </div>
   </header>
 
+  <section class="share-message top-share">
+    <p>
+      Share the message<br>
+      Help us reach neighbors across WA-10. Use the buttons below to open your favorite social app with a ready-to-send message.
+    </p>
+    <div class="share-buttons">
+      <!-- Bluesky (compose) -->
+      <a class="share-btn bs-icon"
+         href="https://bsky.app/intent/compose?text=Your%20voice%20matters%20most.%20Join%20the%20movement%20in%20WA-10%20and%20vote%20Arafat%20for%20Congress.%20https%3A%2F%2Farafatforcongress.org%2F%3Futm_source%3Dshare%26utm_medium%3Dsocial%26utm_campaign%3Dgrassroots"
+         target="_blank" rel="noopener">Bluesky</a>
+
+      <!-- X / Twitter -->
+      <a class="share-btn x-icon"
+         href="https://twitter.com/intent/tweet?text=Your%20voice%20matters%20most.%20Join%20the%20movement%20in%20WA-10%20and%20vote%20Arafat%20for%20Congress.%20https%3A%2F%2Farafatforcongress.org%2F%3Futm_source%3Dshare%26utm_medium%3Dsocial%26utm_campaign%3Dgrassroots"
+         target="_blank" rel="noopener">X</a>
+
+      <!-- Facebook -->
+      <a class="share-btn fb-icon"
+         href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farafatforcongress.org%2F%3Futm_source%3Dshare%26utm_medium%3Dsocial%26utm_campaign%3Dgrassroots&quote=Your%20voice%20matters%20most.%20Join%20the%20movement%20in%20WA-10%20and%20vote%20Arafat%20for%20Congress."
+         target="_blank" rel="noopener">Facebook</a>
+
+      <!-- LinkedIn -->
+      <a class="share-btn li-icon"
+         href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Farafatforcongress.org%2F%3Futm_source%3Dshare%26utm_medium%3Dsocial%26utm_campaign%3Dgrassroots&title=Your%20voice%20matters%20most&summary=Join%20the%20movement%20in%20WA-10%20and%20vote%20Arafat%20for%20Congress."
+         target="_blank" rel="noopener">LinkedIn</a>
+
+      <!-- WhatsApp -->
+      <a class="share-btn wa-icon"
+         href="https://api.whatsapp.com/send?text=Your%20voice%20matters%20most.%20Join%20the%20movement%20in%20WA-10%20and%20vote%20Arafat%20for%20Congress.%20https%3A%2F%2Farafatforcongress.org%2F%3Futm_source%3Dshare%26utm_medium%3Dsocial%26utm_campaign%3Dgrassroots"
+         target="_blank" rel="noopener">WhatsApp</a>
+
+      <!-- SMS -->
+      <a class="share-btn sms-icon"
+         href="sms:?&body=Your%20voice%20matters%20most.%20Join%20the%20movement%20in%20WA-10%20and%20vote%20Arafat%20for%20Congress.%20https%3A%2F%2Farafatforcongress.org%2F%3Futm_source%3Dshare%26utm_medium%3Dsocial%26utm_campaign%3Dgrassroots">SMS</a>
+
+      <!-- Email -->
+      <a class="share-btn email-icon"
+         href="mailto:?subject=Your%20voice%20matters%20most&body=Join%20the%20movement%20in%20WA-10%20and%20vote%20Arafat%20for%20Congress.%20https%3A%2F%2Farafatforcongress.org%2F%3Futm_source%3Dshare%26utm_medium%3Dsocial%26utm_campaign%3Dgrassroots">Email</a>
+    </div>
+
+    <p class="share-poster-cta">
+      Prefer to post a graphic? Save the campaign poster and upload it anywhere you connect with neighbors.
+      <br>
+      <a href="/assets/images/share-card.svg" download>Download poster</a>
+    </p>
+  </section>
+
   <div class="flash-banner">
-  Thanks to neighbors across WA-10, we gathered enough signatures to qualify for the August 4, 2026 primary election. A huge thank-you to the incredible volunteers who made it happen. 
-</div>
+    Thanks to neighbors across WA-10, we gathered enough signatures to qualify for the August 4, 2026 primary election. A huge thank-you to the incredible volunteers who made it happen.
+  </div>
 
   <section class="hero">
     <div class="hero__grid">
       <div class="hero__text">
         <h1>Make Washington Work for the People</h1>
         <p>Lower costs, honest government, and real results for working families in WA-10. No corporate PAC money, no strings, just neighbors building power together.</p>
-        <div class="cta-block" id="donate">
-          <a class="btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1">Donate / Chip In</a>
-          <p class="cta-message">
-            What matters most is your voice; talk with friends, share the message, and vote. If you can give, it helps, but spreading the word matters more.
-          </p>
-        </div>
-        <div class="cta-block">
-          <a class="btn-volunteer" href="/contact.html">Volunteer / Join</a>
-        </div>
         <div class="bio-card" id="about">
           <h3>Meet Adam</h3>
           <p>Adam Arafat is a veteran, public servant, and lifelong advocate for working families. He understands the challenges of balancing work, family, and rising costs as he deals with these issues daily. With over 20 years of service to community and country, Adam brings real world experience, not political privilege. He is running to restore accountability, lower costs, and fight for every family in WA-10.</p>
@@ -142,20 +177,6 @@ If you’re tired of political games and want someone who understands what it co
 If you’re working class and tired of politicians who talk big but never fight for you, vote for someone who will. Vote for me.
       <footer>Adam Arafat, WA-10</footer>
     </blockquote>
-  </section>
-
-  <section class="section section--share" aria-labelledby="share-heading">
-    <h2 id="share-heading">Share the message</h2>
-    <p class="intro">Help us reach neighbors across WA-10. Use the buttons below to open your favorite social app with a message that’s ready to send.</p>
-    <div class="share-buttons">
-      <a class="share-button share-button--bsky" data-platform="bsky" data-text="Your voice and your vote matter most. Please share with friends in WA-10 and plan to vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=bsky&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on Bluesky">Bluesky</a>
-      <a class="share-button share-button--x" data-platform="x" data-text="Your voice and your vote matter most. Share with friends in WA-10 and vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=x&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on X">X</a>
-      <a class="share-button share-button--facebook" data-platform="facebook" data-text="We gathered the signatures to qualify for the Aug 18, 2026 primary. Change starts with people talking, sharing, and voting. Your voice matters most." data-url="https://arafatforcongress.org/?utm_source=facebook&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on Facebook">Facebook</a>
-      <a class="share-button share-button--linkedin" data-platform="linkedin" data-text="Community power grows when we talk, share, and vote. Join us in WA-10." data-url="https://arafatforcongress.org/?utm_source=linkedin&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on LinkedIn">LinkedIn</a>
-      <a class="share-button share-button--whatsapp" data-platform="whatsapp" data-text="Change starts with people talking, showing up, and voting. Join us in WA-10. Vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=whatsapp&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share on WhatsApp">WhatsApp</a>
-      <a class="share-button share-button--sms" data-platform="sms" data-text="Your voice and your vote matter most. Share this and vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=sms&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share via SMS">SMS</a>
-      <a class="share-button share-button--email" data-platform="email" data-subject="Your voice matters most" data-text="Change starts with people talking, sharing, and voting. Please share with friends in WA-10 and plan to vote Aug 18, 2026." data-url="https://arafatforcongress.org/?utm_source=email&utm_medium=social&utm_campaign=grassroots" href="#" aria-label="Share via Email">Email</a>
-    </div>
   </section>
 
   <section class="section section--follow" aria-labelledby="follow-heading">
@@ -209,52 +230,5 @@ If you’re working class and tired of politicians who talk big but never fight 
     })();
   </script>
 
-  <script>
-    (function () {
-      function enc(value) {
-        return encodeURIComponent(value);
-      }
-
-      function linkFor(platform, text, url, subject) {
-        switch (platform) {
-          case 'bsky':
-            return 'https://bsky.app/intent/compose?text=' + enc(text + ' ' + url);
-          case 'x':
-            return 'https://twitter.com/intent/tweet?text=' + enc(text) + '&url=' + enc(url);
-          case 'facebook':
-            return 'https://www.facebook.com/sharer/sharer.php?u=' + enc(url) + '&quote=' + enc(text);
-          case 'linkedin':
-            return 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url);
-          case 'whatsapp':
-            return 'https://api.whatsapp.com/send?text=' + enc(text + ' ' + url);
-          case 'sms':
-            return 'sms:?&body=' + enc(text + ' ' + url);
-          case 'email':
-            return 'mailto:?subject=' + enc(subject || '') + '&body=' + enc(text + '\n\n' + url);
-          default:
-            return url;
-        }
-      }
-
-      document.addEventListener('click', function (event) {
-        var trigger = event.target.closest('a.share-button');
-        if (!trigger) {
-          return;
-        }
-
-        event.preventDefault();
-        var platform = trigger.dataset.platform;
-        if (!platform) {
-          return;
-        }
-
-        var text = trigger.dataset.text || '';
-        var url = trigger.dataset.url || window.location.href;
-        var subject = trigger.dataset.subject || '';
-        var shareUrl = linkFor(platform, text, url, subject);
-        window.open(shareUrl, '_blank', 'noopener,noreferrer');
-      });
-    })();
-  </script>
 </body>
 </html>

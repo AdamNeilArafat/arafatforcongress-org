@@ -43,6 +43,47 @@ body{
   -moz-osx-font-smoothing:grayscale;
 }
 
+.section{ padding:1.5rem 1rem; }
+.section + .section{ margin-top:1.25rem; }
+h1, h2, h3{ margin-top:.5rem; margin-bottom:.5rem; }
+p{ margin:.5rem 0; }
+
+/* Share section */
+.share-message{
+  text-align:center;
+  padding:1.25rem 1rem;
+  background:#f7f8ff;
+  border-bottom:1px solid rgba(0,0,0,.05);
+}
+.share-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:.6rem;
+  margin-top:.75rem;
+}
+.share-btn{
+  display:inline-block;
+  padding:.55rem 1rem;
+  text-decoration:none;
+  color:#fff;
+  border-radius:.35rem;
+  font-size:.9rem;
+  line-height:1;
+}
+.bs-icon{ background:#1e97f6; }
+.x-icon{ background:#333; }
+.fb-icon{ background:#3b5998; }
+.li-icon{ background:#0077b5; }
+.wa-icon{ background:#25d366; }
+.sms-icon{ background:#4f4f4f; }
+.email-icon{ background:#6c757d; }
+.share-poster-cta{
+  margin-top:.9rem;
+  font-size:.875rem;
+  color:#555;
+}
+
 /* Better default focus */
 :focus-visible{
   outline:3px solid rgba(13,59,102,.35);
@@ -145,43 +186,55 @@ a:hover{ text-decoration:underline; }
   }
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Header CTA + Buttons ---------- */
+.header-cta{
+  display:flex;
+  gap:.5rem;
+  flex-wrap:wrap;
+  align-items:center;
+  margin:0 auto;
+  max-width:1100px;
+  padding:0 1.25rem 1rem;
+}
 .btn-donate,
 .btn-volunteer{
   display:inline-block;
   background:#0a3d9e;
   color:#fff!important;
-  padding:.75rem 1.5rem;
+  padding:.65rem 1rem;
   text-decoration:none;
-  border-radius:.25rem;
-  font-size:1rem;
+  border-radius:.35rem;
+  font-size:.95rem;
   font-weight:600;
-  box-shadow:0 6px 18px rgba(10,61,158,.2);
+  box-shadow:0 6px 18px rgba(10,61,158,.18);
 }
+.btn-volunteer{ background:#2563eb; }
 .btn-donate:hover,
 .btn-volunteer:hover{
   filter:brightness(.92);
   text-decoration:none;
 }
+.donate-note{
+  width:100%;
+  max-width:520px;
+  font-size:.8rem;
+  color:#3b3b3b;
+}
+@media (max-width:768px){
+  .header-cta{ flex-direction:column; align-items:flex-start; }
+  .btn-donate,
+  .btn-volunteer{ width:100%; text-align:center; }
+}
+
 .btn-primary{ background:var(--primary); border:none; }
 .btn-primary:hover{ background:var(--primary-600); }
-
-.cta-block{
-  text-align:center;
-  margin:2rem 0;
-}
-.cta-message{
-  font-size:.875rem;
-  color:#333;
-  margin-top:.5rem;
-}
 
 .flash-banner{
   width:100%;
   background:linear-gradient(90deg,#b08c6f,#f4b741);
   color:#fff;
   text-align:center;
-  padding:.75rem 1rem;
+  padding:.65rem 1rem;
   font-weight:600;
   animation:flash-pulse 4s infinite alternate;
 }
