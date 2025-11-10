@@ -84,6 +84,59 @@
 
     }
 
+    /* Ballot celebration banner */
+    .ballot-banner {
+      position: relative;
+      background: radial-gradient(circle at top left, rgba(13,59,102,.92), rgba(11,110,79,.92)),
+                  linear-gradient(120deg, #0d3b66, #0b6e4f 55%, #c1121f);
+      color: #fff;
+      overflow: hidden;
+    }
+    .ballot-banner::before,
+    .ballot-banner::after {
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      filter: blur(0px);
+      opacity:.25;
+      pointer-events:none;
+    }
+    .ballot-banner::before {
+      width:320px; height:320px;
+      background:rgba(255,255,255,.25);
+      top:-140px; right:-80px;
+    }
+    .ballot-banner::after {
+      width:220px; height:220px;
+      background:rgba(255,255,255,.18);
+      bottom:-120px; left:-60px;
+    }
+    .ballot-banner h1 {
+      font-weight:800;
+      letter-spacing:.4px;
+    }
+    .ballot-banner p {
+      font-size:1.1rem;
+      max-width:620px;
+      margin:0 auto;
+    }
+    .ballot-badges {
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:.6rem;
+    }
+    .ballot-badge {
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:999px;
+      padding:.45rem 1.1rem;
+      font-weight:700;
+      text-transform:uppercase;
+      font-size:.78rem;
+      letter-spacing:.12em;
+    }
+
     /* Navbar underline hover */
     .navbar .nav-link { position: relative; padding:.25rem .5rem; color:#1c2b3a; font-weight:600; }
     .navbar .nav-link:hover { color: var(--link); }
@@ -178,6 +231,19 @@
 
 <main id="main">
 
+  <!-- BALLOT CELEBRATION HERO -->
+  <section class="ballot-banner py-5 text-center">
+    <div class="container position-relative">
+      <div class="ballot-badges mb-3">
+        <span class="ballot-badge">Campaign Milestone</span>
+        <span class="ballot-badge">Thank you, WA-10</span>
+      </div>
+      <h1 class="display-5 mb-3">Thanks to neighbors across WA-10, we&rsquo;ve collected enough signatures to qualify for the August 18, 2026 primary ballot.</h1>
+      <p class="mb-3">If you&rsquo;re tired of political games and ready for a representative who understands real life, the cost of living, raising a family, and making ends meet, this campaign is for you.</p>
+      <p class="mb-0">Our anger is justified, our hope is real, and together we&rsquo;ll hold power accountable and make Washington work for the people again.</p>
+    </div>
+  </section>
+
   <!-- WHY IT MATTERS -->
   <section id="why-it-matters" class="section-pad pb-4">
     <div class="container">
@@ -223,14 +289,9 @@
         <div class="col-md-6">
           <div class="info-card h-100">
             <span class="badge bg-success-subtle text-success-emphasis text-uppercase fw-semibold mb-2">Campaign Update</span>
-            <h3 class="h5 mb-2">Ballot Access Celebration</h3>
-            <p class="mb-3">Thanks to neighbors across WA-10, we collected enough signatures to qualify for the August primary ballot. Join us as we celebrate the milestone and gear up for the next phase.</p>
-            <ul class="mb-3">
-              <li><strong>Date:</strong> Saturday, June 29</li>
-              <li><strong>Time:</strong> 2:00 – 4:00 PM</li>
-              <li><strong>Location:</strong> Heritage Park, Olympia</li>
-            </ul>
-            <a class="btn btn-primary" href="/contact.html"><i class="fa-solid fa-people-group me-1"></i> RSVP or volunteer</a>
+            <h3 class="h5 mb-2">Ballot Access Momentum</h3>
+            <p class="mb-3">Our grassroots neighbors powered this campaign onto the ballot&mdash;no corporate PACs, just people who want a representative ready to deliver. Let&rsquo;s turn that energy into conversations on every block.</p>
+            <p class="mb-0 fw-semibold text-success">Share the news, knock doors, and bring a friend into the movement.</p>
           </div>
         </div>
         <div class="col-md-6">
