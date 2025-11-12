@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Arafat for Congress | WA-10</title>
+  <title>The Plan | Arafat for Congress | WA-10</title>
+  <meta name="description" content="Lower costs, honest government, real results. Adam Arafat’s commitments for WA-10." />
   <meta property="og:title" content="Arafat for Congress | WA-10" />
   <meta property="og:description" content="People over PACs. Real representation for WA-10." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/og/og-wa10.jpg" />
-  <meta property="og:url" content="https://arafatforcongress.org/" />
+  <meta property="og:url" content="https://arafatforcongress.org/plan/" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
   <style>
@@ -26,43 +27,30 @@
 
     /* Hero */
     .hero {padding:90px 20px;background:radial-gradient(circle at 15% 40%,rgba(247,181,0,0.12) 0%,transparent 60%),radial-gradient(circle at 85% 30%,rgba(36,70,245,0.15) 0%,transparent 60%);} 
-    .hero__grid {max-width:1150px;margin:auto;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px;}
-    .hero__text h1 {font-size:44px;margin:0 0 12px;color:var(--brand-dark);letter-spacing:0.2px;text-shadow:1px 1px 2px rgba(0,0,0,0.05);} 
-    .hero__text p {font-size:18px;color:var(--sub);max-width:600px;}
-    .cta {margin-top:26px;display:flex;gap:14px;}
-    .bio-card {background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 10px 25px rgba(0,0,0,0.1);margin-top:20px;border:1px solid var(--border);} 
-    .bio-card h3 {margin-top:0;color:var(--brand-dark);} 
-    .bio-card p {color:var(--sub);} 
+    .hero__grid {max-width:1150px;margin:auto;display:grid;grid-template-columns:1fr;align-items:center;gap:34px;}
+    .hero__text h1 {font-size:40px;margin:0 0 12px;color:var(--brand-dark);letter-spacing:0.2px;text-shadow:1px 1px 2px rgba(0,0,0,0.05);} 
+    .hero__text p {font-size:18px;color:var(--sub);max-width:760px;}
+    .cta {margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
 
-    .section {max-width:1100px;margin:70px auto;padding:0 20px;}
-    .section h2 {text-align:center;color:var(--brand-dark);font-size:30px;margin-bottom:12px;}
+    .section {max-width:1100px;margin:60px auto;padding:0 20px;}
+    .section h2 {text-align:center;color:var(--brand-dark);font-size:28px;margin-bottom:12px;}
     .section p {text-align:center;color:var(--sub);max-width:800px;margin:auto;} 
 
-    .tiles {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:30px;} 
-    .tile {background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .2s ease, box-shadow .2s ease;position:relative;overflow:hidden;border:1px solid var(--border);} 
+    .tiles {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:26px;} 
+    .tile {background:#fff;border-radius:var(--radius);padding:22px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .2s ease, box-shadow .2s ease;position:relative;overflow:hidden;border:1px solid var(--border);} 
     .tile::before {content:'';position:absolute;top:0;left:-80px;width:200px;height:100%;background:linear-gradient(45deg,rgba(247,181,0,0.15),rgba(36,70,245,0.15));transform:skewX(-20deg);}  
     .tile:hover {transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,0.15);}  
     .tile h3 {color:var(--brand-dark);margin-top:0;} 
+    .tile ul {margin:10px 0 0 18px;color:var(--sub)}
 
-    .quote {background:linear-gradient(90deg,#e8edff,#f8f9ff);padding:50px 20px;text-align:center;} 
+    .quote {background:linear-gradient(90deg,#e8edff,#f8f9ff);padding:46px 20px;text-align:center;} 
     .quote blockquote {font-size:20px;font-weight:700;color:var(--ink);max-width:820px;margin:auto;line-height:1.45;white-space:pre-line;} 
-    .quote footer {margin-top:10px;color:var(--sub);font-size:15px;}
+    .quote footer {margin-top:10px;color:var(--sub);font-size:15px;} 
 
-    .section--follow {text-align:center;}
-    .section--follow .intro {color:var(--sub);max-width:720px;margin:0 auto 22px;}
-    .follow-buttons {display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px;}
-    .follow-button {display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:999px;font-weight:600;text-decoration:none;transition:filter .2s ease,transform .2s ease;background:#fff;border:1px solid var(--border);color:var(--brand-dark);box-shadow:0 6px 16px rgba(12,16,37,0.08);}
-    .follow-button:hover {filter:brightness(1.05);transform:translateY(-1px);background:#edf0ff;color:var(--brand-dark);}
-
-    footer {background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;}
+    footer {background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;} 
 
     @media(max-width:900px){
-      .hero__grid{grid-template-columns:1fr;text-align:center;}
-      .hero__text p{margin:auto;}
-      .cta{justify-content:center;}
-    }
-    @media(max-width:600px){
-      .follow-button {width:100%;justify-content:center;}
+      .cta{justify-content:center}
     }
   </style>
 </head>
@@ -71,12 +59,13 @@
     <div class="header-inner">
       <a class="brand" href="/index.html">Arafat for Congress • WA-10</a>
       <nav class="site-nav" aria-label="Primary">
-        <a class="nav-link" href="/index.html" aria-current="page">Home</a>
-        <a class="nav-link" href="/issues.html">Issues</a>
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/plan.html" aria-current="page">The Plan</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
         <a class="nav-link" href="/contact.html">Contact</a>
       </nav>
+      <div class="tax-banner">Every part of this plan supports working families and will not raise taxes on anyone making under $400,000 a year.</div>
       <div class="cta-group">
         <a class="btn btn-volunteer" href="/contact.html">Volunteer</a>
         <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a>
@@ -136,78 +125,52 @@
     </div>
   </div>
 
-  <div class="flash-banner">
-  Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
-</div>
-
   <section class="hero">
     <div class="hero__grid">
       <div class="hero__text">
-        <h1>People over donors. Results over press releases.</h1>
-        <p>Lower costs. Universal healthcare. Good jobs. Clean government for WA-10.</p>
-        <div class="bio-card" id="about">
-          <h3>Meet Adam</h3>
-          <p>Adam Arafat is a veteran, public servant, and program manager. He knows the burden of balancing work, family, and rising costs. With more than 20 years of service to community and country, he brings real world experience, not political privilege. He is running to restore accountability, lower costs, and fight for every family in WA-10.</p>
-        </div>
-      </div>
-      <div class="hero__image">
-        <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat speaking with supporters" />
+        <h1>The Plan</h1>
+        <p>Lower costs, honest government, and healthcare for everyone. No corporate PAC money, no strings, just people building power together. This isn’t about ideology. It’s overdue modernization that protects our way of life and strengthens the middle class that keeps this country running.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="accountability">
-    <h2>Power to the People, Not the PACs</h2>
-    <p>Leaders should answer to voters, not donors. Outside money drowns out local voices. We are building a campaign where neighbors set the agenda and accountability is non negotiable.</p>
-    <div class="tiles" id="issues">
-      <div class="tile"><h3>Lower Costs</h3>
-        <p>Stop price gouging. Subsidize essentials like food. Strengthen safety nets that work. Raise the minimum wage. Tax the wealthy, not working families. No new taxes under $400K.</p>
-      </div>
-      <div class="tile"><h3>Universal Healthcare</h3>
-        <p>Coverage for everyone. Keep your doctor. Cut the paperwork.</p>
-      </div>
-      <div class="tile"><h3>Homes People Can Afford</h3>
-        <p>Subsidize housing in high need areas. Create low interest mortgages under 3 percent for first time buyers.</p>
-      </div>
-      <div class="tile"><h3>Good Jobs</h3>
-        <p>More apprenticeships and union jobs. Remove pointless certification hurdles. Focus on trades and real career paths.</p>
-      </div>
+  <section class="section" id="priorities">
+    <h2>Top Priorities</h2>
+    <p>Clear commitments you can hold me to.</p>
+    <div class="tiles">
+      <div class="tile" id="lower-costs"><h3>Lower Costs</h3><ul>
+        <li>Crack down on price fixing and corporate collusion that raise the cost of living.</li>
+        <li>Ban junk fees across all services and industries that hide the real cost of everyday life.</li>
+        <li>Expand affordable housing and childcare near where families live and work.</li>
+      </ul></div>
+      <div class="tile" id="healthcare"><h3>Healthcare You Can Use</h3><ul>
+        <li>Protect and strengthen Medicare and the ACA and close coverage gaps.</li>
+        <li>Enforce the No Surprises Act and expand caps on out-of-pocket costs.</li>
+        <li>Fund local mental health and addiction care so help is close by.</li>
+        <li>Begin the path toward universal healthcare that guarantees coverage for everyone in America.</li>
+      </ul>
+      <p class="evidence">The United States is the only one of 38 developed countries without universal healthcare. We spend about <strong>$12,555</strong> per person each year, the most in the world, while millions still skip care because they cannot afford it. It is time to build an American model that guarantees coverage, keeps choice for patients and providers, and ends the waste and price games that drive up costs.</p></div>
+      <div class="tile"><h3>End Pay to Play Politics</h3><ul><li>No corporate PAC money, ever</li><li>Ban stock trading in Congress</li><li>Protect whistleblowers and Inspectors General</li></ul></div>
     </div>
   </section>
 
-  <section class="contrast">
-    <h2 class="section-title" style="text-align:center;color:var(--brand-dark);margin:0 0 12px">The Difference</h2>
-    <div class="grid">
-      <div>
-        <h3>Adam Arafat</h3>
-        <ul>
-          <li>No corporate PAC money</li>
-          <li>Universal healthcare for every American</li>
-          <li>Crack down on junk fees and price gouging</li>
-          <li>Jobs in clean energy and infrastructure</li>
-          <li>Budgets and votes posted for all to see</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Career politics</h3>
-        <ul>
-          <li>Donor first</li>
-          <li>Patchwork care that costs more</li>
-          <li>Talk about costs, little relief</li>
-          <li>Jobs shipped out or automated away</li>
-          <li>Opaque and partisan</li>
-        </ul>
-      </div>
+  <section class="section" id="agenda">
+    <h2>What I’ll Fight For</h2>
+    <p>Real work that moves WA-10 forward.</p>
+    <div class="tiles">
+      <div class="tile" id="housing"><h3>Housing You Can Afford</h3><ul>
+        <li>Streamline zoning and permits for affordable and workforce housing.</li>
+        <li>Tie federal funds to fair renter protections and eviction due process.</li>
+        <li>Expand down payment help for first-time buyers and enforce fair lending.</li>
+        <li>Provide tax credits for ADUs and small starter home conversions.</li>
+        <li>Launch a federal First-Time Homebuyer Mortgage Program with interest rates capped at 3% to help working families build wealth and stability.</li>
+      </ul></div>
+      <div class="tile"><h3>Strong Public Schools</h3><ul><li>Boost Title I and IDEA so districts can lower class sizes and expand special education</li><li>Modern classrooms with safe air and water</li><li>Career and technical programs linked to local jobs</li></ul></div>
+      <div class="tile"><h3>Good Jobs and Unions</h3><ul><li>Expand apprenticeships and skills training</li><li>Protect the right to organize</li><li>Increase capital access for small business</li></ul></div>
+      <div class="tile" id="safety"><h3>Safer Communities</h3><ul><li>Invest in youth programs and violence prevention</li><li>Transparency and accountability tied to federal dollars</li><li>Expand mental health crisis response</li><li>Increase social safety programs that help lift people out of poverty, which is proven to reduce crime and strengthen communities.</li></ul></div>
+      <div class="tile"><h3>Clean Air and Water</h3><ul><li>Modernize the grid and speed clean energy</li><li>Protect rivers, coasts, and forests</li><li>Fund home and small business efficiency</li></ul></div>
+      <div class="tile"><h3>Protect Rights and Freedom</h3><ul><li>Protect access to abortion and contraception</li><li>Restore voting rights and fair maps</li><li>Defend LGBTQ+ Americans from discrimination</li></ul></div>
     </div>
-  </section>
-
-  <section class="voices">
-    <h2>What people are saying</h2>
-    <div class="voice">“I saw him at a rally and he stayed to listen. That felt different to me.” <cite>Melissa, Tacoma</cite></div>
-    <div class="voice">“He talks like someone who knows what paying the bills is like. That’s why I’m with him.” <cite>Chris, Yelm</cite></div>
-    <div class="voice">“He shows up where people are. That matters to me.” <cite>Bri, Tumwater</cite></div>
-    <div class="voice">“I emailed Adam about something that was bothering me. Just expected a form reply. Instead, he wrote back that night, asked a couple follow up questions, and actually remembered the issue a week later. Nobody in politics does that.” <cite>Aaron, Olympia</cite></div>
-    <div class="voice">“He doesn’t come off like a typical politician. He feels like a neighbor.” <cite>Leo, Puyallup</cite></div>
   </section>
 
   <section class="quote">
@@ -221,7 +184,7 @@ If you’re working class and tired of politicians who talk big but never fight 
   </section>
 
   <footer>
-    Paid for by Arafat for Congress • contact@arafatforcongress.org
+    Paid for by Arafat for Congress • <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a>
   </footer>
 
   <script src="js/main.js" defer></script>
