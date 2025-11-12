@@ -35,14 +35,17 @@ function setupShareIcons() {
         case "facebook":
           url = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
           break;
-        case "linkedin":
-          url = `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${text}`;
+        case "tiktok":
+          url = `https://www.tiktok.com/share?url=${shareUrl}&text=${text}`;
           break;
-        case "whatsapp":
-          url = `https://api.whatsapp.com/send?text=${text}%20${shareUrl}`;
+        case "bluesky":
+          url = `https://bsky.app/intent/compose?text=${text}%20${shareUrl}`;
           break;
         case "reddit":
           url = `https://www.reddit.com/submit?url=${shareUrl}&title=${text}`;
+          break;
+        case "sms":
+          url = `sms:?&body=${text}%20${shareUrl}`;
           break;
         case "email":
           url = `mailto:?subject=${text}&body=${shareUrl}`;
