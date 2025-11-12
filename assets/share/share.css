@@ -61,6 +61,7 @@
 }
 
 .share-button,
+.share-btn,
 .follow-button {
   display: inline-flex;
   align-items: center;
@@ -76,37 +77,81 @@
 }
 
 .share-button:hover,
+.share-btn:hover,
 .follow-button:hover {
   filter: brightness(1.05);
   transform: translateY(-1px);
 }
 
-.share-button.share-button--whatsapp {
+
+.share-button.share-button--whatsapp,
+.share-btn[data-network="whatsapp"] {
   background: #25d366;
 }
 
-.share-button.share-button--sms {
+.share-button.share-button--sms,
+.share-btn[data-network="sms"] {
   background: #2563eb;
 }
 
-.share-button.share-button--facebook {
+.share-button.share-button--facebook,
+.share-btn[data-network="facebook"] {
   background: #1877f2;
 }
 
-.share-button.share-button--linkedin {
+.share-button.share-button--linkedin,
+.share-btn[data-network="linkedin"] {
   background: #0a66c2;
 }
 
-.share-button.share-button--email {
+.share-button.share-button--email,
+.share-btn[data-network="email"] {
   background: var(--brand-dark);
 }
 
-.share-button.share-button--x {
+.share-button.share-button--x,
+.share-btn[data-network="x"] {
   background: #0f1419;
 }
 
-.share-button.share-button--bsky {
+.share-button.share-button--bsky,
+.share-btn[data-network="bluesky"] {
   background: #0a7aff;
+}
+
+.share-btn[data-network="facebook"],
+.share-btn[data-network="linkedin"],
+.share-btn[data-network="email"],
+.share-btn[data-network="sms"],
+.share-btn[data-network="x"],
+.share-btn[data-network="bluesky"] {
+  color: #fff;
+}
+
+.share-buttons #copy-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 0;
+  cursor: pointer;
+  background: #0c1025;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(12, 16, 37, 0.18);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.share-buttons #copy-share:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.share-buttons #copy-share:focus-visible,
+.share-btn:focus-visible {
+  outline: 3px solid rgba(36, 70, 245, 0.4);
+  outline-offset: 2px;
 }
 
 .share-button.share-button--native {
