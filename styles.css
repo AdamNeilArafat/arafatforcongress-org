@@ -250,14 +250,13 @@ a:hover{ text-decoration:underline; }
 }
 
 .share-icon svg{
-  width:22px;
-  height:22px;
-  fill:#0a2c8a;
-  transition:fill .2s ease;
+  width:24px;
+  height:24px;
+  transition:transform .2s ease;
 }
 
 .share-icon:hover svg{
-  fill:#c8102e;
+  transform:scale(1.05);
 }
 
 @media (max-width:640px){
