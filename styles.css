@@ -140,7 +140,7 @@ a:hover{ text-decoration:underline; }
   grid-area:actions;
   display:flex;
   align-items:center;
-  gap:.85rem;
+  gap:1.1rem;
   align-self:stretch;
   flex-wrap:nowrap;
 }
@@ -148,47 +148,47 @@ a:hover{ text-decoration:underline; }
   margin:0;
   display:flex;
   align-items:center;
-  font-size:.76rem;
-  line-height:1.25;
+  font-size:.78rem;
+  line-height:1.2;
   color:#0a3d9e;
   font-weight:600;
-  max-width:320px;
-  min-width:240px;
-  flex:0 1 320px;
+  max-width:420px;
+  min-width:260px;
+  flex:1 1 360px;
   text-wrap:balance;
   min-height:44px;
-  padding:0 .35rem;
+  padding:0 .65rem;
 }
 .nav-share{
   grid-area:share;
   grid-column:2 / span 2;
-  display:grid;
-  grid-template-columns:auto 1fr;
+  display:flex;
   align-items:center;
-  column-gap:.9rem;
-  row-gap:.55rem;
-  padding:.85rem 1.1rem;
-  border-radius:.9rem;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:.55rem 1.2rem;
+  padding:1.05rem 1.35rem;
+  border-radius:1rem;
   background:#fff;
-  background-image:linear-gradient(135deg,rgba(10,61,158,.04),rgba(10,61,158,.01));
+  background-image:linear-gradient(135deg,rgba(10,61,158,.05),rgba(10,61,158,.015));
   border:1px solid rgba(10,61,158,.14);
-  box-shadow:0 12px 28px rgba(10,61,158,.12);
+  box-shadow:0 14px 30px rgba(10,61,158,.14);
   align-self:stretch;
-  justify-items:start;
 }
 .nav-share-buttons{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
-  gap:.45rem .6rem;
+  gap:.5rem .7rem;
+  margin-left:auto;
 }
 .nav-share-label{
-  font-size:.7rem;
-  letter-spacing:.16em;
+  font-size:.72rem;
+  letter-spacing:.18em;
   text-transform:uppercase;
   font-weight:700;
   color:#0a3d9e;
-  align-self:start;
+  flex:0 0 auto;
 }
 .share-button--icon{
   width:32px;
@@ -223,10 +223,10 @@ body[data-nav-layout="stacked"] .nav-actions{
 }
 body[data-nav-layout="stacked"] .nav-share{
   grid-column:1 / -1;
-  grid-template-columns:auto;
+  justify-content:flex-start;
 }
 body[data-nav-layout="stacked"] .nav-share-buttons{
-  justify-content:flex-start;
+  margin-left:0;
 }
 .share-button--icon:hover{
   text-decoration:none;
@@ -331,11 +331,11 @@ body[data-nav-layout="stacked"] .nav-share-buttons{
   .nav-share{
     width:100%;
     grid-column:1 / -1;
-    grid-template-columns:auto;
+    justify-content:flex-start;
   }
   .nav-share-buttons{
     width:100%;
-    justify-content:flex-start;
+    margin-left:0;
   }
   body[data-nav-layout="stacked"] .site-nav{
     grid-template-columns:1fr;
