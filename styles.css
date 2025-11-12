@@ -163,32 +163,44 @@ a:hover{ text-decoration:underline; }
   grid-area:share;
   grid-column:2 / span 2;
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:.55rem 1.2rem;
-  padding:1.05rem 1.35rem;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:.9rem;
+  padding:1.15rem 1.35rem 1.25rem;
   border-radius:1rem;
   background:#fff;
-  background-image:linear-gradient(135deg,rgba(10,61,158,.05),rgba(10,61,158,.015));
+  background-image:linear-gradient(135deg,rgba(10,61,158,.06),rgba(10,61,158,.02));
   border:1px solid rgba(10,61,158,.14);
   box-shadow:0 14px 30px rgba(10,61,158,.14);
   align-self:stretch;
+}
+.nav-share-intro{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.4rem .85rem;
+}
+.nav-share-label{
+  font-size:.76rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:#0a3d9e;
+}
+.nav-share-note{
+  margin:0;
+  font-size:.95rem;
+  font-weight:600;
+  color:#103d85;
+  letter-spacing:.01em;
+  flex:1 1 auto;
 }
 .nav-share-buttons{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
   gap:.5rem .7rem;
-  margin-left:auto;
-}
-.nav-share-label{
-  font-size:.72rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  font-weight:700;
-  color:#0a3d9e;
-  flex:0 0 auto;
+  width:100%;
 }
 .share-button--icon{
   width:32px;
@@ -223,10 +235,6 @@ body[data-nav-layout="stacked"] .nav-actions{
 }
 body[data-nav-layout="stacked"] .nav-share{
   grid-column:1 / -1;
-  justify-content:flex-start;
-}
-body[data-nav-layout="stacked"] .nav-share-buttons{
-  margin-left:0;
 }
 .share-button--icon:hover{
   text-decoration:none;
@@ -331,11 +339,16 @@ body[data-nav-layout="stacked"] .nav-share-buttons{
   .nav-share{
     width:100%;
     grid-column:1 / -1;
-    justify-content:flex-start;
   }
   .nav-share-buttons{
     width:100%;
     margin-left:0;
+    justify-content:flex-start;
+  }
+  .nav-share-intro{
+    width:100%;
+    flex-direction:column;
+    align-items:flex-start;
   }
   body[data-nav-layout="stacked"] .site-nav{
     grid-template-columns:1fr;
