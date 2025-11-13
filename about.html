@@ -12,29 +12,216 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    :root { --brand:#2446f5; --brand-dark:#1b33c9; --accent:#f7b500; --bg:linear-gradient(180deg,#f2f6ff,#e3e9ff); --ink:#0c1025; --sub:#475569; --shadow:0 6px 25px rgba(0,0,0,.12); --radius:18px; --border:#d0d8ff; }
-    body{margin:0;font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
-    .hero{padding:80px 20px;background:radial-gradient(circle at 15% 40%,rgba(247,181,0,.12) 0%,transparent 60%),radial-gradient(circle at 85% 30%,rgba(36,70,245,.15) 0%,transparent 60%)}
-    .hero__grid{max-width:1000px;margin:auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px}
-    .hero__title{font-size:42px;margin:0 0 10px;color:var(--brand-dark)}
-    .hero__text p{font-size:18px;color:var(--sub);max-width:600px}
-    .btn{padding:13px 22px;border-radius:var(--radius);font-weight:700;cursor:pointer;border:none;transition:transform .15s ease,box-shadow .2s ease;text-decoration:none}
-    .btn.primary{background:linear-gradient(90deg,var(--brand),#4f68ff);color:#fff;box-shadow:0 8px 18px rgba(36,70,245,.3)}
-    .btn.secondary{background:#fff;border:2px solid var(--border);color:var(--brand-dark)}
-    .cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
-    .profile{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:3px solid #fff;min-height:340px}
-    .profile img{width:100%;height:100%;object-fit:cover}
-    .section{max-width:1000px;margin:60px auto;padding:0 20px}
-    .section h2{color:var(--brand-dark);font-size:28px;margin:0 0 12px;text-align:center}
-    .section p{color:var(--sub);max-width:800px;margin:auto;text-align:center}
-    .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:30px}
-    .tile{background:#fff;border-radius:var(--radius);padding:20px 22px;border:1px solid var(--border);box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    .tile h3{margin:0 0 8px;color:var(--brand-dark)}
-    .tile p{margin:0;color:var(--sub)}
-    .quote{background:linear-gradient(90deg,#e8edff,#f8f9ff);padding:44px 20px;text-align:center;margin-top:60px}
-    .quote blockquote{font-size:20px;font-weight:700;color:var(--ink);max-width:780px;margin:auto;line-height:1.5}
-    footer{background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;margin-top:40px}
-    @media(max-width:900px){.hero__grid{grid-template-columns:1fr;text-align:center}.cta{justify-content:center}}
+    :root {
+      --brand:#2446f5;
+      --brand-dark:#1b33c9;
+      --accent:#f7b500;
+      --bg:linear-gradient(180deg,#f2f6ff,#e3e9ff);
+      --ink:#0c1025;
+      --sub:#475569;
+      --shadow:0 6px 25px rgba(0,0,0,.12);
+      --radius:18px;
+      --border:#d0d8ff;
+    }
+
+    body {
+      margin:0;
+      font-family:'Poppins',system-ui,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+    }
+
+    .hero {
+      padding:80px 20px;
+      background:
+        radial-gradient(circle at 15% 40%,rgba(247,181,0,.12) 0%,transparent 60%),
+        radial-gradient(circle at 85% 30%,rgba(36,70,245,.15) 0%,transparent 60%);
+    }
+
+    .hero__grid {
+      max-width:1000px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      align-items:center;
+      gap:40px;
+    }
+
+    .hero__title {
+      font-size:42px;
+      margin:0 0 10px;
+      color:var(--brand-dark);
+    }
+
+    .hero__text p {
+      font-size:18px;
+      color:var(--sub);
+      max-width:600px;
+      line-height:1.6;
+    }
+
+    .btn {
+      padding:13px 22px;
+      border-radius:var(--radius);
+      font-weight:700;
+      cursor:pointer;
+      border:none;
+      transition:transform .15s ease,box-shadow .2s ease;
+      text-decoration:none;
+    }
+
+    .btn.primary {
+      background:linear-gradient(90deg,var(--brand),#4f68ff);
+      color:#fff;
+      box-shadow:0 8px 18px rgba(36,70,245,.3);
+    }
+
+    .btn.secondary {
+      background:#fff;
+      border:2px solid var(--border);
+      color:var(--brand-dark);
+    }
+
+    .cta {
+      margin-top:24px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    /* Shared card-style image, reused from other pages */
+    .profile {
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:3px solid #fff;
+      min-height:340px;
+    }
+
+    .profile img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .section {
+      max-width:1000px;
+      margin:60px auto;
+      padding:0 20px;
+    }
+
+    .section h2 {
+      color:var(--brand-dark);
+      font-size:28px;
+      margin:0 0 18px;
+      text-align:center;
+    }
+
+    .section p {
+      color:var(--sub);
+      max-width:800px;
+      margin:auto;
+      text-align:center;
+      line-height:1.7;
+    }
+
+    /* New: softer cards for the mid-page story sections */
+    .info-card {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:28px 30px;
+      border:1px solid var(--border);
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
+      max-width:850px;
+      margin:0 auto 40px auto;
+      text-align:left;
+    }
+
+    .info-card h2 {
+      text-align:left;
+      margin:0 0 12px;
+    }
+
+    .info-card p {
+      margin:0;
+      text-align:left;
+    }
+
+    .tiles {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:18px;
+      margin-top:30px;
+    }
+
+    .tile {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:20px 22px;
+      border:1px solid var(--border);
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+    }
+
+    .tile h3 {
+      margin:0 0 8px;
+      color:var(--brand-dark);
+    }
+
+    .tile p {
+      margin:0;
+      color:var(--sub);
+    }
+
+    .value-card {
+      text-align:left;
+    }
+
+    .quote {
+      background:linear-gradient(90deg,#e8edff,#f8f9ff);
+      padding:44px 20px;
+      text-align:center;
+      margin-top:60px;
+    }
+
+    .quote blockquote {
+      font-size:20px;
+      font-weight:700;
+      color:var(--ink);
+      max-width:780px;
+      margin:auto;
+      line-height:1.5;
+    }
+
+    .quote footer {
+      margin-top:10px;
+      font-size:16px;
+      font-weight:500;
+      color:var(--sub);
+    }
+
+    footer {
+      background:#fff;
+      border-top:1px solid var(--border);
+      padding:22px;
+      text-align:center;
+      color:var(--sub);
+      font-size:15px;
+      margin-top:40px;
+    }
+
+    @media(max-width:900px){
+      .hero__grid{
+        grid-template-columns:1fr;
+        text-align:center;
+      }
+      .hero__text p{
+        margin:0 auto;
+      }
+      .profile{
+        max-width:360px;
+        margin:0 auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -57,7 +244,9 @@
   </header>
 
   <div class="share-message share-strip" role="complementary">
-    <p class="share-line share-helper" id="share-line" aria-live="polite">Click and share. Their money shrinks when our voices grow.</p>
+    <p class="share-line share-helper" id="share-line" aria-live="polite">
+      Click and share. Their money shrinks when our voices grow.
+    </p>
     <div class="share-buttons share-icons" role="group" aria-label="Share this page">
       <a class="share-icon" data-net="x" href="#" aria-label="Share on X">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -108,8 +297,8 @@
   </div>
 
   <div class="flash-banner">
-  Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
-</div>
+    Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
+  </div>
 
   <section class="hero">
     <div class="hero__grid">
@@ -117,50 +306,60 @@
         <h1 class="hero__title">Meet Adam</h1>
         <p>I’m a father, a veteran, and a public servant who knows what it means to fight for stability. I’ve seen how often government forgets the people it’s supposed to protect. I’m running because WA-10 deserves a representative who answers to the community, not to wealthy donors and outside interests.</p>
       </div>
-      <div class="hero__image">
-        <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat speaking with supporters" />
+      <div class="hero__image profile">
+        <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat" />
       </div>
     </div>
   </section>
 
   <section class="section">
-    <h2>From Service to Community</h2>
-    <p>Adam spent more than 20 years in aviation and emergency operations, leading crews, solving tough problems, and keeping people safe. Now he oversees public infrastructure projects that communities rely on every day. He treats public office the same way he treated every mission: do the work, own the outcome, and never forget who you serve.</p>
+    <div class="info-card">
+      <h2>From Service to Community</h2>
+      <p>Adam spent more than 20 years in aviation and emergency operations, leading crews, solving tough problems, and keeping people safe. Now he oversees public infrastructure projects that communities rely on every day. He treats public office the same way he treated every mission: do the work, own the outcome, and never forget who you serve.</p>
+    </div>
   </section>
+
   <section class="section">
-    <h2>Rooted in WA-10</h2>
-    <p>Adam and his family live in Spanaway, dealing with the same pressures everyone else feels. Rising costs. Packed schools. A future that gets harder to plan for. That real life grounding is what drives this campaign. He isn’t chasing a career. He’s fighting for the district he calls home.</p>
+    <div class="info-card">
+      <h2>Rooted in WA-10</h2>
+      <p>Adam and his family live in Spanaway, dealing with the same pressures everyone else feels. Rising costs. Packed schools. A future that gets harder to plan for. That real life grounding is what drives this campaign. He isn’t chasing a career. He’s fighting for the district he calls home.</p>
+    </div>
   </section>
- <section class="section">
-  <h2>What I Believe</h2>
-  <div class="tiles">
-    <div class="tile value-card" style="text-align:left;">
-      <h3>Honesty</h3>
-      <p>People deserve straight answers. No spin, no excuses.</p>
+
+  <section class="section">
+    <h2>What I Believe</h2>
+    <div class="tiles">
+      <div class="tile value-card">
+        <h3>Honesty</h3>
+        <p>People deserve straight answers. No spin, no excuses.</p>
+      </div>
+      <div class="tile value-card">
+        <h3>Accountability</h3>
+        <p>Holding this job means owning every decision. If it can’t stand up to public scrutiny, it shouldn’t happen.</p>
+      </div>
+      <div class="tile value-card">
+        <h3>Service</h3>
+        <p>Government should put the people who fund it first, not the special interests trying to steer it.</p>
+      </div>
+      <div class="tile value-card">
+        <h3>Action</h3>
+        <p>Problems don’t get solved by speeches. They get solved by focus, persistence, and results.</p>
+      </div>
     </div>
-    <div class="tile value-card" style="text-align:left;">
-      <h3>Accountability</h3>
-      <p>Holding this job means owning every decision. If it can’t stand up to public scrutiny, it shouldn’t happen.</p>
-    </div>
-    <div class="tile value-card" style="text-align:left;">
-      <h3>Service</h3>
-      <p>Government should put the people who fund it first, not the special interests trying to steer it.</p>
-    </div>
-    <div class="tile value-card" style="text-align:left;">
-      <h3>Action</h3>
-      <p>Problems don’t get solved by speeches. They get solved by focus, persistence, and results.</p>
-    </div>
-  </div>
-</section>
+  </section>
+
   <section class="quote">
     <blockquote>
-I’m running to make government serve people again. We can build a future where families can afford to live, work, and thrive in WA-10.
+      I’m running to make government serve people again. We can build a future where families can afford to live, work, and thrive in WA-10.
       <footer>Adam Arafat, WA-10</footer>
     </blockquote>
   </section>
+
   <footer>
-    Paid for by Arafat for Congress • <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a>
+    Paid for by Arafat for Congress •
+    <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a>
   </footer>
+
   <script src="js/main.js" defer></script>
 </body>
 </html>
