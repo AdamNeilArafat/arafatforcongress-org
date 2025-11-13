@@ -259,6 +259,12 @@ a:hover{ text-decoration:underline; }
   transform:scale(1.05);
 }
 
+.share-tagline{
+  flex:1 1 100%;
+  text-align:right;
+  margin:0;
+}
+
 @media (max-width:640px){
   .share-message{
     padding:.85rem;
