@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -53,6 +53,29 @@
     @media(max-width:900px){
       .cta{justify-content:center}
     }
+
+    /* NEW flashing bar color schemes */
+    .flash-banner.flash-primary {
+      background: #2446f5;
+      color: #ffffff;
+      animation: flashPrimary 1.2s infinite alternate;
+    }
+
+    .flash-banner.flash-secondary {
+      background: #f7b500;
+      color: #0c1025;
+      animation: flashSecondary 1.2s infinite alternate;
+    }
+
+    @keyframes flashPrimary {
+      0% { opacity: 1; }
+      100% { opacity: .65; }
+    }
+
+    @keyframes flashSecondary {
+      0% { opacity: 1; }
+      100% { opacity: .55; }
+    }
   </style>
 </head>
 <body>
@@ -77,6 +100,7 @@
   <div class="share-message share-strip" role="complementary">
     <p class="share-line share-helper" id="share-line" aria-live="polite">Click and share. Their money shrinks when our voices grow.</p>
     <div class="share-buttons share-icons" role="group" aria-label="Share this page">
+      <!-- icons unchanged -->
       <a class="share-icon" data-net="x" href="#" aria-label="Share on X">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#000000" d="M3.2 5.5h3.3l5.3 6.1 5.1-6.1h3.3l-6.9 8.1 6.7 8.9h-3.3l-5.2-6.9-5.3 6.9H3l7-8.9z"/>
@@ -125,18 +149,18 @@
     </div>
   </div>
 
-  <div class="flash-banner">
-  Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
-</div>
+  <div class="flash-banner flash-primary">
+    Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
+  </div>
 
-  <div class="flash-banner tax-pledge-bar">
-  Every part of this plan supports working families and will not raise taxes on anyone making under $400,000 a year.
-</div>
+  <div class="flash-banner flash-secondary">
+    Every part of this plan supports working families and will not raise taxes on anyone making under $400,000 a year.
+  </div>
 
   <section class="hero">
     <div class="hero__grid">
       <div class="hero__text">
-        <h1>The Plan</h1>
+        <h1>The Plan</hh1>
         <p>Lower costs, honest government, and healthcare for everyone. No corporate PAC money, no strings, just people building power together. This isn’t about ideology. It’s overdue modernization that protects our way of life and strengthens the middle class that keeps this country running.</p>
       </div>
     </div>
@@ -151,6 +175,7 @@
         <li>Ban junk fees across all services and industries that hide the real cost of everyday life.</li>
         <li>Expand affordable housing and childcare near where families live and work.</li>
       </ul></div>
+
       <div class="tile" id="healthcare"><h3>Healthcare You Can Use</h3><ul>
         <li>Protect and strengthen Medicare and the ACA and close coverage gaps.</li>
         <li>Enforce the No Surprises Act and expand caps on out-of-pocket costs.</li>
@@ -158,7 +183,12 @@
         <li>Begin the path toward universal healthcare that guarantees coverage for everyone in America.</li>
       </ul>
       <p class="evidence">The United States is the only one of 38 developed countries without universal healthcare. We spend about <strong>$12,555</strong> per person each year, the most in the world, while millions still skip care because they cannot afford it. It is time to build an American model that guarantees coverage, keeps choice for patients and providers, and ends the waste and price games that drive up costs.</p></div>
-      <div class="tile"><h3>End Pay to Play Politics</h3><ul><li>No corporate PAC money, ever</li><li>Ban stock trading in Congress</li><li>Protect whistleblowers and Inspectors General</li></ul></div>
+
+      <div class="tile"><h3>End Pay to Play Politics</h3><ul>
+        <li>No corporate PAC money, ever</li>
+        <li>Ban stock trading in Congress</li>
+        <li>Protect whistleblowers and Inspectors General</li>
+      </ul></div>
     </div>
   </section>
 
@@ -172,11 +202,37 @@
         <li>Help first-time buyers get in the door with real down-payment support and a federal mortgage capped at 3 percent so working families can build wealth and stability.</li>
         <li>Provide tax credits for ADUs and small starter home conversions.</li>
       </ul></div>
-      <div class="tile"><h3>Strong Public Schools</h3><ul><li>Boost Title I and IDEA so districts can lower class sizes and expand special education</li><li>Modern classrooms with safe air and water</li><li>Career and technical programs linked to local jobs</li></ul></div>
-      <div class="tile"><h3>Good Jobs and Unions</h3><ul><li>Expand apprenticeships and skills training</li><li>Protect the right to organize</li><li>Increase capital access for small business</li></ul></div>
-      <div class="tile" id="safety"><h3>Safer Communities</h3><ul><li>Invest in youth programs and violence prevention</li><li>Transparency and accountability tied to federal dollars</li><li>Expand mental health crisis response</li><li>Increase social safety programs that help lift people out of poverty, which is proven to reduce crime and strengthen communities.</li></ul></div>
-      <div class="tile"><h3>Clean Air and Water</h3><ul><li>Modernize the grid and speed clean energy</li><li>Protect rivers, coasts, and forests</li><li>Fund home and small business efficiency</li></ul></div>
-      <div class="tile"><h3>Protect Rights and Freedom</h3><ul><li>Protect access to abortion and contraception</li><li>Restore voting rights and fair maps</li><li>Defend LGBTQ+ Americans from discrimination</li></ul></div>
+
+      <div class="tile"><h3>Strong Public Schools</h3><ul>
+        <li>Boost Title I and IDEA so districts can lower class sizes and expand special education</li>
+        <li>Modern classrooms with safe air and water</li>
+        <li>Career and technical programs linked to local jobs</li>
+      </ul></div>
+
+      <div class="tile"><h3>Good Jobs and Unions</h3><ul>
+        <li>Expand apprenticeships and skills training</li>
+        <li>Protect the right to organize</li>
+        <li>Increase capital access for small business</li>
+      </ul></div>
+
+      <div class="tile" id="safety"><h3>Safer Communities</h3><ul>
+        <li>Invest in youth programs and violence prevention</li>
+        <li>Transparency and accountability tied to federal dollars</li>
+        <li>Expand mental health crisis response</li>
+        <li>Increase social safety programs that help lift people out of poverty, which is proven to reduce crime and strengthen communities.</li>
+      </ul></div>
+
+      <div class="tile"><h3>Clean Air and Water</h3><ul>
+        <li>Modernize the grid and speed clean energy</li>
+        <li>Protect rivers, coasts, and forests</li>
+        <li>Fund home and small business efficiency</li>
+      </ul></div>
+
+      <div class="tile"><h3>Protect Rights and Freedom</h3><ul>
+        <li>Protect access to abortion and contraception</li>
+        <li>Restore voting rights and fair maps</li>
+        <li>Defend LGBTQ+ Americans from discrimination</li>
+      </ul></div>
     </div>
   </section>
 
