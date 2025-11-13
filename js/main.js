@@ -1,14 +1,5 @@
 const SHARE_LINES = [
-  "They don’t represent you. They represent their donors.",
-  "85% of her campaign money comes from outside WA-10. That is not representation.",
-  "Every dollar they take has a string attached. Ours never will.",
-  "Executives have PACs. We have people who have had enough.",
-  "They protect profits. We protect families.",
-  "They took the money and forgot the people who sent them there.",
-  "Two choices: the money or the people. I choose Adam Arafat.",
-  "They have money. We have momentum.",
-  "They write laws in boardrooms. We write history in ballots.",
-  "On August 4, WA-10 decides if big money wins or the people do."
+  "Click and share. Their money shrinks when our voices grow."
 ];
 
 function rotateShareLine() {
