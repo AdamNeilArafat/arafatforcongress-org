@@ -1,5 +1,5 @@
 const SHARE_LINES = [
-  "Click and share. Their money shrinks when our voices grow."
+  "Share this page. Every new voice shrinks the power of big money."
 ];
 
 function rotateShareLine() {
