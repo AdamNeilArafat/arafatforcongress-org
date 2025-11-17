@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact | Arafat for Congress | WA-10</title>
+  <title>Contact | Arafat for Congress — WA-10</title>
   <meta name="description" content="Get in touch with Adam Arafat for Congress. Questions, press, volunteering, or sharing your story,your voice guides this campaign." />
-  <meta property="og:title" content="Arafat for Congress | WA-10" />
+  <meta property="og:title" content="Arafat for Congress — WA-10" />
   <meta property="og:description" content="People over PACs. Real representation for WA-10." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/og/og-wa10.jpg" />
   <meta property="og:url" content="https://arafatforcongress.org/contact/" />
@@ -114,19 +114,6 @@
     </div>
   </div>
 
-
-  <div class="page-cta-ribbon" role="region" aria-label="Take action with the campaign">
-    <div class="ribbon-inner">
-      <div class="ribbon-copy">
-        <p class="ribbon-title">Grassroots energy is surging.</p>
-        <p>4,200 volunteer hours pledged and 156 neighborhood captains ready to go. Help us knock every door in WA-10.</p>
-      </div>
-      <div class="ribbon-pills">
-        <a class="ribbon-pill" href="/contact.html#volunteer">Join the field team</a>
-        <a class="ribbon-pill ribbon-pill--secondary" href="https://secure.actblue.com/donate/adam-arafat-1">Chip in $10</a>
-      </div>
-    </div>
-  </div>
   <div class="flash-banner">
     Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
 </div>
@@ -135,13 +122,13 @@
     <div class="hero__grid">
       <div class="hero__text">
         <h1>Get in Touch</h1>
-        <p>This is a grassroots campaign. I work full time and have a family, so replies might be slow, but I read every message. Thank you for reaching out.</p>
+        <p>This is a grassroots campaign. I work full time and have a family, so replies might be slow,but I read every message. Thank you for reaching out.</p>
         <p class="cta-message">Prefer email? Reach us anytime at <a href="mailto:info@arafatforcongress.org?subject=Info%20Request">info@arafatforcongress.org</a> or <a href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Request">volunteer@arafatforcongress.org</a>.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="volunteer">
+  <section class="section">
     <h2>Contact the Campaign</h2>
     <div class="grid">
       <div class="card">
@@ -233,7 +220,7 @@ Power people, not PACs. Built for families. Built for WA‑10.
       const topic = document.getElementById('topic').value;
       const story = document.getElementById('story').value.trim();
       const subject = encodeURIComponent(`Constituent story: ${topic}`);
-      const body = encodeURIComponent(`${story}\n\n -  ${name || 'Anonymous'}${contact ? ` • ${contact}` : ''}`);
+      const body = encodeURIComponent(`${story}\n\n— ${name || 'Anonymous'}${contact ? ` • ${contact}` : ''}`);
       window.location.href = `mailto:info@arafatforcongress.org?subject=${subject}&body=${body}`;
       return false;
     }
