@@ -30,13 +30,16 @@
     .hero__text h1 {font-size:44px;margin:0 0 12px;color:var(--brand-dark);letter-spacing:0.2px;text-shadow:1px 1px 2px rgba(0,0,0,0.05);} 
     .hero__text p {font-size:18px;color:var(--sub);max-width:600px;}
     .cta {margin-top:26px;display:flex;gap:14px;}
-    .bio-card {background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 10px 25px rgba(0,0,0,0.1);margin-top:20px;border:1px solid var(--border);} 
-    .bio-card h3 {margin-top:0;color:var(--brand-dark);} 
-    .bio-card p {color:var(--sub);} 
+    .bio-card {background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 10px 25px rgba(0,0,0,0.1);margin-top:20px;border:1px solid var(--border);}
+    .bio-card h3 {margin-top:0;color:var(--brand-dark);}
+    .bio-card p {color:var(--sub);}
+    .impact-pills {display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;}
+    .impact-pill {background:#fff;border-radius:999px;padding:10px 18px;font-weight:600;color:var(--brand-dark);box-shadow:0 8px 18px rgba(0,0,0,0.08);border:1px solid rgba(36,70,245,0.15);display:flex;flex-direction:column;line-height:1.25;min-width:170px;}
+    .impact-pill span {font-size:13px;color:var(--sub);font-weight:500;}
 
     .section {max-width:1100px;margin:70px auto;padding:0 20px;}
     .section h2 {text-align:center;color:var(--brand-dark);font-size:30px;margin-bottom:12px;}
-    .section p {text-align:center;color:var(--sub);max-width:800px;margin:auto;} 
+    .section p {text-align:center;color:var(--sub);max-width:800px;margin:auto;}
 
     .tiles {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:30px;} 
     .tile {background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .2s ease, box-shadow .2s ease;position:relative;overflow:hidden;border:1px solid var(--border);} 
@@ -80,6 +83,18 @@
     .follow-buttons {display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px;}
     .follow-button {display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:999px;font-weight:600;text-decoration:none;transition:filter .2s ease,transform .2s ease;background:#fff;border:1px solid var(--border);color:var(--brand-dark);box-shadow:0 6px 16px rgba(12,16,37,0.08);}
     .follow-button:hover {filter:brightness(1.05);transform:translateY(-1px);background:#edf0ff;color:var(--brand-dark);}
+
+    .momentum {max-width:1050px;margin:80px auto;padding:0 20px;}
+    .momentum-card {background:#fff;border-radius:24px;padding:40px;border:1px solid rgba(36,70,245,0.12);box-shadow:0 20px 40px rgba(12,16,37,0.12);}
+    .momentum-card h2 {margin-top:0;color:var(--brand-dark);text-align:center;font-size:30px;}
+    .momentum-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:26px;}
+    .momentum-item {background:linear-gradient(135deg,rgba(36,70,245,0.08),rgba(247,181,0,0.15));border-radius:18px;padding:18px;border:1px solid rgba(36,70,245,0.18);box-shadow:0 10px 20px rgba(12,16,37,0.08);}
+    .momentum-item h3 {margin:0 0 6px;color:var(--brand-dark);font-size:18px;}
+    .momentum-item p {margin:0;color:var(--sub);text-align:left;}
+    .momentum-cta {margin-top:26px;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+    .momentum-cta a {border-radius:999px;padding:12px 26px;font-weight:700;text-decoration:none;color:#fff;box-shadow:0 12px 25px rgba(12,16,37,0.18);}
+    .momentum-cta a.primary {background:var(--brand-dark);}
+    .momentum-cta a.secondary {background:#0b6e4f;}
 
     footer {background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;}
 
@@ -169,6 +184,19 @@
     </div>
   </div>
 
+
+  <div class="page-cta-ribbon" role="region" aria-label="Take action with the campaign">
+    <div class="ribbon-inner">
+      <div class="ribbon-copy">
+        <p class="ribbon-title">Grassroots energy is surging.</p>
+        <p>4,200 volunteer hours pledged and 156 neighborhood captains ready to go. Help us knock every door in WA-10.</p>
+      </div>
+      <div class="ribbon-pills">
+        <a class="ribbon-pill" href="/contact.html#volunteer">Join the field team</a>
+        <a class="ribbon-pill ribbon-pill--secondary" href="https://secure.actblue.com/donate/adam-arafat-1">Chip in $10</a>
+      </div>
+    </div>
+  </div>
   <div class="flash-banner">
   Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
 </div>
@@ -182,8 +210,13 @@
         <div class="bio-card" id="about">
           <h3>Meet Adam</h3>
           <p>Adam Arafat is a veteran, public servant, and program manager. He knows the burden of balancing work, family, and rising costs. With more than 20 years of service to community and country, he brings real world experience, not political privilege. He is running to restore accountability, lower costs, and fight for every family in WA-10.</p>
-    </div>
-  </div>
+        </div>
+        <div class="impact-pills" aria-label="Campaign progress highlights">
+          <div class="impact-pill">4,200 hours <span>volunteer power committed</span></div>
+          <div class="impact-pill">156 captains <span>neighborhood leads confirmed</span></div>
+          <div class="impact-pill">12,500 doors <span>already knocked across WA-10</span></div>
+        </div>
+      </div>
       <div class="hero__image">
         <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat speaking with supporters" />
       </div>
@@ -275,6 +308,30 @@
     <p style="text-align:center;color:var(--sub);max-width:700px;margin:0 auto;">Your contribution keeps this campaign accountable only to the people of WA-10.</p>
     <div style="margin-top:24px;text-align:center;">
       <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1">Donate</a>
+    </div>
+  </section>
+
+  <section class="momentum" aria-label="Ways to plug in today">
+    <div class="momentum-card">
+      <h2>Three quick ways to move WA-10 forward</h2>
+      <div class="momentum-grid">
+        <div class="momentum-item">
+          <h3>Host a living room meetup</h3>
+          <p>Invite ten neighbors for a conversation about costs, healthcare, and accountability. We’ll bring materials and the plan.</p>
+        </div>
+        <div class="momentum-item">
+          <h3>Adopt a block</h3>
+          <p>Pick a few streets and make sure every door gets literature and a reminder about August 4.</p>
+        </div>
+        <div class="momentum-item">
+          <h3>Fund a weekend canvass</h3>
+          <p>$50 supplies clipboards, water, and printing for 100 more conversations.</p>
+        </div>
+      </div>
+      <div class="momentum-cta">
+        <a class="primary" href="/contact.html#volunteer">Schedule a meetup</a>
+        <a class="secondary" href="https://secure.actblue.com/donate/adam-arafat-1">Fuel the outreach fund</a>
+      </div>
     </div>
   </section>
 
