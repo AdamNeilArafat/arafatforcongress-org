@@ -10,7 +10,7 @@
     "They’ve taken enough. August 4 is payday for the working class.",
     "They write checks. We write history.",
     "They thought no one was watching. We are.",
-    "On August 4, WA-10 decides if big money wins—or we do."
+    "On August 4, WA-10 decides if big money wins or we do."
   ];
 
   // 1) Pick one message per page load
