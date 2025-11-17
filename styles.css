@@ -60,6 +60,18 @@ a:hover{ text-decoration:underline; }
 .bg-alt{ background:var(--bg-alt); }
 .shadow{ box-shadow:var(--shadow); }
 .round{ border-radius:var(--radius); }
+.pull-quote{
+  font-size:1.1rem;
+  font-weight:600;
+  margin:1.5rem 0;
+  color:var(--primary-600);
+  text-align:center;
+  line-height:1.6;
+}
+.footer-tagline{
+  font-weight:600;
+  margin-bottom:.35rem;
+}
 
 /* ---------- Header / Nav ---------- */
 .site-header{
