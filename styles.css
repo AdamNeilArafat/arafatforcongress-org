@@ -287,17 +287,31 @@ a:hover{ text-decoration:underline; }
 @media (max-width:640px){
   .share-message{
     padding:.85rem;
+    flex-direction:column;
+    align-items:flex-start;
   }
   .share-strip{
     flex-direction:column;
     align-items:flex-start;
+    width:100%;
+    gap:.4rem;
   }
   .share-icons{
     margin-left:0;
+    flex-wrap:wrap;
+    justify-content:flex-start;
   }
   .share-buttons{
     width:100%;
     justify-content:flex-start;
+  }
+  .share-line{
+    flex:1 1 auto;
+    width:100%;
+    text-align:left;
+  }
+  .share-helper{
+    white-space:normal;
   }
 }
 
@@ -356,6 +370,11 @@ a:hover{ text-decoration:underline; }
 /* About page belief cards: left-align text inside the boxes */
 #beliefs .value-card,
 .value-card{
+  text-align:left;
+}
+
+.value-card h3,
+.value-card p{
   text-align:left;
 }
 
