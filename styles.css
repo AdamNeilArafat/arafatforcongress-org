@@ -131,7 +131,7 @@ a:hover{ text-decoration:underline; }
   display:flex;
   align-items:center;
   flex-wrap:wrap;
-  gap:.6rem;
+  gap:.8rem;
   margin-left:auto;
   max-width:650px;
 }
@@ -163,6 +163,29 @@ a:hover{ text-decoration:underline; }
   background:#a90c26;
 }
 
+.btn-donate-disabled{
+  background-color:#c4c4c4;
+  color:#5a5a5a;
+  opacity:.55;
+  cursor:not-allowed;
+  border-radius:6px;
+  padding:.65rem 1.25rem;
+  font-weight:600;
+  text-align:center;
+  pointer-events:none;
+  transition:opacity .2s ease-in-out;
+  box-shadow:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.btn-donate-disabled:hover{
+  opacity:.55;
+  transform:none;
+  filter:none;
+}
+
 .btn-volunteer{
   background:#0a2c8a;
 }
@@ -172,11 +195,24 @@ a:hover{ text-decoration:underline; }
 }
 
 .donate-note{
-  font-size:.9rem;
-  font-weight:500;
-  color:#0a2c8a;
-  max-width:320px;
-  line-height:1.3;
+  font-size:.95rem;
+  font-weight:400;
+  color:#0c1025;
+  max-width:360px;
+  line-height:1.4;
+  margin:0;
+}
+
+.donation-block{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:.85rem;
+}
+
+.donation-block .donate-note{
+  text-align:center;
 }
 
 @media (max-width:900px){
