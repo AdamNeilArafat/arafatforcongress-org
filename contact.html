@@ -13,6 +13,8 @@
   <link rel="canonical" href="https://arafatforcongress.org/contact.html" />
   <meta name="ga-measurement-id" content="G-REPLACE_WITH_GA4_ID" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" href="/data/social_feed.json" as="fetch" crossorigin="anonymous" />
+  <link rel="preload" href="/js/socialFeed.js" as="script" />
   <style>
     :root { --brand:#2446f5; --brand-dark:#1b33c9; --accent:#f7b500; --bg:linear-gradient(180deg,#f2f6ff,#e3e9ff); --ink:#0c1025; --sub:#475569; --shadow:0 6px 25px rgba(0,0,0,.12); --radius:18px; --border:#d0d8ff; }
     body{margin:0;font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
@@ -125,7 +127,18 @@
 
   <div class="flash-banner">
     Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
-</div>
+  </div>
+
+  <div class="flash-banner flash-secondary" id="under-400k-banner">
+    Every part of this plan supports working families and will not raise taxes on anyone making under $400,000 a year.
+  </div>
+
+  <div class="flash-banner flash-feed" id="live-conversations-banner">
+    <div class="flash-feed__content">
+      <div class="flash-feed__heading">Recent conversations</div>
+      <ul class="social-feed-list" id="social-feed-list"></ul>
+    </div>
+  </div>
 
   <section class="hero">
     <div class="hero__grid">
@@ -220,6 +233,7 @@ Power people, not PACs. Built for families. Built for WA‑10.
     Paid for by Arafat for Congress • <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a>
   </footer>
 
+  <script src="/js/socialFeed.js"></script>
   <script src="js/main.js" defer></script>
   <script>
     function openEmail(e){
