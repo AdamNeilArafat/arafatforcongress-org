@@ -5,6 +5,7 @@
 (function () {
   const FEED_URL = '/data/social_feed.json';
   const MAX_VISIBLE_ITEMS = 10;
+
   const PRELOADED_ITEMS = (Array.isArray(window.__SOCIAL_FEED_PRELOAD)
     ? window.__SOCIAL_FEED_PRELOAD
     : [
@@ -119,7 +120,7 @@
     // Track click on this item
     link.addEventListener('click', function () {
       safeTrackEvent('social_feed_click', {
-        item_id: item.id || ('idx-' + index),
+        item_id: item.id || 'idx-' + index,
         platform: item.platform || 'unknown',
         type: item.type || 'item',
         position: index,
@@ -129,7 +130,7 @@
 
     // Track impression once when rendered
     safeTrackEvent('social_feed_impression', {
-      item_id: item.id || ('idx-' + index),
+      item_id: item.id || 'idx-' + index,
       platform: item.platform || 'unknown',
       type: item.type || 'item',
       position: index,
@@ -157,7 +158,7 @@
     }
 
     banner.style.display = '';
-    limited.forEach((item, idx) => {
+    limited.forEach(function (item, idx) {
       const li = createItemElement(item, idx);
       listEl.appendChild(li);
     });
@@ -175,7 +176,7 @@
         return resp.json();
       })
       .then(function (data) {
-        const items = (data && Array.isArray(data.items)) ? data.items : [];
+        const items = data && Array.isArray(data.items) ? data.items : [];
         renderFeed(items.length ? items : PRELOADED_ITEMS);
       })
       .catch(function () {
