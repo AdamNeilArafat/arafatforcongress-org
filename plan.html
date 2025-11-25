@@ -132,11 +132,24 @@
           <path fill="#fff" d="M5 7l7 5 7-5H5zm14 2.4-6.4 4.5a1 1 0 0 1-1.2 0L5 9.4V17a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.4z"/>
         </svg>
       </a>
-    </div>
-    <p class="share-tagline">Share this page. Every new voice shrinks the power of big money.</p>
+  </div>
+  <p class="share-tagline">Share this page. Every new voice shrinks the power of big money.</p>
+</div>
+
+  <div class="flash-banner">
+    Update: We’ve secured enough signatures to qualify for the August 4, 2026 primary. Huge thanks to the volunteers who made it happen.
   </div>
 
-  <p class="tax-banner">Every part of this plan supports working families and will not raise taxes on anyone making under $400,000 a year.</p>
+  <div class="flash-banner flash-secondary" id="under-400k-banner">
+    Every part of this plan supports working families and will not raise taxes on anyone making under $400,000 a year.
+  </div>
+
+  <div class="flash-banner flash-feed" id="live-conversations-banner">
+    <div class="flash-feed__content">
+      <div class="flash-feed__heading">Recent conversations</div>
+      <ul class="social-feed-list" id="social-feed-list"></ul>
+    </div>
+  </div>
 
   <section class="hero">
     <div class="hero__grid">
@@ -196,6 +209,7 @@
     Paid for by Arafat for Congress • <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a>
   </footer>
 
+  <script src="/js/socialFeed.js"></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
