@@ -10,6 +10,61 @@
     ? window.__SOCIAL_FEED_PRELOAD
     : [
         {
+          id: 'reddit-olympia-renters',
+          platform: 'reddit',
+          type: 'discussion',
+          thread_title: 'Local renters break down Arafat’s housing plan',
+          author: 'u/SouthSoundHousing',
+          conversation_url: 'https://www.reddit.com/r/olympia/comments/1i0rent/adam_arafat_housing_plan_for_wa10/',
+          snippet:
+            'Neighborhood advocates in Olympia are walking through how the campaign’s anti-price-gouging plank would help tenants.',
+          created_at: '2025-02-18T16:05:00Z'
+        },
+        {
+          id: 'bsky-town-hall-highlights',
+          platform: 'bluesky',
+          type: 'townhall',
+          thread_title: 'Town hall takeaways on healthcare and costs',
+          author: '@civicwatch.pnw',
+          conversation_url: 'https://bsky.app/profile/civicwatch.pnw/post/3kx6it7r2bx2k',
+          snippet:
+            'A live thread captured Adam’s answers on lowering drug prices, ending junk fees, and protecting rural clinics.',
+          created_at: '2025-02-17T03:22:00Z'
+        },
+        {
+          id: 'x-labor-endorsement-thread',
+          platform: 'x',
+          type: 'press',
+          thread_title: 'Local labor council discusses endorsing Arafat',
+          author: '@SouthSoundLabor',
+          conversation_url: 'https://x.com/SouthSoundLabor/status/1891522334408125632',
+          snippet:
+            'Union members are sharing why they back the campaign’s apprenticeship and prevailing wage commitments.',
+          created_at: '2025-02-16T19:40:00Z'
+        },
+        {
+          id: 'facebook-veterans-roundtable',
+          platform: 'facebook',
+          type: 'community',
+          thread_title: 'Veterans roundtable recap from Lacey',
+          author: 'Lacey Veterans Network',
+          conversation_url: 'https://www.facebook.com/groups/laceyveterans/permalink/324155119123804/',
+          snippet:
+            'Attendees are comparing notes on Adam’s commitments to VA access, transition support, and military family housing.',
+          created_at: '2025-02-15T02:55:00Z'
+        },
+        {
+          id: 'reddit-pugetsound-transit',
+          platform: 'reddit',
+          type: 'transit',
+          thread_title: 'Transit riders react to the south sound commuter plan',
+          author: 'u/CapitolLakeCommuter',
+          conversation_url: 'https://www.reddit.com/r/pugetsound/comments/1hzrail/olympia_commuter_link_and_better_bus_frequency/',
+          snippet:
+            'Commuters are digging into the proposal for more reliable bus frequency between Olympia, Lacey, and Tacoma.',
+          created_at: '2025-02-14T14:18:00Z'
+        },
+        {
           id: 'site-plan-under-400k',
           platform: 'site',
           type: 'policy',
@@ -41,28 +96,6 @@
           snippet:
             'The campaign is focused on creating good-paying jobs, strengthening unions, and expanding apprenticeship opportunities.',
           created_at: '2024-05-25T09:15:00Z'
-        },
-        {
-          id: 'site-why-running',
-          platform: 'site',
-          type: 'campaign',
-          thread_title: "Why I'm running to put people over PACs",
-          author: 'Arafat for Congress',
-          url: '/why-im-running.html',
-          snippet:
-            'Adam is running to give Washington’s 10th a representative who listens to working people and takes no corporate PAC money.',
-          created_at: '2024-05-20T18:45:00Z'
-        },
-        {
-          id: 'site-about',
-          platform: 'site',
-          type: 'bio',
-          thread_title: 'Meet Adam Arafat',
-          author: 'Arafat for Congress',
-          url: '/about.html',
-          snippet:
-            'Get to know Adam’s story—from teaching and public service to fighting for Washington’s families.',
-          created_at: '2024-05-18T14:10:00Z'
         }
       ]);
 
@@ -159,6 +192,20 @@
     return li;
   }
 
+  function sortByRecency(items) {
+    return (items || [])
+      .slice()
+      .sort(function (a, b) {
+        const aDate = Date.parse(a && a.created_at);
+        const bDate = Date.parse(b && b.created_at);
+
+        if (Number.isNaN(bDate) && Number.isNaN(aDate)) return 0;
+        if (Number.isNaN(bDate)) return -1;
+        if (Number.isNaN(aDate)) return 1;
+        return bDate - aDate;
+      });
+  }
+
   function renderFeed(items) {
     const banner = document.getElementById('live-conversations-banner');
     const listEl = document.getElementById('social-feed-list');
@@ -186,7 +233,7 @@
   function loadFeed() {
     // Render immediately with preloaded items while the live feed loads.
     if (PRELOADED_ITEMS && PRELOADED_ITEMS.length) {
-      renderFeed(PRELOADED_ITEMS);
+      renderFeed(sortByRecency(PRELOADED_ITEMS));
     }
 
     fetch(FEED_URL, { cache: 'no-cache' })
@@ -196,10 +243,11 @@
       })
       .then(function (data) {
         const items = data && Array.isArray(data.items) ? data.items : [];
-        renderFeed(items.length ? items : PRELOADED_ITEMS);
+        const sorted = items.length ? sortByRecency(items) : sortByRecency(PRELOADED_ITEMS);
+        renderFeed(sorted);
       })
       .catch(function () {
-        renderFeed(PRELOADED_ITEMS);
+        renderFeed(sortByRecency(PRELOADED_ITEMS));
       });
   }
 
