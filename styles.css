@@ -390,6 +390,70 @@ a:hover{ text-decoration:underline; }
   animation:flash-wave 6s linear infinite, flash-pulse 1.25s ease-in-out infinite;
   box-shadow:0 12px 24px rgba(0,0,0,.12);
 }
+.flash-banner + .flash-banner{
+  margin-top:-1px;
+}
+.flash-banner.flash-primary{
+  background:linear-gradient(90deg,#c1121f,#f7b500,#0a3d9e);
+}
+.flash-banner.flash-secondary{
+  background:linear-gradient(90deg,#0a3d9e,#f7b500,#2446f5);
+}
+.flash-banner.flash-feed{
+  background:linear-gradient(90deg,#0a3d9e,#2446f5,#0a3d9e);
+  text-align:left;
+  padding:1rem 1.5rem;
+}
+.flash-feed__content{
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  gap:14px 22px;
+}
+.flash-feed__heading{
+  font-size:1rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:#f7f9ff;
+  flex:0 0 180px;
+}
+.social-feed-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:10px;
+  flex:1;
+  min-width:260px;
+}
+.social-feed-item a{
+  display:block;
+  padding:.65rem .85rem;
+  border-radius:10px;
+  background:rgba(255,255,255,0.08);
+  color:#f8fbff;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,0.12);
+  transition:transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.social-feed-item a:hover{
+  transform:translateY(-1px);
+  background:rgba(255,255,255,0.14);
+  border-color:rgba(255,255,255,0.25);
+}
+.social-feed-title{
+  font-weight:700;
+}
+.social-feed-meta{
+  font-size:.85rem;
+  opacity:.85;
+}
+.social-feed-snippet{
+  font-size:.95rem;
+  opacity:.92;
+}
 @keyframes flash-wave{
   0%{ background-position:0% 50%; }
   50%{ background-position:100% 50%; }
