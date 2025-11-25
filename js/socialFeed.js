@@ -93,9 +93,17 @@
     li.className = 'social-feed-item';
 
     const link = document.createElement('a');
-    link.href = item.url || '#';
+    const linkUrl =
+      item.source_url ||
+      item.conversation_url ||
+      item.permalink ||
+      item.link ||
+      item.url ||
+      '#';
+    link.href = linkUrl;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
+    link.title = linkUrl !== '#' ? linkUrl : '';
 
     const title = document.createElement('div');
     title.className = 'social-feed-title';
