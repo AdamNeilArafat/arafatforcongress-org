@@ -93,17 +93,28 @@
     li.className = 'social-feed-item';
 
     const link = document.createElement('a');
-    const linkUrl =
-      item.source_url ||
-      item.conversation_url ||
-      item.permalink ||
-      item.link ||
-      item.url ||
-      '#';
-    link.href = linkUrl;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.title = linkUrl !== '#' ? linkUrl : '';
+    const linkUrl = [
+      item.conversation_url,
+      item.url,
+      item.permalink,
+      item.link,
+      item.source_url
+    ].find(function (href) {
+      return typeof href === 'string' && href.trim() !== '';
+    });
+
+    if (linkUrl) {
+      link.href = linkUrl;
+      // Keep internal links in the same tab but open external sources in a new one.
+      const isInternal = linkUrl.startsWith('/') || linkUrl.startsWith(window.location.origin);
+      link.target = isInternal ? '_self' : '_blank';
+      link.rel = isInternal ? '' : 'noopener noreferrer';
+      link.title = linkUrl;
+    } else {
+      link.href = '#';
+      link.classList.add('social-feed-link--disabled');
+      link.setAttribute('aria-disabled', 'true');
+    }
 
     const title = document.createElement('div');
     title.className = 'social-feed-title';
