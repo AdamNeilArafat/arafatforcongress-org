@@ -1,16 +1,11 @@
 (function () {
   // TODO: update this to the real WebCrawler feed URL
   // Example: 'https://<username>.github.io/WebCrawler/conversations.json'
-  const FEED_URL = 'https://REPLACE_ME_WITH_REAL_FEED_URL/conversations.json';
+  const FEED_URL = 'https://arafatforcongress.github.io/WebCrawler/conversations.json';
 
   const VISIBLE_COUNT = 2;
   const SCROLL_INTERVAL_MS = 4500;
   const SCROLL_DURATION_MS = 650;
-
-  const track = document.getElementById('conversations-track');
-  const emptyState = document.getElementById('conversations-empty');
-
-  if (!track) return;
 
   let posts = [];
   let cardHeight = 0;
@@ -63,30 +58,30 @@
     return li;
   }
 
-  function setupTrack(loopPosts) {
-    track.innerHTML = '';
-    loopPosts.forEach(post => track.appendChild(createCard(post)));
+  function setupTrack(loopPosts, trackEl, viewportEl) {
+    trackEl.innerHTML = '';
+    loopPosts.forEach(post => trackEl.appendChild(createCard(post)));
 
-    const firstCardLink = track.querySelector('.conversation-card__link');
+    const firstCardLink = trackEl.querySelector('.conversation-card__link');
     if (!firstCardLink) return;
 
     const rect = firstCardLink.getBoundingClientRect();
     cardHeight = rect.height;
 
-    const viewport = track.closest('.recent-conversations__viewport');
-    if (viewport) {
-      viewport.style.height = (cardHeight * VISIBLE_COUNT + gap * (VISIBLE_COUNT - 1)) + 'px';
+    if (viewportEl) {
+      viewportEl.style.height =
+        cardHeight * VISIBLE_COUNT + gap * (VISIBLE_COUNT - 1) + 'px';
     }
   }
 
-  function startAutoScroll() {
+  function startAutoScroll(trackEl, viewportEl) {
     if (posts.length <= VISIBLE_COUNT) {
       return; // nothing to scroll
     }
 
     // Clone first VISIBLE_COUNT posts to end so we can wrap smoothly
     const loopPosts = posts.concat(posts.slice(0, VISIBLE_COUNT));
-    setupTrack(loopPosts);
+    setupTrack(loopPosts, trackEl, viewportEl);
 
     const totalCards = loopPosts.length;
     let index = 0;
@@ -96,14 +91,15 @@
       isAnimating = true;
       index += 1;
 
-      track.style.transition = 'transform ' + (SCROLL_DURATION_MS / 1000) + 's ease-in-out';
-      track.style.transform = 'translateY(' + -(index * (cardHeight + gap)) + 'px)';
+      trackEl.style.transition =
+        'transform ' + SCROLL_DURATION_MS / 1000 + 's ease-in-out';
+      trackEl.style.transform =
+        'translateY(' + -(index * (cardHeight + gap)) + 'px)';
 
       setTimeout(() => {
-        // If we scrolled into the cloned tail, snap back to the start
         if (index >= totalCards - VISIBLE_COUNT) {
-          track.style.transition = 'none';
-          track.style.transform = 'translateY(0)';
+          trackEl.style.transition = 'none';
+          trackEl.style.transform = 'translateY(0)';
           index = 0;
         }
         isAnimating = false;
@@ -114,6 +110,15 @@
   }
 
   function initFeed() {
+    const trackEl = document.getElementById('conversations-track');
+    const emptyState = document.getElementById('conversations-empty');
+    const viewportEl = trackEl
+      ? trackEl.closest('.recent-conversations__viewport')
+      : null;
+
+    // If this page doesn't have the section, just exit quietly.
+    if (!trackEl) return;
+
     fetch(FEED_URL, { cache: 'no-store' })
       .then(res => {
         if (!res.ok) throw new Error('Feed load failed');
@@ -130,14 +135,15 @@
 
         // Initial non-scrolling view (first 2 cards)
         const initial = posts.slice(0, Math.max(VISIBLE_COUNT, posts.length));
-        setupTrack(initial);
+        setupTrack(initial, trackEl, viewportEl);
 
         if (emptyState) emptyState.hidden = true;
 
-        startAutoScroll();
+        startAutoScroll(trackEl, viewportEl);
       })
       .catch(err => {
         console.error('Conversations feed error:', err);
+        const emptyState = document.getElementById('conversations-empty');
         if (emptyState) emptyState.hidden = false;
       });
   }
