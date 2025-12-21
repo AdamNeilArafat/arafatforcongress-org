@@ -1,0 +1,17 @@
+{
+  "name": "arafatforcongress-org",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "ga:inject": "node scripts/inject-ga.js",
+    "qr:build": "node scripts/build-qr.js",
+    "qr:verify": "node scripts/verify-qr.js",
+    "build": "npm run ga:inject && npm run qr:build",
+    "postinstall": "node -v > /dev/null"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.6",
+    "fs-extra": "^11.2.0",
+    "qrcode": "^1.5.3"
+  }
+}

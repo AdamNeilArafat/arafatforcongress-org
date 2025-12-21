@@ -1,0 +1,4 @@
+qr_id,path,destination_url,dest_label,notes
+launch-volunteer,/go/launch-volunteer,https://arafatforcongress.org/contact.html,volunteer,Main volunteer interest QR
+launch-donate,/go/launch-donate,https://secure.actblue.com/donate/arafatforcongress,donate,Primary donation QR
+launch-events,/go/launch-events,https://arafatforcongress.org/r/events/index.html,events,Events calendar QR

@@ -5,10 +5,11 @@
     : null;
 
   if (!measurementId) {
-    console.warn('GA4 measurement ID missing or placeholder; analytics loader skipped.');
+    console.error('GA4 measurement ID missing; analytics loader skipped.');
     return;
   }
 
+  window.__GA_MEASUREMENT_ID__ = measurementId;
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){
     window.dataLayer.push(arguments);
