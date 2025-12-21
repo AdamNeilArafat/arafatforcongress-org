@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <title>GA Debug Test</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    body { background:#f5f7ff; font-family:'Poppins', system-ui, sans-serif; color:#0c1025; margin:0; padding:0; }
+    .wrapper { max-width:720px; margin:0 auto; padding:60px 20px; }
+    .card { background:#fff; border-radius:16px; padding:28px; box-shadow:0 16px 40px rgba(0,0,0,0.08); border:1px solid #d9e2ff; }
+    h1 { margin:0 0 10px; color:#1b33c9; }
+    p { color:#475569; line-height:1.6; }
+    button { background:#2446f5; color:#fff; border:none; border-radius:10px; padding:12px 20px; font-size:16px; font-weight:600; cursor:pointer; box-shadow:0 10px 25px rgba(36,70,245,0.25); transition:transform .15s ease, box-shadow .2s ease; }
+    button:hover { transform:translateY(-1px); box-shadow:0 12px 30px rgba(36,70,245,0.30); }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>GA test console</h1>
+      <p>Use this page to confirm GA4 is firing. A page view will appear automatically. Click the button below to send a <code>ga_test</code> event with a timestamp.</p>
+      <button id="ga-test-btn" type="button">Send test event</button>
+      <p id="ga-test-status" aria-live="polite"></p>
+    </div>
+  </div>
+  <script>
+    (function initGaTest(){
+      var btn = document.getElementById('ga-test-btn');
+      var statusEl = document.getElementById('ga-test-status');
+      function updateStatus(text) { if (statusEl) statusEl.textContent = text; }
+      if (!btn) return;
+      btn.addEventListener('click', function(){
+        if (typeof gtag !== 'function') {
+          updateStatus('gtag is not available yet.');
+          return;
+        }
+        gtag('event', 'ga_test', { source: 'manual', ts: Date.now() });
+        updateStatus('Sent ga_test event. Check GA4 Realtime/DebugView.');
+      });
+    })();
+  </script>
+</body>
+</html>

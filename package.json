@@ -6,7 +6,8 @@
     "ga:inject": "node scripts/inject-ga.js",
     "qr:build": "node scripts/build-qr.js",
     "qr:verify": "node scripts/verify-qr.js",
-    "build": "npm run ga:inject && npm run qr:build",
+    "verify:ga": "node scripts/verify-ga.js",
+    "build": "npm run ga:inject && npm run qr:build && npm run verify:ga",
     "postinstall": "node -v > /dev/null"
   },
   "dependencies": {
