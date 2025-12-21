@@ -6,7 +6,7 @@ This site uses GA4 plus static redirect pages to track every QR code scan as its
 
 1. Store your GA4 measurement ID in the environment variable `GA_MEASUREMENT_ID`.
 2. Run `npm run ga:inject` before deploying. The command fails if the variable is missing or looks like a placeholder.
-3. The global loader (`js/ga-loader.js`) reads the injected `<meta name="ga-measurement-id">` value on every page and loads GA4 via gtag.js.
+3. The injector writes the standard GA4 gtag snippet (plus `<meta name="ga-measurement-id">`) into every HTML head so `page_view`/`session_start` fire everywhere. Build verification (`npm run verify:ga`) confirms the tag is present in the compiled HTML, including the homepage.
 
 ## Adding a QR code
 
