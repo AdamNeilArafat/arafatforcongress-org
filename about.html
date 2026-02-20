@@ -4,38 +4,359 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Meet Adam | Arafat for Congress | WA-10</title>
-  <meta name="description" content="Meet Adam Arafat: father, veteran, and public servant running in WA-10 to serve working families with accountability and results." />
-  <link rel="canonical" href="https://arafatforcongress.org/about.html" />
-  <meta property="og:title" content="Meet Adam | Arafat for Congress | WA-10" />
-  <meta property="og:description" content="Meet Adam Arafat and the values behind this campaign." />
-  <meta property="og:url" content="https://arafatforcongress.org/about.html" />
-  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
+  <meta name="description" content="Meet Adam Arafat: father, veteran, and public servant standing up for working families in Washington’s 10th District." />
+  <meta property="og:title" content="Arafat for Congress | WA-10" />
+  <meta property="og:description" content="People over PACs. Real representation for WA-10." />
+  <meta property="og:image" content="https://arafatforcongress.org/assets/og/og-wa10.jpg" />
+  <meta property="og:url" content="https://arafatforcongress.org/about/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Meet Adam | Arafat for Congress | WA-10" />
-  <meta name="twitter:description" content="A veteran, father, and public servant focused on working-family results." />
-  <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
+  <link rel="canonical" href="https://arafatforcongress.org/about.html" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
   <link rel="stylesheet" href="styles.css" />
-  <style>body{margin:0;background:#f2f6ff;font-family:'Poppins',system-ui,sans-serif}.container{max-width:1080px;margin:auto;padding:2rem 1rem}.panel,.cta-band,aside{background:#fff;border:1px solid #d0d8ff;border-radius:16px;padding:1rem;box-shadow:0 8px 20px rgba(0,0,0,.08);margin:1rem 0}.grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem}@media(max-width:860px){.grid{grid-template-columns:1fr}}.cta-band{display:flex;justify-content:space-between;gap:.8rem;flex-wrap:wrap;align-items:center}</style>
+  <style>
+    :root {
+      --brand:#2446f5;
+      --brand-dark:#1b33c9;
+      --accent:#f7b500;
+      --bg:linear-gradient(180deg,#f2f6ff,#e3e9ff);
+      --ink:#0c1025;
+      --sub:#475569;
+      --shadow:0 6px 25px rgba(0,0,0,.12);
+      --radius:18px;
+      --border:#d0d8ff;
+    }
+
+    body {
+      margin:0;
+      font-family:'Poppins',system-ui,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+    }
+
+    .hero {
+      padding:80px 20px;
+      background:
+        radial-gradient(circle at 15% 40%,rgba(247,181,0,.12) 0%,transparent 60%),
+        radial-gradient(circle at 85% 30%,rgba(36,70,245,.15) 0%,transparent 60%);
+    }
+
+    .hero__grid {
+      max-width:1000px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      align-items:center;
+      gap:40px;
+    }
+
+    .hero__title {
+      font-size:42px;
+      margin:0 0 10px;
+      color:var(--brand-dark);
+    }
+
+    .hero__text p {
+      font-size:18px;
+      color:var(--sub);
+      max-width:600px;
+      line-height:1.6;
+    }
+
+    .btn {
+      padding:13px 22px;
+      border-radius:var(--radius);
+      font-weight:700;
+      cursor:pointer;
+      border:none;
+      transition:transform .15s ease,box-shadow .2s ease;
+      text-decoration:none;
+    }
+
+    .btn.primary {
+      background:linear-gradient(90deg,var(--brand),#4f68ff);
+      color:#fff;
+      box-shadow:0 8px 18px rgba(36,70,245,.3);
+    }
+
+    .btn.secondary {
+      background:#fff;
+      border:2px solid var(--border);
+      color:var(--brand-dark);
+    }
+
+    .cta {
+      margin-top:24px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    /* Shared card-style image, reused from other pages */
+    .profile {
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:3px solid #fff;
+      min-height:340px;
+    }
+
+    .profile img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .section {
+      max-width:1000px;
+      margin:60px auto;
+      padding:0 20px;
+    }
+
+    .section h2 {
+      color:var(--brand-dark);
+      font-size:28px;
+      margin:0 0 18px;
+      text-align:center;
+    }
+
+    .section p {
+      color:var(--sub);
+      max-width:800px;
+      margin:auto;
+      text-align:center;
+      line-height:1.7;
+    }
+
+    /* New: softer cards for the mid-page story sections */
+    .info-card {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:28px 30px;
+      border:1px solid var(--border);
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
+      max-width:850px;
+      margin:0 auto 40px auto;
+      text-align:left;
+    }
+
+    .info-card h2 {
+      text-align:left;
+      margin:0 0 12px;
+    }
+
+    .info-card p {
+      margin:0;
+      text-align:left;
+    }
+
+    .tiles {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:18px;
+      margin-top:30px;
+    }
+
+    .tile {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:20px 22px;
+      border:1px solid var(--border);
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+    }
+
+    .tile h3 {
+      margin:0 0 8px;
+      color:var(--brand-dark);
+    }
+
+    .tile p {
+      margin:0;
+      color:var(--sub);
+    }
+
+    .value-card {
+      text-align:left;
+    }
+
+    .quote {
+      background:linear-gradient(90deg,#e8edff,#f8f9ff);
+      padding:44px 20px;
+      text-align:center;
+      margin-top:60px;
+    }
+
+    .quote blockquote {
+      font-size:20px;
+      font-weight:700;
+      color:var(--ink);
+      max-width:780px;
+      margin:auto;
+      line-height:1.5;
+    }
+
+    .quote footer {
+      margin-top:10px;
+      font-size:16px;
+      font-weight:500;
+      color:var(--sub);
+    }
+
+    footer {
+      background:#fff;
+      border-top:1px solid var(--border);
+      padding:22px;
+      text-align:center;
+      color:var(--sub);
+      font-size:15px;
+      margin-top:40px;
+    }
+
+    @media(max-width:900px){
+      .hero__grid{
+        grid-template-columns:1fr;
+        text-align:center;
+      }
+      .hero__text p{
+        margin:0 auto;
+      }
+      .profile{
+        max-width:360px;
+        margin:0 auto;
+      }
+  }
+  </style>
+
+
+  <!-- Site analytics and advanced tracking -->
+  <script src="/js/analytics.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
 </head>
 <body>
-<header class="site-header"><div class="header-inner"><a class="brand" href="/index.html">Arafat for Congress • WA-10</a><nav class="site-nav" aria-label="Primary"><a class="nav-link" href="/index.html">Home</a><a class="nav-link" href="/issues.html">Issues</a><a class="nav-link" href="/record-contrast.html">The Difference</a><a class="nav-link" href="/about.html" aria-current="page">Meet Adam</a><a class="nav-link" href="/why-im-running.html">Why I’m Running</a><a class="nav-link" href="/contact.html">Contact</a></nav><div class="cta-group"><a class="btn btn-volunteer" href="/contact.html">Volunteer</a><a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a></div></div></header>
-<main class="container">
-  <h1>Meet Adam</h1>
-  <div class="grid">
-    <div>
-      <section class="panel"><h2>Who he is</h2><p>Adam Arafat is a father, a veteran, and a public servant who knows what it takes to keep families steady. He is running because WA-10 deserves a representative who listens first and answers to the community.</p></section>
-      <section class="panel"><h2>Background &amp; service</h2><p>Adam spent more than 20 years in aviation and emergency operations, then moved into public infrastructure work that communities rely on every day. He treats public office the same way: do the work, own the outcome, and remember who you serve.</p></section>
-      <section class="panel"><h2>What this campaign means</h2><p>This campaign is about practical results for working families: lower costs, stronger healthcare, good jobs, and accountability in government.</p></section>
-      <section class="panel"><h2>Values and principles</h2><ul><li><strong>Honesty:</strong> Straight answers. No spin.</li><li><strong>Accountability:</strong> Public decisions should stand public scrutiny.</li><li><strong>Service:</strong> Government should serve people, not special interests.</li><li><strong>Action:</strong> Problems are solved through persistent work, not speeches.</li></ul></section>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/index.html">Arafat for Congress • WA-10</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a class="nav-link" href="/index.html" data-event="nav_link" data-location="header" data-extra="home">Home</a>
+        <a class="nav-link" href="/issues.html" data-event="nav_link" data-location="header" data-extra="issues">Issues</a>
+        <a class="nav-link" href="/record-contrast.html" data-event="nav_link" data-location="header" data-extra="difference">The Difference</a>
+        <a class="nav-link" href="/about.html" aria-current="page" data-event="nav_link" data-location="header" data-extra="about">Meet Adam</a>
+        <a class="nav-link" href="/why-im-running.html" data-event="nav_link" data-location="header" data-extra="why_running">Why I’m Running</a>
+        <a class="nav-link" href="/contact.html" data-event="nav_link" data-location="header" data-extra="contact">Contact</a>
+      </nav>
+      <div class="cta-group">
+        <a class="btn btn-volunteer" href="/contact.html" data-event="volunteer_click" data-location="header">Volunteer</a>
+        <a href="https://secure.actblue.com/donate/adam-arafat-1"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn btn-donate"
+           data-event="donate_click">Donate</a>
+        <p class="donate-note"><strong>Goal: $10,000</strong><br />Funds phone banking, text outreach, voter email lists, printed flyers, and volunteer support.</p>
+      </div>
     </div>
-    <aside aria-labelledby="quick-facts-title"><h2 id="quick-facts-title">Quick facts</h2><ul><li>Veteran</li><li>Father</li><li>Public servant</li><li>Lives in WA-10 with his family</li><li>PAC-free campaign</li></ul></aside>
+  </header>
+
+  <div class="share-message share-strip" role="complementary">
+    <p class="share-line share-helper" id="share-line" aria-live="polite">
+      Share this page. Every new voice shrinks the power of big money.
+    </p>
+    <div class="share-buttons share-icons" role="group" aria-label="Share this page">
+      <a class="share-icon" data-net="facebook" href="#" aria-label="Share on Facebook" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="4" fill="#1877F2"/>
+          <path fill="#fff" d="M13.2 10.5h2.5l.5-3h-3V5.5c0-.9.3-1.5 1.6-1.5h1.4V1.2c-.2 0-.8-.2-2.1-.2-2.3 0-3.9 1.4-3.9 4v2.5H7.6v3h2.6v8.3h3z"/>
+        </svg>
+      </a>
+      <a class="share-icon" data-net="bluesky" href="#" aria-label="Share on Bluesky" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#1185FE" d="M6.32 2.3c1.81 1.82 3.88 2.73 6.18 2.73 2.3 0 4.37-.91 6.18-2.73.41-.41 1.08-.12 1.03.45-.21 2.68-1.18 4.55-3 5.91 1.79 1.18 3 2.98 2.57 5.53-.61 3.66-4.37 4.84-6.93 2.55l-.85-.76-.85.76c-2.56 2.29-6.32 1.11-6.93-2.55-.43-2.55.78-4.35 2.57-5.53-1.82-1.36-2.79-3.23-3-5.91-.05-.57.62-.86 1.03-.45z"/>
+        </svg>
+      </a>
+      <a class="share-icon" data-net="reddit" href="#" aria-label="Share on Reddit" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" fill="#FF4500"/>
+          <circle cx="12" cy="13" r="6.3" fill="#fff"/>
+          <circle cx="9.5" cy="12.5" r="1.2" fill="#FF4500"/>
+          <circle cx="14.5" cy="12.5" r="1.2" fill="#FF4500"/>
+          <path fill="#FF4500" d="M12 16.3c-1.2 0-2.1-.5-2.6-1.1-.2-.2-.2-.5 0-.7s.5-.2.7 0c.3.4.9.7 1.9.7s1.5-.3 1.9-.7c.2-.2.5-.2.7 0s.2.5 0 .7c-.5.6-1.4 1.1-2.6 1.1z"/>
+        </svg>
+      </a>
+      <a class="share-icon" data-net="email" href="#" aria-label="Share by Email" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" fill="#0A2C8A"/>
+          <path fill="#fff" d="M5 7l7 5 7-5H5zm14 2.4-6.4 4.5a1 1 0 0 1-1.2 0L5 9.4V17a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.4z"/>
+        </svg>
+      </a>
+    </div>
   </div>
+  <section class="hero">
+    <div class="hero__grid">
+      <div class="hero__text">
+        <h1 class="hero__title">Meet Adam</h1>
+        <p>I’m a father, a veteran, and a public servant who knows what it takes to keep families steady. Too often government forgets the people it’s supposed to protect. I’m running because WA-10 deserves a representative who listens first and answers to the community, not to wealthy donors or outside interests.</p>
+        <p class="pull-quote">I’ve lived the same math everyone else in WA-10 lives: mortgages, childcare, and traffic on I-5.</p>
+      </div>
+      <div class="hero__image profile">
+        <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat" />
+      </div>
+    </div>
+  </section>
 
-  <div class="cta-band"><p>Help move these values into action across WA-10.</p><div><a class="btn btn-volunteer" href="/contact.html">Volunteer</a> <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a> <a href="/index.html#signup">Get updates</a></div></div>
+  <section class="section">
+    <div class="info-card">
+      <h2>From Service to Community</h2>
+      <p>Adam spent more than 20 years in aviation and emergency operations, leading crews, solving tough problems, and keeping people safe. Now he oversees public infrastructure projects that communities rely on every day. He treats public office the same way he treated every mission: do the work, own the outcome, and never forget who you serve.</p>
+    </div>
+  </section>
 
-  <p><a href="/index.html#signup">Get updates from the campaign</a>.</p>
-</main>
-<footer><p class="footer-tagline">Citizens serving citizens. That’s the job.</p>Paid for by Arafat for Congress • <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a></footer>
-<script src="js/main.js" defer></script>
+  <section class="section">
+    <div class="info-card">
+      <h2>Rooted in WA-10</h2>
+      <p>Adam and his family live in Spanaway, facing the same pressures everyone else feels: rising costs, packed schools, and a future that gets harder to plan for. That real-life grounding is what drives this campaign. He isn’t chasing a career. He’s fighting for the district he calls home.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What I Believe</h2>
+    <p class="pull-quote">Government works when the people writing the laws live under the laws they write.</p>
+    <div class="tiles">
+      <div class="tile value-card">
+        <h3>Honesty</h3>
+        <p>People deserve straight answers. No spin, no excuses.</p>
+      </div>
+      <div class="tile value-card">
+        <h3>Accountability</h3>
+        <p>Holding this job means owning every decision. If it can’t stand up to public scrutiny, it shouldn’t happen.</p>
+      </div>
+      <div class="tile value-card">
+        <h3>Service</h3>
+        <p>Government should put the people who fund it first, not the special interests trying to steer it.</p>
+      </div>
+      <div class="tile value-card">
+        <h3>Action</h3>
+        <p>Problems don’t get solved by speeches. They get solved by focus, persistence, and results.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <blockquote>
+      I’m running to make government serve people again. We can build a future where families can afford to live, work, and thrive in WA-10.
+      <footer>Adam Arafat, WA-10</footer>
+    </blockquote>
+  </section>
+
+  <footer>
+    <p class="footer-tagline">Citizens serving citizens. That’s the job.</p>
+    Paid for by Arafat for Congress •
+    <a href="mailto:contact@arafatforcongress.org">contact@arafatforcongress.org</a>
+  </footer>
+
+  <script src="js/main.js" defer></script>
 </body>
 </html>
