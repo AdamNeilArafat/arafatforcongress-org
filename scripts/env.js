@@ -8,6 +8,15 @@ function requireEnv(name) {
   return String(value).trim();
 }
 
+
+function getSignupEndpoint() {
+  const value = process.env.SIGNUP_ENDPOINT;
+  if (!value || !String(value).trim()) {
+    return 'SIGNUP_ENDPOINT_PLACEHOLDER';
+  }
+  return String(value).trim();
+}
+
 function getMeasurementId() {
   const measurementId = requireEnv('GA_MEASUREMENT_ID');
   if (!/^G-[A-Z0-9]+$/i.test(measurementId)) {
@@ -19,5 +28,6 @@ function getMeasurementId() {
 module.exports = {
   REQUIRED_ENV,
   getMeasurementId,
-  requireEnv
+  requireEnv,
+  getSignupEndpoint
 };
