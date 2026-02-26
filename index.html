@@ -3,746 +3,91 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adam Arafat for Congress (WA-10) | People Over Donors</title>
-
-  <meta name="description" content="Adam Arafat is running in WA-10 to turn urgency into action—housing, healthcare, worker power, and accountable government. No corporate PAC or AIPAC money." />
-  <meta property="og:title" content="Adam Arafat for Congress (WA-10) | People Over Donors" />
-  <meta property="og:description" content="Turn urgency into action, not excuses. A people-powered campaign—no corporate PAC or AIPAC money." />
+  <title>Home | Adam Arafat for Congress (WA-10)</title>
+  <meta name="description" content="WA-10 families need action, not excuses. Adam Arafat is running a people-powered campaign focused on accountability, working families, and results." />
+  <meta name="share-message" content="WA-10 deserves action for working families. Share if you want people over donors." />
+  <meta property="og:title" content="Home | Adam Arafat for Congress (WA-10)" />
+  <meta property="og:description" content="People over donors. Action over excuses. Join the WA-10 campaign for working families." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/" />
   <meta property="og:type" content="website" />
-
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Adam Arafat for Congress (WA-10) | People Over Donors" />
-  <meta name="twitter:description" content="Turn urgency into action, not excuses. No corporate PAC or AIPAC money." />
+  <meta name="twitter:title" content="Home | Adam Arafat for Congress (WA-10)" />
+  <meta name="twitter:description" content="People over donors. Action over excuses in WA-10." />
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
-
-  <link rel="canonical" href="https://arafatforcongress.org/" />
   <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
   <meta name="campaign-signup-endpoint" content="SIGNUP_ENDPOINT_PLACEHOLDER" />
-
+  <link rel="canonical" href="https://arafatforcongress.org/" />
   <link rel="stylesheet" href="styles.css" />
-
-  <style>
-    :root{
-      /* Clean, serious palette (no red theme) */
-      --navy:#071127;
-      --navy-2:#0b1c3d;
-      --paper:#ffffff;
-      --ink:#081022;
-      --muted:#58657a;
-
-      /* Teal brand accent */
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-
-      /* Subtle highlight */
-      --gold:#f2c14e;
-
-      --border-soft: rgba(7, 17, 39, 0.12);
-      --border: rgba(7, 17, 39, 0.18);
-      --shadow-soft: 0 12px 26px rgba(7, 17, 39, 0.10);
-      --shadow: 0 10px 30px rgba(7, 17, 39, 0.14);
-      --radius: 18px;
-
-      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(14,165,164,0.10), transparent 55%),
-            radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
-            linear-gradient(180deg, #f7f8fb, #eef1f7);
-    }
-
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-    }
-    main{ padding-bottom: 2rem; }
-    a{ color: inherit; }
-
-    /* Header */
-    .site-header{
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-soft);
-    }
-    .site-header::before{
-      content:"";
-      display:block;
-      height: 3px;
-      background: linear-gradient(90deg, var(--brand), rgba(242,193,78,0.9));
-      opacity: .9;
-    }
-    .header-inner{
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 14px 18px;
-      display: grid;
-      grid-template-columns: 1fr auto auto;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand{
-      text-decoration:none;
-      color: var(--ink);
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width: 220px;
-    }
-    .brand__name{
-      font-weight: 950;
-      letter-spacing: .2px;
-      font-size: 1.06rem;
-      line-height: 1.05;
-      color: var(--navy);
-    }
-    .brand__meta{
-      font-weight: 850;
-      font-size: .85rem;
-      color: var(--muted);
-    }
-
-    .site-nav{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-    }
-    .nav-link{
-      text-decoration:none;
-      color: var(--navy);
-      font-weight: 850;
-      font-size: .95rem;
-      padding: 10px 10px;
-      border-radius: 12px;
-      transition: background .15s ease, color .15s ease;
-      white-space: nowrap;
-    }
-    .nav-link:hover{ background: rgba(14,165,164,0.10); }
-    .nav-link[aria-current="page"]{
-      background: rgba(14,165,164,0.12);
-      box-shadow: inset 0 0 0 1px rgba(14,165,164,0.18);
-    }
-
-    .header-cta{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-    }
-    .header-cred{
-      font-size: .82rem;
-      font-weight: 900;
-      color: var(--navy-2);
-      background: rgba(242,193,78,0.18);
-      border: 1px solid rgba(242,193,78,0.35);
-      padding: 8px 10px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-    .cta-group{ display:flex; gap: 10px; align-items:center; }
-
-    .btn{
-      text-decoration:none;
-      font-weight: 950;
-      border-radius: 14px;
-      padding: 10px 14px;
-      min-height: 44px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      letter-spacing: .2px;
-      line-height: 1;
-      cursor: pointer;
-      user-select: none;
-      transition: transform .06s ease, filter .15s ease, background .15s ease;
-    }
-    .btn:active{ transform: translateY(1px); }
-    .btn-primary{
-      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
-      color: #fff;
-      box-shadow: 0 14px 26px rgba(14,165,164,.18);
-    }
-    .btn-primary:hover{ filter: brightness(.98); }
-    .btn-ghost{
-      background: rgba(11,28,61,0.06);
-      color: var(--navy-2);
-      border: 1px solid rgba(11,28,61,0.14);
-    }
-    .btn-ghost:hover{ background: rgba(11,28,61,0.10); }
-
-    /* Mobile menu toggle */
-    .nav-toggle{
-      display:none;
-      border: 1px solid rgba(11,28,61,0.14);
-      background: rgba(255,255,255,0.95);
-      border-radius: 14px;
-      padding: 10px 10px;
-      min-height: 44px;
-      min-width: 44px;
-    }
-    .nav-toggle span{
-      display:block;
-      width: 18px;
-      height: 2px;
-      background: var(--navy);
-      margin: 4px auto;
-      border-radius: 2px;
-    }
-
-    /* ✅ FIX: drawer is NOT rendered unless toggled open (and only on mobile) */
-    .mobile-drawer{ display:none; }
-    .mobile-drawer[hidden]{ display:none !important; }
-
-    /* HERO (with About embedded) */
-    .hero{
-      padding: 68px 20px 30px;
-      background:
-        radial-gradient(circle at 18% 35%, rgba(14,165,164,0.12) 0%, transparent 60%),
-        radial-gradient(circle at 82% 25%, rgba(242,193,78,0.12) 0%, transparent 60%);
-    }
-    .hero__grid{
-      max-width: 1180px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1.08fr .92fr;
-      align-items: start;
-      gap: 44px;
-    }
-    .kicker{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      font-weight: 950;
-      color: var(--navy-2);
-      background: rgba(14,165,164,0.10);
-      border: 1px solid rgba(14,165,164,0.18);
-      padding: 7px 12px;
-      border-radius: 999px;
-      letter-spacing: .3px;
-      margin-bottom: 12px;
-    }
-    .hero__text h1{
-      font-size: clamp(2.1rem, 4.6vw, 3.2rem);
-      margin: 0 0 10px;
-      color: var(--navy);
-      line-height: 1.06;
-      letter-spacing: -0.25px;
-    }
-    .hero__subheadline{
-      margin: 0 0 14px;
-      font-size: 1.15rem;
-      color: var(--navy-2);
-      font-weight: 850;
-      max-width: 56ch;
-      line-height: 1.35;
-    }
-
-    .hero__about{
-      background: #fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 18px;
-      margin: 16px 0 18px;
-    }
-    .hero__about h2{
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-      color: var(--navy);
-      letter-spacing: -.1px;
-    }
-    .hero__about p{
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 650;
-    }
-    .hero__about p:last-child{ margin-bottom:0; }
-
-    .hero__image img{
-      width: 100%;
-      height: auto;
-      border-radius: 22px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border-soft);
-      background: #fff;
-    }
-
-    .cta{
-      margin-top: 10px;
-      display:flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-    .btn-home{
-      min-height: 48px;
-      padding: 0.88rem 1.15rem;
-      border-radius: 14px;
-      font-weight: 950;
-      text-decoration: none;
-      letter-spacing: .2px;
-      line-height: 1;
-      transition: transform .06s ease, filter .15s ease, background .15s ease;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .btn-home:active{ transform: translateY(1px); }
-    .btn-home.btn-donate{
-      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
-      color: #fff;
-      box-shadow: 0 16px 28px rgba(14,165,164,.18);
-    }
-    .btn-home.btn-donate:hover{ filter: brightness(.98); }
-    .btn-home.btn-volunteer{
-      background: rgba(11,28,61,0.06);
-      color: var(--navy-2);
-      border: 1px solid rgba(11,28,61,0.14);
-    }
-    .btn-home.btn-volunteer:hover{ background: rgba(11,28,61,0.10); }
-
-    .cta-inline-link{
-      font-weight: 900;
-      color: var(--navy-2);
-      text-decoration: none;
-      padding: 10px 6px;
-    }
-    .cta-inline-link:hover{ text-decoration: underline; }
-
-    .hero__values{
-      margin-top: 12px;
-      font-weight: 950;
-      color: var(--navy-2);
-      background: rgba(242,193,78,0.18);
-      border: 1px solid rgba(242,193,78,0.36);
-      padding: 10px 12px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    /* Sections */
-    .section{
-      max-width: 1180px;
-      margin: 56px auto;
-      padding: 0 20px;
-    }
-    .section h2{
-      text-align: center;
-      color: var(--navy);
-      font-size: clamp(1.7rem, 3vw, 2.05rem);
-      margin: 0 0 10px;
-      letter-spacing: -0.2px;
-    }
-    .section .section-intro{
-      text-align: center;
-      color: var(--muted);
-      max-width: 78ch;
-      margin: 0 auto 1.25rem;
-      line-height: 1.7;
-      font-weight: 650;
-    }
-
-    .issues-grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 18px;
-      margin-top: 22px;
-    }
-    .issue-card{
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border-soft);
-    }
-    .issue-card h3{
-      margin: 0 0 8px;
-      color: var(--navy-2);
-      font-size: 1.08rem;
-      letter-spacing: -.1px;
-    }
-    .issue-card p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.65;
-      font-weight: 650;
-    }
-
-    .copy-block{
-      background: #fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 22px;
-    }
-    .copy-stack{ display:grid; gap: 12px; }
-    .copy-block p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.75;
-      font-weight: 650;
-    }
-    .copy-block strong{ color: var(--navy-2); }
-
-    .bullet-lines{
-      margin: 0;
-      padding-left: 1.1rem;
-      display:grid;
-      gap: 0.45rem;
-      color: var(--muted);
-      line-height: 1.65;
-      font-weight: 650;
-    }
-
-    .cta-band{
-      background: #fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 22px;
-      display:flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      align-items:center;
-      justify-content: space-between;
-    }
-    .cta-band p{
-      margin: 0;
-      color: var(--muted);
-      font-weight: 750;
-      max-width: 60ch;
-      line-height: 1.6;
-    }
-    .cta-band__buttons{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items:center;
-      justify-content: center;
-    }
-
-    .signup-box{
-      background: #fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 22px;
-      max-width: 760px;
-      margin: 0 auto;
-    }
-    .signup-form{ display:grid; gap: 12px; }
-    .signup-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .signup-field label{
-      display:block;
-      font-weight: 950;
-      margin-bottom: 6px;
-      color: var(--navy-2);
-    }
-    .signup-field input{
-      width: 100%;
-      min-height: 46px;
-      border: 1px solid rgba(11,28,61,0.18);
-      border-radius: 14px;
-      padding: 0.65rem 0.8rem;
-      font: inherit;
-      background: rgba(11,28,61,0.03);
-    }
-    .signup-field input:focus-visible{
-      outline: 3px solid rgba(14,165,164,.22);
-      outline-offset: 2px;
-    }
-    .signup-feedback{ min-height: 1.5rem; margin: 0; font-weight: 850; }
-    .privacy-note{ margin: 0; font-size: .95rem; color: var(--muted); }
-
-    footer{
-      background:#fff;
-      border-top:1px solid var(--border-soft);
-      padding: 22px;
-      text-align:center;
-      color: var(--muted);
-      font-size: 15px;
-    }
-    .footer-tagline{ margin: 0 0 6px; font-weight: 950; color: var(--navy-2); }
-
-    @media (max-width: 980px){
-      .site-nav{ display:none; }
-      .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
-      .header-inner{ grid-template-columns: 1fr auto; }
-      .header-cred{ display:none; }
-
-      /* ✅ Drawer only exists on mobile, and only when toggled open */
-      .mobile-drawer{
-        max-width: 1180px;
-        margin: 0 auto;
-        padding: 10px 18px 16px;
-        display:none;
-        gap: 8px;
-      }
-      .mobile-drawer:not([hidden]){ display:grid; }
-
-      .mobile-drawer a{
-        text-decoration:none;
-        font-weight: 950;
-        color: var(--navy);
-        background: rgba(11,28,61,0.04);
-        border: 1px solid rgba(11,28,61,0.10);
-        padding: 12px 12px;
-        border-radius: 14px;
-      }
-      .mobile-drawer a.drawer-cta{
-        background: linear-gradient(180deg, var(--brand), var(--brand-dark));
-        color: #fff;
-        border: none;
-      }
-
-      .hero__grid{ grid-template-columns: 1fr; text-align:center; }
-      .hero__subheadline{ margin-inline: auto; }
-      .cta{ justify-content:center; }
-      .hero__values{ justify-content:center; margin-inline:auto; }
-    }
-    @media (max-width: 700px){
-      .signup-grid{ grid-template-columns: 1fr; }
-      .section{ margin: 44px auto; }
-      .cta-band{ flex-direction: column; text-align:center; }
-      .cta-band__buttons{ justify-content:center; }
-    }
-  </style>
-
   <script src="/js/analytics.js"></script>
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Adam Arafat",
-      "url": "https://arafatforcongress.org/",
-      "image": "https://arafatforcongress.org/images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg",
-      "jobTitle": "Candidate for U.S. House, WA-10",
-      "email": "mailto:info@arafatforcongress.org",
-      "description": "Turn urgency into action. People over donors."
-    }
-  </script>
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-PLACEHOLDER');
-  </script>
 </head>
-
 <body>
-  <header class="site-header" role="banner">
+  <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam Arafat</span>
-        <span class="brand__meta">for Congress • WA-10</span>
-      </a>
-
+      <a class="brand" href="/index.html">Arafat for Congress • WA-10</a>
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html" aria-current="page">Home</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
+        <a class="nav-link" href="/plan.html">The Plan</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
         <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
-
-      <div class="header-cta">
-        <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
-
-        <div class="cta-group">
-          <a class="btn btn-ghost" href="/contact.html">Join</a>
-          <a class="btn btn-primary"
-             href="https://secure.actblue.com/donate/adam-arafat-1"
-             target="_blank" rel="noopener noreferrer">Donate</a>
-        </div>
-
-        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+      <div class="cta-group">
+        <a class="btn btn-volunteer" href="/contact.html">Volunteer</a>
+        <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
       </div>
-    </div>
-
-    <div class="mobile-drawer" hidden>
-      <a href="/index.html">Home</a>
-      <a href="/issues.html">Issues</a>
-      <a href="/record-contrast.html">The Difference</a>
-      <a href="/about.html">Meet Adam</a>
-      <a href="/contact.html">Contact / Volunteer</a>
-      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
 
-  <main>
-    <!-- HERO (with About embedded) -->
-    <section class="hero" aria-label="Campaign hero">
-      <div class="hero__grid">
-        <div class="hero__text">
-          <div class="kicker">People over donors • Results over press releases</div>
+  <div class="share-message"><p id="share-line" class="share-line" aria-live="polite"></p></div>
 
-          <h1>Adam Arafat is running to turn urgency into action, not excuses.</h1>
-
-          <p class="hero__subheadline">The solutions aren’t missing. The will is.</p>
-
-          <div class="hero__about">
-            <h2>About Adam</h2>
-            <p>I’m a veteran, a husband, a dad, and a member of our community who’s invested in our success. I believe accountability matters.</p>
-            <p>In the real world, when something drags on for years, you step in. You don’t point fingers. You don’t call a press conference. You get it done.</p>
-            <p><strong>Voters deserve that same standard from Congress.</strong></p>
-          </div>
-
-          <div class="cta" aria-label="Primary campaign actions">
-            <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-            <a class="btn-home btn-volunteer" href="/contact.html">Volunteer</a>
-            <a class="cta-inline-link" href="#signup">Get updates</a>
-          </div>
-
-          <div class="hero__values">No corporate PAC or AIPAC money.</div>
-        </div>
-
-        <div class="hero__image">
-          <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat speaking with supporters" />
-        </div>
+  <main class="container stack" style="max-width:1100px;margin:0 auto;padding:2rem 1rem 4rem;">
+    <section class="stack">
+      <p class="text-muted" style="font-weight:700;">People over donors</p>
+      <h1 style="margin:0;">WA-10 families are doing everything right and still getting squeezed. Congress can fix that—if we send someone who will fight for votes, not headlines.</h1>
+      <p class="lead">From JBLM families and Port of Tacoma workers to Olympia public employees, I-5 commuters, and neighbors in Spanaway and South Tacoma, our district needs representation tied to outcomes.</p>
+      <p>I’m Adam Arafat. I don’t take corporate PAC money. I will publish what I push, what gets blocked, and what I do next so you can hold me accountable.</p>
+      <div class="cta-group">
+        <a class="btn btn-volunteer" href="/contact.html">Volunteer (Primary)</a>
+        <a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+        <a class="btn btn-volunteer" href="/issues.html#updates">Get updates</a>
       </div>
     </section>
 
-    <!-- ISSUES -->
-    <section class="section" id="priorities" aria-labelledby="priorities-heading">
-      <h2 id="priorities-heading">Issues</h2>
-      <p class="section-intro"><strong>Working families will always be first.</strong></p>
-
-      <div class="issues-grid" role="list">
-        <article class="issue-card" role="listitem"><h3>Housing</h3><p>Make affordable housing a national priority.</p></article>
-        <article class="issue-card" role="listitem"><h3>Worker Protections</h3><p>Restore worker power. Protect unions. Raise wages.</p></article>
-        <article class="issue-card" role="listitem"><h3>Healthcare</h3><p>Guarantee healthcare for every American.</p></article>
-        <article class="issue-card" role="listitem"><h3>Tax the extremely Wealthy</h3><p>Tax extreme wealth and fund working families.</p></article>
-        <article class="issue-card" role="listitem"><h3>Environment</h3><p>Treat climate change as the emergency it is.</p></article>
-        <article class="issue-card" role="listitem"><h3>Artificial Intelligence</h3><p>Ensure AI serves people, not corporations.</p></article>
-        <article class="issue-card" role="listitem"><h3>Spying &amp; Data Collection</h3><p>End mass surveillance and protect privacy.</p></article>
-        <article class="issue-card" role="listitem"><h3>Campaign Finance Reform</h3><p>End corporate money in politics.</p></article>
-        <article class="issue-card" role="listitem"><h3>Democratic Institutions</h3><p>Defend the rule of law and keep public offices independent and accountable.</p></article>
-        <article class="issue-card" role="listitem"><h3>Accountability</h3><p>Demand transparency and real consequences for corruption.</p></article>
-      </div>
+    <section class="bg-alt round" style="padding:1rem 1.25rem;">
+      <h2 style="margin-top:0;font-size:1.05rem;">Proof standard</h2>
+      <ul>
+        <li>No corporate PAC money</li>
+        <li>Transparent and specific: bill numbers, votes, and receipts</li>
+        <li>Working-family standard: action, not press releases</li>
+      </ul>
     </section>
 
-    <!-- URGENCY -->
-    <section class="section" aria-labelledby="urgency-heading">
-      <h2 id="urgency-heading">This Is What Urgency Looks Like</h2>
-      <div class="copy-block">
-        <div class="copy-stack">
-          <p>When something in DC is urgent, it becomes a must-pass. It gets attached to budget bills. It becomes a red-line in negotiation.</p>
-          <p><strong>Urgency shows up in leverage, not press releases.</strong></p>
-          <p>If they wanted these to pass, they would have. They don’t.</p>
-          <ul class="bullet-lines">
-            <li><strong>Healthcare</strong> is urgent.</li>
-            <li><strong>Housing</strong> is urgent.</li>
-            <li><strong>Worker protections</strong> are urgent.</li>
-          </ul>
-        </div>
-      </div>
+    <section id="updates" class="stack">
+      <h2>Get practical updates</h2>
+      <p class="text-muted">Quick campaign updates with clear asks you can act on.</p>
+      <form id="campaign-signup-form" class="stack" style="max-width:560px;">
+        <label for="signup-first-name">First name (optional)</label>
+        <input id="signup-first-name" name="firstName" type="text" />
+        <label for="signup-email">Email</label>
+        <input id="signup-email" name="email" type="email" required />
+        <button class="btn btn-volunteer" type="submit">Get updates</button>
+        <p id="signup-feedback" class="text-muted" aria-live="polite"></p>
+      </form>
     </section>
 
-    <!-- HIGHER STANDARD -->
-    <section class="section" aria-labelledby="standard-heading">
-      <h2 id="standard-heading">A Higher Standard</h2>
-      <div class="copy-block">
-        <div class="copy-stack">
-          <p>Co-sponsoring a bill is the bare minimum. On key issues with broad public support, even that hasn’t happened.</p>
-          <p>I will seek out and co-sponsor the legislation working families support, and fight to move it.</p>
-          <p>If a bill has majority public support and never gets a vote, that’s a choice. It’s choosing donors over the people.</p>
-          <p><strong>I’m running to raise the standard.</strong></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT FIGHTING MEANS -->
-    <section class="section" aria-labelledby="fighting-heading">
-      <h2 id="fighting-heading">What Fighting Means</h2>
-      <div class="copy-block">
-        <div class="copy-stack">
-          <p><strong>Fighting means using leverage.</strong></p>
-          <ul class="bullet-lines">
-            <li>Attaching priorities to must-pass bills.</li>
-            <li>Making them red-line conditions.</li>
-            <li>Escalating when they stall.</li>
-            <li>Forcing votes when leadership would rather delay.</li>
-          </ul>
-          <p>That’s how urgency shows up in DC.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SMALL DONOR CTA -->
-    <section class="section" aria-label="Small donor CTA">
-      <div class="cta-band">
-        <p><strong>Built by small donors.</strong> No corporate PAC or AIPAC money, only neighbors who believe our priorities deserve urgency.</p>
-        <div class="cta-band__buttons">
-          <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-          <a class="btn-home btn-volunteer" href="/contact.html">Volunteer</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SIGNUP -->
-    <section class="section" id="signup" aria-labelledby="signup-title">
-      <h2 id="signup-title">Get campaign updates</h2>
-      <div class="signup-box">
-        <form class="signup-form" id="campaign-signup-form" novalidate>
-          <div class="signup-grid">
-            <div class="signup-field">
-              <label for="signup-first-name">First name (optional)</label>
-              <input id="signup-first-name" name="firstName" autocomplete="given-name" />
-            </div>
-            <div class="signup-field">
-              <label for="signup-email">Email (required)</label>
-              <input id="signup-email" name="email" type="email" required autocomplete="email" />
-            </div>
-          </div>
-          <button class="btn-home btn-volunteer" type="submit">Sign up</button>
-          <p id="signup-feedback" class="signup-feedback" role="status" aria-live="polite"></p>
-          <p class="privacy-note">No spam. Unsubscribe anytime.</p>
-        </form>
-      </div>
-    </section>
-
-    <!-- FINAL CTA -->
-    <section class="section" id="donate" aria-label="Final CTA">
-      <div class="cta-band">
-        <p>Ready to help win WA-10 with people power?</p>
-        <div class="cta-band__buttons">
-          <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-          <a class="btn-home btn-volunteer" href="/contact.html">Volunteer</a>
-        </div>
-      </div>
+    <section class="bg-alt round" style="padding:1.25rem;">
+      <h2 style="margin-top:0;">Take one step now</h2>
+      <p>When campaigns funded by big donors win, working families lose leverage. Volunteer now and help us build a district-wide organizing program.</p>
+      <a class="btn btn-volunteer" href="/contact.html">Volunteer</a>
     </section>
   </main>
 
-  <footer>
-    <p class="footer-tagline">Citizens serving citizens. That’s the job.</p>
-    Paid for by Arafat for Congress • info@arafatforcongress.org
+  <footer style="padding:2rem 1rem;text-align:center;border-top:1px solid #e6e6e6;">
+    <p class="footer-tagline">Paid for by Arafat for Congress.</p>
+    <p><a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a></p>
   </footer>
-
-  <script>
-    (function(){
-      const toggle = document.querySelector('.nav-toggle');
-      const drawer = document.querySelector('.mobile-drawer');
-      if(!toggle || !drawer) return;
-
-      toggle.addEventListener('click', () => {
-        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!isOpen));
-        drawer.hidden = isOpen;
-      });
-    })();
-  </script>
-
   <script src="js/main.js" defer></script>
 </body>
 </html>

@@ -3,562 +3,81 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Issues | Adam Arafat for Congress (WA-10) | People Over Donors</title>
-
-  <meta name="description" content="Bills are already written. The question is whether your representative will fight to move them. Adam Arafat is running to turn urgency into action." />
-  <link rel="canonical" href="https://arafatforcongress.org/issues.html" />
-
+  <title>Issues | Adam Arafat for Congress (WA-10)</title>
+  <meta name="description" content="Bills exist. What's missing is willpower. See WA-10 issue priorities, bill status, and how this campaign defines accountability." />
+  <meta name="share-message" content="Bills exist. What's missing is willpower. Share if you want WA-10 represented with urgency." />
   <meta property="og:title" content="Issues | Adam Arafat for Congress (WA-10)" />
-  <meta property="og:description" content="Bills are already written. The question is whether your representative will fight to move them." />
+  <meta property="og:description" content="Bills exist. What's missing is willpower. Review priorities and join the update list." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/issues.html" />
   <meta property="og:type" content="website" />
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Issues | Adam Arafat for Congress (WA-10)" />
-  <meta name="twitter:description" content="Bills are already written. The question is whether your representative will fight to move them." />
+  <meta name="twitter:description" content="Bills exist. What's missing is willpower." />
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
-
   <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <meta name="campaign-signup-endpoint" content="SIGNUP_ENDPOINT_PLACEHOLDER" />
+  <link rel="canonical" href="https://arafatforcongress.org/issues.html" />
   <link rel="stylesheet" href="styles.css" />
-
-  <style>
-    :root{
-      --ink:#0b1220;
-      --navy:#071127;
-      --navy-2:#0b1c3d;
-      --muted:#51607a;
-      --paper:#ffffff;
-
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-      --gold:#f2c14e;
-
-      --border-soft: rgba(11,18,32,0.10);
-      --border: rgba(11,18,32,0.16);
-
-      --shadow-soft: 0 10px 22px rgba(11,18,32,0.08);
-      --shadow: 0 14px 30px rgba(11,18,32,0.10);
-
-      --radius: 16px;
-      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(14,165,164,0.10), transparent 55%),
-            radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
-            linear-gradient(180deg, #f7f8fb, #eef1f7);
-      --warn: rgba(245, 158, 11, .14);
-      --ok: rgba(34, 197, 94, .14);
-      --bad: rgba(239, 68, 68, .14);
-    }
-
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-    }
-    a{ color: inherit; }
-    main{ padding-bottom: 2rem; }
-
-    .site-header{
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-soft);
-    }
-    .site-header::before{
-      content:"";
-      display:block;
-      height: 3px;
-      background: linear-gradient(90deg, var(--brand), rgba(242,193,78,0.9));
-      opacity: .9;
-    }
-    .header-inner{
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 14px 18px;
-      display: grid;
-      grid-template-columns: 1fr auto auto;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand{
-      text-decoration:none;
-      color: var(--ink);
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width: 220px;
-    }
-    .brand__name{
-      font-weight: 950;
-      letter-spacing: .2px;
-      font-size: 1.06rem;
-      line-height: 1.05;
-      color: var(--navy);
-    }
-    .brand__meta{
-      font-weight: 850;
-      font-size: .85rem;
-      color: var(--muted);
-    }
-
-    .site-nav{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-    }
-    .nav-link{
-      text-decoration:none;
-      color: var(--navy);
-      font-weight: 850;
-      font-size: .95rem;
-      padding: 10px 10px;
-      border-radius: 12px;
-      transition: background .15s ease, color .15s ease;
-      white-space: nowrap;
-    }
-    .nav-link:hover{ background: rgba(14,165,164,0.10); }
-    .nav-link[aria-current="page"]{
-      background: rgba(14,165,164,0.12);
-      box-shadow: inset 0 0 0 1px rgba(14,165,164,0.18);
-    }
-
-    .header-cta{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-    }
-    .header-cred{
-      font-size: .82rem;
-      font-weight: 900;
-      color: var(--navy-2);
-      background: rgba(242,193,78,0.18);
-      border: 1px solid rgba(242,193,78,0.35);
-      padding: 8px 10px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-    .cta-group{ display:flex; gap: 10px; align-items:center; }
-
-    .btn{
-      text-decoration:none;
-      font-weight: 950;
-      border-radius: 14px;
-      padding: 10px 14px;
-      min-height: 44px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      letter-spacing: .2px;
-      line-height: 1;
-      cursor: pointer;
-      user-select: none;
-      transition: transform .06s ease, filter .15s ease, background .15s ease;
-    }
-    .btn:active{ transform: translateY(1px); }
-    .btn-primary{
-      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
-      color: #fff;
-      box-shadow: 0 14px 26px rgba(14,165,164,.18);
-    }
-    .btn-primary:hover{ filter: brightness(.98); }
-    .btn-ghost{
-      background: rgba(11,28,61,0.06);
-      color: var(--navy-2);
-      border: 1px solid rgba(11,28,61,0.14);
-    }
-    .btn-ghost:hover{ background: rgba(11,28,61,0.10); }
-
-    .btn:focus-visible,
-    .nav-link:focus-visible{
-      outline: 3px solid rgba(14,165,164,.22);
-      outline-offset: 2px;
-    }
-
-    .nav-toggle{
-      display:none;
-      border: 1px solid rgba(11,28,61,0.14);
-      background: rgba(255,255,255,0.95);
-      border-radius: 14px;
-      padding: 10px 10px;
-      min-height: 44px;
-      min-width: 44px;
-    }
-    .nav-toggle span{
-      display:block;
-      width: 18px;
-      height: 2px;
-      background: var(--navy);
-      margin: 4px auto;
-      border-radius: 2px;
-    }
-    .mobile-drawer{ display:none; }
-    .mobile-drawer[hidden]{ display:none !important; }
-
-    .hero{ padding: 3.25rem 1.5rem 1.25rem; }
-    .hero__grid{
-      max-width: 980px;
-      margin: 0 auto;
-    }
-    .kicker{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      font-weight: 850;
-      color: var(--navy-2);
-      background: rgba(14,165,164,0.10);
-      border: 1px solid rgba(14,165,164,0.18);
-      padding: 7px 12px;
-      border-radius: 999px;
-      letter-spacing: .2px;
-      margin-bottom: 12px;
-    }
-    .hero__text h1{
-      font-size: clamp(2.1rem, 4.6vw, 3.2rem);
-      margin: 0 0 10px;
-      color: var(--navy);
-      line-height: 1.06;
-      letter-spacing: -0.25px;
-      font-weight: 850;
-    }
-    .hero__subheadline{
-      margin: 0 0 1.25rem;
-      font-size: 1.15rem;
-      color: var(--navy-2);
-      font-weight: 700;
-      max-width: 60ch;
-      line-height: 1.45;
-    }
-    .hero__box{
-      background:#fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 20px;
-      display:grid;
-      gap: 10px;
-    }
-    .hero__box p{ margin:0; color: var(--muted); line-height: 1.75; font-weight: 500; }
-    .hero__box strong{ color: var(--navy-2); }
-
-    .lead-card{
-      margin: 0 0 16px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.08), rgba(255,255,255,0.95));
-      border: 1px solid rgba(14,165,164,0.24);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 18px 20px;
-    }
-    .lead-card h2{
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-      color: var(--navy);
-      letter-spacing: .2px;
-    }
-    .lead-card p{ margin: 0; color: var(--muted); line-height: 1.72; font-weight: 520; }
-    .lead-card p + p{ margin-top: 8px; }
-    .section{ max-width: 1180px; margin: 56px auto; padding: 0 20px; }
-    .section h2{ text-align: center; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.05rem); margin: 0 0 10px; letter-spacing: -0.2px; font-weight: 800; }
-    .section .section-intro{ text-align: center; color: var(--muted); max-width: 82ch; margin: 0 auto 1.25rem; line-height: 1.7; font-weight: 500; }
-
-    .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 22px; }
-
-    .card{ background: #fff; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-soft); }
-    .card h3{ margin: 0 0 8px; color: var(--navy-2); font-size: 1.08rem; letter-spacing: -.1px; font-weight: 800; }
-    .card p{ margin: 0; color: var(--muted); line-height: 1.65; font-weight: 500; }
-
-    .bill{ margin-top: 14px; border-top: 1px solid var(--border-soft); padding-top: 14px; display:grid; gap: 8px; }
-    .pill-row{ display:flex; flex-wrap:wrap; gap: 8px; align-items:center; }
-    .pill{ display:inline-flex; align-items:center; gap: 8px; padding: 8px 10px; border-radius: 999px; font-weight: 700; font-size: .88rem; border: 1px solid var(--border-soft); background: rgba(11,18,32,0.03); color: var(--navy-2); }
-    .pill.bad{ background: var(--bad); border-color: rgba(239,68,68,.18); }
-    .pill.ok{ background: var(--ok); border-color: rgba(34,197,94,.18); }
-    .pill.warn{ background: var(--warn); border-color: rgba(245,158,11,.22); }
-
-    .bill-title{ font-weight: 800; color: var(--navy); letter-spacing: -.1px; margin: 0; line-height: 1.35; }
-    .bill-meta{ margin:0; color: var(--muted); line-height: 1.55; font-weight: 500; }
-    .bill-links{ display:flex; flex-wrap:wrap; gap: 10px; align-items:center; }
-    .link{ font-weight: 750; color: var(--navy-2); text-decoration:none; padding: 8px 10px; border-radius: 12px; background: rgba(11,18,32,0.04); border: 1px solid var(--border-soft); }
-    .link:hover{ background: rgba(11,18,32,0.07); }
-
-    .copy-block{ background: #fff; border: 1px solid var(--border-soft); border-radius: var(--radius); box-shadow: var(--shadow-soft); padding: 22px; }
-    .copy-block p{ margin: 0; color: var(--muted); line-height: 1.75; font-weight: 500; }
-    .copy-block p + p{ margin-top: 10px; }
-    .copy-block strong{ color: var(--navy-2); }
-
-    .cta-band{ background: #fff; border: 1px solid var(--border-soft); border-radius: var(--radius); box-shadow: var(--shadow-soft); padding: 22px; display:flex; flex-wrap: wrap; gap: 14px; align-items:center; justify-content: space-between; }
-    .cta-band p{ margin: 0; color: var(--muted); font-weight: 500; max-width: 60ch; line-height: 1.6; }
-    .cta-band strong{ color: var(--navy-2); }
-    .cta-band__buttons{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content: center; }
-
-    footer{ background:#fff; border-top:1px solid var(--border-soft); padding: 22px; text-align:center; color: var(--muted); font-size: 15px; }
-    .footer-tagline{ margin: 0 0 6px; font-weight: 650; color: var(--navy-2); }
-
-    @media (max-width: 980px){
-      .site-nav{ display:none; }
-      .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
-      .header-inner{ grid-template-columns: 1fr auto; }
-      .header-cred{ display:none; }
-      .mobile-drawer{ max-width: 1180px; margin: 0 auto; padding: 10px 18px 16px; display:grid; gap: 8px; }
-      .mobile-drawer a{ text-decoration:none; font-weight: 700; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
-      .mobile-drawer a.drawer-cta{ background: linear-gradient(180deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
-      .hero{ padding: 2.75rem 1.25rem 1.25rem; }
-    }
-    @media (max-width: 700px){
-      .section{ margin: 44px auto; }
-      .cta-band{ flex-direction: column; text-align:center; }
-      .cta-band__buttons{ justify-content:center; }
-    }
-  </style>
+  <script src="/js/analytics.js"></script>
 </head>
 <body>
-  <header class="site-header" role="banner">
-    <div class="header-inner">
-      <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam Arafat</span>
-        <span class="brand__meta">for Congress • WA-10</span>
-      </a>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="/index.html">Arafat for Congress • WA-10</a>
+  <nav class="site-nav" aria-label="Primary">
+    <a class="nav-link" href="/index.html">Home</a><a class="nav-link" href="/issues.html" aria-current="page">Issues</a><a class="nav-link" href="/record-contrast.html">The Difference</a><a class="nav-link" href="/plan.html">The Plan</a><a class="nav-link" href="/about.html">Meet Adam</a><a class="nav-link" href="/contact.html">Contact / Volunteer</a>
+  </nav>
+  <div class="cta-group"><a class="btn btn-volunteer" href="#updates">Get updates</a><a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a></div>
+</div></header>
+<div class="share-message"><p id="share-line" class="share-line" aria-live="polite"></p></div>
+<main class="stack" style="max-width:1100px;margin:0 auto;padding:2rem 1rem 4rem;">
+  <section class="stack">
+    <h1 style="margin:0;">Bills exist. What’s missing is willpower.</h1>
+    <p class="lead">WA-10 includes JBLM families, Port of Tacoma jobs, Olympia workers, I-5 commuters, and neighborhoods from Spanaway to South Tacoma. People here need representatives who move bills, not just message about them.</p>
+  </section>
 
-      <nav class="site-nav" aria-label="Primary">
-        <a class="nav-link" href="/index.html" data-location="header">Home</a>
-        <a class="nav-link" href="/issues.html" aria-current="page" data-location="header">Issues</a>
-        <a class="nav-link" href="/record-contrast.html" data-location="header">The Difference</a>
-        <a class="nav-link" href="/about.html" data-location="header">Meet Adam</a>
-        <a class="nav-link" href="/contact.html" data-location="header">Contact / Volunteer</a>
-      </nav>
+  <section class="bg-alt round" style="padding:1rem 1.25rem;"><ul><li>No corporate PAC money</li><li>Transparent and specific: bill numbers, votes, and receipts</li><li>Working-family standard: action, not press releases</li></ul></section>
 
-      <div class="header-cta">
-        <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
-        <div class="cta-group">
-          <a class="btn btn-ghost" href="/contact.html">Join</a>
-          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-        </div>
-        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+  <section class="stack">
+    <h2>Issue cards</h2>
+    <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+      <article class="bg-alt round" style="padding:1rem;"><h3>Housing affordability</h3><p>Lower rent pressure and accelerate housing supply near jobs and transit.</p></article>
+      <article class="bg-alt round" style="padding:1rem;"><h3>Healthcare costs</h3><p>Expand access and lower out-of-pocket burdens for working families.</p></article>
+      <article class="bg-alt round" style="padding:1rem;"><h3>Worker pay and rights</h3><p>Support wages and bargaining power that match the cost of living.</p></article>
+      <article class="bg-alt round" style="padding:1rem;"><h3>Anti-corruption</h3><p>Strengthen ethics rules so public office serves voters first.</p></article>
     </div>
+  </section>
 
-    <div class="mobile-drawer" hidden>
-      <a href="/index.html">Home</a>
-      <a href="/issues.html">Issues</a>
-      <a href="/record-contrast.html">The Difference</a>
-      <a href="/about.html">Meet Adam</a>
-      <a href="/contact.html">Contact / Volunteer</a>
-      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+  <section class="stack">
+    <h2>Baseline accountability: co-sponsorship</h2>
+    <p>If an issue is urgent, co-sponsorship is the minimum standard. Leadership means more than statements: co-sponsor, organize support, and force a vote.</p>
+    <div style="overflow:auto;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead><tr><th style="text-align:left;border-bottom:1px solid #ddd;padding:.5rem;">Issue</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:.5rem;">Bill</th><th style="text-align:left;border-bottom:1px solid #ddd;padding:.5rem;">Standard</th></tr></thead>
+        <tbody>
+          <tr><td style="padding:.5rem;border-bottom:1px solid #eee;">Housing</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Tenant and supply legislation already introduced</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Co-sponsor + whip votes</td></tr>
+          <tr><td style="padding:.5rem;border-bottom:1px solid #eee;">Healthcare</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Coverage and pricing reform bills</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Co-sponsor + public timeline</td></tr>
+          <tr><td style="padding:.5rem;border-bottom:1px solid #eee;">Anti-corruption</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Ethics and campaign finance reform</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Co-sponsor + floor pressure</td></tr>
+        </tbody>
+      </table>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <section class="hero" aria-label="Issues hero">
-      <div class="hero__grid">
-        <div class="hero__text">
-          <div class="kicker">Bills exist. Willpower doesn’t.</div>
-          <h1>The solutions aren’t missing. Congress is choosing not to act.</h1>
-          <p class="hero__subheadline">If these priorities were urgent to them, they would have co-sponsored and fought to move them.</p>
-
-          <div class="lead-card">
-            <h2>Executive Summary</h2>
-            <p>Here’s the core point: when something truly matters, you prove it. You co-sponsor the bill. You organize support. You use your leverage to move it. That’s not leadership. That’s the baseline.</p>
-            <p>Right now, even that baseline isn’t being met. Some of the most basic working-family legislation hasn’t earned co-sponsorship. That’s not oversight. That’s a choice.</p>
-            <p>This isn’t about leading every bill. It’s about meeting the minimum standard of effort. If you won’t even put your name on the work, you’re not trying to move it.</p>
-            <p>WA-10 deserves a representative who treats this like a job, not commentary. Do the baseline. Then fight to win.</p>
-          </div>
-
-          <div class="hero__box">
-            <p>Co-sponsoring a bill, even symbolically, isn’t enough. The standard is simple: if you support what working families want, you use your leverage to move it.</p>
-            <p>When bills are ready to advance, they should have our full support. Press statements alone don’t protect healthcare. Action does.</p>
-          </div>
-
-          <div class="cta-band" style="margin-top:16px;">
-            <p><strong>People over donors.</strong> If you want urgency in Congress, help us build the pressure that money can’t buy.</p>
-            <div class="cta-band__buttons">
-              <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-              <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="sources-heading">
-      <h2 id="sources-heading">Verification and sources</h2>
-      <p class="section-intro">Each card pairs a core priority with legislation that has already been introduced and tracks whether Rep. Marilyn Strickland has co-sponsored it.</p>
-      <div class="copy-block">
-        <p><strong>Important context:</strong> Congress.gov blocks automated access in many cases. Bill titles and sponsors were verified using official sponsor press releases where available, and co-sponsorship was verified using public bill-tracking pages that list named co-sponsors.</p>
-        <p>Where a status is marked <strong>Needs verification</strong>, the source page was inaccessible at the time of review.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="priorities-bills">
-      <h2 id="priorities-bills">The priorities, tied to bills</h2>
-      <p class="section-intro">This is what “ready to go” looks like. Bills are written. People are hurting. The only missing piece is the will to fight.</p>
-
-      <div class="grid" role="list">
-        <article class="card" role="listitem" id="housing">
-          <h3>Housing</h3>
-          <p>Make affordable housing a national priority, not a talking point.</p>
-          <div class="bill">
-            <p class="bill-title">H.R. 4457 — Housing Is a Human Right Act of 2025</p>
-            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill bad">Strickland has not co-sponsored</span><span class="pill warn">Bill introduced, not moved</span></div>
-            <p class="bill-meta">If the goal is to lower rents, expand supply, and treat housing like the foundation it is, then this is exactly the kind of bill she would have co-sponsored.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/07/17/jayapal-introduces-housing-is-a-human-right-act-for-the-4th-time/" target="_blank" rel="noopener noreferrer">Sponsor release</a><a class="link" href="/record-contrast.html#housing">See contrast</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="workers">
-          <h3>Worker Protections</h3>
-          <p>Restore worker power. Protect unions. Raise wages.</p>
-          <div class="bill">
-            <p class="bill-title">H.R. 20 — Richard L. Trumka Protecting the Right to Organize (PRO) Act</p>
-            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Robert C. “Bobby” Scott</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill ok">Strickland has co-sponsored</span><span class="pill warn">The question is: will she fight?</span></div>
-            <p class="bill-meta">Co-sponsoring is the minimum. If worker power is urgent, members use leverage to force movement, not just add their name and move on.</p>
-            <div class="bill-links"><a class="link" href="https://fastdemocracy.com/bill-search/us/119/bills/USB00087085/" target="_blank" rel="noopener noreferrer">Co-sponsor list</a><a class="link" href="/index.html#fighting">What fighting means</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="healthcare">
-          <h3>Healthcare</h3>
-          <p>Guarantee healthcare for every American.</p>
-          <div class="bill">
-            <p class="bill-title">H.R. 3069 — Medicare for All Act of 2025</p>
-            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill bad">Strickland has not co-sponsored</span><span class="pill warn">Bill introduced, not moved</span></div>
-            <p class="bill-meta">People don’t need another “healthcare is important” statement. They need representatives who would co-sponsor the bill and then force the vote.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/05/14/jayapal-introduces-medicare-for-all-act-of-2025/" target="_blank" rel="noopener noreferrer">Sponsor release</a><a class="link" href="https://billtrack50.com/billdetail/1901009" target="_blank" rel="noopener noreferrer">Co-sponsor list</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="tax">
-          <h3>Tax the Wealthy</h3>
-          <p>Tax extreme wealth and fund working families.</p>
-          <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">The message stays the same: if taxing extreme wealth was urgent, Congress would move it. Not “study it.” Not “talk about it.” Move it.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Help research + volunteer</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="environment">
-          <h3>Environment</h3>
-          <p>Treat climate change as the emergency it is.</p>
-          <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">Urgency isn’t a press release. Urgency is making climate protections a red line.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Volunteer</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="ai">
-          <h3>Artificial Intelligence</h3>
-          <p>Ensure AI serves people, not corporations.</p>
-          <div class="bill">
-            <p class="bill-title">AI Civil Rights Act (reintroduced Dec 2025; bill number needs verification on Congress.gov)</p>
-            <p class="bill-meta"><strong>Lead sponsor (House):</strong> Rep. Pramila Jayapal (co-led)</p>
-            <div class="pill-row"><span class="pill warn">Strickland co-sponsor status needs verification</span></div>
-            <p class="bill-meta">AI should not become a discrimination engine or a worker-exploitation machine. Guardrails are a choice. Delay is also a choice.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/12/02/jayapal-markey-clarke-lee-reintroduce-ai-civil-rights-act-to-eliminate-ai-discrimination-and-enact-guardrails-on-use-of-algorithms-in-decisions-impacting-peoples-rights-civil-li/" target="_blank" rel="noopener noreferrer">Sponsor release</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="privacy">
-          <h3>Spying &amp; Data Collection</h3>
-          <p>End mass surveillance and protect privacy.</p>
-          <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">If leaders wanted to stop mass surveillance, they would. The delay isn’t technical. It’s political.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Join the team</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="money">
-          <h3>Campaign Finance Reform</h3>
-          <p>End corporate money in politics.</p>
-          <div class="bill">
-            <p class="bill-title">H.J.Res. 54 — We the People Amendment (overturn Citizens United)</p>
-            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class="pill-row"><span class="pill bad">Strickland has not co-sponsored</span><span class="pill warn">Bill introduced, not moved</span></div>
-            <p class="bill-meta">If your brand is “fighting corruption,” this is the kind of bill you would co-sponsor. Not later. Not “when leadership says it’s safe.” Now.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/02/13/jayapal-introduces-historic-constitutional-amendment-to-overturn-citizens-united/" target="_blank" rel="noopener noreferrer">Sponsor release</a><a class="link" href="/record-contrast.html#money">See contrast</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="institutions">
-          <h3>Democratic Institutions</h3>
-          <p>Defend the rule of law and keep public offices independent and accountable.</p>
-          <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">When democracy is “urgent,” you protect voting rights, oversight, and independent enforcement. Not with speeches. With votes.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Volunteer</a></div>
-          </div>
-        </article>
-
-        <article class="card" role="listitem" id="accountability">
-          <h3>Accountability</h3>
-          <p>Demand transparency and real consequences for corruption.</p>
-          <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">Accountability means escalation, forced votes, oversight, and consequences. Anything else is branding.</p>
-            <div class="bill-links"><a class="link" href="/record-contrast.html">The Difference</a></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="stall-heading">
-      <h2 id="stall-heading">Bills don’t “stall.” Members stall them.</h2>
-      <p class="section-intro">When leadership wants something to pass, it becomes must-pass. It gets attached to moving packages. It becomes a red line. That’s what urgency looks like.</p>
-      <div class="copy-block">
-        <p>Stalling is a political decision, not a procedural mystery. The power exists to force movement when members choose to use it.</p>
-        <p>Working families can’t wait on another press cycle. If the priority is real, the leverage has to be real too.</p>
-      </div>
-    </section>
-
-    <section class="section" aria-label="Support CTA">
-      <div class="cta-band">
-        <p><strong>Built by small donors.</strong> No corporate PAC or AIPAC money. Just people who are tired of excuses and ready for action.</p>
-        <div class="cta-band__buttons">
-          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-          <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p class="footer-tagline">Citizens serving citizens. That’s the job.</p>
-    Paid for by Arafat for Congress • info@arafatforcongress.org
-  </footer>
-
-  <script src="/js/analytics.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-PLACEHOLDER');
-  </script>
-  <script>
-    (function(){
-      const toggle = document.querySelector('.nav-toggle');
-      const drawer = document.querySelector('.mobile-drawer');
-      if(!toggle || !drawer) return;
-      toggle.addEventListener('click', () => {
-        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!isOpen));
-        drawer.hidden = isOpen;
-      });
-    })();
-  </script>
+  <section id="updates" class="bg-alt round stack" style="padding:1.25rem;max-width:640px;">
+    <h2 style="margin:0;">What issue should Congress act on first?</h2>
+    <p class="text-muted">Micro-commitment: pick one issue and join for updates on progress and pressure points.</p>
+    <form id="campaign-signup-form" class="stack">
+      <label for="signup-first-name">First name (optional)</label><input id="signup-first-name" name="firstName" type="text" />
+      <label for="priority">Your top issue</label>
+      <select id="priority" name="priority"><option>Housing affordability</option><option>Healthcare costs</option><option>Wages and worker protections</option><option>Anti-corruption</option></select>
+      <label for="signup-email">Email</label><input id="signup-email" name="email" type="email" required />
+      <button class="btn btn-volunteer" type="submit">Get updates</button>
+      <p id="signup-feedback" class="text-muted" aria-live="polite"></p>
+    </form>
+    <p><a class="btn btn-volunteer" href="/contact.html">Volunteer</a></p>
+  </section>
+</main>
+<footer style="padding:2rem 1rem;text-align:center;border-top:1px solid #e6e6e6;">Paid for by Arafat for Congress.</footer>
+<script src="js/main.js" defer></script>
 </body>
 </html>

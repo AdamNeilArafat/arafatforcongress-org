@@ -2,11 +2,16 @@ const SHARE_LINES = [
   "Share this page. Every new voice shrinks the power of big money."
 ];
 
+function getShareMessage() {
+  const meta = document.querySelector('meta[name="share-message"]');
+  const custom = meta ? meta.content.trim() : "";
+  return custom || SHARE_LINES[Math.floor(Math.random() * SHARE_LINES.length)];
+}
+
 function rotateShareLine() {
   const line = document.getElementById("share-line");
   if (!line) return;
-  const random = SHARE_LINES[Math.floor(Math.random() * SHARE_LINES.length)];
-  line.textContent = random;
+  line.textContent = getShareMessage();
 }
 
 function setupShareIcons() {
