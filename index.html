@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adam Arafat for Congress (WA-10) | People Over Donors</title>
 
-  <meta name="description" content="Adam Arafat is running in WA-10 to turn urgency into action—housing, healthcare, worker power, and accountable government. No corporate PAC or AIPAC money." />
+  <meta name="description" content="Adam Arafat is running in WA-10 to turn urgency into action on housing, healthcare, worker power, and accountable government. No corporate PAC or AIPAC money." />
   <meta property="og:title" content="Adam Arafat for Congress (WA-10) | People Over Donors" />
-  <meta property="og:description" content="Turn urgency into action, not excuses. A people-powered campaign—no corporate PAC or AIPAC money." />
+  <meta property="og:description" content="Turn urgency into action. People over donors. No corporate PAC or AIPAC money." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/" />
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Adam Arafat for Congress (WA-10) | People Over Donors" />
-  <meta name="twitter:description" content="Turn urgency into action, not excuses. No corporate PAC or AIPAC money." />
+  <meta name="twitter:description" content="Turn urgency into action. People over donors. No corporate PAC or AIPAC money." />
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
 
   <link rel="canonical" href="https://arafatforcongress.org/" />
@@ -25,18 +25,15 @@
 
   <style>
     :root{
-      /* Clean, serious palette (no red theme) */
       --navy:#071127;
       --navy-2:#0b1c3d;
       --paper:#ffffff;
       --ink:#081022;
       --muted:#58657a;
 
-      /* Teal brand accent */
       --brand:#0ea5a4;
       --brand-dark:#0b7f7e;
 
-      /* Subtle highlight */
       --gold:#f2c14e;
 
       --border-soft: rgba(7, 17, 39, 0.12);
@@ -174,7 +171,6 @@
     }
     .btn-ghost:hover{ background: rgba(11,28,61,0.10); }
 
-    /* Mobile menu toggle */
     .nav-toggle{
       display:none;
       border: 1px solid rgba(11,28,61,0.14);
@@ -193,11 +189,10 @@
       border-radius: 2px;
     }
 
-    /* ✅ FIX: drawer is NOT rendered unless toggled open (and only on mobile) */
     .mobile-drawer{ display:none; }
     .mobile-drawer[hidden]{ display:none !important; }
 
-    /* HERO (with About embedded) */
+    /* HERO */
     .hero{
       padding: 68px 20px 30px;
       background:
@@ -237,7 +232,7 @@
       font-size: 1.15rem;
       color: var(--navy-2);
       font-weight: 850;
-      max-width: 56ch;
+      max-width: 62ch;
       line-height: 1.35;
     }
 
@@ -305,6 +300,12 @@
       border: 1px solid rgba(11,28,61,0.14);
     }
     .btn-home.btn-volunteer:hover{ background: rgba(11,28,61,0.10); }
+    .btn-home.btn-record{
+      background: rgba(14,165,164,0.10);
+      color: var(--navy-2);
+      border: 1px solid rgba(14,165,164,0.22);
+    }
+    .btn-home.btn-record:hover{ background: rgba(14,165,164,0.14); }
 
     .cta-inline-link{
       font-weight: 900;
@@ -348,6 +349,59 @@
       font-weight: 650;
     }
 
+    .copy-block{
+      background: #fff;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: 22px;
+    }
+    .copy-stack{ display:grid; gap: 12px; }
+    .copy-block p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 650;
+    }
+    .copy-block strong{ color: var(--navy-2); }
+
+    .two-col{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card{
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+    }
+    .card h3{
+      margin: 0 0 8px;
+      color: var(--navy-2);
+      font-size: 1.08rem;
+      letter-spacing: -.1px;
+    }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 650;
+    }
+
+    .bullet-lines{
+      margin: 0;
+      padding-left: 1.1rem;
+      display:grid;
+      gap: 0.45rem;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 650;
+    }
+
     .issues-grid{
       display:grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -374,32 +428,6 @@
       font-weight: 650;
     }
 
-    .copy-block{
-      background: #fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 22px;
-    }
-    .copy-stack{ display:grid; gap: 12px; }
-    .copy-block p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.75;
-      font-weight: 650;
-    }
-    .copy-block strong{ color: var(--navy-2); }
-
-    .bullet-lines{
-      margin: 0;
-      padding-left: 1.1rem;
-      display:grid;
-      gap: 0.45rem;
-      color: var(--muted);
-      line-height: 1.65;
-      font-weight: 650;
-    }
-
     .cta-band{
       background: #fff;
       border: 1px solid var(--border-soft);
@@ -416,7 +444,7 @@
       margin: 0;
       color: var(--muted);
       font-weight: 750;
-      max-width: 60ch;
+      max-width: 68ch;
       line-height: 1.6;
     }
     .cta-band__buttons{
@@ -476,7 +504,6 @@
       .header-inner{ grid-template-columns: 1fr auto; }
       .header-cred{ display:none; }
 
-      /* ✅ Drawer only exists on mobile, and only when toggled open */
       .mobile-drawer{
         max-width: 1180px;
         margin: 0 auto;
@@ -505,6 +532,8 @@
       .hero__subheadline{ margin-inline: auto; }
       .cta{ justify-content:center; }
       .hero__values{ justify-content:center; margin-inline:auto; }
+
+      .two-col{ grid-template-columns: 1fr; }
     }
     @media (max-width: 700px){
       .signup-grid{ grid-template-columns: 1fr; }
@@ -558,7 +587,7 @@
         <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
 
         <div class="cta-group">
-          <a class="btn btn-ghost" href="/contact.html">Join</a>
+          <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
           <a class="btn btn-primary"
              href="https://secure.actblue.com/donate/adam-arafat-1"
              target="_blank" rel="noopener noreferrer">Donate</a>
@@ -576,31 +605,35 @@
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
       <a href="/contact.html">Contact / Volunteer</a>
+      <a href="#signup">Get updates</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
 
   <main>
-    <!-- HERO (with About embedded) -->
+    <!-- HERO -->
     <section class="hero" aria-label="Campaign hero">
       <div class="hero__grid">
         <div class="hero__text">
-          <div class="kicker">People over donors • Results over press releases</div>
+          <div class="kicker">People over donors. Results over excuses.</div>
 
-          <h1>Adam Arafat is running to turn urgency into action, not excuses.</h1>
+          <h1>Turn urgency into action.</h1>
 
-          <p class="hero__subheadline">The solutions aren’t missing. The will is.</p>
+          <p class="hero__subheadline">
+            Bills exist. People are hurting. The missing piece is the will to fight for a vote and deliver results for WA-10.
+          </p>
 
           <div class="hero__about">
             <h2>About Adam</h2>
-            <p>I’m a veteran, a husband, a dad, and a member of our community who’s invested in our success. I believe accountability matters.</p>
-            <p>In the real world, when something drags on for years, you step in. You don’t point fingers. You don’t call a press conference. You get it done.</p>
+            <p><strong>Veteran. Husband. Dad. WA-10 resident.</strong> Accountability matters.</p>
+            <p>In any real job, if something stalls, you escalate and deliver. You do not point fingers and call it leadership.</p>
             <p><strong>Voters deserve that same standard from Congress.</strong></p>
           </div>
 
           <div class="cta" aria-label="Primary campaign actions">
             <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
             <a class="btn-home btn-volunteer" href="/contact.html">Volunteer</a>
+            <a class="btn-home btn-record" href="/record-contrast.html">See the record</a>
             <a class="cta-inline-link" href="#signup">Get updates</a>
           </div>
 
@@ -613,16 +646,58 @@
       </div>
     </section>
 
+    <!-- THE STANDARD -->
+    <section class="section" aria-labelledby="standard-heading">
+      <h2 id="standard-heading">The Standard in Congress</h2>
+      <p class="section-intro">
+        If you claim to support working-family priorities, you put your name on them and you use leverage to move them.
+        Anything else is a statement, not a result.
+      </p>
+
+      <div class="two-col" role="list">
+        <article class="card" role="listitem">
+          <h3>The minimum</h3>
+          <p>Co-sponsor the bills you claim to support and show up when the vote matters.</p>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>The job</h3>
+          <p>Force action when leadership would rather delay. That is what urgency looks like in DC.</p>
+        </article>
+      </div>
+
+      <div class="copy-block" style="margin-top:18px;">
+        <div class="copy-stack">
+          <p><strong>Fighting means using leverage.</strong></p>
+          <ul class="bullet-lines">
+            <li>Attach priorities to must-pass legislation.</li>
+            <li>Make them non-negotiable conditions.</li>
+            <li>Escalate when they stall.</li>
+            <li>Force votes instead of accepting delay.</li>
+          </ul>
+          <p>
+            I will co-sponsor the working-family bills this district supports and fight to move them.
+            If you want receipts, I will publish them.
+          </p>
+        </div>
+      </div>
+
+      <div class="cta" style="justify-content:center; margin-top:16px;">
+        <a class="btn-home btn-record" href="/record-contrast.html">See the scorecard</a>
+        <a class="btn-home btn-volunteer" href="/issues.html">See the bills</a>
+      </div>
+    </section>
+
     <!-- ISSUES -->
     <section class="section" id="priorities" aria-labelledby="priorities-heading">
-      <h2 id="priorities-heading">Issues</h2>
-      <p class="section-intro"><strong>Working families will always be first.</strong></p>
+      <h2 id="priorities-heading">Priorities</h2>
+      <p class="section-intro"><strong>Working families will always be first.</strong> Clear priorities, real legislation, and a public standard.</p>
 
       <div class="issues-grid" role="list">
         <article class="issue-card" role="listitem"><h3>Housing</h3><p>Make affordable housing a national priority.</p></article>
         <article class="issue-card" role="listitem"><h3>Worker Protections</h3><p>Restore worker power. Protect unions. Raise wages.</p></article>
         <article class="issue-card" role="listitem"><h3>Healthcare</h3><p>Guarantee healthcare for every American.</p></article>
-        <article class="issue-card" role="listitem"><h3>Tax the extremely Wealthy</h3><p>Tax extreme wealth and fund working families.</p></article>
+        <article class="issue-card" role="listitem"><h3>Tax Extreme Wealth</h3><p>Tax extreme wealth and fund working families.</p></article>
         <article class="issue-card" role="listitem"><h3>Environment</h3><p>Treat climate change as the emergency it is.</p></article>
         <article class="issue-card" role="listitem"><h3>Artificial Intelligence</h3><p>Ensure AI serves people, not corporations.</p></article>
         <article class="issue-card" role="listitem"><h3>Spying &amp; Data Collection</h3><p>End mass surveillance and protect privacy.</p></article>
@@ -630,51 +705,32 @@
         <article class="issue-card" role="listitem"><h3>Democratic Institutions</h3><p>Defend the rule of law and keep public offices independent and accountable.</p></article>
         <article class="issue-card" role="listitem"><h3>Accountability</h3><p>Demand transparency and real consequences for corruption.</p></article>
       </div>
+
+      <div class="cta" style="justify-content:center; margin-top:16px;">
+        <a class="btn-home btn-record" href="/issues.html">See the legislation</a>
+        <a class="btn-home btn-volunteer" href="/record-contrast.html">Compare the record</a>
+      </div>
     </section>
 
-    <!-- URGENCY -->
-    <section class="section" aria-labelledby="urgency-heading">
-      <h2 id="urgency-heading">This Is What Urgency Looks Like</h2>
+    <!-- COMPETENCE / DELIVERY -->
+    <section class="section" aria-labelledby="deliver-heading">
+      <h2 id="deliver-heading">How I’ll Deliver for WA-10</h2>
       <div class="copy-block">
         <div class="copy-stack">
-          <p>When something in DC is urgent, it becomes a must-pass. It gets attached to budget bills. It becomes a red-line in negotiation.</p>
-          <p><strong>Urgency shows up in leverage, not press releases.</strong></p>
-          <p>If they wanted these to pass, they would have. They don’t.</p>
-          <ul class="bullet-lines">
-            <li><strong>Healthcare</strong> is urgent.</li>
-            <li><strong>Housing</strong> is urgent.</li>
-            <li><strong>Worker protections</strong> are urgent.</li>
-          </ul>
+          <p><strong>District-first service.</strong> Fast casework and visible follow-through for people who need help dealing with federal agencies.</p>
+          <p><strong>Receipts, not vibes.</strong> A public scorecard of my votes, co-sponsorships, and what I am pushing to move.</p>
+          <p><strong>Independence.</strong> No corporate PAC or AIPAC money. The agenda is set by neighbors, not donors.</p>
         </div>
       </div>
     </section>
 
-    <!-- HIGHER STANDARD -->
-    <section class="section" aria-labelledby="standard-heading">
-      <h2 id="standard-heading">A Higher Standard</h2>
-      <div class="copy-block">
-        <div class="copy-stack">
-          <p>Co-sponsoring a bill is the bare minimum. On key issues with broad public support, even that hasn’t happened.</p>
-          <p>I will seek out and co-sponsor the legislation working families support, and fight to move it.</p>
-          <p>If a bill has majority public support and never gets a vote, that’s a choice. It’s choosing donors over the people.</p>
-          <p><strong>I’m running to raise the standard.</strong></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT FIGHTING MEANS -->
-    <section class="section" aria-labelledby="fighting-heading">
-      <h2 id="fighting-heading">What Fighting Means</h2>
-      <div class="copy-block">
-        <div class="copy-stack">
-          <p><strong>Fighting means using leverage.</strong></p>
-          <ul class="bullet-lines">
-            <li>Attaching priorities to must-pass bills.</li>
-            <li>Making them red-line conditions.</li>
-            <li>Escalating when they stall.</li>
-            <li>Forcing votes when leadership would rather delay.</li>
-          </ul>
-          <p>That’s how urgency shows up in DC.</p>
+    <!-- PROOF CTA -->
+    <section class="section" aria-label="Proof CTA">
+      <div class="cta-band">
+        <p><strong>Want proof, not promises?</strong> Review the bills and the record contrast. Judge by actions.</p>
+        <div class="cta-band__buttons">
+          <a class="btn-home btn-record" href="/record-contrast.html">See the scorecard</a>
+          <a class="btn-home btn-volunteer" href="/issues.html">See the bills</a>
         </div>
       </div>
     </section>
