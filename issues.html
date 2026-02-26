@@ -200,11 +200,7 @@
 
     .hero{ padding: 3.25rem 1.5rem 1.25rem; }
     .hero__grid{
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      max-width: 1180px;
+      max-width: 980px;
       margin: 0 auto;
     }
     .kicker{
@@ -248,16 +244,22 @@
     .hero__box p{ margin:0; color: var(--muted); line-height: 1.75; font-weight: 500; }
     .hero__box strong{ color: var(--navy-2); }
 
-    .hero__image img{
-      width: 100%;
-      height: auto;
-      border-radius: 18px;
-      display: block;
-      border: 1px solid var(--border-soft);
+    .lead-card{
+      margin: 0 0 16px;
+      background: linear-gradient(180deg, rgba(14,165,164,0.08), rgba(255,255,255,0.95));
+      border: 1px solid rgba(14,165,164,0.24);
+      border-radius: var(--radius);
       box-shadow: var(--shadow-soft);
-      background: #fff;
+      padding: 18px 20px;
     }
-
+    .lead-card h2{
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      color: var(--navy);
+      letter-spacing: .2px;
+    }
+    .lead-card p{ margin: 0; color: var(--muted); line-height: 1.72; font-weight: 520; }
+    .lead-card p + p{ margin-top: 8px; }
     .section{ max-width: 1180px; margin: 56px auto; padding: 0 20px; }
     .section h2{ text-align: center; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.05rem); margin: 0 0 10px; letter-spacing: -0.2px; font-weight: 800; }
     .section .section-intro{ text-align: center; color: var(--muted); max-width: 82ch; margin: 0 auto 1.25rem; line-height: 1.7; font-weight: 500; }
@@ -302,9 +304,7 @@
       .mobile-drawer{ max-width: 1180px; margin: 0 auto; padding: 10px 18px 16px; display:grid; gap: 8px; }
       .mobile-drawer a{ text-decoration:none; font-weight: 700; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
       .mobile-drawer a.drawer-cta{ background: linear-gradient(180deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
-      .hero__grid{ grid-template-columns: 1fr; gap: 1.5rem; }
       .hero{ padding: 2.75rem 1.25rem 1.25rem; }
-      .hero__image{ margin-top: 0.5rem; }
     }
     @media (max-width: 700px){
       .section{ margin: 44px auto; }
@@ -361,10 +361,16 @@
           <h1>The solutions aren’t missing. Congress is choosing not to act.</h1>
           <p class="hero__subheadline">If these priorities were urgent to them, they would have co-sponsored and fought to move them.</p>
 
+          <div class="lead-card">
+            <h2>Executive summary</h2>
+            <p><strong>Here’s the core point:</strong> if they wanted these priorities to pass, they would have co-sponsored them and used leverage to move them.</p>
+            <p>Not every member has to lead every bill. But refusing to co-sponsor the most basic working-family legislation is a signal.</p>
+            <p><strong>WA-10 deserves a representative who treats this like a job.</strong></p>
+          </div>
+
           <div class="hero__box">
-            <p>This page ties each of our priorities to real legislation that’s already written. Not slogans. Bills.</p>
-            <p>Some members treat co-sponsoring as “action.” It’s not. <strong>It’s the bare minimum.</strong></p>
-            <p>The higher standard is simple: <strong>co-sponsor what working families want, then use leverage to force movement.</strong></p>
+            <p>Co-sponsoring a bill, even symbolically, isn’t enough. The standard is simple: if you support what working families want, you use your leverage to move it.</p>
+            <p>When bills are ready to advance, they should have our full support. Press statements alone don’t protect healthcare. Action does.</p>
           </div>
 
           <div class="cta-band" style="margin-top:16px;">
@@ -376,17 +382,15 @@
           </div>
         </div>
 
-        <div class="hero__image">
-          <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat speaking with supporters" />
-        </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="how-heading">
-      <h2 id="how-heading">How to read this</h2>
-      <p class="section-intro">Each card shows: (1) the priority, (2) a bill already introduced, and (3) whether Rep. Marilyn Strickland has co-sponsored it. When she hasn’t, that isn’t a mystery. It’s a choice.</p>
+    <section class="section" aria-labelledby="sources-heading">
+      <h2 id="sources-heading">Verification and sources</h2>
+      <p class="section-intro">Each card pairs a core priority with legislation that has already been introduced and tracks whether Rep. Marilyn Strickland has co-sponsored it.</p>
       <div class="copy-block">
-        <p><strong>Important context:</strong> Congress.gov blocks automated access in many cases. I verified bill titles/sponsors using official sponsor press releases where available, and verified co-sponsorship using public bill-tracking pages that list named co-sponsors. Where a status is marked “Needs verification,” it’s because the source page was inaccessible at the time of review.</p>
+        <p><strong>Important context:</strong> Congress.gov blocks automated access in many cases. Bill titles and sponsors were verified using official sponsor press releases where available, and co-sponsorship was verified using public bill-tracking pages that list named co-sponsors.</p>
+        <p>Where a status is marked <strong>Needs verification</strong>, the source page was inaccessible at the time of review.</p>
       </div>
     </section>
 
@@ -436,7 +440,6 @@
           <p>Tax extreme wealth and fund working families.</p>
           <div class="bill">
             <p class="bill-title">Flagship bill (needs verification)</p>
-            <p class="bill-meta"><strong>Goal:</strong> Anchor this priority to a Jayapal- or Sanders-led wealth tax bill in the 119th Congress, with Strickland co-sponsorship status displayed.</p>
             <div class="pill-row" aria-label="cosponsor status"><span class="pill warn">Needs verification</span></div>
             <p class="bill-meta">The message stays the same: if taxing extreme wealth was urgent, Congress would move it. Not “study it.” Not “talk about it.” Move it.</p>
             <div class="bill-links"><a class="link" href="/contact.html">Help research + volunteer</a></div>
@@ -448,7 +451,6 @@
           <p>Treat climate change as the emergency it is.</p>
           <div class="bill">
             <p class="bill-title">Flagship bill (needs verification)</p>
-            <p class="bill-meta"><strong>Goal:</strong> Use a Jayapal- or Sanders-led climate bill in the 119th Congress and show whether Strickland has co-sponsored it.</p>
             <div class="pill-row"><span class="pill warn">Needs verification</span></div>
             <p class="bill-meta">Urgency isn’t a press release. Urgency is making climate protections a red line.</p>
             <div class="bill-links"><a class="link" href="/contact.html">Volunteer</a></div>
@@ -472,7 +474,6 @@
           <p>End mass surveillance and protect privacy.</p>
           <div class="bill">
             <p class="bill-title">Flagship bill (needs verification)</p>
-            <p class="bill-meta"><strong>Goal:</strong> Tie this to a Jayapal- or Sanders-led privacy / surveillance reform bill in the 119th Congress.</p>
             <div class="pill-row"><span class="pill warn">Needs verification</span></div>
             <p class="bill-meta">If leaders wanted to stop mass surveillance, they would. The delay isn’t technical. It’s political.</p>
             <div class="bill-links"><a class="link" href="/contact.html">Join the team</a></div>
@@ -496,7 +497,6 @@
           <p>Defend the rule of law and keep public offices independent and accountable.</p>
           <div class="bill">
             <p class="bill-title">Flagship bill (needs verification)</p>
-            <p class="bill-meta"><strong>Goal:</strong> Use a Jayapal- or Sanders-led democracy / rule-of-law bill in the 119th Congress, with Strickland co-sponsorship displayed.</p>
             <div class="pill-row"><span class="pill warn">Needs verification</span></div>
             <p class="bill-meta">When democracy is “urgent,” you protect voting rights, oversight, and independent enforcement. Not with speeches. With votes.</p>
             <div class="bill-links"><a class="link" href="/contact.html">Volunteer</a></div>
@@ -508,7 +508,6 @@
           <p>Demand transparency and real consequences for corruption.</p>
           <div class="bill">
             <p class="bill-title">Flagship bill (needs verification)</p>
-            <p class="bill-meta"><strong>Goal:</strong> Anchor this to a Jayapal- or Sanders-led transparency / anti-corruption bill in the 119th Congress.</p>
             <div class="pill-row"><span class="pill warn">Needs verification</span></div>
             <p class="bill-meta">Accountability means escalation, forced votes, oversight, and consequences. Anything else is branding.</p>
             <div class="bill-links"><a class="link" href="/record-contrast.html">The Difference</a></div>
@@ -519,11 +518,10 @@
 
     <section class="section" aria-labelledby="stall-heading">
       <h2 id="stall-heading">Bills don’t “stall.” Members stall them.</h2>
-      <p class="section-intro">When leadership wants something, it becomes must-pass. It gets attached. It becomes a red line. That’s what urgency looks like.</p>
+      <p class="section-intro">When leadership wants something to pass, it becomes must-pass. It gets attached to moving packages. It becomes a red line. That’s what urgency looks like.</p>
       <div class="copy-block">
-        <p><strong>Here’s the core point:</strong> if they wanted these priorities to pass, they would have co-sponsored them and used leverage to move them.</p>
-        <p>Not every member has to lead every bill. But refusing to co-sponsor the most basic working-family legislation is a signal.</p>
-        <p><strong>WA-10 deserves a representative who treats this like a job.</strong></p>
+        <p>Stalling is a political decision, not a procedural mystery. The power exists to force movement when members choose to use it.</p>
+        <p>Working families can’t wait on another press cycle. If the priority is real, the leverage has to be real too.</p>
       </div>
     </section>
 
