@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Issues | Adam Arafat for Congress (WA-10) | People Over Donors</title>
 
-  <meta name="description" content="Bills are already written. The question is whether your representative will fight to move them. Adam Arafat is running to turn urgency into action." />
+  <meta name="description" content="Bills are already written. The test is simple: did your representative co-sponsor them and fight to move them? Adam Arafat is running to turn urgency into action." />
   <link rel="canonical" href="https://arafatforcongress.org/issues.html" />
 
   <meta property="og:title" content="Issues | Adam Arafat for Congress (WA-10)" />
-  <meta property="og:description" content="Bills are already written. The question is whether your representative will fight to move them." />
+  <meta property="og:description" content="Bills are already written. The test is simple: did your representative co-sponsor them and fight to move them?" />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/issues.html" />
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Issues | Adam Arafat for Congress (WA-10)" />
-  <meta name="twitter:description" content="Bills are already written. The question is whether your representative will fight to move them." />
+  <meta name="twitter:description" content="Bills are already written. The test is simple: did your representative co-sponsor them and fight to move them?" />
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
 
   <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
@@ -44,6 +44,7 @@
       --bg: radial-gradient(1200px 650px at 20% 0%, rgba(14,165,164,0.10), transparent 55%),
             radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
             linear-gradient(180deg, #f7f8fb, #eef1f7);
+
       --warn: rgba(245, 158, 11, .14);
       --ok: rgba(34, 197, 94, .14);
       --bad: rgba(239, 68, 68, .14);
@@ -229,20 +230,9 @@
       font-size: 1.15rem;
       color: var(--navy-2);
       font-weight: 700;
-      max-width: 60ch;
+      max-width: 64ch;
       line-height: 1.45;
     }
-    .hero__box{
-      background:#fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
-      padding: 20px;
-      display:grid;
-      gap: 10px;
-    }
-    .hero__box p{ margin:0; color: var(--muted); line-height: 1.75; font-weight: 500; }
-    .hero__box strong{ color: var(--navy-2); }
 
     .lead-card{
       margin: 0 0 16px;
@@ -259,41 +249,146 @@
       letter-spacing: .2px;
     }
     .lead-card p{ margin: 0; color: var(--muted); line-height: 1.72; font-weight: 520; }
-    .lead-card p + p{ margin-top: 8px; }
-    .section{ max-width: 1180px; margin: 56px auto; padding: 0 20px; }
-    .section h2{ text-align: center; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.05rem); margin: 0 0 10px; letter-spacing: -0.2px; font-weight: 800; }
-    .section .section-intro{ text-align: center; color: var(--muted); max-width: 82ch; margin: 0 auto 1.25rem; line-height: 1.7; font-weight: 500; }
+    .lead-card p + p{ margin-top: 10px; }
 
-    .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 22px; }
+    .mini-note{
+      margin-top: 10px;
+      font-size: .92rem;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 520;
+    }
 
-    .card{ background: #fff; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-soft); }
-    .card h3{ margin: 0 0 8px; color: var(--navy-2); font-size: 1.08rem; letter-spacing: -.1px; font-weight: 800; }
-    .card p{ margin: 0; color: var(--muted); line-height: 1.65; font-weight: 500; }
-
-    .bill{ margin-top: 14px; border-top: 1px solid var(--border-soft); padding-top: 14px; display:grid; gap: 8px; }
-    .pill-row{ display:flex; flex-wrap:wrap; gap: 8px; align-items:center; }
-    .pill{ display:inline-flex; align-items:center; gap: 8px; padding: 8px 10px; border-radius: 999px; font-weight: 700; font-size: .88rem; border: 1px solid var(--border-soft); background: rgba(11,18,32,0.03); color: var(--navy-2); }
+    .legend{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      align-items:center;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-weight: 750;
+      font-size: .88rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(11,18,32,0.03);
+      color: var(--navy-2);
+    }
     .pill.bad{ background: var(--bad); border-color: rgba(239,68,68,.18); }
     .pill.ok{ background: var(--ok); border-color: rgba(34,197,94,.18); }
     .pill.warn{ background: var(--warn); border-color: rgba(245,158,11,.22); }
 
-    .bill-title{ font-weight: 800; color: var(--navy); letter-spacing: -.1px; margin: 0; line-height: 1.35; }
-    .bill-meta{ margin:0; color: var(--muted); line-height: 1.55; font-weight: 500; }
-    .bill-links{ display:flex; flex-wrap:wrap; gap: 10px; align-items:center; }
-    .link{ font-weight: 750; color: var(--navy-2); text-decoration:none; padding: 8px 10px; border-radius: 12px; background: rgba(11,18,32,0.04); border: 1px solid var(--border-soft); }
+    .cta-band{
+      background: #fff;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: 22px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items:center;
+      justify-content: space-between;
+    }
+    .cta-band p{
+      margin: 0;
+      color: var(--muted);
+      font-weight: 500;
+      max-width: 62ch;
+      line-height: 1.6;
+    }
+    .cta-band strong{ color: var(--navy-2); }
+    .cta-band__buttons{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content: center; }
+
+    .section{ max-width: 1180px; margin: 56px auto; padding: 0 20px; }
+    .section h2{ text-align: center; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.05rem); margin: 0 0 10px; letter-spacing: -0.2px; font-weight: 800; }
+    .section .section-intro{ text-align: center; color: var(--muted); max-width: 86ch; margin: 0 auto 1.25rem; line-height: 1.7; font-weight: 500; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .card{
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+    }
+    .card h3{
+      margin: 0 0 8px;
+      color: var(--navy-2);
+      font-size: 1.08rem;
+      letter-spacing: -.1px;
+      font-weight: 800;
+    }
+    .card p{ margin: 0; color: var(--muted); line-height: 1.65; font-weight: 500; }
+
+    .bill{
+      margin-top: 14px;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 14px;
+      display:grid;
+      gap: 8px;
+    }
+    .pill-row{ display:flex; flex-wrap:wrap; gap: 8px; align-items:center; }
+
+    .bill-title{
+      font-weight: 850;
+      color: var(--navy);
+      letter-spacing: -.1px;
+      margin: 0;
+      line-height: 1.35;
+    }
+    .bill-meta{
+      margin:0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 500;
+    }
+    .bill-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+    }
+    .link{
+      font-weight: 800;
+      color: var(--navy-2);
+      text-decoration:none;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(11,18,32,0.04);
+      border: 1px solid var(--border-soft);
+    }
     .link:hover{ background: rgba(11,18,32,0.07); }
 
-    .copy-block{ background: #fff; border: 1px solid var(--border-soft); border-radius: var(--radius); box-shadow: var(--shadow-soft); padding: 22px; }
+    .copy-block{
+      background: #fff;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: 22px;
+    }
     .copy-block p{ margin: 0; color: var(--muted); line-height: 1.75; font-weight: 500; }
     .copy-block p + p{ margin-top: 10px; }
     .copy-block strong{ color: var(--navy-2); }
 
-    .cta-band{ background: #fff; border: 1px solid var(--border-soft); border-radius: var(--radius); box-shadow: var(--shadow-soft); padding: 22px; display:flex; flex-wrap: wrap; gap: 14px; align-items:center; justify-content: space-between; }
-    .cta-band p{ margin: 0; color: var(--muted); font-weight: 500; max-width: 60ch; line-height: 1.6; }
-    .cta-band strong{ color: var(--navy-2); }
-    .cta-band__buttons{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content: center; }
-
-    footer{ background:#fff; border-top:1px solid var(--border-soft); padding: 22px; text-align:center; color: var(--muted); font-size: 15px; }
+    footer{
+      background:#fff;
+      border-top:1px solid var(--border-soft);
+      padding: 22px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 15px;
+    }
     .footer-tagline{ margin: 0 0 6px; font-weight: 650; color: var(--navy-2); }
 
     @media (max-width: 980px){
@@ -313,6 +408,7 @@
     }
   </style>
 </head>
+
 <body>
   <header class="site-header" role="banner">
     <div class="header-inner">
@@ -352,169 +448,276 @@
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero" aria-label="Issues hero">
       <div class="hero__grid">
         <div class="hero__text">
-          <div class="kicker">Bills exist. Willpower doesn’t.</div>
-          <h1>The solutions aren’t missing. Congress is choosing not to act.</h1>
-          <p class="hero__subheadline">If these priorities were urgent to them, they would have co-sponsored and fought to move them.</p>
+          <div class="kicker">A standard voters can measure.</div>
+          <h1>Don’t grade Congress on speeches. Grade it on receipts.</h1>
+          <p class="hero__subheadline">
+            Bills are already written. The basic test is simple: did your representative co-sponsor the working-family bills and push to move them?
+          </p>
 
           <div class="lead-card">
-            <h2>Executive Summary</h2>
-            <p>Here’s the core point: when something truly matters, you prove it. You co-sponsor the bill. You organize support. You use your leverage to move it. That’s not leadership. That’s the baseline.</p>
-            <p>Right now, even that baseline isn’t being met. Some of the most basic working-family legislation hasn’t earned co-sponsorship. That’s not oversight. That’s a choice.</p>
-            <p>This isn’t about leading every bill. It’s about meeting the minimum standard of effort. If you won’t even put your name on the work, you’re not trying to move it.</p>
-            <p>WA-10 deserves a representative who treats this like a job, not commentary. Do the baseline. Then fight to win.</p>
+            <h2>The core argument</h2>
+            <p>
+              WA-10 deserves a representative who treats this like a job. That means doing the baseline work and then fighting to win.
+              Not just press statements. Not just “concern.” Receipts.
+            </p>
+            <p class="mini-note">
+              <strong>Data note:</strong> Co-sponsor status is based on Congress.gov listings as of <strong>Feb 26, 2026</strong>. If a bill changes, we update it.
+            </p>
+
+            <div class="legend" aria-label="Legend">
+              <span class="pill ok">Co-sponsored</span>
+              <span class="pill bad">Not co-sponsored</span>
+              <span class="pill warn">Needs verification</span>
+            </div>
           </div>
 
-          <div class="hero__box">
-            <p>Co-sponsoring a bill, even symbolically, isn’t enough. The standard is simple: if you support what working families want, you use your leverage to move it.</p>
-            <p>When bills are ready to advance, they should have our full support. Press statements alone don’t protect healthcare. Action does.</p>
-          </div>
-
-          <div class="cta-band" style="margin-top:16px;">
-            <p><strong>People over donors.</strong> If you want urgency in Congress, help us build the pressure that money can’t buy.</p>
+          <div class="cta-band">
+            <p><strong>People over donors.</strong> If you want urgency in Congress, help us build the kind of support money can’t buy.</p>
             <div class="cta-band__buttons">
               <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
               <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
+    <!-- SCORECARD GRID -->
     <section class="section" aria-labelledby="priorities-bills">
       <h2 id="priorities-bills">The priorities, tied to bills</h2>
-      <p class="section-intro">This is what “ready to go” looks like. Bills are written. People are hurting. The only missing piece is the will to fight.</p>
+      <p class="section-intro">
+        This is what “ready to go” looks like. Bills exist. The question is who will sign on, organize support, and force movement.
+      </p>
 
       <div class="grid" role="list">
+
+        <!-- HOUSING -->
         <article class="card" role="listitem" id="housing">
           <h3>Housing</h3>
           <p>Make affordable housing a national priority, not a talking point.</p>
           <div class="bill">
             <p class="bill-title">H.R. 4457 — Housing Is a Human Right Act of 2025</p>
             <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill bad">Strickland has not co-sponsored</span><span class="pill warn">Bill introduced, not moved</span></div>
-            <p class="bill-meta">If the goal is to lower rents, expand supply, and treat housing like the foundation it is, then this is exactly the kind of bill she would have co-sponsored.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/07/17/jayapal-introduces-housing-is-a-human-right-act-for-the-4th-time/" target="_blank" rel="noopener noreferrer">Sponsor release</a><a class="link" href="/record-contrast.html#housing">See contrast</a></div>
+            <div class="pill-row" aria-label="cosponsor status">
+              <span class="pill bad">Strickland not co-sponsored (as of 2/26/2026)</span>
+              <span class="pill warn">Introduced</span>
+            </div>
+            <p class="bill-meta">
+              If housing is urgent, the minimum is signing onto the bill. The job is then building leverage to move it.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/4457/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/record-contrast.html#housing">See contrast</a>
+            </div>
           </div>
         </article>
 
+        <!-- WORKERS -->
         <article class="card" role="listitem" id="workers">
           <h3>Worker Protections</h3>
           <p>Restore worker power. Protect unions. Raise wages.</p>
           <div class="bill">
-            <p class="bill-title">H.R. 20 — Richard L. Trumka Protecting the Right to Organize (PRO) Act</p>
-            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Robert C. “Bobby” Scott</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill ok">Strickland has co-sponsored</span><span class="pill warn">The question is: will she fight?</span></div>
-            <p class="bill-meta">Co-sponsoring is the minimum. If worker power is urgent, members use leverage to force movement, not just add their name and move on.</p>
-            <div class="bill-links"><a class="link" href="https://fastdemocracy.com/bill-search/us/119/bills/USB00087085/" target="_blank" rel="noopener noreferrer">Co-sponsor list</a><a class="link" href="/index.html#fighting">What fighting means</a></div>
+            <p class="bill-title">PRO Act (bill number and co-sponsor status)</p>
+            <div class="pill-row" aria-label="cosponsor status">
+              <span class="pill warn">Needs verification</span>
+            </div>
+            <p class="bill-meta">
+              This stays here because it’s the clearest test of worker power. Once verified, this will show whether the incumbent signed on and what they did after.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="/contact.html">Help verify</a>
+              <a class="link" href="/index.html#fighting">What “fighting” means</a>
+            </div>
           </div>
         </article>
 
+        <!-- HEALTHCARE -->
         <article class="card" role="listitem" id="healthcare">
           <h3>Healthcare</h3>
           <p>Guarantee healthcare for every American.</p>
           <div class="bill">
             <p class="bill-title">H.R. 3069 — Medicare for All Act of 2025</p>
             <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill bad">Strickland has not co-sponsored</span><span class="pill warn">Bill introduced, not moved</span></div>
-            <p class="bill-meta">People don’t need another “healthcare is important” statement. They need representatives who would co-sponsor the bill and then force the vote.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/05/14/jayapal-introduces-medicare-for-all-act-of-2025/" target="_blank" rel="noopener noreferrer">Sponsor release</a><a class="link" href="https://billtrack50.com/billdetail/1901009" target="_blank" rel="noopener noreferrer">Co-sponsor list</a></div>
+            <div class="pill-row" aria-label="cosponsor status">
+              <span class="pill bad">Strickland not co-sponsored (as of 2/26/2026)</span>
+              <span class="pill warn">Introduced</span>
+            </div>
+            <p class="bill-meta">
+              People don’t need another “healthcare is important” statement. They need representatives who sign onto the bill and then fight to move it.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/3069/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/record-contrast.html#healthcare">See contrast</a>
+            </div>
           </div>
         </article>
 
+        <!-- TAX EXTREME WEALTH -->
         <article class="card" role="listitem" id="tax">
-          <h3>Tax the Wealthy</h3>
+          <h3>Tax Extreme Wealth</h3>
           <p>Tax extreme wealth and fund working families.</p>
           <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row" aria-label="cosponsor status"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">The message stays the same: if taxing extreme wealth was urgent, Congress would move it. Not “study it.” Not “talk about it.” Move it.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Help research + volunteer</a></div>
+            <p class="bill-title">H.R. 5336 — Equal Tax Act</p>
+            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Delia C. Ramirez</p>
+            <div class="pill-row" aria-label="cosponsor status">
+              <span class="pill bad">Strickland not co-sponsored (as of 2/26/2026)</span>
+              <span class="pill warn">Introduced</span>
+            </div>
+            <p class="bill-meta">
+              “Tax the wealthy” is vague. “Tax extreme wealth” is concrete. If it’s urgent, you put your name on the bill and push to move it.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/5336/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/record-contrast.html#tax">See contrast</a>
+            </div>
           </div>
         </article>
 
+        <!-- ENVIRONMENT -->
         <article class="card" role="listitem" id="environment">
           <h3>Environment</h3>
           <p>Treat climate change as the emergency it is.</p>
           <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">Urgency isn’t a press release. Urgency is making climate protections a red line.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Volunteer</a></div>
+            <p class="bill-title">H.R. 4714 — End Polluter Welfare Act of 2025</p>
+            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Ro Khanna</p>
+            <div class="pill-row">
+              <span class="pill warn">Co-sponsor status needs verification</span>
+              <span class="pill warn">Introduced</span>
+            </div>
+            <p class="bill-meta">
+              Climate “urgency” is a budget choice. This is a real line item test: stop rewarding polluters and fund public priorities.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/4714/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/contact.html">Help verify</a>
+            </div>
           </div>
         </article>
 
+        <!-- AI -->
         <article class="card" role="listitem" id="ai">
           <h3>Artificial Intelligence</h3>
           <p>Ensure AI serves people, not corporations.</p>
           <div class="bill">
-            <p class="bill-title">AI Civil Rights Act (reintroduced Dec 2025; bill number needs verification on Congress.gov)</p>
-            <p class="bill-meta"><strong>Lead sponsor (House):</strong> Rep. Pramila Jayapal (co-led)</p>
-            <div class="pill-row"><span class="pill warn">Strickland co-sponsor status needs verification</span></div>
-            <p class="bill-meta">AI should not become a discrimination engine or a worker-exploitation machine. Guardrails are a choice. Delay is also a choice.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/12/02/jayapal-markey-clarke-lee-reintroduce-ai-civil-rights-act-to-eliminate-ai-discrimination-and-enact-guardrails-on-use-of-algorithms-in-decisions-impacting-peoples-rights-civil-li/" target="_blank" rel="noopener noreferrer">Sponsor release</a></div>
+            <p class="bill-title">AI Civil Rights Act (bill number + House lead sponsor needs verification)</p>
+            <div class="pill-row">
+              <span class="pill warn">Needs verification</span>
+            </div>
+            <p class="bill-meta">
+              AI should not become a discrimination engine or a worker-exploitation machine. Guardrails are a choice. Delay is also a choice.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="/contact.html">Help verify</a>
+            </div>
           </div>
         </article>
 
+        <!-- PRIVACY -->
         <article class="card" role="listitem" id="privacy">
           <h3>Spying &amp; Data Collection</h3>
           <p>End mass surveillance and protect privacy.</p>
           <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">If leaders wanted to stop mass surveillance, they would. The delay isn’t technical. It’s political.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Join the team</a></div>
+            <p class="bill-title">H.R. 4639 — Fourth Amendment Is Not For Sale Act (118th Congress)</p>
+            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Warren Davidson</p>
+            <div class="pill-row">
+              <span class="pill bad">Strickland not co-sponsored (118th Congress)</span>
+              <span class="pill warn">Needs 119th reintroduction</span>
+            </div>
+            <p class="bill-meta">
+              This bill targeted the data-broker loophole. If privacy is urgent, this should be reintroduced and supported, loudly and early.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/118th-congress/house-bill/4639/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/contact.html">Help track reintroduction</a>
+            </div>
           </div>
         </article>
 
+        <!-- MONEY IN POLITICS -->
         <article class="card" role="listitem" id="money">
           <h3>Campaign Finance Reform</h3>
           <p>End corporate money in politics.</p>
           <div class="bill">
             <p class="bill-title">H.J.Res. 54 — We the People Amendment (overturn Citizens United)</p>
             <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class="pill-row"><span class="pill bad">Strickland has not co-sponsored</span><span class="pill warn">Bill introduced, not moved</span></div>
-            <p class="bill-meta">If your brand is “fighting corruption,” this is the kind of bill you would co-sponsor. Not later. Not “when leadership says it’s safe.” Now.</p>
-            <div class="bill-links"><a class="link" href="https://jayapal.house.gov/2025/02/13/jayapal-introduces-historic-constitutional-amendment-to-overturn-citizens-united/" target="_blank" rel="noopener noreferrer">Sponsor release</a><a class="link" href="/record-contrast.html#money">See contrast</a></div>
+            <div class="pill-row">
+              <span class="pill bad">Strickland not co-sponsored (as of 2/26/2026)</span>
+              <span class="pill warn">Introduced</span>
+            </div>
+            <p class="bill-meta">
+              If your brand is “fighting corruption,” this is the kind of bill you co-sponsor now, not someday.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/119th-congress/house-joint-resolution/54/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/record-contrast.html#money">See contrast</a>
+            </div>
           </div>
         </article>
 
+        <!-- DEMOCRATIC INSTITUTIONS -->
         <article class="card" role="listitem" id="institutions">
           <h3>Democratic Institutions</h3>
-          <p>Defend the rule of law and keep public offices independent and accountable.</p>
+          <p>Defend voting rights, oversight, and independent enforcement.</p>
           <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">When democracy is “urgent,” you protect voting rights, oversight, and independent enforcement. Not with speeches. With votes.</p>
-            <div class="bill-links"><a class="link" href="/contact.html">Volunteer</a></div>
+            <p class="bill-title">H.R. 14 — John R. Lewis Voting Rights Advancement Act of 2025</p>
+            <p class="bill-meta"><strong>Sponsor:</strong> Rep. Terri A. Sewell</p>
+            <div class="pill-row">
+              <span class="pill ok">Strickland co-sponsored (as of 2/26/2026)</span>
+              <span class="pill warn">Introduced</span>
+            </div>
+            <p class="bill-meta">
+              Good. Now the next question is the only one that matters: what did she do to help move it?
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/14/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/record-contrast.html#institutions">See contrast</a>
+            </div>
           </div>
         </article>
 
+        <!-- ACCOUNTABILITY -->
         <article class="card" role="listitem" id="accountability">
           <h3>Accountability</h3>
-          <p>Demand transparency and real consequences for corruption.</p>
+          <p>Transparency and consequences for corruption.</p>
           <div class="bill">
-            <p class="bill-title">Flagship bill (needs verification)</p>
-            <div class="pill-row"><span class="pill warn">Needs verification</span></div>
-            <p class="bill-meta">Accountability means escalation, forced votes, oversight, and consequences. Anything else is branding.</p>
-            <div class="bill-links"><a class="link" href="/record-contrast.html">The Difference</a></div>
+            <p class="bill-title">TRUST in Congress Act (stock trading + blind trust requirements)</p>
+            <p class="bill-meta">
+              <strong>Candidate bill:</strong> H.R. 396 — TRUST in Congress Act (blind trust requirement for Members and family)
+            </p>
+            <div class="pill-row">
+              <span class="pill warn">Co-sponsor status needs verification</span>
+              <span class="pill warn">Introduced</span>
+            </div>
+            <p class="bill-meta">
+              If Congress won’t police itself, voters have to. This is where you show seriousness: disclosures, enforcement, and real penalties.
+            </p>
+            <div class="bill-links">
+              <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/396/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              <a class="link" href="/contact.html">Help verify</a>
+            </div>
           </div>
         </article>
+
       </div>
     </section>
 
+    <!-- CLOSER (LESS ABSOLUTE, MORE DEFENSIBLE) -->
     <section class="section" aria-labelledby="stall-heading">
-      <h2 id="stall-heading">Bills don’t “stall.” Members stall them.</h2>
-      <p class="section-intro">When leadership wants something to pass, it becomes must-pass. It gets attached to moving packages. It becomes a red line. That’s what urgency looks like.</p>
+      <h2 id="stall-heading">“Support” has a paper trail.</h2>
+      <p class="section-intro">
+        If a priority is real, it shows up early: co-sponsorship, whip work, committee pressure, and forcing votes when leadership won’t.
+      </p>
       <div class="copy-block">
-        <p>Stalling is a political decision, not a procedural mystery. The power exists to force movement when members choose to use it.</p>
-        <p>Working families can’t wait on another press cycle. If the priority is real, the leverage has to be real too.</p>
+        <p><strong>Press statements are not policy.</strong> They’re easy. The hard part is using leverage to move legislation.</p>
+        <p>This page keeps the standard simple so voters can judge it without a political science degree: sign on, then fight to advance it.</p>
       </div>
     </section>
 
+    <!-- FINAL CTA -->
     <section class="section" aria-label="Support CTA">
       <div class="cta-band">
         <p><strong>Built by small donors.</strong> No corporate PAC or AIPAC money. Just people who are tired of excuses and ready for action.</p>
