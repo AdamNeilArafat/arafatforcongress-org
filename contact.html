@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact | Arafat for Congress | WA-10</title>
-  <meta name="description" content="Get in touch with Adam Arafat for Congress. Questions, press, volunteering, or sharing your story,your voice guides this campaign." />
+  <title>Volunteer & Contact | Arafat for Congress | WA-10</title>
+
+  <meta name="description" content="Volunteer with Adam Arafat for Congress in WA-10. Join the team beating big money with people power. Share your story, get involved, and help us win." />
   <meta property="og:title" content="Volunteer & Contact | Adam Arafat for Congress (WA-10)" />
-  <meta property="og:description" content="Volunteer with Adam Arafat's WA-10 campaign, ask questions, or share your story." />
+  <meta property="og:description" content="This campaign only wins if we build it together. Volunteer, share your story, or reach the team directly." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/contact.html" />
   <meta property="og:type" content="website" />
@@ -15,8 +16,10 @@
   <meta name="twitter:description" content="Join the campaign, volunteer, and connect directly with Adam Arafat for WA-10." />
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <link rel="canonical" href="https://arafatforcongress.org/contact.html" />
+
   <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
   <link rel="stylesheet" href="styles.css" />
+
   <style>
     :root{
       --ink:#0b1220;
@@ -36,6 +39,7 @@
             radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
             linear-gradient(180deg, #f7f8fb, #eef1f7);
     }
+
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
     a{ color: inherit; }
 
@@ -46,7 +50,7 @@
     .brand__name{font-weight:950;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy)}
     .brand__meta{font-weight:850;font-size:.85rem;color:var(--muted)}
     .site-nav{display:flex;gap:10px;align-items:center}
-    .nav-link{text-decoration:none;color:var(--navy);font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;transition:background .15s ease;color .15s ease;white-space:nowrap}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;transition:background .15s ease,color .15s ease;white-space:nowrap}
     .nav-link:hover{background:rgba(14,165,164,0.10)}
     .nav-link[aria-current="page"]{background:rgba(14,165,164,0.12);box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18)}
     .header-cta{display:flex;align-items:center;gap:12px}
@@ -58,36 +62,85 @@
     .btn-primary:hover{filter:brightness(.98)}
     .btn-ghost{background:rgba(11,28,61,0.06);color:var(--navy-2);border:1px solid rgba(11,28,61,0.14)}
     .btn-ghost:hover{background:rgba(11,28,61,0.10)}
+
     .nav-toggle{display:none;border:1px solid rgba(11,28,61,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px 10px;min-height:44px;min-width:44px}
     .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px}
     .mobile-drawer{display:none}
     .mobile-drawer[hidden]{display:none!important}
-    /* Hero */
-    .hero{padding:80px 20px;background:radial-gradient(circle at 15% 40%,rgba(247,181,0,.12) 0%,transparent 60%),radial-gradient(circle at 85% 30%,rgba(36,70,245,.15) 0%,transparent 60%)}
-    .hero__grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr;gap:28px}
-    .hero__text h1{font-size:40px;margin:0 0 8px;color:var(--navy);letter-spacing:.2px;text-shadow:1px 1px 2px rgba(0,0,0,.05)}
-    .hero__text p{font-size:18px;color:var(--muted);max-width:820px}
-    .cta{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
-    /* Sections */
+
+    /* HERO */
+    .hero{padding:78px 20px;background:
+      radial-gradient(circle at 15% 40%,rgba(247,181,0,.12) 0%,transparent 60%),
+      radial-gradient(circle at 85% 30%,rgba(36,70,245,.15) 0%,transparent 60%)}
+    .hero__grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr;gap:18px}
+    .kicker{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:.92rem;color:var(--navy-2);
+      background:rgba(14,165,164,0.10);border:1px solid rgba(14,165,164,0.18);padding:8px 12px;border-radius:999px;width:max-content}
+    .hero__text h1{font-size:42px;margin:10px 0 10px;color:var(--navy);letter-spacing:.2px;text-shadow:1px 1px 2px rgba(0,0,0,.05)}
+    .hero__text p{font-size:18px;color:var(--muted);max-width:900px;margin:0 0 10px}
+    .hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;align-items:center}
+    .hero__note{font-size:14px;color:var(--muted);max-width:880px;margin-top:8px}
+    .pill-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border-soft);box-shadow:var(--shadow-soft);
+      padding:10px 12px;border-radius:999px;font-weight:850;color:var(--navy)}
+    .pill small{font-weight:800;color:var(--muted)}
+
+    /* SECTIONS */
     .section{max-width:1100px;margin:56px auto;padding:0 20px}
     .section h2{color:var(--navy);font-size:28px;margin:0 0 8px}
-    .section p{color:var(--muted);max-width:900px}
+    .section p{color:var(--muted);max-width:920px;margin:0 0 16px}
+
     .grid{display:grid;grid-template-columns:1fr;gap:20px}
     @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    .grid-3{display:grid;grid-template-columns:1fr;gap:20px}
+    @media(min-width:980px){.grid-3{grid-template-columns:1fr 1fr 1fr}}
+
     .card{background:#fff;border-radius:var(--radius);padding:20px;border:1px solid var(--border-soft);box-shadow:var(--shadow-soft)}
     .card h3{margin:0 0 6px;color:var(--navy)}
-    .card p{margin:0 0 10px;color:var(--muted)}
+    .card p{margin:0 0 12px;color:var(--muted)}
+    .card ul{margin:0 0 14px;padding-left:18px;color:var(--muted)}
+    .card li{margin:6px 0}
+
+    .card .card-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .btn-secondary{background:rgba(11,28,61,0.06);color:var(--navy-2);border:1px solid rgba(11,28,61,0.14)}
+    .btn-secondary:hover{background:rgba(11,28,61,0.10)}
+
+    /* EMAIL CHIPS */
     .mailto{display:flex;gap:10px;flex-wrap:wrap}
-    .mailto a{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--border);padding:10px 14px;border-radius:999px;color:var(--navy);text-decoration:none;font-weight:700}
+    .mailto a{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--border);padding:10px 14px;border-radius:999px;color:var(--navy);text-decoration:none;font-weight:850}
     .mailto a:hover{background:rgba(14,165,164,0.08)}
-    /* Form */
+
+    /* FORM */
     .form{display:grid;gap:12px;margin-top:10px}
-    textarea{min-height:140px}
-    .disclaimer{color:var(--muted);font-size:14px}
-    /* Quote */
+    .form-row{display:grid;gap:12px}
+    @media(min-width:860px){.form-row{grid-template-columns:1fr 1fr}}
+    .form-group{display:grid;gap:6px}
+    label{font-weight:850;color:var(--navy)}
+    input, select, textarea{
+      width:100%;box-sizing:border-box;border-radius:14px;border:1px solid var(--border);
+      padding:12px 12px;font-size:16px;background:#fff;color:var(--ink)
+    }
+    textarea{min-height:150px;resize:vertical}
+    .disclaimer{color:var(--muted);font-size:14px;margin:0}
+    .hint{color:var(--muted);font-size:14px;margin:0}
+
+    /* SHARE STRIP (MOVED DOWN) */
+    .share-strip{max-width:1100px;margin:24px auto 0;padding:0 20px}
+    .share-box{
+      background:#fff;border:1px solid var(--border-soft);box-shadow:var(--shadow-soft);border-radius:var(--radius);
+      padding:16px 16px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap
+    }
+    .share-line{margin:0;color:var(--navy);font-weight:900}
+    .share-helper{color:var(--muted);font-weight:750}
+    .share-buttons{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .share-icon{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;border:1px solid var(--border-soft);background:#fff;box-shadow:var(--shadow-soft);text-decoration:none}
+    .share-icon:hover{background:rgba(14,165,164,0.08)}
+    .share-icon svg{width:26px;height:26px}
+
+    /* QUOTE */
     .quote{background:linear-gradient(90deg,#f0f7f7,#f8f9ff);padding:40px 20px;text-align:center;margin-top:40px}
-    .quote blockquote{font-size:20px;font-weight:700;color:var(--ink);max-width:820px;margin:auto;line-height:1.45}
+    .quote blockquote{font-size:20px;font-weight:850;color:var(--ink);max-width:860px;margin:0 auto;line-height:1.45}
     .quote footer{margin-top:10px;color:var(--muted);font-size:15px}
+
     footer{background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:40px}
 
     @media (max-width: 980px){
@@ -96,12 +149,11 @@
       .header-inner{ grid-template-columns: 1fr auto; }
       .header-cred{ display:none; }
       .mobile-drawer{ max-width: 1180px; margin: 0 auto; padding: 10px 18px 16px; display:grid; gap: 8px; }
-      .mobile-drawer a{ text-decoration:none; font-weight: 700; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
+      .mobile-drawer a{ text-decoration:none; font-weight: 850; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
       .mobile-drawer a.drawer-cta{ background: linear-gradient(180deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
+      .hero__text h1{font-size:36px}
     }
-
   </style>
-
 
   <!-- Site analytics and advanced tracking -->
   <script src="/js/analytics.js"></script>
@@ -113,6 +165,7 @@
     gtag('config', 'G-PLACEHOLDER');
   </script>
 </head>
+
 <body>
   <header class="site-header" role="banner">
     <div class="header-inner">
@@ -120,6 +173,7 @@
         <span class="brand__name">Adam Arafat</span>
         <span class="brand__meta">for Congress • WA-10</span>
       </a>
+
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
         <a class="nav-link" href="/issues.html">Issues</a>
@@ -127,12 +181,14 @@
         <a class="nav-link" href="/about.html">Meet Adam</a>
         <a class="nav-link" href="/contact.html" aria-current="page">Contact / Volunteer</a>
       </nav>
+
       <div class="header-cta">
         <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
         <div class="cta-group">
-          <a class="btn btn-ghost" href="/contact.html">Join</a>
+          <a class="btn btn-ghost" href="#volunteer">Volunteer</a>
           <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
         </div>
+
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
@@ -149,70 +205,153 @@
     </div>
   </header>
 
-  <div class="share-message share-strip" role="complementary">
-    <p class="share-line share-helper" id="share-line" aria-live="polite">Share this page. Every new voice shrinks the power of big money.</p>
-    <div class="share-buttons share-icons" role="group" aria-label="Share this page">
-      <a class="share-icon" data-net="facebook" href="#" aria-label="Share on Facebook" data-event="share_click" data-location="share-strip">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect width="24" height="24" rx="4" fill="#1877F2"/>
-          <path fill="#fff" d="M13.2 10.5h2.5l.5-3h-3V5.5c0-.9.3-1.5 1.6-1.5h1.4V1.2c-.2 0-.8-.2-2.1-.2-2.3 0-3.9 1.4-3.9 4v2.5H7.6v3h2.6v8.3h3z"/>
-        </svg>
-      </a>
-      <a class="share-icon" data-net="bluesky" href="#" aria-label="Share on Bluesky" data-event="share_click" data-location="share-strip">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="#1185FE" d="M6.32 2.3c1.81 1.82 3.88 2.73 6.18 2.73 2.3 0 4.37-.91 6.18-2.73.41-.41 1.08-.12 1.03.45-.21 2.68-1.18 4.55-3 5.91 1.79 1.18 3 2.98 2.57 5.53-.61 3.66-4.37 4.84-6.93 2.55l-.85-.76-.85.76c-2.56 2.29-6.32 1.11-6.93-2.55-.43-2.55.78-4.35 2.57-5.53-1.82-1.36-2.79-3.23-3-5.91-.05-.57.62-.86 1.03-.45z"/>
-        </svg>
-      </a>
-      <a class="share-icon" data-net="reddit" href="#" aria-label="Share on Reddit" data-event="share_click" data-location="share-strip">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" fill="#FF4500"/>
-          <circle cx="12" cy="13" r="6.3" fill="#fff"/>
-          <circle cx="9.5" cy="12.5" r="1.2" fill="#FF4500"/>
-          <circle cx="14.5" cy="12.5" r="1.2" fill="#FF4500"/>
-          <path fill="#FF4500" d="M12 16.3c-1.2 0-2.1-.5-2.6-1.1-.2-.2-.2-.5 0-.7s.5-.2.7 0c.3.4.9.7 1.9.7s1.5-.3 1.9-.7c.2-.2.5-.2.7 0s.2.5 0 .7c-.5.6-1.4 1.1-2.6 1.1z"/>
-        </svg>
-      </a>
-      <a class="share-icon" data-net="email" href="#" aria-label="Share by Email" data-event="share_click" data-location="share-strip">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="3" y="5" width="18" height="14" rx="2" fill="#0A2C8A"/>
-          <path fill="#fff" d="M5 7l7 5 7-5H5zm14 2.4-6.4 4.5a1 1 0 0 1-1.2 0L5 9.4V17a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.4z"/>
-        </svg>
-      </a>
-    </div>
-  </div>
-  <section class="hero">
+  <!-- HERO -->
+  <section class="hero" aria-label="Volunteer and contact">
     <div class="hero__grid">
       <div class="hero__text">
-        <h1>Get in Touch</h1>
-        <p>This is a grassroots campaign. I work full time and have a family, so replies might be slow,but I read every message. Thank you for reaching out.</p>
-        <p class="cta-message">Prefer email? Reach us anytime at <a href="mailto:info@arafatforcongress.org?subject=Info%20Request">info@arafatforcongress.org</a> or <a href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Request">volunteer@arafatforcongress.org</a>.</p>
+        <div class="kicker">People power beats big money</div>
+        <h1>This campaign only wins if we build it together.</h1>
+        <p>
+          If you want WA-10 represented by working people instead of donor politics, we need you in the fight.
+          Pick a role, share your story, or reach the team directly.
+        </p>
+
+        <div class="hero__actions" aria-label="Primary actions">
+          <a class="btn btn-primary" href="#volunteer" data-event="volunteer_click" data-location="hero">Volunteer</a>
+          <a class="btn btn-secondary" href="#story" data-event="story_click" data-location="hero">Share your story</a>
+          <a class="btn btn-ghost" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer" data-event="donate_click" data-location="hero">Donate</a>
+        </div>
+
+        <div class="pill-row" aria-label="Quick contact">
+          <span class="pill">✉ <span>info@arafatforcongress.org</span> <small>General</small></span>
+          <span class="pill">🤝 <span>volunteer@arafatforcongress.org</span> <small>Volunteer</small></span>
+        </div>
+
+        <p class="hero__note">
+          Every message is read. A campaign team member will follow up as fast as we can.
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <h2>Contact the Campaign</h2>
+  <!-- VOLUNTEER PATHWAYS -->
+  <section class="section" id="volunteer" aria-label="Volunteer roles">
+    <h2>How you can help right now</h2>
+    <p>
+      This district won’t change because of ads. It changes when neighbors talk to neighbors.
+      Choose a lane and we’ll plug you in.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>Field and Community</h3>
+        <p>Help build real support offline.</p>
+        <ul>
+          <li>Door-to-door canvassing and lit drops</li>
+          <li>Tabling at events</li>
+          <li>Host a small meetup in your area</li>
+        </ul>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20-%20Field%20and%20Community&body=Hi%20team%2C%0A%0AI%27d%20like%20to%20help%20with%20Field%20and%20Community.%0A%0AMy%20name%3A%0ACity%2Farea%3A%0ABest%20contact%3A%0A%0AThanks%2C" data-event="volunteer_role_click" data-location="roles" data-role="field">Volunteer in Field</a>
+          <a class="btn btn-secondary" href="#flyers" data-event="flyer_section_click" data-location="roles">Post flyers</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Digital and Social</h3>
+        <p>Help us reach voters where they are.</p>
+        <ul>
+          <li>Clip and share content</li>
+          <li>Write posts, replies, and local subreddit outreach</li>
+          <li>Help manage DMs and inbound</li>
+        </ul>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20-%20Digital%20and%20Social&body=Hi%20team%2C%0A%0AI%27d%20like%20to%20help%20with%20Digital%20and%20Social.%0A%0AMy%20name%3A%0APlatforms%20I%27m%20active%20on%3A%0ABest%20contact%3A%0A%0AThanks%2C" data-event="volunteer_role_click" data-location="roles" data-role="digital">Volunteer in Digital</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Phones, Texts, and Data</h3>
+        <p>Help contact voters efficiently.</p>
+        <ul>
+          <li>Phone bank from home</li>
+          <li>Text bank on your schedule</li>
+          <li>Help with lists and targeting</li>
+        </ul>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20-%20Phones%2FTexts%2FData&body=Hi%20team%2C%0A%0AI%27d%20like%20to%20help%20with%20Phones%2FTexts%2FData.%0A%0AMy%20name%3A%0ABest%20contact%3A%0AAvailability%20(days%2Ftimes)%3A%0A%0AThanks%2C" data-event="volunteer_role_click" data-location="roles" data-role="votercontact">Volunteer for Voter Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLYERS: PRINT / LAMINATE / DROPOFF -->
+  <section class="section" id="flyers" aria-label="Flyer posting">
+    <h2>Post flyers in your neighborhood</h2>
+    <p>
+      One of the fastest ways to grow is simple: visible flyers on community mailboxes and neighborhood boards.
+      We can send an approved flyer, or a volunteer can drop off ready-to-post flyers at a location you choose.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Print at home</h3>
+        <p>We’ll send an approved flyer PDF. Print and post where it’s allowed.</p>
+        <ul>
+          <li>Best spots: community mailboxes, local boards, coffee shops (with permission)</li>
+          <li>Optional: laminate for weather resistance</li>
+          <li>We’ll share simple posting guidelines</li>
+        </ul>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="mailto:volunteer@arafatforcongress.org?subject=Flyers%20-%20Send%20approved%20PDF&body=Hi%20team%2C%0A%0APlease%20send%20me%20the%20approved%20flyer%20PDF.%0A%0AMy%20name%3A%0ACity%2Farea%3A%0A%0AThanks%2C">Request flyer PDF</a>
+        </div>
+        <p class="hint">Tip: laminating makes outdoor posting last longer, especially near community mailbox clusters.</p>
+      </div>
+
+      <div class="card">
+        <h3>Volunteer drop-off</h3>
+        <p>We can deliver ready-to-post flyers to a location you choose.</p>
+        <ul>
+          <li>Choose a meetup spot or safe pickup point</li>
+          <li>We can include tape, push pins, and posting notes</li>
+          <li>You post when it fits your schedule</li>
+        </ul>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="mailto:volunteer@arafatforcongress.org?subject=Flyers%20-%20Request%20drop-off&body=Hi%20team%2C%0A%0AI%27d%20like%20ready-to-post%20flyers%20dropped%20off.%0A%0AMy%20name%3A%0APreferred%20pickup%20area%20or%20address%20(you%20can%20suggest%20a%20public%20meetup%20spot)%3A%0ABest%20contact%3A%0A%0AThanks%2C">Request drop-off</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT EMAILS -->
+  <section class="section" aria-label="Direct email contact">
+    <h2>Reach the campaign</h2>
+    <p>For press, questions, or logistics, email us directly.</p>
+
     <div class="grid">
       <div class="card">
         <h3>General</h3>
         <p>Questions, ideas, and media inquiries.</p>
         <div class="mailto">
-          <a href="mailto:info@arafatforcongress.org?subject=Info%20Request">✉ info@arafatforcongress.org</a>
+          <a href="mailto:info@arafatforcongress.org?subject=Info%20Request" data-event="email_click" data-location="contact" data-email="info">✉ info@arafatforcongress.org</a>
         </div>
       </div>
+
       <div class="card">
-        <h3>Join the Team Building WA‑10</h3>
-        <p>Be part of the team fighting for working families in WA‑10. Pick your level of involvement.</p>
+        <h3>Volunteer</h3>
+        <p>Tell us how you want to help. We’ll plug you in fast.</p>
         <div class="mailto">
-          <a href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Request">🤝 volunteer@arafatforcongress.org</a>
+          <a href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Request" data-event="email_click" data-location="contact" data-email="volunteer">🤝 volunteer@arafatforcongress.org</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <h2>Share Your Story</h2>
-    <p>Tell me how healthcare, high costs, or corruption affect your family. I read every message.</p>
+  <!-- STORY FORM -->
+  <section class="section" id="story" aria-label="Share your story">
+    <h2>Share your story</h2>
+    <p>Your story shapes this campaign. Tell us what Washington isn’t fixing for your family.</p>
+
     <form class="form" onsubmit="return openEmail(event)" data-augment-tracking="true" data-form-type="contact">
       <div class="form-row">
         <div class="form-group">
@@ -224,6 +363,7 @@
           <input type="text" id="visitorContact" name="contact" placeholder="Email or phone" />
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="topic">Topic</label>
@@ -232,39 +372,75 @@
             <option>Cost of living</option>
             <option>Housing</option>
             <option>Jobs</option>
-            <option>Corruption & accountability</option>
+            <option>Accountability</option>
             <option>Other</option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="zip">ZIP code (optional)</label>
+          <input type="text" id="zip" name="zip" inputmode="numeric" placeholder="e.g., 98444" />
+        </div>
       </div>
-      <div>
-        <label for="story">Your story</label>
-        <textarea id="story" name="story" placeholder="Write what you want me to know..."></textarea>
+
+      <div class="form-group">
+        <label for="storyText">Your message</label>
+        <textarea id="storyText" name="story" placeholder="Write what you want us to know..."></textarea>
       </div>
-      <div class="cta">
-        <button class="btn primary" type="submit">Send via Email</button>
-        <p class="disclaimer">This opens your email app with your message prefilled. No data is stored on this site.</p>
+
+      <div class="hero__actions">
+        <button class="btn btn-primary" type="submit" data-event="story_submit" data-location="story">Submit your story</button>
+        <a class="btn btn-ghost" href="mailto:info@arafatforcongress.org?subject=Constituent%20message" data-event="email_click" data-location="story" data-email="info">Or email directly</a>
       </div>
+
+      <p class="disclaimer">This opens your email app with your message prefilled. No data is stored on this site.</p>
     </form>
   </section>
 
-  <section class="section">
-    <h2>Office Locations</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Main Campaign Office</h3>
-        <p>Details forthcoming.</p>
+  <!-- SHARE STRIP (MOVED DOWN) -->
+  <div class="share-strip" role="complementary" aria-label="Share this page">
+    <div class="share-box">
+      <div>
+        <p class="share-line">Know someone who would help?</p>
+        <p class="share-helper" id="share-line" aria-live="polite">Share this page. Every new volunteer shrinks the power of big money.</p>
       </div>
-      <div class="card">
-        <h3>District Office</h3>
-        <p>Planned for WA‑10. Details to follow.</p>
+
+      <div class="share-buttons" role="group" aria-label="Share buttons">
+        <a class="share-icon" data-net="facebook" href="#" aria-label="Share on Facebook" data-event="share_click" data-location="share-strip">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect width="24" height="24" rx="4" fill="#1877F2"></rect>
+            <path fill="#fff" d="M13.2 10.5h2.5l.5-3h-3V5.5c0-.9.3-1.5 1.6-1.5h1.4V1.2c-.2 0-.8-.2-2.1-.2-2.3 0-3.9 1.4-3.9 4v2.5H7.6v3h2.6v8.3h3z"></path>
+          </svg>
+        </a>
+
+        <a class="share-icon" data-net="bluesky" href="#" aria-label="Share on Bluesky" data-event="share_click" data-location="share-strip">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#1185FE" d="M6.32 2.3c1.81 1.82 3.88 2.73 6.18 2.73 2.3 0 4.37-.91 6.18-2.73.41-.41 1.08-.12 1.03.45-.21 2.68-1.18 4.55-3 5.91 1.79 1.18 3 2.98 2.57 5.53-.61 3.66-4.37 4.84-6.93 2.55l-.85-.76-.85.76c-2.56 2.29-6.32 1.11-6.93-2.55-.43-2.55.78-4.35 2.57-5.53-1.82-1.36-2.79-3.23-3-5.91-.05-.57.62-.86 1.03-.45z"></path>
+          </svg>
+        </a>
+
+        <a class="share-icon" data-net="reddit" href="#" aria-label="Share on Reddit" data-event="share_click" data-location="share-strip">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="#FF4500"></circle>
+            <circle cx="12" cy="13" r="6.3" fill="#fff"></circle>
+            <circle cx="9.5" cy="12.5" r="1.2" fill="#FF4500"></circle>
+            <circle cx="14.5" cy="12.5" r="1.2" fill="#FF4500"></circle>
+            <path fill="#FF4500" d="M12 16.3c-1.2 0-2.1-.5-2.6-1.1-.2-.2-.2-.5 0-.7s.5-.2.7 0c.3.4.9.7 1.9.7s1.5-.3 1.9-.7c.2-.2.5-.2.7 0s.2.5 0 .7c-.5.6-1.4 1.1-2.6 1.1z"></path>
+          </svg>
+        </a>
+
+        <a class="share-icon" data-net="email" href="#" aria-label="Share by Email" data-event="share_click" data-location="share-strip">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2" fill="#0A2C8A"></rect>
+            <path fill="#fff" d="M5 7l7 5 7-5H5zm14 2.4-6.4 4.5a1 1 0 0 1-1.2 0L5 9.4V17a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.4z"></path>
+          </svg>
+        </a>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="quote">
+  <section class="quote" aria-label="Campaign close">
     <blockquote>
-Power people, not PACs. Built for families. Built for WA‑10.
+      Power people, not PACs. Built for families. Built for WA-10.
       <footer>Adam Arafat for Congress</footer>
     </blockquote>
   </section>
@@ -274,21 +450,34 @@ Power people, not PACs. Built for families. Built for WA‑10.
   </footer>
 
   <script src="js/main.js" defer></script>
+
   <script>
     function openEmail(e){
       e.preventDefault();
       const name = document.getElementById('visitorName').value.trim();
       const contact = document.getElementById('visitorContact').value.trim();
       const topic = document.getElementById('topic').value;
-      const story = document.getElementById('story').value.trim();
-      const subject = encodeURIComponent(`Constituent story: ${topic}`);
-      const body = encodeURIComponent(`${story}\n\n- ${name || 'Anonymous'}${contact ? ` • ${contact}` : ''}`);
+      const zip = document.getElementById('zip').value.trim();
+      const story = document.getElementById('storyText').value.trim();
+
+      const subject = encodeURIComponent(`Constituent message: ${topic}`);
+      const parts = [];
+      if (story) parts.push(story);
+      const sig = [];
+      sig.push(`- ${name || 'Anonymous'}`);
+      if (contact) sig.push(contact);
+      if (zip) sig.push(`ZIP: ${zip}`);
+      parts.push("");
+      parts.push(sig.join(" • "));
+
+      const body = encodeURIComponent(parts.join("\n"));
       window.location.href = `mailto:info@arafatforcongress.org?subject=${subject}&body=${body}`;
       return false;
     }
   </script>
 
   <script>
+    // Mobile nav drawer
     (() => {
       const toggle = document.querySelector('.nav-toggle');
       const drawer = document.querySelector('.mobile-drawer');
@@ -301,5 +490,28 @@ Power people, not PACs. Built for families. Built for WA‑10.
     })();
   </script>
 
+  <script>
+    // Share buttons (uses current page URL)
+    (() => {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent("Volunteer with Adam Arafat for Congress (WA-10). People power beats big money.");
+      const subject = encodeURIComponent("Volunteer with Arafat for Congress (WA-10)");
+
+      const map = {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+        bluesky: `https://bsky.app/intent/compose?text=${text}%20${url}`,
+        reddit: `https://www.reddit.com/submit?url=${url}&title=${text}`,
+        email: `mailto:?subject=${subject}&body=${text}%0A%0A${url}`
+      };
+
+      document.querySelectorAll('.share-icon').forEach(a => {
+        const net = a.getAttribute('data-net');
+        if (!map[net]) return;
+        a.setAttribute('href', map[net]);
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+      });
+    })();
+  </script>
 </body>
 </html>
