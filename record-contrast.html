@@ -1,53 +1,508 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Difference | Adam Arafat for Congress (WA-10)</title>
-  <meta name="description" content="Representation, not management. Compare standards on donor incentives, stalled bills, and accountability in WA-10." />
-  <meta name="share-message" content="Representation, not management. WA-10 deserves accountable leadership. Share this contrast." />
-  <meta property="og:title" content="The Difference | Adam Arafat for Congress (WA-10)" />
-  <meta property="og:description" content="Representation, not management: donor incentives, stalled bills, and a higher standard." />
-  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
-  <meta property="og:url" content="https://arafatforcongress.org/record-contrast.html" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The Difference | Adam Arafat for Congress (WA-10)" />
-  <meta name="twitter:description" content="Representation, not management." />
-  <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
-  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
-  <link rel="canonical" href="https://arafatforcongress.org/record-contrast.html" />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="/js/analytics.js"></script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Difference | Adam Arafat for Congress (WA-10)</title>
+
+<meta name="description" content="Accountability first. Follow the money behind WA-10’s current representative using FEC data, then raise the standard." />
+<link rel="canonical" href="https://arafatforcongress.org/record-contrast.html" />
+
+<style>
+:root{
+  --ink:#0b1220;
+  --navy:#0b1220;
+  --muted:#51607a;
+  --brand:#0ea5a4;
+  --brand-dark:#0b7f7e;
+  --border-soft: rgba(11,18,32,0.10);
+  --border: rgba(11,18,32,0.16);
+  --shadow-soft: 0 10px 22px rgba(11,18,32,0.08);
+  --shadow: 0 14px 30px rgba(11,18,32,0.10);
+  --radius:16px;
+  --bg: linear-gradient(180deg,#f6f7fb,#eef2f7);
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+a{color:inherit;text-decoration:none;}
+main{padding-bottom:2rem;}
+
+header{
+  position:sticky;
+  top:0;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border-soft);
+  z-index:999;
+}
+.header-inner{
+  max-width:1180px;
+  margin:0 auto;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:220px;}
+.brand__name{font-weight:800;font-size:1.05rem;line-height:1.05;}
+.brand__meta{font-size:.85rem;color:var(--muted);font-weight:650;}
+
+nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end;}
+.nav-link{font-weight:600;font-size:.95rem;padding:8px 10px;border-radius:12px;}
+.nav-link:hover{background:rgba(14,165,164,0.08);}
+.nav-link[aria-current="page"]{
+  background:rgba(14,165,164,0.10);
+  box-shadow:inset 0 0 0 1px rgba(14,165,164,0.14);
+}
+
+.btn{
+  padding:10px 14px;
+  border-radius:14px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  line-height:1;
+}
+.btn-primary{
+  background:linear-gradient(180deg,var(--brand),var(--brand-dark));
+  color:#fff;
+  box-shadow:0 12px 22px rgba(14,165,164,.18);
+}
+.btn-ghost{
+  background:rgba(11,18,32,0.04);
+  border:1px solid var(--border-soft);
+}
+
+.hero{padding:3.5rem 1.5rem 1.25rem;}
+.hero-grid{
+  max-width:1180px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:3rem;
+  align-items:center;
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(11,18,32,0.04);
+  border:1px solid var(--border-soft);
+  font-weight:700;
+  margin-bottom:12px;
+}
+.hero h1{
+  font-size:clamp(2rem,4vw,3rem);
+  margin:0 0 10px;
+  line-height:1.08;
+  letter-spacing:-0.2px;
+}
+.subheadline{
+  font-size:1.08rem;
+  font-weight:650;
+  color:var(--navy);
+  margin:0 0 1.25rem;
+  max-width:62ch;
+  line-height:1.5;
+}
+.about-box{
+  background:#fff;
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+  padding:20px;
+  margin-bottom:1.25rem;
+}
+.about-box h2{margin:0 0 8px;font-size:1.1rem;letter-spacing:-.1px;}
+.about-box p{margin:0 0 10px;color:var(--muted);line-height:1.7;}
+.about-box p:last-child{margin-bottom:0;}
+.about-box strong{color:var(--navy);}
+
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+.values{
+  margin-top:1rem;
+  font-weight:650;
+  color:var(--muted);
+  background:rgba(11,18,32,0.04);
+  border:1px solid var(--border-soft);
+  padding:8px 12px;
+  border-radius:999px;
+  display:inline-block;
+}
+
+.hero-image{
+  background:#fff;
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+  overflow:hidden;
+}
+.hero-image img{width:100%;display:block;height:auto;background:#fff;}
+
+.section{max-width:1180px;margin:56px auto;padding:0 20px;}
+.section h2{font-size:1.85rem;margin:0 0 10px;letter-spacing:-.15px;}
+.section .intro{margin:0 0 18px;color:var(--muted);line-height:1.75;max-width:90ch;}
+
+.grid-2{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start;}
+.card{
+  background:#fff;
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+  padding:20px;
+}
+.card h3{margin:0 0 10px;color:var(--navy);font-size:1.15rem;letter-spacing:-.1px;}
+.card p{margin:0 0 10px;color:var(--muted);line-height:1.7;}
+.card p:last-child{margin-bottom:0;}
+.card strong{color:var(--navy);}
+
+.mini{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:12px;
+}
+.stat{
+  border:1px solid var(--border-soft);
+  border-radius:14px;
+  padding:12px;
+  background:rgba(11,18,32,0.02);
+}
+.stat b{display:block;font-size:1.12rem;color:var(--navy);letter-spacing:-.1px;}
+.stat span{display:block;color:var(--muted);font-weight:650;margin-top:4px;font-size:.93rem;line-height:1.25;}
+
+.figure{
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:#fff;
+  box-shadow:var(--shadow-soft);
+}
+.figure img{width:100%;display:block;height:auto;background:#fff;}
+.figure figcaption{
+  padding:12px 14px;
+  border-top:1px solid var(--border-soft);
+  color:var(--muted);
+  line-height:1.6;
+  font-size:.95rem;
+}
+.caption-strong{color:var(--navy);font-weight:750;}
+.caption-links a{text-decoration:underline;}
+
+.disclaimer{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid var(--border-soft);
+  background:rgba(11,18,32,0.02);
+  color:var(--muted);
+  line-height:1.65;
+  font-size:.95rem;
+}
+.disclaimer strong{color:var(--navy);}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:14px;
+  margin-top:14px;
+}
+.bill{
+  background:#fff;
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+  padding:18px;
+}
+.bill h3{margin:0 0 8px;font-size:1.06rem;letter-spacing:-.1px;color:var(--navy);}
+.bill p{margin:0;color:var(--muted);line-height:1.65;}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--border-soft);
+  background:rgba(11,18,32,0.03);
+  color:var(--navy);
+  font-weight:750;
+  font-size:.9rem;
+  margin-bottom:10px;
+}
+.bill a{text-decoration:underline;}
+
+.cta-band{
+  background:#fff;
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+  padding:22px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  align-items:center;
+  justify-content:space-between;
+}
+.cta-band p{margin:0;color:var(--muted);line-height:1.6;max-width:75ch;}
+.cta-band p strong{color:var(--navy);}
+
+footer{
+  background:#fff;
+  border-top:1px solid var(--border-soft);
+  padding:22px;
+  text-align:center;
+  color:var(--muted);
+}
+
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:1.5rem;}
+  .grid-2{grid-template-columns:1fr;}
+  nav{display:none;}
+  .mini{grid-template-columns:1fr;}
+}
+</style>
 </head>
+
 <body>
-<header class="site-header"><div class="header-inner"><a class="brand" href="/index.html">Arafat for Congress • WA-10</a><nav class="site-nav" aria-label="Primary"><a class="nav-link" href="/index.html">Home</a><a class="nav-link" href="/issues.html">Issues</a><a class="nav-link" href="/record-contrast.html" aria-current="page">The Difference</a><a class="nav-link" href="/plan.html">The Plan</a><a class="nav-link" href="/about.html">Meet Adam</a><a class="nav-link" href="/contact.html">Contact / Volunteer</a></nav><div class="cta-group"><a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a><a class="btn btn-volunteer" href="/contact.html">Volunteer</a></div></div></header>
-<div class="share-message"><p id="share-line" class="share-line" aria-live="polite"></p></div>
-<main class="stack" style="max-width:1100px;margin:0 auto;padding:2rem 1rem 4rem;">
-<section class="stack"><h1 style="margin:0;">Representation, not management.</h1><p class="lead">In WA-10—JBLM families, Port of Tacoma workers, Olympia employees, I-5 commuters, and communities like Spanaway and South Tacoma—people need advocates who take risks for results, not managers of the status quo.</p></section>
-<section class="bg-alt round" style="padding:1rem 1.25rem;"><ul><li>No corporate PAC money</li><li>Transparent and specific: bill numbers, votes, and receipts</li><li>Working-family standard: action, not press releases</li></ul></section>
-<section class="stack">
-  <h2>Where incentives point</h2>
-  <p>When campaigns rely heavily on political committee money, voters should ask what priorities get delayed. Loss aversion is real: every cycle of inaction costs families more in rent, healthcare, and commute stress.</p>
-  <p>Our standard is simple: if a bill helps working families, co-sponsor it, fight for it, and report progress in public.</p>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Arafat for Congress home">
+      <div>
+        <div class="brand__name">Adam Arafat</div>
+        <div class="brand__meta">for Congress • WA-10</div>
+      </div>
+    </a>
+
+    <nav aria-label="Primary">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="issues.html">Issues</a>
+      <a class="nav-link" href="record-contrast.html" aria-current="page">The Difference</a>
+      <a class="nav-link" href="about.html">Meet Adam</a>
+      <a class="nav-link" href="why-im-running.html">Why I’m Running</a>
+      <a class="btn btn-ghost" href="contact.html">Volunteer</a>
+      <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" aria-label="Record contrast hero">
+  <div class="hero-grid">
+
+    <div>
+      <div class="kicker">Accountability first.</div>
+
+      <h1>WA-10 is paying the price for a Congress that won’t act.</h1>
+
+      <p class="subheadline">
+        If it feels like Congress works for everyone except working families, you’re not imagining it.
+        Accountability is not a vibe. It’s a standard. It’s results.
+      </p>
+
+      <div class="about-box">
+        <h2>A higher standard</h2>
+        <p>
+          In any normal job, if a project stalls for years, you escalate.
+          You don’t point fingers. You don’t hold a press conference. You fix it.
+        </p>
+        <p>
+          <strong>Voters deserve that same standard from Congress.</strong>
+          If working-family bills never even get a vote, that isn’t “complicated.” It’s a choice.
+        </p>
+      </div>
+
+      <div class="cta-row" aria-label="Primary actions">
+        <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+        <a class="btn btn-ghost" href="contact.html">Volunteer</a>
+      </div>
+
+      <div class="values">No corporate PAC or AIPAC money.</div>
+    </div>
+
+    <!-- TOP IMAGE: Sponsored Suit -->
+    <div class="hero-image" aria-label="Sponsored suit image with FEC disclaimer">
+      <!-- Your repo path: images/Sponsored Suit  (encoded for web use) -->
+      <img
+        src="images/Sponsored_Suit.jpg"
+        alt="Sponsored suit graphic representing PAC-funded politics in WA-10"
+      />
+
+      <div class="disclaimer">
+        <strong>WA-10’s current representative (Marilyn Strickland):</strong>
+        This graphic summarizes PAC and committee contributions disclosed in Federal Election Commission (FEC) filings for the WA-10 incumbent’s principal campaign committee.
+        It is provided for public information and accountability. “PAC” includes contributions from political committees as categorized and reported to the FEC.
+        <br /><br />
+        <strong>When political committees fund campaigns, voters deserve to ask who gets priority in Congress.</strong>
+        <span class="caption-links">
+          Verify the public record:
+          <a href="https://www.fec.gov/data/committee/C00732826/" target="_blank" rel="noopener noreferrer">FEC committee summary</a>
+        </span>
+      </div>
+    </div>
+
+  </div>
 </section>
-<section class="stack">
-  <h2>Contrast table</h2>
-  <table style="width:100%;border-collapse:collapse;">
-    <thead><tr><th style="text-align:left;padding:.5rem;border-bottom:1px solid #ddd;">Standard</th><th style="text-align:left;padding:.5rem;border-bottom:1px solid #ddd;">Status quo politics</th><th style="text-align:left;padding:.5rem;border-bottom:1px solid #ddd;">Our campaign</th></tr></thead>
-    <tbody>
-      <tr><td style="padding:.5rem;border-bottom:1px solid #eee;">Funding</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Donor incentive drift</td><td style="padding:.5rem;border-bottom:1px solid #eee;">No corporate PAC money</td></tr>
-      <tr><td style="padding:.5rem;border-bottom:1px solid #eee;">Bills</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Statements without pressure</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Co-sponsor + push to vote</td></tr>
-      <tr><td style="padding:.5rem;border-bottom:1px solid #eee;">Transparency</td><td style="padding:.5rem;border-bottom:1px solid #eee;">General talking points</td><td style="padding:.5rem;border-bottom:1px solid #eee;">Public receipts and updates</td></tr>
-    </tbody>
-  </table>
+
+<!-- FOLLOW THE MONEY -->
+<section class="section" aria-labelledby="money-heading" id="money">
+  <h2 id="money-heading">Follow the money</h2>
+  <p class="intro">
+    This is the simplest accountability test in politics: who is funding the incumbent’s campaign?
+    If PACs and other committees are a major funding stream, it’s fair to ask what WA-10 gets in return.
+  </p>
+
+  <div class="grid-2">
+
+    <div class="card">
+      <h3>FEC committee summary (2025–2026 cycle)</h3>
+      <p>
+        These totals are from the Federal Election Commission’s public committee summary for
+        <strong>STRICKLAND FOR WASHINGTON (C00732826)</strong>.
+      </p>
+
+      <div class="mini" role="list" aria-label="Key FEC totals">
+        <div class="stat" role="listitem">
+          <b>$872,745.90</b>
+          <span>Total receipts</span>
+        </div>
+        <div class="stat" role="listitem">
+          <b>$512,476.33</b>
+          <span>Total individual contributions</span>
+        </div>
+        <div class="stat" role="listitem">
+          <b>$355,452.00</b>
+          <span>Other committee contributions (PACs and committees)</span>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Source:</strong> FEC committee financial summary (fec.gov).
+        <span class="caption-links">
+          View:
+          <a href="https://www.fec.gov/data/committee/C00732826/" target="_blank" rel="noopener noreferrer">Committee page</a>
+          ·
+          <a href="https://www.fec.gov/data/candidate/H0WA10034/" target="_blank" rel="noopener noreferrer">Candidate page</a>
+        </span>
+        <br />
+        <strong>Important:</strong> This page makes no claim of criminal conduct. It highlights disclosed funding and asks a basic accountability question.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>What this means for WA-10</h3>
+      <p>
+        When committee money becomes a major share of campaign funding, voters should ask whether public priorities are getting crowded out by donor priorities.
+      </p>
+      <p>
+        Accountability starts with transparency, then action: track the funding, track the votes, and demand measurable results for working families.
+      </p>
+    </div>
+
+  </div>
 </section>
-<section class="bg-alt round" style="padding:1rem 1.25rem;">
-  <p><strong>FEC and finance disclaimer:</strong> Any finance references on this page are for public-information purposes based on campaign-finance disclosures. “PAC” refers to political committee contributions as categorized in FEC reporting.</p>
+
+<!-- ACCOUNTABILITY STANDARD -->
+<section class="section" aria-labelledby="standard-heading" id="accountability">
+  <h2 id="standard-heading">Accountability is not a slogan. It’s a method.</h2>
+
+  <div class="card">
+    <h3>What “fighting” means in Congress</h3>
+    <p>
+      Real accountability means using leverage to force action. It means recorded votes, timelines, and escalation when leadership stalls.
+      Co-sponsoring a bill is the floor. Moving it is the job.
+    </p>
+    <p>
+      If a policy has broad support and never gets a vote, that’s not confusion. It’s a choice.
+      WA-10 deserves a representative who treats results like the job, not a photo op.
+    </p>
+  </div>
 </section>
-<section class="bg-alt round" style="padding:1.25rem;"><h2 style="margin-top:0;">Help fund independent representation</h2><p>Primary action: donate to a campaign that answers to voters, not big-donor gatekeepers.</p><p><a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a> <a class="btn btn-volunteer" href="/contact.html">Volunteer</a></p></section>
+
+<!-- BILLS READY NOW -->
+<section class="section" aria-labelledby="bills-heading" id="bills">
+  <h2 id="bills-heading">Bills already written. Waiting on political will.</h2>
+  <p class="intro">
+    The point isn’t that any one bill is perfect. The point is that Congress can move fast when it wants to.
+    Working families deserve that same urgency.
+  </p>
+
+  <div class="cards" role="list" aria-label="Bills">
+    <article class="bill" role="listitem">
+      <div class="pill">Healthcare</div>
+      <h3>Medicare for All Act of 2025 (H.R. 3069 / S. 1506)</h3>
+      <p>Bill text is public. If leadership wanted action, it would move like “urgent” legislation.</p>
+      <p style="margin-top:10px;font-weight:650;">
+        Read:
+        <a href="https://www.govinfo.gov/app/details/BILLS-119hr3069ih" target="_blank" rel="noopener noreferrer">H.R. 3069</a>
+        ·
+        <a href="https://www.govinfo.gov/app/details/BILLS-119s1506is" target="_blank" rel="noopener noreferrer">S. 1506</a>
+      </p>
+    </article>
+
+    <article class="bill" role="listitem">
+      <div class="pill">Worker power</div>
+      <h3>PRO Act of 2025 (H.R. 20)</h3>
+      <p>Strengthens the right to organize and bargain. Workers need votes and enforcement, not speeches.</p>
+      <p style="margin-top:10px;font-weight:650;">
+        Read:
+        <a href="https://www.congress.gov/bill/119th-congress/house-bill/20/text" target="_blank" rel="noopener noreferrer">Bill text</a>
+      </p>
+    </article>
+
+    <article class="bill" role="listitem">
+      <div class="pill">Housing</div>
+      <h3>Affordable Housing Credit Improvement Act (H.R. 2725 / S. 1515)</h3>
+      <p>One example of legislation already filed that can support new affordable housing supply.</p>
+      <p style="margin-top:10px;font-weight:650;">
+        Read:
+        <a href="https://www.govinfo.gov/app/details/BILLS-119hr2725ih" target="_blank" rel="noopener noreferrer">H.R. 2725</a>
+      </p>
+    </article>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h3>My commitment</h3>
+    <p>
+      I will publicly track what I co-sponsor, what I push to a vote, what leadership blocks, and what I do next.
+      WA-10 should never be asked to “trust” again. We should be able to verify.
+    </p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" aria-label="Final CTA">
+  <div class="cta-band">
+    <p>
+      <strong>WA-10 deserves urgency, leverage, and accountability.</strong>
+      If you’re tired of excuses and donor-first politics, help us build the people-powered campaign that can win.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+      <a class="btn btn-ghost" href="contact.html">Volunteer</a>
+    </div>
+  </div>
+</section>
+
 </main>
-<footer style="padding:2rem 1rem;text-align:center;border-top:1px solid #e6e6e6;">Paid for by Arafat for Congress.</footer>
-<script src="js/main.js" defer></script>
+
+<footer>
+  <p style="margin:0 0 6px;font-weight:650;color:var(--navy);">Citizens serving citizens. That’s the job.</p>
+  Paid for by Arafat for Congress • info@arafatforcongress.org
+</footer>
+
 </body>
 </html>
