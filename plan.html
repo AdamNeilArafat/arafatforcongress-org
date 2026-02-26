@@ -3,51 +3,185 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Plan | Adam Arafat for Congress (WA-10)</title>
-  <meta name="description" content="A 4-pillar plan for WA-10: affordability, care, worker power, and accountable government with clear measurable standards." />
-  <meta name="share-message" content="WA-10 needs a 4-pillar plan with measurable accountability. Share this page." />
-  <meta property="og:title" content="The Plan | Adam Arafat for Congress (WA-10)" />
-  <meta property="og:description" content="Four pillars, clear actions, public accountability." />
-  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
-  <meta property="og:url" content="https://arafatforcongress.org/plan.html" />
-  <meta property="og:type" content="website" />
+  <title>The Plan | Arafat for Congress | WA-10</title>
+  <meta name="description" content="Lower costs, honest government, real results. Adam Arafat’s commitments for WA-10." />
+  <meta property="og:title" content="Arafat for Congress | WA-10" />
+  <meta property="og:description" content="People over PACs. Real representation for WA-10." />
+  <meta property="og:image" content="https://arafatforcongress.org/assets/og/og-wa10.jpg" />
+  <meta property="og:url" content="https://arafatforcongress.org/plan/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The Plan | Adam Arafat for Congress (WA-10)" />
-  <meta name="twitter:description" content="Four pillars, clear actions, public accountability." />
-  <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
-  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
-  <meta name="campaign-signup-endpoint" content="SIGNUP_ENDPOINT_PLACEHOLDER" />
   <link rel="canonical" href="https://arafatforcongress.org/plan.html" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --brand: #2446f5;
+      --brand-dark: #1b33c9;
+      --accent: #f7b500;
+      --bg: linear-gradient(180deg,#f2f6ff,#e3e9ff);
+      --ink: #0c1025;
+      --sub: #475569;
+      --shadow: 0 6px 25px rgba(0,0,0,0.12);
+      --radius: 18px;
+      --border: #d0d8ff;
+    }
+    body {margin:0;font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--ink);}
+
+    /* Hero */
+    .hero {padding:90px 20px;background:radial-gradient(circle at 15% 40%,rgba(247,181,0,0.12) 0%,transparent 60%),radial-gradient(circle at 85% 30%,rgba(36,70,245,0.15) 0%,transparent 60%);} 
+    .hero__grid {max-width:1150px;margin:auto;display:grid;grid-template-columns:1fr;align-items:center;gap:34px;}
+    .hero__text h1 {font-size:40px;margin:0 0 12px;color:var(--brand-dark);letter-spacing:0.2px;text-shadow:1px 1px 2px rgba(0,0,0,0.05);} 
+    .hero__text p {font-size:18px;color:var(--sub);max-width:760px;}
+    .cta {margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+
+    .section {max-width:1100px;margin:60px auto;padding:0 20px;}
+    .section h2 {text-align:center;color:var(--brand-dark);font-size:28px;margin-bottom:12px;}
+    .section p {text-align:center;color:var(--sub);max-width:800px;margin:auto;} 
+
+    .tiles {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:26px;} 
+    .tile {background:#fff;border-radius:var(--radius);padding:22px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .2s ease, box-shadow .2s ease;position:relative;overflow:hidden;border:1px solid var(--border);} 
+    .tile::before {content:'';position:absolute;top:0;left:-80px;width:200px;height:100%;background:linear-gradient(45deg,rgba(247,181,0,0.15),rgba(36,70,245,0.15));transform:skewX(-20deg);}  
+    .tile:hover {transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,0.15);}  
+    .tile h3 {color:var(--brand-dark);margin-top:0;} 
+    .tile ul {margin:10px 0 0 18px;color:var(--sub)}
+    .tile .evidence {text-align:left;}
+
+    .quote {background:linear-gradient(90deg,#e8edff,#f8f9ff);padding:46px 20px;}
+    .quote blockquote {font-size:20px;font-weight:700;color:var(--ink);max-width:820px;margin:auto;line-height:1.45;white-space:pre-line;} 
+    .quote footer {margin-top:10px;color:var(--sub);font-size:15px;} 
+
+    footer {background:#fff;border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--sub);font-size:15px;}
+
+    @media(max-width:900px){
+      .cta{justify-content:center}
+    }
+  </style>
+
+
+  <!-- Site analytics and advanced tracking -->
   <script src="/js/analytics.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
 </head>
 <body>
-<header class="site-header"><div class="header-inner"><a class="brand" href="/index.html">Arafat for Congress • WA-10</a><nav class="site-nav" aria-label="Primary"><a class="nav-link" href="/index.html">Home</a><a class="nav-link" href="/issues.html">Issues</a><a class="nav-link" href="/record-contrast.html">The Difference</a><a class="nav-link" href="/plan.html" aria-current="page">The Plan</a><a class="nav-link" href="/about.html">Meet Adam</a><a class="nav-link" href="/contact.html">Contact / Volunteer</a></nav><div class="cta-group"><a class="btn btn-volunteer" href="#updates">Get updates</a><a class="btn btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a></div></div></header>
-<div class="share-message"><p id="share-line" class="share-line" aria-live="polite"></p></div>
-<main class="stack" style="max-width:1100px;margin:0 auto;padding:2rem 1rem 4rem;">
-<section><h1 style="margin:0;">A plan for WA-10 families that can be measured.</h1><p class="lead">From JBLM households to Port of Tacoma jobs, Olympia workers, I-5 commuters, and South Tacoma/Spanaway neighborhoods, people need relief and honest follow-through.</p></section>
-<section class="bg-alt round" style="padding:1rem 1.25rem;"><ul><li>No corporate PAC money</li><li>Transparent and specific: bill numbers, votes, and receipts</li><li>Working-family standard: action, not press releases</li></ul></section>
-<section>
-  <h2>Four pillars</h2>
-  <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));">
-    <article class="bg-alt round" style="padding:1rem;"><h3>1) Lower the cost squeeze</h3><ul><li>Housing supply near jobs/transit</li><li>Target rent and utility pressure</li></ul><p>Rationale: families can’t plan for the future if every month is a scramble.</p></article>
-    <article class="bg-alt round" style="padding:1rem;"><h3>2) Affordable healthcare</h3><ul><li>Lower out-of-pocket costs</li><li>Protect access and continuity of care</li></ul><p>Rationale: delayed care is expensive care, and working people pay twice.</p></article>
-    <article class="bg-alt round" style="padding:1rem;"><h3>3) Worker power and wages</h3><ul><li>Back collective bargaining</li><li>Raise standards for pay and leave</li></ul><p>Rationale: productivity gains should show up in paychecks, not just corporate reports.</p></article>
-    <article class="bg-alt round" style="padding:1rem;"><h3>4) Accountability government</h3><ul><li>Public vote tracker and bill tracker</li><li>Quarterly transparency updates</li></ul><p>Rationale: voters deserve receipts, timelines, and course-corrections.</p></article>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/index.html">Arafat for Congress • WA-10</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a class="nav-link" href="/index.html" data-event="nav_link" data-location="header" data-extra="home">Home</a>
+        <a class="nav-link" href="/plan.html" aria-current="page">The Plan</a>
+        <a class="nav-link" href="/record-contrast.html" data-event="nav_link" data-location="header" data-extra="difference">The Difference</a>
+        <a class="nav-link" href="/about.html" data-event="nav_link" data-location="header" data-extra="about">Meet Adam</a>
+        <a class="nav-link" href="/why-im-running.html" data-event="nav_link" data-location="header" data-extra="why_running">Why I’m Running</a>
+        <a class="nav-link" href="/contact.html" data-event="nav_link" data-location="header" data-extra="contact">Contact / Volunteer</a>
+      </nav>
+      <div class="cta-group">
+        <a class="btn btn-volunteer" href="/contact.html" data-event="volunteer_click" data-location="header">Volunteer</a>
+        <a href="https://secure.actblue.com/donate/adam-arafat-1"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn btn-donate"
+           data-event="donate_click">Donate</a>
+        <p class="donate-note"><strong>Goal: $10,000</strong><br />Funds phone banking, text outreach, voter email lists, printed flyers, and volunteer support.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="share-message" role="complementary">
+    <span class="share-line" id="share-line" aria-live="polite">Share this page. Every new voice shrinks the power of big money.</span>
+    <div class="share-buttons" role="group" aria-label="Share this page">
+      <a class="share-icon" data-net="facebook" href="#" aria-label="Share on Facebook" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="4" fill="#1877F2"/>
+          <path fill="#fff" d="M13.2 10.5h2.5l.5-3h-3V5.5c0-.9.3-1.5 1.6-1.5h1.4V1.2c-.2 0-.8-.2-2.1-.2-2.3 0-3.9 1.4-3.9 4v2.5H7.6v3h2.6v8.3h3z"/>
+        </svg>
+      </a>
+      <a class="share-icon" data-net="bluesky" href="#" aria-label="Share on Bluesky" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#1185FE" d="M6.32 2.3c1.81 1.82 3.88 2.73 6.18 2.73 2.3 0 4.37-.91 6.18-2.73.41-.41 1.08-.12 1.03.45-.21 2.68-1.18 4.55-3 5.91 1.79 1.18 3 2.98 2.57 5.53-.61 3.66-4.37 4.84-6.93 2.55l-.85-.76-.85.76c-2.56 2.29-6.32 1.11-6.93-2.55-.43-2.55.78-4.35 2.57-5.53-1.82-1.36-2.79-3.23-3-5.91-.05-.57.62-.86 1.03-.45z"/>
+        </svg>
+      </a>
+      <a class="share-icon" data-net="reddit" href="#" aria-label="Share on Reddit" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" fill="#FF4500"/>
+          <circle cx="12" cy="13" r="6.3" fill="#fff"/>
+          <circle cx="9.5" cy="12.5" r="1.2" fill="#FF4500"/>
+          <circle cx="14.5" cy="12.5" r="1.2" fill="#FF4500"/>
+          <path fill="#FF4500" d="M12 16.3c-1.2 0-2.1-.5-2.6-1.1-.2-.2-.2-.5 0-.7s.5-.2.7 0c.3.4.9.7 1.9.7s1.5-.3 1.9-.7c.2-.2.5-.2.7 0s.2.5 0 .7c-.5.6-1.4 1.1-2.6 1.1z"/>
+        </svg>
+      </a>
+      <a class="share-icon" data-net="email" href="#" aria-label="Share by Email" data-event="share_click" data-location="share-strip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" fill="#0A2C8A"/>
+          <path fill="#fff" d="M5 7l7 5 7-5H5zm14 2.4-6.4 4.5a1 1 0 0 1-1.2 0L5 9.4V17a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.4z"/>
+        </svg>
+      </a>
   </div>
-</section>
-<section id="updates" class="bg-alt round stack" style="padding:1.25rem;max-width:620px;">
-  <h2 style="margin:0;">Get updates on this plan</h2>
-  <form id="campaign-signup-form" class="stack">
-    <label for="signup-first-name">First name (optional)</label><input id="signup-first-name" name="firstName" type="text" />
-    <label for="signup-email">Email</label><input id="signup-email" name="email" type="email" required />
-    <button class="btn btn-volunteer" type="submit">Get updates</button>
-    <p id="signup-feedback" class="text-muted" aria-live="polite"></p>
-  </form>
-  <a class="btn btn-volunteer" href="/contact.html">Volunteer</a>
-</section>
-</main>
-<footer style="padding:2rem 1rem;text-align:center;border-top:1px solid #e6e6e6;">Paid for by Arafat for Congress.</footer>
-<script src="js/main.js" defer></script>
+  <p class="share-tagline">Share this page. Every new voice shrinks the power of big money.</p>
+</div>
+  <section class="hero">
+    <div class="hero__grid">
+      <div class="hero__text">
+        <h1>The Plan</h1>
+        <p>Lower costs, honest government, and healthcare for everyone. No corporate PAC money, no strings, just people building power together. This isn’t about ideology. It’s overdue modernization that protects our way of life and strengthens the middle class that keeps this country running.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="priorities">
+    <h2>Top Priorities</h2>
+    <p>Clear commitments you can hold me to.</p>
+    <div class="tiles">
+      <div class="tile" id="lower-costs"><h3>Lower Costs</h3><ul>
+        <li>Crack down on price fixing and corporate collusion that raise the cost of living.</li>
+        <li>Ban junk fees across all services and industries that hide the real cost of everyday life.</li>
+        <li>Expand affordable housing and childcare near where families live and work.</li>
+      </ul></div>
+      <div class="tile" id="healthcare"><h3>Healthcare You Can Use</h3><ul>
+        <li>Protect and strengthen Medicare and the ACA and close coverage gaps.</li>
+        <li>Enforce the No Surprises Act and expand caps on out-of-pocket costs.</li>
+        <li>Fund local mental health and addiction care so help is close by.</li>
+        <li>Begin the path toward universal healthcare that guarantees coverage for everyone in America.</li>
+      </ul>
+      <p class="evidence">The United States is the only one of 38 developed countries without universal healthcare. We spend about <strong>$12,555</strong> per person each year, the most in the world, while millions still skip care because they cannot afford it. It is time to build an American model that guarantees coverage, keeps choice for patients and providers, and ends the waste and price games that drive up costs.</p></div>
+      <div class="tile"><h3>End Pay to Play Politics</h3><ul><li>No corporate PAC money, ever</li><li>Ban stock trading in Congress</li><li>Protect whistleblowers and Inspectors General</li></ul></div>
+    </div>
+  </section>
+
+  <section class="section" id="agenda">
+    <h2>What I’ll Fight For</h2>
+    <p>Real work that moves WA-10 forward.</p>
+    <div class="tiles">
+      <div class="tile" id="housing"><h3>Housing You Can Afford</h3><ul>
+        <li>Streamline zoning and permits for affordable and workforce housing.</li>
+        <li>Tie federal funds to fair renter protections and eviction due process.</li>
+        <li>Help first-time buyers get in the door with real down-payment support and a federal mortgage capped at 3 percent so working families can build wealth and stability.</li>
+        <li>Provide tax credits for ADUs and small starter home conversions.</li>
+      </ul></div>
+      <div class="tile"><h3>Strong Public Schools</h3><ul><li>Boost Title I and IDEA so districts can lower class sizes and expand special education</li><li>Modern classrooms with safe air and water</li><li>Career and technical programs linked to local jobs</li></ul></div>
+      <div class="tile"><h3>Good Jobs and Unions</h3><ul><li>Expand apprenticeships and skills training</li><li>Protect the right to organize</li><li>Increase capital access for small business</li></ul></div>
+      <div class="tile" id="safety"><h3>Safer Communities</h3><ul><li>Invest in youth programs and violence prevention</li><li>Transparency and accountability tied to federal dollars</li><li>Expand mental health crisis response</li><li>Increase social safety programs that help lift people out of poverty, which is proven to reduce crime and strengthen communities.</li></ul></div>
+      <div class="tile"><h3>Clean Air and Water</h3><ul><li>Modernize the grid and speed clean energy</li><li>Protect rivers, coasts, and forests</li><li>Fund home and small business efficiency</li></ul></div>
+      <div class="tile"><h3>Protect Rights and Freedom</h3><ul><li>Protect access to abortion and contraception</li><li>Restore voting rights and fair maps</li><li>Defend LGBTQ+ Americans from discrimination</li></ul></div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <blockquote>
+      <p>I’m running to fight for people, not the powerful. If you’re tired of political games and want someone who understands what it costs to raise a family and make ends meet, this campaign is for you. I know what working people are up against, and I’m ready to stand up for us. If you’re working class and tired of politicians who talk big but never fight for you, vote for someone who will. Vote for me.</p>
+      <footer>Adam Arafat, WA-10</footer>
+    </blockquote>
+  </section>
+
+  <footer>
+    Paid for by Arafat for Congress • <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+  </footer>
+
+  <script src="js/main.js" defer></script>
 </body>
 </html>
