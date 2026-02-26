@@ -58,15 +58,15 @@ main{padding-bottom:2rem;}
   gap:14px;
 }
 .brand{display:flex;flex-direction:column;gap:2px;min-width:220px;}
-.brand__name{font-weight:950;font-size:1.05rem;line-height:1.05;}
+.brand__name{font-weight:950;font-size:1.06rem;line-height:1.05;letter-spacing:.2px;color:var(--navy);}
 .brand__meta{font-size:.85rem;color:var(--muted);font-weight:850;}
 
 .site-nav{display:flex;gap:10px;align-items:center;}
-.nav-link{font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;white-space:nowrap;}
+.nav-link{text-decoration:none;color:var(--navy);font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;transition:background .15s ease,color .15s ease;white-space:nowrap;}
 .nav-link:hover{background:rgba(14,165,164,0.08);}
 .nav-link[aria-current="page"]{
-  background:rgba(14,165,164,0.10);
-  box-shadow:inset 0 0 0 1px rgba(14,165,164,0.14);
+  background:rgba(14,165,164,0.12);
+  box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18);
 }
 
 .header-cta{display:flex;align-items:center;gap:12px;}
@@ -83,24 +83,33 @@ main{padding-bottom:2rem;}
 .cta-group{display:flex;gap:10px;align-items:center;}
 
 .btn{
+  text-decoration:none;
   padding:10px 14px;
+  letter-spacing:.2px;
+  cursor:pointer;
+  user-select:none;
   border-radius:14px;
-  font-weight:700;
+  font-weight:950;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   min-height:44px;
   line-height:1;
+  transition:transform .06s ease,filter .15s ease,background .15s ease;
 }
+.btn:active{transform:translateY(1px);}
 .btn-primary{
   background:linear-gradient(180deg,var(--brand),var(--brand-dark));
   color:#fff;
-  box-shadow:0 12px 22px rgba(14,165,164,.18);
+  box-shadow:0 14px 26px rgba(14,165,164,.18);
 }
+.btn-primary:hover{filter:brightness(.98);}
 .btn-ghost{
-  background:rgba(11,18,32,0.04);
-  border:1px solid var(--border-soft);
+  background:rgba(11,28,61,0.06);
+  color:var(--navy);
+  border:1px solid rgba(11,28,61,0.14);
 }
+.btn-ghost:hover{background:rgba(11,28,61,0.10);}
 
 .nav-toggle{
   display:none;
@@ -189,7 +198,15 @@ main{padding-bottom:2rem;}
   box-shadow:var(--shadow-soft);
   overflow:hidden;
 }
-.hero-image img{width:100%;display:block;height:auto;background:#fff;}
+.hero-image img{
+  width:100%;
+  display:block;
+  height:auto;
+  max-height:560px;
+  object-fit:contain;
+  object-position:center;
+  background:#fff;
+}
 
 .section{max-width:1180px;margin:56px auto;padding:0 20px;}
 .section h2{font-size:1.85rem;margin:0 0 10px;letter-spacing:-.15px;}
@@ -352,6 +369,7 @@ footer{
       <a class="nav-link" href="/issues.html">Issues</a>
       <a class="nav-link" href="/record-contrast.html" aria-current="page">The Difference</a>
       <a class="nav-link" href="/about.html">Meet Adam</a>
+      <a class="nav-link" href="/why-im-running.html">Why I’m Running</a>
       <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
     </nav>
 
@@ -372,6 +390,7 @@ footer{
     <a href="/issues.html">Issues</a>
     <a href="/record-contrast.html" aria-current="page">The Difference</a>
     <a href="/about.html">Meet Adam</a>
+    <a href="/why-im-running.html">Why I’m Running</a>
     <a href="/contact.html">Contact / Volunteer</a>
     <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
   </div>
@@ -425,14 +444,14 @@ footer{
       />
 
       <div class="disclaimer">
-        <strong>WA-10’s current representative (Marilyn Strickland):</strong>
-        This graphic summarizes PAC and committee contributions disclosed in Federal Election Commission (FEC) filings for the WA-10 incumbent’s principal campaign committee.
-        It is provided for public information and accountability. “PAC” includes contributions from political committees as categorized and reported to the FEC.
+        <strong>WA-10 Representative Marilyn Strickland</strong>
+        This graphic summarizes political committee and PAC contributions disclosed in Federal Election Commission filings for the incumbent’s principal campaign committee. The amounts shown are drawn from publicly available FEC reports.
+        “PAC” refers to political committees as categorized and reported to the FEC.
         <br /><br />
-        <strong>When political committees fund campaigns, voters deserve to ask who gets priority in Congress.</strong>
+        <strong>Campaign funding is public for a reason. When political committees finance campaigns, voters have the right to ask who gets priority in Congress.</strong>
         <span class="caption-links">
-          Verify the public record:
-          <a href="https://www.fec.gov/data/committee/C00732826/" target="_blank" rel="noopener noreferrer">FEC committee summary</a>
+          Review the official filings at
+          <a href="https://www.fec.gov/data/committee/C00732826/" target="_blank" rel="noopener noreferrer">FEC.gov</a>.
         </span>
       </div>
     </div>
