@@ -3,15 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Meet Adam | Adam Arafat for Congress (WA-10) | People Over Donors</title>
-  <meta name="description" content="Meet Adam Arafat: father, veteran, and public servant standing up for working families in Washington’s 10th District." />
+  <meta name="description" content="Meet Adam Arafat: father, veteran, and public infrastructure leader standing up for working families in Washington’s 10th District." />
+
   <meta property="og:title" content="Meet Adam | Adam Arafat for Congress (WA-10)" />
-  <meta property="og:description" content="People over PACs. Real representation for WA-10." />
+  <meta property="og:description" content="WA-10 deserves representation that answers to voters, not corporate PACs. Meet Adam Arafat." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/about.html" />
   <meta name="twitter:card" content="summary_large_image" />
+
   <link rel="canonical" href="https://arafatforcongress.org/about.html" />
   <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+
   <link rel="stylesheet" href="styles.css" />
 
   <style>
@@ -77,8 +81,18 @@
       gap:2px;
       min-width: 220px;
     }
-    .brand__name{ font-weight: 950; letter-spacing: .2px; font-size: 1.06rem; line-height: 1.05; color: var(--navy); }
-    .brand__meta{ font-weight: 850; font-size: .85rem; color: var(--muted); }
+    .brand__name{
+      font-weight: 950;
+      letter-spacing: .2px;
+      font-size: 1.06rem;
+      line-height: 1.05;
+      color: var(--navy);
+    }
+    .brand__meta{
+      font-weight: 850;
+      font-size: .85rem;
+      color: var(--muted);
+    }
 
     .site-nav{ display:flex; gap: 10px; align-items:center; }
     .nav-link{
@@ -92,7 +106,10 @@
       white-space: nowrap;
     }
     .nav-link:hover{ background: rgba(14,165,164,0.10); }
-    .nav-link[aria-current="page"]{ background: rgba(14,165,164,0.12); box-shadow: inset 0 0 0 1px rgba(14,165,164,0.18); }
+    .nav-link[aria-current="page"]{
+      background: rgba(14,165,164,0.12);
+      box-shadow: inset 0 0 0 1px rgba(14,165,164,0.18);
+    }
 
     .header-cta{ display:flex; align-items:center; gap: 12px; }
     .header-cred{
@@ -123,12 +140,22 @@
       transition: transform .06s ease, filter .15s ease, background .15s ease;
     }
     .btn:active{ transform: translateY(1px); }
-    .btn-primary{ background: linear-gradient(180deg, var(--brand), var(--brand-dark)); color: #fff; box-shadow: 0 14px 26px rgba(14,165,164,.18); }
+    .btn-primary{
+      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+      color: #fff;
+      box-shadow: 0 14px 26px rgba(14,165,164,.18);
+    }
     .btn-primary:hover{ filter: brightness(.98); }
-    .btn-ghost{ background: rgba(11,28,61,0.06); color: var(--navy-2); border: 1px solid rgba(11,28,61,0.14); }
+    .btn-ghost{
+      background: rgba(11,28,61,0.06);
+      color: var(--navy-2);
+      border: 1px solid rgba(11,28,61,0.14);
+    }
     .btn-ghost:hover{ background: rgba(11,28,61,0.10); }
-
-    .btn:focus-visible, .nav-link:focus-visible{ outline: 3px solid rgba(14,165,164,.22); outline-offset: 2px; }
+    .btn:focus-visible, .nav-link:focus-visible{
+      outline: 3px solid rgba(14,165,164,.22);
+      outline-offset: 2px;
+    }
 
     .nav-toggle{
       display:none;
@@ -143,6 +170,7 @@
     .mobile-drawer{ display:none; }
     .mobile-drawer[hidden]{ display:none !important; }
 
+    /* HERO */
     .hero{ padding: 3.25rem 1.5rem 1.25rem; }
     .hero__grid{
       max-width: 1080px;
@@ -165,13 +193,61 @@
       letter-spacing: .2px;
       margin-bottom: 12px;
     }
-    .hero__title{ font-size: clamp(2.1rem, 4.6vw, 3.2rem); margin: 0 0 10px; color: var(--navy); line-height: 1.06; letter-spacing: -0.25px; font-weight: 850; }
-    .hero__text p{ margin: 0 0 .95rem; color: var(--muted); line-height: 1.75; font-weight: 520; }
-    .profile{ border-radius: var(--radius); overflow:hidden; border: 1px solid var(--border-soft); box-shadow: var(--shadow-soft); background:#fff; }
+    .hero__title{
+      font-size: clamp(2.15rem, 4.6vw, 3.25rem);
+      margin: 0 0 10px;
+      color: var(--navy);
+      line-height: 1.06;
+      letter-spacing: -0.25px;
+      font-weight: 850;
+    }
+    .hero__sub{
+      margin: 0 0 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 520;
+      max-width: 60ch;
+    }
+    .hero__sub strong{ color: var(--navy-2); font-weight: 850; }
+
+    .hero__actions{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+      margin-top: 14px;
+    }
+
+    .pull-line{
+      margin-top: 14px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,18,32,0.12);
+      background: rgba(255,255,255,0.74);
+      color: var(--navy-2);
+      font-weight: 800;
+      line-height: 1.5;
+      box-shadow: 0 10px 18px rgba(11,18,32,0.06);
+    }
+
+    .profile{
+      border-radius: var(--radius);
+      overflow:hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      background:#fff;
+    }
     .profile img{ width:100%; height:100%; min-height:340px; object-fit:cover; }
 
+    /* SECTIONS */
     .section{ max-width: 1080px; margin: 44px auto; padding: 0 20px; }
-    .section h2{ color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.05rem); margin: 0 0 14px; letter-spacing: -0.2px; font-weight: 800; }
+    .section h2{
+      color: var(--navy);
+      font-size: clamp(1.7rem, 3vw, 2.05rem);
+      margin: 0 0 14px;
+      letter-spacing: -0.2px;
+      font-weight: 800;
+    }
     .section-intro{ margin: 0 auto 1.1rem; color: var(--muted); line-height: 1.7; font-weight: 520; }
 
     .info-card{
@@ -180,19 +256,89 @@
       padding:24px 24px;
       border:1px solid var(--border-soft);
       box-shadow:var(--shadow-soft);
-      max-width:860px;
+      max-width:900px;
       margin:0 auto;
     }
     .info-card h2{ margin:0 0 10px; font-size:1.45rem; }
     .info-card p{ margin:0; color:var(--muted); line-height:1.75; font-weight:520; }
+    .info-card p + p{ margin-top: 12px; }
 
-    .values-head{ text-align:center; max-width:860px; margin: 0 auto 1rem; }
-    .values-head p{ margin:0; color:var(--muted); line-height:1.7; }
-    .tiles{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin-top:20px; }
-    .tile{ background:#fff; border-radius:var(--radius); padding:20px; border:1px solid var(--border-soft); box-shadow:var(--shadow-soft); }
-    .tile h3{ margin:0 0 8px; color:var(--navy-2); font-weight:800; }
-    .tile p{ margin:0; color:var(--muted); line-height:1.65; font-weight:520; }
+    /* Commitments */
+    .commitments{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .commitments ul{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display:grid;
+      gap: 10px;
+    }
+    .commitments li{
+      display:grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,18,32,0.10);
+      background: rgba(11,18,32,0.02);
+      color: var(--navy-2);
+      line-height: 1.55;
+      font-weight: 650;
+    }
+    .check{
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      background: rgba(14,165,164,0.18);
+      border: 1px solid rgba(14,165,164,0.30);
+      position: relative;
+      margin-top: 2px;
+    }
+    .check::after{
+      content:"";
+      position:absolute;
+      left: 5px;
+      top: 3px;
+      width: 6px;
+      height: 10px;
+      border-right: 2px solid rgba(11,28,61,0.85);
+      border-bottom: 2px solid rgba(11,28,61,0.85);
+      transform: rotate(40deg);
+    }
 
+    /* CTA band */
+    .cta-band{
+      max-width: 1080px;
+      margin: 48px auto 0;
+      padding: 0 20px;
+    }
+    .cta-panel{
+      border-radius: var(--radius);
+      border: 1px solid rgba(14,165,164,0.22);
+      background: linear-gradient(180deg, rgba(14,165,164,0.10), rgba(255,255,255,0.92));
+      box-shadow: var(--shadow-soft);
+      padding: 22px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      align-items:center;
+    }
+    .cta-panel h2{ margin:0 0 8px; font-size: 1.55rem; color: var(--navy); font-weight: 850; letter-spacing: -0.15px; }
+    .cta-panel p{ margin:0; color: var(--muted); line-height: 1.7; font-weight: 520; }
+    .cta-actions{
+      display:flex;
+      gap: 10px;
+      justify-content:flex-end;
+      flex-wrap: wrap;
+    }
+    .cta-actions .btn{ width: auto; }
+
+    /* Quote */
     .quote{
       max-width: 1080px;
       margin: 52px auto 0;
@@ -201,19 +347,27 @@
     .quote blockquote{
       margin:0;
       padding:28px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.10), rgba(255,255,255,0.95));
-      border:1px solid rgba(14,165,164,0.24);
+      background: linear-gradient(180deg, rgba(242,193,78,0.14), rgba(255,255,255,0.95));
+      border:1px solid rgba(242,193,78,0.32);
       border-radius: var(--radius);
       color: var(--navy-2);
-      font-size: 1.18rem;
+      font-size: 1.12rem;
       line-height: 1.65;
-      font-weight: 700;
+      font-weight: 750;
       box-shadow: var(--shadow-soft);
       text-align:center;
     }
     .quote footer{ margin-top: 10px; color: var(--muted); font-size: .98rem; font-weight: 650; }
 
-    footer{ background:#fff; border-top:1px solid var(--border-soft); padding: 22px; text-align:center; color: var(--muted); font-size: 15px; margin-top: 48px; }
+    footer{
+      background:#fff;
+      border-top:1px solid var(--border-soft);
+      padding: 22px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 48px;
+    }
     .footer-tagline{ margin: 0 0 6px; font-weight: 650; color: var(--navy-2); }
 
     @media (max-width: 980px){
@@ -221,14 +375,37 @@
       .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
       .header-inner{ grid-template-columns: 1fr auto; }
       .header-cred{ display:none; }
-      .mobile-drawer{ max-width: 1180px; margin: 0 auto; padding: 10px 18px 16px; display:grid; gap: 8px; }
-      .mobile-drawer a{ text-decoration:none; font-weight: 700; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
-      .mobile-drawer a.drawer-cta{ background: linear-gradient(180deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
+
+      .mobile-drawer{
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 10px 18px 16px;
+        display:grid;
+        gap: 8px;
+      }
+      .mobile-drawer a{
+        text-decoration:none;
+        font-weight: 700;
+        color: var(--navy);
+        background: rgba(11,18,32,0.03);
+        border: 1px solid var(--border-soft);
+        padding: 12px 12px;
+        border-radius: 14px;
+      }
+      .mobile-drawer a.drawer-cta{
+        background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+        color: #fff;
+        border: none;
+      }
+
       .hero{ padding: 2.75rem 1.25rem 1.25rem; }
       .hero__grid{ grid-template-columns: 1fr; }
+      .cta-panel{ grid-template-columns: 1fr; }
+      .cta-actions{ justify-content:flex-start; }
     }
   </style>
 </head>
+
 <body>
   <header class="site-header" role="banner">
     <div class="header-inner">
@@ -268,62 +445,124 @@
   </header>
 
   <main>
-    <section class="hero">
+    <!-- HERO -->
+    <section class="hero" aria-label="Meet Adam">
       <div class="hero__grid">
         <div class="hero__text">
           <p class="kicker">Meet Adam</p>
-          <h1 class="hero__title">Service, accountability, and results for WA-10.</h1>
-          <p>I’m a father, a veteran, and a public servant who knows what it takes to keep families steady. Too often government forgets the people it’s supposed to protect. I’m running because WA-10 deserves a representative who listens first and answers to the community, not wealthy donors or outside interests.</p>
-          <p class="pull-quote">I’ve lived the same math everyone else in WA-10 lives: mortgages, childcare, and traffic on I-5.</p>
+          <h1 class="hero__title">WA-10 deserves representation that answers to you.</h1>
+
+          <p class="hero__sub">
+            I’m a father, a veteran, and a public infrastructure leader. I’ve spent my career in environments where
+            <strong>results matter</strong> and excuses do not.
+          </p>
+
+          <p class="hero__sub">
+            I’m running because families here are working harder every year and getting less security in return.
+            That is not inevitable. It is a choice. WA-10 deserves a representative who listens first and answers to the community,
+            not wealthy donors or outside interests.
+          </p>
+
+          <div class="hero__actions" aria-label="Primary actions">
+            <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer" data-location="about_hero">Chip in</a>
+            <a class="btn btn-ghost" href="/contact.html" data-location="about_hero">Volunteer</a>
+            <a class="btn btn-ghost" href="/record-contrast.html" data-location="about_hero">See the contrast</a>
+          </div>
+
+          <div class="pull-line">
+            Public office is a job. It should come with standards.
+          </div>
         </div>
+
         <div class="hero__image profile">
           <img src="images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat" />
         </div>
       </div>
     </section>
 
+    <!-- CREDIBILITY -->
     <section class="section">
       <div class="info-card">
-        <h2>From Service to Community</h2>
-        <p>Adam spent more than 20 years in aviation and emergency operations, leading crews, solving tough problems, and keeping people safe. Now he oversees public infrastructure projects communities rely on every day. He treats public office the same way he treated every mission: do the work, own the outcome, and never forget who you serve.</p>
+        <h2>Service built on responsibility</h2>
+        <p>
+          I spent more than 20 years in aviation and emergency operations, leading teams, solving hard problems, and keeping people safe.
+          Today I oversee public infrastructure projects communities rely on every day.
+        </p>
+        <p>
+          I approach public office the same way I approached every mission: do the work, own the outcome, and never forget who you serve.
+        </p>
       </div>
     </section>
 
+    <!-- WHY RUNNING + CONTRAST (SAFE, DEFENSIBLE) -->
+    <section class="section">
+      <div class="info-card">
+        <h2>Why I’m running</h2>
+        <p>
+          When something matters, you do not just talk about it. You use your leverage to move it.
+          That is the standard working people live under every day, and it should be the standard in Congress too.
+        </p>
+        <p>
+          My campaign is people-funded because representation should not come with a donor list attached.
+          If I take the oath, my priorities will be set by WA-10, not by corporate PAC checks.
+        </p>
+      </div>
+    </section>
+
+    <!-- COMMITMENTS (REPLACES GENERIC VALUES TILES) -->
+    <section class="section" aria-label="Commitments">
+      <div class="info-card">
+        <h2>What you can expect from me</h2>
+        <p class="section-intro">Not slogans. Clear standards you can hold me to.</p>
+
+        <div class="commitments">
+          <ul>
+            <li><span class="check" aria-hidden="true"></span><span>I will put votes and accountability ahead of press cycles.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>I will be direct with the public about what I support and why.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>I will hold regular public town halls and show my work.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>I will keep this campaign people-funded, without corporate PAC money or AIPAC money.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROOTED / HUMAN -->
     <section class="section">
       <div class="info-card">
         <h2>Rooted in WA-10</h2>
-        <p>Adam and his family live in Spanaway, facing the same pressures everyone else feels: rising costs, packed schools, and a future that gets harder to plan for. That real-life grounding drives this campaign. He isn’t chasing a career. He’s fighting for the district he calls home.</p>
+        <p>
+          My family lives in Spanaway. We deal with the same pressures everyone else feels: rising costs, packed schools,
+          and a future that gets harder to plan for.
+        </p>
+        <p>
+          I budget for childcare, housing, and gas just like everyone else here. When costs go up, it hits my family too.
+          That is why this campaign is not a résumé project. It is responsibility.
+        </p>
       </div>
     </section>
 
-    <section class="section">
-      <div class="values-head">
-        <h2>What I Believe</h2>
-        <p class="section-intro">Government works when the people writing the laws live under the laws they write.</p>
-      </div>
-      <div class="tiles">
-        <div class="tile value-card">
-          <h3>Honesty</h3>
-          <p>People deserve straight answers. No spin, no excuses.</p>
+    <!-- CTA BAND -->
+    <section class="cta-band" aria-label="Get involved">
+      <div class="cta-panel">
+        <div>
+          <h2>Help set a higher standard in WA-10</h2>
+          <p>
+            If you want a representative who answers to voters and treats this job like a job, join us.
+            Volunteer, spread the word, or chip in what you can.
+          </p>
         </div>
-        <div class="tile value-card">
-          <h3>Accountability</h3>
-          <p>Holding this job means owning every decision. If it can’t stand up to public scrutiny, it shouldn’t happen.</p>
-        </div>
-        <div class="tile value-card">
-          <h3>Service</h3>
-          <p>Government should put the people who fund it first, not the special interests trying to steer it.</p>
-        </div>
-        <div class="tile value-card">
-          <h3>Action</h3>
-          <p>Problems don’t get solved by speeches. They get solved by focus, persistence, and results.</p>
+        <div class="cta-actions">
+          <a class="btn btn-ghost" href="/contact.html" data-location="about_cta">Volunteer</a>
+          <a class="btn btn-ghost" href="/contact.html" data-location="about_cta">Get updates</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer" data-location="about_cta">Donate</a>
         </div>
       </div>
     </section>
 
+    <!-- CLOSING QUOTE -->
     <section class="quote">
       <blockquote>
-        I’m running to make government serve people again. We can build a future where families can afford to live, work, and thrive in WA-10.
+        I’m running to make government serve people again. Families deserve stability, accountability, and a representative who works as hard as they do.
         <footer>Adam Arafat, WA-10</footer>
       </blockquote>
     </section>
@@ -343,11 +582,13 @@
     gtag('js', new Date());
     gtag('config', 'G-PLACEHOLDER');
   </script>
+
   <script>
     (function(){
       const toggle = document.querySelector('.nav-toggle');
       const drawer = document.querySelector('.mobile-drawer');
       if(!toggle || !drawer) return;
+
       toggle.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!isOpen));
