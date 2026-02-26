@@ -52,22 +52,35 @@ main{padding-bottom:2rem;}
   max-width:1180px;
   margin:0 auto;
   padding:14px 18px;
-  display:flex;
+  display:grid;
+  grid-template-columns:1fr auto auto;
   align-items:center;
-  justify-content:space-between;
-  gap:12px;
+  gap:14px;
 }
-.brand{display:flex;align-items:center;gap:10px;min-width:220px;}
-.brand__name{font-weight:800;font-size:1.05rem;line-height:1.05;}
-.brand__meta{font-size:.85rem;color:var(--muted);font-weight:650;}
+.brand{display:flex;flex-direction:column;gap:2px;min-width:220px;}
+.brand__name{font-weight:950;font-size:1.05rem;line-height:1.05;}
+.brand__meta{font-size:.85rem;color:var(--muted);font-weight:850;}
 
-.site-nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end;}
-.nav-link{font-weight:600;font-size:.95rem;padding:8px 10px;border-radius:12px;}
+.site-nav{display:flex;gap:10px;align-items:center;}
+.nav-link{font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;white-space:nowrap;}
 .nav-link:hover{background:rgba(14,165,164,0.08);}
 .nav-link[aria-current="page"]{
   background:rgba(14,165,164,0.10);
   box-shadow:inset 0 0 0 1px rgba(14,165,164,0.14);
 }
+
+.header-cta{display:flex;align-items:center;gap:12px;}
+.header-cred{
+  font-size:.82rem;
+  font-weight:900;
+  color:var(--navy);
+  background:rgba(242,193,78,0.18);
+  border:1px solid rgba(242,193,78,0.35);
+  padding:8px 10px;
+  border-radius:999px;
+  white-space:nowrap;
+}
+.cta-group{display:flex;gap:10px;align-items:center;}
 
 .btn{
   padding:10px 14px;
@@ -88,6 +101,27 @@ main{padding-bottom:2rem;}
   background:rgba(11,18,32,0.04);
   border:1px solid var(--border-soft);
 }
+
+.nav-toggle{
+  display:none;
+  border:1px solid rgba(11,28,61,0.14);
+  background:rgba(255,255,255,0.95);
+  border-radius:14px;
+  padding:10px 10px;
+  min-height:44px;
+  min-width:44px;
+}
+.nav-toggle span{
+  display:block;
+  width:18px;
+  height:2px;
+  background:var(--navy);
+  margin:4px auto;
+  border-radius:2px;
+}
+
+.mobile-drawer{display:none;}
+.mobile-drawer[hidden]{display:none !important;}
 
 .hero{padding:3.5rem 1.5rem 1.25rem;}
 .hero-grid{
@@ -276,6 +310,29 @@ footer{
   .hero-grid{grid-template-columns:1fr;gap:1.5rem;}
   .grid-2{grid-template-columns:1fr;}
   .site-nav{display:none;}
+  .header-inner{grid-template-columns:1fr auto;}
+  .header-cred,.cta-group{display:none;}
+  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+  .mobile-drawer{
+    padding:0 18px 14px;
+    background:rgba(255,255,255,0.96);
+    border-top:1px solid var(--border-soft);
+    display:grid;
+    gap:8px;
+  }
+  .mobile-drawer:not([hidden]){display:grid;}
+  .mobile-drawer a{
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid transparent;
+    font-weight:700;
+  }
+  .mobile-drawer a:hover{background:rgba(11,18,32,0.04);border-color:var(--border-soft);}
+  .mobile-drawer a.drawer-cta{
+    text-align:center;
+    background:linear-gradient(180deg,var(--brand),var(--brand-dark));
+    color:#fff;
+  }
   .mini{grid-template-columns:1fr;}
 }
 </style>
@@ -286,10 +343,8 @@ footer{
 <header class="site-header" role="banner">
   <div class="header-inner">
     <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-      <div>
-        <div class="brand__name">Adam Arafat</div>
-        <div class="brand__meta">for Congress • WA-10</div>
-      </div>
+      <span class="brand__name">Adam Arafat</span>
+      <span class="brand__meta">for Congress • WA-10</span>
     </a>
 
     <nav class="site-nav" aria-label="Primary">
@@ -298,9 +353,27 @@ footer{
       <a class="nav-link" href="/record-contrast.html" aria-current="page">The Difference</a>
       <a class="nav-link" href="/about.html">Meet Adam</a>
       <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
-      <a class="btn btn-ghost" href="/contact.html">Join</a>
-      <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </nav>
+
+    <div class="header-cta">
+      <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
+      <div class="cta-group">
+        <a class="btn btn-ghost" href="/contact.html">Join</a>
+        <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-drawer" hidden>
+    <a href="/index.html">Home</a>
+    <a href="/issues.html">Issues</a>
+    <a href="/record-contrast.html" aria-current="page">The Difference</a>
+    <a href="/about.html">Meet Adam</a>
+    <a href="/contact.html">Contact / Volunteer</a>
+    <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
   </div>
 </header>
 
@@ -344,11 +417,11 @@ footer{
     <div class="hero-image" aria-label="Sponsored suit image with FEC disclaimer">
       <!-- Your repo path: images/Sponsored Suit  (encoded for web use) -->
       <img
-        src="images/Sponsored_Suit.jpg"
+        src="images/sponsorship_suit.jpg"
         alt="Sponsored suit graphic representing PAC-funded politics in WA-10"
         loading="lazy"
         decoding="async"
-        onerror="this.onerror=null;this.src='images/Sponsored%20Suit.jpg';"
+        onerror="this.onerror=null;this.src='images/Sponsored_Suit.jpg';"
       />
 
       <div class="disclaimer">
@@ -513,6 +586,32 @@ footer{
   <p style="margin:0 0 6px;font-weight:650;color:var(--navy);">Citizens serving citizens. That’s the job.</p>
   Paid for by Arafat for Congress • info@arafatforcongress.org
 </footer>
+
+<script>
+  (function(){
+    const toggle = document.querySelector('.nav-toggle');
+    const drawer = document.querySelector('.mobile-drawer');
+    if (!toggle || !drawer) return;
+
+    toggle.addEventListener('click', function(){
+      const isOpen = !drawer.hasAttribute('hidden');
+      if (isOpen) {
+        drawer.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+      } else {
+        drawer.removeAttribute('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', function(){
+        drawer.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
