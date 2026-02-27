@@ -18,6 +18,7 @@
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
 
   <link rel="canonical" href="https://arafatforcongress.org/" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
   <meta name="campaign-signup-endpoint" content="SIGNUP_ENDPOINT_PLACEHOLDER" />
 
   <link rel="stylesheet" href="styles.css" />
@@ -557,6 +558,13 @@
     }
   </script>
 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
 </head>
 
 <body>
@@ -614,7 +622,6 @@
           <p class="hero__subheadline">
             Bills exist. People are hurting. The missing piece is the will to fight for a vote and deliver results for WA-10.
           </p>
-          <p class="hero__subheadline"><strong>From JBLM families to Port of Tacoma workers and I-5 commuters, WA-10 needs urgent representation rooted in daily realities.</strong></p>
 
           <div class="hero__about">
             <h2>About Adam</h2>
@@ -624,8 +631,10 @@
           </div>
 
           <div class="cta" aria-label="Primary campaign actions">
-            <a class="btn-home btn-volunteer" href="/contact.html" data-event="hero_primary_click" data-location="home_hero">Volunteer</a>
-            <a class="cta-inline-link" href="/record-contrast.html" data-event="issues_to_contrast_click" data-location="home_hero">See the Difference</a>
+            <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+            <a class="btn-home btn-volunteer" href="/contact.html">Volunteer</a>
+            <a class="btn-home btn-record" href="/record-contrast.html">See the record</a>
+            <a class="cta-inline-link" href="#signup">Get updates</a>
           </div>
 
           <div class="hero__values">No corporate PAC or AIPAC money.</div>
@@ -659,7 +668,7 @@
 
       <div class="copy-block" style="margin-top:18px;">
         <div class="copy-stack">
-          <p id="fighting"><strong>Fighting means using leverage.</strong></p>
+          <p><strong>Fighting means using leverage.</strong></p>
           <ul class="bullet-lines">
             <li>Attach priorities to must-pass legislation.</li>
             <li>Make them non-negotiable conditions.</li>
