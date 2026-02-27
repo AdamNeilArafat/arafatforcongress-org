@@ -17,7 +17,7 @@
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <link rel="canonical" href="https://arafatforcongress.org/contact.html" />
 
-  <meta name="campaign-signup-endpoint" content="SIGNUP_ENDPOINT_PLACEHOLDER" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
   <link rel="stylesheet" href="styles.css" />
 
   <style>
@@ -157,7 +157,14 @@
 
   <!-- Site analytics and advanced tracking -->
   <script src="/js/analytics.js"></script>
-  </head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
 
 <body>
   <header class="site-header" role="banner">
@@ -209,10 +216,10 @@
           Pick a role, share your story, or reach the team directly.
         </p>
 
-        <p><strong>Start here:</strong> join as a volunteer, then pick your role and next action below.</p>
         <div class="hero__actions" aria-label="Primary actions">
-          <a class="btn btn-primary" href="#volunteer-signup" data-event="hero_primary_click" data-location="contact_hero">Join as Volunteer</a>
-          <a class="btn btn-ghost" href="#story" data-event="story_click" data-location="contact_hero">Share your story</a>
+          <a class="btn btn-primary" href="#volunteer" data-event="volunteer_click" data-location="hero">Volunteer</a>
+          <a class="btn btn-secondary" href="#story" data-event="story_click" data-location="hero">Share your story</a>
+          <a class="btn btn-ghost" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer" data-event="donate_click" data-location="hero">Donate</a>
         </div>
 
         <div class="pill-row" aria-label="Quick contact">
@@ -227,32 +234,9 @@
     </div>
   </section>
 
-
-  <section class="section" id="volunteer-signup" aria-label="Volunteer signup form">
-    <h2>1) Join as volunteer</h2>
-    <p>Submit this quick form and we will follow up with role options. Email links remain available as fallback below.</p>
-    <form class="form" id="volunteer-form" data-augment-tracking="true" data-form-type="volunteer_form">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="volunteerName">Name</label>
-          <input type="text" id="volunteerName" name="firstName" required />
-        </div>
-        <div class="form-group">
-          <label for="volunteerEmail">Email</label>
-          <input type="email" id="volunteerEmail" name="email" required />
-        </div>
-      </div>
-      <div class="hero__actions">
-        <button class="btn btn-primary" type="submit" data-event="volunteer_form_start" data-location="contact_form">Submit volunteer form</button>
-        <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Request">Use email instead</a>
-      </div>
-      <p class="disclaimer" id="volunteerFeedback" aria-live="polite"></p>
-    </form>
-  </section>
-
   <!-- VOLUNTEER PATHWAYS -->
   <section class="section" id="volunteer" aria-label="Volunteer roles">
-    <h2>2) Pick your role</h2>
+    <h2>How you can help right now</h2>
     <p>
       This district won’t change because of ads. It changes when neighbors talk to neighbors.
       Choose a lane and we’ll plug you in.
@@ -341,7 +325,7 @@
 
   <!-- CONTACT EMAILS -->
   <section class="section" aria-label="Direct email contact">
-    <h2>5) Direct contact and donation</h2>
+    <h2>Reach the campaign</h2>
     <p>For press, questions, or logistics, email us directly.</p>
 
     <div class="grid">
@@ -365,7 +349,7 @@
 
   <!-- STORY FORM -->
   <section class="section" id="story" aria-label="Share your story">
-    <h2>3) Share your story</h2>
+    <h2>Share your story</h2>
     <p>Your story shapes this campaign. Tell us what Washington isn’t fixing for your family.</p>
 
     <form class="form" onsubmit="return openEmail(event)" data-augment-tracking="true" data-form-type="contact">
@@ -416,7 +400,7 @@
   <div class="share-strip" role="complementary" aria-label="Share this page">
     <div class="share-box">
       <div>
-        <p class="share-line">4) Share tools with someone who can help</p>
+        <p class="share-line">Know someone who would help?</p>
         <p class="share-helper" id="share-line" aria-live="polite">Share this page. Every new volunteer shrinks the power of big money.</p>
       </div>
 
@@ -529,39 +513,5 @@
       });
     })();
   </script>
-
-<script>
-(function(){
-  const form = document.getElementById('volunteer-form');
-  if (!form) return;
-  const endpointMeta = document.querySelector('meta[name="campaign-signup-endpoint"]');
-  const endpoint = endpointMeta ? endpointMeta.content.trim() : '';
-  const feedback = document.getElementById('volunteerFeedback');
-
-  form.addEventListener('submit', async function(event){
-    event.preventDefault();
-    if (!form.reportValidity()) return;
-    if (typeof trackEvent === 'function') trackEvent('volunteer_form_start', { page_path: window.location.pathname });
-    if (!endpoint || endpoint === 'SIGNUP_ENDPOINT_PLACEHOLDER') {
-      feedback.textContent = 'Volunteer form endpoint is not configured yet. Please use the email fallback.';
-      return;
-    }
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName: form.firstName.value.trim(), email: form.email.value.trim(), source: 'contact_volunteer' })
-      });
-      if (!response.ok) throw new Error('failed');
-      feedback.textContent = 'Thanks. Our volunteer team will follow up shortly.';
-      form.reset();
-      if (typeof trackEvent === 'function') trackEvent('volunteer_form_complete', { page_path: window.location.pathname });
-    } catch (_) {
-      feedback.textContent = 'Could not submit right now. Please use the email fallback.';
-    }
-  });
-})();
-</script>
-
 </body>
 </html>

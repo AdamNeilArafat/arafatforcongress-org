@@ -14,7 +14,8 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="canonical" href="https://arafatforcongress.org/about.html" />
-  
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+
   <link rel="stylesheet" href="styles.css" />
 
   <style>
@@ -462,11 +463,10 @@
             not wealthy donors or outside interests.
           </p>
 
-          <p class="hero__sub"><strong>From Spanaway and South Tacoma to Olympia and JBLM-connected households, WA-10 needs disciplined representation focused on delivery.</strong></p>
-
           <div class="hero__actions" aria-label="Primary actions">
-            <a class="btn btn-primary" href="/contact.html" data-event="hero_primary_click" data-location="about_hero">Volunteer</a>
-            <a class="btn btn-ghost" href="/record-contrast.html" data-event="issues_to_contrast_click" data-location="about_hero">See record</a>
+            <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer" data-location="about_hero">Chip in</a>
+            <a class="btn btn-ghost" href="/contact.html" data-location="about_hero">Volunteer</a>
+            <a class="btn btn-ghost" href="/record-contrast.html" data-location="about_hero">See the contrast</a>
           </div>
 
           <div class="pull-line">
@@ -541,15 +541,6 @@
       </div>
     </section>
 
-
-    <section class="section">
-      <div class="info-card">
-        <h2>First 100 days: realistic and measurable</h2>
-        <p>I will prioritize constituent casework response standards, publish a public co-sponsorship tracker, and hold regular district briefings so WA-10 can measure outcomes.</p>
-        <p>This campaign is about steady execution: transparent benchmarks, public follow-through, and no excuses when progress stalls.</p>
-      </div>
-    </section>
-
     <!-- CTA BAND -->
     <section class="cta-band" aria-label="Get involved">
       <div class="cta-panel">
@@ -561,8 +552,9 @@
           </p>
         </div>
         <div class="cta-actions">
-          <a class="btn btn-primary" href="/contact.html" data-event="hero_primary_click" data-location="about_cta">Volunteer</a>
-          <a class="btn btn-ghost" href="/record-contrast.html" data-event="issues_to_contrast_click" data-location="about_cta">See record</a>
+          <a class="btn btn-ghost" href="/contact.html" data-location="about_cta">Volunteer</a>
+          <a class="btn btn-ghost" href="/contact.html" data-location="about_cta">Get updates</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer" data-location="about_cta">Donate</a>
         </div>
       </div>
     </section>
@@ -583,7 +575,15 @@
   </footer>
 
   <script src="/js/analytics.js"></script>
-    <script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+
+  <script>
     (function(){
       const toggle = document.querySelector('.nav-toggle');
       const drawer = document.querySelector('.mobile-drawer');

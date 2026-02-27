@@ -1,12 +1,12 @@
 // ===== GA4 event helper =====
 const GA_MEASUREMENT_ID = (() => {
   const meta = document.querySelector('meta[name="ga-measurement-id"]');
-  if (!meta || !meta.content || meta.content.includes('REPLACE') || meta.content.includes('PLACEHOLDER')) return null;
+  if (!meta || !meta.content || meta.content.includes('REPLACE')) return null;
   return meta.content.trim();
 })();
 
 function trackEvent(action, params = {}) {
-  if (typeof gtag === 'function') {
+  if (typeof gtag === 'function' && GA_MEASUREMENT_ID) {
     gtag('event', action, params);
   }
 }
@@ -253,9 +253,7 @@ function initSectionTracking() {
     'healthcare',
     'housing',
     'safety',
-    'share-line',
-    'priorities-bills',
-    'money-heading'
+    'share-line'
   ];
 
   if (!SECTION_IDS.length || !('IntersectionObserver' in window)) return;
