@@ -104,28 +104,38 @@ jobs:
                   sys.exit(0)
 
               # ── Strip PII and aggregate ──────────────────────────────────
+              # Columns that are personal identifiers (outreach + volunteer tabs)
+              PII_COLS = {
+                  'email', 'phone', 'first_name', 'last_name', 'name',
+                  'full_address', 'address', 'contact_id', 'volunteer_id'
+              }
               records = []
-              total_contacts = 0
+              response_counts = {}
+              volunteer_count = 0
               for row in raw_rows:
                   clean = {}
                   for key, val in row.items():
-                      safe_key = key.strip().lower().replace(' ', '_')
-                      # Skip columns that are personal identifiers
-                      if safe_key in ('email', 'phone', 'first_name', 'last_name', 'name', 'address'):
+                      safe_key = (key.strip().lower()
+                                  .replace(' ', '_').replace('/', '_')
+                                  .replace('?', '').replace('-', '_'))
+                      if safe_key in PII_COLS:
                           continue
                       clean[safe_key] = scrub_pii(str(val).strip())
                   if clean:
                       records.append(clean)
-                  # Tally outreach counts
-                  count_val = row.get('Outreach_Count', '') or row.get('outreach_count', '')
-                  try:
-                      total_contacts += int(count_val)
-                  except (ValueError, TypeError):
-                      pass
+                  # Tally response distribution (outreach tab)
+                  resp = (row.get('Response') or '').strip()
+                  if resp:
+                      response_counts[resp] = response_counts.get(resp, 0) + 1
+                  # Count volunteer interest (outreach tab)
+                  vol_int = (row.get('Volunteer Interest?') or '').strip().lower()
+                  if vol_int in ('yes', 'y', 'true', '1'):
+                      volunteer_count += 1
 
               summary = {
-                  'total_outreach_contacts': total_contacts,
                   'total_records': len(records),
+                  'volunteer_interest_count': volunteer_count,
+                  'response_breakdown': response_counts,
                   'data_pull_date': datetime.now(timezone.utc).isoformat(),
                   'stale': False
               }
@@ -139,7 +149,8 @@ jobs:
           with open(OUT_FILE, 'w') as f:
               json.dump(output, f, indent=2)
           print(f'Wrote {len(records)} records to {OUT_FILE}')
-          print(f'Total outreach contacts: {summary.get("total_outreach_contacts", 0)}')
+          print(f'Volunteer interest count: {summary.get("volunteer_interest_count", 0)}')
+          print(f'Response breakdown: {summary.get("response_breakdown", {})}')
           PYEOF
 
       - name: Commit updated outreach_data.json

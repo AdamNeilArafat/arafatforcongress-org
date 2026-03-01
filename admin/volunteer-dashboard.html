@@ -333,25 +333,22 @@
     <div class="filter-bar">
       <input type="text" id="search" placeholder="Search name, email, notes, area..." />
       <select id="filter-interest">
-        <option value="">All Interests</option>
-        <option>Volunteer</option>
-        <option>Donor</option>
-        <option>Endorser</option>
-        <option>Media</option>
-        <option>Other</option>
+        <option value="">All Vol. Interest</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
       </select>
       <select id="filter-role">
-        <option value="">All Roles</option>
-        <option>Field and Community</option>
-        <option>Digital and Social</option>
-        <option>Voter Contact</option>
-        <option>Events and Scheduling</option>
-        <option>Flyers and Visibility</option>
-        <option>Area Coordinator</option>
-        <option>Multiple</option>
+        <option value="">All Skills / Roles</option>
+        <option>Canvassing</option>
+        <option>Phone Banking</option>
+        <option>Digital / Social</option>
+        <option>Events</option>
+        <option>Data / Admin</option>
+        <option>Translation</option>
+        <option>Coordination</option>
       </select>
       <select id="filter-area">
-        <option value="">All Areas</option>
+        <option value="">All Areas / Precincts</option>
         <option>Spanaway</option>
         <option>Lakewood</option>
         <option>Olympia</option>
@@ -362,11 +359,14 @@
         <option>Other</option>
       </select>
       <select id="filter-status">
-        <option value="">All Statuses</option>
-        <option value="new">New</option>
-        <option value="contacted">Contacted</option>
-        <option value="active">Active</option>
-        <option value="declined">Declined</option>
+        <option value="">All Responses / Status</option>
+        <option>Interested</option>
+        <option>Left Message</option>
+        <option>Not Home</option>
+        <option>Callback Requested</option>
+        <option>Not Interested</option>
+        <option>Active</option>
+        <option>Inactive</option>
       </select>
       <span class="filter-count" id="filter-count"></span>
     </div>
@@ -377,16 +377,16 @@
         <thead>
           <tr>
             <th data-col="date">Date</th>
-            <th data-col="source">Source</th>
+            <th data-col="source">Method / Source</th>
             <th data-col="name">Name</th>
             <th data-col="email">Email / Phone</th>
             <th data-col="zip">ZIP</th>
-            <th data-col="interest">Interest</th>
-            <th data-col="role">Role</th>
-            <th data-col="area">Area</th>
-            <th data-col="issues">Issues</th>
+            <th data-col="interest">Vol. Interest?</th>
+            <th data-col="role">Skills / Role</th>
+            <th data-col="area">Area / Precinct</th>
+            <th data-col="issues">Issue Priority</th>
             <th data-col="notes">Notes</th>
-            <th data-col="status">Status</th>
+            <th data-col="status">Response / Status</th>
             <th data-col="followup">Follow-up</th>
           </tr>
         </thead>
@@ -531,45 +531,66 @@
 
         <div class="config-section">
           <h3>Google Sheets Auto-Sync</h3>
-          <p>
-            Paste a public Google Sheets CSV export URL below. Every time this dashboard loads,
-            it will fetch the latest data from your sheet automatically. No code needed.
+
+          <p style="font-weight:700;margin-bottom:6px;">Outreach Tab</p>
+          <p style="margin-bottom:10px;font-size:.88rem;color:var(--muted);">
+            Already connected. Dashboard auto-loads the outreach tab on every login.
           </p>
           <input type="url" id="sheets-url-input" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv" />
-          <button class="config-btn" id="save-sheets-btn">Save &amp; Load from Sheet</button>
+          <button class="config-btn" id="save-sheets-btn">Save &amp; Load Outreach Tab</button>
           <div class="config-feedback" id="sheets-feedback"></div>
           <details class="setup-guide">
-            <summary>Step-by-step: How to connect Google Sheets</summary>
-            <ol>
-              <li>Open <strong>Google Sheets</strong> and create a new spreadsheet.</li>
-              <li>In row 1, add these exact column headers (in order):
-                <div class="columns-list">
-                  <span class="col-chip">Date</span>
-                  <span class="col-chip">Source</span>
-                  <span class="col-chip">First Name</span>
-                  <span class="col-chip">Last Name</span>
-                  <span class="col-chip">Email</span>
-                  <span class="col-chip">Phone</span>
-                  <span class="col-chip">ZIP</span>
-                  <span class="col-chip">Interest</span>
-                  <span class="col-chip">Role</span>
-                  <span class="col-chip">Issues</span>
-                  <span class="col-chip">Area</span>
-                  <span class="col-chip">Notes</span>
-                  <span class="col-chip">Status</span>
-                  <span class="col-chip">Follow-up Date</span>
-                  <span class="col-chip">Follow-up By</span>
-                </div>
-              </li>
-              <li>Go to <strong>File &rarr; Share &rarr; Publish to web</strong>. Select <strong>Sheet1</strong> and format <strong>Comma-separated values (.csv)</strong>. Click Publish.</li>
-              <li>Copy the URL it gives you and paste it in the field above.</li>
-              <li>Click <strong>Save &amp; Load</strong>. The dashboard will now auto-fetch your sheet on every page load.</li>
-              <li><strong>Workflow:</strong> When you get a volunteer email, add a row in the Google Sheet. Reload this dashboard to see the new contact.</li>
-            </ol>
-            <p style="margin-top:10px;font-size:.82rem;color:var(--muted);">
-              <strong>Note:</strong> The sheet must be set to "Anyone with link can view."
-              All data stays in your Google account. Nothing is sent to any third-party server.
-            </p>
+            <summary>Outreach tab — column reference</summary>
+            <div class="columns-list" style="margin-top:8px;">
+              <span class="col-chip">Contact ID</span>
+              <span class="col-chip">First Name</span>
+              <span class="col-chip">Last Name</span>
+              <span class="col-chip">Full Address</span>
+              <span class="col-chip">Contact Method</span>
+              <span class="col-chip">Date Contacted</span>
+              <span class="col-chip">Response</span>
+              <span class="col-chip">Notes</span>
+              <span class="col-chip">Follow-Up Needed?</span>
+              <span class="col-chip">Follow-Up Date</span>
+              <span class="col-chip">Assigned To</span>
+              <span class="col-chip">Ward/Precinct</span>
+              <span class="col-chip">City</span>
+              <span class="col-chip">Zip</span>
+              <span class="col-chip">Phone</span>
+              <span class="col-chip">Email</span>
+              <span class="col-chip">Volunteer Interest?</span>
+              <span class="col-chip">Donor Interest?</span>
+              <span class="col-chip">Issue Priority</span>
+            </div>
+          </details>
+
+          <p style="font-weight:700;margin:22px 0 6px;">Volunteer Tab <span style="font-weight:400;color:var(--muted);font-size:.82rem;">(optional)</span></p>
+          <p style="margin-bottom:10px;font-size:.88rem;color:var(--muted);">
+            To also load your Volunteer tab: in Google Sheets go to <strong>File &rarr; Share &rarr; Publish to web</strong>,
+            select the <strong>volunteer</strong> tab, format <strong>CSV</strong>, click Publish, then paste the URL here.
+          </p>
+          <input type="url" id="vol-url-input" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?output=csv&gid=VOLUNTEER_TAB_ID" />
+          <button class="config-btn" id="save-vol-btn">Save &amp; Load Volunteer Tab</button>
+          <div class="config-feedback" id="vol-feedback"></div>
+          <details class="setup-guide">
+            <summary>Volunteer tab — column reference</summary>
+            <div class="columns-list" style="margin-top:8px;">
+              <span class="col-chip">Volunteer ID</span>
+              <span class="col-chip">First Name</span>
+              <span class="col-chip">Last Name</span>
+              <span class="col-chip">Phone</span>
+              <span class="col-chip">Email</span>
+              <span class="col-chip">City</span>
+              <span class="col-chip">Zip</span>
+              <span class="col-chip">Skills</span>
+              <span class="col-chip">Availability</span>
+              <span class="col-chip">Shirt Size</span>
+              <span class="col-chip">Date Recruited</span>
+              <span class="col-chip">Recruited By</span>
+              <span class="col-chip">Total Shifts</span>
+              <span class="col-chip">Status</span>
+              <span class="col-chip">Notes</span>
+            </div>
           </details>
         </div>
 
@@ -601,6 +622,7 @@
   /* -------- CONFIG -------- */
   const LS_PIN     = 'arafat_dash_pin';
   const LS_SHEETS  = 'arafat_dash_sheets_url';
+  const LS_VOL     = 'arafat_dash_vol_url';
   const LS_LOCAL   = 'arafat_dash_local_contacts';
   const DEFAULT_PIN = 'Arafat_Admin_1092';
   const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv';
@@ -620,6 +642,7 @@
   let sortCol = 'date';
   let sortDir = -1;
   let sheetsContacts = [];
+  let volContacts = [];
   let localContacts = [];
 
   /* -------- PIN LOGIC -------- */
@@ -665,7 +688,11 @@
     loadLocal();
     const sheetsUrl = localStorage.getItem(LS_SHEETS) || DEFAULT_SHEETS_URL;
     document.getElementById('sheets-url-input').value = sheetsUrl;
-    await fetchSheets(sheetsUrl);
+    const volUrl = localStorage.getItem(LS_VOL) || '';
+    if (volUrl) document.getElementById('vol-url-input').value = volUrl;
+    const fetches = [fetchSheets(sheetsUrl)];
+    if (volUrl) fetches.push(fetchVolSheet(volUrl));
+    await Promise.all(fetches);
     mergeAndRender();
   }
 
@@ -690,6 +717,20 @@
     } catch (err) {
       line.textContent = 'Could not load Google Sheet (' + err.message + '). Showing local + sample data.';
       sheetsContacts = [];
+    }
+  }
+
+  async function fetchVolSheet(url) {
+    try {
+      const fetchUrl = url + (url.includes('?') ? '&' : '?') + '_cb=' + Date.now();
+      const resp = await fetch(fetchUrl);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const csv = await resp.text();
+      volContacts = parseCSV(csv).map(r => ({ ...r, _tab: 'volunteer' }));
+      const line = document.getElementById('data-source-line');
+      line.textContent += ' · Volunteer tab: ' + volContacts.length + ' records';
+    } catch (err) {
+      volContacts = [];
     }
   }
 
@@ -727,14 +768,48 @@
 
   function csvHeaderToKey(h) {
     const map = {
-      'date': 'date', 'source': 'source',
-      'first name': 'firstName', 'last name': 'lastName',
-      'email': 'email', 'phone': 'phone', 'zip': 'zip', 'zip code': 'zip',
-      'interest': 'interest', 'role': 'role', 'role preference': 'role',
-      'issues': 'issues', 'issue concerns': 'issues',
-      'area': 'area', 'notes': 'notes', 'status': 'status',
-      'follow-up date': 'followup', 'follow-up by': 'followupBy',
-      'followup date': 'followup', 'followup by': 'followupBy'
+      // ── Outreach tab ─────────────────────────────────────────────────
+      'contact id':          'contactId',
+      'first name':          'firstName',
+      'last name':           'lastName',
+      'full address':        'address',
+      'contact method':      'source',
+      'date contacted':      'date',
+      'response':            'status',
+      'notes':               'notes',
+      'follow-up needed?':   'followupNeeded',
+      'follow-up date':      'followup',
+      'assigned to':         'followupBy',
+      'ward/precinct':       'area',
+      'city':                'city',
+      'zip':                 'zip',
+      'phone':               'phone',
+      'email':               'email',
+      'volunteer interest?': 'interest',
+      'donor interest?':     'donorInterest',
+      'issue priority':      'issues',
+      // ── Volunteer tab ─────────────────────────────────────────────────
+      'volunteer id':        'volunteerId',
+      'skills':              'role',
+      'availability':        'availability',
+      'shirt size':          'shirtSize',
+      'date recruited':      'date',
+      'recruited by':        'recruitedBy',
+      'total shifts':        'totalShifts',
+      'status':              'status',
+      // ── Fallback / alternate spellings ───────────────────────────────
+      'date':                'date',
+      'source':              'source',
+      'zip code':            'zip',
+      'interest':            'interest',
+      'role':                'role',
+      'role preference':     'role',
+      'issues':              'issues',
+      'issue concerns':      'issues',
+      'area':                'area',
+      'followup date':       'followup',
+      'followup by':         'followupBy',
+      'follow-up by':        'followupBy'
     };
     return map[h.toLowerCase()] || h.toLowerCase().replace(/\s+/g, '_');
   }
@@ -751,9 +826,9 @@
 
   /* -------- MERGE & RENDER -------- */
   function mergeAndRender() {
-    const hasSheetsOrLocal = sheetsContacts.length > 0 || localContacts.length > 0;
+    const hasSheetsOrLocal = sheetsContacts.length > 0 || volContacts.length > 0 || localContacts.length > 0;
     allContacts = hasSheetsOrLocal
-      ? [...sheetsContacts, ...localContacts]
+      ? [...sheetsContacts, ...volContacts, ...localContacts]
       : [...SAMPLE_CONTACTS, ...localContacts];
 
     if (!hasSheetsOrLocal && SAMPLE_CONTACTS.length > 0) {
@@ -817,8 +892,8 @@
   function renderStats() {
     const c = allContacts;
     document.getElementById('stat-total').textContent = c.length;
-    document.getElementById('stat-vol').textContent = c.filter(x => (x.interest||'').toLowerCase().includes('volunteer')).length;
-    document.getElementById('stat-new').textContent = c.filter(x => (x.status||'').toLowerCase() === 'new').length;
+    document.getElementById('stat-vol').textContent = c.filter(x => (x.interest||'').toLowerCase().includes('yes') || x._tab === 'volunteer').length;
+    document.getElementById('stat-new').textContent = c.filter(x => (x.followupNeeded||'').toLowerCase().includes('yes')).length;
     const areas = new Set(c.map(x => x.area).filter(Boolean));
     document.getElementById('stat-areas').textContent = areas.size;
     const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
@@ -899,12 +974,15 @@
 
   /* -------- EXPORT CSV -------- */
   document.getElementById('export-btn').addEventListener('click', () => {
-    const headers = ['Date','Source','First Name','Last Name','Email','Phone','ZIP','Interest','Role','Issues','Area','Notes','Status','Follow-up Date','Follow-up By'];
+    const headers = ['Contact ID','First Name','Last Name','Full Address','Contact Method','Date Contacted','Response','Notes','Follow-Up Needed?','Follow-Up Date','Assigned To','Ward/Precinct','City','Zip','Phone','Email','Volunteer Interest?','Donor Interest?','Issue Priority','Skills','Availability','Shirt Size','Status','Tab'];
     const rows = [headers.join(',')];
     allContacts.forEach(c => {
       rows.push([
-        c.date, c.source, c.firstName, c.lastName, c.email, c.phone, c.zip,
-        c.interest, c.role, c.issues, c.area, c.notes, c.status, c.followup, c.followupBy
+        c.contactId||c.volunteerId, c.firstName, c.lastName, c.address, c.source,
+        c.date, c.status, c.notes, c.followupNeeded, c.followup, c.followupBy,
+        c.area, c.city, c.zip, c.phone, c.email,
+        c.interest, c.donorInterest, c.issues,
+        c.role, c.availability, c.shirtSize, c.status, c._tab||'outreach'
       ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
     });
     const blob = new Blob([rows.join('\n')], {type:'text/csv'});
@@ -944,10 +1022,15 @@
     }
     localContacts.push(contact);
     saveLocal();
-    // Generate CSV row for Google Sheets paste
-    const row = [contact.date, contact.source, contact.firstName, contact.lastName,
-      contact.email, contact.phone, contact.zip, contact.interest, contact.role,
-      contact.issues, contact.area, contact.notes, contact.status, contact.followup, contact.followupBy
+    // Generate CSV row matching the Outreach tab column order for Google Sheets paste
+    // Columns: Contact ID | First Name | Last Name | Full Address | Contact Method | Date Contacted |
+    //          Response | Notes | Follow-Up Needed? | Follow-Up Date | Assigned To | Ward/Precinct |
+    //          City | Zip | Phone | Email | Volunteer Interest? | Donor Interest? | Issue Priority
+    const row = [
+      '', contact.firstName, contact.lastName, '', contact.source, contact.date,
+      contact.status, contact.notes, '', contact.followup, contact.followupBy,
+      contact.area, '', contact.zip, contact.phone, contact.email,
+      contact.interest, '', contact.issues
     ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(',');
     document.getElementById('csv-row-text').textContent = row;
     const csvOut = document.getElementById('csv-output');
@@ -993,6 +1076,17 @@
     await fetchSheets(url);
     mergeAndRender();
     fb.textContent = 'Connected. Dashboard will auto-load this sheet on every visit.';
+  });
+
+  document.getElementById('save-vol-btn').addEventListener('click', async () => {
+    const url = document.getElementById('vol-url-input').value.trim();
+    const fb = document.getElementById('vol-feedback');
+    if (!url) { fb.style.color = 'var(--red)'; fb.textContent = 'Please enter a URL.'; return; }
+    localStorage.setItem(LS_VOL, url);
+    fb.style.color = 'var(--green)'; fb.textContent = 'Saved. Loading...';
+    await fetchVolSheet(url);
+    mergeAndRender();
+    fb.textContent = 'Volunteer tab loaded (' + volContacts.length + ' records).';
   });
 
   document.getElementById('save-pin-btn').addEventListener('click', () => {
