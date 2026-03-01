@@ -65,6 +65,7 @@
 
     .nav-toggle{display:none;border:1px solid rgba(11,28,61,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px 10px;min-height:44px;min-width:44px}
     .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px}
+    .mobile-pac-strip{display:none;background:rgba(242,193,78,0.14);border-bottom:1px solid rgba(242,193,78,0.30);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
     .mobile-drawer{display:none}
     .mobile-drawer[hidden]{display:none!important}
 
@@ -148,6 +149,7 @@
       .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
       .header-inner{ grid-template-columns: 1fr auto; }
       .header-cred{ display:none; }
+      .mobile-pac-strip{ display:block; }
       .mobile-drawer{ max-width: 1180px; margin: 0 auto; padding: 10px 18px 16px; display:grid; gap: 8px; }
       .mobile-drawer a{ text-decoration:none; font-weight: 850; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
       .mobile-drawer a.drawer-cta{ background: linear-gradient(180deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
@@ -176,6 +178,7 @@
 
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
@@ -195,8 +198,10 @@
       </div>
     </div>
 
+    <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
@@ -350,17 +355,17 @@
   <!-- STORY FORM -->
   <section class="section" id="story" aria-label="Share your story">
     <h2>Share your story</h2>
-    <p>Your story shapes this campaign. Tell us what Washington isn’t fixing for your family.</p>
+    <p>Your story shapes this campaign. Tell us what Washington isn’t fixing for your family — in Spanaway, Lakewood, Olympia, or anywhere in WA-10.</p>
 
-    <form class="form" onsubmit="return openEmail(event)" data-augment-tracking="true" data-form-type="contact">
+    <form class="form" id="story-form" data-augment-tracking="true" data-form-type="contact" novalidate>
       <div class="form-row">
         <div class="form-group">
           <label for="visitorName">Your name (optional)</label>
-          <input type="text" id="visitorName" name="name" placeholder="First and last name" />
+          <input type="text" id="visitorName" name="name" placeholder="First and last name" autocomplete="name" />
         </div>
         <div class="form-group">
-          <label for="visitorContact">Best contact (optional)</label>
-          <input type="text" id="visitorContact" name="contact" placeholder="Email or phone" />
+          <label for="visitorContact">Email or phone (optional)</label>
+          <input type="text" id="visitorContact" name="contact" placeholder="Email or phone — so we can follow up" autocomplete="email" />
         </div>
       </div>
 
@@ -368,11 +373,13 @@
         <div class="form-group">
           <label for="topic">Topic</label>
           <select id="topic" name="topic">
+            <option>Housing</option>
             <option>Healthcare</option>
             <option>Cost of living</option>
-            <option>Housing</option>
-            <option>Jobs</option>
+            <option>Jobs &amp; wages</option>
+            <option>Veteran / military issues</option>
             <option>Accountability</option>
+            <option>Public transit</option>
             <option>Other</option>
           </select>
         </div>
@@ -383,16 +390,17 @@
       </div>
 
       <div class="form-group">
-        <label for="storyText">Your message</label>
-        <textarea id="storyText" name="story" placeholder="Write what you want us to know..."></textarea>
+        <label for="storyText">Your message <span aria-hidden="true">*</span></label>
+        <textarea id="storyText" name="story" required placeholder="Write what you want us to know..." rows="5"></textarea>
       </div>
 
       <div class="hero__actions">
-        <button class="btn btn-primary" type="submit" data-event="story_submit" data-location="story">Submit your story</button>
+        <button class="btn btn-primary" type="submit" data-event="story_submit" data-location="story">Send your story</button>
         <a class="btn btn-ghost" href="mailto:info@arafatforcongress.org?subject=Constituent%20message" data-event="email_click" data-location="story" data-email="info">Or email directly</a>
       </div>
 
-      <p class="disclaimer">This opens your email app with your message prefilled. No data is stored on this site.</p>
+      <p id="story-feedback" role="status" aria-live="polite" class="disclaimer" style="min-height:1.4em;"></p>
+      <p class="disclaimer">Stories may be shared publicly (anonymously unless you consent). No spam. Unsubscribe anytime.</p>
     </form>
   </section>
 
@@ -446,34 +454,50 @@
   </section>
 
   <footer>
+    <p style="margin:0 0 6px;font-weight:650;color:#071127;">Citizens serving citizens. That's the job.</p>
+    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+      <a href="/events.html">Events</a>
+      <a href="/endorsements.html">Endorsements</a>
+      <a href="/es/">En Español</a>
+    </nav>
     Paid for by Arafat for Congress • <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
   </footer>
 
   <script src="js/main.js" defer></script>
 
   <script>
-    function openEmail(e){
-      e.preventDefault();
-      const name = document.getElementById('visitorName').value.trim();
-      const contact = document.getElementById('visitorContact').value.trim();
-      const topic = document.getElementById('topic').value;
-      const zip = document.getElementById('zip').value.trim();
-      const story = document.getElementById('storyText').value.trim();
-
-      const subject = encodeURIComponent(`Constituent message: ${topic}`);
-      const parts = [];
-      if (story) parts.push(story);
-      const sig = [];
-      sig.push(`- ${name || 'Anonymous'}`);
-      if (contact) sig.push(contact);
-      if (zip) sig.push(`ZIP: ${zip}`);
-      parts.push("");
-      parts.push(sig.join(" • "));
-
-      const body = encodeURIComponent(parts.join("\n"));
-      window.location.href = `mailto:info@arafatforcongress.org?subject=${subject}&body=${body}`;
-      return false;
-    }
+    (function(){
+      var storyForm = document.getElementById('story-form');
+      if (!storyForm) return;
+      storyForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var feedback = document.getElementById('story-feedback');
+        var story = document.getElementById('storyText').value.trim();
+        if (!story) {
+          feedback.textContent = 'Please write a message before submitting.';
+          feedback.style.color = '#c1121f';
+          return;
+        }
+        var name = document.getElementById('visitorName').value.trim();
+        var contact = document.getElementById('visitorContact').value.trim();
+        var topic = document.getElementById('topic').value;
+        var zip = document.getElementById('zip').value.trim();
+        var subject = encodeURIComponent('WA-10 Constituent Story: ' + topic);
+        var parts = [];
+        if (name) parts.push('From: ' + name);
+        if (contact) parts.push('Contact: ' + contact);
+        if (zip) parts.push('ZIP: ' + zip);
+        parts.push('Topic: ' + topic);
+        parts.push('');
+        parts.push(story);
+        parts.push('');
+        parts.push('--- Submitted from arafatforcongress.org/contact ---');
+        var body = encodeURIComponent(parts.join('\n'));
+        feedback.textContent = 'Thank you — opening your email app to send your story to the campaign.';
+        feedback.style.color = '#0b7f7e';
+        window.location.href = 'mailto:info@arafatforcongress.org?subject=' + subject + '&body=' + body;
+      });
+    })();
   </script>
 
   <script>

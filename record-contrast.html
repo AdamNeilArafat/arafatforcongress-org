@@ -129,6 +129,7 @@ main{padding-bottom:2rem;}
   border-radius:2px;
 }
 
+.mobile-pac-strip{display:none;background:rgba(242,193,78,0.14);border-bottom:1px solid rgba(242,193,78,0.30);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:#0b1c3d;}
 .mobile-drawer{display:none;}
 .mobile-drawer[hidden]{display:none !important;}
 
@@ -328,6 +329,7 @@ footer{
   .site-nav{display:none;}
   .header-inner{grid-template-columns:1fr auto;}
   .header-cred,.cta-group{display:none;}
+  .mobile-pac-strip{display:block;}
   .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
   .mobile-drawer{
     padding:0 18px 14px;
@@ -365,6 +367,7 @@ footer{
 
     <nav class="site-nav" aria-label="Primary">
       <a class="nav-link" href="/index.html">Home</a>
+      <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
       <a class="nav-link" href="/issues.html">Issues</a>
       <a class="nav-link" href="/record-contrast.html" aria-current="page">The Difference</a>
       <a class="nav-link" href="/about.html">Meet Adam</a>
@@ -383,8 +386,10 @@ footer{
     </div>
   </div>
 
+  <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
   <div class="mobile-drawer" hidden>
     <a href="/index.html">Home</a>
+    <a href="/why-im-running.html">Why I'm Running</a>
     <a href="/issues.html">Issues</a>
     <a href="/record-contrast.html" aria-current="page">The Difference</a>
     <a href="/about.html">Meet Adam</a>
@@ -436,7 +441,7 @@ footer{
         alt="Graphic representing the visibility of committee and PAC funding in politics"
         loading="lazy"
         decoding="async"
-        onerror="this.onerror=null;this.src='images/Suit.jpeg';"
+        onerror="this.onerror=null;this.style.display='none';"
       />
 
       <div class="disclaimer">
@@ -551,14 +556,42 @@ footer{
     </div>
 
     <div class="card">
-      <h3>The question voters should ask</h3>
+      <h3>What $355,452 in committee money means</h3>
       <p>
-        If a representative relies heavily on committee money, voters should expect extra clarity:
-        What did WA-10 get? What changed? What votes happened? What timeline was met?
+        $355,452 from PACs and committees is more than the <strong>median WA-10 household earns in five years</strong>.
+        When that much money flows from special interests to a campaign, voters deserve one simple question answered:
+        what did WA-10 actually get in return?
       </p>
       <p>
-        My promise is straightforward: fewer speeches, more measurable outcomes. If something stalls, you will see what I did next.
+        Did housing bills advance? Did healthcare votes happen? Did wages go up for workers in Lakewood, Olympia, and Spanaway?
+        That's the accountability test. Not speeches — receipts.
       </p>
+      <p>
+        My promise is straightforward: no committee money, no donor ambiguity, and a public record of every vote, every co-sponsorship, and every escalation when leadership refuses to schedule a vote.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT CLOSE -->
+<section class="section" aria-labelledby="verdict-heading">
+  <h2 id="verdict-heading">The bottom line</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>The incumbent's record</h3>
+      <ul class="list">
+        <li><b>$355,452</b><span>from PACs and committees in 2025–2026 cycle (FEC public data)</span></li>
+        <li><b>Not co-sponsored:</b><span>H.R. 4457 (Housing Is a Human Right), H.R. 3069 (Medicare for All), H.J.Res. 54 (We the People Amendment / Citizens United)</span></li>
+        <li><b>Co-sponsored:</b><span>H.R. 14 (John Lewis Voting Rights Act) — good. The question remains: what was done to move it?</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>What Adam commits to</h3>
+      <ul class="list">
+        <li><b>$0</b><span>from corporate PACs or AIPAC. People-funded campaign only.</span></li>
+        <li><b>Co-sponsor on day one:</b><span>Every working-family bill this district supports. Public record updated continuously.</span></li>
+        <li><b>Public escalation:</b><span>If leadership blocks a vote, WA-10 will know exactly who blocked it and what Adam did next.</span></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -634,6 +667,12 @@ footer{
 
 <footer>
   <p style="margin:0 0 6px;font-weight:650;color:var(--navy);">Citizens serving citizens. That’s the job.</p>
+  <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+    <a href="/events.html">Events</a>
+    <a href="/endorsements.html">Endorsements</a>
+    <a href="/es/">En Español</a>
+    <a href="/contact.html">Volunteer</a>
+  </nav>
   Paid for by Arafat for Congress • info@arafatforcongress.org
 </footer>
 
