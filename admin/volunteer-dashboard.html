@@ -275,10 +275,10 @@
     <div class="pin-logo">Arafat for Congress</div>
     <div class="pin-sub">Campaign Dashboard &bull; WA-10</div>
     <h2>Team access only</h2>
-    <input type="password" id="pin-input" maxlength="8" autocomplete="off" inputmode="numeric" placeholder="&bull;&bull;&bull;&bull;" />
+    <input type="password" id="pin-input" maxlength="20" autocomplete="off" placeholder="Enter password" />
     <button id="pin-submit">Enter Dashboard</button>
     <p id="pin-error"></p>
-    <p class="pin-hint">Default PIN: <strong>2026</strong><br>Change it in Settings after entering.</p>
+    <p class="pin-hint">Staff access only. Contact campaign leadership for credentials.</p>
   </div>
 </div>
 
@@ -357,8 +357,8 @@
         <option>Olympia</option>
         <option>Lacey / Tumwater</option>
         <option>University Place</option>
+        <option>Puyallup / South Hill</option>
         <option>JBLM Communities</option>
-        <option>Shelton / Mason County</option>
         <option>Other</option>
       </select>
       <select id="filter-status">
@@ -478,8 +478,8 @@
                 <option>Olympia</option>
                 <option>Lacey / Tumwater</option>
                 <option>University Place</option>
+                <option>Puyallup / South Hill</option>
                 <option>JBLM Communities</option>
-                <option>Shelton / Mason County</option>
                 <option>Other WA-10</option>
               </select>
             </div>
@@ -574,9 +574,9 @@
         </div>
 
         <div class="config-section" style="border-top:1px solid var(--border);padding-top:20px;">
-          <h3>Change Dashboard PIN</h3>
-          <p>Default PIN is 2026. Change it here. PINs are stored in this browser only.</p>
-          <input type="password" id="new-pin-input" placeholder="New PIN (4-8 digits)" maxlength="8" />
+          <h3>Change Dashboard Password</h3>
+          <p>Change the dashboard password here. Passwords are stored in this browser only.</p>
+          <input type="password" id="new-pin-input" placeholder="New password" maxlength="20" />
           <button class="config-btn" id="save-pin-btn">Update PIN</button>
           <div class="config-feedback" id="pin-change-feedback"></div>
         </div>
@@ -602,7 +602,7 @@
   const LS_PIN     = 'arafat_dash_pin';
   const LS_SHEETS  = 'arafat_dash_sheets_url';
   const LS_LOCAL   = 'arafat_dash_local_contacts';
-  const DEFAULT_PIN = '2026';
+  const DEFAULT_PIN = 'Arafat_Admin_1092';
 
   /* -------- SAMPLE DATA (shown when no Google Sheet configured) -------- */
   const SAMPLE_CONTACTS = [
@@ -610,7 +610,7 @@
     { id: 's2', date: '2026-03-01', source: 'email-volunteer', firstName: 'James', lastName: 'Park', email: 'jpark@example.com', phone: '253-555-0100', zip: '98499', interest: 'Volunteer', role: 'Digital and Social', issues: 'Accountability; Healthcare', area: 'Lakewood', notes: 'Active on Instagram and TikTok. Can do video clips.', status: 'contacted', followup: '', followupBy: '' , _sample: true },
     { id: 's3', date: '2026-02-27', source: 'email-info', firstName: 'Susan', lastName: 'Williams', email: 'swilliams@example.com', phone: '360-555-0200', zip: '98501', interest: 'Volunteer+Donor', role: 'Events and Scheduling', issues: 'Veteran issues; Jobs', area: 'Olympia', notes: 'JBLM veteran. Wants to help plan town halls. Has venue contacts.', status: 'active', followup: '2026-03-07', followupBy: 'Adam', _sample: true },
     { id: 's4', date: '2026-02-25', source: 'event', firstName: 'Derek', lastName: 'Thomas', email: '', phone: '253-555-0333', zip: '98404', interest: 'Volunteer', role: 'Voter Contact', issues: 'Housing; Public transit', area: 'University Place', notes: 'Met at community meeting. Wants to phone bank evenings.', status: 'new', followup: '2026-03-05', followupBy: '', _sample: true },
-    { id: 's5', date: '2026-02-20', source: 'referral', firstName: 'Alicia', lastName: 'Nguyen', email: 'anguyen@example.com', phone: '', zip: '98548', interest: 'Volunteer', role: 'Area Coordinator', issues: 'Healthcare; Cost of living', area: 'Shelton / Mason County', notes: 'Referred by Maria H. Interested in leading Mason County outreach.', status: 'contacted', followup: '2026-03-06', followupBy: 'Team', _sample: true }
+    { id: 's5', date: '2026-02-20', source: 'referral', firstName: 'Alicia', lastName: 'Nguyen', email: 'anguyen@example.com', phone: '', zip: '98374', interest: 'Volunteer', role: 'Area Coordinator', issues: 'Healthcare; Cost of living', area: 'Puyallup / South Hill', notes: 'Referred by Maria H. Interested in leading Puyallup/South Hill outreach.', status: 'contacted', followup: '2026-03-06', followupBy: 'Team', _sample: true }
   ];
 
   /* -------- STATE -------- */

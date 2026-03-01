@@ -1,0 +1,154 @@
+##############################################################################
+# Arafat for Congress — Google Sheet → Repo Sync
+# Pulls outreach metrics from the campaign Google Sheet, strips PII,
+# and writes the result to data/outreach_data.json for site display.
+#
+# SETUP:
+#   1. In your Google Sheet, share with a service account
+#      OR export publicly as CSV and set SHEET_CSV_URL below.
+#   2. Add repository secrets:
+#      - GOOGLE_SERVICE_ACCOUNT_JSON  (if using service account auth)
+#      - SHEET_CSV_URL  (if using public CSV export — simpler option)
+#   3. The workflow runs every 6 hours and on manual dispatch.
+#
+# PUBLIC CSV EXPORT (simpler — no service account needed):
+#   In Google Sheets: File > Share > Publish to web
+#   Select the "Outreach" tab, format "CSV", click Publish.
+#   Copy the URL and set it as the SHEET_CSV_URL secret.
+##############################################################################
+
+name: Sync Outreach Sheet → outreach_data.json
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # Every 6 hours
+  workflow_dispatch:          # Manual trigger from Actions tab
+  push:
+    branches:
+      - work                  # Also run on deploy branch pushes
+
+permissions:
+  contents: write
+
+jobs:
+  sync-sheet:
+    name: Pull sheet data and update JSON
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Pull sheet and strip PII
+        env:
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+        run: |
+          python3 - <<'PYEOF'
+          import os, csv, json, re, sys
+          from datetime import datetime, timezone
+          import urllib.request
+
+          # ── Config ────────────────────────────────────────────────────────
+          SHEET_URL = os.environ.get('SHEET_CSV_URL', '').strip()
+          OUT_FILE  = 'data/outreach_data.json'
+
+          # PII scrubbing patterns
+          PII_PATTERNS = [
+              (r'[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}', '[email redacted]'),
+              (r'(\(?\d{3}\)?[\s\-.]?\d{3}[\s\-.]?\d{4})',             '[phone redacted]'),
+              (r'\b\d{3}-\d{2}-\d{4}\b',                               '[id redacted]'),
+              (r'\b\d{5}(-\d{4})?\b',                                   '[zip redacted]'),
+          ]
+
+          def scrub_pii(text):
+              if not text:
+                  return ''
+              for pattern, replacement in PII_PATTERNS:
+                  text = re.sub(pattern, replacement, text)
+              return text
+
+          # ── Fetch CSV ──────────────────────────────────────────────────────
+          if not SHEET_URL:
+              print('WARNING: SHEET_CSV_URL secret not set. Writing empty outreach_data.json.')
+              records = []
+              summary = {'total_contacts': 0, 'data_pull_date': datetime.now(timezone.utc).isoformat(), 'stale': False, 'error': 'SHEET_CSV_URL not configured'}
+          else:
+              try:
+                  with urllib.request.urlopen(SHEET_URL, timeout=30) as resp:
+                      content = resp.read().decode('utf-8')
+                  lines   = content.splitlines()
+                  reader  = csv.DictReader(lines)
+                  raw_rows = list(reader)
+              except Exception as e:
+                  print(f'ERROR fetching sheet: {e}')
+                  # Write stale warning
+                  existing = json.loads(open(OUT_FILE).read()) if os.path.exists(OUT_FILE) else {}
+                  existing['stale'] = True
+                  existing['stale_reason'] = str(e)
+                  existing['data_pull_date'] = datetime.now(timezone.utc).isoformat()
+                  with open(OUT_FILE, 'w') as f:
+                      json.dump(existing, f, indent=2)
+                  print('Stale data warning written.')
+                  sys.exit(0)
+
+              # ── Strip PII and aggregate ──────────────────────────────────
+              records = []
+              total_contacts = 0
+              for row in raw_rows:
+                  clean = {}
+                  for key, val in row.items():
+                      safe_key = key.strip().lower().replace(' ', '_')
+                      # Skip columns that are personal identifiers
+                      if safe_key in ('email', 'phone', 'first_name', 'last_name', 'name', 'address'):
+                          continue
+                      clean[safe_key] = scrub_pii(str(val).strip())
+                  if clean:
+                      records.append(clean)
+                  # Tally outreach counts
+                  count_val = row.get('Outreach_Count', '') or row.get('outreach_count', '')
+                  try:
+                      total_contacts += int(count_val)
+                  except (ValueError, TypeError):
+                      pass
+
+              summary = {
+                  'total_outreach_contacts': total_contacts,
+                  'total_records': len(records),
+                  'data_pull_date': datetime.now(timezone.utc).isoformat(),
+                  'stale': False
+              }
+
+          # ── Write output ────────────────────────────────────────────────
+          output = {
+              'meta': summary,
+              'records': records
+          }
+          os.makedirs('data', exist_ok=True)
+          with open(OUT_FILE, 'w') as f:
+              json.dump(output, f, indent=2)
+          print(f'Wrote {len(records)} records to {OUT_FILE}')
+          print(f'Total outreach contacts: {summary.get("total_outreach_contacts", 0)}')
+          PYEOF
+
+      - name: Commit updated outreach_data.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/outreach_data.json
+          if git diff --cached --quiet; then
+            echo "No changes to outreach_data.json — skipping commit."
+          else
+            git commit -m "chore: sync outreach data from Google Sheet [skip ci]"
+            git push origin HEAD
+          fi

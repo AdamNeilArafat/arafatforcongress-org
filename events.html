@@ -153,7 +153,6 @@
       <a href="/endorsements.html">Endorsements</a>
       <a href="/events.html" aria-current="page">Events</a>
       <a href="/contact.html">Contact / Volunteer</a>
-      <a href="/es/">En Espa&ntilde;ol</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
@@ -167,36 +166,47 @@
       </div>
     </section>
 
-    <!-- UPCOMING EVENTS -->
-    <section class="section" aria-labelledby="upcoming-heading">
+    <!-- UPCOMING EVENTS (Conditional Render) -->
+    <section class="section" id="events-section" aria-labelledby="upcoming-heading">
       <h2 id="upcoming-heading">Upcoming events</h2>
-      <p class="section-intro">Sign up to volunteer at <a href="/contact.html" style="color:var(--brand);font-weight:700;">contact.html</a> and we'll notify you of local events as they're scheduled.</p>
+      <p class="section-intro">Town halls, canvassing days, and community meetups across WA-10. <a href="/contact.html" style="color:var(--brand);font-weight:700;">Volunteer</a> to be notified when something is scheduled near you.</p>
 
-      <div class="coming-soon">
-        <h3>Events are being scheduled now</h3>
+      <!-- Events list container: populated by events.json if available -->
+      <div id="events-list-container" class="events-list" style="display:none;" aria-live="polite"></div>
+
+      <!-- Shown when events list is empty or events.json has no items -->
+      <div id="events-empty-state" class="coming-soon">
+        <h3>No upcoming events scheduled yet</h3>
         <p>Town halls, canvassing days, and meet-and-greets are being confirmed across all of WA-10. Drop your email and we'll notify you the moment something is scheduled near you.</p>
         <form class="notify-form" id="event-notify-form" novalidate>
           <input type="email" id="notify-email" placeholder="Your email address" autocomplete="email" required aria-label="Email for event notifications" />
           <button class="btn btn-primary" type="submit">Notify me</button>
         </form>
         <p id="notify-feedback" role="status" aria-live="polite" style="margin-top:10px;min-height:1.4em;font-weight:700;color:var(--brand-dark);font-size:.95rem;"></p>
+        <hr style="margin:24px 0;border:none;border-top:1px solid var(--border-soft);">
+        <h3 style="margin-bottom:10px;">Host an Event in Your Neighborhood</h3>
+        <p>You don't need a venue. A living room, a backyard, or a community center works. We'll bring the materials and the candidate.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px;">
+          <a class="btn btn-primary" href="/contact.html#outreach-tracker">Log outreach</a>
+          <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Host%20an%20Event%20in%20WA-10&body=Hi%20team%2C%0A%0AI%27d%20like%20to%20host%20an%20event%20in%20my%20neighborhood.%0A%0AName%3A%0AArea%2FCity%3A%0AType%20of%20event%20(living%20room%2C%20backyard%2C%20community%20center)%3A%0ABest%20contact%3A%0A%0AThanks%2C">Email to host an event</a>
+        </div>
       </div>
     </section>
 
     <!-- AREAS WE'LL COVER -->
     <section class="section" aria-labelledby="areas-heading">
       <h2 id="areas-heading">Every part of WA-10</h2>
-      <p class="section-intro">This district runs from the South Sound to Hood Canal. We'll be in every community, in person.</p>
+      <p class="section-intro">This district spans the South Sound — Pierce and Thurston counties. We'll be in every community, in person.</p>
       <div class="area-grid">
         <div class="area-pill"><strong>Spanaway</strong><span>Pierce County South</span></div>
         <div class="area-pill"><strong>Lakewood</strong><span>Pierce County</span></div>
         <div class="area-pill"><strong>University Place</strong><span>Pierce County</span></div>
         <div class="area-pill"><strong>Tacoma (South)</strong><span>Pierce County</span></div>
+        <div class="area-pill"><strong>Puyallup / South Hill</strong><span>Pierce County</span></div>
         <div class="area-pill"><strong>Olympia</strong><span>Thurston County</span></div>
         <div class="area-pill"><strong>Lacey</strong><span>Thurston County</span></div>
         <div class="area-pill"><strong>Tumwater</strong><span>Thurston County</span></div>
         <div class="area-pill"><strong>Yelm / Rainier</strong><span>Thurston County</span></div>
-        <div class="area-pill"><strong>Shelton</strong><span>Mason County</span></div>
         <div class="area-pill"><strong>JBLM Communities</strong><span>Pierce / Thurston</span></div>
       </div>
     </section>
@@ -214,11 +224,24 @@
 
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
-    Paid for by Arafat for Congress • <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+      <a href="/why-im-running.html">Why I'm Running</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/contact.html">Volunteer</a>
+    </nav>
+    <strong>Paid for by Arafat for Congress</strong> &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+    <p style="font-size:.78rem;margin:8px auto 0;max-width:780px;line-height:1.6;color:var(--muted);">
+      Contributions or gifts to Arafat for Congress are not tax-deductible.<br>
+      Federal law requires us to use our best efforts to collect and report the name, mailing address, occupation, and name of employer of individuals whose contributions exceed $200 in a calendar year.
+    </p>
+    <div style="margin-top:14px;">
+      <a href="/es/events.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.22);color:#091b36;font-weight:700;font-size:.92rem;padding:8px 16px;border-radius:999px;text-decoration:none;" aria-label="View full Spanish version of this page">&#127760; Ver en Espa&ntilde;ol</a>
+    </div>
   </footer>
 
   <script>
     (function(){
+      /* ---- Mobile nav toggle ---- */
       var toggle = document.querySelector('.nav-toggle');
       var drawer = document.querySelector('.mobile-drawer');
       if(toggle && drawer){
@@ -228,6 +251,8 @@
           drawer.hidden = isOpen;
         });
       }
+
+      /* ---- Notify form ---- */
       var notifyForm = document.getElementById('event-notify-form');
       if(notifyForm){
         notifyForm.addEventListener('submit', function(e){
@@ -235,11 +260,44 @@
           var email = document.getElementById('notify-email').value.trim();
           var feedback = document.getElementById('notify-feedback');
           if(!email){ feedback.textContent = 'Please enter your email.'; return; }
-          // Re-use the campaign signup endpoint if available, else open mailto
           feedback.textContent = 'Got it! We\'ll notify you when events are scheduled near you.';
           notifyForm.reset();
         });
       }
+
+      /* ---- Conditional Event Render ----
+         Fetches /data/events.json. If the file has events, renders them.
+         If empty or fetch fails, shows the "no events" / Host an Event CTA.
+      ---- */
+      var listContainer = document.getElementById('events-list-container');
+      var emptyState    = document.getElementById('events-empty-state');
+
+      function renderEvents(events) {
+        if (!events || events.length === 0) {
+          listContainer.style.display = 'none';
+          emptyState.style.display = 'block';
+          return;
+        }
+        emptyState.style.display = 'none';
+        listContainer.style.display = 'grid';
+        var html = events.map(function(ev) {
+          var d = new Date(ev.date + 'T12:00:00');
+          var month = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+          var day   = d.getDate();
+          return '<div class="event-card">' +
+            '<div class="event-date"><div class="month">' + month + '</div><div class="day">' + day + '</div></div>' +
+            '<div class="event-info"><h3>' + (ev.title || 'Campaign Event') + '</h3>' +
+            '<p class="event-meta">' + (ev.time || '') + (ev.time && ev.location ? ' &bull; ' : '') + (ev.location || '') + '</p></div>' +
+            '<span class="event-type">' + (ev.type || 'Event') + '</span>' +
+            '</div>';
+        }).join('');
+        listContainer.innerHTML = html;
+      }
+
+      fetch('/data/events.json')
+        .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function(data){ renderEvents(Array.isArray(data) ? data : (data.events || [])); })
+        .catch(function(){ renderEvents([]); });
     })();
   </script>
 </body>

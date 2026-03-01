@@ -7,7 +7,7 @@
     "statusValues": ["new","contacted","active","declined"],
     "interestValues": ["Volunteer","Donor","Volunteer+Donor","Endorser","Media","Other"],
     "roleValues": ["Field and Community","Digital and Social","Voter Contact","Events and Scheduling","Flyers and Visibility","Area Coordinator","Multiple"],
-    "areaValues": ["Spanaway","Lakewood","Olympia","Lacey / Tumwater","University Place","JBLM Communities","Shelton / Mason County","Other WA-10"]
+    "areaValues": ["Spanaway","Lakewood","Olympia","Lacey / Tumwater","University Place","Puyallup / South Hill","JBLM Communities","Other WA-10"]
   },
   "contacts": []
 }
