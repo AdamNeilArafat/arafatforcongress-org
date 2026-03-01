@@ -52,7 +52,8 @@ jobs:
 
       - name: Pull sheet and strip PII
         env:
-          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+          # Live published CSV — falls back to secret if set (secret takes priority)
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv' }}
         run: |
           python3 - <<'PYEOF'
           import os, csv, json, re, sys
@@ -60,7 +61,7 @@ jobs:
           import urllib.request
 
           # ── Config ────────────────────────────────────────────────────────
-          SHEET_URL = os.environ.get('SHEET_CSV_URL', '').strip()
+          SHEET_URL = os.environ.get('SHEET_CSV_URL', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv').strip()
           OUT_FILE  = 'data/outreach_data.json'
 
           # PII scrubbing patterns

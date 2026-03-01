@@ -535,7 +535,7 @@
             Paste a public Google Sheets CSV export URL below. Every time this dashboard loads,
             it will fetch the latest data from your sheet automatically. No code needed.
           </p>
-          <input type="url" id="sheets-url-input" placeholder="https://docs.google.com/spreadsheets/d/YOUR_ID/export?format=csv&gid=0" />
+          <input type="url" id="sheets-url-input" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv" />
           <button class="config-btn" id="save-sheets-btn">Save &amp; Load from Sheet</button>
           <div class="config-feedback" id="sheets-feedback"></div>
           <details class="setup-guide">
@@ -603,6 +603,7 @@
   const LS_SHEETS  = 'arafat_dash_sheets_url';
   const LS_LOCAL   = 'arafat_dash_local_contacts';
   const DEFAULT_PIN = 'Arafat_Admin_1092';
+  const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv';
 
   /* -------- SAMPLE DATA (shown when no Google Sheet configured) -------- */
   const SAMPLE_CONTACTS = [
@@ -662,14 +663,9 @@
   async function init() {
     setDate();
     loadLocal();
-    const sheetsUrl = localStorage.getItem(LS_SHEETS);
-    if (sheetsUrl) {
-      document.getElementById('sheets-url-input').value = sheetsUrl;
-      await fetchSheets(sheetsUrl);
-    } else {
-      document.getElementById('setup-banner').style.display = 'flex';
-      sheetsContacts = [];
-    }
+    const sheetsUrl = localStorage.getItem(LS_SHEETS) || DEFAULT_SHEETS_URL;
+    document.getElementById('sheets-url-input').value = sheetsUrl;
+    await fetchSheets(sheetsUrl);
     mergeAndRender();
   }
 
