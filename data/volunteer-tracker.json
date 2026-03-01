@@ -1,0 +1,49 @@
+{
+  "lastUpdated": "2026-03-01",
+  "roles": {
+    "field": {
+      "name": "Field and Community",
+      "icon": "field",
+      "lead": null,
+      "volunteers": 0,
+      "status": "lead_needed"
+    },
+    "digital": {
+      "name": "Digital and Social",
+      "icon": "digital",
+      "lead": null,
+      "volunteers": 0,
+      "status": "lead_needed"
+    },
+    "voter_contact": {
+      "name": "Phones, Texts, and Data",
+      "icon": "phone",
+      "lead": null,
+      "volunteers": 0,
+      "status": "lead_needed"
+    },
+    "events": {
+      "name": "Events and Scheduling",
+      "icon": "calendar",
+      "lead": null,
+      "volunteers": 0,
+      "status": "lead_needed"
+    },
+    "flyers": {
+      "name": "Flyers and Visibility",
+      "icon": "flyer",
+      "lead": null,
+      "volunteers": 0,
+      "status": "lead_needed"
+    }
+  },
+  "areas": {
+    "spanaway": { "name": "Spanaway", "lead": null, "status": "lead_needed" },
+    "lakewood": { "name": "Lakewood", "lead": null, "status": "lead_needed" },
+    "olympia": { "name": "Olympia", "lead": null, "status": "lead_needed" },
+    "lacey": { "name": "Lacey / Tumwater", "lead": null, "status": "lead_needed" },
+    "university-place": { "name": "University Place", "lead": null, "status": "lead_needed" },
+    "jblm": { "name": "JBLM Communities", "lead": null, "status": "lead_needed" },
+    "shelton": { "name": "Shelton / Mason County", "lead": null, "status": "lead_needed" }
+  }
+}

@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eventos | Adam Arafat para el Congreso (WA-10)</title>
+  <meta name="description" content="Proximos eventos de la campana de Adam Arafat en WA-10. Inscribase para recibir notificaciones de eventos en su area: Spanaway, Lakewood, Olympia, Lacey y el South Sound." />
+  <meta property="og:title" content="Eventos | Adam Arafat para el Congreso (WA-10)" />
+  <meta property="og:description" content="Eventos de campana en el Distrito 10. Reciba notificaciones o organice un evento en su vecindario." />
+  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
+  <meta property="og:url" content="https://arafatforcongress.org/es/events.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://arafatforcongress.org/es/events.html" />
+  <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/events.html" />
+  <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/events.html" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root{
+      --ink:#0b1220;
+      --navy:#05101e;
+      --navy-2:#091b36;
+      --muted:#4b5568;
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft:rgba(5,16,30,0.10);
+      --shadow-soft:0 10px 22px rgba(5,16,30,0.08);
+      --radius:12px;
+      --bg:radial-gradient(1200px 700px at 20% -10%,rgba(29,79,168,0.08),transparent 55%),
+           radial-gradient(800px 600px at 80% 20%,rgba(184,134,13,0.07),transparent 55%),
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:inherit;}
+    main{padding-bottom:3rem;}
+
+    .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,#05101e,#1d4fa8,rgba(184,134,13,0.9));opacity:.95;}
+    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:200px;}
+    .brand__name{font-weight:900;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+    .site-nav{display:flex;gap:6px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.88rem;padding:9px 9px;border-radius:12px;transition:background .15s ease;white-space:nowrap;}
+    .nav-link:hover{background:rgba(29,79,168,0.10);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.18);}
+    .header-cta{display:flex;align-items:center;gap:10px;}
+    .header-cred{font-size:.78rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.14);border:1px solid rgba(184,134,13,0.30);padding:7px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:8px;align-items:center;}
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.12);border-bottom:1px solid rgba(184,134,13,0.26);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .btn{text-decoration:none;font-weight:900;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;user-select:none;border:none;transition:transform .06s ease,filter .15s ease,background .15s ease;}
+    .btn:active{transform:translateY(1px);}
+    .btn-primary{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.18);}
+    .btn-primary:hover{filter:brightness(.97);}
+    .btn-ghost{background:rgba(5,16,30,0.06);color:var(--navy-2);border:1px solid rgba(5,16,30,0.14);}
+    .btn-ghost:hover{background:rgba(5,16,30,0.10);}
+    .btn:focus-visible,.nav-link:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+    .nav-toggle{display:none;border:1px solid rgba(5,16,30,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;cursor:pointer;}
+    .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
+    .mobile-drawer{display:none;}
+    .mobile-drawer[hidden]{display:none !important;}
+
+    /* PAGE */
+    .page-hero{padding:3rem 1.5rem 1.5rem;}
+    .page-hero-inner{max-width:860px;margin:0 auto;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--navy-2);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.16);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
+    .page-hero h1{font-size:clamp(2rem,4.5vw,2.9rem);margin:0 0 12px;color:var(--navy);line-height:1.07;font-weight:800;letter-spacing:-0.2px;}
+    .page-hero p{margin:0 0 14px;color:var(--muted);line-height:1.75;font-size:1.05rem;max-width:68ch;}
+
+    .section{max-width:1060px;margin:44px auto;padding:0 20px;}
+    .section h2{color:var(--navy);font-size:clamp(1.6rem,3vw,2rem);margin:0 0 12px;font-weight:800;letter-spacing:-0.15px;}
+
+    .no-events-box{background:#fff;border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-soft);border:1px solid var(--border-soft);text-align:center;max-width:680px;margin:0 auto;}
+    .no-events-icon{font-size:2.5rem;margin-bottom:14px;display:block;}
+    .no-events-box h3{margin:0 0 10px;color:var(--navy);font-weight:800;font-size:1.2rem;}
+    .no-events-box p{margin:0 0 12px;color:var(--muted);line-height:1.75;}
+
+    .notify-form{display:grid;gap:12px;max-width:480px;margin:20px auto 0;text-align:left;}
+    .notify-form label{font-weight:800;font-size:.9rem;color:var(--navy-2);display:block;margin-bottom:4px;}
+    .notify-form input{width:100%;min-height:44px;border:1px solid rgba(5,16,30,0.18);border-radius:12px;padding:.6rem .8rem;font:inherit;font-size:.95rem;background:rgba(5,16,30,0.02);}
+    .notify-form input:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+
+    .areas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px;}
+    .area-card{background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-soft);border:1px solid var(--border-soft);}
+    .area-card strong{display:block;color:var(--navy);font-weight:800;margin-bottom:4px;}
+    .area-card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.5;}
+
+    .host-box{background:rgba(184,134,13,0.08);border:1px solid rgba(184,134,13,0.24);border-radius:var(--radius);padding:22px 24px;margin-top:14px;}
+    .host-box h3{margin:0 0 10px;color:var(--navy);font-weight:800;}
+    .host-box p{margin:0 0 10px;color:var(--muted);line-height:1.75;}
+    .host-box p:last-child{margin:0;}
+    .contact-link{color:var(--brand);font-weight:700;text-decoration:none;}
+    .contact-link:hover{text-decoration:underline;}
+
+    footer{background:#fff;border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:48px;}
+    .footer-tagline{margin:0 0 6px;font-weight:700;color:var(--navy-2);}
+    .footer-nav{margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;}
+    .footer-nav a{color:var(--muted);text-decoration:none;}
+    .footer-nav a:hover{text-decoration:underline;}
+
+    @media(max-width:980px){
+      .site-nav{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+      .header-inner{grid-template-columns:1fr auto;}
+      .header-cred{display:none;}
+      .mobile-pac-strip{display:block;}
+      .mobile-drawer{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;gap:8px;}
+      .mobile-drawer:not([hidden]){display:grid;}
+      .mobile-drawer a{text-decoration:none;font-weight:700;color:var(--navy);background:rgba(5,16,30,0.04);border:1px solid rgba(5,16,30,0.10);padding:12px;border-radius:14px;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;border:none;}
+    }
+    @media(max-width:700px){
+      .section{margin:36px auto;}
+    }
+  </style>
+  <script src="/js/analytics.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/es/" aria-label="Adam Arafat para el Congreso, inicio">
+        <span class="brand__name">Adam Arafat</span>
+        <span class="brand__meta">para el Congreso &bull; WA-10</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegacion principal">
+        <a class="nav-link" href="/es/">Inicio</a>
+        <a class="nav-link" href="/es/why-im-running.html">Por Que Me Postulo</a>
+        <a class="nav-link" href="/es/issues.html">Propuestas</a>
+        <a class="nav-link" href="/es/record-contrast.html">La Diferencia</a>
+        <a class="nav-link" href="/es/about.html">Conoce a Adam</a>
+        <a class="nav-link" href="/es/events.html" aria-current="page">Eventos</a>
+        <a class="nav-link" href="/es/endorsements.html">Avales</a>
+        <a class="nav-link" href="/es/contact.html">Contacto</a>
+      </nav>
+      <div class="header-cta">
+        <div class="header-cred">Sin PACs corporativos ni dinero de AIPAC</div>
+        <div class="cta-group">
+          <a class="btn btn-ghost" href="/events.html" lang="en" hreflang="en">English</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+          <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-drawer-events">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-pac-strip">Sin PACs corporativos ni dinero de AIPAC</div>
+    <div id="mobile-drawer-events" class="mobile-drawer" hidden>
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html" aria-current="page">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto y Voluntariado</a>
+      <a href="/events.html" lang="en" hreflang="en">English</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero" aria-label="Eventos de campana">
+      <div class="page-hero-inner">
+        <div class="kicker">Coneccion comunitaria</div>
+        <h1>Eventos de la Campana</h1>
+        <p>
+          La campana de Adam Arafat es una campana de base. Eso significa ir al encuentro de las familias
+          de WA-10 en sus propias comunidades: desde Spanaway hasta Shelton, desde Lakewood hasta Olympia.
+        </p>
+        <p>
+          Inscribase a continuacion para recibir notificaciones cuando se programen eventos en su area.
+          Tambien puede organizar un evento en su vecindario: buscamos anfitriones en toda la region.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="proximos-heading">
+      <h2 id="proximos-heading">Proximos eventos</h2>
+      <div class="no-events-box">
+        <span class="no-events-icon" aria-hidden="true">&#128197;</span>
+        <h3>Actualmente no hay eventos programados</h3>
+        <p>
+          La campana esta en proceso de organizar eventos presenciales en toda WA-10.
+          Inscribase para recibir una notificacion cuando se anuncie un evento en su area.
+        </p>
+        <form class="notify-form" action="mailto:info@arafatforcongress.org" method="get" enctype="text/plain" novalidate>
+          <div>
+            <label for="notify-email">Su correo electronico</label>
+            <input type="email" id="notify-email" name="correo" placeholder="usted@ejemplo.com" required autocomplete="email" />
+          </div>
+          <div>
+            <label for="notify-area">Su ciudad o vecindario</label>
+            <input type="text" id="notify-area" name="area" placeholder="p.ej. Spanaway, Lakewood, Olympia..." />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;">Notificarme de eventos</button>
+          <p style="font-size:.84rem;color:var(--muted);margin:8px 0 0;text-align:center;">
+            O escribanos a <a href="mailto:info@arafatforcongress.org" class="contact-link">info@arafatforcongress.org</a>
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="areas-heading">
+      <h2 id="areas-heading">Areas donde planeamos eventos</h2>
+      <p style="color:var(--muted);line-height:1.75;margin:0 0 4px;">
+        Priorizaremos las siguientes comunidades a lo largo del Distrito 10. Si vive en estas areas, sea de los primeros en enterarse.
+      </p>
+      <div class="areas-grid" role="list">
+        <div class="area-card" role="listitem">
+          <strong>Sur de Pierce</strong>
+          <p>Spanaway, Parkland, Graham y comunidades del sur del condado de Pierce.</p>
+        </div>
+        <div class="area-card" role="listitem">
+          <strong>Lakewood</strong>
+          <p>Lakewood, University Place y las comunidades del oeste del condado de Pierce.</p>
+        </div>
+        <div class="area-card" role="listitem">
+          <strong>Olympia</strong>
+          <p>Capital del estado, sede de los trabajadores publicos del Estado de Washington.</p>
+        </div>
+        <div class="area-card" role="listitem">
+          <strong>Lacey</strong>
+          <p>Lacey y las comunidades del norte del condado de Thurston.</p>
+        </div>
+        <div class="area-card" role="listitem">
+          <strong>Tumwater</strong>
+          <p>Tumwater y el corredor industrial del sur de Thurston.</p>
+        </div>
+        <div class="area-card" role="listitem">
+          <strong>Shelton</strong>
+          <p>Shelton y las comunidades del condado de Mason, a menudo ignoradas en la politica regional.</p>
+        </div>
+        <div class="area-card" role="listitem">
+          <strong>Comunidades JBLM</strong>
+          <p>Familias militares y veteranos alrededor de Joint Base Lewis-McChord.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="organiza-heading">
+      <div class="host-box">
+        <h3 id="organiza-heading">Organiza un evento en tu vecindario</h3>
+        <p>
+          La mejor manera de llegar a los votantes es a traves de personas que ya confian en ti.
+          Si quieres organizar una reunion en tu casa, un evento en un parque o una charla comunitaria
+          en tu barrio, te apoyamos con materiales y orientacion.
+        </p>
+        <p>
+          No necesitas experiencia previa. Solo ganas de que tu comunidad conozca a Adam y las propuestas
+          de esta campana.
+        </p>
+        <p>
+          Escribe a <a href="mailto:volunteer@arafatforcongress.org" class="contact-link">volunteer@arafatforcongress.org</a>
+          con el asunto "Evento en mi vecindario" y nos pondremos en contacto contigo.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">Ciudadanos sirviendo a ciudadanos. Ese es el trabajo.</p>
+    <nav aria-label="Navegacion del pie de pagina" class="footer-nav">
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto</a>
+      <a href="/events.html" lang="en" hreflang="en">English</a>
+    </nav>
+    Pagado por Arafat for Congress &bull;
+    <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+  </footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var drawer = document.getElementById('mobile-drawer-events');
+      if(!toggle || !drawer) return;
+      toggle.addEventListener('click', function(){
+        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        drawer.hidden = isOpen;
+      });
+    })();
+  </script>
+</body>
+</html>

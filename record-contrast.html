@@ -13,13 +13,13 @@
   --ink:#0b1220;
   --navy:#0b1220;
   --muted:#51607a;
-  --brand:#0ea5a4;
-  --brand-dark:#0b7f7e;
-  --border-soft: rgba(11,18,32,0.10);
-  --border: rgba(11,18,32,0.16);
-  --shadow-soft: 0 10px 22px rgba(11,18,32,0.08);
-  --shadow: 0 14px 30px rgba(11,18,32,0.10);
-  --radius:16px;
+  --brand:#1d4fa8;
+  --brand-dark:#143480;
+  --border-soft: rgba(5,16,30,0.10);
+  --border: rgba(5,16,30,0.16);
+  --shadow-soft: 0 10px 22px rgba(5,16,30,0.08);
+  --shadow: 0 14px 30px rgba(5,16,30,0.10);
+  --radius:12px;
   --bg: linear-gradient(180deg,#f6f7fb,#eef2f7);
 }
 
@@ -45,7 +45,7 @@ main{padding-bottom:2rem;}
   content:"";
   display:block;
   height:3px;
-  background:linear-gradient(90deg,var(--brand),rgba(242,193,78,0.9));
+  background:linear-gradient(90deg,var(--brand),rgba(184,134,13,0.9));
   opacity:.9;
 }
 .header-inner{
@@ -65,8 +65,8 @@ main{padding-bottom:2rem;}
 .nav-link{color:var(--navy);font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;transition:background .15s ease,color .15s ease;white-space:nowrap;}
 .nav-link:hover{background:rgba(14,165,164,0.08);}
 .nav-link[aria-current="page"]{
-  background:rgba(14,165,164,0.12);
-  box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18);
+  background:rgba(29,79,168,0.10);
+  box-shadow:inset 0 0 0 1px rgba(29,79,168,0.20);
 }
 
 .header-cta{display:flex;align-items:center;gap:12px;}
@@ -74,8 +74,8 @@ main{padding-bottom:2rem;}
   font-size:.82rem;
   font-weight:900;
   color:var(--navy);
-  background:rgba(242,193,78,0.18);
-  border:1px solid rgba(242,193,78,0.35);
+  background:rgba(184,134,13,0.12);
+  border:1px solid rgba(184,134,13,0.28);
   padding:8px 10px;
   border-radius:999px;
   white-space:nowrap;
@@ -99,9 +99,9 @@ main{padding-bottom:2rem;}
 }
 .btn:active{transform:translateY(1px);}
 .btn-primary{
-  background:linear-gradient(180deg,var(--brand),var(--brand-dark));
+  background:linear-gradient(160deg,var(--brand),var(--brand-dark));
   color:#fff;
-  box-shadow:0 14px 26px rgba(14,165,164,.18);
+  box-shadow:0 14px 26px rgba(29,79,168,.20);
 }
 .btn-primary:hover{filter:brightness(.98);}
 .btn-ghost{
@@ -129,7 +129,7 @@ main{padding-bottom:2rem;}
   border-radius:2px;
 }
 
-.mobile-pac-strip{display:none;background:rgba(242,193,78,0.14);border-bottom:1px solid rgba(242,193,78,0.30);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:#0b1c3d;}
+.mobile-pac-strip{display:none;background:rgba(184,134,13,0.10);border-bottom:1px solid rgba(184,134,13,0.25);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:#0b1c3d;}
 .mobile-drawer{display:none;}
 .mobile-drawer[hidden]{display:none !important;}
 
@@ -348,7 +348,7 @@ footer{
   .mobile-drawer a:hover{background:rgba(11,18,32,0.04);border-color:var(--border-soft);}
   .mobile-drawer a.drawer-cta{
     text-align:center;
-    background:linear-gradient(180deg,var(--brand),var(--brand-dark));
+    background:linear-gradient(160deg,var(--brand),var(--brand-dark));
     color:#fff;
   }
   .mini{grid-template-columns:1fr;}
@@ -366,13 +366,13 @@ footer{
     </a>
 
     <nav class="site-nav" aria-label="Primary">
-      <a class="nav-link" href="/index.html">Home</a>
-      <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
-      <a class="nav-link" href="/issues.html">Issues</a>
-      <a class="nav-link" href="/record-contrast.html" aria-current="page">The Difference</a>
-      <a class="nav-link" href="/about.html">Meet Adam</a>
-      <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
-    </nav>
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/issues.html">Issues</a>
+        <a class="nav-link" href="/record-contrast.html" aria-current="page">The Difference</a>
+        <a class="nav-link" href="/about.html">Meet Adam</a>
+        <a class="nav-link" href="/endorsements.html">Endorsements</a>
+        <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
+      </nav>
 
     <div class="header-cta">
       <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
@@ -388,14 +388,17 @@ footer{
 
   <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
   <div class="mobile-drawer" hidden>
-    <a href="/index.html">Home</a>
-    <a href="/why-im-running.html">Why I'm Running</a>
-    <a href="/issues.html">Issues</a>
-    <a href="/record-contrast.html" aria-current="page">The Difference</a>
-    <a href="/about.html">Meet Adam</a>
-    <a href="/contact.html">Contact / Volunteer</a>
-    <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-  </div>
+      <a href="/index.html">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
+      <a href="/issues.html">Issues</a>
+      <a href="/record-contrast.html" aria-current="page">The Difference</a>
+      <a href="/about.html">Meet Adam</a>
+      <a href="/endorsements.html">Endorsements</a>
+      <a href="/events.html">Events</a>
+      <a href="/contact.html">Contact / Volunteer</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+    
 </header>
 
 <main>
@@ -564,7 +567,7 @@ footer{
       </p>
       <p>
         Did housing bills advance? Did healthcare votes happen? Did wages go up for workers in Lakewood, Olympia, and Spanaway?
-        That's the accountability test. Not speeches — receipts.
+        That's the accountability test. Not speeches, receipts.
       </p>
       <p>
         My promise is straightforward: no committee money, no donor ambiguity, and a public record of every vote, every co-sponsorship, and every escalation when leadership refuses to schedule a vote.
@@ -582,7 +585,7 @@ footer{
       <ul class="list">
         <li><b>$355,452</b><span>from PACs and committees in 2025–2026 cycle (FEC public data)</span></li>
         <li><b>Not co-sponsored:</b><span>H.R. 4457 (Housing Is a Human Right), H.R. 3069 (Medicare for All), H.J.Res. 54 (We the People Amendment / Citizens United)</span></li>
-        <li><b>Co-sponsored:</b><span>H.R. 14 (John Lewis Voting Rights Act) — good. The question remains: what was done to move it?</span></li>
+        <li><b>Co-sponsored:</b><span>H.R. 14 (John Lewis Voting Rights Act), good. The question remains: what was done to move it?</span></li>
       </ul>
     </div>
     <div class="card">
@@ -668,11 +671,11 @@ footer{
 <footer>
   <p style="margin:0 0 6px;font-weight:650;color:var(--navy);">Citizens serving citizens. That’s the job.</p>
   <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
-    <a href="/events.html">Events</a>
-    <a href="/endorsements.html">Endorsements</a>
-    <a href="/es/">En Español</a>
-    <a href="/contact.html">Volunteer</a>
-  </nav>
+      <a href="/why-im-running.html">Why I'm Running</a>
+      <a href="/events.html">Events</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
+      <a href="/contact.html">Volunteer</a>
+    </nav>
   Paid for by Arafat for Congress • info@arafatforcongress.org
 </footer>
 

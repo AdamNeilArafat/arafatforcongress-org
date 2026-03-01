@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campaign Dashboard | Arafat for Congress WA-10</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #05101e;
+      --navy-2: #091b36;
+      --brand: #1d4fa8;
+      --brand-dark: #143480;
+      --gold: #b8860d;
+      --green: #166534;
+      --green-bg: rgba(22,101,52,0.10);
+      --amber: #92400e;
+      --amber-bg: rgba(184,134,13,0.10);
+      --red: #991b1b;
+      --red-bg: rgba(153,27,27,0.08);
+      --muted: #4b5568;
+      --border: rgba(5,16,30,0.13);
+      --shadow: 0 4px 16px rgba(5,16,30,0.08);
+      --radius: 10px;
+      --bg: #f3f5fb;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ---- PIN SCREEN ---- */
+    #pin-screen {
+      position: fixed; inset: 0; background: var(--navy);
+      display: flex; align-items: center; justify-content: center; z-index: 9999;
+    }
+    .pin-box {
+      background: #fff; border-radius: 16px; padding: 40px 36px;
+      width: 340px; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.30);
+    }
+    .pin-logo { font-weight: 900; font-size: 1.1rem; color: var(--navy); letter-spacing: .2px; }
+    .pin-sub { font-size: .82rem; color: var(--muted); margin-bottom: 24px; font-weight: 600; }
+    .pin-box h2 { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 16px; }
+    #pin-input {
+      width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px;
+      font-size: 18px; text-align: center; letter-spacing: .4em; margin-bottom: 12px;
+      background: #f7f8fb; color: var(--navy);
+    }
+    #pin-submit {
+      width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer;
+      background: linear-gradient(160deg, var(--brand), var(--brand-dark));
+      color: #fff; font-weight: 800; font-size: 1rem; letter-spacing: .2px;
+    }
+    #pin-submit:hover { filter: brightness(1.06); }
+    #pin-error { color: var(--red); font-size: .88rem; margin-top: 10px; min-height: 1.4em; font-weight: 600; }
+    .pin-hint { font-size: .76rem; color: var(--muted); margin-top: 16px; line-height: 1.5; }
+
+    /* ---- DASHBOARD LAYOUT ---- */
+    #dashboard { display: none; min-height: 100vh; }
+
+    .dash-header {
+      background: var(--navy);
+      background: linear-gradient(90deg, var(--navy), #0d2054);
+      color: #fff; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .dash-brand-name { font-weight: 900; font-size: 1.05rem; letter-spacing: .1px; }
+    .dash-brand-sub { font-size: .78rem; color: rgba(255,255,255,0.55); font-weight: 600; }
+    .dash-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dash-btn {
+      padding: 7px 13px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; font-size: .82rem; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+      transition: background .12s;
+    }
+    .dash-btn:hover { background: rgba(255,255,255,0.16); }
+    .dash-btn--gold { background: rgba(184,134,13,0.28); border-color: rgba(184,134,13,0.50); }
+    .dash-btn--gold:hover { background: rgba(184,134,13,0.42); }
+
+    .dash-content { max-width: 1400px; margin: 0 auto; padding: 20px 20px 48px; }
+
+    /* ---- SETUP BANNER ---- */
+    .setup-banner {
+      background: rgba(184,134,13,0.14); border: 1px solid rgba(184,134,13,0.40);
+      border-radius: var(--radius); padding: 12px 18px; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: .88rem;
+    }
+    .setup-banner strong { color: var(--gold); }
+    .setup-btn {
+      padding: 6px 12px; border-radius: 8px; border: 1px solid var(--gold);
+      background: transparent; color: var(--gold); cursor: pointer; font-weight: 700; font-size: .82rem;
+    }
+    .setup-btn:hover { background: rgba(184,134,13,0.12); }
+    #setup-banner { display: none; }
+
+    /* ---- STAT CARDS ---- */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px; margin-bottom: 20px;
+    }
+    .stat-card {
+      background: #fff; border-radius: var(--radius); border: 1px solid var(--border);
+      box-shadow: var(--shadow); padding: 18px 20px; text-align: center;
+    }
+    .stat-num { font-size: 2.2rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .stat-label { font-size: .78rem; font-weight: 700; color: var(--muted); margin-top: 6px; text-transform: uppercase; letter-spacing: .06em; }
+    .stat-card--urgent .stat-num { color: var(--amber); }
+    .stat-card--green .stat-num { color: var(--green); }
+    .stat-card--brand .stat-num { color: var(--brand); }
+
+    /* ---- ROLE / AREA BREAKDOWN ---- */
+    .breakdown-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    @media(max-width: 700px) { .breakdown-row { grid-template-columns: 1fr; } }
+    .breakdown-card {
+      background: #fff; border-radius: var(--radius); border: 1px solid var(--border);
+      box-shadow: var(--shadow); padding: 18px 20px;
+    }
+    .breakdown-card h3 { font-size: .88rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+    .breakdown-item {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    }
+    .breakdown-label { font-size: .88rem; font-weight: 700; color: var(--navy); flex: 1; min-width: 100px; }
+    .breakdown-bar-wrap { flex: 2; height: 8px; background: rgba(5,16,30,0.08); border-radius: 999px; overflow: hidden; }
+    .breakdown-bar { height: 100%; background: linear-gradient(90deg, var(--brand), #2d6bd4); border-radius: 999px; transition: width .4s ease; }
+    .breakdown-count { font-size: .82rem; font-weight: 800; color: var(--muted); min-width: 24px; text-align: right; }
+
+    /* ---- FILTER BAR ---- */
+    .filter-bar {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 16px;
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .filter-bar input[type="text"] {
+      flex: 1 1 200px; min-width: 160px; padding: 8px 12px; border: 1px solid var(--border);
+      border-radius: 8px; font: inherit; font-size: .9rem; background: #f7f8fb;
+    }
+    .filter-bar select {
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font: inherit;
+      font-size: .85rem; background: #f7f8fb; cursor: pointer;
+    }
+    .filter-bar input:focus, .filter-bar select:focus { outline: 3px solid rgba(29,79,168,0.20); }
+    .filter-count { font-size: .82rem; color: var(--muted); font-weight: 700; margin-left: auto; white-space: nowrap; }
+
+    /* ---- TABLE ---- */
+    .table-wrap {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 20px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+    thead { background: #f7f8fb; border-bottom: 2px solid var(--border); }
+    th {
+      text-align: left; padding: 11px 14px; font-size: .76rem; font-weight: 800;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+      white-space: nowrap; cursor: pointer; user-select: none;
+    }
+    th:hover { background: rgba(29,79,168,0.06); }
+    th.sorted-asc::after { content: " ▲"; font-size: .65em; }
+    th.sorted-desc::after { content: " ▼"; font-size: .65em; }
+    td { padding: 10px 14px; border-bottom: 1px solid rgba(5,16,30,0.06); vertical-align: middle; color: var(--navy); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(29,79,168,0.03); }
+    .td-name { font-weight: 800; }
+    .td-email { color: var(--brand); font-weight: 600; }
+    .td-email a { text-decoration: none; color: var(--brand); }
+    .td-email a:hover { text-decoration: underline; }
+    .td-muted { color: var(--muted); }
+
+    /* Status badges in table */
+    .badge {
+      display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800; letter-spacing: .04em; white-space: nowrap;
+    }
+    .badge-new { background: rgba(29,79,168,0.12); color: var(--brand); border: 1px solid rgba(29,79,168,0.25); }
+    .badge-contacted { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(184,134,13,0.30); }
+    .badge-active { background: var(--green-bg); color: var(--green); border: 1px solid rgba(22,101,52,0.25); }
+    .badge-declined { background: var(--red-bg); color: var(--red); border: 1px solid rgba(153,27,27,0.20); }
+    .badge-donor { background: rgba(184,134,13,0.14); color: #78450a; border: 1px solid rgba(184,134,13,0.30); }
+
+    /* Status dropdown in table */
+    .status-select {
+      padding: 3px 6px; border-radius: 6px; border: 1px solid var(--border);
+      font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; background: #f7f8fb;
+    }
+
+    /* Empty state */
+    .empty-state { padding: 48px; text-align: center; color: var(--muted); }
+    .empty-state h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; }
+    .empty-state p { font-size: .9rem; line-height: 1.6; max-width: 50ch; margin: 0 auto; }
+
+    /* ---- PANELS (collapsible) ---- */
+    .panel {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden;
+    }
+    .panel > summary {
+      padding: 14px 18px; font-weight: 800; color: var(--navy); cursor: pointer;
+      font-size: .95rem; list-style: none; display: flex; align-items: center; gap: 8px;
+      border-bottom: 1px solid transparent; transition: background .12s;
+    }
+    .panel > summary:hover { background: rgba(29,79,168,0.04); }
+    .panel[open] > summary { border-bottom-color: var(--border); background: rgba(29,79,168,0.04); }
+    .panel > summary::before { content: "▶"; font-size: .7em; color: var(--muted); transition: transform .2s; }
+    .panel[open] > summary::before { transform: rotate(90deg); }
+    .panel-body { padding: 20px 18px; }
+
+    /* ---- ADD CONTACT FORM ---- */
+    .add-form { display: grid; gap: 14px; }
+    .add-form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .form-group { display: grid; gap: 5px; }
+    .form-group label { font-size: .8rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; font: inherit; font-size: .9rem; background: #f7f8fb;
+    }
+    .form-group textarea { min-height: 70px; resize: vertical; }
+    .form-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
+    .btn-submit {
+      padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;
+      background: linear-gradient(160deg, var(--brand), var(--brand-dark));
+      color: #fff; font-weight: 800; font-size: .9rem;
+    }
+    .btn-clear { padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; cursor: pointer; font-weight: 700; font-size: .9rem; color: var(--muted); }
+    .form-feedback { font-size: .85rem; font-weight: 700; min-height: 1.4em; }
+    .form-feedback--success { color: var(--green); }
+    .form-feedback--error { color: var(--red); }
+    .csv-row-output { background: #f7f8fb; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-family: monospace; font-size: .78rem; word-break: break-all; margin-top: 10px; display: none; }
+    .csv-row-output label { font-weight: 800; color: var(--muted); display: block; margin-bottom: 5px; font-family: inherit; }
+
+    /* ---- CONFIG PANEL ---- */
+    .config-section { margin-bottom: 24px; }
+    .config-section h3 { font-size: .95rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+    .config-section p { color: var(--muted); font-size: .88rem; line-height: 1.6; margin-bottom: 12px; }
+    .config-section input[type="url"],
+    .config-section input[type="password"] {
+      width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font: inherit; font-size: .9rem; background: #f7f8fb; margin-bottom: 10px;
+    }
+    .config-btn {
+      padding: 9px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 800; font-size: .88rem;
+      background: linear-gradient(160deg, var(--brand), var(--brand-dark)); color: #fff;
+    }
+    .config-feedback { font-size: .82rem; font-weight: 700; margin-top: 8px; min-height: 1.4em; }
+    .setup-guide { margin-top: 14px; }
+    .setup-guide summary { cursor: pointer; font-weight: 700; color: var(--brand); font-size: .88rem; }
+    .setup-guide ol { padding-left: 18px; margin-top: 10px; color: var(--muted); font-size: .88rem; line-height: 1.8; }
+    .setup-guide code { background: #f0f3fb; border-radius: 4px; padding: 1px 5px; font-family: monospace; font-size: .85em; color: var(--navy); }
+
+    /* ---- COLUMN HEADERS ---- */
+    .columns-note { font-size: .8rem; color: var(--muted); line-height: 1.7; margin-top: 10px; }
+    .columns-note code { background: #f0f3fb; border-radius: 4px; padding: 1px 5px; font-family: monospace; font-size: .9em; }
+    .columns-list { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+    .col-chip { background: rgba(29,79,168,0.08); border: 1px solid rgba(29,79,168,0.20); border-radius: 6px; padding: 3px 9px; font-size: .78rem; font-weight: 700; color: var(--brand); font-family: monospace; }
+
+    /* ---- RESPONSIVE ---- */
+    @media(max-width: 600px) {
+      .dash-content { padding: 14px 12px 36px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      table { font-size: .78rem; }
+      th, td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-box">
+    <div class="pin-logo">Arafat for Congress</div>
+    <div class="pin-sub">Campaign Dashboard &bull; WA-10</div>
+    <h2>Team access only</h2>
+    <input type="password" id="pin-input" maxlength="8" autocomplete="off" inputmode="numeric" placeholder="&bull;&bull;&bull;&bull;" />
+    <button id="pin-submit">Enter Dashboard</button>
+    <p id="pin-error"></p>
+    <p class="pin-hint">Default PIN: <strong>2026</strong><br>Change it in Settings after entering.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header class="dash-header">
+    <div>
+      <div class="dash-brand-name">Arafat for Congress &mdash; WA-10</div>
+      <div class="dash-brand-sub">Campaign Team Dashboard &bull; Internal Use Only</div>
+    </div>
+    <div class="dash-header-actions">
+      <button class="dash-btn" id="refresh-btn">&#8635; Refresh</button>
+      <button class="dash-btn dash-btn--gold" id="export-btn">&#11123; Export CSV</button>
+      <a class="dash-btn" href="/index.html" target="_blank">View Site &rarr;</a>
+      <button class="dash-btn" id="logout-btn">&#128274; Lock</button>
+    </div>
+  </header>
+
+  <div class="dash-content">
+
+    <!-- Setup banner (shown if Google Sheets not configured) -->
+    <div id="setup-banner" class="setup-banner">
+      <strong>Optional:</strong> Connect a Google Sheet so this dashboard auto-updates without coding.
+      <button class="setup-btn" id="show-setup-btn">Configure &rarr;</button>
+    </div>
+
+    <!-- DATA SOURCE STATUS -->
+    <div id="data-source-line" style="font-size:.78rem;color:var(--muted);font-weight:700;margin-bottom:14px;"></div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card stat-card--brand"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total Contacts</div></div>
+      <div class="stat-card stat-card--green"><div class="stat-num" id="stat-vol">0</div><div class="stat-label">Volunteers</div></div>
+      <div class="stat-card stat-card--urgent"><div class="stat-num" id="stat-new">0</div><div class="stat-label">Needs Follow-up</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-areas">0</div><div class="stat-label">Areas Active</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-week">0</div><div class="stat-label">This Week</div></div>
+    </div>
+
+    <!-- BREAKDOWN CHARTS -->
+    <div class="breakdown-row">
+      <div class="breakdown-card">
+        <h3>By Role</h3>
+        <div id="role-breakdown"></div>
+      </div>
+      <div class="breakdown-card">
+        <h3>By Area</h3>
+        <div id="area-breakdown"></div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <input type="text" id="search" placeholder="Search name, email, notes, area..." />
+      <select id="filter-interest">
+        <option value="">All Interests</option>
+        <option>Volunteer</option>
+        <option>Donor</option>
+        <option>Endorser</option>
+        <option>Media</option>
+        <option>Other</option>
+      </select>
+      <select id="filter-role">
+        <option value="">All Roles</option>
+        <option>Field and Community</option>
+        <option>Digital and Social</option>
+        <option>Voter Contact</option>
+        <option>Events and Scheduling</option>
+        <option>Flyers and Visibility</option>
+        <option>Area Coordinator</option>
+        <option>Multiple</option>
+      </select>
+      <select id="filter-area">
+        <option value="">All Areas</option>
+        <option>Spanaway</option>
+        <option>Lakewood</option>
+        <option>Olympia</option>
+        <option>Lacey / Tumwater</option>
+        <option>University Place</option>
+        <option>JBLM Communities</option>
+        <option>Shelton / Mason County</option>
+        <option>Other</option>
+      </select>
+      <select id="filter-status">
+        <option value="">All Statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="active">Active</option>
+        <option value="declined">Declined</option>
+      </select>
+      <span class="filter-count" id="filter-count"></span>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table id="contacts-table">
+        <thead>
+          <tr>
+            <th data-col="date">Date</th>
+            <th data-col="source">Source</th>
+            <th data-col="name">Name</th>
+            <th data-col="email">Email / Phone</th>
+            <th data-col="zip">ZIP</th>
+            <th data-col="interest">Interest</th>
+            <th data-col="role">Role</th>
+            <th data-col="area">Area</th>
+            <th data-col="issues">Issues</th>
+            <th data-col="notes">Notes</th>
+            <th data-col="status">Status</th>
+            <th data-col="followup">Follow-up</th>
+          </tr>
+        </thead>
+        <tbody id="contacts-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- ADD CONTACT -->
+    <details class="panel" id="add-panel">
+      <summary>+ Add Contact Manually</summary>
+      <div class="panel-body">
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:16px;line-height:1.6;">
+          Use this form when you receive a volunteer email or call. The contact is saved to this browser.
+          <strong>Also paste the generated CSV row into your Google Sheet</strong> to keep the full record.
+        </p>
+        <form class="add-form" id="add-form" novalidate>
+          <div class="add-form-row">
+            <div class="form-group">
+              <label>Date *</label>
+              <input type="date" name="date" id="f-date" required />
+            </div>
+            <div class="form-group">
+              <label>Source</label>
+              <select name="source" id="f-source">
+                <option value="email-volunteer">Email (volunteer@)</option>
+                <option value="email-info">Email (info@)</option>
+                <option value="contact-form">Contact Form</option>
+                <option value="phone">Phone</option>
+                <option value="social">Social Media</option>
+                <option value="event">At Event</option>
+                <option value="referral">Referral</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="firstName" id="f-first" placeholder="Jane" />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="lastName" id="f-last" placeholder="Doe" />
+            </div>
+          </div>
+          <div class="add-form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" id="f-email" placeholder="jane@example.com" />
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" name="phone" id="f-phone" placeholder="253-555-0000" />
+            </div>
+            <div class="form-group">
+              <label>ZIP Code</label>
+              <input type="text" name="zip" id="f-zip" placeholder="98444" maxlength="10" />
+            </div>
+          </div>
+          <div class="add-form-row">
+            <div class="form-group">
+              <label>Primary Interest</label>
+              <select name="interest" id="f-interest">
+                <option value="Volunteer">Volunteer</option>
+                <option value="Donor">Donor</option>
+                <option value="Volunteer+Donor">Both</option>
+                <option value="Endorser">Endorser</option>
+                <option value="Media">Media</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Role Preference</label>
+              <select name="role" id="f-role">
+                <option value="">Not specified</option>
+                <option>Field and Community</option>
+                <option>Digital and Social</option>
+                <option>Voter Contact</option>
+                <option>Events and Scheduling</option>
+                <option>Flyers and Visibility</option>
+                <option>Area Coordinator</option>
+                <option>Multiple</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Area</label>
+              <select name="area" id="f-area">
+                <option value="">Unknown</option>
+                <option>Spanaway</option>
+                <option>Lakewood</option>
+                <option>Olympia</option>
+                <option>Lacey / Tumwater</option>
+                <option>University Place</option>
+                <option>JBLM Communities</option>
+                <option>Shelton / Mason County</option>
+                <option>Other WA-10</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status" id="f-status">
+                <option value="new">New</option>
+                <option value="contacted">Contacted</option>
+                <option value="active">Active</option>
+                <option value="declined">Declined</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-form-row">
+            <div class="form-group">
+              <label>Issue Concerns</label>
+              <input type="text" name="issues" id="f-issues" placeholder="Housing; Healthcare; Veteran issues" />
+            </div>
+            <div class="form-group">
+              <label>Follow-up Date</label>
+              <input type="date" name="followup" id="f-followup" />
+            </div>
+            <div class="form-group">
+              <label>Follow-up By</label>
+              <input type="text" name="followupBy" id="f-followupby" placeholder="Your name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notes</label>
+            <textarea name="notes" id="f-notes" placeholder="Key details from the conversation..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Save Contact</button>
+            <button type="button" class="btn-clear" id="clear-form-btn">Clear</button>
+            <span class="form-feedback" id="form-feedback"></span>
+          </div>
+          <div class="csv-row-output" id="csv-output">
+            <label>Paste this row into your Google Sheet:</label>
+            <span id="csv-row-text"></span>
+          </div>
+        </form>
+      </div>
+    </details>
+
+    <!-- SETTINGS -->
+    <details class="panel" id="config-panel">
+      <summary>&#9881; Settings &amp; Data Source</summary>
+      <div class="panel-body">
+
+        <div class="config-section">
+          <h3>Google Sheets Auto-Sync</h3>
+          <p>
+            Paste a public Google Sheets CSV export URL below. Every time this dashboard loads,
+            it will fetch the latest data from your sheet automatically. No code needed.
+          </p>
+          <input type="url" id="sheets-url-input" placeholder="https://docs.google.com/spreadsheets/d/YOUR_ID/export?format=csv&gid=0" />
+          <button class="config-btn" id="save-sheets-btn">Save &amp; Load from Sheet</button>
+          <div class="config-feedback" id="sheets-feedback"></div>
+          <details class="setup-guide">
+            <summary>Step-by-step: How to connect Google Sheets</summary>
+            <ol>
+              <li>Open <strong>Google Sheets</strong> and create a new spreadsheet.</li>
+              <li>In row 1, add these exact column headers (in order):
+                <div class="columns-list">
+                  <span class="col-chip">Date</span>
+                  <span class="col-chip">Source</span>
+                  <span class="col-chip">First Name</span>
+                  <span class="col-chip">Last Name</span>
+                  <span class="col-chip">Email</span>
+                  <span class="col-chip">Phone</span>
+                  <span class="col-chip">ZIP</span>
+                  <span class="col-chip">Interest</span>
+                  <span class="col-chip">Role</span>
+                  <span class="col-chip">Issues</span>
+                  <span class="col-chip">Area</span>
+                  <span class="col-chip">Notes</span>
+                  <span class="col-chip">Status</span>
+                  <span class="col-chip">Follow-up Date</span>
+                  <span class="col-chip">Follow-up By</span>
+                </div>
+              </li>
+              <li>Go to <strong>File &rarr; Share &rarr; Publish to web</strong>. Select <strong>Sheet1</strong> and format <strong>Comma-separated values (.csv)</strong>. Click Publish.</li>
+              <li>Copy the URL it gives you and paste it in the field above.</li>
+              <li>Click <strong>Save &amp; Load</strong>. The dashboard will now auto-fetch your sheet on every page load.</li>
+              <li><strong>Workflow:</strong> When you get a volunteer email, add a row in the Google Sheet. Reload this dashboard to see the new contact.</li>
+            </ol>
+            <p style="margin-top:10px;font-size:.82rem;color:var(--muted);">
+              <strong>Note:</strong> The sheet must be set to "Anyone with link can view."
+              All data stays in your Google account. Nothing is sent to any third-party server.
+            </p>
+          </details>
+        </div>
+
+        <div class="config-section" style="border-top:1px solid var(--border);padding-top:20px;">
+          <h3>Change Dashboard PIN</h3>
+          <p>Default PIN is 2026. Change it here. PINs are stored in this browser only.</p>
+          <input type="password" id="new-pin-input" placeholder="New PIN (4-8 digits)" maxlength="8" />
+          <button class="config-btn" id="save-pin-btn">Update PIN</button>
+          <div class="config-feedback" id="pin-change-feedback"></div>
+        </div>
+
+        <div class="config-section" style="border-top:1px solid var(--border);padding-top:20px;">
+          <h3>Clear Local Contacts</h3>
+          <p>Contacts added manually via this form are stored in your browser. This removes them.</p>
+          <button class="config-btn" id="clear-local-btn" style="background:linear-gradient(160deg,#991b1b,#7f1d1d);">Clear Local Contacts</button>
+          <div class="config-feedback" id="clear-feedback"></div>
+        </div>
+
+      </div>
+    </details>
+
+  </div><!-- /dash-content -->
+</div><!-- /dashboard -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* -------- CONFIG -------- */
+  const LS_PIN     = 'arafat_dash_pin';
+  const LS_SHEETS  = 'arafat_dash_sheets_url';
+  const LS_LOCAL   = 'arafat_dash_local_contacts';
+  const DEFAULT_PIN = '2026';
+
+  /* -------- SAMPLE DATA (shown when no Google Sheet configured) -------- */
+  const SAMPLE_CONTACTS = [
+    { id: 's1', date: '2026-03-01', source: 'contact-form', firstName: 'Maria', lastName: 'Hernandez', email: 'mhernandez@example.com', phone: '', zip: '98444', interest: 'Volunteer', role: 'Field and Community', issues: 'Housing; Cost of living', area: 'Spanaway', notes: 'Interested in weekend canvassing. Has car. Speaks Spanish.', status: 'new', followup: '2026-03-04', followupBy: 'Team', _sample: true },
+    { id: 's2', date: '2026-03-01', source: 'email-volunteer', firstName: 'James', lastName: 'Park', email: 'jpark@example.com', phone: '253-555-0100', zip: '98499', interest: 'Volunteer', role: 'Digital and Social', issues: 'Accountability; Healthcare', area: 'Lakewood', notes: 'Active on Instagram and TikTok. Can do video clips.', status: 'contacted', followup: '', followupBy: '' , _sample: true },
+    { id: 's3', date: '2026-02-27', source: 'email-info', firstName: 'Susan', lastName: 'Williams', email: 'swilliams@example.com', phone: '360-555-0200', zip: '98501', interest: 'Volunteer+Donor', role: 'Events and Scheduling', issues: 'Veteran issues; Jobs', area: 'Olympia', notes: 'JBLM veteran. Wants to help plan town halls. Has venue contacts.', status: 'active', followup: '2026-03-07', followupBy: 'Adam', _sample: true },
+    { id: 's4', date: '2026-02-25', source: 'event', firstName: 'Derek', lastName: 'Thomas', email: '', phone: '253-555-0333', zip: '98404', interest: 'Volunteer', role: 'Voter Contact', issues: 'Housing; Public transit', area: 'University Place', notes: 'Met at community meeting. Wants to phone bank evenings.', status: 'new', followup: '2026-03-05', followupBy: '', _sample: true },
+    { id: 's5', date: '2026-02-20', source: 'referral', firstName: 'Alicia', lastName: 'Nguyen', email: 'anguyen@example.com', phone: '', zip: '98548', interest: 'Volunteer', role: 'Area Coordinator', issues: 'Healthcare; Cost of living', area: 'Shelton / Mason County', notes: 'Referred by Maria H. Interested in leading Mason County outreach.', status: 'contacted', followup: '2026-03-06', followupBy: 'Team', _sample: true }
+  ];
+
+  /* -------- STATE -------- */
+  let allContacts = [];
+  let filteredContacts = [];
+  let sortCol = 'date';
+  let sortDir = -1;
+  let sheetsContacts = [];
+  let localContacts = [];
+
+  /* -------- PIN LOGIC -------- */
+  const pinScreen   = document.getElementById('pin-screen');
+  const dashboard   = document.getElementById('dashboard');
+  const pinInput    = document.getElementById('pin-input');
+  const pinSubmit   = document.getElementById('pin-submit');
+  const pinError    = document.getElementById('pin-error');
+
+  function getPin() { return localStorage.getItem(LS_PIN) || DEFAULT_PIN; }
+
+  function unlock() {
+    pinScreen.style.display = 'none';
+    dashboard.style.display = 'block';
+    sessionStorage.setItem('arafat_auth', '1');
+    init();
+  }
+
+  if (sessionStorage.getItem('arafat_auth') === '1') unlock();
+
+  pinSubmit.addEventListener('click', tryPin);
+  pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin(); });
+
+  function tryPin() {
+    if (pinInput.value === getPin()) {
+      pinError.textContent = '';
+      unlock();
+    } else {
+      pinError.textContent = 'Incorrect PIN. Try again.';
+      pinInput.value = '';
+      pinInput.focus();
+    }
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    sessionStorage.removeItem('arafat_auth');
+    location.reload();
+  });
+
+  /* -------- INIT -------- */
+  async function init() {
+    setDate();
+    loadLocal();
+    const sheetsUrl = localStorage.getItem(LS_SHEETS);
+    if (sheetsUrl) {
+      document.getElementById('sheets-url-input').value = sheetsUrl;
+      await fetchSheets(sheetsUrl);
+    } else {
+      document.getElementById('setup-banner').style.display = 'flex';
+      sheetsContacts = [];
+    }
+    mergeAndRender();
+  }
+
+  function setDate() {
+    const dateField = document.getElementById('f-date');
+    if (dateField) dateField.value = new Date().toISOString().slice(0, 10);
+  }
+
+  /* -------- GOOGLE SHEETS FETCH -------- */
+  async function fetchSheets(url) {
+    const line = document.getElementById('data-source-line');
+    line.textContent = 'Fetching from Google Sheets...';
+    try {
+      // Add cache-bust
+      const fetchUrl = url + (url.includes('?') ? '&' : '?') + '_cb=' + Date.now();
+      const resp = await fetch(fetchUrl);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const csv = await resp.text();
+      sheetsContacts = parseCSV(csv);
+      line.textContent = 'Data source: Google Sheets (' + sheetsContacts.length + ' rows) · Last fetched ' + new Date().toLocaleTimeString();
+      document.getElementById('setup-banner').style.display = 'none';
+    } catch (err) {
+      line.textContent = 'Could not load Google Sheet (' + err.message + '). Showing local + sample data.';
+      sheetsContacts = [];
+    }
+  }
+
+  /* -------- CSV PARSER -------- */
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) return [];
+    const headers = parseCSVLine(lines[0]);
+    const results = [];
+    for (let i = 1; i < lines.length; i++) {
+      const vals = parseCSVLine(lines[i]);
+      const row = {};
+      headers.forEach((h, idx) => {
+        const key = csvHeaderToKey(h.trim());
+        row[key] = (vals[idx] || '').trim();
+      });
+      row.id = 'sheet_' + i;
+      row._source = 'sheet';
+      results.push(row);
+    }
+    return results.filter(r => r.firstName || r.lastName || r.email);
+  }
+
+  function parseCSVLine(line) {
+    const result = []; let cur = ''; let inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+      else { cur += c; }
+    }
+    result.push(cur);
+    return result;
+  }
+
+  function csvHeaderToKey(h) {
+    const map = {
+      'date': 'date', 'source': 'source',
+      'first name': 'firstName', 'last name': 'lastName',
+      'email': 'email', 'phone': 'phone', 'zip': 'zip', 'zip code': 'zip',
+      'interest': 'interest', 'role': 'role', 'role preference': 'role',
+      'issues': 'issues', 'issue concerns': 'issues',
+      'area': 'area', 'notes': 'notes', 'status': 'status',
+      'follow-up date': 'followup', 'follow-up by': 'followupBy',
+      'followup date': 'followup', 'followup by': 'followupBy'
+    };
+    return map[h.toLowerCase()] || h.toLowerCase().replace(/\s+/g, '_');
+  }
+
+  /* -------- LOCAL CONTACTS -------- */
+  function loadLocal() {
+    try { localContacts = JSON.parse(localStorage.getItem(LS_LOCAL) || '[]'); }
+    catch(e) { localContacts = []; }
+  }
+
+  function saveLocal() {
+    localStorage.setItem(LS_LOCAL, JSON.stringify(localContacts));
+  }
+
+  /* -------- MERGE & RENDER -------- */
+  function mergeAndRender() {
+    const hasSheetsOrLocal = sheetsContacts.length > 0 || localContacts.length > 0;
+    allContacts = hasSheetsOrLocal
+      ? [...sheetsContacts, ...localContacts]
+      : [...SAMPLE_CONTACTS, ...localContacts];
+
+    if (!hasSheetsOrLocal && SAMPLE_CONTACTS.length > 0) {
+      document.getElementById('data-source-line').textContent =
+        'Showing sample data. Connect a Google Sheet (Settings below) to see real contacts.';
+    }
+
+    applyFiltersAndSort();
+    renderStats();
+    renderBreakdowns();
+  }
+
+  /* -------- FILTERING & SORTING -------- */
+  function applyFiltersAndSort() {
+    const q       = document.getElementById('search').value.toLowerCase().trim();
+    const fInt    = document.getElementById('filter-interest').value.toLowerCase();
+    const fRole   = document.getElementById('filter-role').value.toLowerCase();
+    const fArea   = document.getElementById('filter-area').value.toLowerCase();
+    const fStatus = document.getElementById('filter-status').value.toLowerCase();
+
+    filteredContacts = allContacts.filter(c => {
+      if (q && ![ c.firstName, c.lastName, c.email, c.phone, c.notes, c.area, c.issues, c.role ]
+            .join(' ').toLowerCase().includes(q)) return false;
+      if (fInt    && !(c.interest || '').toLowerCase().includes(fInt))    return false;
+      if (fRole   && !(c.role || '').toLowerCase().includes(fRole))       return false;
+      if (fArea   && !(c.area || '').toLowerCase().includes(fArea))       return false;
+      if (fStatus && !(c.status || '').toLowerCase().includes(fStatus))   return false;
+      return true;
+    });
+
+    filteredContacts.sort((a, b) => {
+      const av = (a[sortCol] || '').toString().toLowerCase();
+      const bv = (b[sortCol] || '').toString().toLowerCase();
+      return av < bv ? sortDir : av > bv ? -sortDir : 0;
+    });
+
+    renderTable();
+    document.getElementById('filter-count').textContent =
+      filteredContacts.length + ' of ' + allContacts.length + ' contacts';
+  }
+
+  ['search','filter-interest','filter-role','filter-area','filter-status'].forEach(id => {
+    document.getElementById(id).addEventListener('input', applyFiltersAndSort);
+  });
+
+  /* -------- SORT ON HEADER CLICK -------- */
+  document.querySelectorAll('#contacts-table th[data-col]').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.getAttribute('data-col');
+      if (sortCol === col) { sortDir *= -1; }
+      else { sortCol = col; sortDir = -1; }
+      document.querySelectorAll('#contacts-table th').forEach(t => {
+        t.classList.remove('sorted-asc','sorted-desc');
+      });
+      th.classList.add(sortDir === 1 ? 'sorted-asc' : 'sorted-desc');
+      applyFiltersAndSort();
+    });
+  });
+
+  /* -------- RENDER STATS -------- */
+  function renderStats() {
+    const c = allContacts;
+    document.getElementById('stat-total').textContent = c.length;
+    document.getElementById('stat-vol').textContent = c.filter(x => (x.interest||'').toLowerCase().includes('volunteer')).length;
+    document.getElementById('stat-new').textContent = c.filter(x => (x.status||'').toLowerCase() === 'new').length;
+    const areas = new Set(c.map(x => x.area).filter(Boolean));
+    document.getElementById('stat-areas').textContent = areas.size;
+    const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+    document.getElementById('stat-week').textContent = c.filter(x => x.date && new Date(x.date) >= weekAgo).length;
+  }
+
+  /* -------- RENDER BREAKDOWNS -------- */
+  function renderBreakdowns() {
+    const roles = {}; const areas = {};
+    allContacts.forEach(c => {
+      const r = c.role || 'Not specified'; roles[r] = (roles[r]||0) + 1;
+      const a = c.area || 'Unknown'; areas[a] = (areas[a]||0) + 1;
+    });
+    const maxR = Math.max(...Object.values(roles), 1);
+    const maxA = Math.max(...Object.values(areas), 1);
+
+    function breakdown(obj, max) {
+      return Object.entries(obj).sort((a,b) => b[1]-a[1]).map(([label, count]) => `
+        <div class="breakdown-item">
+          <span class="breakdown-label">${label}</span>
+          <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${Math.round(count/max*100)}%"></div></div>
+          <span class="breakdown-count">${count}</span>
+        </div>`).join('');
+    }
+    document.getElementById('role-breakdown').innerHTML = breakdown(roles, maxR);
+    document.getElementById('area-breakdown').innerHTML = breakdown(areas, maxA);
+  }
+
+  /* -------- RENDER TABLE -------- */
+  function renderTable() {
+    const tbody = document.getElementById('contacts-tbody');
+    if (filteredContacts.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="12">
+        <div class="empty-state">
+          <h3>No contacts found</h3>
+          <p>Try adjusting your filters or add contacts below.</p>
+        </div></td></tr>`;
+      return;
+    }
+    const statusBadge = s => {
+      const m = { new:'badge-new', contacted:'badge-contacted', active:'badge-active', declined:'badge-declined' };
+      return `<span class="badge ${m[s]||'badge-new'}">${s||'new'}</span>`;
+    };
+    tbody.innerHTML = filteredContacts.map(c => `
+      <tr data-id="${c.id||''}">
+        <td class="td-muted">${c.date||''}</td>
+        <td class="td-muted">${c.source||''}</td>
+        <td class="td-name">${c.firstName||''} ${c.lastName||''}</td>
+        <td class="td-email">
+          ${c.email ? `<a href="mailto:${c.email}">${c.email}</a>` : ''}
+          ${c.phone ? `<br><span class="td-muted">${c.phone}</span>` : ''}
+        </td>
+        <td class="td-muted">${c.zip||''}</td>
+        <td>${c.interest||''}</td>
+        <td>${c.role||''}</td>
+        <td>${c.area||''}</td>
+        <td class="td-muted">${c.issues||''}</td>
+        <td class="td-muted" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${(c.notes||'').replace(/"/g,"'")}">${c.notes||''}</td>
+        <td>
+          ${c._source === 'sheet' || c._sample
+            ? statusBadge(c.status)
+            : `<select class="status-select" data-id="${c.id}" onchange="window.updateStatus(this)">
+                <option value="new" ${c.status==='new'?'selected':''}>New</option>
+                <option value="contacted" ${c.status==='contacted'?'selected':''}>Contacted</option>
+                <option value="active" ${c.status==='active'?'selected':''}>Active</option>
+                <option value="declined" ${c.status==='declined'?'selected':''}>Declined</option>
+              </select>`}
+        </td>
+        <td class="td-muted">${c.followup||''} ${c.followupBy ? '<br>'+c.followupBy : ''}</td>
+      </tr>`).join('');
+  }
+
+  window.updateStatus = function(sel) {
+    const id = sel.getAttribute('data-id');
+    const contact = localContacts.find(c => c.id === id);
+    if (contact) { contact.status = sel.value; saveLocal(); }
+  };
+
+  /* -------- EXPORT CSV -------- */
+  document.getElementById('export-btn').addEventListener('click', () => {
+    const headers = ['Date','Source','First Name','Last Name','Email','Phone','ZIP','Interest','Role','Issues','Area','Notes','Status','Follow-up Date','Follow-up By'];
+    const rows = [headers.join(',')];
+    allContacts.forEach(c => {
+      rows.push([
+        c.date, c.source, c.firstName, c.lastName, c.email, c.phone, c.zip,
+        c.interest, c.role, c.issues, c.area, c.notes, c.status, c.followup, c.followupBy
+      ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
+    });
+    const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'arafat-contacts-' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+  });
+
+  /* -------- ADD CONTACT FORM -------- */
+  document.getElementById('add-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const feedback = document.getElementById('form-feedback');
+    const id = 'local_' + Date.now();
+    const contact = {
+      id, _source: 'local',
+      date: document.getElementById('f-date').value,
+      source: document.getElementById('f-source').value,
+      firstName: document.getElementById('f-first').value.trim(),
+      lastName: document.getElementById('f-last').value.trim(),
+      email: document.getElementById('f-email').value.trim(),
+      phone: document.getElementById('f-phone').value.trim(),
+      zip: document.getElementById('f-zip').value.trim(),
+      interest: document.getElementById('f-interest').value,
+      role: document.getElementById('f-role').value,
+      issues: document.getElementById('f-issues').value.trim(),
+      area: document.getElementById('f-area').value,
+      notes: document.getElementById('f-notes').value.trim(),
+      status: document.getElementById('f-status').value,
+      followup: document.getElementById('f-followup').value,
+      followupBy: document.getElementById('f-followupby').value.trim()
+    };
+    if (!contact.firstName && !contact.lastName && !contact.email) {
+      feedback.className = 'form-feedback form-feedback--error';
+      feedback.textContent = 'Please enter at least a name or email.';
+      return;
+    }
+    localContacts.push(contact);
+    saveLocal();
+    // Generate CSV row for Google Sheets paste
+    const row = [contact.date, contact.source, contact.firstName, contact.lastName,
+      contact.email, contact.phone, contact.zip, contact.interest, contact.role,
+      contact.issues, contact.area, contact.notes, contact.status, contact.followup, contact.followupBy
+    ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(',');
+    document.getElementById('csv-row-text').textContent = row;
+    const csvOut = document.getElementById('csv-output');
+    csvOut.style.display = 'block';
+    feedback.className = 'form-feedback form-feedback--success';
+    feedback.textContent = 'Contact saved. Copy the row above into your Google Sheet.';
+    mergeAndRender();
+    // Reset
+    setTimeout(() => {
+      document.getElementById('f-first').value = '';
+      document.getElementById('f-last').value = '';
+      document.getElementById('f-email').value = '';
+      document.getElementById('f-phone').value = '';
+      document.getElementById('f-zip').value = '';
+      document.getElementById('f-issues').value = '';
+      document.getElementById('f-notes').value = '';
+      document.getElementById('f-followup').value = '';
+      document.getElementById('f-followupby').value = '';
+      document.getElementById('f-status').value = 'new';
+      setDate();
+    }, 200);
+  });
+
+  document.getElementById('clear-form-btn').addEventListener('click', () => {
+    document.getElementById('add-form').reset();
+    document.getElementById('form-feedback').textContent = '';
+    document.getElementById('csv-output').style.display = 'none';
+    setDate();
+  });
+
+  /* -------- SETTINGS -------- */
+  document.getElementById('show-setup-btn').addEventListener('click', () => {
+    document.getElementById('config-panel').open = true;
+    document.getElementById('config-panel').scrollIntoView({behavior:'smooth'});
+  });
+
+  document.getElementById('save-sheets-btn').addEventListener('click', async () => {
+    const url = document.getElementById('sheets-url-input').value.trim();
+    const fb = document.getElementById('sheets-feedback');
+    if (!url) { fb.style.color = 'var(--red)'; fb.textContent = 'Please enter a URL.'; return; }
+    localStorage.setItem(LS_SHEETS, url);
+    fb.style.color = 'var(--green)'; fb.textContent = 'Saved. Loading...';
+    await fetchSheets(url);
+    mergeAndRender();
+    fb.textContent = 'Connected. Dashboard will auto-load this sheet on every visit.';
+  });
+
+  document.getElementById('save-pin-btn').addEventListener('click', () => {
+    const np = document.getElementById('new-pin-input').value.trim();
+    const fb = document.getElementById('pin-change-feedback');
+    if (np.length < 4) { fb.style.color = 'var(--red)'; fb.textContent = 'PIN must be at least 4 characters.'; return; }
+    localStorage.setItem(LS_PIN, np);
+    fb.style.color = 'var(--green)'; fb.textContent = 'PIN updated. Remember it!';
+    document.getElementById('new-pin-input').value = '';
+  });
+
+  document.getElementById('clear-local-btn').addEventListener('click', () => {
+    if (confirm('Delete all locally-added contacts? Sheet data is not affected.')) {
+      localContacts = [];
+      saveLocal();
+      mergeAndRender();
+      document.getElementById('clear-feedback').style.color = 'var(--green)';
+      document.getElementById('clear-feedback').textContent = 'Local contacts cleared.';
+    }
+  });
+
+  document.getElementById('refresh-btn').addEventListener('click', async () => {
+    const url = localStorage.getItem(LS_SHEETS);
+    if (url) { await fetchSheets(url); }
+    mergeAndRender();
+  });
+
+})();
+</script>
+</body>
+</html>

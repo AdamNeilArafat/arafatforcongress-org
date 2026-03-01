@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Events | Adam Arafat for Congress (WA-10)</title>
-  <meta name="description" content="Join Adam Arafat for Congress at canvasses, town halls, and community meetups across WA-10 — Spanaway, Lakewood, Olympia, and beyond." />
+  <meta name="description" content="Join Adam Arafat for Congress at canvasses, town halls, and community meetups across WA-10, Spanaway, Lakewood, Olympia, and beyond." />
   <meta property="og:title" content="Events | Adam Arafat for Congress (WA-10)" />
   <meta property="og:description" content="Town halls, canvasses, and community meetups across WA-10. Find an event near you." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
@@ -16,18 +16,18 @@
   <style>
     :root{
       --ink:#0b1220;
-      --navy:#071127;
-      --navy-2:#0b1c3d;
+      --navy:#05101e;
+      --navy-2:#091b36;
       --muted:#51607a;
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-      --gold:#f2c14e;
-      --border-soft:rgba(11,18,32,0.10);
-      --shadow-soft:0 10px 22px rgba(11,18,32,0.08);
-      --radius:16px;
-      --bg:radial-gradient(1200px 650px at 20% 0%,rgba(14,165,164,0.10),transparent 55%),
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft:rgba(5,16,30,0.10);
+      --shadow-soft:0 10px 22px rgba(5,16,30,0.08);
+      --radius:12px;
+      --bg:radial-gradient(1200px 650px at 20% 0%,rgba(29,79,168,0.08),transparent 55%),
            radial-gradient(900px 520px at 85% 15%,rgba(242,193,78,0.10),transparent 55%),
-           linear-gradient(180deg,#f7f8fb,#eef1f7);
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
     }
     *{box-sizing:border-box;}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);}
@@ -35,34 +35,34 @@
     main{padding-bottom:3rem;}
 
     .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
-    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--brand),rgba(242,193,78,0.9));opacity:.9;}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--brand),rgba(184,134,13,0.9));opacity:.9;}
     .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
     .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:220px;}
     .brand__name{font-weight:950;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
     .brand__meta{font-weight:850;font-size:.85rem;color:var(--muted);}
     .site-nav{display:flex;gap:10px;align-items:center;}
     .nav-link{text-decoration:none;color:var(--navy);font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;transition:background .15s;white-space:nowrap;}
-    .nav-link:hover{background:rgba(14,165,164,0.10);}
-    .nav-link[aria-current="page"]{background:rgba(14,165,164,0.12);box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18);}
+    .nav-link:hover{background:rgba(29,79,168,0.08);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.20);}
     .header-cta{display:flex;align-items:center;gap:12px;}
-    .header-cred{font-size:.82rem;font-weight:900;color:var(--navy-2);background:rgba(242,193,78,0.18);border:1px solid rgba(242,193,78,0.35);padding:8px 10px;border-radius:999px;white-space:nowrap;}
+    .header-cred{font-size:.82rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.12);border:1px solid rgba(184,134,13,0.28);padding:8px 10px;border-radius:999px;white-space:nowrap;}
     .cta-group{display:flex;gap:10px;align-items:center;}
     .btn{text-decoration:none;font-weight:950;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;transition:transform .06s,filter .15s;}
     .btn:active{transform:translateY(1px);}
-    .btn-primary{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 14px 26px rgba(14,165,164,.18);}
+    .btn-primary{background:linear-gradient(160deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.20);}
     .btn-primary:hover{filter:brightness(.98);}
     .btn-ghost{background:rgba(11,28,61,0.06);color:var(--navy-2);border:1px solid rgba(11,28,61,0.14);}
     .btn-ghost:hover{background:rgba(11,28,61,0.10);}
     .nav-toggle{display:none;border:1px solid rgba(11,28,61,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;}
     .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
-    .mobile-pac-strip{display:none;background:rgba(242,193,78,0.14);border-bottom:1px solid rgba(242,193,78,0.30);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.10);border-bottom:1px solid rgba(184,134,13,0.25);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
     .mobile-drawer{display:none;}
     .mobile-drawer[hidden]{display:none !important;}
 
     /* PAGE CONTENT */
     .hero{padding:3.5rem 1.5rem 1.5rem;}
     .hero-inner{max-width:900px;margin:0 auto;}
-    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:850;color:var(--navy-2);background:rgba(14,165,164,0.10);border:1px solid rgba(14,165,164,0.18);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:850;color:var(--navy-2);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.20);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
     .hero h1{font-size:clamp(2rem,4.5vw,2.8rem);margin:0 0 14px;color:var(--navy);line-height:1.08;letter-spacing:-0.2px;font-weight:850;}
     .hero p{margin:0;color:var(--muted);line-height:1.7;font-size:1.05rem;max-width:72ch;}
 
@@ -77,7 +77,7 @@
     .event-date .day{font-size:1.8rem;font-weight:950;color:var(--navy);line-height:1;}
     .event-info h3{margin:0 0 4px;font-size:1.05rem;font-weight:800;color:var(--navy);}
     .event-info .event-meta{margin:0;color:var(--muted);font-size:.92rem;line-height:1.5;}
-    .event-type{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border-soft);background:rgba(14,165,164,0.08);color:var(--navy-2);}
+    .event-type{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border-soft);background:rgba(29,79,168,0.08);color:var(--navy-2);}
 
     .coming-soon{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:36px;text-align:center;}
     .coming-soon h3{margin:0 0 12px;color:var(--navy);font-size:1.3rem;font-weight:800;}
@@ -85,7 +85,7 @@
 
     .notify-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px;}
     .notify-form input{flex:1 1 220px;min-height:44px;padding:0 14px;border:1px solid rgba(11,28,61,0.18);border-radius:14px;font:inherit;background:rgba(11,28,61,0.03);}
-    .notify-form input:focus-visible{outline:3px solid rgba(14,165,164,.22);outline-offset:2px;}
+    .notify-form input:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
 
     .area-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px;}
     .area-pill{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);padding:14px 16px;text-align:center;box-shadow:var(--shadow-soft);}
@@ -103,7 +103,7 @@
       .mobile-pac-strip{display:block;}
       .mobile-drawer{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;gap:8px;}
       .mobile-drawer a{text-decoration:none;font-weight:850;color:var(--navy);background:rgba(11,18,32,0.03);border:1px solid var(--border-soft);padding:12px;border-radius:14px;}
-      .mobile-drawer a.drawer-cta{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;border:none;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(160deg,var(--brand),var(--brand-dark));color:#fff;border:none;}
       .event-card{grid-template-columns:auto 1fr;}
       .event-type{justify-self:start;margin-top:6px;}
     }
@@ -126,12 +126,11 @@
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
-        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/events.html" aria-current="page">Events</a>
-        <a class="nav-link" href="/contact.html">Volunteer</a>
+        <a class="nav-link" href="/endorsements.html">Endorsements</a>
+        <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
       <div class="header-cta">
         <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
@@ -151,8 +150,10 @@
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
+      <a href="/endorsements.html">Endorsements</a>
       <a href="/events.html" aria-current="page">Events</a>
-      <a href="/contact.html">Volunteer</a>
+      <a href="/contact.html">Contact / Volunteer</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
@@ -162,7 +163,7 @@
       <div class="hero-inner">
         <div class="kicker">Events</div>
         <h1>Show up. Make it count.</h1>
-        <p>Town halls, canvasses, and community meetups across WA-10 — from Spanaway and Lakewood to Olympia, Lacey, and the South Sound. This campaign is built in person, by people who live here.</p>
+        <p>Town halls, canvasses, and community meetups across WA-10, from Spanaway and Lakewood to Olympia, Lacey, and the South Sound. This campaign is built in person, by people who live here.</p>
       </div>
     </section>
 
@@ -185,7 +186,7 @@
     <!-- AREAS WE'LL COVER -->
     <section class="section" aria-labelledby="areas-heading">
       <h2 id="areas-heading">Every part of WA-10</h2>
-      <p class="section-intro">This district runs from the South Sound to Hood Canal. We'll be in every community — in person.</p>
+      <p class="section-intro">This district runs from the South Sound to Hood Canal. We'll be in every community, in person.</p>
       <div class="area-grid">
         <div class="area-pill"><strong>Spanaway</strong><span>Pierce County South</span></div>
         <div class="area-pill"><strong>Lakewood</strong><span>Pierce County</span></div>

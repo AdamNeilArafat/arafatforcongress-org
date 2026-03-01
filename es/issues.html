@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Propuestas | Adam Arafat para el Congreso (WA-10)</title>
+  <meta name="description" content="Las propuestas legislativas de Adam Arafat para WA-10: vivienda, salud, derechos laborales, reforma electoral, medio ambiente e inteligencia artificial. Sin dinero de PACs." />
+  <meta property="og:title" content="Propuestas | Adam Arafat para el Congreso (WA-10)" />
+  <meta property="og:description" content="Las leyes ya existen. La pregunta es: quien va a luchar para aprobarlas. Adam Arafat se compromete con resultados concretos para WA-10." />
+  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
+  <meta property="og:url" content="https://arafatforcongress.org/es/issues.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://arafatforcongress.org/es/issues.html" />
+  <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/issues.html" />
+  <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/issues.html" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root{
+      --ink:#0b1220;
+      --navy:#05101e;
+      --navy-2:#091b36;
+      --muted:#4b5568;
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft:rgba(5,16,30,0.10);
+      --shadow-soft:0 10px 22px rgba(5,16,30,0.08);
+      --radius:12px;
+      --bg:radial-gradient(1200px 700px at 20% -10%,rgba(29,79,168,0.08),transparent 55%),
+           radial-gradient(800px 600px at 80% 20%,rgba(184,134,13,0.07),transparent 55%),
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:inherit;}
+    main{padding-bottom:3rem;}
+
+    .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,#05101e,#1d4fa8,rgba(184,134,13,0.9));opacity:.95;}
+    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:200px;}
+    .brand__name{font-weight:900;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+    .site-nav{display:flex;gap:6px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.88rem;padding:9px 9px;border-radius:12px;transition:background .15s ease;white-space:nowrap;}
+    .nav-link:hover{background:rgba(29,79,168,0.10);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.18);}
+    .header-cta{display:flex;align-items:center;gap:10px;}
+    .header-cred{font-size:.78rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.14);border:1px solid rgba(184,134,13,0.30);padding:7px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:8px;align-items:center;}
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.12);border-bottom:1px solid rgba(184,134,13,0.26);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .btn{text-decoration:none;font-weight:900;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;user-select:none;transition:transform .06s ease,filter .15s ease,background .15s ease;}
+    .btn:active{transform:translateY(1px);}
+    .btn-primary{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.18);}
+    .btn-primary:hover{filter:brightness(.97);}
+    .btn-ghost{background:rgba(5,16,30,0.06);color:var(--navy-2);border:1px solid rgba(5,16,30,0.14);}
+    .btn-ghost:hover{background:rgba(5,16,30,0.10);}
+    .btn:focus-visible,.nav-link:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+    .nav-toggle{display:none;border:1px solid rgba(5,16,30,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;cursor:pointer;}
+    .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
+    .mobile-drawer{display:none;}
+    .mobile-drawer[hidden]{display:none !important;}
+
+    /* PAGE */
+    .page-hero{padding:3rem 1.5rem 1.5rem;}
+    .page-hero-inner{max-width:880px;margin:0 auto;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--navy-2);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.16);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
+    .page-hero h1{font-size:clamp(2rem,4.5vw,3rem);margin:0 0 12px;color:var(--navy);line-height:1.07;font-weight:800;letter-spacing:-0.2px;}
+    .page-hero p{margin:0 0 16px;color:var(--muted);line-height:1.75;font-size:1.05rem;max-width:68ch;}
+
+    .section{max-width:1060px;margin:44px auto;padding:0 20px;}
+    .section h2{color:var(--navy);font-size:clamp(1.6rem,3vw,2rem);margin:0 0 12px;font-weight:800;letter-spacing:-0.15px;}
+    .section-intro{color:var(--muted);line-height:1.75;margin:0 0 20px;max-width:72ch;}
+
+    .issues-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:18px;}
+    .issue-card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-soft);border:1px solid var(--border-soft);}
+    .issue-card .issue-num{display:inline-block;font-size:.78rem;font-weight:900;color:var(--brand);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.16);padding:3px 8px;border-radius:999px;margin-bottom:8px;}
+    .issue-card h3{margin:0 0 8px;color:var(--navy-2);font-size:1.08rem;font-weight:800;}
+    .issue-card p{margin:0;color:var(--muted);line-height:1.65;}
+    .issue-card .bill-tag{display:inline-block;margin-top:10px;font-size:.82rem;font-weight:700;color:var(--navy-2);background:rgba(5,16,30,0.05);border:1px solid rgba(5,16,30,0.12);padding:4px 9px;border-radius:8px;}
+
+    .pledge-box{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-soft);border:1px solid rgba(29,79,168,0.18);margin-top:18px;}
+    .pledge-box h3{margin:0 0 10px;color:var(--navy);font-weight:800;font-size:1.15rem;}
+    .pledge-box p{margin:0 0 10px;color:var(--muted);line-height:1.7;}
+    .pledge-box p:last-child{margin:0;}
+
+    .stat-band{background:rgba(29,79,168,0.06);border:1px solid rgba(29,79,168,0.14);border-radius:var(--radius);padding:20px 24px;margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+    .stat-item strong{display:block;font-size:1.6rem;font-weight:900;color:var(--navy);line-height:1;}
+    .stat-item span{color:var(--muted);font-size:.9rem;line-height:1.5;margin-top:4px;display:block;}
+
+    .cta-band{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-top:18px;}
+    .cta-band p{margin:0;color:var(--muted);line-height:1.6;max-width:60ch;}
+    .cta-band p strong{color:var(--navy);}
+    .cta-band-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+    footer{background:#fff;border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:48px;}
+    .footer-tagline{margin:0 0 6px;font-weight:700;color:var(--navy-2);}
+    .footer-nav{margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;}
+    .footer-nav a{color:var(--muted);text-decoration:none;}
+    .footer-nav a:hover{text-decoration:underline;}
+
+    @media(max-width:980px){
+      .site-nav{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+      .header-inner{grid-template-columns:1fr auto;}
+      .header-cred{display:none;}
+      .mobile-pac-strip{display:block;}
+      .mobile-drawer{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;gap:8px;}
+      .mobile-drawer:not([hidden]){display:grid;}
+      .mobile-drawer a{text-decoration:none;font-weight:700;color:var(--navy);background:rgba(5,16,30,0.04);border:1px solid rgba(5,16,30,0.10);padding:12px;border-radius:14px;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;border:none;}
+    }
+    @media(max-width:700px){
+      .section{margin:36px auto;}
+      .cta-band{flex-direction:column;}
+    }
+  </style>
+  <script src="/js/analytics.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/es/" aria-label="Adam Arafat para el Congreso, inicio">
+        <span class="brand__name">Adam Arafat</span>
+        <span class="brand__meta">para el Congreso &bull; WA-10</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegacion principal">
+        <a class="nav-link" href="/es/">Inicio</a>
+        <a class="nav-link" href="/es/why-im-running.html">Por Que Me Postulo</a>
+        <a class="nav-link" href="/es/issues.html" aria-current="page">Propuestas</a>
+        <a class="nav-link" href="/es/record-contrast.html">La Diferencia</a>
+        <a class="nav-link" href="/es/about.html">Conoce a Adam</a>
+        <a class="nav-link" href="/es/events.html">Eventos</a>
+        <a class="nav-link" href="/es/endorsements.html">Avales</a>
+        <a class="nav-link" href="/es/contact.html">Contacto</a>
+      </nav>
+      <div class="header-cta">
+        <div class="header-cred">Sin PACs corporativos ni dinero de AIPAC</div>
+        <div class="cta-group">
+          <a class="btn btn-ghost" href="/issues.html" lang="en" hreflang="en">English</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+          <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-drawer-issues">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-pac-strip">Sin PACs corporativos ni dinero de AIPAC</div>
+    <div id="mobile-drawer-issues" class="mobile-drawer" hidden>
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html" aria-current="page">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto y Voluntariado</a>
+      <a href="/issues.html" lang="en" hreflang="en">English</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero" aria-label="Propuestas">
+      <div class="page-hero-inner">
+        <div class="kicker">Legislacion concreta para WA-10</div>
+        <h1>Propuestas para las familias del Distrito 10</h1>
+        <p>
+          Las leyes ya existen. La pregunta es: quien va a co-patrocinarlas, defenderlas y luchar para aprobarlas.
+          Adam Arafat se compromete con resultados concretos: no promesas vacias, sino legislacion que las familias
+          de Pierce y Thurston necesitan ahora.
+        </p>
+        <p>
+          Esta campana no acepta dinero de PACs corporativos ni de AIPAC. Eso significa que estas propuestas
+          no tienen que responderle a ningun donante especial: solo a usted.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="issues-heading">
+      <h2 id="issues-heading">Prioridades en orden</h2>
+      <p class="section-intro">
+        Las siguientes son las prioridades de Adam Arafat para el 119 Congreso, ordenadas por urgencia para las familias de WA-10.
+      </p>
+
+      <div class="issues-grid" role="list">
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 1</span>
+          <h3>Vivienda asequible</h3>
+          <p>
+            Los alquileres en los condados de Pierce y Thurston han subido mas del 40% desde 2019.
+            Las familias de Spanaway, Lakewood, Lacey y Olympia no pueden seguir esperando.
+            Adam apoyara legislacion federal para expandir la vivienda asequible, financiar la construccion
+            y proteger a los inquilinos de aumentos abusivos.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 2</span>
+          <h3>Salud garantizada</h3>
+          <p>
+            Nadie deberia tener que elegir entre pagar el alquiler y pagar el medico. Adam apoyara
+            la expansion del acceso a la atencion medica para todos, sin deudas hospitalarias
+            ni lagunas de cobertura que dejen a las familias desprotegidas.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 3</span>
+          <h3>Instituciones democraticas</h3>
+          <p>
+            Defender el estado de derecho, la supervision independiente, los derechos de voto y las instituciones
+            que protegen a todos los ciudadanos. La democracia no es negociable.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 4</span>
+          <h3>Derechos laborales</h3>
+          <p>
+            Adam co-patrocinara la <strong>H.R. 20 (PRO Act)</strong>: la Ley de Proteccion del Derecho a Organizar.
+            Esta legislacion restaura el poder de negociacion de los trabajadores, protege los sindicatos y asegura
+            que quienes trabajan duro reciban salarios justos.
+          </p>
+          <span class="bill-tag">H.R. 20 (PRO Act)</span>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 5</span>
+          <h3>Reforma electoral</h3>
+          <p>
+            Eliminar el dinero corporativo de la politica. Si un representante no puede defender su posicion
+            ante los votantes sin apoyo de PACs, algo esta mal. Adam no acepta dinero de PACs corporativos
+            ni de AIPAC.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 6</span>
+          <h3>Rendicion de cuentas</h3>
+          <p>
+            Transparencia real y consecuencias concretas para la corrupcion en el Congreso. Un registro publico
+            de votos, co-patrocinios y acciones: no palabras, sino hechos verificables.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 7</span>
+          <h3>Impuestos justos</h3>
+          <p>
+            Gravar la riqueza extrema para financiar a las familias trabajadoras. Las corporaciones y los
+            multimillonarios deben pagar su parte justa del sistema que les permite prosperar.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 8</span>
+          <h3>Medio ambiente</h3>
+          <p>
+            Tratar el cambio climatico como la emergencia que es. Las comunidades costeras, agricolas y
+            de bajos ingresos del South Sound son las primeras en sufrir sus consecuencias y merecen
+            proteccion federal real.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 9</span>
+          <h3>Privacidad y vigilancia</h3>
+          <p>
+            Poner fin a la vigilancia masiva y proteger la privacidad de todos los ciudadanos.
+            El gobierno no tiene derecho a espiar a sus propios ciudadanos sin causa justificada.
+          </p>
+        </article>
+
+        <article class="issue-card" role="listitem">
+          <span class="issue-num">Prioridad 10</span>
+          <h3>Inteligencia artificial</h3>
+          <p>
+            Adam co-patrocinara la <strong>H.R. 6356 (Ley de Derechos Civiles de la IA)</strong> para
+            garantizar que la inteligencia artificial sirva a las personas y no a las corporaciones.
+            La tecnologia debe beneficiar a los trabajadores, no reemplazarlos sin protecciones.
+          </p>
+          <span class="bill-tag">H.R. 6356 (AI Civil Rights Act)</span>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="datos-heading">
+      <h2 id="datos-heading">Los numeros que importan</h2>
+      <div class="stat-band">
+        <div class="stat-item">
+          <strong>+40%</strong>
+          <span>Aumento de alquileres en Pierce y Thurston desde 2019</span>
+        </div>
+        <div class="stat-item">
+          <strong>$0</strong>
+          <span>Dinero de PACs corporativos o AIPAC que Adam acepta</span>
+        </div>
+        <div class="stat-item">
+          <strong>10+</strong>
+          <span>Prioridades legislativas concretas para WA-10</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="compromiso-heading">
+      <div class="pledge-box">
+        <h3 id="compromiso-heading">El compromiso de Adam</h3>
+        <p>
+          Co-patrocinare las leyes que este distrito apoya y luchare para moverlas. Si algo se estanca,
+          lo escalo. Presiono votaciones en lugar de aceptar retrasos. Anexo prioridades a legislacion
+          de obligada aprobacion y las hago condiciones no negociables.
+        </p>
+        <p>
+          Si quiere las pruebas, las publicare. No vibes: recibos.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Participar">
+      <div class="cta-band">
+        <p><strong>Sin dinero de PACs corporativos.</strong> Solo vecinos que creen que nuestras prioridades merecen urgencia.</p>
+        <div class="cta-band-actions">
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Contribuir</a>
+          <a class="btn btn-ghost" href="/es/contact.html">Voluntariado</a>
+          <a class="btn btn-ghost" href="/es/record-contrast.html">Ver la diferencia</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">Ciudadanos sirviendo a ciudadanos. Ese es el trabajo.</p>
+    <nav aria-label="Navegacion del pie de pagina" class="footer-nav">
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto</a>
+      <a href="/issues.html" lang="en" hreflang="en">English</a>
+    </nav>
+    Pagado por Arafat for Congress &bull;
+    <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+  </footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var drawer = document.getElementById('mobile-drawer-issues');
+      if(!toggle || !drawer) return;
+      toggle.addEventListener('click', function(){
+        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        drawer.hidden = isOpen;
+      });
+    })();
+  </script>
+</body>
+</html>

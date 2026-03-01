@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Why I’m Running | Adam Arafat for Congress (WA-10)</title>
-  <meta name="description" content="Why Adam Arafat is running for Congress in WA-10: to return the House to working families in Spanaway, Lakewood, Olympia, and the communities around JBLM — without PAC money." />
+  <meta name="description" content="Why Adam Arafat is running for Congress in WA-10: to return the House to working families in Spanaway, Lakewood, Olympia, and the communities around JBLM, without PAC money." />
   <meta property="og:title" content="Why I’m Running | Adam Arafat for Congress (WA-10)" />
   <meta property="og:description" content="Adam Arafat is running to keep the House in the hands of everyday people and to deliver results for WA-10 without PAC money." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
@@ -19,19 +19,19 @@
   <style>
     :root{
       --ink:#0b1220;
-      --navy:#071127;
-      --navy-2:#0b1c3d;
+      --navy:#05101e;
+      --navy-2:#091b36;
       --muted:#51607a;
       --paper:#ffffff;
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-      --gold:#f2c14e;
-      --border-soft: rgba(11,18,32,0.10);
-      --border: rgba(11,18,32,0.16);
-      --shadow-soft: 0 10px 22px rgba(11,18,32,0.08);
-      --shadow: 0 14px 30px rgba(11,18,32,0.10);
-      --radius: 16px;
-      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(14,165,164,0.10), transparent 55%),
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft: rgba(5,16,30,0.10);
+      --border: rgba(5,16,30,0.16);
+      --shadow-soft: 0 10px 22px rgba(5,16,30,0.08);
+      --shadow: 0 14px 30px rgba(5,16,30,0.10);
+      --radius: 12px;
+      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(29,79,168,0.08), transparent 55%),
             radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
             linear-gradient(180deg, #f7f8fb, #eef1f7);
     }
@@ -42,21 +42,21 @@
     main{ padding-bottom:2rem; }
 
     .site-header{ position:sticky; top:0; z-index:999; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px); border-bottom:1px solid var(--border-soft); }
-    .site-header::before{ content:""; display:block; height:3px; background:linear-gradient(90deg,var(--brand),rgba(242,193,78,0.9)); opacity:.9; }
+    .site-header::before{ content:""; display:block; height:3px; background:linear-gradient(90deg,var(--brand),rgba(184,134,13,0.9)); opacity:.9; }
     .header-inner{ max-width:1180px; margin:0 auto; padding:14px 18px; display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:14px; }
     .brand{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:2px; min-width:220px; }
     .brand__name{ font-weight:950; letter-spacing:.2px; font-size:1.06rem; line-height:1.05; color:var(--navy); }
     .brand__meta{ font-weight:850; font-size:.85rem; color:var(--muted); }
     .site-nav{ display:flex; gap:10px; align-items:center; }
     .nav-link{ text-decoration:none; color:var(--navy); font-weight:850; font-size:.95rem; padding:10px 10px; border-radius:12px; transition:background .15s ease,color .15s ease; white-space:nowrap; }
-    .nav-link:hover{ background:rgba(14,165,164,0.10); }
-    .nav-link[aria-current="page"]{ background:rgba(14,165,164,0.12); box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18); }
+    .nav-link:hover{ background:rgba(29,79,168,0.08); }
+    .nav-link[aria-current="page"]{ background:rgba(29,79,168,0.10); box-shadow:inset 0 0 0 1px rgba(29,79,168,0.20); }
     .header-cta{ display:flex; align-items:center; gap:12px; }
-    .header-cred{ font-size:.82rem; font-weight:900; color:var(--navy-2); background:rgba(242,193,78,0.18); border:1px solid rgba(242,193,78,0.35); padding:8px 10px; border-radius:999px; white-space:nowrap; }
+    .header-cred{ font-size:.82rem; font-weight:900; color:var(--navy-2); background:rgba(184,134,13,0.12); border:1px solid rgba(184,134,13,0.28); padding:8px 10px; border-radius:999px; white-space:nowrap; }
     .cta-group{ display:flex; gap:10px; align-items:center; }
     .btn{ text-decoration:none; font-weight:950; border-radius:14px; padding:10px 14px; min-height:44px; display:inline-flex; align-items:center; justify-content:center; letter-spacing:.2px; line-height:1; cursor:pointer; user-select:none; transition:transform .06s ease,filter .15s ease,background .15s ease; }
     .btn:active{ transform:translateY(1px); }
-    .btn-primary{ background:linear-gradient(180deg,var(--brand),var(--brand-dark)); color:#fff; box-shadow:0 14px 26px rgba(14,165,164,.18); }
+    .btn-primary{ background:linear-gradient(160deg,var(--brand),var(--brand-dark)); color:#fff; box-shadow:0 14px 26px rgba(29,79,168,.20); }
     .btn-primary:hover{ filter:brightness(.98); }
     .btn-ghost{ background:rgba(11,28,61,0.06); color:var(--navy-2); border:1px solid rgba(11,28,61,0.14); }
     .btn-ghost:hover{ background:rgba(11,28,61,0.10); }
@@ -66,14 +66,14 @@
     .mobile-drawer[hidden]{ display:none !important; }
 
     /* Mobile PAC badge strip */
-    .mobile-pac-strip{ display:none; background:rgba(242,193,78,0.14); border-bottom:1px solid rgba(242,193,78,0.30); padding:7px 18px; text-align:center; font-size:.82rem; font-weight:900; color:var(--navy-2); }
+    .mobile-pac-strip{ display:none; background:rgba(184,134,13,0.10); border-bottom:1px solid rgba(184,134,13,0.25); padding:7px 18px; text-align:center; font-size:.82rem; font-weight:900; color:var(--navy-2); }
 
     .container{ max-width:1040px; margin:0 auto; padding:0 20px; }
 
     .hero-internal{ padding:80px 20px 60px; background: radial-gradient(circle at 15% 40%,rgba(14,165,164,.10) 0%,transparent 60%), radial-gradient(circle at 85% 30%,rgba(242,193,78,.10) 0%,transparent 60%); }
     .hero-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:40px; align-items:center; max-width:1040px; margin:0 auto; }
 
-    .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-weight:850; color:var(--navy-2); background:rgba(14,165,164,0.10); border:1px solid rgba(14,165,164,0.18); padding:7px 12px; border-radius:999px; letter-spacing:.2px; margin-bottom:12px; font-size:.9rem; }
+    .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-weight:850; color:var(--navy-2); background:rgba(29,79,168,0.08); border:1px solid rgba(29,79,168,0.20); padding:7px 12px; border-radius:999px; letter-spacing:.2px; margin-bottom:12px; font-size:.9rem; }
     .hero-copy h1{ font-size:clamp(2rem,4.5vw,3rem); margin:0 0 16px; color:var(--navy); line-height:1.08; letter-spacing:-0.2px; font-weight:850; }
     .hero-copy p{ margin:0 0 20px; color:var(--muted); font-size:1.08rem; line-height:1.7; font-weight:520; }
     .hero-image{ border-radius:var(--radius); overflow:hidden; border:1px solid var(--border-soft); box-shadow:var(--shadow-soft); }
@@ -85,7 +85,7 @@
     .section-light{ background:rgba(14,165,164,0.04); }
     .founders{ display:grid; gap:14px; margin-top:20px; max-width:860px; margin-left:auto; margin-right:auto; }
     .founders p{ margin:0; background:#fff; border:1px solid var(--border-soft); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow-soft); color:var(--muted); line-height:1.7; font-weight:520; }
-    .founders p:first-child{ background:rgba(14,165,164,0.06); border-color:rgba(14,165,164,0.18); }
+    .founders p:first-child{ background:rgba(14,165,164,0.06); border-color:rgba(29,79,168,0.20); }
 
     .grid-two{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:24px; max-width:900px; margin-left:auto; margin-right:auto; }
     .story-card{ background:#fff; border-radius:var(--radius); padding:24px; box-shadow:var(--shadow-soft); border:1px solid var(--border-soft); }
@@ -123,7 +123,7 @@
       .mobile-pac-strip{ display:block; }
       .mobile-drawer{ max-width:1180px; margin:0 auto; padding:10px 18px 16px; display:grid; gap:8px; }
       .mobile-drawer a{ text-decoration:none; font-weight:850; color:var(--navy); background:rgba(11,18,32,0.03); border:1px solid var(--border-soft); padding:12px 12px; border-radius:14px; }
-      .mobile-drawer a.drawer-cta{ background:linear-gradient(180deg,var(--brand),var(--brand-dark)); color:#fff; border:none; }
+      .mobile-drawer a.drawer-cta{ background:linear-gradient(160deg,var(--brand),var(--brand-dark)); color:#fff; border:none; }
     }
     @media(max-width:640px){
       .hero-copy h1{ font-size:2rem; }
@@ -149,10 +149,10 @@
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
-        <a class="nav-link" href="/why-im-running.html" aria-current="page">Why I’m Running</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
+        <a class="nav-link" href="/endorsements.html">Endorsements</a>
         <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
       <div class="header-cta">
@@ -169,13 +169,16 @@
     <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
-      <a href="/why-im-running.html" aria-current="page">Why I’m Running</a>
+      <a href="/why-im-running.html" aria-current="page">Why I'm Running</a>
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
+      <a href="/endorsements.html">Endorsements</a>
+      <a href="/events.html">Events</a>
       <a href="/contact.html">Contact / Volunteer</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-    </div>
+    
   </header>
 
   <main>
@@ -184,12 +187,12 @@
         <div class=”hero-copy”>
           <div class=”eyebrow”>Why I’m Running</div>
           <h1>A House built for neighbors, not a political class</h1>
-          <p>Every part of my life — aviation, emergency operations, raising a family in Spanaway, managing public infrastructure projects — taught me that results only happen when you stay accountable to the people you serve. I’m running because WA-10 — from Lakewood and Olympia to the families near JBLM — deserves exactly that.</p>
+          <p>Every part of my life, aviation, emergency operations, raising a family in Spanaway, managing public infrastructure projects, taught me that results only happen when you stay accountable to the people you serve. I’m running because WA-10, from Lakewood and Olympia to the families near JBLM, deserves exactly that.</p>
           <div class=”cta-row”>
             <a class=”btn btn-primary” href=”/contact.html”>Join the campaign</a>
             <a class=”btn btn-ghost” href=”https://secure.actblue.com/donate/adam-arafat-1” target=”_blank” rel=”noopener noreferrer”>Donate</a>
           </div>
-          <p class=”goal-note” style=”margin-top:10px;”><strong>Goal: $10,000</strong> — funds phone banking, text outreach, voter lists, and printed flyers.</p>
+          <p class=”goal-note” style=”margin-top:10px;”><strong>Goal: $10,000</strong>, funds phone banking, text outreach, voter lists, and printed flyers.</p>
         </div>
         <div class=”hero-image”>
           <img src=”images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg” alt=”Adam Arafat speaking with supporters” loading=”lazy” />
@@ -220,7 +223,7 @@
           </div>
         </div>
         <div class=”founders”>
-          <p>From the very beginning, the House of Representatives was designed for ordinary citizens. It was built for people who lived the same realities as the people they served — not a political class floating above it.</p>
+          <p>From the very beginning, the House of Representatives was designed for ordinary citizens. It was built for people who lived the same realities as the people they served, not a political class floating above it.</p>
           <p>Fisher Ames, one of the very first members of Congress, said the House should carry “the people’s sense” straight into the chamber. Short terms were guardrails to keep the job from becoming a career.</p>
           <p>George Washington warned what happens when people cling to power. “The spirit of encroachment” pushes leaders toward “the ultimate term of despotism.” Stay too long, and you stop serving anyone but yourself.</p>
           <p>Thomas Jefferson: “Whenever a man has cast a longing eye on offices, a rottenness begins in his conduct.” When holding power becomes the goal, corruption follows. James Madison offered the antidote: frequent elections that keep representatives in “dependence and sympathy” with the people.</p>
@@ -244,7 +247,7 @@
           </div>
           <div class=”commitment”>
             <h3>Town hall accountability</h3>
-            <p>Regular in-person and virtual town halls across the district — Lakewood, Olympia, Spanaway, Shelton. If I can’t defend a vote directly to you, I shouldn’t cast it.</p>
+            <p>Regular in-person and virtual town halls across the district, Lakewood, Olympia, Spanaway, Shelton. If I can’t defend a vote directly to you, I shouldn’t cast it.</p>
           </div>
         </div>
       </div>
@@ -257,11 +260,11 @@
         <div class=”promise-grid”>
           <div class=”promise”>
             <h3>Serve with urgency</h3>
-            <p>Every committee meeting, vote, and late-night phone call is about WA-10. If it doesn’t help the district — Lakewood, Olympia, JBLM communities, the South Sound — it doesn’t make the schedule.</p>
+            <p>Every committee meeting, vote, and late-night phone call is about WA-10. If it doesn’t help the district, Lakewood, Olympia, JBLM communities, the South Sound, it doesn’t make the schedule.</p>
           </div>
           <div class=”promise”>
             <h3>Deliver measurable wins</h3>
-            <p>Housing support, healthcare access, transportation funding, veteran care, and small-business relief — all tracked and reported back so you know what actually changed.</p>
+            <p>Housing support, healthcare access, transportation funding, veteran care, and small-business relief, all tracked and reported back so you know what actually changed.</p>
           </div>
           <div class=”promise”>
             <h3>Go home when the work is done</h3>
@@ -274,7 +277,7 @@
     <section class=”closing-cta”>
       <div class=”container”>
         <h2>Help build a House that serves WA-10 again</h2>
-        <p>Talk with your neighbors in Spanaway, Lakewood, Olympia, and across the South Sound. Share this message. Hold me accountable. Ordinary citizens — not celebrity politicians — still run this country when they show up together.</p>
+        <p>Talk with your neighbors in Spanaway, Lakewood, Olympia, and across the South Sound. Share this message. Hold me accountable. Ordinary citizens, not celebrity politicians, still run this country when they show up together.</p>
         <div class=”cta-row” style=”justify-content:center;”>
           <a class=”btn btn-primary” href=”/contact.html”>Volunteer</a>
           <a class=”btn btn-ghost” href=”https://secure.actblue.com/donate/adam-arafat-1” target=”_blank” rel=”noopener noreferrer”>Donate</a>
