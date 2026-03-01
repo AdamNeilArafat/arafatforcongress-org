@@ -95,7 +95,7 @@
 
     /* CONFIRMED ENDORSEMENT CARD */
     .confirmed-card{background:#fff;border:2px solid var(--confirmed-border);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:24px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;}
-    .org-logo-box{width:72px;height:72px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy),var(--navy-2));flex-shrink:0;}
+    .org-logo-box{width:110px;height:110px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy),var(--navy-2));flex-shrink:0;overflow:hidden;}
     .org-logo-box svg{width:44px;height:44px;}
     .org-logo-box .org-initial{font-size:1.6rem;font-weight:900;color:#fff;line-height:1;}
     .confirmed-card-body{}
@@ -236,30 +236,20 @@
         <!-- Citizens Impeachment -->
         <div class="confirmed-card">
           <div class="org-logo-box" aria-hidden="true">
-            <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="44" height="44" rx="8" fill="rgba(255,255,255,0.12)"/>
-              <text x="22" y="29" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="18" fill="#ffffff">CI</text>
-            </svg>
+            <img src="/assets/endorsements/citizens-impeachment-courage-candidate.jpg"
+                 alt="Citizens Impeachment Courage Candidate endorsement graphic"
+                 style="width:100%;height:100%;object-fit:cover;border-radius:10px;"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<svg viewBox=\'0 0 120 120\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'120\' height=\'120\' fill=\'rgba(255,255,255,0.10)\'/><text x=\'60\' y=\'70\' text-anchor=\'middle\' font-family=\'system-ui,sans-serif\' font-weight=\'900\' font-size=\'26\' fill=\'#fff\'>CI</text></svg>'" />
           </div>
           <div class="confirmed-card-body">
             <p class="confirmed-card-name">Citizens Impeachment</p>
-            <p class="confirmed-card-type">Accountability Organization</p>
-            <p class="confirmed-card-statement">Citizens Impeachment endorses Adam Arafat for Congress in WA-10 as part of the movement to hold elected officials accountable to the people and restore integrity to public service.</p>
+            <p class="confirmed-card-type">Accountability Organization &bull; United for Democracy</p>
+            <p class="confirmed-card-statement">Citizens Impeachment has designated Adam Arafat a <strong style="color:var(--confirmed);">Courage Candidate</strong>, recognizing his commitment to holding elected officials accountable to the people and restoring integrity to public service.</p>
             <div class="confirmed-card-actions">
-              <span class="section-badge badge-confirmed" style="margin:0;">Endorsed</span>
-            </div>
-            <div class="flyer-banner">
-              <div class="flyer-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8L14 2z" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="flyer-text">
-                <strong>Official endorsement flyer available</strong>
-                <span>Citizens Impeachment has provided an official endorsement document for distribution.</span>
-              </div>
-              <a class="btn btn-ghost btn-sm" href="/assets/endorsements/citizens-impeachment-flyer.pdf" target="_blank" rel="noopener noreferrer">View Flyer</a>
+              <span class="section-badge badge-confirmed" style="margin:0;">
+                <svg width="9" height="9" viewBox="0 0 9 9" aria-hidden="true"><circle cx="4.5" cy="4.5" r="4.5" fill="#166534"/></svg>
+                Courage Candidate &bull; Confirmed
+              </span>
             </div>
           </div>
         </div>
@@ -278,15 +268,10 @@
       </div>
 
       <div style="display:grid;gap:12px;">
-        <div class="pending-card">
-          <div class="pending-logo-box" aria-hidden="true">
-            <span class="org-initial">CA</span>
-          </div>
-          <div>
-            <p class="pending-card-name">Citizens Against AIPAC Corruption</p>
-            <p style="font-size:.83rem;color:var(--muted);margin:0 0 6px;font-weight:600;">Also known as: Track AIPAC</p>
-            <p class="pending-card-note">Endorsement submitted. Awaiting formal confirmation from the organization.</p>
-          </div>
+        <div style="background:#fff;border:1px dashed var(--pending-border);border-radius:var(--radius);box-shadow:0 4px 12px rgba(5,16,30,0.06);padding:20px 24px;">
+          <p class="pending-card-name">Citizens Against AIPAC Corruption</p>
+          <p style="font-size:.83rem;color:var(--muted);margin:0 0 8px;font-weight:600;">Also known as: Track AIPAC</p>
+          <p class="pending-card-note">Endorsement application formally submitted. Awaiting their official response. This is not a confirmed endorsement.</p>
         </div>
       </div>
     </section>
@@ -302,64 +287,27 @@
         <p>We have contacted these organizations to request their endorsement. These are not endorsements. We list them here transparently so voters can see where this campaign is building support.</p>
       </div>
 
-      <div class="outreach-grid" id="outreach-list">
-        <div class="outreach-item">
-          <div class="outreach-initial">WC</div>
-          <a href="https://washingtonconservationvoters.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Washington Conservation Voters</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">VV</div>
-          <a href="https://votevets.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">VoteVets</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">VP</div>
-          <a href="https://veteransforpeace.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Veterans For Peace</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">FW</div>
-          <a href="https://fusewashington.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Fuse Washington</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">WL</div>
-          <a href="https://wslc.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Washington State Labor Council</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">PC</div>
-          <span class="outreach-name">Pierce County Democrats</span>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">PY</div>
-          <span class="outreach-name">Pierce County Young Democrats</span>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">OI</div>
-          <span class="outreach-name">Olympia Indivisible</span>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">WF</div>
-          <a href="https://workingfamilies.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Working Families Party</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">CW</div>
-          <span class="outreach-name">CAIR-Washington</span>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">CB</div>
-          <a href="https://biologicaldiversity.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Center for Biological Diversity Action Fund</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">EC</div>
-          <a href="https://endcitizensunited.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">End Citizens United</span></a>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">NP</div>
-          <span class="outreach-name">A New Policy PAC</span>
-        </div>
-        <div class="outreach-item">
-          <div class="outreach-initial">WP</div>
-          <span class="outreach-name">We Are Progressive</span>
-        </div>
-      </div>
+      <p style="color:var(--muted);line-height:1.7;font-size:.97rem;margin-bottom:18px;">
+        We have formally reached out to the following organizations across the progressive, labor,
+        environmental, and veteran communities. None of these are endorsements. We list them here
+        so voters can see the values and constituencies this campaign is building toward.
+      </p>
+      <ul id="outreach-list" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px 24px;">
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://washingtonconservationvoters.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Washington Conservation Voters</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://votevets.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">VoteVets</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://veteransforpeace.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Veterans For Peace</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://fusewashington.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Fuse Washington</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://wslc.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Washington State Labor Council</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><span style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Pierce County Democrats</span></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><span style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Pierce County Young Democrats</span></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><span style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Olympia Indivisible</span></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://workingfamilies.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Working Families Party</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><span style="color:var(--navy-2);font-weight:700;font-size:.94rem;">CAIR-Washington</span></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://biologicaldiversity.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">Center for Biological Diversity Action Fund</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><a href="https://endcitizensunited.org" target="_blank" rel="noopener noreferrer" style="color:var(--navy-2);font-weight:700;font-size:.94rem;">End Citizens United</a></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><span style="color:var(--navy-2);font-weight:700;font-size:.94rem;">A New Policy PAC</span></li>
+        <li style="padding:7px 0;border-bottom:1px solid var(--border-soft);"><span style="color:var(--navy-2);font-weight:700;font-size:.94rem;">We Are Progressive</span></li>
+      </ul>
     </section>
 
     <!-- ADD YOUR ENDORSEMENT -->
