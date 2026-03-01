@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "lastUpdated": "2026-03-01",
+    "note": "Add events here as objects in the 'events' array. Leave the array empty to show the 'Host an Event' CTA instead of an empty events list. Each event: { date, title, time, location, type, rsvpUrl }"
+  },
+  "events": []
+}

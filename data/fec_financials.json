@@ -1,0 +1,27 @@
+{
+  "committee_id": "C00914705",
+  "committee": {
+    "name": "Arafat for Congress",
+    "state": "WA",
+    "party": "Democratic Party",
+    "type": "House",
+    "designation": "Principal campaign committee",
+    "first_file": ""
+  },
+  "financial_totals": {
+    "cycle": null,
+    "total_receipts": 0,
+    "total_disbursements": 0,
+    "total_individual_itemized": 0,
+    "total_individual_unitemized": 0,
+    "cash_on_hand_end": 0,
+    "debts_owed": 0,
+    "coverage_start": "",
+    "coverage_end": ""
+  },
+  "recent_filings": [],
+  "data_pull_date": null,
+  "stale": true,
+  "stale_reason": "Initial placeholder — run scripts/fec_tracker.py to populate.",
+  "disclaimer": "Paid for by Arafat for Congress. Financial data sourced from FEC public records via OpenFEC API. Contributions or gifts to Arafat for Congress are not tax-deductible."
+}
