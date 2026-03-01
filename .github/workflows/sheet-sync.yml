@@ -52,9 +52,10 @@ jobs:
 
       - name: Pull sheet and strip PII
         env:
-          # Outreach tab — published CSV with explicit tab gid
-          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv&gid=1573758032' }}
-          # Volunteer sheet (separate spreadsheet, requires "Anyone with link can view")
+          # Outreach tab — direct export URL (sheet is "Anyone with link can view")
+          # Override with SHEET_CSV_URL secret to use a different URL
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL || 'https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY/export?format=csv&gid=1573758032' }}
+          # Volunteer sheet — set VOL_CSV_URL secret once that sheet is made public
           VOL_CSV_URL: ${{ secrets.VOL_CSV_URL || 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351' }}
         run: |
           python3 - <<'PYEOF'
