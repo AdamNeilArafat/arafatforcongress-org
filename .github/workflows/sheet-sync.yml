@@ -52,8 +52,10 @@ jobs:
 
       - name: Pull sheet and strip PII
         env:
-          # Live published CSV — falls back to secret if set (secret takes priority)
-          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv' }}
+          # Outreach tab — published CSV with explicit tab gid
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv&gid=1573758032' }}
+          # Volunteer sheet (separate spreadsheet, requires "Anyone with link can view")
+          VOL_CSV_URL: ${{ secrets.VOL_CSV_URL || 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351' }}
         run: |
           python3 - <<'PYEOF'
           import os, csv, json, re, sys
@@ -61,8 +63,10 @@ jobs:
           import urllib.request
 
           # ── Config ────────────────────────────────────────────────────────
-          SHEET_URL = os.environ.get('SHEET_CSV_URL', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv').strip()
+          SHEET_URL = os.environ.get('SHEET_CSV_URL', '').strip()
+          VOL_URL   = os.environ.get('VOL_CSV_URL', '').strip()
           OUT_FILE  = 'data/outreach_data.json'
+          VOL_FILE  = 'data/volunteer_data.json'
 
           # PII scrubbing patterns
           PII_PATTERNS = [
@@ -140,27 +144,64 @@ jobs:
                   'stale': False
               }
 
-          # ── Write output ────────────────────────────────────────────────
-          output = {
-              'meta': summary,
-              'records': records
-          }
+          # ── Write outreach output ──────────────────────────────────────
           os.makedirs('data', exist_ok=True)
           with open(OUT_FILE, 'w') as f:
-              json.dump(output, f, indent=2)
-          print(f'Wrote {len(records)} records to {OUT_FILE}')
+              json.dump({'meta': summary, 'records': records}, f, indent=2)
+          print(f'Wrote {len(records)} outreach records to {OUT_FILE}')
           print(f'Volunteer interest count: {summary.get("volunteer_interest_count", 0)}')
           print(f'Response breakdown: {summary.get("response_breakdown", {})}')
+
+          # ── Volunteer sheet ────────────────────────────────────────────
+          VOL_PII_COLS = {'email', 'phone', 'first_name', 'last_name', 'volunteer_id'}
+          vol_records = []
+          active_count = 0
+          skill_counts = {}
+
+          if VOL_URL:
+              try:
+                  with urllib.request.urlopen(VOL_URL, timeout=30) as resp:
+                      vol_content = resp.read().decode('utf-8')
+                  vol_reader = csv.DictReader(vol_content.splitlines())
+                  for row in vol_reader:
+                      clean = {}
+                      for key, val in row.items():
+                          safe_key = (key.strip().lower()
+                                      .replace(' ', '_').replace('/', '_')
+                                      .replace('?', '').replace('-', '_'))
+                          if safe_key in VOL_PII_COLS:
+                              continue
+                          clean[safe_key] = scrub_pii(str(val).strip())
+                      if clean:
+                          vol_records.append(clean)
+                      if (row.get('Status') or '').strip().lower() == 'active':
+                          active_count += 1
+                      skill = (row.get('Skills') or '').strip()
+                      if skill:
+                          skill_counts[skill] = skill_counts.get(skill, 0) + 1
+              except Exception as e:
+                  print(f'WARNING: Could not fetch volunteer sheet: {e}')
+
+          vol_summary = {
+              'total_volunteers': len(vol_records),
+              'active_volunteers': active_count,
+              'skills_breakdown': skill_counts,
+              'data_pull_date': datetime.now(timezone.utc).isoformat(),
+              'stale': False
+          }
+          with open(VOL_FILE, 'w') as f:
+              json.dump({'meta': vol_summary, 'records': vol_records}, f, indent=2)
+          print(f'Wrote {len(vol_records)} volunteer records to {VOL_FILE}')
           PYEOF
 
-      - name: Commit updated outreach_data.json
+      - name: Commit updated data files
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/outreach_data.json
+          git add data/outreach_data.json data/volunteer_data.json
           if git diff --cached --quiet; then
-            echo "No changes to outreach_data.json — skipping commit."
+            echo "No changes to data files — skipping commit."
           else
-            git commit -m "chore: sync outreach data from Google Sheet [skip ci]"
+            git commit -m "chore: sync outreach + volunteer data from Google Sheets [skip ci]"
             git push origin HEAD
           fi

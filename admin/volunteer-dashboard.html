@@ -536,7 +536,7 @@
           <p style="margin-bottom:10px;font-size:.88rem;color:var(--muted);">
             Already connected. Dashboard auto-loads the outreach tab on every login.
           </p>
-          <input type="url" id="sheets-url-input" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv" />
+          <input type="url" id="sheets-url-input" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv&gid=1573758032" />
           <button class="config-btn" id="save-sheets-btn">Save &amp; Load Outreach Tab</button>
           <div class="config-feedback" id="sheets-feedback"></div>
           <details class="setup-guide">
@@ -569,7 +569,7 @@
             To also load your Volunteer tab: in Google Sheets go to <strong>File &rarr; Share &rarr; Publish to web</strong>,
             select the <strong>volunteer</strong> tab, format <strong>CSV</strong>, click Publish, then paste the URL here.
           </p>
-          <input type="url" id="vol-url-input" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?output=csv&gid=VOLUNTEER_TAB_ID" />
+          <input type="url" id="vol-url-input" value="https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351" />
           <button class="config-btn" id="save-vol-btn">Save &amp; Load Volunteer Tab</button>
           <div class="config-feedback" id="vol-feedback"></div>
           <details class="setup-guide">
@@ -625,7 +625,8 @@
   const LS_VOL     = 'arafat_dash_vol_url';
   const LS_LOCAL   = 'arafat_dash_local_contacts';
   const DEFAULT_PIN = 'Arafat_Admin_1092';
-  const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv';
+  const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIgrwyFQF-yfKJQyJOM99s8ObXdAh2vF7NG8a6tj3msLV1HtSKynnhvmRNOGgULg/pub?output=csv&gid=1573758032';
+  const DEFAULT_VOL_URL    = 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351';
 
   /* -------- SAMPLE DATA (shown when no Google Sheet configured) -------- */
   const SAMPLE_CONTACTS = [
@@ -688,10 +689,9 @@
     loadLocal();
     const sheetsUrl = localStorage.getItem(LS_SHEETS) || DEFAULT_SHEETS_URL;
     document.getElementById('sheets-url-input').value = sheetsUrl;
-    const volUrl = localStorage.getItem(LS_VOL) || '';
-    if (volUrl) document.getElementById('vol-url-input').value = volUrl;
-    const fetches = [fetchSheets(sheetsUrl)];
-    if (volUrl) fetches.push(fetchVolSheet(volUrl));
+    const volUrl = localStorage.getItem(LS_VOL) || DEFAULT_VOL_URL;
+    document.getElementById('vol-url-input').value = volUrl;
+    const fetches = [fetchSheets(sheetsUrl), fetchVolSheet(volUrl)];
     await Promise.all(fetches);
     mergeAndRender();
   }
@@ -725,12 +725,25 @@
       const fetchUrl = url + (url.includes('?') ? '&' : '?') + '_cb=' + Date.now();
       const resp = await fetch(fetchUrl);
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      const csv = await resp.text();
-      volContacts = parseCSV(csv).map(r => ({ ...r, _tab: 'volunteer' }));
+      const text = await resp.text();
+      // If we got HTML (CORS redirect to Google sign-in), fall back to JSON
+      if (text.trim().startsWith('<')) throw new Error('CORS redirect — need published URL');
+      volContacts = parseCSV(text).map(r => ({ ...r, _tab: 'volunteer' }));
       const line = document.getElementById('data-source-line');
-      line.textContent += ' · Volunteer tab: ' + volContacts.length + ' records';
+      line.textContent += ' · Volunteers: ' + volContacts.length + ' records';
     } catch (err) {
-      volContacts = [];
+      // Fall back to the pre-built volunteer_data.json synced by GitHub Action
+      try {
+        const jResp = await fetch('/data/volunteer_data.json?_cb=' + Date.now());
+        if (jResp.ok) {
+          const json = await jResp.json();
+          volContacts = (json.records || []).map(r => ({ ...r, _tab: 'volunteer', _source: 'sheet' }));
+          if (volContacts.length) {
+            const line = document.getElementById('data-source-line');
+            line.textContent += ' · Volunteers: ' + volContacts.length + ' (cached)';
+          }
+        }
+      } catch (_) { volContacts = []; }
     }
   }
 
