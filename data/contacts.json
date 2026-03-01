@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "lastUpdated": "2026-03-01",
+    "sheetsUrl": "",
+    "note": "This file is a structure reference. The live dashboard reads from the Google Sheet configured in the admin dashboard. Add contacts there and use the dashboard at /admin/volunteer-dashboard.html",
+    "columns": ["date","source","firstName","lastName","email","phone","zip","interest","role","issues","area","notes","status","followup","followupBy"],
+    "statusValues": ["new","contacted","active","declined"],
+    "interestValues": ["Volunteer","Donor","Volunteer+Donor","Endorser","Media","Other"],
+    "roleValues": ["Field and Community","Digital and Social","Voter Contact","Events and Scheduling","Flyers and Visibility","Area Coordinator","Multiple"],
+    "areaValues": ["Spanaway","Lakewood","Olympia","Lacey / Tumwater","University Place","JBLM Communities","Shelton / Mason County","Other WA-10"]
+  },
+  "contacts": []
+}
