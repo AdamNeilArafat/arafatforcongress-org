@@ -142,6 +142,8 @@
     }
     .cta-group{ display:flex; gap: 10px; align-items:center; }
 
+    .mobile-pac-strip{ display:none; background:rgba(242,193,78,0.14); border-bottom:1px solid rgba(242,193,78,0.30); padding:7px 18px; text-align:center; font-size:.82rem; font-weight:900; color:var(--navy-2); }
+
     .btn{
       text-decoration:none;
       font-weight: 950;
@@ -503,6 +505,7 @@
       .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
       .header-inner{ grid-template-columns: 1fr auto; }
       .header-cred{ display:none; }
+      .mobile-pac-strip{ display:block; }
 
       .mobile-drawer{
         max-width: 1180px;
@@ -577,6 +580,7 @@
 
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html" aria-current="page">Home</a>
+        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
@@ -598,9 +602,11 @@
         </button>
       </div>
     </div>
+    <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
 
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
@@ -625,16 +631,16 @@
 
           <div class="hero__about">
             <h2>About Adam</h2>
-            <p><strong>Veteran. Husband. Dad. WA-10 resident.</strong> Accountability matters.</p>
-            <p>In any real job, if something stalls, you escalate and deliver. You do not point fingers and call it leadership.</p>
-            <p><strong>Voters deserve that same standard from Congress.</strong></p>
+            <p><strong>Veteran. Husband. Dad. Spanaway resident.</strong> 20+ years in aviation, emergency operations, and public infrastructure.</p>
+            <p>I live in WA-10 — commuting the same roads in Spanaway and Pierce County, dealing with the same rising costs from Lakewood to Olympia to the communities around JBLM.</p>
+            <p>In any real job, if something stalls, you escalate and deliver. <strong>Voters deserve that same standard from Congress.</strong></p>
           </div>
 
           <div class="cta" aria-label="Primary campaign actions">
-            <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+            <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Chip in — Goal: $10K</a>
             <a class="btn-home btn-volunteer" href="/contact.html">Volunteer</a>
             <a class="btn-home btn-record" href="/record-contrast.html">See the record</a>
-            <a class="cta-inline-link" href="#signup">Get updates</a>
+            <a class="cta-inline-link" href="#signup">Join the campaign</a>
           </div>
 
           <div class="hero__values">No corporate PAC or AIPAC money.</div>
@@ -715,11 +721,16 @@
     <!-- COMPETENCE / DELIVERY -->
     <section class="section" aria-labelledby="deliver-heading">
       <h2 id="deliver-heading">How I’ll Deliver for WA-10</h2>
-      <div class="copy-block">
-        <div class="copy-stack">
-          <p><strong>District-first service.</strong> Fast casework and visible follow-through for people who need help dealing with federal agencies.</p>
-          <p><strong>Receipts, not vibes.</strong> A public scorecard of my votes, co-sponsorships, and what I am pushing to move.</p>
-          <p><strong>Independence.</strong> No corporate PAC or AIPAC money. The agenda is set by neighbors, not donors.</p>
+      <div class="two-col" style="align-items:start;">
+        <div class="copy-block">
+          <div class="copy-stack">
+            <p><strong>District-first service.</strong> Fast casework and visible follow-through for every family in Spanaway, Lakewood, Olympia, Lacey, University Place, Shelton, and across the South Sound — not just the loudest voices.</p>
+            <p><strong>Receipts, not vibes.</strong> A public scorecard of my votes, co-sponsorships, and what I am pushing to move. If something stalls, you’ll know what I did next.</p>
+            <p><strong>Independence.</strong> No corporate PAC or AIPAC money. The agenda is set by neighbors and workers — from the JBLM community to state employees in Olympia — not donors.</p>
+          </div>
+        </div>
+        <div style="border-radius:18px;overflow:hidden;border:1px solid var(--border-soft);box-shadow:var(--shadow-soft);">
+          <img src="images/Tacoma-narrows-bridge-image-8.jpg" alt="Tacoma Narrows Bridge — WA-10 district landmark" loading="lazy" style="width:100%;display:block;height:auto;max-height:280px;object-fit:cover;" />
         </div>
       </div>
     </section>
@@ -748,7 +759,7 @@
 
     <!-- SIGNUP -->
     <section class="section" id="signup" aria-labelledby="signup-title">
-      <h2 id="signup-title">Get campaign updates</h2>
+      <h2 id="signup-title">Join the campaign — get the updates the media won't cover</h2>
       <div class="signup-box">
         <form class="signup-form" id="campaign-signup-form" novalidate>
           <div class="signup-grid">
@@ -761,9 +772,9 @@
               <input id="signup-email" name="email" type="email" required autocomplete="email" />
             </div>
           </div>
-          <button class="btn-home btn-volunteer" type="submit">Sign up</button>
+          <button class="btn-home btn-volunteer" type="submit">Join the campaign</button>
           <p id="signup-feedback" class="signup-feedback" role="status" aria-live="polite"></p>
-          <p class="privacy-note">No spam. Unsubscribe anytime.</p>
+          <p class="privacy-note">No spam. Unsubscribe anytime. People-funded. No corporate PAC money.</p>
         </form>
       </div>
     </section>
@@ -782,7 +793,13 @@
 
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That’s the job.</p>
-    Paid for by Arafat for Congress • info@arafatforcongress.org
+    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+      <a href="/events.html">Events</a>
+      <a href="/endorsements.html">Endorsements</a>
+      <a href="/es/">En Español</a>
+      <a href="/contact.html">Volunteer</a>
+    </nav>
+    Paid for by Arafat for Congress • <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
   </footer>
 
   <script>

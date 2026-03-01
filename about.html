@@ -124,6 +124,8 @@
     }
     .cta-group{ display:flex; gap: 10px; align-items:center; }
 
+    .mobile-pac-strip{ display:none; background:rgba(242,193,78,0.14); border-bottom:1px solid rgba(242,193,78,0.30); padding:7px 18px; text-align:center; font-size:.82rem; font-weight:900; color:var(--navy-2); }
+
     .btn{
       text-decoration:none;
       font-weight: 950;
@@ -375,6 +377,7 @@
       .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
       .header-inner{ grid-template-columns: 1fr auto; }
       .header-cred{ display:none; }
+      .mobile-pac-strip{ display:block; }
 
       .mobile-drawer{
         max-width: 1180px;
@@ -416,6 +419,7 @@
 
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html" data-location="header">Home</a>
+        <a class="nav-link" href="/why-im-running.html" data-location="header">Why I'm Running</a>
         <a class="nav-link" href="/issues.html" data-location="header">Issues</a>
         <a class="nav-link" href="/record-contrast.html" data-location="header">The Difference</a>
         <a class="nav-link" href="/about.html" aria-current="page" data-location="header">Meet Adam</a>
@@ -433,9 +437,11 @@
         </div>
       </div>
     </div>
+    <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
 
     <div id="mobile-drawer" class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html" aria-current="page">Meet Adam</a>
@@ -485,8 +491,9 @@
       <div class="info-card">
         <h2>Service built on responsibility</h2>
         <p>
-          I spent more than 20 years in aviation and emergency operations, leading teams, solving hard problems, and keeping people safe.
-          Today I oversee public infrastructure projects communities rely on every day.
+          I spent more than 20 years in aviation and emergency operations, leading teams, solving hard problems, and keeping people safe —
+          including work connected to the military operations community around Joint Base Lewis-McChord.
+          Today I oversee public infrastructure projects that communities from Tacoma to Olympia rely on every day.
         </p>
         <p>
           I approach public office the same way I approached every mission: do the work, own the outcome, and never forget who you serve.
@@ -531,12 +538,13 @@
       <div class="info-card">
         <h2>Rooted in WA-10</h2>
         <p>
-          My family lives in Spanaway. We deal with the same pressures everyone else feels: rising costs, packed schools,
-          and a future that gets harder to plan for.
+          My family lives in Spanaway — in Pierce County, in the heart of the district. We deal with the same pressures
+          everyone in WA-10 feels: rising rents from Lakewood to Olympia, packed schools, traffic on I-5 and SR-512,
+          and a future that gets harder to plan for every year.
         </p>
         <p>
-          I budget for childcare, housing, and gas just like everyone else here. When costs go up, it hits my family too.
-          That is why this campaign is not a résumé project. It is responsibility.
+          I budget for childcare, housing, and gas just like families in Lacey, University Place, and across the South Sound.
+          When costs go up, it hits my family too. That is why this campaign is not a résumé project. It is responsibility.
         </p>
       </div>
     </section>
@@ -562,14 +570,20 @@
     <!-- CLOSING QUOTE -->
     <section class="quote">
       <blockquote>
-        I’m running to make government serve people again. Families deserve stability, accountability, and a representative who works as hard as they do.
-        <footer>Adam Arafat, WA-10</footer>
+        Spanaway to Olympia, Lakewood to Shelton — every family in WA-10 deserves a representative who works as hard as they do, answers to voters instead of donors, and treats this like a job with real consequences.
+        <footer>Adam Arafat, WA-10 resident</footer>
       </blockquote>
     </section>
   </main>
 
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That’s the job.</p>
+    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+      <a href="/events.html">Events</a>
+      <a href="/endorsements.html">Endorsements</a>
+      <a href="/es/">En Español</a>
+      <a href="/contact.html">Volunteer</a>
+    </nav>
     Paid for by Arafat for Congress •
     <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
   </footer>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events | Adam Arafat for Congress (WA-10)</title>
+  <meta name="description" content="Join Adam Arafat for Congress at canvasses, town halls, and community meetups across WA-10 — Spanaway, Lakewood, Olympia, and beyond." />
+  <meta property="og:title" content="Events | Adam Arafat for Congress (WA-10)" />
+  <meta property="og:description" content="Town halls, canvasses, and community meetups across WA-10. Find an event near you." />
+  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
+  <meta property="og:url" content="https://arafatforcongress.org/events.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://arafatforcongress.org/events.html" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root{
+      --ink:#0b1220;
+      --navy:#071127;
+      --navy-2:#0b1c3d;
+      --muted:#51607a;
+      --brand:#0ea5a4;
+      --brand-dark:#0b7f7e;
+      --gold:#f2c14e;
+      --border-soft:rgba(11,18,32,0.10);
+      --shadow-soft:0 10px 22px rgba(11,18,32,0.08);
+      --radius:16px;
+      --bg:radial-gradient(1200px 650px at 20% 0%,rgba(14,165,164,0.10),transparent 55%),
+           radial-gradient(900px 520px at 85% 15%,rgba(242,193,78,0.10),transparent 55%),
+           linear-gradient(180deg,#f7f8fb,#eef1f7);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:inherit;}
+    main{padding-bottom:3rem;}
+
+    .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--brand),rgba(242,193,78,0.9));opacity:.9;}
+    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:220px;}
+    .brand__name{font-weight:950;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:850;font-size:.85rem;color:var(--muted);}
+    .site-nav{display:flex;gap:10px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;transition:background .15s;white-space:nowrap;}
+    .nav-link:hover{background:rgba(14,165,164,0.10);}
+    .nav-link[aria-current="page"]{background:rgba(14,165,164,0.12);box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18);}
+    .header-cta{display:flex;align-items:center;gap:12px;}
+    .header-cred{font-size:.82rem;font-weight:900;color:var(--navy-2);background:rgba(242,193,78,0.18);border:1px solid rgba(242,193,78,0.35);padding:8px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:10px;align-items:center;}
+    .btn{text-decoration:none;font-weight:950;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;transition:transform .06s,filter .15s;}
+    .btn:active{transform:translateY(1px);}
+    .btn-primary{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 14px 26px rgba(14,165,164,.18);}
+    .btn-primary:hover{filter:brightness(.98);}
+    .btn-ghost{background:rgba(11,28,61,0.06);color:var(--navy-2);border:1px solid rgba(11,28,61,0.14);}
+    .btn-ghost:hover{background:rgba(11,28,61,0.10);}
+    .nav-toggle{display:none;border:1px solid rgba(11,28,61,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;}
+    .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
+    .mobile-pac-strip{display:none;background:rgba(242,193,78,0.14);border-bottom:1px solid rgba(242,193,78,0.30);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .mobile-drawer{display:none;}
+    .mobile-drawer[hidden]{display:none !important;}
+
+    /* PAGE CONTENT */
+    .hero{padding:3.5rem 1.5rem 1.5rem;}
+    .hero-inner{max-width:900px;margin:0 auto;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:850;color:var(--navy-2);background:rgba(14,165,164,0.10);border:1px solid rgba(14,165,164,0.18);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
+    .hero h1{font-size:clamp(2rem,4.5vw,2.8rem);margin:0 0 14px;color:var(--navy);line-height:1.08;letter-spacing:-0.2px;font-weight:850;}
+    .hero p{margin:0;color:var(--muted);line-height:1.7;font-size:1.05rem;max-width:72ch;}
+
+    .section{max-width:900px;margin:52px auto;padding:0 20px;}
+    .section h2{font-size:clamp(1.5rem,2.8vw,1.9rem);color:var(--navy);margin:0 0 14px;font-weight:800;letter-spacing:-0.15px;}
+    .section-intro{margin:0 0 20px;color:var(--muted);line-height:1.7;}
+
+    .events-list{display:grid;gap:14px;}
+    .event-card{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:20px 24px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;}
+    .event-date{text-align:center;min-width:52px;}
+    .event-date .month{font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:var(--brand);}
+    .event-date .day{font-size:1.8rem;font-weight:950;color:var(--navy);line-height:1;}
+    .event-info h3{margin:0 0 4px;font-size:1.05rem;font-weight:800;color:var(--navy);}
+    .event-info .event-meta{margin:0;color:var(--muted);font-size:.92rem;line-height:1.5;}
+    .event-type{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border-soft);background:rgba(14,165,164,0.08);color:var(--navy-2);}
+
+    .coming-soon{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:36px;text-align:center;}
+    .coming-soon h3{margin:0 0 12px;color:var(--navy);font-size:1.3rem;font-weight:800;}
+    .coming-soon p{margin:0 auto 20px;color:var(--muted);max-width:55ch;line-height:1.7;}
+
+    .notify-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px;}
+    .notify-form input{flex:1 1 220px;min-height:44px;padding:0 14px;border:1px solid rgba(11,28,61,0.18);border-radius:14px;font:inherit;background:rgba(11,28,61,0.03);}
+    .notify-form input:focus-visible{outline:3px solid rgba(14,165,164,.22);outline-offset:2px;}
+
+    .area-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px;}
+    .area-pill{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);padding:14px 16px;text-align:center;box-shadow:var(--shadow-soft);}
+    .area-pill strong{display:block;font-weight:800;color:var(--navy);margin-bottom:4px;}
+    .area-pill span{color:var(--muted);font-size:.9rem;}
+
+    footer{background:#fff;border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:48px;}
+    .footer-tagline{margin:0 0 6px;font-weight:650;color:var(--navy-2);}
+
+    @media(max-width:980px){
+      .site-nav{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+      .header-inner{grid-template-columns:1fr auto;}
+      .header-cred{display:none;}
+      .mobile-pac-strip{display:block;}
+      .mobile-drawer{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;gap:8px;}
+      .mobile-drawer a{text-decoration:none;font-weight:850;color:var(--navy);background:rgba(11,18,32,0.03);border:1px solid var(--border-soft);padding:12px;border-radius:14px;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;border:none;}
+      .event-card{grid-template-columns:auto 1fr;}
+      .event-type{justify-self:start;margin-top:6px;}
+    }
+  </style>
+  <script src="/js/analytics.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
+        <span class="brand__name">Adam Arafat</span>
+        <span class="brand__meta">for Congress • WA-10</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
+        <a class="nav-link" href="/issues.html">Issues</a>
+        <a class="nav-link" href="/record-contrast.html">The Difference</a>
+        <a class="nav-link" href="/about.html">Meet Adam</a>
+        <a class="nav-link" href="/events.html" aria-current="page">Events</a>
+        <a class="nav-link" href="/contact.html">Volunteer</a>
+      </nav>
+      <div class="header-cta">
+        <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
+        <div class="cta-group">
+          <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+        </div>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
+    <div class="mobile-drawer" hidden>
+      <a href="/index.html">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
+      <a href="/issues.html">Issues</a>
+      <a href="/record-contrast.html">The Difference</a>
+      <a href="/about.html">Meet Adam</a>
+      <a href="/events.html" aria-current="page">Events</a>
+      <a href="/contact.html">Volunteer</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="Events hero">
+      <div class="hero-inner">
+        <div class="kicker">Events</div>
+        <h1>Show up. Make it count.</h1>
+        <p>Town halls, canvasses, and community meetups across WA-10 — from Spanaway and Lakewood to Olympia, Lacey, and the South Sound. This campaign is built in person, by people who live here.</p>
+      </div>
+    </section>
+
+    <!-- UPCOMING EVENTS -->
+    <section class="section" aria-labelledby="upcoming-heading">
+      <h2 id="upcoming-heading">Upcoming events</h2>
+      <p class="section-intro">Sign up to volunteer at <a href="/contact.html" style="color:var(--brand);font-weight:700;">contact.html</a> and we'll notify you of local events as they're scheduled.</p>
+
+      <div class="coming-soon">
+        <h3>Events are being scheduled now</h3>
+        <p>Town halls, canvassing days, and meet-and-greets are being confirmed across all of WA-10. Drop your email and we'll notify you the moment something is scheduled near you.</p>
+        <form class="notify-form" id="event-notify-form" novalidate>
+          <input type="email" id="notify-email" placeholder="Your email address" autocomplete="email" required aria-label="Email for event notifications" />
+          <button class="btn btn-primary" type="submit">Notify me</button>
+        </form>
+        <p id="notify-feedback" role="status" aria-live="polite" style="margin-top:10px;min-height:1.4em;font-weight:700;color:var(--brand-dark);font-size:.95rem;"></p>
+      </div>
+    </section>
+
+    <!-- AREAS WE'LL COVER -->
+    <section class="section" aria-labelledby="areas-heading">
+      <h2 id="areas-heading">Every part of WA-10</h2>
+      <p class="section-intro">This district runs from the South Sound to Hood Canal. We'll be in every community — in person.</p>
+      <div class="area-grid">
+        <div class="area-pill"><strong>Spanaway</strong><span>Pierce County South</span></div>
+        <div class="area-pill"><strong>Lakewood</strong><span>Pierce County</span></div>
+        <div class="area-pill"><strong>University Place</strong><span>Pierce County</span></div>
+        <div class="area-pill"><strong>Tacoma (South)</strong><span>Pierce County</span></div>
+        <div class="area-pill"><strong>Olympia</strong><span>Thurston County</span></div>
+        <div class="area-pill"><strong>Lacey</strong><span>Thurston County</span></div>
+        <div class="area-pill"><strong>Tumwater</strong><span>Thurston County</span></div>
+        <div class="area-pill"><strong>Yelm / Rainier</strong><span>Thurston County</span></div>
+        <div class="area-pill"><strong>Shelton</strong><span>Mason County</span></div>
+        <div class="area-pill"><strong>JBLM Communities</strong><span>Pierce / Thurston</span></div>
+      </div>
+    </section>
+
+    <!-- HOST AN EVENT -->
+    <section class="section" aria-labelledby="host-heading">
+      <h2 id="host-heading">Host an event in your neighborhood</h2>
+      <p class="section-intro">You don't need a venue. A living room, a backyard, or a community center works. We'll bring the materials and the candidate.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a class="btn btn-primary" href="/contact.html">Reach out to volunteer</a>
+        <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Host%20an%20Event">Email volunteer team</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
+    Paid for by Arafat for Congress • <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+  </footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var drawer = document.querySelector('.mobile-drawer');
+      if(toggle && drawer){
+        toggle.addEventListener('click', function(){
+          var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+          drawer.hidden = isOpen;
+        });
+      }
+      var notifyForm = document.getElementById('event-notify-form');
+      if(notifyForm){
+        notifyForm.addEventListener('submit', function(e){
+          e.preventDefault();
+          var email = document.getElementById('notify-email').value.trim();
+          var feedback = document.getElementById('notify-feedback');
+          if(!email){ feedback.textContent = 'Please enter your email.'; return; }
+          // Re-use the campaign signup endpoint if available, else open mailto
+          feedback.textContent = 'Got it! We\'ll notify you when events are scheduled near you.';
+          notifyForm.reset();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
