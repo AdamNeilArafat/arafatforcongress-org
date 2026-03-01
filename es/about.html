@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conoce a Adam | Adam Arafat para el Congreso (WA-10)</title>
+  <meta name="description" content="Veterano, esposo, padre y residente de Spanaway. Adam Arafat se postula para el Congreso en WA-10 para servir a las familias trabajadoras del South Sound." />
+  <meta property="og:title" content="Conoce a Adam | Adam Arafat para el Congreso (WA-10)" />
+  <meta property="og:description" content="WA-10 merece un representante que responda a los votantes, no a los donantes corporativos." />
+  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
+  <meta property="og:url" content="https://arafatforcongress.org/es/about.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://arafatforcongress.org/es/about.html" />
+  <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/about.html" />
+  <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/about.html" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root{
+      --ink:#0b1220;
+      --navy:#05101e;
+      --navy-2:#091b36;
+      --muted:#4b5568;
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft:rgba(5,16,30,0.10);
+      --shadow-soft:0 10px 22px rgba(5,16,30,0.08);
+      --radius:12px;
+      --bg:radial-gradient(1200px 700px at 20% -10%,rgba(29,79,168,0.08),transparent 55%),
+           radial-gradient(800px 600px at 80% 20%,rgba(184,134,13,0.07),transparent 55%),
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:inherit;}
+    main{padding-bottom:3rem;}
+
+    .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,#05101e,#1d4fa8,rgba(184,134,13,0.9));opacity:.95;}
+    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
+
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:200px;}
+    .brand__name{font-weight:900;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+
+    .site-nav{display:flex;gap:6px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.88rem;padding:9px 9px;border-radius:12px;transition:background .15s ease;white-space:nowrap;}
+    .nav-link:hover{background:rgba(29,79,168,0.10);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.18);}
+
+    .header-cta{display:flex;align-items:center;gap:10px;}
+    .header-cred{font-size:.78rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.14);border:1px solid rgba(184,134,13,0.30);padding:7px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:8px;align-items:center;}
+
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.12);border-bottom:1px solid rgba(184,134,13,0.26);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+
+    .btn{text-decoration:none;font-weight:900;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;user-select:none;transition:transform .06s ease,filter .15s ease,background .15s ease;}
+    .btn:active{transform:translateY(1px);}
+    .btn-primary{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.18);}
+    .btn-primary:hover{filter:brightness(.97);}
+    .btn-ghost{background:rgba(5,16,30,0.06);color:var(--navy-2);border:1px solid rgba(5,16,30,0.14);}
+    .btn-ghost:hover{background:rgba(5,16,30,0.10);}
+    .btn:focus-visible,.nav-link:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+
+    .nav-toggle{display:none;border:1px solid rgba(5,16,30,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;cursor:pointer;}
+    .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
+    .mobile-drawer{display:none;}
+    .mobile-drawer[hidden]{display:none !important;}
+
+    /* HERO */
+    .hero{padding:3.25rem 1.5rem 1.5rem;}
+    .hero__grid{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(240px,.9fr);gap:24px;align-items:center;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--navy-2);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.16);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
+    .hero__title{font-size:clamp(2.1rem,4.6vw,3.1rem);margin:0 0 10px;color:var(--navy);line-height:1.07;letter-spacing:-0.25px;font-weight:800;}
+    .hero__sub{margin:0 0 1rem;color:var(--muted);line-height:1.75;max-width:60ch;}
+    .hero__sub strong{color:var(--navy-2);font-weight:800;}
+    .hero__actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;}
+    .pull-line{margin-top:14px;padding:14px;border-radius:14px;border:1px solid rgba(5,16,30,0.12);background:rgba(255,255,255,0.74);color:var(--navy-2);font-weight:800;line-height:1.5;box-shadow:0 10px 18px rgba(5,16,30,0.06);}
+    .profile{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border-soft);box-shadow:var(--shadow-soft);background:#fff;}
+    .profile img{width:100%;height:100%;min-height:320px;object-fit:cover;}
+
+    /* SECTIONS */
+    .section{max-width:1060px;margin:44px auto;padding:0 20px;}
+    .section h2{color:var(--navy);font-size:clamp(1.7rem,3vw,2.05rem);margin:0 0 14px;letter-spacing:-0.2px;font-weight:800;}
+    .section-intro{margin:0 auto 1.1rem;color:var(--muted);line-height:1.7;}
+
+    .info-card{background:#fff;border-radius:var(--radius);padding:24px;border:1px solid var(--border-soft);box-shadow:var(--shadow-soft);max-width:880px;margin:0 auto;}
+    .info-card h2{margin:0 0 10px;font-size:1.4rem;color:var(--navy);font-weight:800;}
+    .info-card p{margin:0;color:var(--muted);line-height:1.75;}
+    .info-card p + p{margin-top:12px;}
+
+    .commitments ul{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px;}
+    .commitments li{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:flex-start;padding:12px;border-radius:14px;border:1px solid rgba(5,16,30,0.10);background:rgba(5,16,30,0.02);color:var(--navy-2);line-height:1.55;font-weight:600;}
+    .check{width:18px;height:18px;border-radius:6px;background:rgba(29,79,168,0.14);border:1px solid rgba(29,79,168,0.26);position:relative;margin-top:2px;flex-shrink:0;}
+    .check::after{content:"";position:absolute;left:5px;top:3px;width:6px;height:10px;border-right:2px solid rgba(5,16,30,0.80);border-bottom:2px solid rgba(5,16,30,0.80);transform:rotate(40deg);}
+
+    .cta-band{max-width:1060px;margin:48px auto 0;padding:0 20px;}
+    .cta-panel{border-radius:var(--radius);border:1px solid rgba(29,79,168,0.20);background:linear-gradient(180deg,rgba(29,79,168,0.08),rgba(255,255,255,0.92));box-shadow:var(--shadow-soft);padding:22px;display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:center;}
+    .cta-panel h2{margin:0 0 8px;font-size:1.5rem;color:var(--navy);font-weight:800;}
+    .cta-panel p{margin:0;color:var(--muted);line-height:1.7;}
+    .cta-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;}
+
+    .quote-section{max-width:1060px;margin:52px auto 0;padding:0 20px;}
+    .quote-section blockquote{margin:0;padding:28px;background:linear-gradient(180deg,rgba(184,134,13,0.10),rgba(255,255,255,0.95));border:1px solid rgba(184,134,13,0.28);border-radius:var(--radius);color:var(--navy-2);font-size:1.1rem;line-height:1.65;font-weight:700;box-shadow:var(--shadow-soft);text-align:center;}
+    .quote-section blockquote footer{margin-top:10px;color:var(--muted);font-size:.95rem;font-weight:600;}
+
+    footer{background:#fff;border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:48px;}
+    .footer-tagline{margin:0 0 6px;font-weight:700;color:var(--navy-2);}
+    .footer-nav{margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;}
+    .footer-nav a{color:var(--muted);text-decoration:none;}
+    .footer-nav a:hover{text-decoration:underline;}
+
+    @media(max-width:980px){
+      .site-nav{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+      .header-inner{grid-template-columns:1fr auto;}
+      .header-cred{display:none;}
+      .mobile-pac-strip{display:block;}
+      .mobile-drawer{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;gap:8px;}
+      .mobile-drawer:not([hidden]){display:grid;}
+      .mobile-drawer a{text-decoration:none;font-weight:700;color:var(--navy);background:rgba(5,16,30,0.04);border:1px solid rgba(5,16,30,0.10);padding:12px;border-radius:14px;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;border:none;}
+      .hero__grid{grid-template-columns:1fr;}
+      .cta-panel{grid-template-columns:1fr;}
+      .cta-actions{justify-content:flex-start;}
+    }
+    @media(max-width:700px){
+      .hero{padding:2.5rem 1.25rem 1.25rem;}
+      .section{margin:36px auto;}
+    }
+  </style>
+  <script src="/js/analytics.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/es/" aria-label="Adam Arafat para el Congreso, inicio">
+        <span class="brand__name">Adam Arafat</span>
+        <span class="brand__meta">para el Congreso &bull; WA-10</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Navegacion principal">
+        <a class="nav-link" href="/es/">Inicio</a>
+        <a class="nav-link" href="/es/why-im-running.html">Por Que Me Postulo</a>
+        <a class="nav-link" href="/es/issues.html">Propuestas</a>
+        <a class="nav-link" href="/es/record-contrast.html">La Diferencia</a>
+        <a class="nav-link" href="/es/about.html" aria-current="page">Conoce a Adam</a>
+        <a class="nav-link" href="/es/events.html">Eventos</a>
+        <a class="nav-link" href="/es/endorsements.html">Avales</a>
+        <a class="nav-link" href="/es/contact.html">Contacto</a>
+      </nav>
+
+      <div class="header-cta">
+        <div class="header-cred">Sin PACs corporativos ni dinero de AIPAC</div>
+        <div class="cta-group">
+          <a class="btn btn-ghost" href="/about.html" lang="en" hreflang="en">English</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+          <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-drawer-about">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-pac-strip">Sin PACs corporativos ni dinero de AIPAC</div>
+    <div id="mobile-drawer-about" class="mobile-drawer" hidden>
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html" aria-current="page">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto y Voluntariado</a>
+      <a href="/about.html" lang="en" hreflang="en">English</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="Conoce a Adam">
+      <div class="hero__grid">
+        <div class="hero__text">
+          <p class="kicker">Conoce a Adam</p>
+          <h1 class="hero__title">WA-10 merece un representante que le rinda cuentas a usted.</h1>
+          <p class="hero__sub">
+            Soy padre, veterano y lider en infraestructura publica. He dedicado mi carrera a entornos donde
+            <strong>los resultados importan</strong> y las excusas no.
+          </p>
+          <p class="hero__sub">
+            Me postulo porque las familias aqui trabajan cada vez mas duro y reciben cada vez menos seguridad a cambio.
+            Eso no es inevitable. Es una decision. WA-10 merece un representante que escuche primero y responda a la comunidad,
+            no a los grandes donantes ni a intereses externos.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Contribuir</a>
+            <a class="btn btn-ghost" href="/es/contact.html">Voluntariado</a>
+            <a class="btn btn-ghost" href="/es/record-contrast.html">Ver la diferencia</a>
+          </div>
+          <div class="pull-line">El cargo publico es un trabajo. Debe tener estandares.</div>
+        </div>
+        <div class="profile">
+          <img src="/images/4cc2b9ce-fb10-491b-99bf-bcb1d1134346.jpeg" alt="Adam Arafat" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="info-card">
+        <h2>Servicio construido sobre responsabilidad</h2>
+        <p>
+          Dedique mas de 20 anos a la aviacion y las operaciones de emergencia: liderando equipos, resolviendo problemas complejos
+          y manteniendo a salvo a las personas, incluyendo trabajo vinculado a la comunidad militar en torno a la Base
+          Joint Lewis-McChord (JBLM). Hoy superviso proyectos de infraestructura publica de los que dependen comunidades
+          desde Tacoma hasta Olympia cada dia.
+        </p>
+        <p>
+          Abordo el cargo publico de la misma manera en que aborde cada mision: hacer el trabajo, asumir el resultado
+          y nunca olvidar a quien sirvo.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="info-card">
+        <h2>Por que me postulo</h2>
+        <p>
+          Cuando algo importa de verdad, uno no se limita a hablar al respecto. Usa su posicion para moverlo.
+          Ese es el estandar bajo el que viven las personas trabajadoras todos los dias, y debe ser el estandar
+          en el Congreso tambien.
+        </p>
+        <p>
+          Esta campana es financiada por el pueblo porque la representacion no deberia tener una lista de donantes adjunta.
+          Si presto juramento, mis prioridades las establecera WA-10, no los cheques de los PACs corporativos.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Compromisos">
+      <div class="info-card">
+        <h2>Lo que puede esperar de mi</h2>
+        <p class="section-intro">No eslogan es. Estandares claros a los que puede exigirme cuentas.</p>
+        <div class="commitments">
+          <ul>
+            <li><span class="check" aria-hidden="true"></span><span>Votare y rendire cuentas por encima de los ciclos de prensa.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>Sere directo con el publico sobre lo que apoyo y por que.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>Realizare asambleas publicas regulares en toda la region y mostrare mi trabajo.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>Mantendre esta campana financiada por el pueblo, sin dinero de PACs corporativos ni de AIPAC.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>Publicare un registro de mis votos, co-patrocinios y lo que estoy impulsando en el Congreso.</span></li>
+            <li><span class="check" aria-hidden="true"></span><span>Atendere los casos de los residentes de manera rapida y visible, desde Spanaway hasta Shelton.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="info-card">
+        <h2>Arraigado en WA-10</h2>
+        <p>
+          Mi familia vive en Spanaway, en el condado de Pierce, en el corazon del distrito. Enfrentamos las mismas presiones
+          que todos en WA-10: alquileres al alza desde Lakewood hasta Olympia, escuelas saturadas, trafico en la I-5 y la SR-512,
+          y un futuro cada vez mas dificil de planificar.
+        </p>
+        <p>
+          Presupuesto para el cuidado de ninos, la vivienda y la gasolina igual que las familias de Lacey, University Place
+          y todo el South Sound. Cuando los costos suben, mi familia tambien lo resiente. Por eso esta campana no es un proyecto
+          de curriculo. Es responsabilidad.
+        </p>
+        <p>
+          Conozco las comunidades alrededor de JBLM porque he trabajado con ellas. Conozco Olympia porque es donde se toman
+          las decisiones que afectan a cada familia de este distrito. Y conozco el South Sound porque es mi hogar.
+        </p>
+      </div>
+    </section>
+
+    <section class="cta-band" aria-label="Participar">
+      <div class="cta-panel">
+        <div>
+          <h2>Ayude a establecer un estandar mas alto en WA-10</h2>
+          <p>
+            Si quiere un representante que responda a los votantes y trate este trabajo como un trabajo de verdad, unase.
+            Haga voluntariado, corra la voz o contribuya lo que pueda.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-ghost" href="/es/contact.html">Voluntariado</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote-section">
+      <blockquote>
+        "De Spanaway a Olympia, de Lakewood a Shelton, cada familia en WA-10 merece un representante que trabaje tan duro como ellos."
+        <footer>Adam Arafat, residente de WA-10</footer>
+      </blockquote>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">Ciudadanos sirviendo a ciudadanos. Ese es el trabajo.</p>
+    <nav aria-label="Navegacion del pie de pagina" class="footer-nav">
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto</a>
+      <a href="/about.html" lang="en" hreflang="en">English</a>
+    </nav>
+    Pagado por Arafat for Congress &bull;
+    <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+  </footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var drawer = document.getElementById('mobile-drawer-about');
+      if(!toggle || !drawer) return;
+      toggle.addEventListener('click', function(){
+        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        drawer.hidden = isOpen;
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -21,19 +21,19 @@
   <style>
     :root{
       --ink:#0b1220;
-      --navy:#071127;
-      --navy-2:#0b1c3d;
+      --navy:#05101e;
+      --navy-2:#091b36;
       --muted:#51607a;
       --paper:#ffffff;
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-      --gold:#f2c14e;
-      --border-soft: rgba(11,18,32,0.10);
-      --border: rgba(11,18,32,0.16);
-      --shadow-soft: 0 10px 22px rgba(11,18,32,0.08);
-      --shadow: 0 14px 30px rgba(11,18,32,0.10);
-      --radius: 16px;
-      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(14,165,164,0.10), transparent 55%),
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft: rgba(5,16,30,0.10);
+      --border: rgba(5,16,30,0.16);
+      --shadow-soft: 0 10px 22px rgba(5,16,30,0.08);
+      --shadow: 0 14px 30px rgba(5,16,30,0.10);
+      --radius: 12px;
+      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(29,79,168,0.08), transparent 55%),
             radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
             linear-gradient(180deg, #f7f8fb, #eef1f7);
     }
@@ -60,7 +60,7 @@
       content:"";
       display:block;
       height: 3px;
-      background: linear-gradient(90deg, var(--brand), rgba(242,193,78,0.9));
+      background: linear-gradient(90deg, var(--brand), rgba(184,134,13,0.9));
       opacity: .9;
     }
     .header-inner{
@@ -105,10 +105,10 @@
       transition: background .15s ease, color .15s ease;
       white-space: nowrap;
     }
-    .nav-link:hover{ background: rgba(14,165,164,0.10); }
+    .nav-link:hover{ background: rgba(29,79,168,0.08); }
     .nav-link[aria-current="page"]{
-      background: rgba(14,165,164,0.12);
-      box-shadow: inset 0 0 0 1px rgba(14,165,164,0.18);
+      background: rgba(29,79,168,0.10);
+      box-shadow: inset 0 0 0 1px rgba(29,79,168,0.20);
     }
 
     .header-cta{ display:flex; align-items:center; gap: 12px; }
@@ -116,15 +116,15 @@
       font-size: .82rem;
       font-weight: 900;
       color: var(--navy-2);
-      background: rgba(242,193,78,0.18);
-      border: 1px solid rgba(242,193,78,0.35);
+      background: rgba(184,134,13,0.12);
+      border: 1px solid rgba(184,134,13,0.28);
       padding: 8px 10px;
       border-radius: 999px;
       white-space: nowrap;
     }
     .cta-group{ display:flex; gap: 10px; align-items:center; }
 
-    .mobile-pac-strip{ display:none; background:rgba(242,193,78,0.14); border-bottom:1px solid rgba(242,193,78,0.30); padding:7px 18px; text-align:center; font-size:.82rem; font-weight:900; color:var(--navy-2); }
+    .mobile-pac-strip{ display:none; background:rgba(184,134,13,0.10); border-bottom:1px solid rgba(184,134,13,0.25); padding:7px 18px; text-align:center; font-size:.82rem; font-weight:900; color:var(--navy-2); }
 
     .btn{
       text-decoration:none;
@@ -143,9 +143,9 @@
     }
     .btn:active{ transform: translateY(1px); }
     .btn-primary{
-      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+      background: linear-gradient(160deg, var(--brand), var(--brand-dark));
       color: #fff;
-      box-shadow: 0 14px 26px rgba(14,165,164,.18);
+      box-shadow: 0 14px 26px rgba(29,79,168,.20);
     }
     .btn-primary:hover{ filter: brightness(.98); }
     .btn-ghost{
@@ -188,8 +188,8 @@
       gap: 8px;
       font-weight: 850;
       color: var(--navy-2);
-      background: rgba(14,165,164,0.10);
-      border: 1px solid rgba(14,165,164,0.18);
+      background: rgba(29,79,168,0.08);
+      border: 1px solid rgba(29,79,168,0.20);
       padding: 7px 12px;
       border-radius: 999px;
       letter-spacing: .2px;
@@ -286,7 +286,7 @@
       align-items:flex-start;
       padding: 12px 12px;
       border-radius: 14px;
-      border: 1px solid rgba(11,18,32,0.10);
+      border: 1px solid rgba(5,16,30,0.10);
       background: rgba(11,18,32,0.02);
       color: var(--navy-2);
       line-height: 1.55;
@@ -296,7 +296,7 @@
       width: 18px;
       height: 18px;
       border-radius: 6px;
-      background: rgba(14,165,164,0.18);
+      background: rgba(29,79,168,0.20);
       border: 1px solid rgba(14,165,164,0.30);
       position: relative;
       margin-top: 2px;
@@ -321,8 +321,8 @@
     }
     .cta-panel{
       border-radius: var(--radius);
-      border: 1px solid rgba(14,165,164,0.22);
-      background: linear-gradient(180deg, rgba(14,165,164,0.10), rgba(255,255,255,0.92));
+      border: 1px solid rgba(29,79,168,0.22);
+      background: linear-gradient(180deg, rgba(29,79,168,0.08), rgba(255,255,255,0.92));
       box-shadow: var(--shadow-soft);
       padding: 22px;
       display:grid;
@@ -349,8 +349,8 @@
     .quote blockquote{
       margin:0;
       padding:28px;
-      background: linear-gradient(180deg, rgba(242,193,78,0.14), rgba(255,255,255,0.95));
-      border:1px solid rgba(242,193,78,0.32);
+      background: linear-gradient(180deg, rgba(184,134,13,0.10), rgba(255,255,255,0.95));
+      border:1px solid rgba(184,134,13,0.26);
       border-radius: var(--radius);
       color: var(--navy-2);
       font-size: 1.12rem;
@@ -396,7 +396,7 @@
         border-radius: 14px;
       }
       .mobile-drawer a.drawer-cta{
-        background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+        background: linear-gradient(160deg, var(--brand), var(--brand-dark));
         color: #fff;
         border: none;
       }
@@ -418,12 +418,12 @@
       </a>
 
       <nav class="site-nav" aria-label="Primary">
-        <a class="nav-link" href="/index.html" data-location="header">Home</a>
-        <a class="nav-link" href="/why-im-running.html" data-location="header">Why I'm Running</a>
-        <a class="nav-link" href="/issues.html" data-location="header">Issues</a>
-        <a class="nav-link" href="/record-contrast.html" data-location="header">The Difference</a>
-        <a class="nav-link" href="/about.html" aria-current="page" data-location="header">Meet Adam</a>
-        <a class="nav-link" href="/contact.html" data-location="header">Contact / Volunteer</a>
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/issues.html">Issues</a>
+        <a class="nav-link" href="/record-contrast.html">The Difference</a>
+        <a class="nav-link" href="/about.html" aria-current="page">Meet Adam</a>
+        <a class="nav-link" href="/endorsements.html">Endorsements</a>
+        <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
 
       <div class="header-cta">
@@ -491,7 +491,7 @@
       <div class="info-card">
         <h2>Service built on responsibility</h2>
         <p>
-          I spent more than 20 years in aviation and emergency operations, leading teams, solving hard problems, and keeping people safe —
+          I spent more than 20 years in aviation and emergency operations, leading teams, solving hard problems, and keeping people safe, 
           including work connected to the military operations community around Joint Base Lewis-McChord.
           Today I oversee public infrastructure projects that communities from Tacoma to Olympia rely on every day.
         </p>
@@ -538,7 +538,7 @@
       <div class="info-card">
         <h2>Rooted in WA-10</h2>
         <p>
-          My family lives in Spanaway — in Pierce County, in the heart of the district. We deal with the same pressures
+          My family lives in Spanaway, in Pierce County, in the heart of the district. We deal with the same pressures
           everyone in WA-10 feels: rising rents from Lakewood to Olympia, packed schools, traffic on I-5 and SR-512,
           and a future that gets harder to plan for every year.
         </p>
@@ -570,7 +570,7 @@
     <!-- CLOSING QUOTE -->
     <section class="quote">
       <blockquote>
-        Spanaway to Olympia, Lakewood to Shelton — every family in WA-10 deserves a representative who works as hard as they do, answers to voters instead of donors, and treats this like a job with real consequences.
+        Spanaway to Olympia, Lakewood to Shelton, every family in WA-10 deserves a representative who works as hard as they do, answers to voters instead of donors, and treats this like a job with real consequences.
         <footer>Adam Arafat, WA-10 resident</footer>
       </blockquote>
     </section>
@@ -579,9 +579,9 @@
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That’s the job.</p>
     <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/events.html">Events</a>
-      <a href="/endorsements.html">Endorsements</a>
-      <a href="/es/">En Español</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
       <a href="/contact.html">Volunteer</a>
     </nav>
     Paid for by Arafat for Congress •

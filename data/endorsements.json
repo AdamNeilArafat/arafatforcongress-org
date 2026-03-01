@@ -1,4 +1,47 @@
 {
+  "confirmedEndorsements": [
+    {
+      "id": "citizens-impeachment",
+      "name": "Citizens Impeachment",
+      "type": "organization",
+      "status": "confirmed",
+      "website": null,
+      "statement": "Citizens Impeachment endorses Adam Arafat for Congress in WA-10 as part of the movement to hold elected officials accountable to the people.",
+      "flyer": "/assets/endorsements/citizens-impeachment-flyer.pdf",
+      "logoPlaceholder": true
+    }
+  ],
+  "pendingConfirmation": [
+    {
+      "id": "citizens-against-aipac",
+      "name": "Citizens Against AIPAC Corruption",
+      "also_known_as": "Track AIPAC",
+      "status": "submitted_pending",
+      "website": null,
+      "note": "Endorsement submitted. Awaiting formal confirmation."
+    }
+  ],
+  "outreachInProgress": [
+    { "name": "Washington Conservation Voters", "website": "https://washingtonconservationvoters.org" },
+    { "name": "VoteVets", "website": "https://votevets.org" },
+    { "name": "Veterans For Peace", "website": "https://veteransforpeace.org" },
+    { "name": "Fuse Washington", "website": "https://fusewashington.org" },
+    { "name": "Washington State Labor Council", "website": "https://wslc.org" },
+    { "name": "Pierce County Democrats", "website": null },
+    { "name": "Pierce County Young Democrats", "website": null },
+    { "name": "Olympia Indivisible", "website": null },
+    { "name": "Working Families Party", "website": "https://workingfamilies.org" },
+    { "name": "CAIR-Washington", "website": null },
+    { "name": "Center for Biological Diversity Action Fund", "website": "https://biologicaldiversity.org" },
+    { "name": "End Citizens United", "website": "https://endcitizensunited.org" },
+    { "name": "A New Policy PAC", "website": null },
+    { "name": "We Are Progressive", "website": null }
+  ],
+  "supporterQuotes": [],
   "endorsements": [],
-  "supporterQuotes": []
+  "meta": {
+    "totalConfirmed": 1,
+    "totalPendingConfirmation": 1,
+    "totalOutreach": 14
+  }
 }

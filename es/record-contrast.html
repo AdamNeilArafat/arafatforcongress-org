@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>La Diferencia | Adam Arafat para el Congreso (WA-10)</title>
+  <meta name="description" content="Compare el historial de financiamiento y compromisos. La representante actual acepto mas de $355,000 de PACs y comites. Adam Arafat no acepta dinero de PACs corporativos ni de AIPAC." />
+  <meta property="og:title" content="La Diferencia | Adam Arafat para el Congreso (WA-10)" />
+  <meta property="og:description" content="Rendicion de cuentas primero. Compare los registros y decida quien lucha realmente por WA-10." />
+  <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
+  <meta property="og:url" content="https://arafatforcongress.org/es/record-contrast.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://arafatforcongress.org/es/record-contrast.html" />
+  <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/record-contrast.html" />
+  <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/record-contrast.html" />
+  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root{
+      --ink:#0b1220;
+      --navy:#05101e;
+      --navy-2:#091b36;
+      --muted:#4b5568;
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft:rgba(5,16,30,0.10);
+      --shadow-soft:0 10px 22px rgba(5,16,30,0.08);
+      --radius:12px;
+      --bg:radial-gradient(1200px 700px at 20% -10%,rgba(29,79,168,0.08),transparent 55%),
+           radial-gradient(800px 600px at 80% 20%,rgba(184,134,13,0.07),transparent 55%),
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
+      --ok:rgba(34,197,94,0.12);
+      --ok-border:rgba(34,197,94,0.28);
+      --warn:rgba(239,68,68,0.10);
+      --warn-border:rgba(239,68,68,0.26);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:inherit;}
+    main{padding-bottom:3rem;}
+
+    .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,#05101e,#1d4fa8,rgba(184,134,13,0.9));opacity:.95;}
+    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:200px;}
+    .brand__name{font-weight:900;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+    .site-nav{display:flex;gap:6px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.88rem;padding:9px 9px;border-radius:12px;transition:background .15s ease;white-space:nowrap;}
+    .nav-link:hover{background:rgba(29,79,168,0.10);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.18);}
+    .header-cta{display:flex;align-items:center;gap:10px;}
+    .header-cred{font-size:.78rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.14);border:1px solid rgba(184,134,13,0.30);padding:7px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:8px;align-items:center;}
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.12);border-bottom:1px solid rgba(184,134,13,0.26);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .btn{text-decoration:none;font-weight:900;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;user-select:none;transition:transform .06s ease,filter .15s ease,background .15s ease;}
+    .btn:active{transform:translateY(1px);}
+    .btn-primary{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.18);}
+    .btn-primary:hover{filter:brightness(.97);}
+    .btn-ghost{background:rgba(5,16,30,0.06);color:var(--navy-2);border:1px solid rgba(5,16,30,0.14);}
+    .btn-ghost:hover{background:rgba(5,16,30,0.10);}
+    .btn:focus-visible,.nav-link:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+    .nav-toggle{display:none;border:1px solid rgba(5,16,30,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;cursor:pointer;}
+    .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
+    .mobile-drawer{display:none;}
+    .mobile-drawer[hidden]{display:none !important;}
+
+    /* PAGE */
+    .page-hero{padding:3rem 1.5rem 1.5rem;}
+    .page-hero-inner{max-width:880px;margin:0 auto;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--navy-2);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.16);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
+    .page-hero h1{font-size:clamp(2rem,4.5vw,3rem);margin:0 0 12px;color:var(--navy);line-height:1.07;font-weight:800;letter-spacing:-0.2px;}
+    .page-hero p{margin:0 0 14px;color:var(--muted);line-height:1.75;font-size:1.05rem;max-width:68ch;}
+
+    .source-note{font-size:.84rem;color:var(--muted);margin:0;line-height:1.6;padding:10px 14px;border-radius:10px;border:1px solid rgba(5,16,30,0.08);background:rgba(5,16,30,0.02);}
+
+    .section{max-width:1060px;margin:44px auto;padding:0 20px;}
+    .section h2{color:var(--navy);font-size:clamp(1.6rem,3vw,2rem);margin:0 0 12px;font-weight:800;letter-spacing:-0.15px;}
+    .section-intro{color:var(--muted);line-height:1.75;margin:0 0 20px;max-width:72ch;}
+
+    /* COMPARISON TABLE */
+    .compare-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.95rem;}
+    .compare-table th{padding:12px 16px;text-align:left;font-weight:800;color:var(--navy-2);border-bottom:2px solid var(--border-soft);background:rgba(5,16,30,0.03);}
+    .compare-table td{padding:12px 16px;border-bottom:1px solid var(--border-soft);vertical-align:top;line-height:1.6;color:var(--muted);}
+    .compare-table tr:last-child td{border-bottom:none;}
+    .compare-table td.col-challenger{background:var(--ok);border-left:3px solid rgba(34,197,94,0.50);}
+    .compare-table td.col-incumbent{background:var(--warn);border-left:3px solid rgba(239,68,68,0.40);}
+    .compare-table td strong{color:var(--navy-2);}
+
+    .tag-ok{display:inline-block;font-size:.78rem;font-weight:900;color:#166534;background:rgba(34,197,94,0.16);border:1px solid rgba(34,197,94,0.36);padding:3px 8px;border-radius:999px;}
+    .tag-warn{display:inline-block;font-size:.78rem;font-weight:900;color:#991b1b;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.28);padding:3px 8px;border-radius:999px;}
+
+    .verdict-box{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-soft);border:1px solid rgba(29,79,168,0.18);margin-top:18px;}
+    .verdict-box h3{margin:0 0 10px;color:var(--navy);font-weight:800;font-size:1.15rem;}
+    .verdict-box p{margin:0 0 10px;color:var(--muted);line-height:1.75;}
+    .verdict-box p:last-child{margin:0;}
+
+    .stat-band{background:rgba(29,79,168,0.06);border:1px solid rgba(29,79,168,0.14);border-radius:var(--radius);padding:20px 24px;margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;}
+    .stat-item strong{display:block;font-size:1.5rem;font-weight:900;color:var(--navy);line-height:1;}
+    .stat-item span{color:var(--muted);font-size:.88rem;line-height:1.5;margin-top:4px;display:block;}
+
+    .cta-band{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-top:18px;}
+    .cta-band p{margin:0;color:var(--muted);line-height:1.6;max-width:60ch;}
+    .cta-band p strong{color:var(--navy);}
+    .cta-band-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+    footer{background:#fff;border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:48px;}
+    .footer-tagline{margin:0 0 6px;font-weight:700;color:var(--navy-2);}
+    .footer-nav{margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;}
+    .footer-nav a{color:var(--muted);text-decoration:none;}
+    .footer-nav a:hover{text-decoration:underline;}
+
+    @media(max-width:980px){
+      .site-nav{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+      .header-inner{grid-template-columns:1fr auto;}
+      .header-cred{display:none;}
+      .mobile-pac-strip{display:block;}
+      .mobile-drawer{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;gap:8px;}
+      .mobile-drawer:not([hidden]){display:grid;}
+      .mobile-drawer a{text-decoration:none;font-weight:700;color:var(--navy);background:rgba(5,16,30,0.04);border:1px solid rgba(5,16,30,0.10);padding:12px;border-radius:14px;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;border:none;}
+    }
+    @media(max-width:700px){
+      .section{margin:36px auto;}
+      .compare-table{font-size:.88rem;}
+      .compare-table th,.compare-table td{padding:10px 12px;}
+      .cta-band{flex-direction:column;}
+    }
+  </style>
+  <script src="/js/analytics.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/es/" aria-label="Adam Arafat para el Congreso, inicio">
+        <span class="brand__name">Adam Arafat</span>
+        <span class="brand__meta">para el Congreso &bull; WA-10</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegacion principal">
+        <a class="nav-link" href="/es/">Inicio</a>
+        <a class="nav-link" href="/es/why-im-running.html">Por Que Me Postulo</a>
+        <a class="nav-link" href="/es/issues.html">Propuestas</a>
+        <a class="nav-link" href="/es/record-contrast.html" aria-current="page">La Diferencia</a>
+        <a class="nav-link" href="/es/about.html">Conoce a Adam</a>
+        <a class="nav-link" href="/es/events.html">Eventos</a>
+        <a class="nav-link" href="/es/endorsements.html">Avales</a>
+        <a class="nav-link" href="/es/contact.html">Contacto</a>
+      </nav>
+      <div class="header-cta">
+        <div class="header-cred">Sin PACs corporativos ni dinero de AIPAC</div>
+        <div class="cta-group">
+          <a class="btn btn-ghost" href="/record-contrast.html" lang="en" hreflang="en">English</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+          <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-drawer-record">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-pac-strip">Sin PACs corporativos ni dinero de AIPAC</div>
+    <div id="mobile-drawer-record" class="mobile-drawer" hidden>
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html" aria-current="page">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto y Voluntariado</a>
+      <a href="/record-contrast.html" lang="en" hreflang="en">English</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero" aria-label="La diferencia">
+      <div class="page-hero-inner">
+        <div class="kicker">Rendicion de cuentas primero</div>
+        <h1>La Diferencia: quien lucha por WA-10</h1>
+        <p>
+          Los votantes merecen informacion factual para tomar su decision. Compare los registros
+          de financiamiento y compromisos. Saque sus propias conclusiones.
+        </p>
+        <p class="source-note">
+          Nota: Los datos de financiamiento de la representante actual provienen de registros publicos de la FEC (Comision Federal Electoral)
+          y de OpenSecrets.org. Estos datos son publicos y verificables por cualquier ciudadano.
+          Los datos de Adam Arafat reflejan la politica oficial de su campana.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="compare-heading">
+      <h2 id="compare-heading">Comparacion de registros</h2>
+      <p class="section-intro">Los hechos son verificables. Los votantes deciden que es lo que importa.</p>
+
+      <div style="overflow-x:auto;">
+        <table class="compare-table" aria-label="Comparacion entre la representante actual y Adam Arafat">
+          <thead>
+            <tr>
+              <th scope="col">Categoria</th>
+              <th scope="col">Rep. Marilyn Strickland (titular)</th>
+              <th scope="col">Adam Arafat (aspirante)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Dinero de PACs y comites</strong></td>
+              <td class="col-incumbent">
+                <span class="tag-warn">Confirmado por FEC</span><br />
+                Acepto mas de <strong>$355,000</strong> de PACs corporativos y comites de interes especial en ciclos electorales recientes, segun registros de la FEC y OpenSecrets.
+              </td>
+              <td class="col-challenger">
+                <span class="tag-ok">Politica de campana</span><br />
+                <strong>$0</strong> de PACs corporativos. Politica oficial: ningun dinero de PACs corporativos ni de AIPAC, solo contribuciones individuales.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Dinero de AIPAC</strong></td>
+              <td class="col-incumbent">
+                <span class="tag-warn">Registros publicos</span><br />
+                Ha recibido contribuciones de comites vinculados a AIPAC, segun registros de la FEC.
+              </td>
+              <td class="col-challenger">
+                <span class="tag-ok">Politica de campana</span><br />
+                No acepta dinero de AIPAC ni de comites de interes especial de politica exterior.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Independencia legislativa</strong></td>
+              <td class="col-incumbent">
+                Los votantes pueden comparar su historial de votos con las prioridades de WA-10 usando los registros publicos del Congreso.
+              </td>
+              <td class="col-challenger">
+                <span class="tag-ok">Compromiso publico</span><br />
+                Se compromete a publicar un registro verificable de votos, co-patrocinios y acciones. Verificable al final del mandato.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Posicion en derechos laborales</strong></td>
+              <td class="col-incumbent">
+                Su historial de co-patrocinios puede consultarse en Congress.gov para que los votantes evaluen su compromiso con legislacion laboral.
+              </td>
+              <td class="col-challenger">
+                <span class="tag-ok">Compromiso explcito</span><br />
+                Co-patrocinara la H.R. 20 (PRO Act) y luchara para moverla, no solo firmara el papel.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Reforma electoral</strong></td>
+              <td class="col-incumbent">
+                Acepta dinero de PACs corporativos, lo cual limita estructuralmente la posibilidad de impulsar reforma del financiamiento de campaas.
+              </td>
+              <td class="col-challenger">
+                <span class="tag-ok">Congruente</span><br />
+                No puede haber reforma del financiamiento corporativo si se acepta ese financiamiento. Adam practica lo que predica.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Rendicion de cuentas publica</strong></td>
+              <td class="col-incumbent">
+                Historial publico disponible en Congress.gov y registros de la FEC para evaluacion de votantes.
+              </td>
+              <td class="col-challenger">
+                <span class="tag-ok">Compromiso concreto</span><br />
+                Publicara un registro publico de acciones legislativas, votaciones y escalaciones. Transparencia como estandar, no como excepcion.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="numeros-heading">
+      <h2 id="numeros-heading">Los numeros clave</h2>
+      <div class="stat-band">
+        <div class="stat-item">
+          <strong>$355K+</strong>
+          <span>Dinero de PACs y comites aceptado por la representante actual, segun registros de la FEC</span>
+        </div>
+        <div class="stat-item">
+          <strong>$0</strong>
+          <span>Dinero de PACs corporativos o AIPAC que acepta Adam Arafat</span>
+        </div>
+        <div class="stat-item">
+          <strong>100%</strong>
+          <span>Campana financiada por contribuciones individuales: vecinos, no intereses especiales</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="veredicto-heading">
+      <div class="verdict-box">
+        <h3 id="veredicto-heading">La decision es de los votantes</h3>
+        <p>
+          Los datos son factuales y verificables. El dinero de PACs crea dependencias estructurales.
+          Un representante que depende de $355,000 de PACs corporativos para financiar su campana
+          no puede ser completamente libre de priorizar las necesidades de las familias trabajadoras.
+        </p>
+        <p>
+          Eso no significa necesariamente que cada voto sea incorrecto. Significa que los votantes
+          tienen derecho a saber quien financia a sus representantes y a evaluar si eso importa
+          para sus propias prioridades.
+        </p>
+        <p>
+          Adam Arafat ofrece una alternativa: una campana financiada exclusivamente por personas,
+          sin obligaciones con ningun PAC corporativo ni con AIPAC. Usted decide si eso es
+          lo que WA-10 necesita.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Verificar los datos">
+      <div class="verdict-box" style="border-color:rgba(5,16,30,0.12);">
+        <h3>Verifique los datos usted mismo</h3>
+        <p>
+          Los datos de financiamiento de la representante actual son publicos y accesibles:
+        </p>
+        <p>
+          FEC (Comision Federal Electoral): <strong>fec.gov</strong><br />
+          OpenSecrets: <strong>opensecrets.org</strong><br />
+          Historial de votos: <strong>congress.gov</strong>
+        </p>
+        <p>
+          La rendicion de cuentas comienza con informacion. Investigue, compare y decida.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Participar">
+      <div class="cta-band">
+        <p><strong>Si los datos importan para su decision,</strong> unase a una campana que responde a vecinos, no a PACs corporativos.</p>
+        <div class="cta-band-actions">
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Contribuir</a>
+          <a class="btn btn-ghost" href="/es/issues.html">Ver propuestas</a>
+          <a class="btn btn-ghost" href="/es/contact.html">Voluntariado</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">Ciudadanos sirviendo a ciudadanos. Ese es el trabajo.</p>
+    <nav aria-label="Navegacion del pie de pagina" class="footer-nav">
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto</a>
+      <a href="/record-contrast.html" lang="en" hreflang="en">English</a>
+    </nav>
+    Pagado por Arafat for Congress &bull;
+    <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+  </footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var drawer = document.getElementById('mobile-drawer-record');
+      if(!toggle || !drawer) return;
+      toggle.addEventListener('click', function(){
+        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        drawer.hidden = isOpen;
+      });
+    })();
+  </script>
+</body>
+</html>

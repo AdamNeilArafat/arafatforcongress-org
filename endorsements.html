@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Endorsements | Adam Arafat for Congress (WA-10)</title>
-  <meta name="description" content="Organizations and community leaders endorsing Adam Arafat for Congress in WA-10 — Spanaway, Lakewood, Olympia, and across the South Sound." />
+  <meta name="description" content="Organizations and community leaders endorsing Adam Arafat for Congress in WA-10. No corporate PAC money. People-funded, people-built." />
   <meta property="og:title" content="Endorsements | Adam Arafat for Congress (WA-10)" />
   <meta property="og:description" content="See who is standing with Adam Arafat for a people-funded campaign in WA-10." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
@@ -15,81 +15,127 @@
   <link rel="stylesheet" href="styles.css" />
   <style>
     :root{
-      --ink:#0b1220;
-      --navy:#071127;
-      --navy-2:#0b1c3d;
-      --muted:#51607a;
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-      --gold:#f2c14e;
-      --border-soft:rgba(11,18,32,0.10);
-      --shadow-soft:0 10px 22px rgba(11,18,32,0.08);
-      --radius:16px;
-      --bg:radial-gradient(1200px 650px at 20% 0%,rgba(14,165,164,0.10),transparent 55%),
-           radial-gradient(900px 520px at 85% 15%,rgba(242,193,78,0.10),transparent 55%),
-           linear-gradient(180deg,#f7f8fb,#eef1f7);
+      --navy:#05101e;
+      --navy-2:#091b36;
+      --ink:#05101e;
+      --muted:#4b5568;
+      --paper:#ffffff;
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --gold-light:rgba(184,134,13,0.12);
+      --border-soft:rgba(5,16,30,0.10);
+      --border:rgba(5,16,30,0.18);
+      --shadow-soft:0 8px 24px rgba(5,16,30,0.08);
+      --shadow:0 12px 30px rgba(5,16,30,0.12);
+      --radius:12px;
+      --bg:radial-gradient(1200px 700px at 20% -10%,rgba(29,79,168,0.08),transparent 55%),
+           radial-gradient(800px 600px at 80% 20%,rgba(184,134,13,0.07),transparent 55%),
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
+      --confirmed:#166534;
+      --confirmed-bg:rgba(22,101,52,0.10);
+      --confirmed-border:rgba(22,101,52,0.25);
+      --pending-bg:rgba(184,134,13,0.12);
+      --pending-border:rgba(184,134,13,0.35);
+      --pending-text:#92400e;
+      --outreach-bg:rgba(5,16,30,0.05);
+      --outreach-border:rgba(5,16,30,0.14);
     }
+
     *{box-sizing:border-box;}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);}
     a{color:inherit;}
     main{padding-bottom:3rem;}
 
     .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
-    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--brand),rgba(242,193,78,0.9));opacity:.9;}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--navy),var(--brand),rgba(184,134,13,0.9));opacity:.9;}
     .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
-    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:220px;}
-    .brand__name{font-weight:950;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
-    .brand__meta{font-weight:850;font-size:.85rem;color:var(--muted);}
-    .site-nav{display:flex;gap:10px;align-items:center;}
-    .nav-link{text-decoration:none;color:var(--navy);font-weight:850;font-size:.95rem;padding:10px;border-radius:12px;transition:background .15s;white-space:nowrap;}
-    .nav-link:hover{background:rgba(14,165,164,0.10);}
-    .nav-link[aria-current="page"]{background:rgba(14,165,164,0.12);box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18);}
-    .header-cta{display:flex;align-items:center;gap:12px;}
-    .header-cred{font-size:.82rem;font-weight:900;color:var(--navy-2);background:rgba(242,193,78,0.18);border:1px solid rgba(242,193,78,0.35);padding:8px 10px;border-radius:999px;white-space:nowrap;}
-    .cta-group{display:flex;gap:10px;align-items:center;}
-    .btn{text-decoration:none;font-weight:950;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .06s,filter .15s;}
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:200px;}
+    .brand__name{font-weight:900;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+    .site-nav{display:flex;gap:8px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.9rem;padding:9px 10px;border-radius:10px;transition:background .15s;white-space:nowrap;}
+    .nav-link:hover{background:rgba(29,79,168,0.08);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.20);}
+    .header-cta{display:flex;align-items:center;gap:10px;}
+    .header-cred{font-size:.78rem;font-weight:800;color:var(--navy-2);background:var(--gold-light);border:1px solid rgba(184,134,13,0.28);padding:7px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:8px;align-items:center;}
+    .btn{text-decoration:none;font-weight:800;border-radius:10px;padding:10px 14px;min-height:42px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .06s,filter .15s,background .15s;}
     .btn:active{transform:translateY(1px);}
-    .btn-primary{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 14px 26px rgba(14,165,164,.18);}
-    .btn-primary:hover{filter:brightness(.98);}
-    .btn-ghost{background:rgba(11,28,61,0.06);color:var(--navy-2);border:1px solid rgba(11,28,61,0.14);}
-    .btn-ghost:hover{background:rgba(11,28,61,0.10);}
-    .nav-toggle{display:none;border:1px solid rgba(11,28,61,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;}
+    .btn-primary{background:linear-gradient(160deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 10px 24px rgba(29,79,168,.20);}
+    .btn-primary:hover{filter:brightness(1.06);}
+    .btn-ghost{background:rgba(5,16,30,0.06);color:var(--navy-2);border:1px solid rgba(5,16,30,0.14);}
+    .btn-ghost:hover{background:rgba(5,16,30,0.10);}
+    .nav-toggle{display:none;border:1px solid rgba(5,16,30,0.14);background:rgba(255,255,255,0.95);border-radius:10px;padding:10px;min-height:42px;min-width:42px;cursor:pointer;}
     .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
-    .mobile-pac-strip{display:none;background:rgba(242,193,78,0.14);border-bottom:1px solid rgba(242,193,78,0.30);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.12);border-bottom:1px solid rgba(184,134,13,0.28);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:800;color:var(--navy-2);}
     .mobile-drawer{display:none;}
     .mobile-drawer[hidden]{display:none !important;}
 
+    /* HERO */
     .hero{padding:3.5rem 1.5rem 1.5rem;}
-    .hero-inner{max-width:900px;margin:0 auto;}
-    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:850;color:var(--navy-2);background:rgba(14,165,164,0.10);border:1px solid rgba(14,165,164,0.18);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
-    .hero h1{font-size:clamp(2rem,4.5vw,2.8rem);margin:0 0 14px;color:var(--navy);line-height:1.08;font-weight:850;letter-spacing:-0.2px;}
-    .hero p{margin:0;color:var(--muted);line-height:1.7;font-size:1.05rem;max-width:72ch;}
+    .hero-inner{max-width:920px;margin:0 auto;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--navy-2);background:rgba(29,79,168,0.10);border:1px solid rgba(29,79,168,0.20);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.88rem;}
+    .hero h1{font-size:clamp(1.9rem,4.5vw,2.7rem);margin:0 0 12px;color:var(--navy);line-height:1.1;font-weight:800;letter-spacing:-0.2px;}
+    .hero p{margin:0 0 8px;color:var(--muted);line-height:1.75;font-size:1.03rem;max-width:72ch;}
 
-    .section{max-width:900px;margin:52px auto;padding:0 20px;}
-    .section h2{font-size:clamp(1.5rem,2.8vw,1.9rem);color:var(--navy);margin:0 0 10px;font-weight:800;}
-    .section-intro{margin:0 0 20px;color:var(--muted);line-height:1.7;}
+    /* TRANSPARENCY NOTICE */
+    .transparency-notice{background:rgba(29,79,168,0.06);border:1px solid rgba(29,79,168,0.18);border-radius:var(--radius);padding:14px 18px;margin-top:16px;font-size:.92rem;color:var(--navy-2);line-height:1.6;}
+    .transparency-notice strong{display:block;margin-bottom:4px;font-weight:800;}
 
-    /* Endorsement cards */
-    .endorsement-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
-    .endorsement-card{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:20px;}
-    .endorsement-card .name{font-weight:800;color:var(--navy);font-size:1.05rem;margin:0 0 4px;}
-    .endorsement-card .role{color:var(--muted);font-size:.9rem;font-weight:650;margin:0 0 12px;}
-    .endorsement-card .quote{color:var(--navy-2);line-height:1.65;font-style:italic;margin:0;font-weight:520;}
-    .endorsement-card .quote::before{content:"\201C";}
-    .endorsement-card .quote::after{content:"\201D";}
+    /* SECTIONS */
+    .section{max-width:960px;margin:48px auto;padding:0 20px;}
+    .section-header{margin-bottom:20px;}
+    .section-header h2{font-size:clamp(1.4rem,2.8vw,1.85rem);color:var(--navy);margin:0 0 6px;font-weight:800;}
+    .section-header p{margin:0;color:var(--muted);line-height:1.7;font-size:.97rem;}
+    .section-badge{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;}
+    .badge-confirmed{background:var(--confirmed-bg);color:var(--confirmed);border:1px solid var(--confirmed-border);}
+    .badge-pending{background:var(--pending-bg);color:var(--pending-text);border:1px solid var(--pending-border);}
+    .badge-outreach{background:var(--outreach-bg);color:var(--muted);border:1px solid var(--outreach-border);}
 
-    /* Quote block */
-    .quote-block{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:24px;max-width:760px;margin:0 auto;}
-    .quote-block blockquote{margin:0;color:var(--navy-2);line-height:1.7;font-size:1.08rem;font-weight:700;}
-    .quote-block footer{margin-top:10px;color:var(--muted);font-size:.95rem;font-weight:650;}
+    /* CONFIRMED ENDORSEMENT CARD */
+    .confirmed-card{background:#fff;border:2px solid var(--confirmed-border);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:24px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;}
+    .org-logo-box{width:72px;height:72px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy),var(--navy-2));flex-shrink:0;}
+    .org-logo-box svg{width:44px;height:44px;}
+    .org-logo-box .org-initial{font-size:1.6rem;font-weight:900;color:#fff;line-height:1;}
+    .confirmed-card-body{}
+    .confirmed-card-name{font-size:1.2rem;font-weight:800;color:var(--navy);margin:0 0 2px;}
+    .confirmed-card-type{font-size:.85rem;color:var(--muted);font-weight:600;margin:0 0 10px;}
+    .confirmed-card-statement{color:var(--navy-2);line-height:1.65;font-size:.97rem;font-weight:500;font-style:italic;margin:0 0 14px;border-left:3px solid var(--confirmed-border);padding-left:12px;}
+    .confirmed-card-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .btn-sm{padding:8px 12px;font-size:.85rem;min-height:36px;border-radius:8px;}
 
-    /* Pending state */
-    .pending-box{background:#fff;border:1px dashed rgba(14,165,164,0.35);border-radius:var(--radius);padding:32px;text-align:center;}
-    .pending-box h3{margin:0 0 10px;color:var(--navy);font-size:1.2rem;}
-    .pending-box p{margin:0 auto 20px;color:var(--muted);max-width:55ch;line-height:1.7;}
+    /* FLYER BANNER */
+    .flyer-banner{background:linear-gradient(135deg,rgba(22,101,52,0.08),rgba(29,79,168,0.06));border:1px solid var(--confirmed-border);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;}
+    .flyer-icon{width:36px;height:36px;background:rgba(22,101,52,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .flyer-text{flex:1;}
+    .flyer-text strong{display:block;color:var(--navy);font-weight:800;font-size:.95rem;}
+    .flyer-text span{color:var(--muted);font-size:.85rem;}
 
+    /* PENDING CONFIRMATION CARD */
+    .pending-card{background:#fff;border:1px dashed var(--pending-border);border-radius:var(--radius);box-shadow:0 4px 12px rgba(5,16,30,0.06);padding:20px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;}
+    .pending-logo-box{width:60px;height:60px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(184,134,13,0.15),rgba(184,134,13,0.25));border:1px dashed rgba(184,134,13,0.40);flex-shrink:0;}
+    .pending-logo-box .org-initial{font-size:1.3rem;font-weight:900;color:var(--gold);line-height:1;}
+    .pending-card-name{font-size:1.05rem;font-weight:800;color:var(--navy);margin:0 0 2px;}
+    .pending-card-note{color:var(--muted);font-size:.9rem;line-height:1.6;margin:0;}
+
+    /* OUTREACH GRID */
+    .outreach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px;}
+    .outreach-item{background:#fff;border:1px solid var(--border-soft);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+    .outreach-initial{width:36px;height:36px;border-radius:8px;background:rgba(5,16,30,0.07);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:var(--muted);flex-shrink:0;}
+    .outreach-name{font-size:.9rem;font-weight:700;color:var(--navy-2);line-height:1.3;}
+    .outreach-item a{text-decoration:none;}
+    .outreach-item a:hover .outreach-name{color:var(--brand);}
+
+    /* CTA BAND */
+    .cta-band{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;}
+    .cta-band p{margin:0;color:var(--muted);line-height:1.65;max-width:60ch;}
+    .cta-band p strong{color:var(--navy);}
+    .cta-band-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+    /* FOOTER */
     footer{background:#fff;border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:48px;}
-    .footer-tagline{margin:0 0 6px;font-weight:650;color:var(--navy-2);}
+    .footer-tagline{margin:0 0 6px;font-weight:700;color:var(--navy-2);}
 
     @media(max-width:980px){
       .site-nav{display:none;}
@@ -98,8 +144,18 @@
       .header-cred{display:none;}
       .mobile-pac-strip{display:block;}
       .mobile-drawer{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;gap:8px;}
-      .mobile-drawer a{text-decoration:none;font-weight:850;color:var(--navy);background:rgba(11,18,32,0.03);border:1px solid var(--border-soft);padding:12px;border-radius:14px;}
-      .mobile-drawer a.drawer-cta{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;border:none;}
+      .mobile-drawer[hidden]{display:none !important;}
+      .mobile-drawer:not([hidden]){display:grid;}
+      .mobile-drawer a{text-decoration:none;font-weight:700;color:var(--navy);background:rgba(5,16,30,0.03);border:1px solid var(--border-soft);padding:12px;border-radius:10px;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(160deg,var(--brand),var(--brand-dark));color:#fff;border:none;}
+    }
+    @media(max-width:700px){
+      .confirmed-card{grid-template-columns:1fr;}
+      .pending-card{grid-template-columns:1fr;}
+      .outreach-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:480px){
+      .outreach-grid{grid-template-columns:1fr;}
     }
   </style>
   <script src="/js/analytics.js"></script>
@@ -116,17 +172,15 @@
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
         <span class="brand__name">Adam Arafat</span>
-        <span class="brand__meta">for Congress • WA-10</span>
+        <span class="brand__meta">for Congress &bull; WA-10</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
-        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/events.html">Events</a>
         <a class="nav-link" href="/endorsements.html" aria-current="page">Endorsements</a>
-        <a class="nav-link" href="/contact.html">Volunteer</a>
+        <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
       <div class="header-cta">
         <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
@@ -146,9 +200,10 @@
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
-      <a href="/events.html">Events</a>
       <a href="/endorsements.html" aria-current="page">Endorsements</a>
-      <a href="/contact.html">Volunteer</a>
+      <a href="/events.html">Events</a>
+      <a href="/contact.html">Contact / Volunteer</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
@@ -157,44 +212,180 @@
     <section class="hero" aria-label="Endorsements hero">
       <div class="hero-inner">
         <div class="kicker">Endorsements</div>
-        <h1>Who's standing with WA-10.</h1>
-        <p>This campaign is people-funded and people-built. Endorsements are earned by listening to workers, families, and community leaders across Pierce, Thurston, and Mason counties — not by writing checks to party committees.</p>
-      </div>
-    </section>
-
-    <!-- ENDORSEMENTS LIST (dynamic, populated from endorsements.json when available) -->
-    <section class="section" aria-labelledby="endorsers-heading">
-      <h2 id="endorsers-heading">Endorsements</h2>
-      <div id="endorsement-container">
-        <div class="pending-box">
-          <h3>Endorsements being confirmed</h3>
-          <p>Community leaders, local organizations, and working families across WA-10 are joining this campaign. Endorsements will appear here as they are announced.</p>
-          <a class="btn btn-primary" href="/contact.html">Join as a supporter</a>
+        <h1>Who is standing with WA-10.</h1>
+        <p>This campaign is people-funded and people-built. Endorsements are earned by listening to workers, families, and community leaders across Pierce, Thurston, and Mason counties, not by writing checks to party committees.</p>
+        <div class="transparency-notice">
+          <strong>Full transparency on endorsement status</strong>
+          This page shows the accurate status of every endorsement: confirmed, pending confirmation, and organizations where outreach is in progress. We do not list endorsements we have not received.
         </div>
       </div>
     </section>
 
-    <!-- SUPPORTER QUOTES -->
-    <section class="section" aria-labelledby="voices-heading">
-      <h2 id="voices-heading">Voices from WA-10</h2>
-      <p class="section-intro">Real people. Real stakes. Real district.</p>
-      <div id="supporter-quotes-container" style="display:grid;gap:14px;"></div>
+    <!-- CONFIRMED ENDORSEMENTS -->
+    <section class="section" aria-labelledby="confirmed-heading">
+      <div class="section-header">
+        <span class="section-badge badge-confirmed">
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="#166534"/></svg>
+          Confirmed Endorsements
+        </span>
+        <h2 id="confirmed-heading">Organizations that have endorsed this campaign</h2>
+        <p>The following endorsements have been formally received and confirmed.</p>
+      </div>
+
+      <div id="confirmed-list">
+        <!-- Citizens Impeachment -->
+        <div class="confirmed-card">
+          <div class="org-logo-box" aria-hidden="true">
+            <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="44" height="44" rx="8" fill="rgba(255,255,255,0.12)"/>
+              <text x="22" y="29" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="18" fill="#ffffff">CI</text>
+            </svg>
+          </div>
+          <div class="confirmed-card-body">
+            <p class="confirmed-card-name">Citizens Impeachment</p>
+            <p class="confirmed-card-type">Accountability Organization</p>
+            <p class="confirmed-card-statement">Citizens Impeachment endorses Adam Arafat for Congress in WA-10 as part of the movement to hold elected officials accountable to the people and restore integrity to public service.</p>
+            <div class="confirmed-card-actions">
+              <span class="section-badge badge-confirmed" style="margin:0;">Endorsed</span>
+            </div>
+            <div class="flyer-banner">
+              <div class="flyer-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8L14 2z" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="flyer-text">
+                <strong>Official endorsement flyer available</strong>
+                <span>Citizens Impeachment has provided an official endorsement document for distribution.</span>
+              </div>
+              <a class="btn btn-ghost btn-sm" href="/assets/endorsements/citizens-impeachment-flyer.pdf" target="_blank" rel="noopener noreferrer">View Flyer</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- ENDORSE / ADD YOUR VOICE -->
-    <section class="section" aria-labelledby="add-voice-heading">
-      <h2 id="add-voice-heading">Add your endorsement</h2>
-      <p class="section-intro">Are you a local official, union leader, community organization, or business owner in WA-10? We'd be honored to have your support.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a class="btn btn-primary" href="mailto:info@arafatforcongress.org?subject=Endorsement%20Inquiry">Contact us about endorsing</a>
-        <a class="btn btn-ghost" href="/contact.html">Volunteer instead</a>
+    <!-- PENDING CONFIRMATION -->
+    <section class="section" aria-labelledby="pending-heading">
+      <div class="section-header">
+        <span class="section-badge badge-pending">
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="#b45309"/></svg>
+          Pending Confirmation
+        </span>
+        <h2 id="pending-heading">Submitted. Awaiting confirmation.</h2>
+        <p>Endorsement applications have been submitted to these organizations. We are waiting for their formal responses. We do not claim these as endorsements until confirmed.</p>
+      </div>
+
+      <div style="display:grid;gap:12px;">
+        <div class="pending-card">
+          <div class="pending-logo-box" aria-hidden="true">
+            <span class="org-initial">CA</span>
+          </div>
+          <div>
+            <p class="pending-card-name">Citizens Against AIPAC Corruption</p>
+            <p style="font-size:.83rem;color:var(--muted);margin:0 0 6px;font-weight:600;">Also known as: Track AIPAC</p>
+            <p class="pending-card-note">Endorsement submitted. Awaiting formal confirmation from the organization.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTREACH IN PROGRESS -->
+    <section class="section" aria-labelledby="outreach-heading">
+      <div class="section-header">
+        <span class="section-badge badge-outreach">
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="#4b5568"/></svg>
+          Outreach in Progress
+        </span>
+        <h2 id="outreach-heading">Organizations where we have reached out</h2>
+        <p>We have contacted these organizations to request their endorsement. These are not endorsements. We list them here transparently so voters can see where this campaign is building support.</p>
+      </div>
+
+      <div class="outreach-grid" id="outreach-list">
+        <div class="outreach-item">
+          <div class="outreach-initial">WC</div>
+          <a href="https://washingtonconservationvoters.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Washington Conservation Voters</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">VV</div>
+          <a href="https://votevets.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">VoteVets</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">VP</div>
+          <a href="https://veteransforpeace.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Veterans For Peace</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">FW</div>
+          <a href="https://fusewashington.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Fuse Washington</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">WL</div>
+          <a href="https://wslc.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Washington State Labor Council</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">PC</div>
+          <span class="outreach-name">Pierce County Democrats</span>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">PY</div>
+          <span class="outreach-name">Pierce County Young Democrats</span>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">OI</div>
+          <span class="outreach-name">Olympia Indivisible</span>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">WF</div>
+          <a href="https://workingfamilies.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Working Families Party</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">CW</div>
+          <span class="outreach-name">CAIR-Washington</span>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">CB</div>
+          <a href="https://biologicaldiversity.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">Center for Biological Diversity Action Fund</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">EC</div>
+          <a href="https://endcitizensunited.org" target="_blank" rel="noopener noreferrer"><span class="outreach-name">End Citizens United</span></a>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">NP</div>
+          <span class="outreach-name">A New Policy PAC</span>
+        </div>
+        <div class="outreach-item">
+          <div class="outreach-initial">WP</div>
+          <span class="outreach-name">We Are Progressive</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADD YOUR ENDORSEMENT -->
+    <section class="section" aria-labelledby="endorse-heading">
+      <div class="cta-band">
+        <div>
+          <h2 id="endorse-heading" style="margin:0 0 6px;font-size:1.3rem;color:var(--navy);">Add your organization's endorsement</h2>
+          <p>Are you a union leader, local official, community organization, or business owner in WA-10? We would be honored to have your support.</p>
+        </div>
+        <div class="cta-band-actions">
+          <a class="btn btn-primary" href="mailto:info@arafatforcongress.org?subject=Endorsement%20Inquiry">Contact us about endorsing</a>
+          <a class="btn btn-ghost" href="/contact.html">Volunteer instead</a>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
-    Paid for by Arafat for Congress • <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+      <a href="/why-im-running.html">Why I'm Running</a>
+      <a href="/events.html">Events</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
+      <a href="/contact.html">Volunteer</a>
+    </nav>
+    Paid for by Arafat for Congress &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
   </footer>
 
   <script>
@@ -208,43 +399,6 @@
           drawer.hidden = isOpen;
         });
       }
-
-      // Load endorsements from endorsements.json
-      fetch('/data/endorsements.json')
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          var ec = document.getElementById('endorsement-container');
-          var qc = document.getElementById('supporter-quotes-container');
-
-          if(data.endorsements && data.endorsements.length > 0){
-            var grid = document.createElement('div');
-            grid.className = 'endorsement-grid';
-            data.endorsements.forEach(function(e){
-              var card = document.createElement('div');
-              card.className = 'endorsement-card';
-              card.innerHTML =
-                '<p class="name">' + e.name + '</p>' +
-                '<p class="role">' + (e.role || '') + '</p>' +
-                (e.quote ? '<p class="quote">' + e.quote + '</p>' : '');
-              grid.appendChild(card);
-            });
-            ec.innerHTML = '';
-            ec.appendChild(grid);
-          }
-
-          if(data.supporterQuotes && data.supporterQuotes.length > 0){
-            data.supporterQuotes.forEach(function(q){
-              var box = document.createElement('div');
-              box.className = 'quote-block';
-              box.innerHTML = '<blockquote>' + q.text + '</blockquote>' +
-                '<footer>' + q.attribution + '</footer>';
-              qc.appendChild(box);
-            });
-          } else {
-            qc.innerHTML = '<p style="color:var(--muted);">Community voices will appear here as people share their stories. <a href="/contact.html" style="color:var(--brand);font-weight:700;">Share yours</a>.</p>';
-          }
-        })
-        .catch(function(){});
     })();
   </script>
 </body>

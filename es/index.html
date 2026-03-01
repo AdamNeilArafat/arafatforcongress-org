@@ -5,66 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adam Arafat para el Congreso (WA-10) | En Español</title>
   <meta name="description" content="Adam Arafat se postula para el Congreso en el Distrito 10 de Washington. Sin dinero de PACs corporativos. Para las familias trabajadoras de Olympia, Lacey, Lakewood y el South Sound." />
-  <meta property="og:title" content="Adam Arafat para el Congreso — WA-10" />
+  <meta property="og:title" content="Adam Arafat para el Congreso (WA-10)" />
   <meta property="og:description" content="Una campaña financiada por el pueblo, para el pueblo. Sin PACs corporativos ni dinero de AIPAC." />
   <meta property="og:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <meta property="og:url" content="https://arafatforcongress.org/es/" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://arafatforcongress.org/es/" />
+  <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/" />
+  <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/" />
   <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
   <link rel="stylesheet" href="/styles.css" />
   <style>
     :root{
       --ink:#0b1220;
-      --navy:#071127;
-      --navy-2:#0b1c3d;
-      --muted:#51607a;
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-      --gold:#f2c14e;
-      --border-soft:rgba(11,18,32,0.10);
-      --shadow-soft:0 10px 22px rgba(11,18,32,0.08);
-      --radius:16px;
-      --bg:radial-gradient(1200px 650px at 20% 0%,rgba(14,165,164,0.10),transparent 55%),
-           radial-gradient(900px 520px at 85% 15%,rgba(242,193,78,0.10),transparent 55%),
-           linear-gradient(180deg,#f7f8fb,#eef1f7);
+      --navy:#05101e;
+      --navy-2:#091b36;
+      --muted:#4b5568;
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft:rgba(5,16,30,0.10);
+      --shadow-soft:0 10px 22px rgba(5,16,30,0.08);
+      --radius:12px;
+      --bg:radial-gradient(1200px 700px at 20% -10%,rgba(29,79,168,0.08),transparent 55%),
+           radial-gradient(800px 600px at 80% 20%,rgba(184,134,13,0.07),transparent 55%),
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
     }
     *{box-sizing:border-box;}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;background:var(--bg);color:var(--ink);}
     a{color:inherit;}
     main{padding-bottom:3rem;}
 
+    /* HEADER */
     .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
-    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--brand),rgba(242,193,78,0.9));opacity:.9;}
-    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
-    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;}
-    .brand__name{font-weight:950;font-size:1.06rem;line-height:1.05;color:var(--navy);}
-    .brand__meta{font-weight:850;font-size:.85rem;color:var(--muted);}
-    .header-cred{font-size:.82rem;font-weight:900;color:var(--navy-2);background:rgba(242,193,78,0.18);border:1px solid rgba(242,193,78,0.35);padding:8px 10px;border-radius:999px;white-space:nowrap;}
-    .lang-link{font-size:.85rem;font-weight:850;color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:12px;border:1px solid var(--border-soft);}
-    .lang-link:hover{background:rgba(14,165,164,0.08);}
-    .btn{text-decoration:none;font-weight:950;border-radius:14px;padding:10px 16px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .06s,filter .15s;}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,#05101e,#1d4fa8,rgba(184,134,13,0.9));opacity:.95;}
+    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
+
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:200px;}
+    .brand__name{font-weight:900;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+
+    .site-nav{display:flex;gap:6px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.88rem;padding:9px 9px;border-radius:12px;transition:background .15s ease;white-space:nowrap;}
+    .nav-link:hover{background:rgba(29,79,168,0.10);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.18);}
+
+    .header-cta{display:flex;align-items:center;gap:10px;}
+    .header-cred{font-size:.78rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.14);border:1px solid rgba(184,134,13,0.30);padding:7px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:8px;align-items:center;}
+
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.12);border-bottom:1px solid rgba(184,134,13,0.26);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+
+    .btn{text-decoration:none;font-weight:900;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;user-select:none;transition:transform .06s ease,filter .15s ease,background .15s ease;}
     .btn:active{transform:translateY(1px);}
-    .btn-primary{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 14px 26px rgba(14,165,164,.18);}
-    .btn-primary:hover{filter:brightness(.98);}
-    .btn-ghost{background:rgba(11,28,61,0.06);color:var(--navy-2);border:1px solid rgba(11,28,61,0.14);}
-    .btn-ghost:hover{background:rgba(11,28,61,0.10);}
+    .btn-primary{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.18);}
+    .btn-primary:hover{filter:brightness(.97);}
+    .btn-ghost{background:rgba(5,16,30,0.06);color:var(--navy-2);border:1px solid rgba(5,16,30,0.14);}
+    .btn-ghost:hover{background:rgba(5,16,30,0.10);}
+    .btn:focus-visible,.nav-link:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+
+    .nav-toggle{display:none;border:1px solid rgba(5,16,30,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;cursor:pointer;}
+    .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
+    .mobile-drawer{display:none;}
+    .mobile-drawer[hidden]{display:none !important;}
 
     /* HERO */
     .hero{padding:3.5rem 1.5rem 2rem;}
     .hero-inner{max-width:920px;margin:0 auto;}
-    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:850;color:var(--navy-2);background:rgba(14,165,164,0.10);border:1px solid rgba(14,165,164,0.18);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:14px;font-size:.9rem;}
-    .hero h1{font-size:clamp(2rem,5vw,3rem);margin:0 0 14px;color:var(--navy);line-height:1.08;font-weight:850;letter-spacing:-0.2px;}
-    .hero p{margin:0 0 18px;color:var(--muted);line-height:1.75;font-size:1.08rem;max-width:68ch;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--navy-2);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.16);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:14px;font-size:.9rem;}
+    .hero h1{font-size:clamp(2rem,5vw,3rem);margin:0 0 14px;color:var(--navy);line-height:1.08;font-weight:800;letter-spacing:-0.2px;}
+    .hero p{margin:0 0 18px;color:var(--muted);line-height:1.75;font-size:1.05rem;max-width:68ch;}
     .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
-    .hero-badge{margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid rgba(11,18,32,0.12);background:rgba(255,255,255,0.74);color:var(--navy-2);font-weight:800;line-height:1.5;box-shadow:0 10px 18px rgba(11,18,32,0.06);font-size:.95rem;}
+    .hero-badge{margin-top:14px;padding:11px 14px;border-radius:14px;border:1px solid rgba(5,16,30,0.12);background:rgba(255,255,255,0.74);color:var(--navy-2);font-weight:800;line-height:1.5;box-shadow:0 10px 18px rgba(5,16,30,0.06);font-size:.95rem;}
 
     /* SECTIONS */
     .section{max-width:920px;margin:52px auto;padding:0 20px;}
     .section h2{font-size:clamp(1.5rem,3vw,2rem);color:var(--navy);margin:0 0 12px;font-weight:800;letter-spacing:-0.15px;}
     .section p{margin:0 0 14px;color:var(--muted);line-height:1.75;font-size:1.02rem;}
 
-    .card{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:22px;}
+    .card{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:24px;}
     .card h3{margin:0 0 8px;color:var(--navy);font-weight:800;}
     .card p{margin:0;color:var(--muted);line-height:1.7;}
 
@@ -74,7 +93,7 @@
     .priority-item span{color:var(--muted);font-size:.9rem;line-height:1.5;}
 
     .check-list{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px;}
-    .check-list li{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid rgba(11,18,32,0.10);background:rgba(11,18,32,0.02);color:var(--navy-2);font-weight:650;line-height:1.5;}
+    .check-list li{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid rgba(5,16,30,0.10);background:rgba(5,16,30,0.02);color:var(--navy-2);font-weight:600;line-height:1.5;}
     .check-list li::before{content:"✓";color:var(--brand);font-weight:900;margin-top:1px;}
 
     .cta-band{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;}
@@ -83,11 +102,31 @@
     .cta-band-actions{display:flex;gap:10px;flex-wrap:wrap;}
 
     footer{background:#fff;border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--muted);font-size:15px;margin-top:48px;}
-    .footer-tagline{margin:0 0 6px;font-weight:650;color:var(--navy-2);}
+    .footer-tagline{margin:0 0 6px;font-weight:700;color:var(--navy-2);}
+    .footer-nav{margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;}
+    .footer-nav a{color:var(--muted);text-decoration:none;}
+    .footer-nav a:hover{text-decoration:underline;}
 
+    @media(max-width:980px){
+      .site-nav{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+      .header-inner{grid-template-columns:1fr auto;}
+      .header-cred{display:none;}
+      .mobile-pac-strip{display:block;}
+
+      .mobile-drawer{
+        max-width:1180px;margin:0 auto;padding:10px 18px 16px;
+        display:grid;gap:8px;
+      }
+      .mobile-drawer:not([hidden]){display:grid;}
+      .mobile-drawer a{text-decoration:none;font-weight:700;color:var(--navy);background:rgba(5,16,30,0.04);border:1px solid rgba(5,16,30,0.10);padding:12px 12px;border-radius:14px;}
+      .mobile-drawer a.drawer-cta{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;border:none;}
+    }
     @media(max-width:700px){
       .hero-actions{flex-direction:column;}
       .btn{width:100%;justify-content:center;}
+      .section{margin:40px auto;}
+      .cta-band{flex-direction:column;}
     }
   </style>
   <script src="/js/analytics.js"></script>
@@ -102,35 +141,68 @@
 <body>
   <header class="site-header" role="banner">
     <div class="header-inner">
-      <a class="brand" href="/index.html" aria-label="Arafat for Congress — página principal">
+      <a class="brand" href="/es/" aria-label="Adam Arafat para el Congreso, pagina principal en espanol">
         <span class="brand__name">Adam Arafat</span>
-        <span class="brand__meta">para el Congreso • WA-10</span>
+        <span class="brand__meta">para el Congreso &bull; WA-10</span>
       </a>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <div class="header-cred" aria-label="Política de financiación">Sin PACs corporativos ni dinero de AIPAC</div>
-        <a class="lang-link" href="/index.html" lang="en" hreflang="en">English</a>
-        <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+
+      <nav class="site-nav" aria-label="Navegacion principal">
+        <a class="nav-link" href="/es/" aria-current="page">Inicio</a>
+        <a class="nav-link" href="/es/why-im-running.html">Por Que Me Postulo</a>
+        <a class="nav-link" href="/es/issues.html">Propuestas</a>
+        <a class="nav-link" href="/es/record-contrast.html">La Diferencia</a>
+        <a class="nav-link" href="/es/about.html">Conoce a Adam</a>
+        <a class="nav-link" href="/es/events.html">Eventos</a>
+        <a class="nav-link" href="/es/endorsements.html">Avales</a>
+        <a class="nav-link" href="/es/contact.html">Contacto</a>
+      </nav>
+
+      <div class="header-cta">
+        <div class="header-cred" aria-label="Politica de financiacion">Sin PACs corporativos ni dinero de AIPAC</div>
+        <div class="cta-group">
+          <a class="btn btn-ghost" href="/index.html" lang="en" hreflang="en">English</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
+          <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-drawer-es">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
       </div>
+    </div>
+    <div class="mobile-pac-strip" aria-label="Politica de financiacion">Sin PACs corporativos ni dinero de AIPAC</div>
+
+    <div id="mobile-drawer-es" class="mobile-drawer" hidden>
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto y Voluntariado</a>
+      <a href="/index.html" lang="en" hreflang="en">English</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donar</a>
     </div>
   </header>
 
   <main>
     <!-- HERO -->
-    <section class="hero" aria-label="Sección principal">
+    <section class="hero" aria-label="Seccion principal">
       <div class="hero-inner">
         <div class="kicker">Distrito 10 de Washington</div>
-        <h1>Un Congreso para la gente — no para los donantes.</h1>
+        <h1>Un Congreso para la gente, no para los donantes.</h1>
         <p>
-          Soy Adam Arafat, veterano, esposo, padre y residente de Spanaway en el Distrito 10 de Washington.
-          Me postulo para el Congreso porque las familias trabajadoras de Olympia, Lacey, Lakewood y toda la región del South Sound merecen un representante que rinda cuentas a los votantes, no a los intereses corporativos.
+          Soy Adam Arafat: veterano, esposo, padre y residente de Spanaway en el Distrito 10 de Washington.
+          Me postulo para el Congreso porque las familias trabajadoras de Olympia, Lacey, Lakewood y toda la region del South Sound
+          merecen un representante que rinda cuentas a los votantes, no a los intereses corporativos.
         </p>
         <p>
-          Esta campaña no acepta dinero de PACs corporativos ni de AIPAC. Está financiada por vecinos como usted.
+          Esta campana no acepta dinero de PACs corporativos ni de AIPAC. Esta financiada por vecinos como usted.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Contribuir</a>
-          <a class="btn btn-ghost" href="/contact.html">Voluntariado</a>
-          <a class="btn btn-ghost" href="/index.html" lang="en" hreflang="en">Ver página en inglés</a>
+          <a class="btn btn-ghost" href="/es/contact.html">Voluntariado</a>
+          <a class="btn btn-ghost" href="/es/why-im-running.html">Por Que Me Postulo</a>
+          <a class="btn btn-ghost" href="/index.html" lang="en" hreflang="en">Ver pagina en ingles</a>
         </div>
         <div class="hero-badge">Sin dinero de PACs corporativos ni de AIPAC. Solo vecinos.</div>
       </div>
@@ -139,66 +211,69 @@
     <!-- PRIORIDADES -->
     <section class="section" aria-labelledby="prioridades-heading">
       <h2 id="prioridades-heading">Prioridades para WA-10</h2>
-      <p>Estas son las prioridades concretas de Adam Arafat para el Distrito 10 de Washington — no discursos, sino legislación real:</p>
+      <p>Estas son las prioridades concretas de Adam Arafat para el Distrito 10 de Washington: no discursos, sino legislacion real.</p>
       <div class="priorities-grid">
         <div class="priority-item">
           <strong>Vivienda</strong>
-          <span>Los alquileres en Pierce y Thurston han subido más del 40% desde 2019. Necesitamos acción real.</span>
+          <span>Los alquileres en Pierce y Thurston han subido mas del 40% desde 2019. Se necesita accion real.</span>
         </div>
         <div class="priority-item">
           <strong>Salud</strong>
-          <span>Salud para todos — sin deudas médicas, sin lagunas de cobertura.</span>
+          <span>Atencion medica para todos, sin deudas hospitalarias ni lagunas de cobertura.</span>
         </div>
         <div class="priority-item">
-          <strong>Trabajadores</strong>
-          <span>Fortalecer el derecho a sindicalizarse y aumentar los salarios.</span>
+          <strong>Derechos Laborales</strong>
+          <span>Fortalecer el derecho a sindicalizarse y aumentar los salarios de los trabajadores.</span>
         </div>
         <div class="priority-item">
-          <strong>Instituciones democráticas</strong>
-          <span>Defender el estado de derecho, la supervisión independiente y los derechos de voto.</span>
+          <strong>Instituciones Democraticas</strong>
+          <span>Defender el estado de derecho, la supervision independiente y los derechos de voto.</span>
         </div>
         <div class="priority-item">
-          <strong>Rendición de cuentas</strong>
-          <span>Transparencia real y consecuencias para la corrupción en el Congreso.</span>
+          <strong>Rendicion de Cuentas</strong>
+          <span>Transparencia real y consecuencias concretas para la corrupcion en el Congreso.</span>
         </div>
         <div class="priority-item">
-          <strong>Reforma de campaña</strong>
-          <span>Eliminar el dinero corporativo de la política. Si no se puede defender en casa, no merece mi voto.</span>
+          <strong>Reforma Electoral</strong>
+          <span>Eliminar el dinero corporativo de la politica. Si no se puede defender en casa, no merece un voto.</span>
         </div>
+      </div>
+      <div style="margin-top:16px;">
+        <a class="btn btn-ghost" href="/es/issues.html">Ver todas las propuestas</a>
       </div>
     </section>
 
     <!-- COMPROMISOS -->
     <section class="section" aria-labelledby="compromisos-heading">
       <div class="card">
-        <h2 id="compromisos-heading" style="margin:0 0 12px;font-size:1.5rem;">Lo que puede esperar de mí</h2>
-        <p>No solo palabras — estándares concretos que usted puede usar para evaluar mi desempeño:</p>
+        <h2 id="compromisos-heading" style="margin:0 0 12px;font-size:1.5rem;">Lo que puede esperar de mi</h2>
+        <p>No solo palabras: estandares concretos que usted puede usar para evaluar mi desempeno.</p>
         <ul class="check-list">
-          <li>Votaré y rendiré cuentas por encima de los ciclos de prensa.</li>
-          <li>Seré directo con el público sobre lo que apoyo y por qué.</li>
-          <li>Realizaré reuniones públicas regulares en toda la región — Lakewood, Olympia, Spanaway, Shelton.</li>
-          <li>Mantendré esta campaña financiada por el pueblo, sin dinero de PACs corporativos ni de AIPAC.</li>
+          <li>Votare y rendire cuentas por encima de los ciclos de prensa.</li>
+          <li>Sere directo con el publico sobre lo que apoyo y por que.</li>
+          <li>Realizare asambleas publicas regulares en toda la region: Lakewood, Olympia, Spanaway, Shelton.</li>
+          <li>Mantendre esta campana financiada por el pueblo, sin dinero de PACs corporativos ni de AIPAC.</li>
         </ul>
       </div>
     </section>
 
-    <!-- QUIÉN SOY -->
+    <!-- QUIEN SOY -->
     <section class="section" aria-labelledby="quien-heading">
       <div class="card">
-        <h2 id="quien-heading" style="margin:0 0 12px;font-size:1.5rem;">Quién soy</h2>
-        <p>Soy veterano con más de 20 años en aviación y operaciones de emergencia, incluyendo trabajo relacionado con la comunidad militar alrededor de la Base Joint Lewis-McChord (JBLM). Hoy superviso proyectos de infraestructura pública en la región.</p>
-        <p>Mi familia vive en Spanaway. Pagamos los mismos alquileres, usamos las mismas escuelas y enfrentamos los mismos costos crecientes que todos en el Distrito 10. Esta campaña no es un proyecto de currículum. Es responsabilidad.</p>
-        <a class="btn btn-ghost" href="/about.html" lang="en" hreflang="en" style="margin-top:14px;">Leer más (en inglés)</a>
+        <h2 id="quien-heading" style="margin:0 0 12px;font-size:1.5rem;">Quien soy</h2>
+        <p>Soy veterano con mas de 20 anos en aviacion y operaciones de emergencia, incluyendo trabajo relacionado con la comunidad militar alrededor de la Base Joint Lewis-McChord (JBLM). Hoy superviso proyectos de infraestructura publica en toda la region.</p>
+        <p>Mi familia vive en Spanaway. Pagamos los mismos alquileres, usamos las mismas escuelas y enfrentamos los mismos costos crecientes que todos en el Distrito 10. Esta campana no es un proyecto de curriculo. Es responsabilidad.</p>
+        <a class="btn btn-ghost" href="/es/about.html" style="margin-top:14px;display:inline-flex;">Conoce a Adam</a>
       </div>
     </section>
 
-    <!-- CÓMO PARTICIPAR -->
-    <section class="section" aria-label="Participación">
+    <!-- COMO PARTICIPAR -->
+    <section class="section" aria-label="Participacion">
       <div class="cta-band">
-        <p><strong>Únase a la campaña.</strong> Voluntariado, compartir este mensaje, o contribuir lo que pueda — todo cuenta para ganar.</p>
+        <p><strong>Unase a la campana.</strong> Voluntariado, compartir este mensaje o contribuir lo que pueda: todo cuenta para ganar.</p>
         <div class="cta-band-actions">
           <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Contribuir</a>
-          <a class="btn btn-ghost" href="/contact.html">Voluntariado</a>
+          <a class="btn btn-ghost" href="/es/contact.html">Voluntariado</a>
         </div>
       </div>
     </section>
@@ -206,16 +281,39 @@
     <!-- CONTACTO -->
     <section class="section" aria-labelledby="contacto-heading">
       <h2 id="contacto-heading">Contacto</h2>
-      <p>¿Preguntas, ideas o desea compartir su historia? Escríbanos:</p>
-      <p><a href="mailto:info@arafatforcongress.org" style="color:var(--brand);font-weight:700;">info@arafatforcongress.org</a></p>
-      <p style="margin-top:16px;font-size:.92rem;">Esta página es un resumen en español. Para información completa, visite nuestra <a href="/index.html" lang="en" hreflang="en" style="color:var(--brand);font-weight:700;">página principal en inglés</a>.</p>
+      <p>Preguntas, ideas o desea compartir su historia: escribanos a <a href="mailto:info@arafatforcongress.org" style="color:var(--brand);font-weight:700;">info@arafatforcongress.org</a></p>
+      <p style="font-size:.92rem;">Esta pagina es un resumen en espanol. Para informacion completa, visite nuestra <a href="/index.html" lang="en" hreflang="en" style="color:var(--brand);font-weight:700;">pagina principal en ingles</a>.</p>
     </section>
   </main>
 
   <footer>
     <p class="footer-tagline">Ciudadanos sirviendo a ciudadanos. Ese es el trabajo.</p>
-    Pagado por Arafat for Congress •
+    <nav aria-label="Navegacion del pie de pagina" class="footer-nav">
+      <a href="/es/">Inicio</a>
+      <a href="/es/why-im-running.html">Por Que Me Postulo</a>
+      <a href="/es/issues.html">Propuestas</a>
+      <a href="/es/record-contrast.html">La Diferencia</a>
+      <a href="/es/about.html">Conoce a Adam</a>
+      <a href="/es/events.html">Eventos</a>
+      <a href="/es/endorsements.html">Avales</a>
+      <a href="/es/contact.html">Contacto</a>
+      <a href="/index.html" lang="en" hreflang="en">English</a>
+    </nav>
+    Pagado por Arafat for Congress &bull;
     <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
   </footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var drawer = document.getElementById('mobile-drawer-es');
+      if(!toggle || !drawer) return;
+      toggle.addEventListener('click', function(){
+        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        drawer.hidden = isOpen;
+      });
+    })();
+  </script>
 </body>
 </html>

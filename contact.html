@@ -23,19 +23,19 @@
   <style>
     :root{
       --ink:#0b1220;
-      --navy:#071127;
-      --navy-2:#0b1c3d;
+      --navy:#05101e;
+      --navy-2:#091b36;
       --muted:#51607a;
       --paper:#ffffff;
-      --brand:#0ea5a4;
-      --brand-dark:#0b7f7e;
-      --gold:#f2c14e;
-      --border-soft: rgba(11,18,32,0.10);
-      --border: rgba(11,18,32,0.16);
-      --shadow-soft: 0 10px 22px rgba(11,18,32,0.08);
-      --shadow: 0 14px 30px rgba(11,18,32,0.10);
-      --radius: 16px;
-      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(14,165,164,0.10), transparent 55%),
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft: rgba(5,16,30,0.10);
+      --border: rgba(5,16,30,0.16);
+      --shadow-soft: 0 10px 22px rgba(5,16,30,0.08);
+      --shadow: 0 14px 30px rgba(5,16,30,0.10);
+      --radius: 12px;
+      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(29,79,168,0.08), transparent 55%),
             radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
             linear-gradient(180deg, #f7f8fb, #eef1f7);
     }
@@ -44,28 +44,28 @@
     a{ color: inherit; }
 
     .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft)}
-    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--brand),rgba(242,193,78,0.9));opacity:.9}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--brand),rgba(184,134,13,0.9));opacity:.9}
     .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px}
     .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:220px}
     .brand__name{font-weight:950;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy)}
     .brand__meta{font-weight:850;font-size:.85rem;color:var(--muted)}
     .site-nav{display:flex;gap:10px;align-items:center}
     .nav-link{text-decoration:none;color:var(--navy);font-weight:850;font-size:.95rem;padding:10px 10px;border-radius:12px;transition:background .15s ease,color .15s ease;white-space:nowrap}
-    .nav-link:hover{background:rgba(14,165,164,0.10)}
-    .nav-link[aria-current="page"]{background:rgba(14,165,164,0.12);box-shadow:inset 0 0 0 1px rgba(14,165,164,0.18)}
+    .nav-link:hover{background:rgba(29,79,168,0.08)}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.20)}
     .header-cta{display:flex;align-items:center;gap:12px}
-    .header-cred{font-size:.82rem;font-weight:900;color:var(--navy-2);background:rgba(242,193,78,0.18);border:1px solid rgba(242,193,78,0.35);padding:8px 10px;border-radius:999px;white-space:nowrap}
+    .header-cred{font-size:.82rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.12);border:1px solid rgba(184,134,13,0.28);padding:8px 10px;border-radius:999px;white-space:nowrap}
     .cta-group{display:flex;gap:10px;align-items:center}
     .btn{text-decoration:none;font-weight:950;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;user-select:none;transition:transform .06s ease,filter .15s ease,background .15s ease}
     .btn:active{transform:translateY(1px)}
-    .btn-primary{background:linear-gradient(180deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 14px 26px rgba(14,165,164,.18)}
+    .btn-primary{background:linear-gradient(160deg,var(--brand),var(--brand-dark));color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.20)}
     .btn-primary:hover{filter:brightness(.98)}
     .btn-ghost{background:rgba(11,28,61,0.06);color:var(--navy-2);border:1px solid rgba(11,28,61,0.14)}
     .btn-ghost:hover{background:rgba(11,28,61,0.10)}
 
     .nav-toggle{display:none;border:1px solid rgba(11,28,61,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px 10px;min-height:44px;min-width:44px}
     .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px}
-    .mobile-pac-strip{display:none;background:rgba(242,193,78,0.14);border-bottom:1px solid rgba(242,193,78,0.30);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.10);border-bottom:1px solid rgba(184,134,13,0.25);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
     .mobile-drawer{display:none}
     .mobile-drawer[hidden]{display:none!important}
 
@@ -75,7 +75,7 @@
       radial-gradient(circle at 85% 30%,rgba(36,70,245,.15) 0%,transparent 60%)}
     .hero__grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr;gap:18px}
     .kicker{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:.92rem;color:var(--navy-2);
-      background:rgba(14,165,164,0.10);border:1px solid rgba(14,165,164,0.18);padding:8px 12px;border-radius:999px;width:max-content}
+      background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.20);padding:8px 12px;border-radius:999px;width:max-content}
     .hero__text h1{font-size:42px;margin:10px 0 10px;color:var(--navy);letter-spacing:.2px;text-shadow:1px 1px 2px rgba(0,0,0,.05)}
     .hero__text p{font-size:18px;color:var(--muted);max-width:900px;margin:0 0 10px}
     .hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;align-items:center}
@@ -120,6 +120,16 @@
       width:100%;box-sizing:border-box;border-radius:14px;border:1px solid var(--border);
       padding:12px 12px;font-size:16px;background:#fff;color:var(--ink)
     }
+
+    /* VOLUNTEER TRACKER */
+    .lead-badge { display:inline-flex; align-items:center; font-size:.7rem; font-weight:800; padding:3px 8px; border-radius:999px; letter-spacing:.5px; text-transform:uppercase; white-space:nowrap; }
+    .lead-needed { background:rgba(184,134,13,0.12); color:#92400e; border:1px solid rgba(184,134,13,0.35); }
+    .lead-filled { background:rgba(22,101,52,0.10); color:#166534; border:1px solid rgba(22,101,52,0.25); }
+    .area-slot { background:rgba(5,16,30,0.04); border:1px solid var(--border-soft); border-radius:10px; padding:10px 12px; }
+    .area-open { border-left:3px solid rgba(184,134,13,0.55); }
+    .area-filled { border-left:3px solid rgba(22,101,52,0.55); }
+    .area-name { display:block; font-weight:800; color:var(--navy); font-size:.88rem; }
+    .area-status { display:block; font-size:.76rem; font-weight:700; color:var(--muted); margin-top:3px; }
     textarea{min-height:150px;resize:vertical}
     .disclaimer{color:var(--muted);font-size:14px;margin:0}
     .hint{color:var(--muted);font-size:14px;margin:0}
@@ -152,7 +162,7 @@
       .mobile-pac-strip{ display:block; }
       .mobile-drawer{ max-width: 1180px; margin: 0 auto; padding: 10px 18px 16px; display:grid; gap: 8px; }
       .mobile-drawer a{ text-decoration:none; font-weight: 850; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
-      .mobile-drawer a.drawer-cta{ background: linear-gradient(180deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
+      .mobile-drawer a.drawer-cta{ background: linear-gradient(160deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
       .hero__text h1{font-size:36px}
     }
   </style>
@@ -178,10 +188,10 @@
 
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
-        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
+        <a class="nav-link" href="/endorsements.html">Endorsements</a>
         <a class="nav-link" href="/contact.html" aria-current="page">Contact / Volunteer</a>
       </nav>
 
@@ -205,9 +215,12 @@
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
-      <a href="/contact.html">Contact / Volunteer</a>
+      <a href="/endorsements.html">Endorsements</a>
+      <a href="/events.html">Events</a>
+      <a href="/contact.html" aria-current="page">Contact / Volunteer</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-    </div>
+    
   </header>
 
   <!-- HERO -->
@@ -355,7 +368,7 @@
   <!-- STORY FORM -->
   <section class="section" id="story" aria-label="Share your story">
     <h2>Share your story</h2>
-    <p>Your story shapes this campaign. Tell us what Washington isn’t fixing for your family — in Spanaway, Lakewood, Olympia, or anywhere in WA-10.</p>
+    <p>Your story shapes this campaign. Tell us what Washington isn’t fixing for your family, in Spanaway, Lakewood, Olympia, or anywhere in WA-10.</p>
 
     <form class="form" id="story-form" data-augment-tracking="true" data-form-type="contact" novalidate>
       <div class="form-row">
@@ -365,7 +378,7 @@
         </div>
         <div class="form-group">
           <label for="visitorContact">Email or phone (optional)</label>
-          <input type="text" id="visitorContact" name="contact" placeholder="Email or phone — so we can follow up" autocomplete="email" />
+          <input type="text" id="visitorContact" name="contact" placeholder="Email or phone, so we can follow up" autocomplete="email" />
         </div>
       </div>
 
@@ -456,9 +469,10 @@
   <footer>
     <p style="margin:0 0 6px;font-weight:650;color:#071127;">Citizens serving citizens. That's the job.</p>
     <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/events.html">Events</a>
-      <a href="/endorsements.html">Endorsements</a>
-      <a href="/es/">En Español</a>
+      <a href="/es/">En Espa&ntilde;ol</a>
+      <a href="/contact.html">Volunteer</a>
     </nav>
     Paid for by Arafat for Congress • <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
   </footer>
@@ -493,7 +507,7 @@
         parts.push('');
         parts.push('--- Submitted from arafatforcongress.org/contact ---');
         var body = encodeURIComponent(parts.join('\n'));
-        feedback.textContent = 'Thank you — opening your email app to send your story to the campaign.';
+        feedback.textContent = 'Thank you, opening your email app to send your story to the campaign.';
         feedback.style.color = '#0b7f7e';
         window.location.href = 'mailto:info@arafatforcongress.org?subject=' + subject + '&body=' + body;
       });
