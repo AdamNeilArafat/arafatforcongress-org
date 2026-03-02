@@ -333,12 +333,32 @@
     .card p{ margin: 0; color: var(--muted); line-height: 1.65; font-weight: 500; }
 
     .bill{
-      margin-top: 14px;
-      border-top: 1px solid var(--border-soft);
-      padding-top: 14px;
+      margin-top: 16px;
+      border-top: 2px solid var(--border);
+      padding-top: 16px;
       display:grid;
-      gap: 8px;
+      gap: 10px;
+      background: rgba(29,79,168,0.03);
+      border-radius: 0 0 var(--radius) var(--radius);
+      margin-left: -20px;
+      margin-right: -20px;
+      margin-bottom: -20px;
+      padding: 14px 20px 16px;
+      border-top: 2px solid rgba(29,79,168,0.18);
     }
+
+    .bill-label{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 2px;
+    }
+
     .pill-row{ display:flex; flex-wrap:wrap; gap: 8px; align-items:center; }
 
     .bill-title{
@@ -347,29 +367,33 @@
       letter-spacing: -.1px;
       margin: 0;
       line-height: 1.35;
+      font-size: 1rem;
     }
     .bill-meta{
       margin:0;
       color: var(--muted);
       line-height: 1.55;
       font-weight: 500;
+      font-size: .9rem;
     }
     .bill-links{
       display:flex;
       flex-wrap:wrap;
       gap: 10px;
       align-items:center;
+      margin-top: 2px;
     }
     .link{
       font-weight: 800;
       color: var(--navy-2);
       text-decoration:none;
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(11,18,32,0.04);
-      border: 1px solid var(--border-soft);
+      padding: 7px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--border);
+      font-size: .86rem;
     }
-    .link:hover{ background: rgba(11,18,32,0.07); }
+    .link:hover{ background: rgba(255,255,255,1); }
 
     .copy-block{
       background: #fff;
@@ -507,6 +531,7 @@
           <h3>Housing</h3>
           <p>Make affordable housing a national priority, not a talking point. Rents in Pierce and Thurston counties are up 40%+ since 2019.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 4457, Housing Is a Human Right Act of 2025</p>
             <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
             <div class=”pill-row” aria-label=”cosponsor status”>
@@ -528,6 +553,7 @@
           <h3>Healthcare</h3>
           <p>Guarantee healthcare for every American. No more medical debt, no more coverage gaps.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 3069, Medicare for All Act of 2025</p>
             <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
             <div class=”pill-row” aria-label=”cosponsor status”>
@@ -549,6 +575,7 @@
           <h3>Democratic Institutions</h3>
           <p>Defend voting rights, rule of law, independent oversight, and enforcement, right now, not someday.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 14, John R. Lewis Voting Rights Advancement Act of 2025</p>
             <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Terri A. Sewell</p>
             <div class=”pill-row”>
@@ -570,6 +597,7 @@
           <h3>Worker Protections</h3>
           <p>Restore worker power. Protect unions. Raise wages for families across the South Sound.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 20, Richard L. Trumka Protecting the Right to Organize (PRO) Act of 2025</p>
             <p class=”bill-meta”><strong>Sponsors:</strong> Rep. Bobby Scott (D-VA), Rep. Hakeem Jeffries, Rep. Brian Fitzpatrick (R-PA), bipartisan. 214 cosponsors in 119th Congress.</p>
             <div class=”pill-row” aria-label=”cosponsor status”>
@@ -590,6 +618,7 @@
           <h3>Campaign Finance Reform</h3>
           <p>End corporate money in politics. Close the Citizens United loophole.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.J.Res. 54, We the People Amendment (overturn Citizens United)</p>
             <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
             <div class=”pill-row”>
@@ -611,6 +640,7 @@
           <h3>Accountability</h3>
           <p>Transparency and real consequences for corruption. Congress should not be exempt from the rules it sets for everyone else.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 396, TRUST in Congress Act (blind trust requirement for Members and family)</p>
             <div class=”pill-row”>
               <span class=”pill warn”>Co-sponsor status, verify at Congress.gov</span>
@@ -630,6 +660,7 @@
           <h3>Tax Extreme Wealth</h3>
           <p>Tax extreme wealth and fund working families.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 5336, Equal Tax Act</p>
             <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Delia C. Ramirez</p>
             <div class=”pill-row” aria-label=”cosponsor status”>
@@ -651,6 +682,7 @@
           <h3>Environment</h3>
           <p>Treat climate change as the emergency it is. Stop subsidizing the companies causing it.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 4714, End Polluter Welfare Act of 2025</p>
             <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Ro Khanna</p>
             <div class=”pill-row”>
@@ -671,6 +703,7 @@
           <h3>Spying &amp; Data Collection</h3>
           <p>End mass surveillance and close the data-broker loophole that lets the government buy what it can’t legally seize.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 4639, Fourth Amendment Is Not For Sale Act (118th Congress)</p>
             <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Warren Davidson</p>
             <div class=”pill-row”>
@@ -691,6 +724,7 @@
           <h3>Artificial Intelligence</h3>
           <p>Ensure AI serves people, not corporations. Prevent algorithmic discrimination in hiring, lending, and benefits.</p>
           <div class=”bill”>
+            <span class=”bill-label”>&#128196; Bill on record</span>
             <p class=”bill-title”>H.R. 6356, Artificial Intelligence Civil Rights Act of 2025</p>
             <p class=”bill-meta”><strong>House sponsors:</strong> Reps. Yvette Clarke (NY), Ayanna Pressley (MA), Pramila Jayapal (WA-07), Summer Lee (PA). Introduced Dec. 2, 2025. Senate companion: S. 3308 (Sen. Ed Markey).</p>
             <div class=”pill-row”>

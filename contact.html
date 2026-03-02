@@ -361,34 +361,125 @@
   <!-- OUTREACH TRACKER FORM -->
   <section class="section" id="outreach-tracker" aria-label="Volunteer outreach tracker">
     <h2>Log your outreach</h2>
-    <p>Volunteers: log your outreach numbers here. This keeps the campaign team updated on real-time progress across WA-10. All data goes directly to the campaign sheet.</p>
-    <div style="background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);overflow:hidden;">
-      <!-- INSTRUCTIONS FOR CAMPAIGN TEAM:
-           1. Go to docs.google.com and create a new Google Form with fields:
-              - Volunteer_Group (dropdown: Field, Digital, Voter Contact, Events, Flyers)
-              - Outreach_Count (short answer, number)
-              - Date (date field)
-           2. Link the form to your Google Sheet:
-              https://docs.google.com/spreadsheets/d/1-HyfrBEUsQnia1MsReY0LHffhwosaeRcyaYgLI5me9E
-           3. Get the embed URL from Form > Send > Embed icon
-           4. Replace the src URL below with your form's embed URL
-      -->
-      <iframe
-        src="https://docs.google.com/forms/d/e/GOOGLE_FORM_ID_REPLACE_ME/viewform?embedded=true"
-        width="100%"
-        height="520"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        title="Volunteer Outreach Tracker Form"
-        style="display:block;"
-        loading="lazy">
-        Loading outreach form&hellip;
-      </iframe>
+    <p>Volunteers: log your outreach numbers here. This keeps the campaign team updated on real-time progress across WA-10. Fill out the form below — it will open your email app pre-filled and ready to send.</p>
+
+    <div style="background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:24px 26px;">
+      <form id="outreach-log-form" novalidate style="display:grid;gap:14px;">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ol-name">Your name <span aria-hidden="true">*</span></label>
+            <input type="text" id="ol-name" name="ol_name" placeholder="First and last name" autocomplete="name" required />
+          </div>
+          <div class="form-group">
+            <label for="ol-group">Volunteer team <span aria-hidden="true">*</span></label>
+            <select id="ol-group" name="ol_group" required>
+              <option value="">Select your team…</option>
+              <option>Field / Canvassing</option>
+              <option>Digital / Social</option>
+              <option>Voter Contact (Phones / Texts)</option>
+              <option>Events</option>
+              <option>Flyers / Lit Drops</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ol-date">Date of outreach <span aria-hidden="true">*</span></label>
+            <input type="date" id="ol-date" name="ol_date" required />
+          </div>
+          <div class="form-group">
+            <label for="ol-area">Area / community</label>
+            <select id="ol-area" name="ol_area">
+              <option value="">Select area…</option>
+              <option>Spanaway</option>
+              <option>Lakewood</option>
+              <option>Olympia</option>
+              <option>Lacey / Tumwater</option>
+              <option>University Place</option>
+              <option>JBLM Communities</option>
+              <option>Puyallup / South Hill</option>
+              <option>Other / Multiple</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ol-doors">Doors knocked / contacts made</label>
+            <input type="number" id="ol-doors" name="ol_doors" inputmode="numeric" min="0" placeholder="e.g., 45" />
+          </div>
+          <div class="form-group">
+            <label for="ol-flyers">Flyers posted / distributed</label>
+            <input type="number" id="ol-flyers" name="ol_flyers" inputmode="numeric" min="0" placeholder="e.g., 12" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ol-notes">Notes (optional)</label>
+          <textarea id="ol-notes" name="ol_notes" rows="3" placeholder="Any observations, strong responses, issues encountered, follow-ups needed…" style="min-height:80px;resize:vertical;"></textarea>
+        </div>
+
+        <div class="hero__actions">
+          <button class="btn btn-primary" type="submit">Submit outreach log</button>
+          <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Outreach%20Log" data-event="email_click">Or email the team directly</a>
+        </div>
+
+        <p id="ol-feedback" role="status" aria-live="polite" style="min-height:1.4em;font-size:.88rem;color:var(--muted);margin:0;"></p>
+      </form>
     </div>
-    <p style="font-size:.82rem;color:var(--muted);margin-top:8px;">
-      Data collected here feeds directly into the campaign outreach dashboard. Staff only &mdash; no personal data is published.
-    </p>
+
+    <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:.82rem;color:var(--muted);">&#128274; Staff use only &mdash; outreach data is never published publicly.</span>
+      <a href="/admin/volunteer-dashboard.html" style="font-size:.82rem;font-weight:800;color:var(--brand);text-decoration:none;padding:5px 10px;border:1px solid rgba(29,79,168,0.25);border-radius:8px;background:rgba(29,79,168,0.06);">View campaign dashboard &rarr;</a>
+    </div>
+
+    <script>
+      (function(){
+        var form = document.getElementById('outreach-log-form');
+        if (!form) return;
+        // Pre-fill today's date
+        var dateInput = document.getElementById('ol-date');
+        if (dateInput) {
+          var today = new Date();
+          dateInput.value = today.toISOString().split('T')[0];
+        }
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          var feedback = document.getElementById('ol-feedback');
+          var name = document.getElementById('ol-name').value.trim();
+          var group = document.getElementById('ol-group').value;
+          var date = document.getElementById('ol-date').value;
+          if (!name || !group || !date) {
+            feedback.textContent = 'Please fill in your name, team, and date before submitting.';
+            feedback.style.color = '#c1121f';
+            return;
+          }
+          var area = document.getElementById('ol-area').value || 'Not specified';
+          var doors = document.getElementById('ol-doors').value || '0';
+          var flyers = document.getElementById('ol-flyers').value || '0';
+          var notes = document.getElementById('ol-notes').value.trim() || 'None';
+          var subject = encodeURIComponent('Outreach Log: ' + group + ' | ' + date);
+          var body = encodeURIComponent(
+            'VOLUNTEER OUTREACH LOG\n' +
+            '======================\n' +
+            'Name: ' + name + '\n' +
+            'Team: ' + group + '\n' +
+            'Area: ' + area + '\n' +
+            'Date: ' + date + '\n' +
+            'Doors / contacts: ' + doors + '\n' +
+            'Flyers: ' + flyers + '\n' +
+            'Notes: ' + notes + '\n\n' +
+            '--- Submitted from arafatforcongress.org/contact ---'
+          );
+          feedback.textContent = 'Opening your email app to submit the log…';
+          feedback.style.color = '#0b7f7e';
+          window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
+        });
+      })();
+    </script>
   </section>
 
   <!-- FLYERS: PRINT / LAMINATE / DROPOFF -->
