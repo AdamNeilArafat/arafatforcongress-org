@@ -9,6 +9,6 @@
   },
   "records": [],
   "stale": true,
-  "stale_reason": "Remote end closed connection without response",
-  "data_pull_date": "2026-03-02T13:08:19.586554+00:00"
+  "stale_reason": "HTTP Error 404: Not Found",
+  "data_pull_date": "2026-03-02T18:55:48.881706+00:00"
 }
