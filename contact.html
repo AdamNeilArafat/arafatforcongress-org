@@ -229,34 +229,43 @@
         <div class="kicker">People power beats big money</div>
         <h1>We win this campaign by building it together.</h1>
         <p>
-          If you want WA-10 represented by working people instead of donor politics, we need you in the fight.
-          Pick a role, share your story, or reach the team directly.
+          WA-10 changes when neighbors organize neighbors. Pick a role below, email us directly, or share your story.
+          Every message is read by a real person on the campaign team.
         </p>
 
         <div class="hero__actions" aria-label="Primary actions">
-          <a class="btn btn-primary" href="#volunteer" data-event="volunteer_click" data-location="hero">Volunteer</a>
-          <a class="btn btn-secondary" href="#story" data-event="story_click" data-location="hero">Share your story</a>
+          <a class="btn btn-primary" href="#volunteer" data-event="volunteer_click" data-location="hero">Join the team</a>
           <a class="btn btn-ghost" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer" data-event="donate_click" data-location="hero">Donate</a>
         </div>
 
-        <div class="pill-row" aria-label="Quick contact">
-          <span class="pill">✉ <span>info@arafatforcongress.org</span> <small>General</small></span>
-          <span class="pill">🤝 <span>volunteer@arafatforcongress.org</span> <small>Volunteer</small></span>
+        <!-- HOW IT WORKS mini-flow -->
+        <div style="margin-top:20px;padding:16px 18px;background:rgba(255,255,255,0.75);border:1px solid var(--border-soft);border-radius:var(--radius);backdrop-filter:blur(6px);">
+          <p style="margin:0 0 10px;font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);">How volunteering works</p>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.86rem;font-weight:700;color:var(--navy);">
+            <span style="background:rgba(29,79,168,0.10);color:var(--brand);padding:4px 10px;border-radius:999px;">1. Pick a role below</span>
+            <span style="color:var(--muted);">&#8594;</span>
+            <span style="background:rgba(29,79,168,0.10);color:var(--brand);padding:4px 10px;border-radius:999px;">2. Email opens pre-filled</span>
+            <span style="color:var(--muted);">&#8594;</span>
+            <span style="background:rgba(29,79,168,0.10);color:var(--brand);padding:4px 10px;border-radius:999px;">3. Team follows up within 48 hrs</span>
+            <span style="color:var(--muted);">&#8594;</span>
+            <span style="background:rgba(22,101,52,0.12);color:#166534;padding:4px 10px;border-radius:999px;">4. You're in the fight</span>
+          </div>
         </div>
 
-        <p class="hero__note">
-          Every message is read. A campaign team member will follow up as fast as we can.
-        </p>
+        <div class="pill-row" aria-label="Quick contact" style="margin-top:14px;">
+          <a class="pill" href="mailto:info@arafatforcongress.org" style="text-decoration:none;">✉ <span>info@arafatforcongress.org</span> <small>General</small></a>
+          <a class="pill" href="mailto:volunteer@arafatforcongress.org" style="text-decoration:none;">🤝 <span>volunteer@arafatforcongress.org</span> <small>Volunteer</small></a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- VOLUNTEER PATHWAYS -->
   <section class="section" id="volunteer" aria-label="Volunteer roles">
-    <h2>Join the campaign team</h2>
+    <h2>Pick your role</h2>
     <p>
-      This district changes when neighbors organize neighbors. Find the role that fits you,
-      reach out, and we will plug you in. Every team needs people who care enough to own it.
+      Every role matters. Tapping "Join" opens a pre-filled email to the volunteer team.
+      You'll hear back within 48 hours with next steps.
     </p>
 
     <div class="grid">
@@ -358,128 +367,56 @@
     </div>
   </section>
 
-  <!-- OUTREACH TRACKER FORM -->
-  <section class="section" id="outreach-tracker" aria-label="Volunteer outreach tracker">
-    <h2>Log your outreach</h2>
-    <p>Volunteers: log your outreach numbers here. This keeps the campaign team updated on real-time progress across WA-10. Fill out the form below — it will open your email app pre-filled and ready to send.</p>
+  <!-- STORY FORM — constituent stories are high-value signal -->
+  <section class="section" id="story" aria-label="Share your story">
+    <h2>Share your story</h2>
+    <p>Your story shapes this campaign. Tell us what Washington isn't fixing for your family — in Spanaway, Lakewood, Olympia, or anywhere in WA-10. Every story is read.</p>
 
-    <div style="background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:24px 26px;">
-      <form id="outreach-log-form" novalidate style="display:grid;gap:14px;">
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="ol-name">Your name <span aria-hidden="true">*</span></label>
-            <input type="text" id="ol-name" name="ol_name" placeholder="First and last name" autocomplete="name" required />
-          </div>
-          <div class="form-group">
-            <label for="ol-group">Volunteer team <span aria-hidden="true">*</span></label>
-            <select id="ol-group" name="ol_group" required>
-              <option value="">Select your team…</option>
-              <option>Field / Canvassing</option>
-              <option>Digital / Social</option>
-              <option>Voter Contact (Phones / Texts)</option>
-              <option>Events</option>
-              <option>Flyers / Lit Drops</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="ol-date">Date of outreach <span aria-hidden="true">*</span></label>
-            <input type="date" id="ol-date" name="ol_date" required />
-          </div>
-          <div class="form-group">
-            <label for="ol-area">Area / community</label>
-            <select id="ol-area" name="ol_area">
-              <option value="">Select area…</option>
-              <option>Spanaway</option>
-              <option>Lakewood</option>
-              <option>Olympia</option>
-              <option>Lacey / Tumwater</option>
-              <option>University Place</option>
-              <option>JBLM Communities</option>
-              <option>Puyallup / South Hill</option>
-              <option>Other / Multiple</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="ol-doors">Doors knocked / contacts made</label>
-            <input type="number" id="ol-doors" name="ol_doors" inputmode="numeric" min="0" placeholder="e.g., 45" />
-          </div>
-          <div class="form-group">
-            <label for="ol-flyers">Flyers posted / distributed</label>
-            <input type="number" id="ol-flyers" name="ol_flyers" inputmode="numeric" min="0" placeholder="e.g., 12" />
-          </div>
-        </div>
-
+    <form class="form" id="story-form" data-augment-tracking="true" data-form-type="contact" novalidate>
+      <div class="form-row">
         <div class="form-group">
-          <label for="ol-notes">Notes (optional)</label>
-          <textarea id="ol-notes" name="ol_notes" rows="3" placeholder="Any observations, strong responses, issues encountered, follow-ups needed…" style="min-height:80px;resize:vertical;"></textarea>
+          <label for="visitorName">Your name (optional)</label>
+          <input type="text" id="visitorName" name="name" placeholder="First and last name" autocomplete="name" />
         </div>
-
-        <div class="hero__actions">
-          <button class="btn btn-primary" type="submit">Submit outreach log</button>
-          <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Outreach%20Log" data-event="email_click">Or email the team directly</a>
+        <div class="form-group">
+          <label for="visitorContact">Email or phone (optional)</label>
+          <input type="text" id="visitorContact" name="contact" placeholder="So we can follow up" autocomplete="email" />
         </div>
+      </div>
 
-        <p id="ol-feedback" role="status" aria-live="polite" style="min-height:1.4em;font-size:.88rem;color:var(--muted);margin:0;"></p>
-      </form>
-    </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="topic">Topic</label>
+          <select id="topic" name="topic">
+            <option>Housing</option>
+            <option>Healthcare</option>
+            <option>Cost of living</option>
+            <option>Jobs &amp; wages</option>
+            <option>Veteran / military issues</option>
+            <option>Accountability</option>
+            <option>Public transit</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="zip">ZIP code (optional)</label>
+          <input type="text" id="zip" name="zip" inputmode="numeric" placeholder="e.g., 98444" />
+        </div>
+      </div>
 
-    <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-      <span style="font-size:.82rem;color:var(--muted);">&#128274; Staff use only &mdash; outreach data is never published publicly.</span>
-      <a href="/admin/volunteer-dashboard.html" style="font-size:.82rem;font-weight:800;color:var(--brand);text-decoration:none;padding:5px 10px;border:1px solid rgba(29,79,168,0.25);border-radius:8px;background:rgba(29,79,168,0.06);">View campaign dashboard &rarr;</a>
-    </div>
+      <div class="form-group">
+        <label for="storyText">Your message <span aria-hidden="true" style="color:#c1121f;">*</span></label>
+        <textarea id="storyText" name="story" required placeholder="Write what you want us to know..." rows="5"></textarea>
+      </div>
 
-    <script>
-      (function(){
-        var form = document.getElementById('outreach-log-form');
-        if (!form) return;
-        // Pre-fill today's date
-        var dateInput = document.getElementById('ol-date');
-        if (dateInput) {
-          var today = new Date();
-          dateInput.value = today.toISOString().split('T')[0];
-        }
-        form.addEventListener('submit', function(e){
-          e.preventDefault();
-          var feedback = document.getElementById('ol-feedback');
-          var name = document.getElementById('ol-name').value.trim();
-          var group = document.getElementById('ol-group').value;
-          var date = document.getElementById('ol-date').value;
-          if (!name || !group || !date) {
-            feedback.textContent = 'Please fill in your name, team, and date before submitting.';
-            feedback.style.color = '#c1121f';
-            return;
-          }
-          var area = document.getElementById('ol-area').value || 'Not specified';
-          var doors = document.getElementById('ol-doors').value || '0';
-          var flyers = document.getElementById('ol-flyers').value || '0';
-          var notes = document.getElementById('ol-notes').value.trim() || 'None';
-          var subject = encodeURIComponent('Outreach Log: ' + group + ' | ' + date);
-          var body = encodeURIComponent(
-            'VOLUNTEER OUTREACH LOG\n' +
-            '======================\n' +
-            'Name: ' + name + '\n' +
-            'Team: ' + group + '\n' +
-            'Area: ' + area + '\n' +
-            'Date: ' + date + '\n' +
-            'Doors / contacts: ' + doors + '\n' +
-            'Flyers: ' + flyers + '\n' +
-            'Notes: ' + notes + '\n\n' +
-            '--- Submitted from arafatforcongress.org/contact ---'
-          );
-          feedback.textContent = 'Opening your email app to submit the log…';
-          feedback.style.color = '#0b7f7e';
-          window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
-        });
-      })();
-    </script>
+      <div class="hero__actions">
+        <button class="btn btn-primary" type="submit" data-event="story_submit" data-location="story">Send your story</button>
+        <a class="btn btn-ghost" href="mailto:info@arafatforcongress.org?subject=Constituent%20message" data-event="email_click" data-location="story" data-email="info">Or email directly</a>
+      </div>
+
+      <p id="story-feedback" role="status" aria-live="polite" class="disclaimer" style="min-height:1.4em;"></p>
+      <p class="disclaimer">Stories may be shared publicly (anonymously unless you consent). No spam.</p>
+    </form>
   </section>
 
   <!-- FLYERS: PRINT / LAMINATE / DROPOFF -->
@@ -520,6 +457,166 @@
     </div>
   </section>
 
+  <!-- OUTREACH TRACKER FORM — for active, onboarded volunteers logging field work -->
+  <section class="section" id="outreach-tracker" aria-label="Volunteer outreach tracker">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+      <h2 style="margin:0;">Already a volunteer? Log today's work.</h2>
+      <span style="font-size:.75rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;background:rgba(29,79,168,0.10);color:var(--brand);border:1px solid rgba(29,79,168,0.22);padding:3px 10px;border-radius:999px;">Active volunteers</span>
+    </div>
+    <p>After canvassing, phone banking, or posting flyers, log your numbers here. It takes 60 seconds and keeps the team coordinated across WA-10. Your data goes directly to the campaign team.</p>
+
+    <!-- FORM STATE (default) -->
+    <div id="ol-form-wrap" style="background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:24px 26px;">
+      <form id="outreach-log-form" novalidate style="display:grid;gap:14px;">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ol-name">Your name <span aria-hidden="true" style="color:#c1121f;">*</span></label>
+            <input type="text" id="ol-name" name="ol_name" placeholder="First and last name" autocomplete="name" required />
+          </div>
+          <div class="form-group">
+            <label for="ol-group">What kind of outreach? <span aria-hidden="true" style="color:#c1121f;">*</span></label>
+            <select id="ol-group" name="ol_group" required>
+              <option value="">Select type…</option>
+              <option>Field / Canvassing</option>
+              <option>Voter Contact (Phones / Texts)</option>
+              <option>Flyers / Lit Drops</option>
+              <option>Digital / Social</option>
+              <option>Events / Tabling</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ol-date">Date of outreach <span aria-hidden="true" style="color:#c1121f;">*</span></label>
+            <input type="date" id="ol-date" name="ol_date" required />
+          </div>
+          <div class="form-group">
+            <label for="ol-area">Where did you work?</label>
+            <select id="ol-area" name="ol_area">
+              <option value="">Select area…</option>
+              <option>Spanaway</option>
+              <option>Lakewood</option>
+              <option>Olympia</option>
+              <option>Lacey / Tumwater</option>
+              <option>University Place</option>
+              <option>JBLM Communities</option>
+              <option>Puyallup / South Hill</option>
+              <option>Other / Multiple</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ol-doors">Doors knocked / contacts made</label>
+            <input type="number" id="ol-doors" name="ol_doors" inputmode="numeric" min="0" placeholder="e.g., 45" />
+          </div>
+          <div class="form-group">
+            <label for="ol-flyers">Flyers posted / distributed</label>
+            <input type="number" id="ol-flyers" name="ol_flyers" inputmode="numeric" min="0" placeholder="e.g., 12" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ol-notes">Notes <span style="font-weight:500;color:var(--muted);">(optional — strong responses, issues, follow-ups)</span></label>
+          <textarea id="ol-notes" name="ol_notes" rows="3" placeholder="e.g., 'Three households asked about housing costs and want more info. One possible volunteer at 123 Main.'" style="min-height:80px;resize:vertical;"></textarea>
+        </div>
+
+        <p id="ol-error" role="alert" aria-live="assertive" style="margin:0;font-size:.88rem;color:#c1121f;min-height:1.3em;font-weight:700;"></p>
+
+        <div class="hero__actions">
+          <button class="btn btn-primary" type="submit" id="ol-submit-btn">Submit outreach log &#8594;</button>
+        </div>
+
+        <p style="font-size:.82rem;color:var(--muted);margin:0;">
+          Tapping "Submit" opens your email app pre-filled. Hit send — that's it. Your numbers go directly to the campaign team.
+        </p>
+      </form>
+    </div>
+
+    <!-- SUCCESS STATE (shown after submit) -->
+    <div id="ol-success" style="display:none;background:#fff;border:2px solid rgba(22,101,52,0.35);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:28px 26px;">
+      <div style="font-size:1.6rem;margin-bottom:8px;">&#10003;</div>
+      <h3 style="margin:0 0 8px;color:#166534;font-size:1.1rem;">Your outreach log is ready to send.</h3>
+      <p style="margin:0 0 16px;color:var(--muted);font-size:.95rem;line-height:1.6;">
+        Your email app should have opened with the log pre-filled. <strong>Just hit send.</strong>
+      </p>
+      <details style="margin-bottom:16px;">
+        <summary style="cursor:pointer;font-weight:800;color:var(--brand);font-size:.9rem;">Email app didn't open? Tap here for the fallback.</summary>
+        <div style="margin-top:12px;background:#f7f8fb;border:1px solid var(--border-soft);border-radius:10px;padding:14px 16px;">
+          <p style="margin:0 0 10px;font-size:.88rem;color:var(--muted);">Copy the message below and email it to <strong>volunteer@arafatforcongress.org</strong></p>
+          <pre id="ol-fallback-text" style="white-space:pre-wrap;word-break:break-word;font-family:monospace;font-size:.82rem;color:var(--ink);background:#fff;border:1px solid var(--border-soft);border-radius:8px;padding:12px;margin:0;max-height:200px;overflow-y:auto;"></pre>
+          <button onclick="(function(){var t=document.getElementById('ol-fallback-text').textContent;navigator.clipboard&&navigator.clipboard.writeText(t).then(function(){document.getElementById('ol-copy-feedback').textContent='Copied!';});})();" style="margin-top:8px;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:800;font-size:.84rem;color:var(--navy);">Copy text</button>
+          <span id="ol-copy-feedback" style="margin-left:8px;font-size:.82rem;color:#166534;font-weight:700;"></span>
+        </div>
+      </details>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button id="ol-reset-btn" class="btn btn-ghost" style="font-size:.9rem;">Log another session</button>
+        <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Outreach%20Log" style="font-size:.9rem;">Open email directly &rarr;</a>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:.82rem;color:var(--muted);">&#128274; Your outreach data is never published publicly.</span>
+      <a href="/admin/volunteer-dashboard.html" style="font-size:.82rem;font-weight:800;color:var(--brand);text-decoration:none;padding:5px 10px;border:1px solid rgba(29,79,168,0.25);border-radius:8px;background:rgba(29,79,168,0.06);">Team dashboard &rarr;</a>
+    </div>
+
+    <script>
+      (function(){
+        var form = document.getElementById('outreach-log-form');
+        var formWrap = document.getElementById('ol-form-wrap');
+        var successPanel = document.getElementById('ol-success');
+        var errorEl = document.getElementById('ol-error');
+        if (!form) return;
+        var dateInput = document.getElementById('ol-date');
+        if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          errorEl.textContent = '';
+          var name  = document.getElementById('ol-name').value.trim();
+          var group = document.getElementById('ol-group').value;
+          var date  = document.getElementById('ol-date').value;
+          if (!name)  { errorEl.textContent = 'Please enter your name.'; document.getElementById('ol-name').focus(); return; }
+          if (!group) { errorEl.textContent = 'Please select the type of outreach.'; document.getElementById('ol-group').focus(); return; }
+          if (!date)  { errorEl.textContent = 'Please enter the date.'; document.getElementById('ol-date').focus(); return; }
+          var area   = document.getElementById('ol-area').value || 'Not specified';
+          var doors  = document.getElementById('ol-doors').value || '0';
+          var flyers = document.getElementById('ol-flyers').value || '0';
+          var notes  = document.getElementById('ol-notes').value.trim() || 'None';
+          var logText =
+            'VOLUNTEER OUTREACH LOG\n' +
+            '======================\n' +
+            'Name:             ' + name   + '\n' +
+            'Outreach type:    ' + group  + '\n' +
+            'Date:             ' + date   + '\n' +
+            'Area:             ' + area   + '\n' +
+            'Doors / contacts: ' + doors  + '\n' +
+            'Flyers:           ' + flyers + '\n' +
+            'Notes:\n' + notes + '\n\n' +
+            '--- Submitted from arafatforcongress.org/contact ---';
+          var subject = encodeURIComponent('Outreach Log: ' + group + ' | ' + date + ' | ' + name);
+          var body    = encodeURIComponent(logText);
+          document.getElementById('ol-fallback-text').textContent = logText;
+          formWrap.style.display = 'none';
+          successPanel.style.display = 'block';
+          successPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
+          window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
+        });
+        document.getElementById('ol-reset-btn').addEventListener('click', function(){
+          successPanel.style.display = 'none';
+          formWrap.style.display = 'block';
+          form.reset();
+          dateInput.value = new Date().toISOString().split('T')[0];
+          errorEl.textContent = '';
+          document.getElementById('ol-name').focus();
+        });
+      })();
+    </script>
+  </section>
+
   <!-- CONTACT EMAILS -->
   <section class="section" aria-label="Direct email contact">
     <h2>Reach the campaign</h2>
@@ -544,59 +641,7 @@
     </div>
   </section>
 
-  <!-- STORY FORM -->
-  <section class="section" id="story" aria-label="Share your story">
-    <h2>Share your story</h2>
-    <p>Your story shapes this campaign. Tell us what Washington isn’t fixing for your family, in Spanaway, Lakewood, Olympia, or anywhere in WA-10.</p>
-
-    <form class="form" id="story-form" data-augment-tracking="true" data-form-type="contact" novalidate>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="visitorName">Your name (optional)</label>
-          <input type="text" id="visitorName" name="name" placeholder="First and last name" autocomplete="name" />
-        </div>
-        <div class="form-group">
-          <label for="visitorContact">Email or phone (optional)</label>
-          <input type="text" id="visitorContact" name="contact" placeholder="Email or phone, so we can follow up" autocomplete="email" />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="topic">Topic</label>
-          <select id="topic" name="topic">
-            <option>Housing</option>
-            <option>Healthcare</option>
-            <option>Cost of living</option>
-            <option>Jobs &amp; wages</option>
-            <option>Veteran / military issues</option>
-            <option>Accountability</option>
-            <option>Public transit</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="zip">ZIP code (optional)</label>
-          <input type="text" id="zip" name="zip" inputmode="numeric" placeholder="e.g., 98444" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="storyText">Your message <span aria-hidden="true">*</span></label>
-        <textarea id="storyText" name="story" required placeholder="Write what you want us to know..." rows="5"></textarea>
-      </div>
-
-      <div class="hero__actions">
-        <button class="btn btn-primary" type="submit" data-event="story_submit" data-location="story">Send your story</button>
-        <a class="btn btn-ghost" href="mailto:info@arafatforcongress.org?subject=Constituent%20message" data-event="email_click" data-location="story" data-email="info">Or email directly</a>
-      </div>
-
-      <p id="story-feedback" role="status" aria-live="polite" class="disclaimer" style="min-height:1.4em;"></p>
-      <p class="disclaimer">Stories may be shared publicly (anonymously unless you consent). No spam. Unsubscribe anytime.</p>
-    </form>
-  </section>
-
-  <!-- SHARE STRIP (MOVED DOWN) -->
+  <!-- SHARE STRIP -->
   <div class="share-strip" role="complementary" aria-label="Share this page">
     <div class="share-box">
       <div>

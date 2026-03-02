@@ -350,13 +350,28 @@
     <div class="outreach-log-card" id="outreach-inbox">
       <div class="outreach-log-header">
         <div>
-          <div class="outreach-log-title">&#128229; Outreach Log Inbox</div>
-          <div class="outreach-log-subtitle">Email submissions from contact page &rarr; add entries manually below</div>
+          <div class="outreach-log-title">&#128229; Outreach Log Inbox
+            <span id="ol-total-badge" style="display:none;margin-left:10px;font-size:.78rem;font-weight:800;background:rgba(22,101,52,0.12);color:var(--green);border:1px solid rgba(22,101,52,0.25);padding:2px 10px;border-radius:999px;vertical-align:middle;"></span>
+          </div>
+          <div class="outreach-log-subtitle">
+            How it works: volunteer submits form on contact page &rarr; email arrives at volunteer@ &rarr; staff enters it below &rarr; totals update instantly
+          </div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <a class="dash-btn" href="mailto:volunteer@arafatforcongress.org" style="background:rgba(29,79,168,0.10);color:var(--brand);border-color:rgba(29,79,168,0.25);">Open inbox &rarr;</a>
-          <button class="dash-btn dash-btn--gold" id="ol-export-btn">Export Log CSV</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <a class="dash-btn" href="mailto:volunteer@arafatforcongress.org" style="background:rgba(29,79,168,0.10);color:var(--brand);border-color:rgba(29,79,168,0.25);" title="Check inbox for volunteer outreach log emails">&#128276; Check inbox</a>
+          <button class="dash-btn dash-btn--gold" id="ol-export-btn">&#11123; Export CSV</button>
         </div>
+      </div>
+      <!-- Outreach flow explainer strip -->
+      <div style="background:rgba(29,79,168,0.04);border-bottom:1px solid var(--border);padding:10px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.8rem;color:var(--muted);">
+        <span style="font-weight:800;color:var(--navy);">Field report flow:</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;"><span style="background:rgba(29,79,168,0.10);color:var(--brand);padding:2px 8px;border-radius:999px;font-weight:800;">1</span> Volunteer knocks doors</span>
+        <span style="color:rgba(5,16,30,0.25);">&#8594;</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;"><span style="background:rgba(29,79,168,0.10);color:var(--brand);padding:2px 8px;border-radius:999px;font-weight:800;">2</span> Logs it at <strong>contact.html</strong> (form opens email app)</span>
+        <span style="color:rgba(5,16,30,0.25);">&#8594;</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;"><span style="background:rgba(29,79,168,0.10);color:var(--brand);padding:2px 8px;border-radius:999px;font-weight:800;">3</span> Email arrives at <strong>volunteer@</strong></span>
+        <span style="color:rgba(5,16,30,0.25);">&#8594;</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;"><span style="background:rgba(22,101,52,0.12);color:var(--green);padding:2px 8px;border-radius:999px;font-weight:800;">4</span> Staff enters below — totals update</span>
       </div>
       <div class="outreach-log-body">
         <div class="outreach-log-row header">
@@ -398,6 +413,8 @@
       <div class="stat-card stat-card--urgent"><div class="stat-num" id="stat-new">0</div><div class="stat-label">Needs Follow-up</div></div>
       <div class="stat-card"><div class="stat-num" id="stat-areas">0</div><div class="stat-label">Areas Active</div></div>
       <div class="stat-card"><div class="stat-num" id="stat-week">0</div><div class="stat-label">This Week</div></div>
+      <div class="stat-card stat-card--green"><div class="stat-num" id="stat-doors">0</div><div class="stat-label">Doors Logged</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-flyers">0</div><div class="stat-label">Flyers Logged</div></div>
     </div>
 
     <!-- BREAKDOWN CHARTS -->
@@ -994,12 +1011,32 @@
   function renderStats() {
     const c = allContacts;
     document.getElementById('stat-total').textContent = c.length;
-    document.getElementById('stat-vol').textContent = c.filter(x => (x.interest||'').toLowerCase().includes('yes') || x._tab === 'volunteer').length;
-    document.getElementById('stat-new').textContent = c.filter(x => (x.followupNeeded||'').toLowerCase().includes('yes')).length;
+    // Count volunteers: interest='yes' (from sheet), 'Volunteer'/'volunteer' (from form), or _tab='volunteer'
+    document.getElementById('stat-vol').textContent = c.filter(x => {
+      const i = (x.interest || '').toLowerCase();
+      return i.includes('yes') || i.includes('volunteer') || x._tab === 'volunteer';
+    }).length;
+    document.getElementById('stat-new').textContent = c.filter(x => {
+      const fn = (x.followupNeeded || '').toLowerCase();
+      return fn.includes('yes') || x.status === 'new';
+    }).length;
     const areas = new Set(c.map(x => x.area).filter(Boolean));
     document.getElementById('stat-areas').textContent = areas.size;
     const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
     document.getElementById('stat-week').textContent = c.filter(x => x.date && new Date(x.date) >= weekAgo).length;
+    // Outreach log totals
+    const totalDoors = outreachLogs.reduce((s, l) => s + (parseInt(l.doors) || 0), 0);
+    const totalFlyers = outreachLogs.reduce((s, l) => s + (parseInt(l.flyers) || 0), 0);
+    document.getElementById('stat-doors').textContent = totalDoors;
+    document.getElementById('stat-flyers').textContent = totalFlyers;
+    // Update outreach badge
+    const badge = document.getElementById('ol-total-badge');
+    if (outreachLogs.length) {
+      badge.textContent = outreachLogs.length + ' entries · ' + totalDoors + ' doors · ' + totalFlyers + ' flyers';
+      badge.style.display = 'inline';
+    } else {
+      badge.style.display = 'none';
+    }
   }
 
   /* -------- RENDER BREAKDOWNS -------- */
@@ -1230,18 +1267,27 @@
   function renderOutreachLog() {
     const container = document.getElementById('outreach-log-rows');
     if (!outreachLogs.length) {
-      container.innerHTML = '<div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">No outreach logs yet. Add one below or check volunteer@arafatforcongress.org for submitted forms.</div>';
+      container.innerHTML = '<div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">No outreach logs yet. Check <strong>volunteer@arafatforcongress.org</strong> for submitted emails, then use the quick-add form below.</div>';
       return;
     }
+    const totalDoors = outreachLogs.reduce((s, l) => s + (parseInt(l.doors) || 0), 0);
+    const totalFlyers = outreachLogs.reduce((s, l) => s + (parseInt(l.flyers) || 0), 0);
     const rows = [...outreachLogs].reverse().map(log => `
       <div class="outreach-log-row">
-        <span style="color:var(--muted);">${log.date || '—'}</span>
-        <span style="font-weight:700;color:var(--navy);">${escHtml(log.name)} <span style="font-weight:500;color:var(--muted);font-size:.8rem;">· ${escHtml(log.team)}</span></span>
-        <span style="color:var(--muted);">${escHtml(log.area || '—')}</span>
+        <span style="color:var(--muted);font-size:.8rem;">${log.date || '—'}</span>
+        <span style="font-weight:700;color:var(--navy);">${escHtml(log.name)}${log.team ? ' <span style="font-weight:500;color:var(--muted);font-size:.8rem;">· ' + escHtml(log.team) + '</span>' : ''}</span>
+        <span style="color:var(--muted);font-size:.82rem;">${escHtml(log.area || '—')}</span>
         <span style="font-weight:800;color:var(--navy);">${log.doors || 0}</span>
         <span style="font-weight:800;color:var(--navy);">${log.flyers || 0}</span>
       </div>`).join('');
-    container.innerHTML = rows;
+    const totalsRow = `<div class="outreach-log-row" style="background:rgba(22,101,52,0.06);border-top:2px solid rgba(22,101,52,0.20);border-radius:0 0 var(--radius) var(--radius);margin-top:4px;">
+      <span style="font-size:.76rem;color:var(--muted);">ALL TIME</span>
+      <span style="font-weight:900;color:var(--green);">${outreachLogs.length} entries</span>
+      <span style="font-size:.82rem;color:var(--muted);">Cumulative</span>
+      <span style="font-weight:900;color:var(--green);font-size:1.1rem;">${totalDoors}</span>
+      <span style="font-weight:900;color:var(--navy);font-size:1.1rem;">${totalFlyers}</span>
+    </div>`;
+    container.innerHTML = rows + totalsRow;
   }
   function escHtml(s) {
     return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1268,6 +1314,7 @@
     });
     saveOutreachLogs();
     renderOutreachLog();
+    renderStats();
     olQuickForm.reset();
     olQDate.value = new Date().toISOString().slice(0,10);
   });
