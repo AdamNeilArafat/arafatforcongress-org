@@ -101,6 +101,41 @@
     .setup-btn:hover { background: rgba(184,134,13,0.12); }
     #setup-banner { display: none; }
 
+    /* ---- DATA STATUS BAR ---- */
+    .data-status {
+      border-radius: var(--radius); padding: 10px 16px; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px; font-size: .84rem; font-weight: 700;
+    }
+    .data-status--sample { background: rgba(184,134,13,0.10); border: 1px solid rgba(184,134,13,0.35); color: var(--amber); }
+    .data-status--live { background: rgba(22,101,52,0.08); border: 1px solid rgba(22,101,52,0.25); color: var(--green); }
+    .data-status--error { background: rgba(153,27,27,0.08); border: 1px solid rgba(153,27,27,0.22); color: var(--red); }
+    .data-status-dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; }
+    .data-status--sample .data-status-dot { background: var(--amber); }
+    .data-status--live .data-status-dot { background: var(--green); }
+    .data-status--error .data-status-dot { background: var(--red); }
+
+    /* ---- OUTREACH LOG SECTION ---- */
+    .outreach-log-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 20px;
+    }
+    .outreach-log-header {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .outreach-log-title { font-weight: 800; color: var(--navy); font-size: .95rem; }
+    .outreach-log-subtitle { font-size: .78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .outreach-log-body { padding: 16px 18px; }
+    .outreach-log-row {
+      display: grid; grid-template-columns: 80px 1fr 100px 80px 80px;
+      gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(5,16,30,0.05);
+      font-size: .84rem; align-items: center;
+    }
+    .outreach-log-row.header { font-weight: 800; color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .06em; padding-top: 0; }
+    .outreach-log-row:last-child { border-bottom: none; }
+    @media(max-width:700px) { .outreach-log-row { grid-template-columns: 70px 1fr 80px; } }
+    .ol-note { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
     /* ---- STAT CARDS ---- */
     .stats-row {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -306,7 +341,55 @@
     </div>
 
     <!-- DATA SOURCE STATUS -->
-    <div id="data-source-line" style="font-size:.78rem;color:var(--muted);font-weight:700;margin-bottom:14px;"></div>
+    <div id="data-source-bar" class="data-status data-status--sample" style="display:none;">
+      <div class="data-status-dot"></div>
+      <span id="data-source-line">Loading data…</span>
+    </div>
+
+    <!-- OUTREACH LOG INBOX -->
+    <div class="outreach-log-card" id="outreach-inbox">
+      <div class="outreach-log-header">
+        <div>
+          <div class="outreach-log-title">&#128229; Outreach Log Inbox</div>
+          <div class="outreach-log-subtitle">Email submissions from contact page &rarr; add entries manually below</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a class="dash-btn" href="mailto:volunteer@arafatforcongress.org" style="background:rgba(29,79,168,0.10);color:var(--brand);border-color:rgba(29,79,168,0.25);">Open inbox &rarr;</a>
+          <button class="dash-btn dash-btn--gold" id="ol-export-btn">Export Log CSV</button>
+        </div>
+      </div>
+      <div class="outreach-log-body">
+        <div class="outreach-log-row header">
+          <span>Date</span><span>Volunteer / Team</span><span>Area</span><span>Doors</span><span>Flyers</span>
+        </div>
+        <div id="outreach-log-rows">
+          <div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">
+            No outreach logs yet. Add one below or check volunteer@arafatforcongress.org for submitted forms.
+          </div>
+        </div>
+
+        <!-- Quick-add outreach row -->
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+          <p style="font-size:.8rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Quick-add outreach entry</p>
+          <form id="ol-quick-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end;">
+            <div class="form-group"><label>Date</label><input type="date" id="ol-q-date" /></div>
+            <div class="form-group"><label>Name / Team</label><input type="text" id="ol-q-name" placeholder="Maria H. / Field" /></div>
+            <div class="form-group"><label>Area</label>
+              <select id="ol-q-area">
+                <option value="">Select…</option>
+                <option>Spanaway</option><option>Lakewood</option><option>Olympia</option>
+                <option>Lacey / Tumwater</option><option>University Place</option>
+                <option>JBLM Communities</option><option>Puyallup / South Hill</option>
+                <option>Multiple</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Doors</label><input type="number" id="ol-q-doors" min="0" placeholder="0" style="width:100%;"/></div>
+            <div class="form-group"><label>Flyers</label><input type="number" id="ol-q-flyers" min="0" placeholder="0" style="width:100%;"/></div>
+            <div class="form-group"><label style="opacity:0;">Add</label><button type="submit" class="btn-submit" style="width:100%;padding:9px 12px;">Add</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <!-- STATS -->
     <div class="stats-row">
@@ -701,21 +784,28 @@
     if (dateField) dateField.value = new Date().toISOString().slice(0, 10);
   }
 
+  /* -------- DATA STATUS BAR HELPER -------- */
+  function setDataStatus(type, msg) {
+    const bar = document.getElementById('data-source-bar');
+    const line = document.getElementById('data-source-line');
+    bar.className = 'data-status data-status--' + type;
+    bar.style.display = 'flex';
+    line.textContent = msg;
+  }
+
   /* -------- GOOGLE SHEETS FETCH -------- */
   async function fetchSheets(url) {
-    const line = document.getElementById('data-source-line');
-    line.textContent = 'Fetching from Google Sheets...';
+    setDataStatus('sample', 'Fetching from Google Sheets…');
     try {
-      // Add cache-bust
       const fetchUrl = url + (url.includes('?') ? '&' : '?') + '_cb=' + Date.now();
       const resp = await fetch(fetchUrl);
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const csv = await resp.text();
       sheetsContacts = parseCSV(csv);
-      line.textContent = 'Data source: Google Sheets (' + sheetsContacts.length + ' rows) · Last fetched ' + new Date().toLocaleTimeString();
+      setDataStatus('live', 'Live data: Google Sheets (' + sheetsContacts.length + ' outreach rows) · Fetched ' + new Date().toLocaleTimeString());
       document.getElementById('setup-banner').style.display = 'none';
     } catch (err) {
-      line.textContent = 'Could not load Google Sheet (' + err.message + '). Showing local + sample data.';
+      setDataStatus('error', 'Sheet unavailable (' + err.message + ') — showing local contacts + sample data. Check Settings to reconnect.');
       sheetsContacts = [];
     }
   }
@@ -845,8 +935,7 @@
       : [...SAMPLE_CONTACTS, ...localContacts];
 
     if (!hasSheetsOrLocal && SAMPLE_CONTACTS.length > 0) {
-      document.getElementById('data-source-line').textContent =
-        'Showing sample data. Connect a Google Sheet (Settings below) to see real contacts.';
+      setDataStatus('sample', 'Sample data shown. Open Settings below to connect your Google Sheet and see real contacts.');
     }
 
     applyFiltersAndSort();
@@ -1126,6 +1215,79 @@
     if (url) { await fetchSheets(url); }
     mergeAndRender();
   });
+
+  /* -------- OUTREACH LOG INBOX -------- */
+  const LS_OUTREACH_LOGS = 'arafat_outreach_logs';
+  let outreachLogs = [];
+
+  function loadOutreachLogs() {
+    try { outreachLogs = JSON.parse(localStorage.getItem(LS_OUTREACH_LOGS) || '[]'); }
+    catch(e) { outreachLogs = []; }
+  }
+  function saveOutreachLogs() {
+    localStorage.setItem(LS_OUTREACH_LOGS, JSON.stringify(outreachLogs));
+  }
+  function renderOutreachLog() {
+    const container = document.getElementById('outreach-log-rows');
+    if (!outreachLogs.length) {
+      container.innerHTML = '<div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">No outreach logs yet. Add one below or check volunteer@arafatforcongress.org for submitted forms.</div>';
+      return;
+    }
+    const rows = [...outreachLogs].reverse().map(log => `
+      <div class="outreach-log-row">
+        <span style="color:var(--muted);">${log.date || '—'}</span>
+        <span style="font-weight:700;color:var(--navy);">${escHtml(log.name)} <span style="font-weight:500;color:var(--muted);font-size:.8rem;">· ${escHtml(log.team)}</span></span>
+        <span style="color:var(--muted);">${escHtml(log.area || '—')}</span>
+        <span style="font-weight:800;color:var(--navy);">${log.doors || 0}</span>
+        <span style="font-weight:800;color:var(--navy);">${log.flyers || 0}</span>
+      </div>`).join('');
+    container.innerHTML = rows;
+  }
+  function escHtml(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  const olQuickForm = document.getElementById('ol-quick-form');
+  // Set today's date on the quick-add form
+  const olQDate = document.getElementById('ol-q-date');
+  if (olQDate) olQDate.value = new Date().toISOString().slice(0,10);
+
+  olQuickForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('ol-q-name').value.trim();
+    const date = document.getElementById('ol-q-date').value;
+    const area = document.getElementById('ol-q-area').value;
+    if (!name || !date) { alert('Please enter a name and date.'); return; }
+    outreachLogs.push({
+      id: 'ol_' + Date.now(),
+      date, name,
+      team: name.includes('/') ? name.split('/')[1].trim() : '',
+      area: area || 'Not specified',
+      doors: parseInt(document.getElementById('ol-q-doors').value) || 0,
+      flyers: parseInt(document.getElementById('ol-q-flyers').value) || 0
+    });
+    saveOutreachLogs();
+    renderOutreachLog();
+    olQuickForm.reset();
+    olQDate.value = new Date().toISOString().slice(0,10);
+  });
+
+  document.getElementById('ol-export-btn').addEventListener('click', function() {
+    if (!outreachLogs.length) { alert('No outreach logs to export.'); return; }
+    const header = 'Date,Name,Team,Area,Doors/Contacts,Flyers\n';
+    const rows = outreachLogs.map(l =>
+      [l.date, l.name, l.team, l.area, l.doors, l.flyers]
+        .map(v => '"' + String(v||'').replace(/"/g,'""') + '"').join(',')
+    ).join('\n');
+    const blob = new Blob([header + rows], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'outreach-log-' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+  });
+
+  loadOutreachLogs();
+  renderOutreachLog();
 
 })();
 </script>
