@@ -8,19 +8,315 @@
   <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/endorsements.html" />
   <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/endorsements.html" />
   <style>
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f5f7fb;color:#05101e;display:grid;place-items:center;min-height:100vh;padding:24px;}
-    .card{max-width:640px;background:#fff;border:1px solid rgba(5,16,30,.12);border-radius:14px;box-shadow:0 12px 30px rgba(5,16,30,.08);padding:28px;text-align:center;}
-    h1{margin:0 0 10px;font-size:clamp(1.6rem,3.5vw,2.1rem);}
-    p{margin:0 0 14px;line-height:1.65;color:#334155;}
-    a{display:inline-flex;text-decoration:none;font-weight:700;color:#fff;background:#1d4fa8;padding:10px 16px;border-radius:10px;}
+    :root{
+      --ink:#0b1220;
+      --navy:#05101e;
+      --navy-2:#091b36;
+      --muted:#4b5568;
+      --brand:#1d4fa8;
+      --brand-dark:#143480;
+      --gold:#b8860d;
+      --border-soft:rgba(5,16,30,0.10);
+      --shadow-soft:0 10px 22px rgba(5,16,30,0.08);
+      --radius:12px;
+      --bg:radial-gradient(1200px 700px at 20% -10%,rgba(29,79,168,0.08),transparent 55%),
+           radial-gradient(800px 600px at 80% 20%,rgba(184,134,13,0.07),transparent 55%),
+           linear-gradient(180deg,#f3f5fb,#e8ecf4);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:inherit;}
+    main{padding-bottom:3rem;}
+
+    .site-header{position:sticky;top:0;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+    .site-header::before{content:"";display:block;height:3px;background:linear-gradient(90deg,#05101e,#1d4fa8,rgba(184,134,13,0.9));opacity:.95;}
+    .header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;}
+    .brand{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:200px;}
+    .brand__name{font-weight:900;letter-spacing:.2px;font-size:1.06rem;line-height:1.05;color:var(--navy);}
+    .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+    .site-nav{display:flex;gap:6px;align-items:center;}
+    .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.88rem;padding:9px 9px;border-radius:12px;transition:background .15s ease;white-space:nowrap;}
+    .nav-link:hover{background:rgba(29,79,168,0.10);}
+    .nav-link[aria-current="page"]{background:rgba(29,79,168,0.10);box-shadow:inset 0 0 0 1px rgba(29,79,168,0.18);}
+    .header-cta{display:flex;align-items:center;gap:10px;}
+    .header-cred{font-size:.78rem;font-weight:900;color:var(--navy-2);background:rgba(184,134,13,0.14);border:1px solid rgba(184,134,13,0.30);padding:7px 10px;border-radius:999px;white-space:nowrap;}
+    .cta-group{display:flex;gap:8px;align-items:center;}
+    .mobile-pac-strip{display:none;background:rgba(184,134,13,0.12);border-bottom:1px solid rgba(184,134,13,0.26);padding:7px 18px;text-align:center;font-size:.82rem;font-weight:900;color:var(--navy-2);}
+    .btn{text-decoration:none;font-weight:900;border-radius:14px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;line-height:1;cursor:pointer;user-select:none;transition:transform .06s ease,filter .15s ease,background .15s ease;}
+    .btn:active{transform:translateY(1px);}
+    .btn-primary{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;box-shadow:0 14px 26px rgba(29,79,168,.18);}
+    .btn-primary:hover{filter:brightness(.97);}
+    .btn-ghost{background:rgba(5,16,30,0.06);color:var(--navy-2);border:1px solid rgba(5,16,30,0.14);}
+    .btn-ghost:hover{background:rgba(5,16,30,0.10);}
+    .btn:focus-visible,.nav-link:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+    .nav-toggle{display:none;border:1px solid rgba(5,16,30,0.14);background:rgba(255,255,255,0.95);border-radius:14px;padding:10px;min-height:44px;min-width:44px;cursor:pointer;}
+    .nav-toggle span{display:block;width:18px;height:2px;background:var(--navy);margin:4px auto;border-radius:2px;}
+    .mobile-drawer{display:none;}
+    .mobile-drawer[hidden]{display:none !important;}
+
+    .page-hero{padding:3rem 1.5rem 1.5rem;}
+    .page-hero-inner{max-width:860px;margin:0 auto;}
+    .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--navy-2);background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.16);padding:7px 12px;border-radius:999px;letter-spacing:.2px;margin-bottom:12px;font-size:.9rem;}
+    .page-hero h1{font-size:clamp(2rem,4.5vw,2.9rem);margin:0 0 12px;color:var(--navy);line-height:1.07;font-weight:800;letter-spacing:-0.2px;}
+    .page-hero p{margin:0 0 14px;color:var(--muted);line-height:1.75;font-size:1.05rem;max-width:68ch;}
+    .updated{font-size:.9rem;font-weight:700;color:var(--navy-2);}
+
+    .section{max-width:1060px;margin:44px auto;padding:0 20px;}
+    .section h2{color:var(--navy);font-size:clamp(1.6rem,3vw,2rem);margin:0 0 8px;font-weight:800;letter-spacing:-0.15px;}
+    .section-sub{color:var(--muted);line-height:1.7;margin:0 0 18px;font-size:.98rem;}
+
+    .legend{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+    .badge-confirmed,.badge-pending,.badge-outreach{display:inline-flex;align-items:center;font-weight:800;font-size:.78rem;letter-spacing:.3px;padding:6px 10px;border-radius:999px;text-transform:uppercase;}
+    .badge-confirmed{background:rgba(22,163,74,.14);color:#166534;border:1px solid rgba(22,163,74,.35);}
+    .badge-pending{background:rgba(180,83,9,.14);color:#9a3412;border:1px solid rgba(180,83,9,.35);}
+    .badge-outreach{background:rgba(29,79,168,.12);color:#143480;border:1px solid rgba(29,79,168,.3);}
+
+    .definition-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+    .definition-card{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow-soft);}
+    .definition-card p{margin:10px 0 0;color:var(--muted);line-height:1.65;font-size:.95rem;}
+
+    .endorsement-card{background:#fff;border:1px solid var(--border-soft);border-left:5px solid transparent;border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--shadow-soft);margin-bottom:14px;}
+    .endorsement-card.confirmed{border-left-color:#16a34a;}
+    .endorsement-card.pending{border-left-color:#b45309;}
+    .endorsement-card .org-name{margin:10px 0 8px;font-size:1.14rem;font-weight:800;color:var(--navy);}
+    .endorsement-card p{margin:0 0 10px;color:var(--muted);line-height:1.7;}
+    .caveat{background:rgba(180,83,9,.08);border:1px solid rgba(180,83,9,.22);border-radius:10px;padding:11px 12px;font-size:.93rem;color:#7c2d12;}
+
+    .outreach-list{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:18px;}
+    .outreach-list h3{margin:0 0 10px;color:var(--navy);font-size:1.14rem;}
+    .outreach-list ul{margin:0;padding-left:1.15rem;display:grid;gap:7px;}
+    .outreach-list li{color:var(--muted);line-height:1.6;}
+    .outreach-note{margin-top:12px;color:var(--muted);font-style:italic;}
+
+    .endorse-box{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-soft);}
+    .endorse-box h3{margin:0 0 10px;color:var(--navy);font-size:1.25rem;}
+    .endorse-box p{margin:0 0 12px;color:var(--muted);line-height:1.7;}
+    .contact-link{font-weight:800;color:var(--brand-dark);}
+
+    footer{max-width:1060px;margin:24px auto 34px;padding:0 20px;color:var(--muted);font-size:.95rem;text-align:center;}
+    .footer-tagline{font-weight:700;color:var(--navy-2);margin:0 0 12px;}
+    .footer-nav{display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin:0 0 12px;}
+    .footer-nav a{text-decoration:none;color:var(--navy-2);font-weight:700;}
+    .footer-nav a:hover{text-decoration:underline;}
+
+    @media (max-width:1080px){
+      .header-inner{grid-template-columns:1fr auto;gap:10px;}
+      .site-nav{display:none;}
+      .header-cred{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+      .mobile-pac-strip{display:block;}
+      .mobile-drawer{display:grid;gap:4px;padding:10px 14px 14px;border-top:1px solid var(--border-soft);background:#fff;}
+      .mobile-drawer a{text-decoration:none;color:var(--navy);font-weight:700;padding:10px 12px;border-radius:10px;}
+      .mobile-drawer a:hover{background:rgba(29,79,168,.10);}
+      .mobile-drawer .drawer-cta{background:linear-gradient(160deg,#1d4fa8,#143480);color:#fff;justify-content:center;text-align:center;}
+      .definition-grid{grid-template-columns:1fr;}
+    }
   </style>
 </head>
 <body>
-  <main class="card">
-    <img src="/images/Name Logo.png" alt="Adam Arafat for Congress logo" style="max-width:260px;width:100%;height:auto;margin:0 auto 14px;display:block;" />
-    <h1>Endorsements page coming soon</h1>
-    <p>We're updating this section and will publish refreshed endorsement information soon.</p>
-    <a href="/index.html">Back to home</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/index.html">
+        <span class="brand__name">Adam Arafat for Congress</span>
+        <span class="brand__meta">Washington's 10th District</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
+        <a class="nav-link" href="/issues.html">Issues</a>
+        <a class="nav-link" href="/about.html">About Adam</a>
+        <a class="nav-link" href="/events.html">Events</a>
+        <a class="nav-link" href="/endorsements.html" aria-current="page">Endorsements</a>
+        <a class="nav-link" href="/contact.html">Contact</a>
+      </nav>
+      <div class="header-cta">
+        <div class="header-cred">No Corporate PAC or AIPAC Money</div>
+        <div class="cta-group">
+          <a class="btn btn-ghost" href="/es/endorsements.html" lang="es" hreflang="es">Español</a>
+          <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+          <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer-end">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-pac-strip">No Corporate PAC or AIPAC Money</div>
+    <div id="mobile-drawer-end" class="mobile-drawer" hidden>
+      <a href="/">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
+      <a href="/issues.html">Issues</a>
+      <a href="/about.html">About Adam</a>
+      <a href="/events.html">Events</a>
+      <a href="/endorsements.html" aria-current="page">Endorsements</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/es/endorsements.html" lang="es" hreflang="es">Español</a>
+      <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero" aria-label="Campaign endorsements">
+      <div class="page-hero-inner">
+        <div class="kicker">Full transparency</div>
+        <h1>Endorsements</h1>
+        <p>
+          This page provides a transparent view of current endorsement status for the campaign.
+          We clearly separate what is <strong>confirmed</strong>, what is <strong>pending confirmation</strong>,
+          and what is <strong>in process</strong>.
+        </p>
+        <p class="updated">Last updated: March 3, 2026</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="definitions-heading">
+      <h2 id="definitions-heading">Status definitions</h2>
+      <p class="section-sub">Each endorsement is listed in only one category so supporters can quickly understand its verification status.</p>
+      <div class="definition-grid">
+        <article class="definition-card">
+          <span class="badge-confirmed">Confirmed</span>
+          <p>Formally granted by the organization through a public listing, official communication, or direct campaign verification.</p>
+        </article>
+        <article class="definition-card">
+          <span class="badge-pending">Pending confirmation</span>
+          <p>Informally communicated support that has not yet been formally verified by the endorsing organization.</p>
+        </article>
+        <article class="definition-card">
+          <span class="badge-outreach">In process</span>
+          <p>Outreach or review conversations are underway, but no endorsement commitment has been made.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="confirmed-heading">
+      <h2 id="confirmed-heading">Confirmed endorsements</h2>
+      <p class="section-sub">The endorsements below have been formally confirmed by the organizations listed.</p>
+
+      <div class="legend">
+        <span class="badge-confirmed">Confirmed</span>
+        <span style="color:var(--muted);font-size:.88rem;">Formal endorsement verified with the organization.</span>
+      </div>
+
+      <article class="endorsement-card confirmed" aria-label="Citizens Impeachment endorsement">
+        <span class="badge-confirmed">Confirmed</span>
+        <p class="org-name">Citizens Impeachment</p>
+        <p>
+          Citizens Impeachment has formally endorsed Adam Arafat's campaign for Congress in WA-10.
+          The organization advocates for accountability in executive and legislative leadership,
+          and supports candidates committed to transparency and the rule of law.
+        </p>
+      </article>
+    </section>
+
+    <section class="section" aria-labelledby="pending-heading">
+      <h2 id="pending-heading">Pending confirmation</h2>
+      <p class="section-sub">
+        The listing below reflects informal support communication that has not yet been formally confirmed.
+        We include it for transparency and update status promptly when verification is complete.
+      </p>
+
+      <div class="legend">
+        <span class="badge-pending">Pending confirmation</span>
+        <span style="color:var(--muted);font-size:.88rem;">Informally communicated; awaiting formal confirmation.</span>
+      </div>
+
+      <article class="endorsement-card pending" aria-label="Pending endorsement from Citizens Against AIPAC Corruption">
+        <span class="badge-pending">Pending confirmation</span>
+        <p class="org-name">Citizens Against AIPAC Corruption / Track AIPAC</p>
+        <p>
+          This organization has expressed informal support for Adam Arafat's candidacy.
+          It advocates for campaign finance transparency and tracks AIPAC influence in the U.S. Congress.
+        </p>
+        <p class="caveat">
+          IMPORTANT: This endorsement is not yet formally confirmed. This page will be updated as soon as official confirmation is received.
+          We do not present unconfirmed endorsements as final.
+        </p>
+      </article>
+    </section>
+
+    <section class="section" aria-labelledby="process-heading">
+      <h2 id="process-heading">In process</h2>
+      <p class="section-sub">
+        The organizations below have been contacted or are in evaluation conversations.
+        None have committed to an endorsement at this time.
+      </p>
+
+      <div class="legend">
+        <span class="badge-outreach">In process</span>
+        <span style="color:var(--muted);font-size:.88rem;">Outreach underway. No endorsement commitment yet.</span>
+      </div>
+
+      <div class="outreach-list">
+        <h3>Organizations with outreach in progress (14 additional)</h3>
+        <ul>
+          <li>Affordable housing organizations in Pierce and Thurston Counties</li>
+          <li>Labor unions and worker organizations across the South Sound</li>
+          <li>Veterans groups and military community associations in the JBLM area</li>
+          <li>Healthcare reform and medical access advocates</li>
+          <li>Election reform and government transparency groups</li>
+          <li>Latino and Spanish-speaking community organizations in WA-10</li>
+          <li>Pacific Northwest environmental justice organizations</li>
+          <li>Digital rights and privacy advocacy groups</li>
+          <li>Washington state public worker advocacy groups</li>
+          <li>Local small business associations</li>
+          <li>Parent-led and education community groups</li>
+          <li>Thurston County civic action groups</li>
+          <li>Civil rights advocacy networks</li>
+          <li>Congressional accountability organizations</li>
+        </ul>
+        <p class="outreach-note">
+          This list is updated as outreach progresses. In-process outreach is not an endorsement.
+          Only formally confirmed endorsements are listed as confirmed.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="verification-heading">
+      <div class="endorse-box">
+        <h3 id="verification-heading">Endorsement verification and contact</h3>
+        <p>
+          If you represent an organization that wants to formally endorse Adam Arafat,
+          or if you need to verify an endorsement status shown on this page, contact us directly.
+        </p>
+        <p>
+          Endorsement verification: <a href="mailto:endorsements@arafatforcongress.org" class="contact-link">endorsements@arafatforcongress.org</a>
+        </p>
+        <p>
+          General campaign questions: <a href="mailto:info@arafatforcongress.org" class="contact-link">info@arafatforcongress.org</a>
+        </p>
+        <p>
+          Every endorsement listed as confirmed has completed campaign verification with the respective organization.
+        </p>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <p class="footer-tagline">People serving people. That's the job.</p>
+    <nav aria-label="Footer navigation" class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
+      <a href="/issues.html">Issues</a>
+      <a href="/about.html">About Adam</a>
+      <a href="/events.html">Events</a>
+      <a href="/endorsements.html">Endorsements</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/es/endorsements.html" lang="es" hreflang="es">Español</a>
+    </nav>
+    Paid for by Arafat for Congress &bull;
+    <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
+  </footer>
+
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var drawer = document.getElementById('mobile-drawer-end');
+      if(!toggle || !drawer) return;
+      toggle.addEventListener('click', function(){
+        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        drawer.hidden = isOpen;
+      });
+    })();
+  </script>
 </body>
 </html>
