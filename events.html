@@ -174,9 +174,24 @@
       <div id="events-empty-state" class="coming-soon">
         <h3>No upcoming events scheduled yet</h3>
         <p>Town halls, canvassing days, and meet-and-greets are being confirmed across all of WA-10. Drop your email and we'll notify you the moment something is scheduled near you.</p>
-        <form class="notify-form" id="event-notify-form" novalidate>
-          <input type="email" id="notify-email" placeholder="Your email address" autocomplete="email" required aria-label="Email for event notifications" />
-          <button class="btn btn-primary" type="submit">Notify me</button>
+        <form class="notify-form" id="event-notify-form" novalidate style="display:grid;gap:10px;max-width:760px;margin:0 auto;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+            <input type="text" name="fullName" placeholder="Full name" autocomplete="name" required aria-label="Full name" />
+            <input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email for event notifications" />
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+            <input type="text" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required placeholder="ZIP code" autocomplete="postal-code" aria-label="ZIP code" />
+            <input type="text" name="topic" required placeholder="Event type of interest (town hall, canvass, meetup)" aria-label="Event type of interest" />
+          </div>
+          <textarea name="message" required rows="3" placeholder="Tell us your preferred days, neighborhoods, or accessibility needs." aria-label="Event interest details"></textarea>
+          <label style="display:flex;align-items:flex-start;gap:8px;text-align:left;font-size:.86rem;color:var(--muted);line-height:1.45;">
+            <input type="checkbox" name="consent" required style="margin-top:2px;" />
+            <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
+          </label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+            <button class="btn btn-primary" type="submit">Submit event interest</button>
+            <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Event%20Interest">Use mailto fallback</a>
+          </div>
         </form>
         <p id="notify-feedback" role="status" aria-live="polite" style="margin-top:10px;min-height:1.4em;font-weight:700;color:var(--brand-dark);font-size:.95rem;"></p>
         <hr style="margin:24px 0;border:none;border-top:1px solid var(--border-soft);">
@@ -211,10 +226,26 @@
     <section class="section" aria-labelledby="host-heading">
       <h2 id="host-heading">Host an event in your neighborhood</h2>
       <p class="section-intro">You don't need a venue. A living room, a backyard, or a community center works. We'll bring the materials and the candidate.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a class="btn btn-primary" href="/contact.html">Reach out to volunteer</a>
-        <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Host%20an%20Event">Email volunteer team</a>
-      </div>
+      <form id="host-event-form" novalidate style="display:grid;gap:10px;max-width:860px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+          <input type="text" name="fullName" required autocomplete="name" placeholder="Full name" aria-label="Full name" />
+          <input type="email" name="email" required autocomplete="email" placeholder="Email" aria-label="Email" />
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+          <input type="text" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required autocomplete="postal-code" placeholder="ZIP code" aria-label="ZIP code" />
+          <input type="text" name="topic" required placeholder="Event type (living room, backyard, community center)" aria-label="Event type" />
+        </div>
+        <textarea name="message" required rows="4" placeholder="Share your neighborhood, ideal timing, and any logistics details."></textarea>
+        <label style="display:flex;align-items:flex-start;gap:8px;text-align:left;font-size:.86rem;color:var(--muted);line-height:1.45;">
+          <input type="checkbox" name="consent" required style="margin-top:2px;" />
+          <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
+        </label>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn btn-primary" type="submit">Submit host request</button>
+          <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Host%20an%20Event">Use mailto fallback</a>
+        </div>
+        <p id="host-event-feedback" role="status" aria-live="polite" style="margin:0;min-height:1.4em;font-weight:700;color:var(--brand-dark);font-size:.95rem;"></p>
+      </form>
     </section>
   </main>
 

@@ -535,6 +535,56 @@
     </div>
   </section>
 
+  <!-- VOLUNTEER INTAKE FORM -->
+  <section class="section" id="volunteer-intake" aria-label="Volunteer intake form">
+    <h2>Volunteer intake</h2>
+    <p>Tell us how you want to help and we will connect you with the right team quickly.</p>
+
+    <form class="form" id="volunteer-intake-form" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="volunteer-full-name">Full name <span aria-hidden="true">*</span></label>
+          <input type="text" id="volunteer-full-name" name="fullName" required autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label for="volunteer-email">Email <span aria-hidden="true">*</span></label>
+          <input type="email" id="volunteer-email" name="email" required autocomplete="email" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="volunteer-zip">ZIP code <span aria-hidden="true">*</span></label>
+          <input type="text" id="volunteer-zip" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required autocomplete="postal-code" />
+        </div>
+        <div class="form-group">
+          <label for="volunteer-topic">Primary interest <span aria-hidden="true">*</span></label>
+          <select id="volunteer-topic" name="topic" required>
+            <option value="">Select one</option>
+            <option>Canvassing</option>
+            <option>Phonebanking / texting</option>
+            <option>Digital / social</option>
+            <option>Events support</option>
+            <option>Community coordination</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="volunteer-message">How would you like to help? <span aria-hidden="true">*</span></label>
+        <textarea id="volunteer-message" name="message" required rows="4" placeholder="Share your availability, skills, or neighborhoods you can support."></textarea>
+      </div>
+      <label class="disclaimer" style="display:flex;align-items:flex-start;gap:8px;">
+        <input type="checkbox" name="consent" required style="margin-top:2px;" />
+        <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
+      </label>
+      <div class="hero__actions">
+        <button class="btn btn-primary" type="submit">Submit volunteer intake</button>
+        <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Intake" data-event="email_click" data-location="volunteer-intake" data-email="volunteer">Use mailto fallback</a>
+      </div>
+      <p id="volunteer-intake-feedback" role="status" aria-live="polite" class="disclaimer" style="min-height:1.4em;"></p>
+    </form>
+  </section>
+
   <!-- CONTACT EMAILS -->
   <section class="section" aria-label="Direct email contact">
     <h2>Reach the campaign</h2>
@@ -567,19 +617,20 @@
     <form class="form" id="story-form" data-augment-tracking="true" data-form-type="contact" novalidate>
       <div class="form-row">
         <div class="form-group">
-          <label for="visitorName">Your name (optional)</label>
-          <input type="text" id="visitorName" name="name" placeholder="First and last name" autocomplete="name" />
+          <label for="story-full-name">Full name <span aria-hidden="true">*</span></label>
+          <input type="text" id="story-full-name" name="fullName" required autocomplete="name" />
         </div>
         <div class="form-group">
-          <label for="visitorContact">Email or phone (optional)</label>
-          <input type="text" id="visitorContact" name="contact" placeholder="Email or phone, so we can follow up" autocomplete="email" />
+          <label for="story-email">Email <span aria-hidden="true">*</span></label>
+          <input type="email" id="story-email" name="email" required autocomplete="email" />
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="topic">Topic</label>
-          <select id="topic" name="topic">
+          <label for="topic">Topic <span aria-hidden="true">*</span></label>
+          <select id="topic" name="topic" required>
+            <option value="">Select one</option>
             <option>Housing</option>
             <option>Healthcare</option>
             <option>Cost of living</option>
@@ -591,23 +642,28 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="zip">ZIP code (optional)</label>
-          <input type="text" id="zip" name="zip" inputmode="numeric" placeholder="e.g., 98444" />
+          <label for="story-zip">ZIP code <span aria-hidden="true">*</span></label>
+          <input type="text" id="story-zip" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required autocomplete="postal-code" />
         </div>
       </div>
 
       <div class="form-group">
         <label for="storyText">Your message <span aria-hidden="true">*</span></label>
-        <textarea id="storyText" name="story" required placeholder="Write what you want us to know..." rows="5"></textarea>
+        <textarea id="storyText" name="message" required placeholder="Write what you want us to know..." rows="5"></textarea>
       </div>
+
+      <label class="disclaimer" style="display:flex;align-items:flex-start;gap:8px;">
+        <input type="checkbox" name="consent" required style="margin-top:2px;" />
+        <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
+      </label>
 
       <div class="hero__actions">
         <button class="btn btn-primary" type="submit" data-event="story_submit" data-location="story">Send your story</button>
-        <a class="btn btn-ghost" href="mailto:info@arafatforcongress.org?subject=Constituent%20message" data-event="email_click" data-location="story" data-email="info">Or email directly</a>
+        <a class="btn btn-ghost" href="mailto:info@arafatforcongress.org?subject=Constituent%20message" data-event="email_click" data-location="story" data-email="info">Use mailto fallback</a>
       </div>
 
       <p id="story-feedback" role="status" aria-live="polite" class="disclaimer" style="min-height:1.4em;"></p>
-      <p class="disclaimer">Stories may be shared publicly (anonymously unless you consent). No spam. Unsubscribe anytime.</p>
+      <p class="disclaimer">Stories may be shared publicly (anonymously unless you consent).</p>
     </form>
   </section>
 
@@ -680,40 +736,6 @@
 
   <script src="js/main.js" defer></script>
 
-  <script>
-    (function(){
-      var storyForm = document.getElementById('story-form');
-      if (!storyForm) return;
-      storyForm.addEventListener('submit', function(e){
-        e.preventDefault();
-        var feedback = document.getElementById('story-feedback');
-        var story = document.getElementById('storyText').value.trim();
-        if (!story) {
-          feedback.textContent = 'Please write a message before submitting.';
-          feedback.style.color = '#c1121f';
-          return;
-        }
-        var name = document.getElementById('visitorName').value.trim();
-        var contact = document.getElementById('visitorContact').value.trim();
-        var topic = document.getElementById('topic').value;
-        var zip = document.getElementById('zip').value.trim();
-        var subject = encodeURIComponent('WA-10 Constituent Story: ' + topic);
-        var parts = [];
-        if (name) parts.push('From: ' + name);
-        if (contact) parts.push('Contact: ' + contact);
-        if (zip) parts.push('ZIP: ' + zip);
-        parts.push('Topic: ' + topic);
-        parts.push('');
-        parts.push(story);
-        parts.push('');
-        parts.push('--- Submitted from arafatforcongress.org/contact ---');
-        var body = encodeURIComponent(parts.join('\n'));
-        feedback.textContent = 'Thank you, opening your email app to send your story to the campaign.';
-        feedback.style.color = '#0b7f7e';
-        window.location.href = 'mailto:info@arafatforcongress.org?subject=' + subject + '&body=' + body;
-      });
-    })();
-  </script>
 
   <script>
     // Mobile nav drawer
