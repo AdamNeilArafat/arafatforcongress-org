@@ -11,9 +11,12 @@
   <meta property="og:url" content="https://arafatforcongress.org/events.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://arafatforcongress.org/events.html" />
+  <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/events.html" />
+  <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/events.html" />
   <meta name="ga-measurement-id" content="G-9XQ4W6E2H1" />
   <meta name="campaign-signup-endpoint" content="https://formsubmit.co/ajax/volunteer@arafatforcongress.org" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/site.css" />
   <style>
     :root{
       --ink:#0b1220;
@@ -117,7 +120,7 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam <span style="color:var(--brand)">Arafat</span></span>
+        <span class="brand__name">Adam <span class="brand-accent">Arafat</span></span>
         <span class="brand__meta">for Congress • WA-10</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
@@ -165,7 +168,7 @@
     <!-- UPCOMING EVENTS (Conditional Render) -->
     <section class="section" id="events-section" aria-labelledby="upcoming-heading">
       <h2 id="upcoming-heading">Upcoming events</h2>
-      <p class="section-intro">Town halls, canvassing days, and community meetups across WA-10. <a href="/contact.html" style="color:var(--brand);font-weight:700;">Volunteer</a> to be notified when something is scheduled near you.</p>
+      <p class="section-intro">Town halls, canvassing days, and community meetups across WA-10. <a href="/contact.html" class="text-link-strong">Volunteer</a> to be notified when something is scheduled near you.</p>
 
       <!-- Events list container: populated by events.json if available -->
       <div id="events-list-container" class="events-list" style="display:none;" aria-live="polite"></div>
@@ -174,15 +177,30 @@
       <div id="events-empty-state" class="coming-soon">
         <h3>No upcoming events scheduled yet</h3>
         <p>Town halls, canvassing days, and meet-and-greets are being confirmed across all of WA-10. Drop your email and we'll notify you the moment something is scheduled near you.</p>
-        <form class="notify-form" id="event-notify-form" novalidate>
-          <input type="email" id="notify-email" placeholder="Your email address" autocomplete="email" required aria-label="Email for event notifications" />
-          <button class="btn btn-primary" type="submit">Notify me</button>
+        <form class="notify-form" id="event-notify-form" novalidate style="display:grid;gap:10px;max-width:760px;margin:0 auto;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+            <input type="text" name="fullName" placeholder="Full name" autocomplete="name" required aria-label="Full name" />
+            <input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email for event notifications" />
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+            <input type="text" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required placeholder="ZIP code" autocomplete="postal-code" aria-label="ZIP code" />
+            <input type="text" name="topic" required placeholder="Event type of interest (town hall, canvass, meetup)" aria-label="Event type of interest" />
+          </div>
+          <textarea name="message" required rows="3" placeholder="Tell us your preferred days, neighborhoods, or accessibility needs." aria-label="Event interest details"></textarea>
+          <label style="display:flex;align-items:flex-start;gap:8px;text-align:left;font-size:.86rem;color:var(--muted);line-height:1.45;">
+            <input type="checkbox" name="consent" required style="margin-top:2px;" />
+            <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
+          </label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+            <button class="btn btn-primary" type="submit">Submit event interest</button>
+            <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Event%20Interest">Use mailto fallback</a>
+          </div>
         </form>
-        <p id="notify-feedback" role="status" aria-live="polite" style="margin-top:10px;min-height:1.4em;font-weight:700;color:var(--brand-dark);font-size:.95rem;"></p>
-        <hr style="margin:24px 0;border:none;border-top:1px solid var(--border-soft);">
-        <h3 style="margin-bottom:10px;">Host an Event in Your Neighborhood</h3>
+        <p id="notify-feedback" role="status" aria-live="polite" class="notify-feedback"></p>
+        <hr class="section-divider">
+        <h3 class="mb-sm">Host an Event in Your Neighborhood</h3>
         <p>You don't need a venue. A living room, a backyard, or a community center works. We'll bring the materials and the candidate.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px;">
+        <div class="inline-cta-row inline-cta-row--center cta-top">
           <a class="btn btn-primary" href="/contact.html#outreach-tracker">Log outreach</a>
           <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Host%20an%20Event%20in%20WA-10&body=Hi%20team%2C%0A%0AI%27d%20like%20to%20host%20an%20event%20in%20my%20neighborhood.%0A%0AName%3A%0AArea%2FCity%3A%0AType%20of%20event%20(living%20room%2C%20backyard%2C%20community%20center)%3A%0ABest%20contact%3A%0A%0AThanks%2C">Email to host an event</a>
         </div>
@@ -211,7 +229,7 @@
     <section class="section" aria-labelledby="host-heading">
       <h2 id="host-heading">Host an event in your neighborhood</h2>
       <p class="section-intro">You don't need a venue. A living room, a backyard, or a community center works. We'll bring the materials and the candidate.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div class="inline-cta-row">
         <a class="btn btn-primary" href="/contact.html">Reach out to volunteer</a>
         <a class="btn btn-ghost" href="mailto:volunteer@arafatforcongress.org?subject=Host%20an%20Event">Email volunteer team</a>
       </div>
@@ -220,18 +238,18 @@
 
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
-    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+    <nav aria-label="Footer navigation" class="site-footer-nav">
       <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/privacy-policy.html">Privacy Policy</a>
       <a href="/contact.html">Volunteer</a>
     </nav>
     <strong>Paid for by Arafat for Congress</strong> &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
-    <p style="font-size:.78rem;margin:8px auto 0;max-width:780px;line-height:1.6;color:var(--muted);">
+    <p class="site-footer-legal">
       Contributions or gifts to Arafat for Congress are not tax-deductible.<br>
       Federal law requires us to use our best efforts to collect and report the name, mailing address, occupation, and name of employer of individuals whose contributions exceed $200 in a calendar year.
     </p>
-    <div style="margin-top:14px;">
-      <a href="/es/events.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.22);color:#091b36;font-weight:700;font-size:.92rem;padding:8px 16px;border-radius:999px;text-decoration:none;" aria-label="View full Spanish version of this page">&#127760; Ver en Espa&ntilde;ol</a>
+    <div class="lang-pill-wrap">
+      <a href="/es/events.html" class="lang-pill" aria-label="View full Spanish version of this page">&#127760; Ver en Espa&ntilde;ol</a>
     </div>
   </footer>
 

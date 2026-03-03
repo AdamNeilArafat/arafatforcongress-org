@@ -18,10 +18,13 @@
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
 
   <link rel="canonical" href="https://arafatforcongress.org/" />
+  <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/" />
+  <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/" />
   <meta name="ga-measurement-id" content="G-9XQ4W6E2H1" />
   <meta name="campaign-signup-endpoint" content="https://formsubmit.co/ajax/volunteer@arafatforcongress.org" />
 
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/site.css" />
 
   <style>
     :root{
@@ -283,6 +286,30 @@
     .cta-inline-link{ font-weight:800; color:var(--navy-2); text-decoration:none; padding:10px 6px; }
     .cta-inline-link:hover{ text-decoration:underline; }
 
+    .path-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+    .path-card{
+      display:block;
+      text-decoration:none;
+      background:#fff;
+      border:1px solid var(--border-soft);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-soft);
+      padding:16px;
+      transition:transform .1s ease,box-shadow .15s ease,border-color .15s ease;
+    }
+    .path-card:hover{
+      transform:translateY(-1px);
+      box-shadow:var(--shadow);
+      border-color:rgba(29,79,168,0.28);
+    }
+    .path-card h3{ margin:0 0 6px; font-size:1rem; color:var(--navy-2); }
+    .path-card p{ margin:0; color:var(--muted); font-size:.9rem; line-height:1.5; }
+
     .hero__values{
       margin-top:12px;
       font-weight:800;
@@ -294,6 +321,68 @@
       display:inline-flex;
       align-items:center;
       font-size:.9rem;
+    }
+
+    .metrics-strip{
+      max-width:1180px;
+      margin:20px auto 0;
+      padding:0 20px;
+    }
+    .metrics-strip__panel{
+      background:#fff;
+      border:1px solid var(--border-soft);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-soft);
+      padding:18px;
+    }
+    .metrics-strip__header{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .metrics-strip__header h2{
+      margin:0;
+      font-size:1.08rem;
+      color:var(--navy);
+      letter-spacing:-0.2px;
+      font-weight:800;
+    }
+    .metrics-strip__updated{
+      margin:0;
+      color:var(--muted);
+      font-size:.85rem;
+      font-weight:600;
+    }
+    .metrics-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      gap:10px;
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .metrics-grid li{
+      background:rgba(29,79,168,0.05);
+      border:1px solid rgba(29,79,168,0.16);
+      border-radius:10px;
+      padding:12px;
+      min-height:96px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:5px;
+    }
+    .metrics-label{ font-size:.81rem; color:var(--muted); font-weight:700; line-height:1.35; }
+    .metrics-value{ font-size:1.28rem; color:var(--navy); font-weight:800; letter-spacing:-0.2px; }
+    .metrics-strip__methodology{
+      margin:12px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.5;
+      font-weight:500;
     }
 
     /* ---- Sections ---- */
@@ -623,14 +712,13 @@
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
+        <a class="nav-link" href="/contact.html">Volunteer &amp; Contact</a>
       </nav>
 
       <div class="header-cta">
         <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
 
         <div class="cta-group">
-          <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
           <a class="btn btn-primary"
              href="https://secure.actblue.com/donate/adam-arafat-1"
              target="_blank" rel="noopener noreferrer">Donate</a>
@@ -649,7 +737,7 @@
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
       <a href="/events.html">Events</a>
-      <a href="/contact.html">Contact / Volunteer</a>
+      <a href="/contact.html">Volunteer &amp; Contact</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
@@ -690,6 +778,50 @@
       </div>
     </section>
 
+    <section class="metrics-strip" aria-label="Public campaign metrics">
+      <div class="metrics-strip__panel">
+        <div class="metrics-strip__header">
+          <h2>Campaign metrics snapshot (public, anonymized)</h2>
+          <p class="metrics-strip__updated" id="metrics-last-updated">Last updated: Loading…</p>
+        </div>
+        <ul class="metrics-grid">
+          <li>
+            <span class="metrics-label">Volunteers onboarded</span>
+            <span class="metrics-value" id="metric-volunteers">—</span>
+          </li>
+          <li>
+            <span class="metrics-label">Doors knocked</span>
+            <span class="metrics-value" id="metric-doors">—</span>
+          </li>
+          <li>
+            <span class="metrics-label">Calls made</span>
+            <span class="metrics-value" id="metric-calls">—</span>
+          </li>
+          <li>
+            <span class="metrics-label">Texts sent</span>
+            <span class="metrics-value" id="metric-texts">—</span>
+          </li>
+          <li>
+            <span class="metrics-label">Town halls held</span>
+            <span class="metrics-value" id="metric-townhalls">—</span>
+          </li>
+          <li>
+            <span class="metrics-label">Endorsements (confirmed)</span>
+            <span class="metrics-value" id="metric-endorsements-confirmed">—</span>
+          </li>
+          <li>
+            <span class="metrics-label">Endorsements (pending)</span>
+            <span class="metrics-value" id="metric-endorsements-pending">—</span>
+          </li>
+          <li>
+            <span class="metrics-label">Endorsements (outreach)</span>
+            <span class="metrics-value" id="metric-endorsements-outreach">—</span>
+          </li>
+        </ul>
+        <p class="metrics-strip__methodology" id="metrics-methodology">Methodology: Loading…</p>
+      </div>
+    </section>
+
     <!-- FUND PHASE 1 -->
     <section class="section" aria-labelledby="fund-heading">
       <h2 id="fund-heading">Help us reach 1,000 donors by June 30</h2>
@@ -700,10 +832,10 @@
           <strong style="display:block;margin-bottom:3px;font-weight:800;">Goal: 1,000 donors by June 30 &rarr; unlocks full voter contact + phone bank infrastructure</strong>
           Reaching 1,000 donors from WA-10 families gives this campaign the grassroots signal that moves endorsers, media, and undecided voters. No corporate PAC money — just neighbors building something together.
         </div>
-        <div class="fundraising-cta" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-          <a class="btn-home" href="https://secure.actblue.com/donate/adam-arafat-1?amount=10" target="_blank" rel="noopener noreferrer" style="background:rgba(29,79,168,0.10);color:var(--navy);border:1px solid rgba(29,79,168,0.25);border-radius:10px;padding:9px 16px;text-decoration:none;font-weight:800;font-size:.92rem;">Chip in $10</a>
-          <a class="btn-home" href="https://secure.actblue.com/donate/adam-arafat-1?amount=25" target="_blank" rel="noopener noreferrer" style="background:rgba(29,79,168,0.10);color:var(--navy);border:1px solid rgba(29,79,168,0.25);border-radius:10px;padding:9px 16px;text-decoration:none;font-weight:800;font-size:.92rem;">Chip in $25</a>
-          <a class="btn-home" href="https://secure.actblue.com/donate/adam-arafat-1?amount=50" target="_blank" rel="noopener noreferrer" style="background:rgba(29,79,168,0.10);color:var(--navy);border:1px solid rgba(29,79,168,0.25);border-radius:10px;padding:9px 16px;text-decoration:none;font-weight:800;font-size:.92rem;">Chip in $50</a>
+        <div class="fundraising-cta inline-cta-row" style="margin-bottom:10px;">
+          <a class="btn-home chip-btn" href="https://secure.actblue.com/donate/adam-arafat-1?amount=10" target="_blank" rel="noopener noreferrer">Chip in $10</a>
+          <a class="btn-home chip-btn" href="https://secure.actblue.com/donate/adam-arafat-1?amount=25" target="_blank" rel="noopener noreferrer">Chip in $25</a>
+          <a class="btn-home chip-btn" href="https://secure.actblue.com/donate/adam-arafat-1?amount=50" target="_blank" rel="noopener noreferrer">Chip in $50</a>
           <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Other amount</a>
         </div>
         <p style="font-size:.82rem;color:var(--muted);font-weight:600;">
@@ -737,22 +869,39 @@
     <section class="section" aria-labelledby="winnable-heading">
       <h2 id="winnable-heading">Why WA-10 Is Winnable</h2>
       <p class="section-intro">This is a competitive district. Donors and endorsers need to see the math. Here it is.</p>
+      <div class="copy-block" style="margin-bottom:16px;">
+        <p><strong>10-second summary:</strong> WA-10 is moving, the margins are compressing, and this race is winnable with disciplined field execution in Pierce and Thurston counties.</p>
+        <p style="font-size:.88rem;"><strong>Updated:</strong> Feb 26, 2026 (registration, turnout trend, and campaign benchmark review).</p>
+      </div>
 
       <div class="two-col" style="align-items:start;margin-top:18px;">
         <div class="copy-block">
-          <div class="copy-stack">
-            <p><strong>The district is shifting.</strong> WA-10 registration trended 4 points more Democratic between 2020 and 2024. Pierce County added 22,000 net new registered voters — majority under 40.</p>
-            <p><strong>The incumbent's margins are soft.</strong> In 2022, Strickland won with 59% — down from 63% in 2020. Challenger-favorable conditions in 2026 (off-year, high incumbent disapproval) compress that further.</p>
-            <p><strong>JBLM is a swing constituency.</strong> Military families split tickets at higher rates than civilian households. Adam's service background and district residency give him credibility in communities where Strickland has underperformed.</p>
-          </div>
+          <ul class="bullet-lines">
+            <li><strong>Claim:</strong> The district is shifting toward a competitive challenger lane.</li>
+            <li><strong>Local proof (WA-10):</strong> Registration trended 4 points more Democratic between 2020 and 2024, with ~22,000 net new Pierce County voters, mostly under 40.</li>
+            <li><strong>Action:</strong> Fund direct voter contact early so this shift turns into turnout.</li>
+          </ul>
+          <ul class="bullet-lines" style="margin-top:10px;">
+            <li><strong>Claim:</strong> Incumbent vote share is softening.</li>
+            <li><strong>Local proof (WA-10):</strong> 59% in 2022 vs. 63% in 2020, with an off-year electorate that historically tightens margins.</li>
+            <li><strong>Action:</strong> Donate to expand persuasion + ballot-chase operations in Lakewood, Spanaway, and Olympia.</li>
+          </ul>
         </div>
         <div class="copy-block">
-          <div class="copy-stack">
-            <p><strong>The issues favor a challenger.</strong> Housing costs, healthcare gaps, and wage stagnation are most acute in Pierce County — the core of WA-10. Strickland's record on progressive bills creates a clear, documentable contrast that doesn't require voters to take anything on faith.</p>
-            <p><strong>Small-dollar infrastructure is ready.</strong> The campaign is ActBlue-enabled, social-media active, and building volunteer infrastructure. A labor endorsement or WCV endorsement would provide phone bank and canvass infrastructure that no dollar amount can replicate.</p>
-            <p><strong>The playbook exists.</strong> Progressive challengers have won comparable seats in WA state in 2020 and 2022 by out-organizing on local economic issues. This campaign is built on the same model.</p>
-          </div>
+          <ul class="bullet-lines">
+            <li><strong>Claim:</strong> Kitchen-table issues favor a challenger with receipts.</li>
+            <li><strong>Local proof (WA-10):</strong> Housing costs, healthcare gaps, and wage pressure are sharpest in Pierce County, where most district votes are cast.</li>
+            <li><strong>Action:</strong> Donate to keep issue-based messaging on air and in mailboxes.</li>
+          </ul>
+          <ul class="bullet-lines" style="margin-top:10px;">
+            <li><strong>Claim:</strong> The organizing model is proven in Washington.</li>
+            <li><strong>Local proof (WA-10):</strong> Comparable challengers won statewide races in 2020 and 2022 by out-organizing on local economic stakes.</li>
+            <li><strong>Action:</strong> Donate now to scale the same playbook precinct-by-precinct.</li>
+          </ul>
         </div>
+      </div>
+      <div class="cta" style="justify-content:center; margin-top:14px;">
+        <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate to expand field operations</a>
       </div>
     </section>
 
@@ -792,7 +941,7 @@
         </div>
       </div>
 
-      <div class="cta" style="justify-content:center; margin-top:16px;">
+      <div class="cta cta-center cta-top-lg">
         <a class="btn-home btn-record" href="/record-contrast.html">See the scorecard</a>
         <a class="btn-home btn-volunteer" href="/issues.html">See the bills</a>
       </div>
@@ -816,7 +965,7 @@
         <article class="issue-card" role="listitem"><h3>Artificial Intelligence</h3><p>Ensure AI serves people, not corporations.</p></article>
       </div>
 
-      <div class="cta" style="justify-content:center; margin-top:16px;">
+      <div class="cta cta-center cta-top-lg">
         <a class="btn-home btn-record" href="/issues.html">See the legislation</a>
         <a class="btn-home btn-volunteer" href="/record-contrast.html">Compare the record</a>
       </div>
@@ -825,13 +974,20 @@
     <!-- COMPETENCE / DELIVERY -->
     <section class="section" aria-labelledby="deliver-heading">
       <h2 id="deliver-heading">How I'll Deliver for WA-10</h2>
+      <div class="copy-block" style="margin-bottom:16px;">
+        <p><strong>10-second summary:</strong> WA-10 gets district-first casework, public scorecards, and donor independence that keeps pressure on outcomes.</p>
+        <p style="font-size:.88rem;"><strong>Updated:</strong> Feb 26, 2026 (service model + accountability commitments).</p>
+      </div>
       <div class="two-col" style="align-items:start;">
         <div class="copy-block">
-          <div class="copy-stack">
-            <p><strong>District-first service.</strong> Fast casework and visible follow-through for every family in Spanaway, Lakewood, Olympia, Lacey, University Place, Puyallup, and across the South Sound. Not just the loudest voices.</p>
-            <p><strong>Receipts, not vibes.</strong> A public scorecard of my votes, co-sponsorships, and what I am pushing to move. If something stalls, you will know what I did next.</p>
-            <p><strong>Independence.</strong> No corporate PAC or AIPAC money. The agenda is set by neighbors and workers, from the JBLM community to state employees in Olympia, not donors.</p>
-          </div>
+          <ul class="bullet-lines">
+            <li><strong>Claim:</strong> District-first service beats DC performative politics.</li>
+            <li><strong>Local proof (WA-10):</strong> Constituents across Spanaway, Lakewood, Olympia, Lacey, University Place, and Puyallup need responsive federal casework.</li>
+            <li><strong>Action:</strong> Donate so constituent communications are staffed and responsive from day one.</li>
+            <li><strong>Claim:</strong> Accountability must be public and measurable.</li>
+            <li><strong>Local proof (WA-10):</strong> A district scorecard will show every vote, co-sponsorship, and escalation tied to housing, healthcare, and wages.</li>
+            <li><strong>Action:</strong> Donate to sustain the transparency infrastructure and district reporting.</li>
+          </ul>
         </div>
         <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border-soft);box-shadow:var(--shadow-soft);">
           <img src="images/Tacoma-narrows-bridge-image-8.jpg" alt="Tacoma Narrows Bridge connecting WA-10 communities" loading="lazy" style="width:100%;display:block;height:auto;max-height:280px;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';" />
@@ -871,7 +1027,7 @@
           <p style="margin:0 0 4px;color:#fff;font-weight:800;font-size:1.05rem;">Quick join &mdash; just your email</p>
           <p style="margin:0;color:rgba(255,255,255,0.7);font-size:.9rem;">Stay informed on WA-10 progress. No spam, unsubscribe anytime.</p>
         </div>
-        <form id="quick-signup-form" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;" novalidate>
+        <form id="quick-signup-form" class="inline-cta-row" novalidate>
           <input type="email" id="quick-signup-email" placeholder="your@email.com" autocomplete="email" required
             style="min-height:44px;padding:0 14px;border-radius:10px;border:none;font:inherit;font-size:.95rem;min-width:220px;background:rgba(255,255,255,0.95);color:var(--navy);" />
           <button type="submit"
@@ -890,18 +1046,41 @@
         <form class="signup-form" id="campaign-signup-form" novalidate>
           <div class="signup-grid">
             <div class="signup-field">
-              <label for="signup-first-name">First name (optional)</label>
-              <input id="signup-first-name" name="firstName" autocomplete="given-name" />
+              <label for="signup-full-name">Full name <span aria-hidden="true">*</span></label>
+              <input id="signup-full-name" name="fullName" autocomplete="name" required />
             </div>
             <div class="signup-field">
               <label for="signup-email">Email (required)</label>
               <input id="signup-email" name="email" type="email" required autocomplete="email" />
             </div>
+            <div class="signup-field">
+              <label for="signup-zip">ZIP code <span aria-hidden="true">*</span></label>
+              <input id="signup-zip" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required autocomplete="postal-code" />
+            </div>
+            <div class="signup-field">
+              <label for="signup-message">How would you like to help? <span aria-hidden="true">*</span></label>
+              <input id="signup-message" name="message" required placeholder="Canvassing, phonebanking, hosting, digital outreach..." />
+            </div>
           </div>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:.87rem;color:var(--muted);line-height:1.45;">
+            <input id="signup-consent" name="consent" type="checkbox" required style="margin-top:2px;" />
+            <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
+          </label>
           <button class="btn-home btn-volunteer" type="submit">Join the campaign</button>
           <p id="signup-feedback" class="signup-feedback" role="status" aria-live="polite"></p>
-          <p class="privacy-note">No spam. Unsubscribe anytime. People-funded. No corporate PAC money.</p>
+          <p class="privacy-note">No spam. Unsubscribe anytime. People-funded. No corporate PAC money. Prefer email? <a href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Intake">Use mailto fallback</a>.</p>
         </form>
+      </div>
+    </section>
+
+    <section class="section" id="press-path" aria-labelledby="press-path-title">
+      <h2 id="press-path-title">For press &amp; endorsers</h2>
+      <div class="cta-band">
+        <p>Looking for background, policy context, or endorsement details? Reach the campaign directly and review current endorsements in one place.</p>
+        <div class="cta-band__buttons">
+          <a class="btn-home btn-record" href="/endorsements.html">Endorsements</a>
+          <a class="btn-home btn-volunteer" href="mailto:info@arafatforcongress.org">Email press desk</a>
+        </div>
       </div>
     </section>
 
@@ -919,19 +1098,19 @@
 
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
-    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+    <nav aria-label="Footer navigation" class="site-footer-nav">
       <a href="/events.html">Events</a>
       <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="/contact.html">Volunteer</a>
+      <a href="/contact.html">Volunteer &amp; Contact</a>
       <a href="https://www.instagram.com/adam.neil.arafat.wa10?igsh=MXZudHU1cWN2dXpkcw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
     </nav>
     <strong>Paid for by Arafat for Congress</strong> &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
-    <p style="font-size:.78rem;margin:8px auto 0;max-width:780px;line-height:1.6;color:var(--muted);">
+    <p class="site-footer-legal">
       Contributions or gifts to Arafat for Congress are not tax-deductible.<br>
       Federal law requires us to use our best efforts to collect and report the name, mailing address, occupation, and name of employer of individuals whose contributions exceed $200 in a calendar year.
     </p>
-    <div style="margin-top:14px;">
-      <a href="/es/index.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.22);color:#091b36;font-weight:700;font-size:.92rem;padding:8px 16px;border-radius:999px;text-decoration:none;" aria-label="View full Spanish version of this site">&#127760; Ver en Espa&ntilde;ol</a>
+    <div class="lang-pill-wrap">
+      <a href="/es/index.html" class="lang-pill" aria-label="View full Spanish version of this site">&#127760; Ver en Espa&ntilde;ol</a>
     </div>
   </footer>
 
@@ -950,5 +1129,6 @@
   </script>
 
   <script src="js/main.js" defer></script>
+  <script src="js/public-metrics.js" defer></script>
 </body>
 </html>
