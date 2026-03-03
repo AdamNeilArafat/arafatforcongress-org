@@ -329,68 +329,6 @@
       font-size:.9rem;
     }
 
-    .metrics-strip{
-      max-width:1180px;
-      margin:20px auto 0;
-      padding:0 20px;
-    }
-    .metrics-strip__panel{
-      background:#fff;
-      border:1px solid var(--border-soft);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow-soft);
-      padding:18px;
-    }
-    .metrics-strip__header{
-      display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-    .metrics-strip__header h2{
-      margin:0;
-      font-size:1.08rem;
-      color:var(--navy);
-      letter-spacing:-0.2px;
-      font-weight:800;
-    }
-    .metrics-strip__updated{
-      margin:0;
-      color:var(--muted);
-      font-size:.85rem;
-      font-weight:600;
-    }
-    .metrics-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-      gap:10px;
-      margin:0;
-      padding:0;
-      list-style:none;
-    }
-    .metrics-grid li{
-      background:rgba(29,79,168,0.05);
-      border:1px solid rgba(29,79,168,0.16);
-      border-radius:10px;
-      padding:12px;
-      min-height:96px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      gap:5px;
-    }
-    .metrics-label{ font-size:.81rem; color:var(--muted); font-weight:700; line-height:1.35; }
-    .metrics-value{ font-size:1.28rem; color:var(--navy); font-weight:800; letter-spacing:-0.2px; }
-    .metrics-strip__methodology{
-      margin:12px 0 0;
-      color:var(--muted);
-      font-size:.84rem;
-      line-height:1.5;
-      font-weight:500;
-    }
-
     /* ---- Sections ---- */
     .section{
       max-width:1180px;
@@ -794,38 +732,6 @@
       </div>
     </section>
 
-    <section class="metrics-strip" aria-label="Public campaign metrics">
-      <div class="metrics-strip__panel">
-        <div class="metrics-strip__header">
-          <h2>Campaign metrics snapshot (public, anonymized)</h2>
-          <p class="metrics-strip__updated" id="metrics-last-updated">Last updated: Loading…</p>
-        </div>
-        <ul class="metrics-grid">
-          <li>
-            <span class="metrics-label">Volunteers onboarded</span>
-            <span class="metrics-value" id="metric-volunteers">—</span>
-          </li>
-          <li>
-            <span class="metrics-label">Doors knocked</span>
-            <span class="metrics-value" id="metric-doors">—</span>
-          </li>
-          <li>
-            <span class="metrics-label">Calls made</span>
-            <span class="metrics-value" id="metric-calls">—</span>
-          </li>
-          <li>
-            <span class="metrics-label">Texts sent</span>
-            <span class="metrics-value" id="metric-texts">—</span>
-          </li>
-          <li>
-            <span class="metrics-label">Town halls held</span>
-            <span class="metrics-value" id="metric-townhalls">—</span>
-          </li>
-        </ul>
-        <p class="metrics-strip__methodology" id="metrics-methodology">Methodology: Loading…</p>
-      </div>
-    </section>
-
     <!-- FUND PHASE 1 -->
     <section class="section" aria-labelledby="fund-heading">
       <h2 id="fund-heading">Help us reach 1,000 donors by June 30</h2>
@@ -1132,6 +1038,5 @@
   </script>
 
   <script src="js/main.js" defer></script>
-  <script src="js/public-metrics.js" defer></script>
 </body>
 </html>
