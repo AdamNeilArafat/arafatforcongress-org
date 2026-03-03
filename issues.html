@@ -86,25 +86,14 @@
     .brand{
       text-decoration:none;
       color: var(--ink);
-      display:flex;
-      flex-direction:column;
-      gap:2px;
+      display:inline-flex;
+      align-items:center;
       min-width: 220px;
     }
-    .brand__name{
-      font-weight: 950;
-      letter-spacing: .2px;
-      font-size: 1.06rem;
-      line-height: 1.05;
-      color: var(--navy);
-    }
-    .brand__name .last-name{
-      color: var(--brand);
-    }
-    .brand__meta{
-      font-weight: 850;
-      font-size: .85rem;
-      color: var(--muted);
+    .brand__logo{
+      width: clamp(168px,24vw,260px);
+      height:auto;
+      display:block;
     }
 
     .site-nav{
@@ -583,6 +572,25 @@
     }
     .bill-adam-commit p{ margin: 0; }
 
+    .marker{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:1.35rem;
+      height:1.35rem;
+      border-radius:999px;
+      font-size:.62rem;
+      font-weight:900;
+      letter-spacing:.04em;
+      color:#fff;
+      margin-right:6px;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);
+    }
+    .marker--bill{ background:linear-gradient(160deg,var(--brand),var(--brand-dark)); }
+    .marker--local{ background:linear-gradient(160deg,#4f46e5,#4338ca); }
+    .marker--commit{ background:linear-gradient(160deg,#0b6e4f,#0d8a62); }
+
+
     .copy-block{
       background: #fff;
       border: 1px solid var(--border-soft);
@@ -638,8 +646,7 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam <span class="last-name">Arafat</span></span>
-        <span class="brand__meta">for Congress &bull; WA-10</span>
+        <img class="brand__logo" src="/images/Name Logo.png" alt="Adam Arafat for Congress logo" />
       </a>
 
       <nav class="site-nav" aria-label="Primary">
@@ -647,7 +654,6 @@
         <a class="nav-link" href="/issues.html" aria-current="page">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/endorsements.html">Endorsements</a>
         <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
 
@@ -666,11 +672,9 @@
     <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
-      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/issues.html" aria-current="page">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
-      <a href="/endorsements.html">Endorsements</a>
       <a href="/events.html">Events</a>
       <a href="/contact.html">Contact / Volunteer</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
@@ -815,7 +819,7 @@
             <h3>Make affordable housing a national priority, not a talking point.</h3>
             <p class="issue-desc">Rents in Pierce and Thurston counties are up 40%+ since 2019. This is not a pipeline problem &mdash; it is a political will problem. The legislation already exists.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 4457 &mdash; Housing Is a Human Right Act of 2025</p>
               <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -830,11 +834,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>The average WA-10 renter now pays <strong>$1,847/month</strong> &mdash; up 42% since 2019. Pierce County has the fastest-rising rents of any county in Washington state. Over 38,000 households in the district are cost-burdened, spending more than 30% of income on housing (Census ACS 2023).</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor H.R. 4457 on Day 1 and demand a committee hearing within the first 90 days of session. He will push leadership to attach housing provisions to must-pass spending bills and hold public town halls in Spanaway, Lakewood, and Olympia to build constituent pressure.</p>
               </div>
             </div>
@@ -849,7 +853,7 @@
             <h3>Guarantee healthcare for every American. No more medical debt, no more coverage gaps.</h3>
             <p class="issue-desc">Medical debt is the leading cause of bankruptcy in America. The bill is written. The question is who signs on and who fights to move it.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 3069 &mdash; Medicare for All Act of 2025</p>
               <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -864,11 +868,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>Approximately <strong>62,000 residents</strong> in Pierce and Thurston counties lack health insurance. JBLM-area veterans face healthcare gaps when transitioning out of service &mdash; nearly 1 in 5 post-9/11 veterans in the district report delays in accessing VA care. Medical debt is the #1 reason for bankruptcy filings in Pierce County (WA State Dept. of Health, 2024).</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor Medicare for All on Day 1 and organize constituent pressure campaigns to push leadership for floor action. He will host public healthcare town halls in Lakewood and Olympia and make healthcare a non-negotiable condition of any budget negotiation he participates in.</p>
               </div>
             </div>
@@ -883,7 +887,7 @@
             <h3>Defend voting rights, rule of law, and independent oversight &mdash; right now, not someday.</h3>
             <p class="issue-desc">In 2026 the threat to democratic norms is active, not hypothetical. Co-sponsoring voting rights legislation is the floor. The ceiling is using every available tool to force movement.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 14 &mdash; John R. Lewis Voting Rights Advancement Act of 2025</p>
               <p class="bill-meta"><strong>Sponsor:</strong> Rep. Terri A. Sewell (AL-07)</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -898,11 +902,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>In 2022, WA-10 voter turnout was <strong>51%</strong> &mdash; below the state average of 58%. Communities around JBLM have some of the lowest registration rates in the district due to frequent relocations. Voting rights protections directly affect military families, naturalized citizens, and communities of color across Pierce and Thurston counties.</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor the John Lewis Act and demand it be attached to must-pass legislation if leadership refuses a standalone vote. He will push for automatic voter registration for JBLM service members and their families, and hold public forums on threats to democratic institutions in Olympia and Tacoma.</p>
               </div>
             </div>
@@ -917,7 +921,7 @@
             <h3>Restore worker power. Protect unions. Raise wages across the South Sound.</h3>
             <p class="issue-desc">Union membership is the single most reliable driver of middle-class wages. Letting the PRO Act stall without pressure is a choice with consequences for every working family in WA-10.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 20 &mdash; Richard L. Trumka PRO Act of 2025</p>
               <p class="bill-meta"><strong>Sponsors:</strong> Rep. Bobby Scott (D-VA), Rep. Hakeem Jeffries, Rep. Brian Fitzpatrick (R-PA). Bipartisan &mdash; 214 co-sponsors in 119th Congress.</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -931,11 +935,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>Only <strong>14% of WA-10 workers</strong> belong to a union &mdash; down from 22% in 2005 (BLS 2024). In Pierce County, non-union workers earn 23% less than their unionized counterparts in comparable jobs. JBLM civilian contractors, port workers in Tacoma, and state employees in Olympia all stand to gain direct wage protections under the PRO Act.</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor the PRO Act on Day 1 and use every procedural tool available to force a floor vote. He will partner with local labor councils including the Pierce County Central Labor Council to organize public pressure and will make worker rights a condition of his support for any omnibus legislation.</p>
               </div>
             </div>
@@ -950,7 +954,7 @@
             <h3>End corporate money in politics. Close the Citizens United loophole.</h3>
             <p class="issue-desc">As long as corporations can buy access, every other reform is fighting with one hand tied. This is the prerequisite issue for everything else on this list.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.J.Res. 54 &mdash; We the People Amendment (overturn Citizens United)</p>
               <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -965,11 +969,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>In the 2024 cycle, <strong>Strickland received $355,000 from leadership committees</strong> funded by corporate PAC money &mdash; more than 3x the district median for House incumbents (OpenSecrets 2024). Every dollar from corporate donors buys access that WA-10 working families cannot match. This is not theoretical: it shows up in which bills get signed and which get ignored.</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor the We the People Amendment on Day 1 and refuse all corporate PAC and AIPAC money &mdash; not as a campaign promise, but as a structural commitment that has already been in place since Day 1 of this campaign. He will push for a floor vote within the first session and make campaign finance reform a standing public accountability item.</p>
               </div>
             </div>
@@ -984,7 +988,7 @@
             <h3>Transparency and real consequences for corruption. Congress must not be exempt from the rules it sets for everyone else.</h3>
             <p class="issue-desc">Stock trading by Members of Congress and their families is a direct conflict of interest. The fix is a bill. The question is whether your representative has signed on.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 396 &mdash; TRUST in Congress Act (blind trust requirement for Members and family)</p>
               <p class="bill-meta"><strong>Status:</strong> Introduced, 119th Congress</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -998,11 +1002,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>Members of Congress and their families can legally trade stocks in companies they regulate &mdash; and do. Congressional net worth grew <strong>4x faster</strong> than the median American household between 2021&ndash;2023 (Roll Call wealth analysis). For WA-10 families paying $1,800/month rent and watching their savings shrink, it matters that their representative's financial interests are fully separate from their votes.</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor the TRUST Act on Day 1 and introduce a companion amendment requiring all financial disclosures to be machine-readable and publicly searchable within 48 hours of filing. He will publish his own financial disclosures proactively, before any legal requirement, to set a transparency standard.</p>
               </div>
             </div>
@@ -1017,7 +1021,7 @@
             <h3>Tax extreme wealth and fund working families. Not a talking point &mdash; a legislative choice.</h3>
             <p class="issue-desc">The top 400 American households pay a lower effective tax rate than most working families in WA-10. The bill exists. The vote is a choice.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 5336 &mdash; Equal Tax Act</p>
               <p class="bill-meta"><strong>Sponsor:</strong> Rep. Delia C. Ramirez (IL-03)</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -1032,11 +1036,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>The median household income in WA-10 is <strong>$68,400</strong> &mdash; and that family pays an effective federal tax rate of roughly 14%. The top 0.1% of earners pay a lower effective rate. Revenue from taxing extreme wealth could fund expanded housing vouchers, healthcare subsidies, and school infrastructure improvements throughout Pierce and Thurston counties (IRS Statistics of Income, 2023).</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor the Equal Tax Act on Day 1 and make it a condition of any budget negotiation he participates in. He will publish a detailed breakdown of how revenue from the Equal Tax Act would be invested in WA-10 &mdash; housing, healthcare, education, and infrastructure &mdash; with specific dollar estimates for the district.</p>
               </div>
             </div>
@@ -1051,7 +1055,7 @@
             <h3>Treat climate change as the emergency it is. Stop subsidizing the companies causing it.</h3>
             <p class="issue-desc">Federal subsidies to the oil and gas industry run into the tens of billions annually. Climate urgency means fighting to end those subsidies &mdash; not just posting about it.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 4714 &mdash; End Polluter Welfare Act of 2025</p>
               <p class="bill-meta"><strong>Sponsor:</strong> Rep. Ro Khanna (CA-17)</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -1065,11 +1069,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>JBLM and the surrounding communities face <strong>PFAS contamination</strong> from decades of military firefighting foam use, affecting an estimated 20,000+ residents' drinking water (WA Dept. of Ecology, 2024). Ending oil and gas subsidies and redirecting funds to clean energy transition and contamination cleanup would directly benefit the South Sound. WA-10 is also home to significant Puget Sound shoreline vulnerable to sea-level rise.</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor the End Polluter Welfare Act on Day 1 and push to direct a portion of recovered subsidies toward JBLM PFAS cleanup and WA-10 clean energy transition. He will call for a Government Accountability Office investigation into the total federal subsidy burden to fossil fuel companies and make the results public.</p>
               </div>
             </div>
@@ -1084,7 +1088,7 @@
             <h3>End mass surveillance. Close the data-broker loophole that lets government buy what it cannot legally seize.</h3>
             <p class="issue-desc">Right now federal agencies can purchase detailed personal data from brokers to avoid getting a warrant. The bill to close this loophole needs to be reintroduced and championed loudly.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 4639 &mdash; Fourth Amendment Is Not For Sale Act (118th Congress)</p>
               <p class="bill-meta"><strong>Sponsor:</strong> Rep. Warren Davidson (OH-08) &bull; Bipartisan</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -1098,11 +1102,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>Federal agencies purchased location data on <strong>over 3 million Americans</strong> without warrants between 2021&ndash;2023, including data purchased from apps used by JBLM service members and their families (ACLU, 2023). WA-10 has a high concentration of active-duty military and veterans whose movements, communications, and health data are particularly sensitive and actively targeted.</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor and actively push for the 119th Congress reintroduction of the Fourth Amendment Is Not For Sale Act, working to attach it to the next government funding bill. He will specifically advocate for provisions protecting military families and veterans from warrantless data collection and will demand a public hearing on current federal data-broker purchases.</p>
               </div>
             </div>
@@ -1117,7 +1121,7 @@
             <h3>Ensure AI serves people, not corporations. Stop algorithmic discrimination in hiring, lending, and benefits.</h3>
             <p class="issue-desc">AI-driven discrimination is already happening in job screenings, credit decisions, and public benefits. Guardrails are a legislative choice. So is delay.</p>
             <div class="bill-record-box" aria-label="Bill on record">
-              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <span class="bill-record-label"><span class="marker marker--bill" aria-hidden="true">BR</span>Bill on Record</span>
               <p class="bill-title">H.R. 6356 &mdash; Artificial Intelligence Civil Rights Act of 2025</p>
               <p class="bill-meta"><strong>House sponsors:</strong> Reps. Yvette Clarke (NY), Ayanna Pressley (MA), Pramila Jayapal (WA-07), Summer Lee (PA). Introduced Dec. 2, 2025. Senate companion: S. 3308 (Sen. Ed Markey).</p>
               <div class="pill-row" aria-label="Co-sponsor status">
@@ -1130,11 +1134,11 @@
             </div>
             <div class="bill-extras">
               <div class="bill-local-data">
-                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <div class="local-label"><span class="marker marker--local" aria-hidden="true">WA</span>Why This Matters in WA-10</div>
                 <p>AI-driven hiring tools have screened out an estimated <strong>27% of qualified candidates</strong> for jobs at major WA-10 employers due to algorithmic bias (EEOC 2023 analysis). Automated systems are already used in WA state benefits determinations affecting housing assistance, childcare subsidies, and disability claims &mdash; with no right to appeal. JBLM veterans transitioning to civilian employment are disproportionately impacted by keyword-filtering AI that discounts military experience.</p>
               </div>
               <div class="bill-adam-commit">
-                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <div class="adam-label"><span class="marker marker--commit" aria-hidden="true">AA</span>What Adam Will Do</div>
                 <p>Adam will co-sponsor the AI Civil Rights Act on Day 1 and push for committee hearings on algorithmic discrimination in WA-10 hiring, lending, and benefits decisions. He will introduce legislation requiring federal contractors operating in WA-10 to conduct annual AI bias audits and publish results publicly, with specific protections for veterans in civilian hiring algorithms.</p>
               </div>
             </div>
@@ -1171,10 +1175,10 @@
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
     <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
-      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/events.html">Events</a>
       <a href="/privacy-policy.html">Privacy Policy</a>
       <a href="/contact.html">Volunteer</a>
+      <a href="https://www.instagram.com/adam.neil.arafat.wa10?igsh=MXZudHU1cWN2dXpkcw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
     </nav>
     <strong>Paid for by Arafat for Congress</strong> &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
     <p style="font-size:.78rem;margin:8px auto 0;max-width:780px;line-height:1.6;color:var(--muted);">
