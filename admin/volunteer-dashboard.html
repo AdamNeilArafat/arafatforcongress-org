@@ -293,12 +293,114 @@
     .columns-list { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
     .col-chip { background: rgba(29,79,168,0.08); border: 1px solid rgba(29,79,168,0.20); border-radius: 6px; padding: 3px 9px; font-size: .78rem; font-weight: 700; color: var(--brand); font-family: monospace; }
 
+    /* ---- CANVASS TOTALS BAR ---- */
+    .canvass-bar {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 16px 20px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .canvass-bar__label { font-size: .78rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+    .canvass-bar__stats { display: flex; gap: 24px; flex-wrap: wrap; }
+    .canvass-stat { text-align: center; }
+    .canvass-stat__num { font-size: 1.7rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .canvass-stat__sub { font-size: .72rem; color: var(--muted); font-weight: 700; margin-top: 3px; text-transform: uppercase; letter-spacing: .06em; }
+    .canvass-stat + .canvass-stat { border-left: 1px solid var(--border); padding-left: 24px; }
+
+    /* ---- CAPACITY TRACKER ---- */
+    .tracker-section {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    }
+    .tracker-section-header {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .tracker-section-title { font-weight: 800; color: var(--navy); font-size: .95rem; }
+    .tracker-section-sub { font-size: .78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .tracker-body { padding: 16px 18px; }
+    .tracker-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;
+    }
+    .tracker-item {
+      border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .tracker-item--needed { border-left: 3px solid var(--amber); background: var(--amber-bg); }
+    .tracker-item--active { border-left: 3px solid var(--green); background: var(--green-bg); }
+    .tracker-item__name { font-weight: 800; color: var(--navy); font-size: .88rem; }
+    .tracker-item__lead { font-size: .8rem; color: var(--muted); font-weight: 600; }
+    .tracker-item__badge {
+      display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px;
+      border-radius: 999px; font-size: .7rem; font-weight: 800; width: fit-content;
+    }
+    .tracker-item__badge--needed { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(184,134,13,0.30); }
+    .tracker-item__badge--active { background: var(--green-bg); color: var(--green); border: 1px solid rgba(22,101,52,0.25); }
+    .tracker-item__count { font-size: .78rem; color: var(--muted); }
+
+    /* ---- ENDORSEMENT PIPELINE ---- */
+    .endorsement-stage { margin-bottom: 16px; }
+    .endorsement-stage:last-child { margin-bottom: 0; }
+    .endorsement-stage__label {
+      font-size: .72rem; font-weight: 900; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .endorsement-stage__label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .endorsement-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .endorsement-chip {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+      border-radius: 8px; font-size: .8rem; font-weight: 700; border: 1px solid;
+    }
+    .endorsement-chip--confirmed { background: var(--green-bg); color: var(--green); border-color: rgba(22,101,52,0.25); }
+    .endorsement-chip--pending { background: var(--amber-bg); color: var(--amber); border-color: rgba(184,134,13,0.30); }
+    .endorsement-chip--outreach { background: rgba(29,79,168,0.08); color: var(--brand); border-color: rgba(29,79,168,0.20); }
+
+    /* ---- QUICK LINKS ---- */
+    .quick-links-bar {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 14px 18px; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .quick-links-bar__label { font-size: .78rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-right: 4px; white-space: nowrap; }
+    .ql-btn {
+      padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
+      background: #f7f8fb; color: var(--navy); font-size: .8rem; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+      transition: background .12s;
+    }
+    .ql-btn:hover { background: rgba(29,79,168,0.08); border-color: rgba(29,79,168,0.22); }
+    .ql-btn--primary { background: rgba(29,79,168,0.10); color: var(--brand); border-color: rgba(29,79,168,0.25); }
+
+    /* ---- CAMPAIGN PHASE TRACKER ---- */
+    .phase-tracker {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 16px 20px; margin-bottom: 20px;
+    }
+    .phase-tracker__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .phase-tracker__title { font-weight: 800; color: var(--navy); font-size: .9rem; }
+    .phase-tracker__goal { font-size: .82rem; color: var(--muted); font-weight: 700; }
+    .phase-bar-wrap { height: 10px; background: rgba(5,16,30,0.08); border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+    .phase-bar-fill { height: 100%; background: linear-gradient(90deg, var(--brand), #2d6bd4); border-radius: 999px; transition: width .5s ease; }
+    .phase-labels { display: flex; justify-content: space-between; font-size: .74rem; color: var(--muted); font-weight: 700; }
+    .phase-milestones { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .phase-milestone {
+      padding: 5px 10px; border-radius: 6px; font-size: .76rem; font-weight: 700;
+      border: 1px solid var(--border); background: #f7f8fb; color: var(--muted);
+    }
+    .phase-milestone--done { background: var(--green-bg); color: var(--green); border-color: rgba(22,101,52,0.25); }
+    .phase-milestone--active { background: rgba(29,79,168,0.10); color: var(--brand); border-color: rgba(29,79,168,0.25); }
+
     /* ---- RESPONSIVE ---- */
     @media(max-width: 600px) {
       .dash-content { padding: 14px 12px 36px; }
       .stats-row { grid-template-columns: 1fr 1fr; }
       table { font-size: .78rem; }
       th, td { padding: 8px 10px; }
+      .canvass-bar { flex-direction: column; align-items: flex-start; }
+      .capacity-grid-wrap { grid-template-columns: 1fr !important; }
+      .canvass-bar__stats { gap: 14px; }
+      .canvass-stat + .canvass-stat { border-left: none; padding-left: 0; }
     }
   </style>
 </head>
@@ -400,6 +502,63 @@
       <div class="stat-card"><div class="stat-num" id="stat-week">0</div><div class="stat-label">This Week</div></div>
     </div>
 
+    <!-- CAMPAIGN PHASE TRACKER -->
+    <div class="phase-tracker" id="phase-tracker">
+      <div class="phase-tracker__top">
+        <div class="phase-tracker__title">&#127919; Campaign Phase: Voter Contact Lists &amp; Initial Infrastructure</div>
+        <div class="phase-tracker__goal" id="phase-goal-label">Phase 1 Goal: $1,000</div>
+      </div>
+      <div class="phase-bar-wrap">
+        <div class="phase-bar-fill" id="phase-bar" style="width:0%"></div>
+      </div>
+      <div class="phase-labels">
+        <span id="phase-raised-label">$0 raised</span>
+        <span>$1,000 unlocks voter contact lists</span>
+      </div>
+      <div class="phase-milestones">
+        <span class="phase-milestone phase-milestone--done">&#10003; Website Live</span>
+        <span class="phase-milestone phase-milestone--done">&#10003; ActBlue Active</span>
+        <span class="phase-milestone phase-milestone--active">&#9654; Volunteer Recruitment</span>
+        <span class="phase-milestone">Voter Contact Lists ($1K)</span>
+        <span class="phase-milestone">First Phone Bank</span>
+        <span class="phase-milestone">Canvass Launch</span>
+        <span class="phase-milestone">FEC Filing Q2</span>
+      </div>
+    </div>
+
+    <!-- CANVASS TOTALS BAR -->
+    <div class="canvass-bar">
+      <div class="canvass-bar__label">Field Outreach Totals</div>
+      <div class="canvass-bar__stats">
+        <div class="canvass-stat">
+          <div class="canvass-stat__num" id="total-doors">0</div>
+          <div class="canvass-stat__sub">Doors Knocked</div>
+        </div>
+        <div class="canvass-stat">
+          <div class="canvass-stat__num" id="total-flyers">0</div>
+          <div class="canvass-stat__sub">Flyers Distributed</div>
+        </div>
+        <div class="canvass-stat">
+          <div class="canvass-stat__num" id="total-sessions">0</div>
+          <div class="canvass-stat__sub">Outreach Sessions</div>
+        </div>
+        <div class="canvass-stat">
+          <div class="canvass-stat__num" id="total-areas-canvassed">0</div>
+          <div class="canvass-stat__sub">Areas Covered</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="quick-links-bar">
+      <span class="quick-links-bar__label">&#128279; Quick Links</span>
+      <a class="ql-btn ql-btn--primary" href="https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY" target="_blank" rel="noopener noreferrer">&#128196; Outreach Sheet</a>
+      <a class="ql-btn" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">&#128181; ActBlue</a>
+      <a class="ql-btn" href="https://www.congress.gov/member/marilyn-strickland/S001220" target="_blank" rel="noopener noreferrer">&#127963; Strickland Record</a>
+      <a class="ql-btn" href="mailto:volunteer@arafatforcongress.org">&#128231; volunteer@</a>
+      <a class="ql-btn" href="/index.html" target="_blank">&#127760; View Site</a>
+    </div>
+
     <!-- BREAKDOWN CHARTS -->
     <div class="breakdown-row">
       <div class="breakdown-card">
@@ -409,6 +568,47 @@
       <div class="breakdown-card">
         <h3>By Area</h3>
         <div id="area-breakdown"></div>
+      </div>
+    </div>
+
+    <!-- VOLUNTEER CAPACITY TRACKER -->
+    <div class="tracker-section" id="capacity-tracker">
+      <div class="tracker-section-header">
+        <div>
+          <div class="tracker-section-title">&#128101; Volunteer Capacity Tracker</div>
+          <div class="tracker-section-sub">Role leads and area coordinators — updated from volunteer-tracker.json</div>
+        </div>
+        <span class="badge badge-new" id="capacity-status">Loading…</span>
+      </div>
+      <div class="tracker-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="capacity-grid-wrap">
+          <div>
+            <p style="font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">By Role</p>
+            <div class="tracker-grid" id="role-tracker-grid"></div>
+          </div>
+          <div>
+            <p style="font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">By Area / Precinct</p>
+            <div class="tracker-grid" id="area-tracker-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENDORSEMENT PIPELINE -->
+    <div class="tracker-section" id="endorsement-tracker">
+      <div class="tracker-section-header">
+        <div>
+          <div class="tracker-section-title">&#127881; Endorsement Pipeline</div>
+          <div class="tracker-section-sub">Tracking outreach across organizations — updated from endorsements.json</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span class="endorsement-chip endorsement-chip--confirmed" id="endorse-confirmed-count">0 Confirmed</span>
+          <span class="endorsement-chip endorsement-chip--pending" id="endorse-pending-count">0 Pending</span>
+          <span class="endorsement-chip endorsement-chip--outreach" id="endorse-outreach-count">0 In Outreach</span>
+        </div>
+      </div>
+      <div class="tracker-body" id="endorsement-body">
+        <div style="color:var(--muted);font-size:.88rem;text-align:center;padding:16px 0;">Loading endorsement data…</div>
       </div>
     </div>
 
@@ -1288,6 +1488,144 @@
 
   loadOutreachLogs();
   renderOutreachLog();
+
+  /* -------- CANVASS TOTALS (from outreach logs) -------- */
+  function renderCanvassTotals() {
+    const doors = outreachLogs.reduce((s, l) => s + (parseInt(l.doors) || 0), 0);
+    const flyers = outreachLogs.reduce((s, l) => s + (parseInt(l.flyers) || 0), 0);
+    const sessions = outreachLogs.length;
+    const areas = new Set(outreachLogs.map(l => l.area).filter(Boolean)).size;
+    document.getElementById('total-doors').textContent = doors.toLocaleString();
+    document.getElementById('total-flyers').textContent = flyers.toLocaleString();
+    document.getElementById('total-sessions').textContent = sessions.toLocaleString();
+    document.getElementById('total-areas-canvassed').textContent = areas.toLocaleString();
+  }
+  renderCanvassTotals();
+
+  // Re-render canvass totals whenever a new log entry is added
+  const _origSaveOutreachLogs = saveOutreachLogs;
+  // Patch ol-quick-form submit to also refresh canvass totals
+  document.getElementById('ol-quick-form').addEventListener('submit', function() {
+    setTimeout(renderCanvassTotals, 50);
+  });
+
+  /* -------- VOLUNTEER CAPACITY TRACKER -------- */
+  async function loadCapacityTracker() {
+    try {
+      const resp = await fetch('/data/volunteer-tracker.json?_cb=' + Date.now());
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      renderCapacityTracker(data);
+      document.getElementById('capacity-status').textContent = 'Loaded';
+      document.getElementById('capacity-status').className = 'badge badge-active';
+    } catch (err) {
+      document.getElementById('capacity-status').textContent = 'Unavailable';
+      document.getElementById('capacity-status').className = 'badge badge-declined';
+      document.getElementById('role-tracker-grid').innerHTML = '<p style="color:var(--muted);font-size:.84rem;">Could not load volunteer-tracker.json</p>';
+      document.getElementById('area-tracker-grid').innerHTML = '';
+    }
+  }
+
+  function renderCapacityTracker(data) {
+    const roleGrid = document.getElementById('role-tracker-grid');
+    const areaGrid = document.getElementById('area-tracker-grid');
+    const roles = data.roles || {};
+    const areas = data.areas || {};
+
+    roleGrid.innerHTML = Object.entries(roles).map(([key, r]) => {
+      const hasLead = r.lead && r.lead !== null;
+      const cls = hasLead ? 'tracker-item--active' : 'tracker-item--needed';
+      const badgeCls = hasLead ? 'tracker-item__badge--active' : 'tracker-item__badge--needed';
+      const badgeTxt = hasLead ? '&#10003; Lead Set' : '&#9888; Lead Needed';
+      return `<div class="tracker-item ${cls}">
+        <div class="tracker-item__name">${escHtml(r.name)}</div>
+        <div class="tracker-item__lead">${hasLead ? escHtml(r.lead) : 'No lead assigned'}</div>
+        <span class="tracker-item__badge ${badgeCls}">${badgeTxt}</span>
+        ${r.volunteers ? `<div class="tracker-item__count">${r.volunteers} volunteer(s)</div>` : ''}
+      </div>`;
+    }).join('');
+
+    areaGrid.innerHTML = Object.entries(areas).map(([key, a]) => {
+      const hasLead = a.lead && a.lead !== null;
+      const cls = hasLead ? 'tracker-item--active' : 'tracker-item--needed';
+      const badgeCls = hasLead ? 'tracker-item__badge--active' : 'tracker-item__badge--needed';
+      const badgeTxt = hasLead ? '&#10003; Lead Set' : '&#9888; Lead Needed';
+      return `<div class="tracker-item ${cls}">
+        <div class="tracker-item__name">${escHtml(a.name)}</div>
+        <div class="tracker-item__lead">${hasLead ? escHtml(a.lead) : 'No coordinator assigned'}</div>
+        <span class="tracker-item__badge ${badgeCls}">${badgeTxt}</span>
+      </div>`;
+    }).join('');
+  }
+
+  /* -------- ENDORSEMENT PIPELINE -------- */
+  async function loadEndorsementPipeline() {
+    try {
+      const resp = await fetch('/data/endorsements.json?_cb=' + Date.now());
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      renderEndorsementPipeline(data);
+    } catch (err) {
+      document.getElementById('endorsement-body').innerHTML =
+        '<p style="color:var(--muted);font-size:.84rem;text-align:center;padding:12px 0;">Could not load endorsements.json</p>';
+    }
+  }
+
+  function renderEndorsementPipeline(data) {
+    const confirmed = data.confirmedEndorsements || [];
+    const pending = data.pendingConfirmation || [];
+    const outreach = data.outreachInProgress || [];
+
+    document.getElementById('endorse-confirmed-count').textContent = confirmed.length + ' Confirmed';
+    document.getElementById('endorse-pending-count').textContent = pending.length + ' Pending';
+    document.getElementById('endorse-outreach-count').textContent = outreach.length + ' In Outreach';
+
+    const body = document.getElementById('endorsement-body');
+    let html = '';
+
+    if (confirmed.length) {
+      html += `<div class="endorsement-stage">
+        <div class="endorsement-stage__label">&#10003; Confirmed (${confirmed.length})</div>
+        <div class="endorsement-chips">`;
+      confirmed.forEach(e => {
+        const name = e.organization || e.name || e.endorser || JSON.stringify(e);
+        html += `<span class="endorsement-chip endorsement-chip--confirmed">&#10003; ${escHtml(String(name))}</span>`;
+      });
+      html += '</div></div>';
+    }
+
+    if (pending.length) {
+      html += `<div class="endorsement-stage">
+        <div class="endorsement-stage__label">&#9203; Pending Confirmation (${pending.length})</div>
+        <div class="endorsement-chips">`;
+      pending.forEach(e => {
+        const name = e.organization || e.name || e.endorser || JSON.stringify(e);
+        html += `<span class="endorsement-chip endorsement-chip--pending">&#9203; ${escHtml(String(name))}</span>`;
+      });
+      html += '</div></div>';
+    }
+
+    if (outreach.length) {
+      html += `<div class="endorsement-stage">
+        <div class="endorsement-stage__label">&#128225; Outreach In Progress (${outreach.length})</div>
+        <div class="endorsement-chips">`;
+      outreach.forEach(e => {
+        const name = e.organization || e.name || e.endorser || JSON.stringify(e);
+        html += `<span class="endorsement-chip endorsement-chip--outreach">&#128225; ${escHtml(String(name))}</span>`;
+      });
+      html += '</div></div>';
+    }
+
+    if (!html) {
+      html = '<p style="color:var(--muted);font-size:.84rem;text-align:center;padding:12px 0;">No endorsement data found. Check endorsements.json structure.</p>';
+    }
+
+    body.innerHTML = html;
+  }
+
+  /* -------- LOAD TRACKERS ON INIT -------- */
+  loadCapacityTracker();
+  loadEndorsementPipeline();
 
 })();
 </script>

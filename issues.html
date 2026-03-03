@@ -41,9 +41,7 @@
       --shadow: 0 14px 30px rgba(5,16,30,0.10);
 
       --radius: 12px;
-      --bg: radial-gradient(1200px 650px at 20% 0%, rgba(29,79,168,0.08), transparent 55%),
-            radial-gradient(900px 520px at 85% 15%, rgba(242,193,78,0.10), transparent 55%),
-            linear-gradient(180deg, #f7f8fb, #eef1f7);
+      --bg: #ffffff;
 
       --warn: rgba(245, 158, 11, .14);
       --ok: rgba(34, 197, 94, .14);
@@ -309,54 +307,86 @@
     .section h2{ text-align: center; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.05rem); margin: 0 0 10px; letter-spacing: -0.2px; font-weight: 800; }
     .section .section-intro{ text-align: center; color: var(--muted); max-width: 86ch; margin: 0 auto 1.25rem; line-height: 1.7; font-weight: 500; }
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-      margin-top: 22px;
+    /* ── Full-width numbered bill sections ──────────────────── */
+    .bills-list{
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .card{
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--border-soft);
+    .bill-section{
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 32px;
+      padding: 44px 0;
+      border-bottom: 1px solid var(--border-soft);
     }
-    .card h3{
-      margin: 0 0 8px;
-      color: var(--navy-2);
-      font-size: 1.08rem;
-      letter-spacing: -.1px;
-      font-weight: 800;
-    }
-    .card p{ margin: 0; color: var(--muted); line-height: 1.65; font-weight: 500; }
+    .bill-section:last-child{ border-bottom: none; }
 
-    .bill{
-      margin-top: 16px;
-      border-top: 2px solid var(--border);
-      padding-top: 16px;
-      display:grid;
-      gap: 10px;
-      background: rgba(29,79,168,0.03);
-      border-radius: 0 0 var(--radius) var(--radius);
-      margin-left: -20px;
-      margin-right: -20px;
-      margin-bottom: -20px;
-      padding: 14px 20px 16px;
-      border-top: 2px solid rgba(29,79,168,0.18);
+    .bill-section__num{
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: rgba(5,16,30,0.07);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      padding-top: 6px;
+      text-align: right;
     }
 
-    .bill-label{
+    .bill-section__body{}
+
+    .bill-section__tag{
       display: inline-flex;
       align-items: center;
       gap: 6px;
       font-size: .72rem;
       font-weight: 900;
-      letter-spacing: .08em;
+      letter-spacing: .12em;
       text-transform: uppercase;
       color: var(--brand);
-      margin-bottom: 2px;
+      background: rgba(29,79,168,0.07);
+      border: 1px solid rgba(29,79,168,0.16);
+      padding: 5px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .bill-section h3{
+      font-size: 1.32rem;
+      font-weight: 850;
+      color: var(--navy);
+      margin: 0 0 8px;
+      line-height: 1.25;
+      letter-spacing: -.15px;
+    }
+
+    .bill-section .issue-desc{
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.68;
+      font-weight: 500;
+      max-width: 68ch;
+    }
+
+    .bill-record-box{
+      background: #f8f9fc;
+      border: 1px solid rgba(5,16,30,0.09);
+      border-left: 3px solid var(--brand);
+      border-radius: 0 10px 10px 0;
+      padding: 20px 24px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .bill-record-label{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brand);
     }
 
     .pill-row{ display:flex; flex-wrap:wrap; gap: 8px; align-items:center; }
@@ -367,21 +397,30 @@
       letter-spacing: -.1px;
       margin: 0;
       line-height: 1.35;
-      font-size: 1rem;
+      font-size: .98rem;
     }
     .bill-meta{
       margin:0;
       color: var(--muted);
       line-height: 1.55;
       font-weight: 500;
+      font-size: .88rem;
+    }
+    .bill-commentary{
+      margin: 0;
+      color: var(--navy-2);
       font-size: .9rem;
+      line-height: 1.6;
+      font-weight: 550;
+      border-top: 1px solid rgba(5,16,30,0.08);
+      padding-top: 10px;
+      font-style: italic;
     }
     .bill-links{
       display:flex;
       flex-wrap:wrap;
       gap: 10px;
       align-items:center;
-      margin-top: 2px;
     }
     .link{
       font-weight: 800;
@@ -389,11 +428,11 @@
       text-decoration:none;
       padding: 7px 10px;
       border-radius: 10px;
-      background: rgba(255,255,255,0.85);
+      background: #fff;
       border: 1px solid var(--border);
-      font-size: .86rem;
+      font-size: .84rem;
     }
-    .link:hover{ background: rgba(255,255,255,1); }
+    .link:hover{ background: #f0f4ff; }
 
     .copy-block{
       background: #fff;
@@ -431,6 +470,16 @@
       .section{ margin: 44px auto; }
       .cta-band{ flex-direction: column; text-align:center; }
       .cta-band__buttons{ justify-content:center; }
+      .bill-section{
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 30px 0;
+      }
+      .bill-section__num{
+        font-size: 1.6rem;
+        text-align: left;
+        padding-top: 0;
+      }
     }
   </style>
 </head>
@@ -524,217 +573,238 @@
         This is what “ready to go” looks like. Bills exist. The question is who will sign on, organize support, and force movement.
       </p>
 
-      <div class=”grid” role=”list”>
+      <div class=”bills-list” role=”list”>
 
-        <!-- HOUSING (Priority 1) -->
-        <article class=”card” role=”listitem” id=”housing”>
-          <h3>Housing</h3>
-          <p>Make affordable housing a national priority, not a talking point. Rents in Pierce and Thurston counties are up 40%+ since 2019.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 4457, Housing Is a Human Right Act of 2025</p>
-            <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class=”pill-row” aria-label=”cosponsor status”>
-              <span class=”pill bad”>Strickland not co-sponsored (as of 2/26/2026)</span>
-              <span class=”pill warn”>Introduced</span>
-            </div>
-            <p class=”bill-meta”>
-              If housing is urgent, the minimum is signing onto the bill. The job is then building leverage to move it.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/4457/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-              <a class=”link” href=”/record-contrast.html#housing”>See contrast</a>
+        <!-- 01 HOUSING -->
+        <article class=”bill-section” role=”listitem” id=”housing”>
+          <div class=”bill-section__num” aria-hidden=”true”>01</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Housing</div>
+            <h3>Make affordable housing a national priority, not a talking point.</h3>
+            <p class=”issue-desc”>Rents in Pierce and Thurston counties are up 40%+ since 2019. This is not a pipeline problem — it is a political will problem. The legislation already exists.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 4457 — Housing Is a Human Right Act of 2025</p>
+              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class=”pill warn”>Introduced</span>
+              </div>
+              <p class=”bill-commentary”>If housing is urgent, the minimum is signing onto the bill. The job is then building the leverage to move it.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/4457/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+                <a class=”link” href=”/record-contrast.html#housing”>See contrast</a>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- HEALTHCARE (Priority 2) -->
-        <article class=”card” role=”listitem” id=”healthcare”>
-          <h3>Healthcare</h3>
-          <p>Guarantee healthcare for every American. No more medical debt, no more coverage gaps.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 3069, Medicare for All Act of 2025</p>
-            <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class=”pill-row” aria-label=”cosponsor status”>
-              <span class=”pill bad”>Strickland not co-sponsored (as of 2/26/2026)</span>
-              <span class=”pill warn”>Introduced</span>
-            </div>
-            <p class=”bill-meta”>
-              People don’t need another “healthcare is important” statement. They need representatives who sign onto the bill and then fight to move it.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/3069/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-              <a class=”link” href=”/record-contrast.html#healthcare”>See contrast</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- DEMOCRATIC INSTITUTIONS (Priority 3, HIGH urgency in 2026) -->
-        <article class=”card” role=”listitem” id=”institutions”>
-          <h3>Democratic Institutions</h3>
-          <p>Defend voting rights, rule of law, independent oversight, and enforcement, right now, not someday.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 14, John R. Lewis Voting Rights Advancement Act of 2025</p>
-            <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Terri A. Sewell</p>
-            <div class=”pill-row”>
-              <span class=”pill ok”>Strickland co-sponsored (as of 2/26/2026)</span>
-              <span class=”pill warn”>Introduced</span>
-            </div>
-            <p class=”bill-meta”>
-              Good. Now the next question is the only one that matters: what did she do to help move it? Co-sponsoring is the floor, not the ceiling.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/14/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-              <a class=”link” href=”/record-contrast.html#institutions”>See contrast</a>
+        <!-- 02 HEALTHCARE -->
+        <article class=”bill-section” role=”listitem” id=”healthcare”>
+          <div class=”bill-section__num” aria-hidden=”true”>02</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Healthcare</div>
+            <h3>Guarantee healthcare for every American. No more medical debt, no more coverage gaps.</h3>
+            <p class=”issue-desc”>Medical debt is the leading cause of bankruptcy in America. The bill is written. The question is who signs on and who fights to move it.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 3069 — Medicare for All Act of 2025</p>
+              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class=”pill warn”>Introduced</span>
+              </div>
+              <p class=”bill-commentary”>People don’t need another “healthcare is important” statement. They need representatives who sign onto the bill and then fight to move it.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/3069/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+                <a class=”link” href=”/record-contrast.html#healthcare”>See contrast</a>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- WORKERS (Priority 4) -->
-        <article class=”card” role=”listitem” id=”workers”>
-          <h3>Worker Protections</h3>
-          <p>Restore worker power. Protect unions. Raise wages for families across the South Sound.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 20, Richard L. Trumka Protecting the Right to Organize (PRO) Act of 2025</p>
-            <p class=”bill-meta”><strong>Sponsors:</strong> Rep. Bobby Scott (D-VA), Rep. Hakeem Jeffries, Rep. Brian Fitzpatrick (R-PA), bipartisan. 214 cosponsors in 119th Congress.</p>
-            <div class=”pill-row” aria-label=”cosponsor status”>
-              <span class=”pill warn”>Strickland co-sponsor status, verify at Congress.gov</span>
-            </div>
-            <p class=”bill-meta”>
-              214 cosponsors. Bipartisan. The clearest legislative test of worker power. With that level of support already, there is no excuse for sitting it out.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/20/cosponsors” target=”_blank” rel=”noopener noreferrer”>Check cosponsors</a>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/20” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- CAMPAIGN FINANCE (Priority 5) -->
-        <article class=”card” role=”listitem” id=”money”>
-          <h3>Campaign Finance Reform</h3>
-          <p>End corporate money in politics. Close the Citizens United loophole.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.J.Res. 54, We the People Amendment (overturn Citizens United)</p>
-            <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal</p>
-            <div class=”pill-row”>
-              <span class=”pill bad”>Strickland not co-sponsored (as of 2/26/2026)</span>
-              <span class=”pill warn”>Introduced</span>
-            </div>
-            <p class=”bill-meta”>
-              If your brand is “fighting corruption,” this is the kind of bill you co-sponsor now, not someday. Especially if you’re taking $355K from committees.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-joint-resolution/54/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-              <a class=”link” href=”/record-contrast.html#money”>See contrast</a>
+        <!-- 03 DEMOCRATIC INSTITUTIONS -->
+        <article class=”bill-section” role=”listitem” id=”institutions”>
+          <div class=”bill-section__num” aria-hidden=”true”>03</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Democratic Institutions</div>
+            <h3>Defend voting rights, rule of law, and independent oversight — right now, not someday.</h3>
+            <p class=”issue-desc”>In 2026 the threat to democratic norms is active, not hypothetical. Co-sponsoring voting rights legislation is the floor. The ceiling is using every available tool to force movement.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 14 — John R. Lewis Voting Rights Advancement Act of 2025</p>
+              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Terri A. Sewell (AL-07)</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill ok”>Strickland: Co-sponsored (as of 2/26/2026)</span>
+                <span class=”pill warn”>Introduced</span>
+              </div>
+              <p class=”bill-commentary”>Good. Co-sponsoring is the floor, not the ceiling. The next question is what active pressure was applied to advance it.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/14/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+                <a class=”link” href=”/record-contrast.html#institutions”>See contrast</a>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- ACCOUNTABILITY (Priority 6) -->
-        <article class=”card” role=”listitem” id=”accountability”>
-          <h3>Accountability</h3>
-          <p>Transparency and real consequences for corruption. Congress should not be exempt from the rules it sets for everyone else.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 396, TRUST in Congress Act (blind trust requirement for Members and family)</p>
-            <div class=”pill-row”>
-              <span class=”pill warn”>Co-sponsor status, verify at Congress.gov</span>
-              <span class=”pill warn”>Introduced</span>
-            </div>
-            <p class=”bill-meta”>
-              If Congress won’t police itself, voters have to. This is where you show seriousness: disclosures, blind trusts, enforcement, and real penalties.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/396/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- TAX EXTREME WEALTH -->
-        <article class=”card” role=”listitem” id=”tax”>
-          <h3>Tax Extreme Wealth</h3>
-          <p>Tax extreme wealth and fund working families.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 5336, Equal Tax Act</p>
-            <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Delia C. Ramirez</p>
-            <div class=”pill-row” aria-label=”cosponsor status”>
-              <span class=”pill bad”>Strickland not co-sponsored (as of 2/26/2026)</span>
-              <span class=”pill warn”>Introduced</span>
-            </div>
-            <p class=”bill-meta”>
-              “Tax the wealthy” is vague. “Tax extreme wealth” is concrete. If it’s urgent, you put your name on the bill and push to move it.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/5336/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-              <a class=”link” href=”/record-contrast.html#tax”>See contrast</a>
+        <!-- 04 WORKERS -->
+        <article class=”bill-section” role=”listitem” id=”workers”>
+          <div class=”bill-section__num” aria-hidden=”true”>04</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Worker Protections</div>
+            <h3>Restore worker power. Protect unions. Raise wages across the South Sound.</h3>
+            <p class=”issue-desc”>Union membership is the single most reliable driver of middle-class wages. Letting the PRO Act stall without pressure is a choice with consequences for every working family in WA-10.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 20 — Richard L. Trumka PRO Act of 2025</p>
+              <p class=”bill-meta”><strong>Sponsors:</strong> Rep. Bobby Scott (D-VA), Rep. Hakeem Jeffries, Rep. Brian Fitzpatrick (R-PA). Bipartisan — 214 co-sponsors in 119th Congress.</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov</span>
+              </div>
+              <p class=”bill-commentary”>214 co-sponsors. Bipartisan. The clearest legislative test of worker power. With that level of support, there is no excuse for sitting it out.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/20/cosponsors” target=”_blank” rel=”noopener noreferrer”>Check co-sponsors</a>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/20” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- ENVIRONMENT -->
-        <article class=”card” role=”listitem” id=”environment”>
-          <h3>Environment</h3>
-          <p>Treat climate change as the emergency it is. Stop subsidizing the companies causing it.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 4714, End Polluter Welfare Act of 2025</p>
-            <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Ro Khanna</p>
-            <div class=”pill-row”>
-              <span class=”pill warn”>Co-sponsor status, verify at Congress.gov</span>
-              <span class=”pill warn”>Introduced</span>
-            </div>
-            <p class=”bill-meta”>
-              Climate “urgency” is a budget choice. This is a real line item test: stop rewarding polluters and redirect public funds to public priorities.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/4714/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- PRIVACY -->
-        <article class=”card” role=”listitem” id=”privacy”>
-          <h3>Spying &amp; Data Collection</h3>
-          <p>End mass surveillance and close the data-broker loophole that lets the government buy what it can’t legally seize.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 4639, Fourth Amendment Is Not For Sale Act (118th Congress)</p>
-            <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Warren Davidson</p>
-            <div class=”pill-row”>
-              <span class=”pill bad”>Strickland not co-sponsored (118th Congress)</span>
-              <span class=”pill warn”>Needs 119th Congress reintroduction</span>
-            </div>
-            <p class=”bill-meta”>
-              This bill closed the loophole allowing government agencies to buy personal data instead of getting a warrant. If privacy is urgent, this needs to be reintroduced and supported loudly and early.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/118th-congress/house-bill/4639/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov (118th)</a>
+        <!-- 05 CAMPAIGN FINANCE -->
+        <article class=”bill-section” role=”listitem” id=”money”>
+          <div class=”bill-section__num” aria-hidden=”true”>05</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Campaign Finance Reform</div>
+            <h3>End corporate money in politics. Close the Citizens United loophole.</h3>
+            <p class=”issue-desc”>As long as corporations can buy access, every other reform is fighting with one hand tied. This is the prerequisite issue for everything else on this list.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.J.Res. 54 — We the People Amendment (overturn Citizens United)</p>
+              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class=”pill warn”>Introduced</span>
+              </div>
+              <p class=”bill-commentary”>If your brand is “fighting corruption,” this is the bill you co-sponsor now, not someday. Especially if you’re taking $355K from leadership committees.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-joint-resolution/54/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+                <a class=”link” href=”/record-contrast.html#money”>See contrast</a>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- AI -->
-        <article class=”card” role=”listitem” id=”ai”>
-          <h3>Artificial Intelligence</h3>
-          <p>Ensure AI serves people, not corporations. Prevent algorithmic discrimination in hiring, lending, and benefits.</p>
-          <div class=”bill”>
-            <span class=”bill-label”>&#128196; Bill on record</span>
-            <p class=”bill-title”>H.R. 6356, Artificial Intelligence Civil Rights Act of 2025</p>
-            <p class=”bill-meta”><strong>House sponsors:</strong> Reps. Yvette Clarke (NY), Ayanna Pressley (MA), Pramila Jayapal (WA-07), Summer Lee (PA). Introduced Dec. 2, 2025. Senate companion: S. 3308 (Sen. Ed Markey).</p>
-            <div class=”pill-row”>
-              <span class=”pill warn”>Strickland co-sponsor status, introduced Dec 2025, check Congress.gov</span>
+        <!-- 06 ACCOUNTABILITY -->
+        <article class=”bill-section” role=”listitem” id=”accountability”>
+          <div class=”bill-section__num” aria-hidden=”true”>06</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Accountability</div>
+            <h3>Transparency and real consequences for corruption. Congress must not be exempt from the rules it sets for everyone else.</h3>
+            <p class=”issue-desc”>Stock trading by Members of Congress and their families is a direct conflict of interest. The fix is a bill. The question is whether your representative has signed on.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 396 — TRUST in Congress Act (blind trust requirement for Members and family)</p>
+              <p class=”bill-meta”><strong>Status:</strong> Introduced, 119th Congress</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov</span>
+                <span class=”pill warn”>Introduced</span>
+              </div>
+              <p class=”bill-commentary”>If Congress won’t police itself, voters have to. Disclosures, blind trusts, enforcement, and real penalties — or it’s just PR.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/396/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              </div>
             </div>
-            <p class=”bill-meta”>
-              AI should not become a discrimination engine or a worker-exploitation machine. This bill prohibits discriminatory algorithmic decisions, requires impact evaluations, and gives people the right to appeal. Guardrails are a choice. Delay is also a choice.
-            </p>
-            <div class=”bill-links”>
-              <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/6356” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+          </div>
+        </article>
+
+        <!-- 07 TAX EXTREME WEALTH -->
+        <article class=”bill-section” role=”listitem” id=”tax”>
+          <div class=”bill-section__num” aria-hidden=”true”>07</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Tax Extreme Wealth</div>
+            <h3>Tax extreme wealth and fund working families. Not a talking point — a legislative choice.</h3>
+            <p class=”issue-desc”>The top 400 American households pay a lower effective tax rate than most working families in WA-10. The bill exists. The vote is a choice.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 5336 — Equal Tax Act</p>
+              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Delia C. Ramirez (IL-03)</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class=”pill warn”>Introduced</span>
+              </div>
+              <p class=”bill-commentary”>”Tax the wealthy” is vague. “Tax extreme wealth” is concrete and measurable. If it’s urgent, put your name on the bill.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/5336/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+                <a class=”link” href=”/record-contrast.html#tax”>See contrast</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 08 ENVIRONMENT -->
+        <article class=”bill-section” role=”listitem” id=”environment”>
+          <div class=”bill-section__num” aria-hidden=”true”>08</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Environment</div>
+            <h3>Treat climate change as the emergency it is. Stop subsidizing the companies causing it.</h3>
+            <p class=”issue-desc”>Federal subsidies to the oil and gas industry run into the tens of billions annually. Climate urgency means fighting to end those subsidies — not just posting about it.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 4714 — End Polluter Welfare Act of 2025</p>
+              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Ro Khanna (CA-17)</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov</span>
+                <span class=”pill warn”>Introduced</span>
+              </div>
+              <p class=”bill-commentary”>Climate “urgency” is a budget choice. This is a real line-item test: stop rewarding polluters and redirect public funds to public priorities.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/4714/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 09 PRIVACY -->
+        <article class=”bill-section” role=”listitem” id=”privacy”>
+          <div class=”bill-section__num” aria-hidden=”true”>09</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Surveillance &amp; Privacy</div>
+            <h3>End mass surveillance. Close the data-broker loophole that lets government buy what it cannot legally seize.</h3>
+            <p class=”issue-desc”>Right now federal agencies can purchase detailed personal data from brokers to avoid getting a warrant. The bill to close this loophole needs to be reintroduced and championed loudly.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 4639 — Fourth Amendment Is Not For Sale Act (118th Congress)</p>
+              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Warren Davidson (OH-08) · Bipartisan</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill bad”>Strickland: Not co-sponsored (118th Congress)</span>
+                <span class=”pill warn”>Needs 119th Congress reintroduction</span>
+              </div>
+              <p class=”bill-commentary”>If privacy is urgent, this needs to be reintroduced and supported loudly and early in the 119th Congress — not after the issue becomes a news cycle.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/118th-congress/house-bill/4639/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov (118th)</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 10 ARTIFICIAL INTELLIGENCE -->
+        <article class=”bill-section” role=”listitem” id=”ai”>
+          <div class=”bill-section__num” aria-hidden=”true”>10</div>
+          <div class=”bill-section__body”>
+            <div class=”bill-section__tag”>Artificial Intelligence</div>
+            <h3>Ensure AI serves people, not corporations. Stop algorithmic discrimination in hiring, lending, and benefits.</h3>
+            <p class=”issue-desc”>AI-driven discrimination is already happening in job screenings, credit decisions, and public benefits. Guardrails are a legislative choice. So is delay.</p>
+            <div class=”bill-record-box” aria-label=”Bill on record”>
+              <span class=”bill-record-label”>&#128196; Bill on Record</span>
+              <p class=”bill-title”>H.R. 6356 — Artificial Intelligence Civil Rights Act of 2025</p>
+              <p class=”bill-meta”><strong>House sponsors:</strong> Reps. Yvette Clarke (NY), Ayanna Pressley (MA), Pramila Jayapal (WA-07), Summer Lee (PA). Introduced Dec. 2, 2025. Senate companion: S. 3308 (Sen. Ed Markey).</p>
+              <div class=”pill-row” aria-label=”Co-sponsor status”>
+                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov (introduced Dec. 2025)</span>
+              </div>
+              <p class=”bill-commentary”>This bill prohibits discriminatory algorithmic decisions, requires impact evaluations, and gives people the right to appeal. Delay is also a choice.</p>
+              <div class=”bill-links”>
+                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/6356” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              </div>
             </div>
           </div>
         </article>
