@@ -329,6 +329,69 @@
       font-size:.9rem;
     }
 
+    .metrics-strip{
+      max-width:1180px;
+      margin:20px auto 0;
+      padding:0 20px;
+    }
+    .metrics-strip__panel{
+      background:#fff;
+      border:1px solid var(--border-soft);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-soft);
+      padding:18px;
+    }
+    .metrics-strip__header{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .metrics-strip__header h2{
+      margin:0;
+      font-size:1.08rem;
+      color:var(--navy);
+      letter-spacing:-0.2px;
+      font-weight:800;
+    }
+    .metrics-strip__updated{
+      margin:0;
+      color:var(--muted);
+      font-size:.85rem;
+      font-weight:600;
+    }
+    .metrics-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      gap:10px;
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .metrics-grid li{
+      background:rgba(29,79,168,0.05);
+      border:1px solid rgba(29,79,168,0.16);
+      border-radius:10px;
+      padding:12px;
+      min-height:96px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:5px;
+    }
+    .metrics-label{ font-size:.81rem; color:var(--muted); font-weight:700; line-height:1.35; }
+    .metrics-value{ font-size:1.28rem; color:var(--navy); font-weight:800; letter-spacing:-0.2px; }
+    .metrics-strip__methodology{
+      margin:12px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.5;
+      font-weight:500;
+    }
+
+
     /* ---- Sections ---- */
     .section{
       max-width:1180px;
@@ -778,9 +841,10 @@
     <!-- WHY WA-10 IS WINNABLE -->
     <section class="section" aria-labelledby="winnable-heading">
       <h2 id="winnable-heading">Why WA-10 Is Winnable</h2>
-      <p class="section-intro">This is a competitive district. Donors and endorsers need to see the math. Here it is.</p>
+      <p class="section-intro">This is a competitive district with measurable movement. Donors, volunteers, and endorsers should see the path in plain terms.</p>
       <div class="copy-block" style="margin-bottom:16px;">
-        <p><strong>10-second summary:</strong> WA-10 is moving, the margins are compressing, and this race is winnable with disciplined field execution in Pierce and Thurston counties.</p>
+        <p><strong>10-second summary:</strong> WA-10 is moving, margins are compressing, and this race is winnable with disciplined field execution in Pierce and Thurston counties.</p>
+        <p><strong>What wins:</strong> Early voter contact, local issue contrast, and strong turnout operations in Lakewood, Spanaway, Olympia, and JBLM-adjacent neighborhoods.</p>
         <p style="font-size:.88rem;"><strong>Updated:</strong> Feb 26, 2026 (registration, turnout trend, and campaign benchmark review).</p>
       </div>
 
@@ -812,6 +876,7 @@
       </div>
       <div class="cta" style="justify-content:center; margin-top:14px;">
         <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate to expand field operations</a>
+        <a class="btn-home btn-record" href="/contact.html">Volunteer to close turnout gaps</a>
       </div>
     </section>
 
