@@ -127,13 +127,13 @@
     .outreach-log-subtitle { font-size: .78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
     .outreach-log-body { padding: 16px 18px; }
     .outreach-log-row {
-      display: grid; grid-template-columns: 80px 1fr 100px 80px 80px;
+      display: grid; grid-template-columns: 80px 1fr 100px 70px 70px 70px 70px;
       gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(5,16,30,0.05);
       font-size: .84rem; align-items: center;
     }
     .outreach-log-row.header { font-weight: 800; color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .06em; padding-top: 0; }
     .outreach-log-row:last-child { border-bottom: none; }
-    @media(max-width:700px) { .outreach-log-row { grid-template-columns: 70px 1fr 80px; } }
+    @media(max-width:700px) { .outreach-log-row { grid-template-columns: 70px 1fr 80px 60px; } }
     .ol-note { font-size: .82rem; color: var(--muted); line-height: 1.6; }
 
     /* ---- STAT CARDS ---- */
@@ -448,6 +448,16 @@
       <span id="data-source-line">Loading data…</span>
     </div>
 
+    <!-- FOLLOW-UP DUE TODAY ALERT -->
+    <div id="followup-alert" style="display:none;background:rgba(153,27,27,0.10);border:1px solid rgba(153,27,27,0.28);border-radius:var(--radius);padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span style="font-size:1.3rem;">&#9888;&#65039;</span>
+      <div style="flex:1;">
+        <strong style="color:var(--red);font-size:.95rem;" id="followup-alert-headline">Follow-up Due Today</strong>
+        <p style="margin:3px 0 0;font-size:.84rem;color:var(--muted);" id="followup-alert-body">Loading…</p>
+      </div>
+      <button onclick="document.getElementById('search').value='';document.getElementById('filter-status').value='';applyFiltersAndSortGlobal();" style="padding:6px 13px;border-radius:8px;border:1px solid rgba(153,27,27,0.30);background:transparent;color:var(--red);cursor:pointer;font-weight:700;font-size:.82rem;">View All</button>
+    </div>
+
     <!-- OUTREACH LOG INBOX -->
     <div class="outreach-log-card" id="outreach-inbox">
       <div class="outreach-log-header">
@@ -462,7 +472,7 @@
       </div>
       <div class="outreach-log-body">
         <div class="outreach-log-row header">
-          <span>Date</span><span>Volunteer / Team</span><span>Area</span><span>Doors</span><span>Flyers</span>
+          <span>Date</span><span>Volunteer / Team</span><span>Area</span><span>Doors</span><span>Flyers</span><span>Calls</span><span>Texts</span>
         </div>
         <div id="outreach-log-rows">
           <div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">
@@ -487,6 +497,8 @@
             </div>
             <div class="form-group"><label>Doors</label><input type="number" id="ol-q-doors" min="0" placeholder="0" style="width:100%;"/></div>
             <div class="form-group"><label>Flyers</label><input type="number" id="ol-q-flyers" min="0" placeholder="0" style="width:100%;"/></div>
+            <div class="form-group"><label>Phone Calls</label><input type="number" id="ol-q-calls" min="0" placeholder="0" style="width:100%;"/></div>
+            <div class="form-group"><label>Texts Sent</label><input type="number" id="ol-q-texts" min="0" placeholder="0" style="width:100%;"/></div>
             <div class="form-group"><label style="opacity:0;">Add</label><button type="submit" class="btn-submit" style="width:100%;padding:9px 12px;">Add</button></div>
           </form>
         </div>
@@ -528,7 +540,7 @@
 
     <!-- CANVASS TOTALS BAR -->
     <div class="canvass-bar">
-      <div class="canvass-bar__label">Field Outreach Totals</div>
+      <div class="canvass-bar__label">Voter Contact Totals</div>
       <div class="canvass-bar__stats">
         <div class="canvass-stat">
           <div class="canvass-stat__num" id="total-doors">0</div>
@@ -539,8 +551,16 @@
           <div class="canvass-stat__sub">Flyers Distributed</div>
         </div>
         <div class="canvass-stat">
+          <div class="canvass-stat__num" id="total-calls">0</div>
+          <div class="canvass-stat__sub">Phone Calls</div>
+        </div>
+        <div class="canvass-stat">
+          <div class="canvass-stat__num" id="total-texts">0</div>
+          <div class="canvass-stat__sub">Texts Sent</div>
+        </div>
+        <div class="canvass-stat">
           <div class="canvass-stat__num" id="total-sessions">0</div>
-          <div class="canvass-stat__sub">Outreach Sessions</div>
+          <div class="canvass-stat__sub">Sessions</div>
         </div>
         <div class="canvass-stat">
           <div class="canvass-stat__num" id="total-areas-canvassed">0</div>
@@ -907,7 +927,8 @@
   const LS_SHEETS  = 'arafat_dash_sheets_url';
   const LS_VOL     = 'arafat_dash_vol_url';
   const LS_LOCAL   = 'arafat_dash_local_contacts';
-  const DEFAULT_PIN = 'Arafat_Admin_1092';
+  // NOTE: No hardcoded default PIN. On first use, staff must set a password via the Settings panel.
+  // If no PIN is set in localStorage, the login screen will prompt staff to create one.
   const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY/export?format=csv&gid=1573758032';
   const DEFAULT_VOL_URL    = 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351';
 
@@ -936,7 +957,7 @@
   const pinSubmit   = document.getElementById('pin-submit');
   const pinError    = document.getElementById('pin-error');
 
-  function getPin() { return localStorage.getItem(LS_PIN) || DEFAULT_PIN; }
+  function getPin() { return localStorage.getItem(LS_PIN) || null; }
 
   function unlock() {
     pinScreen.style.display = 'none';
@@ -945,21 +966,52 @@
     init();
   }
 
-  if (sessionStorage.getItem('arafat_auth') === '1') unlock();
+  // Check if first-use: no PIN set yet
+  function checkFirstUse() {
+    if (!getPin()) {
+      // Show first-use setup UI
+      document.querySelector('.pin-box h2').textContent = 'Create Dashboard Password';
+      document.querySelector('.pin-hint').textContent = 'First-time setup: Create a strong password for this dashboard. Store it securely — it is not recoverable without clearing browser storage.';
+      pinSubmit.textContent = 'Set Password & Enter';
+      pinSubmit.removeEventListener('click', tryPin);
+      pinSubmit.addEventListener('click', setFirstPin);
+      pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') setFirstPin(); });
+    } else {
+      pinSubmit.addEventListener('click', tryPin);
+      pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin(); });
+    }
+  }
 
-  pinSubmit.addEventListener('click', tryPin);
-  pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin(); });
+  function setFirstPin() {
+    const newPin = pinInput.value.trim();
+    if (newPin.length < 8) {
+      pinError.textContent = 'Password must be at least 8 characters.';
+      return;
+    }
+    localStorage.setItem(LS_PIN, newPin);
+    pinError.textContent = '';
+    unlock();
+  }
+
+  if (sessionStorage.getItem('arafat_auth') === '1') {
+    unlock();
+  } else {
+    checkFirstUse();
+  }
 
   function tryPin() {
     if (pinInput.value === getPin()) {
       pinError.textContent = '';
       unlock();
     } else {
-      pinError.textContent = 'Incorrect PIN. Try again.';
+      pinError.textContent = 'Incorrect password. Try again.';
       pinInput.value = '';
       pinInput.focus();
     }
   }
+
+  // Expose for global use in follow-up alert button
+  window.applyFiltersAndSortGlobal = function() { applyFiltersAndSort(); };
 
   document.getElementById('logout-btn').addEventListener('click', () => {
     sessionStorage.removeItem('arafat_auth');
@@ -1141,6 +1193,7 @@
     applyFiltersAndSort();
     renderStats();
     renderBreakdowns();
+    renderFollowUpAlert();
   }
 
   /* -------- FILTERING & SORTING -------- */
@@ -1394,9 +1447,9 @@
   document.getElementById('save-pin-btn').addEventListener('click', () => {
     const np = document.getElementById('new-pin-input').value.trim();
     const fb = document.getElementById('pin-change-feedback');
-    if (np.length < 4) { fb.style.color = 'var(--red)'; fb.textContent = 'PIN must be at least 4 characters.'; return; }
+    if (np.length < 8) { fb.style.color = 'var(--red)'; fb.textContent = 'Password must be at least 8 characters. Use a strong, unique password.'; return; }
     localStorage.setItem(LS_PIN, np);
-    fb.style.color = 'var(--green)'; fb.textContent = 'PIN updated. Remember it!';
+    fb.style.color = 'var(--green)'; fb.textContent = 'Password updated. Store it securely — it is not recoverable without clearing browser storage.';
     document.getElementById('new-pin-input').value = '';
   });
 
@@ -1440,6 +1493,8 @@
         <span style="color:var(--muted);">${escHtml(log.area || '—')}</span>
         <span style="font-weight:800;color:var(--navy);">${log.doors || 0}</span>
         <span style="font-weight:800;color:var(--navy);">${log.flyers || 0}</span>
+        <span style="font-weight:800;color:var(--brand);">${log.calls || 0}</span>
+        <span style="font-weight:800;color:var(--brand);">${log.texts || 0}</span>
       </div>`).join('');
     container.innerHTML = rows;
   }
@@ -1464,7 +1519,9 @@
       team: name.includes('/') ? name.split('/')[1].trim() : '',
       area: area || 'Not specified',
       doors: parseInt(document.getElementById('ol-q-doors').value) || 0,
-      flyers: parseInt(document.getElementById('ol-q-flyers').value) || 0
+      flyers: parseInt(document.getElementById('ol-q-flyers').value) || 0,
+      calls: parseInt(document.getElementById('ol-q-calls').value) || 0,
+      texts: parseInt(document.getElementById('ol-q-texts').value) || 0
     });
     saveOutreachLogs();
     renderOutreachLog();
@@ -1474,9 +1531,9 @@
 
   document.getElementById('ol-export-btn').addEventListener('click', function() {
     if (!outreachLogs.length) { alert('No outreach logs to export.'); return; }
-    const header = 'Date,Name,Team,Area,Doors/Contacts,Flyers\n';
+    const header = 'Date,Name,Team,Area,Doors/Contacts,Flyers,Phone Calls,Texts Sent\n';
     const rows = outreachLogs.map(l =>
-      [l.date, l.name, l.team, l.area, l.doors, l.flyers]
+      [l.date, l.name, l.team, l.area, l.doors, l.flyers, l.calls||0, l.texts||0]
         .map(v => '"' + String(v||'').replace(/"/g,'""') + '"').join(',')
     ).join('\n');
     const blob = new Blob([header + rows], {type:'text/csv'});
@@ -1493,14 +1550,44 @@
   function renderCanvassTotals() {
     const doors = outreachLogs.reduce((s, l) => s + (parseInt(l.doors) || 0), 0);
     const flyers = outreachLogs.reduce((s, l) => s + (parseInt(l.flyers) || 0), 0);
+    const calls = outreachLogs.reduce((s, l) => s + (parseInt(l.calls) || 0), 0);
+    const texts = outreachLogs.reduce((s, l) => s + (parseInt(l.texts) || 0), 0);
     const sessions = outreachLogs.length;
     const areas = new Set(outreachLogs.map(l => l.area).filter(Boolean)).size;
     document.getElementById('total-doors').textContent = doors.toLocaleString();
     document.getElementById('total-flyers').textContent = flyers.toLocaleString();
+    document.getElementById('total-calls').textContent = calls.toLocaleString();
+    document.getElementById('total-texts').textContent = texts.toLocaleString();
     document.getElementById('total-sessions').textContent = sessions.toLocaleString();
     document.getElementById('total-areas-canvassed').textContent = areas.toLocaleString();
   }
   renderCanvassTotals();
+
+  /* -------- FOLLOW-UP ALERT -------- */
+  function renderFollowUpAlert() {
+    const today = new Date().toISOString().slice(0, 10);
+    const overdue = allContacts.filter(c => {
+      if (!c.followup) return false;
+      return c.followup <= today && (c.status !== 'active' && c.status !== 'declined');
+    });
+    const alertEl = document.getElementById('followup-alert');
+    if (!alertEl) return;
+    if (overdue.length === 0) {
+      alertEl.style.display = 'none';
+      return;
+    }
+    alertEl.style.display = 'flex';
+    const dueToday = overdue.filter(c => c.followup === today).length;
+    const pastDue = overdue.filter(c => c.followup < today).length;
+    document.getElementById('followup-alert-headline').textContent =
+      overdue.length + ' contact' + (overdue.length !== 1 ? 's' : '') + ' need' + (overdue.length === 1 ? 's' : '') + ' follow-up';
+    let body = '';
+    if (dueToday > 0) body += dueToday + ' due today';
+    if (pastDue > 0) body += (body ? ', ' : '') + pastDue + ' overdue';
+    const names = overdue.slice(0, 3).map(c => (c.firstName || '') + ' ' + (c.lastName || '')).filter(Boolean);
+    if (names.length) body += ': ' + names.join(', ') + (overdue.length > 3 ? '…' : '');
+    document.getElementById('followup-alert-body').textContent = body;
+  }
 
   // Re-render canvass totals whenever a new log entry is added
   const _origSaveOutreachLogs = saveOutreachLogs;

@@ -1,7 +1,14 @@
 // ===== GA4 event helper =====
 const GA_MEASUREMENT_ID = (() => {
   const meta = document.querySelector('meta[name="ga-measurement-id"]');
-  if (!meta || !meta.content || meta.content.includes('REPLACE')) return null;
+  if (!meta || !meta.content || meta.content.includes('REPLACE') || meta.content === 'G-PLACEHOLDER') {
+    console.warn(
+      '[Arafat for Congress] GA4 not configured. ' +
+      'Add GA_MEASUREMENT_ID as a GitHub Actions secret. ' +
+      'See .env.example for setup instructions.'
+    );
+    return null;
+  }
   return meta.content.trim();
 })();
 

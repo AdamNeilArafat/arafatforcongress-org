@@ -182,7 +182,7 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam Arafat</span>
+        <span class="brand__name">Adam <span style="color:var(--brand)">Arafat</span></span>
         <span class="brand__meta">for Congress • WA-10</span>
       </a>
 
@@ -249,6 +249,26 @@
         </p>
       </div>
     </div>
+  </section>
+
+  <!-- LIGHTWEIGHT QUICK SIGNUP (friction-reduction first step) -->
+  <section class="section" id="quick-join" aria-label="Quick email signup">
+    <div style="background:linear-gradient(135deg,var(--navy),var(--brand-dark));border-radius:var(--radius);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;">
+      <div>
+        <p style="margin:0 0 5px;color:#fff;font-weight:800;font-size:1.1rem;">&#9889; Fastest way in: drop your email</p>
+        <p style="margin:0;color:rgba(255,255,255,0.75);font-size:.95rem;">We'll reach out with one question: how do you want to help? No spam. Unsubscribe anytime.</p>
+      </div>
+      <form id="contact-quick-form" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;" novalidate>
+        <input type="email" id="contact-quick-email" placeholder="your@email.com" autocomplete="email" required
+          style="min-height:44px;padding:0 16px;border-radius:12px;border:none;font:inherit;font-size:.95rem;min-width:230px;background:rgba(255,255,255,0.95);color:var(--navy);" />
+        <button type="submit"
+          style="min-height:44px;padding:0 22px;border-radius:12px;border:none;background:rgba(184,134,13,0.9);color:#fff;font:inherit;font-weight:800;font-size:.95rem;cursor:pointer;white-space:nowrap;transition:filter .15s;">
+          Count me in &rarr;
+        </button>
+      </form>
+      <p id="contact-quick-feedback" style="margin:0;width:100%;color:rgba(255,255,255,0.9);font-size:.9rem;min-height:1.2em;font-weight:700;" role="status" aria-live="polite"></p>
+    </div>
+    <p style="text-align:center;margin:14px 0 0;color:var(--muted);font-size:.88rem;">— or scroll down to pick a specific role and fill out the full form —</p>
   </section>
 
   <!-- VOLUNTEER PATHWAYS -->
@@ -734,6 +754,45 @@
         a.setAttribute('href', map[net]);
         a.setAttribute('target', '_blank');
         a.setAttribute('rel', 'noopener noreferrer');
+      });
+    })();
+  </script>
+  <script>
+    // Quick signup form on contact page
+    (function(){
+      var qForm = document.getElementById('contact-quick-form');
+      var qFeedback = document.getElementById('contact-quick-feedback');
+      if (!qForm) return;
+      qForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.getElementById('contact-quick-email').value.trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          qFeedback.textContent = 'Please enter a valid email address.';
+          return;
+        }
+        var subject = encodeURIComponent('New Volunteer Signup');
+        var body = encodeURIComponent('Email: ' + email + '\nSource: contact-page-quick-signup\n\nPlease follow up to get this person involved.');
+        var endpointMeta = document.querySelector('meta[name="campaign-signup-endpoint"]');
+        var endpoint = endpointMeta ? endpointMeta.content.trim() : '';
+        if (endpoint && endpoint !== 'SIGNUP_ENDPOINT_PLACEHOLDER') {
+          fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, source: 'contact-page-quick-signup' })
+          }).then(function(r) {
+            if (r.ok) {
+              qFeedback.textContent = "Got it! Someone from the team will be in touch.";
+              qForm.reset();
+            } else {
+              window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
+            }
+          }).catch(function() {
+            window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
+          });
+        } else {
+          window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
+          qFeedback.textContent = "Opening your email app — or email volunteer@arafatforcongress.org directly.";
+        }
       });
     })();
   </script>

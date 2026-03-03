@@ -1,7 +1,50 @@
 {
   "meta": {
-    "lastUpdated": "2026-03-01",
+    "lastUpdated": "2026-03-03",
     "note": "Add events here as objects in the 'events' array. Leave the array empty to show the 'Host an Event' CTA instead of an empty events list. Each event: { date, title, time, location, type, rsvpUrl }"
   },
-  "events": []
+  "events": [
+    {
+      "date": "2026-03-15",
+      "title": "Lakewood Community Meet & Greet",
+      "time": "2:00 PM – 4:00 PM",
+      "location": "Fort Steilacoom Park, Lakewood, WA",
+      "type": "Meet & Greet"
+    },
+    {
+      "date": "2026-03-21",
+      "title": "Olympia Town Hall: Issues Forum",
+      "time": "6:30 PM – 8:30 PM",
+      "location": "Timberland Regional Library – Olympia Branch, 313 8th Ave SE, Olympia, WA",
+      "type": "Town Hall"
+    },
+    {
+      "date": "2026-03-28",
+      "title": "Spanaway Canvass Kick-Off",
+      "time": "10:00 AM – 2:00 PM",
+      "location": "Spanaway Park, 14905 C St S, Spanaway, WA 98387",
+      "type": "Canvass"
+    },
+    {
+      "date": "2026-04-04",
+      "title": "JBLM Veterans & Families Listening Session",
+      "time": "11:00 AM – 1:00 PM",
+      "location": "American Legion Post 84, 5519 Steilacoom Blvd SW, Lakewood, WA",
+      "type": "Listening Session"
+    },
+    {
+      "date": "2026-04-11",
+      "title": "University Place Phone Bank",
+      "time": "5:00 PM – 8:00 PM",
+      "location": "University Place Library, 3609 Market Pl W, University Place, WA 98466",
+      "type": "Phone Bank"
+    },
+    {
+      "date": "2026-04-18",
+      "title": "Puyallup / South Hill Neighborhood Canvass",
+      "time": "10:00 AM – 1:00 PM",
+      "location": "Meridian Park, Puyallup, WA (details emailed to RSVPs)",
+      "type": "Canvass"
+    }
+  ]
 }

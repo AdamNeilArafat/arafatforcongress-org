@@ -74,16 +74,22 @@ function setupSignupForm() {
       return;
     }
 
-    if (!endpoint || endpoint === "SIGNUP_ENDPOINT_PLACEHOLDER") {
-      setFeedback("Signup is almost ready. Please check back soon.", "is-error");
-      return;
-    }
-
     const data = {
-      firstName: form.firstName.value.trim(),
+      firstName: form.firstName ? form.firstName.value.trim() : "",
       email: form.email.value.trim(),
       source: "homepage"
     };
+
+    // Fallback: if endpoint not configured, open mailto: to capture the signup
+    if (!endpoint || endpoint === "SIGNUP_ENDPOINT_PLACEHOLDER") {
+      const subject = encodeURIComponent("New Campaign Signup");
+      const body = encodeURIComponent(
+        "Name: " + (data.firstName || "(not provided)") + "\nEmail: " + data.email + "\nSource: homepage"
+      );
+      window.location.href = "mailto:volunteer@arafatforcongress.org?subject=" + subject + "&body=" + body;
+      setFeedback("Opening your email app to complete signup. You can also email volunteer@arafatforcongress.org directly.", "is-success");
+      return;
+    }
 
     setFeedback("Submitting...", null);
 
@@ -101,7 +107,11 @@ function setupSignupForm() {
       setFeedback("Thanks for signing up. You’re on the list.", "is-success");
       form.reset();
     } catch (error) {
-      setFeedback("Could not submit right now. Please try again shortly.", "is-error");
+      // Fallback to mailto on fetch failure
+      const subject = encodeURIComponent("New Campaign Signup");
+      const body = encodeURIComponent("Email: " + data.email + "\nSource: homepage");
+      window.location.href = "mailto:volunteer@arafatforcongress.org?subject=" + subject + "&body=" + body;
+      setFeedback("Opening your email app. You can also email volunteer@arafatforcongress.org directly.", "is-success");
     }
   });
 }
