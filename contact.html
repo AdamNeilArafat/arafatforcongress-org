@@ -173,7 +173,14 @@
 
   <!-- Site analytics and advanced tracking -->
   <script src="/js/analytics.js"></script>
-  <script src="/js/ga-loader.js"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9XQ4W6E2H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9XQ4W6E2H1');
+  </script>
 </head>
 
 <body>
@@ -189,7 +196,6 @@
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/endorsements.html">Endorsements</a>
         <a class="nav-link" href="/contact.html" aria-current="page">Contact / Volunteer</a>
       </nav>
 
@@ -213,7 +219,6 @@
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
-      <a href="/endorsements.html">Endorsements</a>
       <a href="/events.html">Events</a>
       <a href="/contact.html" aria-current="page">Contact / Volunteer</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>

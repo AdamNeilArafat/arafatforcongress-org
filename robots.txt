@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Sitemap: https://arafatforcongress.org/sitemap.xml
+Disallow: /endorsements.html
+Disallow: /es/endorsements.html
