@@ -93,11 +93,16 @@
       display:inline-flex;
       align-items:center;
       min-width: 220px;
+      overflow:hidden;
     }
     .brand__logo{
       width: clamp(168px,24vw,260px);
-      height:auto;
+      height: clamp(46px,6vw,58px);
       display:block;
+      object-fit:cover;
+      object-position:center;
+      transform:scale(1.32);
+      transform-origin:center;
     }
 
     .site-nav{
@@ -674,6 +679,7 @@
 
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link" href="/why-im-running.html">Why I'm Running</a>
         <a class="nav-link" href="/issues.html" aria-current="page">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
