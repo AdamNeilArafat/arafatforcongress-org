@@ -90,19 +90,22 @@
     .brand{
       text-decoration:none;
       color: var(--ink);
-      display:inline-flex;
-      align-items:center;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
       min-width: 220px;
-      overflow:hidden;
     }
-    .brand__logo{
-      width: clamp(168px,24vw,260px);
-      height: clamp(46px,6vw,58px);
-      display:block;
-      object-fit:cover;
-      object-position:center;
-      transform:scale(1.32);
-      transform-origin:center;
+    .brand__name{
+      font-weight:950;
+      letter-spacing:.2px;
+      font-size:1.06rem;
+      line-height:1.05;
+      color:var(--navy);
+    }
+    .brand__meta{
+      font-weight:850;
+      font-size:.85rem;
+      color:var(--muted);
     }
 
     .site-nav{
@@ -674,7 +677,8 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <img class="brand__logo" src="/images/Name Logo.png" alt="Adam Arafat for Congress logo" />
+        <span class="brand__name">Adam <span style="color:var(--brand)">Arafat</span></span>
+        <span class="brand__meta">for Congress • WA-10</span>
       </a>
 
       <nav class="site-nav" aria-label="Primary">
@@ -689,7 +693,7 @@
       <div class="header-cta">
         <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
         <div class="cta-group">
-          <a class="btn btn-ghost" href="/contact.html">Join</a>
+          <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
           <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
         </div>
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
@@ -701,6 +705,7 @@
     <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/issues.html" aria-current="page">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>

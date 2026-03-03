@@ -88,19 +88,22 @@
     .brand{
       text-decoration:none;
       color:var(--ink);
-      display:inline-flex;
-      align-items:center;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
       min-width:200px;
-      overflow:hidden;
     }
-    .brand__logo{
-      width:clamp(200px,28vw,300px);
-      height:clamp(48px,6vw,62px);
-      display:block;
-      object-fit:cover;
-      object-position:center;
-      transform:scale(1.32);
-      transform-origin:center;
+    .brand__name{
+      font-weight:950;
+      letter-spacing:.2px;
+      font-size:1.06rem;
+      line-height:1.05;
+      color:var(--navy);
+    }
+    .brand__meta{
+      font-weight:850;
+      font-size:.85rem;
+      color:var(--muted);
     }
 
     .site-nav{ display:flex; gap:8px; align-items:center; }
@@ -714,7 +717,8 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <img class="brand__logo" src="/images/Name Logo.png" alt="Adam Arafat for Congress logo" />
+        <span class="brand__name">Adam <span style="color:var(--brand)">Arafat</span></span>
+        <span class="brand__meta">for Congress • WA-10</span>
       </a>
 
       <nav class="site-nav" aria-label="Primary">
@@ -723,7 +727,7 @@
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/contact.html">Volunteer &amp; Contact</a>
+        <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
 
       <div class="header-cta">
@@ -744,11 +748,12 @@
 
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
       <a href="/events.html">Events</a>
-      <a href="/contact.html">Volunteer &amp; Contact</a>
+      <a href="/contact.html">Contact / Volunteer</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
@@ -1099,7 +1104,7 @@
     <nav aria-label="Footer navigation" class="site-footer-nav">
       <a href="/events.html">Events</a>
       <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="/contact.html">Volunteer &amp; Contact</a>
+      <a href="/contact.html">Contact / Volunteer</a>
       <a href="https://www.instagram.com/adam.neil.arafat.wa10?igsh=MXZudHU1cWN2dXpkcw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
     </nav>
     <strong>Paid for by Arafat for Congress</strong> &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
