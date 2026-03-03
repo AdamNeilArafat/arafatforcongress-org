@@ -4,6 +4,28 @@ const SHARE_LINES = [
 
 const STANDARD_CONSENT_TEXT = "I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.";
 
+const EVENTS_PAGE_ENABLED = false;
+
+function applyEventsPageVisibility() {
+  if (EVENTS_PAGE_ENABLED) return;
+
+  const path = window.location.pathname.replace(/\/$/, '');
+  if (path === '/events.html') {
+    window.location.replace('/contact.html');
+    return;
+  }
+  if (path === '/es/events.html') {
+    window.location.replace('/es/contact.html');
+    return;
+  }
+
+  document.querySelectorAll('a[href="/events.html"], a[href="/es/events.html"]').forEach((link) => {
+    link.style.display = 'none';
+    link.setAttribute('aria-hidden', 'true');
+    link.setAttribute('tabindex', '-1');
+  });
+}
+
 function getSiteConfig() {
   if (window.AFC_CONFIG) return window.AFC_CONFIG;
   const gaMeta = document.querySelector('meta[name="ga-measurement-id"]');
@@ -285,6 +307,7 @@ async function loadEndorsements() { /* unchanged */
 
 document.addEventListener("DOMContentLoaded", () => {
   getSiteConfig();
+  applyEventsPageVisibility();
   rotateShareLine();
   setInterval(rotateShareLine, 7000);
   setupShareIcons();
