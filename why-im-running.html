@@ -89,6 +89,13 @@
     .founders{ display:grid; gap:14px; margin-top:20px; max-width:860px; margin-left:auto; margin-right:auto; }
     .founders p{ margin:0; background:#fff; border:1px solid var(--border-soft); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow-soft); color:var(--muted); line-height:1.7; font-weight:520; }
     .founders p:first-child{ background:rgba(14,165,164,0.06); border-color:rgba(29,79,168,0.20); }
+    .founder-quote{ display:grid; grid-template-columns:84px 1fr; gap:14px; align-items:center; }
+    .founder-quote img{ width:84px; height:84px; object-fit:cover; border-radius:50%; border:2px solid rgba(29,79,168,0.2); box-shadow:var(--shadow-soft); }
+    .founder-quote p{ margin:0; }
+    @media (max-width:640px){
+      .founder-quote{ grid-template-columns:1fr; text-align:center; }
+      .founder-quote img{ margin:0 auto; }
+    }
 
     .grid-two{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:24px; max-width:900px; margin-left:auto; margin-right:auto; }
     .story-card{ background:#fff; border-radius:var(--radius); padding:24px; box-shadow:var(--shadow-soft); border:1px solid var(--border-soft); }
@@ -226,9 +233,22 @@
         </div>
         <div class="founders">
           <p>From the very beginning, the House of Representatives was designed for ordinary citizens. It was built for people who lived the same realities as the people they served, not a political class floating above it.</p>
-          <p>Fisher Ames, one of the very first members of Congress, said the House should carry “the people's sense" straight into the chamber. Short terms were guardrails to keep the job from becoming a career.</p>
-          <p>George Washington warned what happens when people cling to power. “The spirit of encroachment" pushes leaders toward “the ultimate term of despotism." Stay too long, and you stop serving anyone but yourself.</p>
-          <p>Thomas Jefferson: “Whenever a man has cast a longing eye on offices, a rottenness begins in his conduct." When holding power becomes the goal, corruption follows. James Madison offered the antidote: frequent elections that keep representatives in “dependence and sympathy" with the people.</p>
+          <div class="founder-quote">
+            <img src="images/Fisher Ames.jpeg" alt="Portrait of Fisher Ames" loading="lazy" />
+            <p>Fisher Ames, one of the very first members of Congress, said the House should carry “the people's sense" straight into the chamber. Short terms were guardrails to keep the job from becoming a career.</p>
+          </div>
+          <div class="founder-quote">
+            <img src="images/George Washington.jpg" alt="Portrait of George Washington" loading="lazy" />
+            <p>George Washington warned what happens when people cling to power. “The spirit of encroachment" pushes leaders toward “the ultimate term of despotism." Stay too long, and you stop serving anyone but yourself.</p>
+          </div>
+          <div class="founder-quote">
+            <img src="images/%20Thomas%20Jefferson.jpeg" alt="Portrait of Thomas Jefferson" loading="lazy" />
+            <p>Thomas Jefferson: “Whenever a man has cast a longing eye on offices, a rottenness begins in his conduct." When holding power becomes the goal, corruption follows.</p>
+          </div>
+          <div class="founder-quote">
+            <img src="images/James Madison.jpg" alt="Portrait of James Madison" loading="lazy" />
+            <p>James Madison offered the antidote: frequent elections that keep representatives in “dependence and sympathy" with the people.</p>
+          </div>
           <p>Different voices. Same message. Serve your neighbors. Do the work. Go home. That's the standard WA-10 should demand.</p>
         </div>
       </div>
