@@ -286,6 +286,30 @@
     .cta-inline-link{ font-weight:800; color:var(--navy-2); text-decoration:none; padding:10px 6px; }
     .cta-inline-link:hover{ text-decoration:underline; }
 
+    .path-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+    .path-card{
+      display:block;
+      text-decoration:none;
+      background:#fff;
+      border:1px solid var(--border-soft);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-soft);
+      padding:16px;
+      transition:transform .1s ease,box-shadow .15s ease,border-color .15s ease;
+    }
+    .path-card:hover{
+      transform:translateY(-1px);
+      box-shadow:var(--shadow);
+      border-color:rgba(29,79,168,0.28);
+    }
+    .path-card h3{ margin:0 0 6px; font-size:1rem; color:var(--navy-2); }
+    .path-card p{ margin:0; color:var(--muted); font-size:.9rem; line-height:1.5; }
+
     .hero__values{
       margin-top:12px;
       font-weight:800;
@@ -688,14 +712,13 @@
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
+        <a class="nav-link" href="/contact.html">Volunteer &amp; Contact</a>
       </nav>
 
       <div class="header-cta">
         <div class="header-cred" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
 
         <div class="cta-group">
-          <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
           <a class="btn btn-primary"
              href="https://secure.actblue.com/donate/adam-arafat-1"
              target="_blank" rel="noopener noreferrer">Donate</a>
@@ -714,7 +737,7 @@
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
       <a href="/events.html">Events</a>
-      <a href="/contact.html">Contact / Volunteer</a>
+      <a href="/contact.html">Volunteer &amp; Contact</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
   </header>
@@ -1038,6 +1061,17 @@
       </div>
     </section>
 
+    <section class="section" id="press-path" aria-labelledby="press-path-title">
+      <h2 id="press-path-title">For press &amp; endorsers</h2>
+      <div class="cta-band">
+        <p>Looking for background, policy context, or endorsement details? Reach the campaign directly and review current endorsements in one place.</p>
+        <div class="cta-band__buttons">
+          <a class="btn-home btn-record" href="/endorsements.html">Endorsements</a>
+          <a class="btn-home btn-volunteer" href="mailto:info@arafatforcongress.org">Email press desk</a>
+        </div>
+      </div>
+    </section>
+
     <!-- FINAL CTA -->
     <section class="section" id="donate" aria-label="Final CTA">
       <div class="cta-band">
@@ -1055,7 +1089,7 @@
     <nav aria-label="Footer navigation" class="site-footer-nav">
       <a href="/events.html">Events</a>
       <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="/contact.html">Volunteer</a>
+      <a href="/contact.html">Volunteer &amp; Contact</a>
       <a href="https://www.instagram.com/adam.neil.arafat.wa10?igsh=MXZudHU1cWN2dXpkcw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
     </nav>
     <strong>Paid for by Arafat for Congress</strong> &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
