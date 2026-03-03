@@ -98,6 +98,9 @@
       line-height: 1.05;
       color: var(--navy);
     }
+    .brand__name .last-name{
+      color: var(--brand);
+    }
     .brand__meta{
       font-weight: 850;
       font-size: .85rem;
@@ -281,6 +284,88 @@
     .pill.ok{ background: var(--ok); border-color: rgba(34,197,94,.18); }
     .pill.warn{ background: var(--warn); border-color: rgba(245,158,11,.22); }
 
+    /* ── SCORECARD TABLE ─────────────────────────────── */
+    .scorecard-block{
+      margin: 16px 0 20px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+    .scorecard-header{
+      background: linear-gradient(135deg, var(--navy), var(--brand-dark));
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .scorecard-header h3{
+      margin: 0;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .scorecard-aggregate{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: .88rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .scorecard-aggregate .score-num{
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: #ffd700;
+    }
+    .scorecard-table{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    .scorecard-table thead tr{
+      background: #f8f9fc;
+    }
+    .scorecard-table th{
+      padding: 10px 14px;
+      text-align: left;
+      font-size: .72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .scorecard-table td{
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(5,16,30,0.05);
+      vertical-align: middle;
+    }
+    .scorecard-table tr:last-child td{ border-bottom: none; }
+    .scorecard-table tr:hover td{ background: rgba(29,79,168,0.02); }
+    .scorecard-table .td-issue{ font-weight: 750; color: var(--navy-2); }
+    .scorecard-table .td-bill{ color: var(--muted); font-size: .83rem; }
+    .scorecard-table a.sc-anchor{ color: var(--brand); font-weight: 700; text-decoration: none; font-size: .82rem; }
+    .scorecard-table a.sc-anchor:hover{ text-decoration: underline; }
+    .sc-pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+    .sc-pill.bad{ background: var(--bad); color: #991b1b; border: 1px solid rgba(239,68,68,.18); }
+    .sc-pill.ok{ background: var(--ok); color: #166534; border: 1px solid rgba(34,197,94,.18); }
+
     .cta-band{
       background: #fff;
       border: 1px solid var(--border-soft);
@@ -307,26 +392,39 @@
     .section h2{ text-align: center; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.05rem); margin: 0 0 10px; letter-spacing: -0.2px; font-weight: 800; }
     .section .section-intro{ text-align: center; color: var(--muted); max-width: 86ch; margin: 0 auto 1.25rem; line-height: 1.7; font-weight: 500; }
 
-    /* ── Full-width numbered bill sections ──────────────────── */
+    /* ── Full-width numbered bill cards ──────────────────── */
     .bills-list{
       margin-top: 36px;
       display: flex;
       flex-direction: column;
+      gap: 28px;
     }
 
     .bill-section{
+      background: #fff;
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
       display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 32px;
-      padding: 44px 0;
-      border-bottom: 1px solid var(--border-soft);
+      grid-template-columns: 72px 1fr;
+      gap: 28px;
+      padding: 36px 32px;
+      transition: box-shadow .15s ease;
     }
-    .bill-section:last-child{ border-bottom: none; }
+    .bill-section:hover{
+      box-shadow: var(--shadow);
+    }
+    .bill-section:nth-child(odd){
+      border-left: 4px solid var(--brand);
+    }
+    .bill-section:nth-child(even){
+      border-left: 4px solid var(--gold);
+    }
 
     .bill-section__num{
       font-size: 2.6rem;
       font-weight: 900;
-      color: rgba(5,16,30,0.07);
+      color: rgba(5,16,30,0.08);
       line-height: 1;
       font-variant-numeric: tabular-nums;
       padding-top: 6px;
@@ -434,6 +532,57 @@
     }
     .link:hover{ background: #f0f4ff; }
 
+    /* ── Local Data + Adam Commit Boxes ── */
+    .bill-extras{
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .bill-local-data{
+      background: rgba(29,79,168,0.04);
+      border: 1px solid rgba(29,79,168,0.14);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--navy-2);
+    }
+    .bill-local-data .local-label{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 5px;
+    }
+    .bill-local-data p{ margin: 0; }
+
+    .bill-adam-commit{
+      background: rgba(11,100,79,0.05);
+      border: 1px solid rgba(11,100,79,0.18);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--navy-2);
+    }
+    .bill-adam-commit .adam-label{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #0b6e4f;
+      margin-bottom: 5px;
+    }
+    .bill-adam-commit p{ margin: 0; }
+
     .copy-block{
       background: #fff;
       border: 1px solid var(--border-soft);
@@ -465,6 +614,7 @@
       .mobile-drawer a{ text-decoration:none; font-weight: 700; color: var(--navy); background: rgba(11,18,32,0.03); border: 1px solid var(--border-soft); padding: 12px 12px; border-radius: 14px; }
       .mobile-drawer a.drawer-cta{ background: linear-gradient(160deg, var(--brand), var(--brand-dark)); color: #fff; border: none; }
       .hero{ padding: 2.75rem 1.25rem 1.25rem; }
+      .scorecard-table .td-bill{ display: none; }
     }
     @media (max-width: 700px){
       .section{ margin: 44px auto; }
@@ -473,7 +623,7 @@
       .bill-section{
         grid-template-columns: 1fr;
         gap: 14px;
-        padding: 30px 0;
+        padding: 24px 20px;
       }
       .bill-section__num{
         font-size: 1.6rem;
@@ -488,8 +638,8 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam Arafat</span>
-        <span class="brand__meta">for Congress • WA-10</span>
+        <span class="brand__name">Adam <span class="last-name">Arafat</span></span>
+        <span class="brand__meta">for Congress &bull; WA-10</span>
       </a>
 
       <nav class="site-nav" aria-label="Primary">
@@ -524,7 +674,7 @@
       <a href="/events.html">Events</a>
       <a href="/contact.html">Contact / Volunteer</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
-    
+    </div>
   </header>
 
   <main>
@@ -533,7 +683,7 @@
       <div class="hero__grid">
         <div class="hero__text">
           <div class="kicker">A standard voters can measure.</div>
-          <h1>Don’t grade Congress on speeches. Grade it on receipts.</h1>
+          <h1>Don't grade Congress on speeches. Grade it on receipts.</h1>
           <p class="hero__subheadline">
             Bills are already written. The basic test is simple: did your representative co-sponsor the working-family bills and push to move them?
           </p>
@@ -542,7 +692,7 @@
             <h2>The core argument</h2>
             <p>
               WA-10 deserves a representative who treats this like a job. That means doing the baseline work and then fighting to win.
-              Not just press statements. Not just “concern.” Receipts.
+              Not just press statements. Not just "concern." Receipts.
             </p>
             <p class="mini-note">
               <strong>Data note:</strong> Co-sponsor status is based on Congress.gov listings as of <strong>Feb 26, 2026</strong>. If a bill changes, we update it.
@@ -551,12 +701,94 @@
             <div class="legend" aria-label="Legend">
               <span class="pill ok">Co-sponsored</span>
               <span class="pill bad">Not co-sponsored</span>
-              <span class="pill warn">Needs verification</span>
             </div>
           </div>
 
+          <!-- SCORECARD TABLE -->
+          <div class="scorecard-block" aria-label="Strickland co-sponsorship scorecard">
+            <div class="scorecard-header">
+              <h3>&#128203; Strickland Scorecard &mdash; 119th Congress</h3>
+              <div class="scorecard-aggregate">
+                <span class="score-num">1</span>
+                <span>of 10 tracked bills co-sponsored</span>
+              </div>
+            </div>
+            <table class="scorecard-table" role="grid" aria-label="Bill scorecard">
+              <thead>
+                <tr>
+                  <th>Issue</th>
+                  <th class="td-bill">Bill</th>
+                  <th>Strickland</th>
+                  <th>Jump To</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-issue">Housing</td>
+                  <td class="td-bill">H.R. 4457</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#housing">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Healthcare</td>
+                  <td class="td-bill">H.R. 3069</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#healthcare">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Voting Rights</td>
+                  <td class="td-bill">H.R. 14</td>
+                  <td><span class="sc-pill ok">&#10003; Co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#institutions">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Worker Protections</td>
+                  <td class="td-bill">H.R. 20</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#workers">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Campaign Finance</td>
+                  <td class="td-bill">H.J.Res. 54</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#money">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Accountability</td>
+                  <td class="td-bill">H.R. 396</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#accountability">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Tax Extreme Wealth</td>
+                  <td class="td-bill">H.R. 5336</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#tax">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Environment</td>
+                  <td class="td-bill">H.R. 4714</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#environment">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Privacy</td>
+                  <td class="td-bill">H.R. 4639</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#privacy">&#8595; Details</a></td>
+                </tr>
+                <tr>
+                  <td class="td-issue">Artificial Intelligence</td>
+                  <td class="td-bill">H.R. 6356</td>
+                  <td><span class="sc-pill bad">&#10005; Not co-sponsored</span></td>
+                  <td><a class="sc-anchor" href="#ai">&#8595; Details</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <div class="cta-band">
-            <p><strong>People over donors.</strong> If you want urgency in Congress, help us build the kind of support money can’t buy.</p>
+            <p><strong>People over donors.</strong> If you want urgency in Congress, help us build the kind of support money can't buy.</p>
             <div class="cta-band__buttons">
               <a class="btn btn-primary" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
               <a class="btn btn-ghost" href="/contact.html">Volunteer</a>
@@ -566,244 +798,344 @@
       </div>
     </section>
 
-    <!-- SCORECARD GRID -->
+    <!-- BILL SECTIONS -->
     <section class="section" aria-labelledby="priorities-bills">
       <h2 id="priorities-bills">The priorities, tied to bills</h2>
       <p class="section-intro">
-        This is what “ready to go” looks like. Bills exist. The question is who will sign on, organize support, and force movement.
+        This is what "ready to go" looks like. Bills exist. The question is who will sign on, organize support, and force movement.
       </p>
 
-      <div class=”bills-list” role=”list”>
+      <div class="bills-list" role="list">
 
         <!-- 01 HOUSING -->
-        <article class=”bill-section” role=”listitem” id=”housing”>
-          <div class=”bill-section__num” aria-hidden=”true”>01</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Housing</div>
+        <article class="bill-section" role="listitem" id="housing">
+          <div class="bill-section__num" aria-hidden="true">01</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Housing</div>
             <h3>Make affordable housing a national priority, not a talking point.</h3>
-            <p class=”issue-desc”>Rents in Pierce and Thurston counties are up 40%+ since 2019. This is not a pipeline problem — it is a political will problem. The legislation already exists.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 4457 — Housing Is a Human Right Act of 2025</p>
-              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
-                <span class=”pill warn”>Introduced</span>
+            <p class="issue-desc">Rents in Pierce and Thurston counties are up 40%+ since 2019. This is not a pipeline problem &mdash; it is a political will problem. The legislation already exists.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 4457 &mdash; Housing Is a Human Right Act of 2025</p>
+              <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class="pill">Introduced</span>
               </div>
-              <p class=”bill-commentary”>If housing is urgent, the minimum is signing onto the bill. The job is then building the leverage to move it.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/4457/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-                <a class=”link” href=”/record-contrast.html#housing”>See contrast</a>
+              <p class="bill-commentary">If housing is urgent, the minimum is signing onto the bill. The job is then building the leverage to move it.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/4457/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+                <a class="link" href="/record-contrast.html#housing">See contrast</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>The average WA-10 renter now pays <strong>$1,847/month</strong> &mdash; up 42% since 2019. Pierce County has the fastest-rising rents of any county in Washington state. Over 38,000 households in the district are cost-burdened, spending more than 30% of income on housing (Census ACS 2023).</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor H.R. 4457 on Day 1 and demand a committee hearing within the first 90 days of session. He will push leadership to attach housing provisions to must-pass spending bills and hold public town halls in Spanaway, Lakewood, and Olympia to build constituent pressure.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 02 HEALTHCARE -->
-        <article class=”bill-section” role=”listitem” id=”healthcare”>
-          <div class=”bill-section__num” aria-hidden=”true”>02</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Healthcare</div>
+        <article class="bill-section" role="listitem" id="healthcare">
+          <div class="bill-section__num" aria-hidden="true">02</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Healthcare</div>
             <h3>Guarantee healthcare for every American. No more medical debt, no more coverage gaps.</h3>
-            <p class=”issue-desc”>Medical debt is the leading cause of bankruptcy in America. The bill is written. The question is who signs on and who fights to move it.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 3069 — Medicare for All Act of 2025</p>
-              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
-                <span class=”pill warn”>Introduced</span>
+            <p class="issue-desc">Medical debt is the leading cause of bankruptcy in America. The bill is written. The question is who signs on and who fights to move it.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 3069 &mdash; Medicare for All Act of 2025</p>
+              <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class="pill">Introduced</span>
               </div>
-              <p class=”bill-commentary”>People don’t need another “healthcare is important” statement. They need representatives who sign onto the bill and then fight to move it.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/3069/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-                <a class=”link” href=”/record-contrast.html#healthcare”>See contrast</a>
+              <p class="bill-commentary">People don't need another "healthcare is important" statement. They need representatives who sign onto the bill and then fight to move it.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/3069/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+                <a class="link" href="/record-contrast.html#healthcare">See contrast</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>Approximately <strong>62,000 residents</strong> in Pierce and Thurston counties lack health insurance. JBLM-area veterans face healthcare gaps when transitioning out of service &mdash; nearly 1 in 5 post-9/11 veterans in the district report delays in accessing VA care. Medical debt is the #1 reason for bankruptcy filings in Pierce County (WA State Dept. of Health, 2024).</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor Medicare for All on Day 1 and organize constituent pressure campaigns to push leadership for floor action. He will host public healthcare town halls in Lakewood and Olympia and make healthcare a non-negotiable condition of any budget negotiation he participates in.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 03 DEMOCRATIC INSTITUTIONS -->
-        <article class=”bill-section” role=”listitem” id=”institutions”>
-          <div class=”bill-section__num” aria-hidden=”true”>03</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Democratic Institutions</div>
-            <h3>Defend voting rights, rule of law, and independent oversight — right now, not someday.</h3>
-            <p class=”issue-desc”>In 2026 the threat to democratic norms is active, not hypothetical. Co-sponsoring voting rights legislation is the floor. The ceiling is using every available tool to force movement.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 14 — John R. Lewis Voting Rights Advancement Act of 2025</p>
-              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Terri A. Sewell (AL-07)</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill ok”>Strickland: Co-sponsored (as of 2/26/2026)</span>
-                <span class=”pill warn”>Introduced</span>
+        <article class="bill-section" role="listitem" id="institutions">
+          <div class="bill-section__num" aria-hidden="true">03</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Democratic Institutions</div>
+            <h3>Defend voting rights, rule of law, and independent oversight &mdash; right now, not someday.</h3>
+            <p class="issue-desc">In 2026 the threat to democratic norms is active, not hypothetical. Co-sponsoring voting rights legislation is the floor. The ceiling is using every available tool to force movement.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 14 &mdash; John R. Lewis Voting Rights Advancement Act of 2025</p>
+              <p class="bill-meta"><strong>Sponsor:</strong> Rep. Terri A. Sewell (AL-07)</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill ok">Strickland: Co-sponsored (as of 2/26/2026)</span>
+                <span class="pill">Introduced</span>
               </div>
-              <p class=”bill-commentary”>Good. Co-sponsoring is the floor, not the ceiling. The next question is what active pressure was applied to advance it.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/14/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-                <a class=”link” href=”/record-contrast.html#institutions”>See contrast</a>
+              <p class="bill-commentary">Good. Co-sponsoring is the floor, not the ceiling. The next question is what active pressure was applied to advance it.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/14/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+                <a class="link" href="/record-contrast.html#institutions">See contrast</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>In 2022, WA-10 voter turnout was <strong>51%</strong> &mdash; below the state average of 58%. Communities around JBLM have some of the lowest registration rates in the district due to frequent relocations. Voting rights protections directly affect military families, naturalized citizens, and communities of color across Pierce and Thurston counties.</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor the John Lewis Act and demand it be attached to must-pass legislation if leadership refuses a standalone vote. He will push for automatic voter registration for JBLM service members and their families, and hold public forums on threats to democratic institutions in Olympia and Tacoma.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 04 WORKERS -->
-        <article class=”bill-section” role=”listitem” id=”workers”>
-          <div class=”bill-section__num” aria-hidden=”true”>04</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Worker Protections</div>
+        <article class="bill-section" role="listitem" id="workers">
+          <div class="bill-section__num" aria-hidden="true">04</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Worker Protections</div>
             <h3>Restore worker power. Protect unions. Raise wages across the South Sound.</h3>
-            <p class=”issue-desc”>Union membership is the single most reliable driver of middle-class wages. Letting the PRO Act stall without pressure is a choice with consequences for every working family in WA-10.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 20 — Richard L. Trumka PRO Act of 2025</p>
-              <p class=”bill-meta”><strong>Sponsors:</strong> Rep. Bobby Scott (D-VA), Rep. Hakeem Jeffries, Rep. Brian Fitzpatrick (R-PA). Bipartisan — 214 co-sponsors in 119th Congress.</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov</span>
+            <p class="issue-desc">Union membership is the single most reliable driver of middle-class wages. Letting the PRO Act stall without pressure is a choice with consequences for every working family in WA-10.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 20 &mdash; Richard L. Trumka PRO Act of 2025</p>
+              <p class="bill-meta"><strong>Sponsors:</strong> Rep. Bobby Scott (D-VA), Rep. Hakeem Jeffries, Rep. Brian Fitzpatrick (R-PA). Bipartisan &mdash; 214 co-sponsors in 119th Congress.</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026 &mdash; <a href="https://www.congress.gov/bill/119th-congress/house-bill/20/cosponsors" target="_blank" rel="noopener noreferrer" style="color:inherit;">verify at Congress.gov</a>)</span>
               </div>
-              <p class=”bill-commentary”>214 co-sponsors. Bipartisan. The clearest legislative test of worker power. With that level of support, there is no excuse for sitting it out.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/20/cosponsors” target=”_blank” rel=”noopener noreferrer”>Check co-sponsors</a>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/20” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              <p class="bill-commentary">214 co-sponsors. Bipartisan. The clearest legislative test of worker power. With that level of support, there is no excuse for sitting it out.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/20/cosponsors" target="_blank" rel="noopener noreferrer">Check co-sponsors</a>
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/20" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>Only <strong>14% of WA-10 workers</strong> belong to a union &mdash; down from 22% in 2005 (BLS 2024). In Pierce County, non-union workers earn 23% less than their unionized counterparts in comparable jobs. JBLM civilian contractors, port workers in Tacoma, and state employees in Olympia all stand to gain direct wage protections under the PRO Act.</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor the PRO Act on Day 1 and use every procedural tool available to force a floor vote. He will partner with local labor councils including the Pierce County Central Labor Council to organize public pressure and will make worker rights a condition of his support for any omnibus legislation.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 05 CAMPAIGN FINANCE -->
-        <article class=”bill-section” role=”listitem” id=”money”>
-          <div class=”bill-section__num” aria-hidden=”true”>05</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Campaign Finance Reform</div>
+        <article class="bill-section" role="listitem" id="money">
+          <div class="bill-section__num" aria-hidden="true">05</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Campaign Finance Reform</div>
             <h3>End corporate money in politics. Close the Citizens United loophole.</h3>
-            <p class=”issue-desc”>As long as corporations can buy access, every other reform is fighting with one hand tied. This is the prerequisite issue for everything else on this list.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.J.Res. 54 — We the People Amendment (overturn Citizens United)</p>
-              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
-                <span class=”pill warn”>Introduced</span>
+            <p class="issue-desc">As long as corporations can buy access, every other reform is fighting with one hand tied. This is the prerequisite issue for everything else on this list.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.J.Res. 54 &mdash; We the People Amendment (overturn Citizens United)</p>
+              <p class="bill-meta"><strong>Sponsor:</strong> Rep. Pramila Jayapal (WA-07)</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class="pill">Introduced</span>
               </div>
-              <p class=”bill-commentary”>If your brand is “fighting corruption,” this is the bill you co-sponsor now, not someday. Especially if you’re taking $355K from leadership committees.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-joint-resolution/54/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-                <a class=”link” href=”/record-contrast.html#money”>See contrast</a>
+              <p class="bill-commentary">If your brand is "fighting corruption," this is the bill you co-sponsor now, not someday. Especially if you're taking $355K from leadership committees.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-joint-resolution/54/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+                <a class="link" href="/record-contrast.html#money">See contrast</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>In the 2024 cycle, <strong>Strickland received $355,000 from leadership committees</strong> funded by corporate PAC money &mdash; more than 3x the district median for House incumbents (OpenSecrets 2024). Every dollar from corporate donors buys access that WA-10 working families cannot match. This is not theoretical: it shows up in which bills get signed and which get ignored.</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor the We the People Amendment on Day 1 and refuse all corporate PAC and AIPAC money &mdash; not as a campaign promise, but as a structural commitment that has already been in place since Day 1 of this campaign. He will push for a floor vote within the first session and make campaign finance reform a standing public accountability item.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 06 ACCOUNTABILITY -->
-        <article class=”bill-section” role=”listitem” id=”accountability”>
-          <div class=”bill-section__num” aria-hidden=”true”>06</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Accountability</div>
+        <article class="bill-section" role="listitem" id="accountability">
+          <div class="bill-section__num" aria-hidden="true">06</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Accountability</div>
             <h3>Transparency and real consequences for corruption. Congress must not be exempt from the rules it sets for everyone else.</h3>
-            <p class=”issue-desc”>Stock trading by Members of Congress and their families is a direct conflict of interest. The fix is a bill. The question is whether your representative has signed on.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 396 — TRUST in Congress Act (blind trust requirement for Members and family)</p>
-              <p class=”bill-meta”><strong>Status:</strong> Introduced, 119th Congress</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov</span>
-                <span class=”pill warn”>Introduced</span>
+            <p class="issue-desc">Stock trading by Members of Congress and their families is a direct conflict of interest. The fix is a bill. The question is whether your representative has signed on.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 396 &mdash; TRUST in Congress Act (blind trust requirement for Members and family)</p>
+              <p class="bill-meta"><strong>Status:</strong> Introduced, 119th Congress</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026 &mdash; <a href="https://www.congress.gov/bill/119th-congress/house-bill/396/all-info" target="_blank" rel="noopener noreferrer" style="color:inherit;">verify at Congress.gov</a>)</span>
+                <span class="pill">Introduced</span>
               </div>
-              <p class=”bill-commentary”>If Congress won’t police itself, voters have to. Disclosures, blind trusts, enforcement, and real penalties — or it’s just PR.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/396/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              <p class="bill-commentary">If Congress won't police itself, voters have to. Disclosures, blind trusts, enforcement, and real penalties &mdash; or it's just PR.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/396/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>Members of Congress and their families can legally trade stocks in companies they regulate &mdash; and do. Congressional net worth grew <strong>4x faster</strong> than the median American household between 2021&ndash;2023 (Roll Call wealth analysis). For WA-10 families paying $1,800/month rent and watching their savings shrink, it matters that their representative's financial interests are fully separate from their votes.</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor the TRUST Act on Day 1 and introduce a companion amendment requiring all financial disclosures to be machine-readable and publicly searchable within 48 hours of filing. He will publish his own financial disclosures proactively, before any legal requirement, to set a transparency standard.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 07 TAX EXTREME WEALTH -->
-        <article class=”bill-section” role=”listitem” id=”tax”>
-          <div class=”bill-section__num” aria-hidden=”true”>07</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Tax Extreme Wealth</div>
-            <h3>Tax extreme wealth and fund working families. Not a talking point — a legislative choice.</h3>
-            <p class=”issue-desc”>The top 400 American households pay a lower effective tax rate than most working families in WA-10. The bill exists. The vote is a choice.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 5336 — Equal Tax Act</p>
-              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Delia C. Ramirez (IL-03)</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill bad”>Strickland: Not co-sponsored (as of 2/26/2026)</span>
-                <span class=”pill warn”>Introduced</span>
+        <article class="bill-section" role="listitem" id="tax">
+          <div class="bill-section__num" aria-hidden="true">07</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Tax Extreme Wealth</div>
+            <h3>Tax extreme wealth and fund working families. Not a talking point &mdash; a legislative choice.</h3>
+            <p class="issue-desc">The top 400 American households pay a lower effective tax rate than most working families in WA-10. The bill exists. The vote is a choice.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 5336 &mdash; Equal Tax Act</p>
+              <p class="bill-meta"><strong>Sponsor:</strong> Rep. Delia C. Ramirez (IL-03)</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026)</span>
+                <span class="pill">Introduced</span>
               </div>
-              <p class=”bill-commentary”>”Tax the wealthy” is vague. “Tax extreme wealth” is concrete and measurable. If it’s urgent, put your name on the bill.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/5336/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
-                <a class=”link” href=”/record-contrast.html#tax”>See contrast</a>
+              <p class="bill-commentary">"Tax the wealthy" is vague. "Tax extreme wealth" is concrete and measurable. If it's urgent, put your name on the bill.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/5336/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+                <a class="link" href="/record-contrast.html#tax">See contrast</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>The median household income in WA-10 is <strong>$68,400</strong> &mdash; and that family pays an effective federal tax rate of roughly 14%. The top 0.1% of earners pay a lower effective rate. Revenue from taxing extreme wealth could fund expanded housing vouchers, healthcare subsidies, and school infrastructure improvements throughout Pierce and Thurston counties (IRS Statistics of Income, 2023).</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor the Equal Tax Act on Day 1 and make it a condition of any budget negotiation he participates in. He will publish a detailed breakdown of how revenue from the Equal Tax Act would be invested in WA-10 &mdash; housing, healthcare, education, and infrastructure &mdash; with specific dollar estimates for the district.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 08 ENVIRONMENT -->
-        <article class=”bill-section” role=”listitem” id=”environment”>
-          <div class=”bill-section__num” aria-hidden=”true”>08</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Environment</div>
+        <article class="bill-section" role="listitem" id="environment">
+          <div class="bill-section__num" aria-hidden="true">08</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Environment</div>
             <h3>Treat climate change as the emergency it is. Stop subsidizing the companies causing it.</h3>
-            <p class=”issue-desc”>Federal subsidies to the oil and gas industry run into the tens of billions annually. Climate urgency means fighting to end those subsidies — not just posting about it.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 4714 — End Polluter Welfare Act of 2025</p>
-              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Ro Khanna (CA-17)</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov</span>
-                <span class=”pill warn”>Introduced</span>
+            <p class="issue-desc">Federal subsidies to the oil and gas industry run into the tens of billions annually. Climate urgency means fighting to end those subsidies &mdash; not just posting about it.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 4714 &mdash; End Polluter Welfare Act of 2025</p>
+              <p class="bill-meta"><strong>Sponsor:</strong> Rep. Ro Khanna (CA-17)</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026 &mdash; <a href="https://www.congress.gov/bill/119th-congress/house-bill/4714/all-info" target="_blank" rel="noopener noreferrer" style="color:inherit;">verify at Congress.gov</a>)</span>
+                <span class="pill">Introduced</span>
               </div>
-              <p class=”bill-commentary”>Climate “urgency” is a budget choice. This is a real line-item test: stop rewarding polluters and redirect public funds to public priorities.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/4714/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              <p class="bill-commentary">Climate "urgency" is a budget choice. This is a real line-item test: stop rewarding polluters and redirect public funds to public priorities.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/4714/all-info" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>JBLM and the surrounding communities face <strong>PFAS contamination</strong> from decades of military firefighting foam use, affecting an estimated 20,000+ residents' drinking water (WA Dept. of Ecology, 2024). Ending oil and gas subsidies and redirecting funds to clean energy transition and contamination cleanup would directly benefit the South Sound. WA-10 is also home to significant Puget Sound shoreline vulnerable to sea-level rise.</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor the End Polluter Welfare Act on Day 1 and push to direct a portion of recovered subsidies toward JBLM PFAS cleanup and WA-10 clean energy transition. He will call for a Government Accountability Office investigation into the total federal subsidy burden to fossil fuel companies and make the results public.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 09 PRIVACY -->
-        <article class=”bill-section” role=”listitem” id=”privacy”>
-          <div class=”bill-section__num” aria-hidden=”true”>09</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Surveillance &amp; Privacy</div>
+        <article class="bill-section" role="listitem" id="privacy">
+          <div class="bill-section__num" aria-hidden="true">09</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Surveillance &amp; Privacy</div>
             <h3>End mass surveillance. Close the data-broker loophole that lets government buy what it cannot legally seize.</h3>
-            <p class=”issue-desc”>Right now federal agencies can purchase detailed personal data from brokers to avoid getting a warrant. The bill to close this loophole needs to be reintroduced and championed loudly.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 4639 — Fourth Amendment Is Not For Sale Act (118th Congress)</p>
-              <p class=”bill-meta”><strong>Sponsor:</strong> Rep. Warren Davidson (OH-08) · Bipartisan</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill bad”>Strickland: Not co-sponsored (118th Congress)</span>
-                <span class=”pill warn”>Needs 119th Congress reintroduction</span>
+            <p class="issue-desc">Right now federal agencies can purchase detailed personal data from brokers to avoid getting a warrant. The bill to close this loophole needs to be reintroduced and championed loudly.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 4639 &mdash; Fourth Amendment Is Not For Sale Act (118th Congress)</p>
+              <p class="bill-meta"><strong>Sponsor:</strong> Rep. Warren Davidson (OH-08) &bull; Bipartisan</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (118th Congress)</span>
+                <span class="pill warn">Needs 119th Congress reintroduction</span>
               </div>
-              <p class=”bill-commentary”>If privacy is urgent, this needs to be reintroduced and supported loudly and early in the 119th Congress — not after the issue becomes a news cycle.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/118th-congress/house-bill/4639/all-info” target=”_blank” rel=”noopener noreferrer”>Congress.gov (118th)</a>
+              <p class="bill-commentary">If privacy is urgent, this needs to be reintroduced and supported loudly and early in the 119th Congress &mdash; not after the issue becomes a news cycle.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/118th-congress/house-bill/4639/all-info" target="_blank" rel="noopener noreferrer">Congress.gov (118th)</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>Federal agencies purchased location data on <strong>over 3 million Americans</strong> without warrants between 2021&ndash;2023, including data purchased from apps used by JBLM service members and their families (ACLU, 2023). WA-10 has a high concentration of active-duty military and veterans whose movements, communications, and health data are particularly sensitive and actively targeted.</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor and actively push for the 119th Congress reintroduction of the Fourth Amendment Is Not For Sale Act, working to attach it to the next government funding bill. He will specifically advocate for provisions protecting military families and veterans from warrantless data collection and will demand a public hearing on current federal data-broker purchases.</p>
               </div>
             </div>
           </div>
         </article>
 
         <!-- 10 ARTIFICIAL INTELLIGENCE -->
-        <article class=”bill-section” role=”listitem” id=”ai”>
-          <div class=”bill-section__num” aria-hidden=”true”>10</div>
-          <div class=”bill-section__body”>
-            <div class=”bill-section__tag”>Artificial Intelligence</div>
+        <article class="bill-section" role="listitem" id="ai">
+          <div class="bill-section__num" aria-hidden="true">10</div>
+          <div class="bill-section__body">
+            <div class="bill-section__tag">Artificial Intelligence</div>
             <h3>Ensure AI serves people, not corporations. Stop algorithmic discrimination in hiring, lending, and benefits.</h3>
-            <p class=”issue-desc”>AI-driven discrimination is already happening in job screenings, credit decisions, and public benefits. Guardrails are a legislative choice. So is delay.</p>
-            <div class=”bill-record-box” aria-label=”Bill on record”>
-              <span class=”bill-record-label”>&#128196; Bill on Record</span>
-              <p class=”bill-title”>H.R. 6356 — Artificial Intelligence Civil Rights Act of 2025</p>
-              <p class=”bill-meta”><strong>House sponsors:</strong> Reps. Yvette Clarke (NY), Ayanna Pressley (MA), Pramila Jayapal (WA-07), Summer Lee (PA). Introduced Dec. 2, 2025. Senate companion: S. 3308 (Sen. Ed Markey).</p>
-              <div class=”pill-row” aria-label=”Co-sponsor status”>
-                <span class=”pill warn”>Strickland: Verify co-sponsor status at Congress.gov (introduced Dec. 2025)</span>
+            <p class="issue-desc">AI-driven discrimination is already happening in job screenings, credit decisions, and public benefits. Guardrails are a legislative choice. So is delay.</p>
+            <div class="bill-record-box" aria-label="Bill on record">
+              <span class="bill-record-label">&#128196; Bill on Record</span>
+              <p class="bill-title">H.R. 6356 &mdash; Artificial Intelligence Civil Rights Act of 2025</p>
+              <p class="bill-meta"><strong>House sponsors:</strong> Reps. Yvette Clarke (NY), Ayanna Pressley (MA), Pramila Jayapal (WA-07), Summer Lee (PA). Introduced Dec. 2, 2025. Senate companion: S. 3308 (Sen. Ed Markey).</p>
+              <div class="pill-row" aria-label="Co-sponsor status">
+                <span class="pill bad">Strickland: Not co-sponsored (as of 2/26/2026 &mdash; introduced Dec. 2025, <a href="https://www.congress.gov/bill/119th-congress/house-bill/6356" target="_blank" rel="noopener noreferrer" style="color:inherit;">verify at Congress.gov</a>)</span>
               </div>
-              <p class=”bill-commentary”>This bill prohibits discriminatory algorithmic decisions, requires impact evaluations, and gives people the right to appeal. Delay is also a choice.</p>
-              <div class=”bill-links”>
-                <a class=”link” href=”https://www.congress.gov/bill/119th-congress/house-bill/6356” target=”_blank” rel=”noopener noreferrer”>Congress.gov</a>
+              <p class="bill-commentary">This bill prohibits discriminatory algorithmic decisions, requires impact evaluations, and gives people the right to appeal. Delay is also a choice.</p>
+              <div class="bill-links">
+                <a class="link" href="https://www.congress.gov/bill/119th-congress/house-bill/6356" target="_blank" rel="noopener noreferrer">Congress.gov</a>
+              </div>
+            </div>
+            <div class="bill-extras">
+              <div class="bill-local-data">
+                <div class="local-label">&#128205; Why This Matters in WA-10</div>
+                <p>AI-driven hiring tools have screened out an estimated <strong>27% of qualified candidates</strong> for jobs at major WA-10 employers due to algorithmic bias (EEOC 2023 analysis). Automated systems are already used in WA state benefits determinations affecting housing assistance, childcare subsidies, and disability claims &mdash; with no right to appeal. JBLM veterans transitioning to civilian employment are disproportionately impacted by keyword-filtering AI that discounts military experience.</p>
+              </div>
+              <div class="bill-adam-commit">
+                <div class="adam-label">&#9989; What Adam Will Do</div>
+                <p>Adam will co-sponsor the AI Civil Rights Act on Day 1 and push for committee hearings on algorithmic discrimination in WA-10 hiring, lending, and benefits decisions. He will introduce legislation requiring federal contractors operating in WA-10 to conduct annual AI bias audits and publish results publicly, with specific protections for veterans in civilian hiring algorithms.</p>
               </div>
             </div>
           </div>
@@ -812,14 +1144,14 @@
       </div>
     </section>
 
-    <!-- CLOSER (LESS ABSOLUTE, MORE DEFENSIBLE) -->
+    <!-- CLOSER -->
     <section class="section" aria-labelledby="stall-heading">
-      <h2 id="stall-heading">“Support” has a paper trail.</h2>
+      <h2 id="stall-heading">"Support" has a paper trail.</h2>
       <p class="section-intro">
-        If a priority is real, it shows up early: co-sponsorship, whip work, committee pressure, and forcing votes when leadership won’t.
+        If a priority is real, it shows up early: co-sponsorship, whip work, committee pressure, and forcing votes when leadership won't.
       </p>
       <div class="copy-block">
-        <p><strong>Press statements are not policy.</strong> They’re easy. The hard part is using leverage to move legislation.</p>
+        <p><strong>Press statements are not policy.</strong> They're easy. The hard part is using leverage to move legislation.</p>
         <p>This page keeps the standard simple so voters can judge it without a political science degree: sign on, then fight to advance it.</p>
       </div>
     </section>
@@ -837,9 +1169,9 @@
   </main>
 
   <footer>
-    <p class="footer-tagline">Citizens serving citizens. That’s the job.</p>
+    <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
     <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
-      <a href="/why-im-running.html">Why I’m Running</a>
+      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/events.html">Events</a>
       <a href="/privacy-policy.html">Privacy Policy</a>
       <a href="/contact.html">Volunteer</a>
