@@ -1,6 +1,7 @@
 const SPREADSHEET_ID  = '1QsCLdoqe4h_vtifUfbJFKOWHk_zAcNEnc6aXeQ8mLRY';
 const SIGNATURES_SHEET = 'signatures';
 const SUBMISSIONS_SHEET = 'submissions';
+const OUTREACH_SHEET = 'outreach';
 const STORE_RAW_EMAIL  = true;
 
 const CACHE_KEY  = 'counts_v1';
@@ -81,10 +82,8 @@ function saveLeadSubmission(body, ip, userAgent) {
   const actionType = sanitize(body.actionType);
   const topic = sanitize(body.topic);
 
-  if (!fullName) throw new Error('Full name is required.');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Invalid email.');
-  if (!/^\d{5}$/.test(zip)) throw new Error('ZIP code must be 5 digits.');
-  if (!message) throw new Error('Message is required.');
+  if (zip && !/^\d{5}$/.test(zip)) throw new Error('ZIP code must be 5 digits.');
   if (!consent) throw new Error('Consent is required.');
   if (!actionType) throw new Error('actionType is required.');
 
@@ -111,7 +110,60 @@ function saveLeadSubmission(body, ip, userAgent) {
     userAgent
   ]);
 
+  saveOutreachRow({
+    fullName,
+    email,
+    zip,
+    message,
+    source,
+    actionType,
+    topic,
+    timestamp: new Date()
+  });
+
   return out({ ok: true, actionType, source });
+}
+
+function saveOutreachRow(lead) {
+  const headers = [
+    'Contact ID', 'First Name', 'Last Name', 'Full Address', 'Contact Method', 'Date Contacted',
+    'Response', 'Notes', 'Follow-Up Needed?', 'Follow-Up Date', 'Assigned To', 'Ward/Precinct',
+    'City', 'Zip', 'Phone', 'Email', 'Volunteer Interest?', 'Donor Interest?', 'Issue Priority'
+  ];
+  ensureHeader(OUTREACH_SHEET, headers);
+  const sh = sheet(OUTREACH_SHEET);
+
+  const parts = String(lead.fullName || '').trim().split(/\s+/).filter(Boolean);
+  const firstName = parts[0] || '';
+  const lastName = parts.slice(1).join(' ');
+  const contactId = 'lead_' + Utilities.formatDate(lead.timestamp || new Date(), Session.getScriptTimeZone(), 'yyyyMMdd_HHmmss') + '_' + Math.floor(Math.random() * 10000);
+  const response = (lead.actionType || '').toLowerCase().includes('story') ? 'story-submitted' : 'new';
+  const noteParts = [];
+  if (lead.topic) noteParts.push('Topic: ' + lead.topic);
+  if (lead.message) noteParts.push(lead.message);
+  if (lead.actionType) noteParts.push('Action: ' + lead.actionType);
+
+  sh.appendRow([
+    contactId,
+    firstName,
+    lastName,
+    '',
+    lead.source || 'website-form',
+    Utilities.formatDate(lead.timestamp || new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd'),
+    response,
+    noteParts.join(' | '),
+    '',
+    '',
+    '',
+    '',
+    '',
+    lead.zip || '',
+    '',
+    STORE_RAW_EMAIL ? (lead.email || '') : '',
+    'Yes',
+    '',
+    lead.topic || ''
+  ]);
 }
 
 function saveSignature(body, e) {

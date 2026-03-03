@@ -12,7 +12,7 @@ function requireEnv(name) {
 function getSignupEndpoint() {
   const value = process.env.SIGNUP_ENDPOINT;
   if (!value || !String(value).trim()) {
-    return 'SIGNUP_ENDPOINT_PLACEHOLDER';
+    return 'https://formsubmit.co/ajax/volunteer@arafatforcongress.org';
   }
   return String(value).trim();
 }

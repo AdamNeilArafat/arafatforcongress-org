@@ -463,7 +463,7 @@
       <div class="outreach-log-header">
         <div>
           <div class="outreach-log-title">&#128229; Outreach Log Inbox</div>
-          <div class="outreach-log-subtitle">Email submissions from contact page &rarr; add entries manually below</div>
+          <div class="outreach-log-subtitle">Email + form submissions &rarr; auto-sync from Google Sheet/App Script when connected</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <a class="dash-btn" href="mailto:volunteer@arafatforcongress.org" style="background:rgba(29,79,168,0.10);color:var(--brand);border-color:rgba(29,79,168,0.25);">Open inbox &rarr;</a>
@@ -476,7 +476,7 @@
         </div>
         <div id="outreach-log-rows">
           <div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">
-            No outreach logs yet. Add one below or check volunteer@arafatforcongress.org for submitted forms.
+            No local outreach logs yet. Add one below or connect Google Sheet/App Script for live intake sync.
           </div>
         </div>
 
@@ -1019,16 +1019,23 @@
   });
 
   /* -------- INIT -------- */
-  async function init() {
-    setDate();
-    loadLocal();
+  async function refreshRemoteData() {
     const sheetsUrl = localStorage.getItem(LS_SHEETS) || DEFAULT_SHEETS_URL;
-    document.getElementById('sheets-url-input').value = sheetsUrl;
     const volUrl = localStorage.getItem(LS_VOL) || DEFAULT_VOL_URL;
+    document.getElementById('sheets-url-input').value = sheetsUrl;
     document.getElementById('vol-url-input').value = volUrl;
     const fetches = [fetchSheets(sheetsUrl), fetchVolSheet(volUrl)];
     await Promise.all(fetches);
     mergeAndRender();
+  }
+
+  async function init() {
+    setDate();
+    loadLocal();
+    await refreshRemoteData();
+    setInterval(() => {
+      refreshRemoteData().catch(() => {});
+    }, 60000);
   }
 
   function setDate() {
@@ -1464,9 +1471,7 @@
   });
 
   document.getElementById('refresh-btn').addEventListener('click', async () => {
-    const url = localStorage.getItem(LS_SHEETS);
-    if (url) { await fetchSheets(url); }
-    mergeAndRender();
+    await refreshRemoteData();
   });
 
   /* -------- OUTREACH LOG INBOX -------- */
@@ -1483,7 +1488,7 @@
   function renderOutreachLog() {
     const container = document.getElementById('outreach-log-rows');
     if (!outreachLogs.length) {
-      container.innerHTML = '<div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">No outreach logs yet. Add one below or check volunteer@arafatforcongress.org for submitted forms.</div>';
+      container.innerHTML = '<div style="padding:20px 0;color:var(--muted);font-size:.88rem;text-align:center;">No local outreach logs yet. Add one below or connect Google Sheet/App Script for live intake sync.</div>';
       return;
     }
     const rows = [...outreachLogs].reverse().map(log => `
