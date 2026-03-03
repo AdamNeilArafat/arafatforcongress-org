@@ -11,7 +11,8 @@
   <meta property="og:url" content="https://arafatforcongress.org/events.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://arafatforcongress.org/events.html" />
-  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <meta name="ga-measurement-id" content="G-9XQ4W6E2H1" />
+  <meta name="campaign-signup-endpoint" content="https://formsubmit.co/ajax/volunteer@arafatforcongress.org" />
   <link rel="stylesheet" href="styles.css" />
   <style>
     :root{
@@ -109,13 +110,8 @@
     }
   </style>
   <script src="/js/analytics.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-PLACEHOLDER');
-  </script>
+  <script src="/js/main.js" defer></script>
+  <script src="/js/ga-loader.js"></script>
 </head>
 <body>
   <header class="site-header" role="banner">
@@ -251,20 +247,6 @@
           drawer.hidden = isOpen;
         });
       }
-
-      /* ---- Notify form ---- */
-      var notifyForm = document.getElementById('event-notify-form');
-      if(notifyForm){
-        notifyForm.addEventListener('submit', function(e){
-          e.preventDefault();
-          var email = document.getElementById('notify-email').value.trim();
-          var feedback = document.getElementById('notify-feedback');
-          if(!email){ feedback.textContent = 'Please enter your email.'; return; }
-          feedback.textContent = 'Got it! We\'ll notify you when events are scheduled near you.';
-          notifyForm.reset();
-        });
-      }
-
       /* ---- Conditional Event Render ----
          Fetches /data/events.json. If the file has events, renders them.
          If empty or fetch fails, shows the "no events" / Host an Event CTA.

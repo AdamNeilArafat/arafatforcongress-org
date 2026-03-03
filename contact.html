@@ -17,7 +17,8 @@
   <meta name="twitter:image" content="https://arafatforcongress.org/assets/share/og-home.svg" />
   <link rel="canonical" href="https://arafatforcongress.org/contact.html" />
 
-  <meta name="ga-measurement-id" content="G-PLACEHOLDER" />
+  <meta name="ga-measurement-id" content="G-9XQ4W6E2H1" />
+<meta name="campaign-signup-endpoint" content="https://formsubmit.co/ajax/volunteer@arafatforcongress.org" />
   <link rel="stylesheet" href="styles.css" />
 
   <style>
@@ -169,13 +170,7 @@
 
   <!-- Site analytics and advanced tracking -->
   <script src="/js/analytics.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-PLACEHOLDER');
-  </script>
+  <script src="/js/ga-loader.js"></script>
 </head>
 
 <body>
@@ -754,45 +749,6 @@
         a.setAttribute('href', map[net]);
         a.setAttribute('target', '_blank');
         a.setAttribute('rel', 'noopener noreferrer');
-      });
-    })();
-  </script>
-  <script>
-    // Quick signup form on contact page
-    (function(){
-      var qForm = document.getElementById('contact-quick-form');
-      var qFeedback = document.getElementById('contact-quick-feedback');
-      if (!qForm) return;
-      qForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var email = document.getElementById('contact-quick-email').value.trim();
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          qFeedback.textContent = 'Please enter a valid email address.';
-          return;
-        }
-        var subject = encodeURIComponent('New Volunteer Signup');
-        var body = encodeURIComponent('Email: ' + email + '\nSource: contact-page-quick-signup\n\nPlease follow up to get this person involved.');
-        var endpointMeta = document.querySelector('meta[name="campaign-signup-endpoint"]');
-        var endpoint = endpointMeta ? endpointMeta.content.trim() : '';
-        if (endpoint && endpoint !== 'SIGNUP_ENDPOINT_PLACEHOLDER') {
-          fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, source: 'contact-page-quick-signup' })
-          }).then(function(r) {
-            if (r.ok) {
-              qFeedback.textContent = "Got it! Someone from the team will be in touch.";
-              qForm.reset();
-            } else {
-              window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
-            }
-          }).catch(function() {
-            window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
-          });
-        } else {
-          window.location.href = 'mailto:volunteer@arafatforcongress.org?subject=' + subject + '&body=' + body;
-          qFeedback.textContent = "Opening your email app — or email volunteer@arafatforcongress.org directly.";
-        }
       });
     })();
   </script>
