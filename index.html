@@ -630,6 +630,8 @@
     .signup-field input:focus-visible{ outline:3px solid rgba(29,79,168,.22); outline-offset:2px; }
     .signup-feedback{ min-height:1.5rem; margin:0; font-weight:700; }
     .privacy-note{ margin:0; font-size:.92rem; color:var(--muted); }
+    .consent-row{display:grid;grid-template-columns:auto 1fr;align-items:start;column-gap:8px;row-gap:4px;text-align:left;}
+    .consent-row input[type="checkbox"]{margin-top:2px;}
 
     footer{
       background:#fff;
@@ -1037,8 +1039,8 @@
               <input id="signup-message" name="message" required placeholder="Canvassing, phonebanking, hosting, digital outreach..." />
             </div>
           </div>
-          <label style="display:flex;align-items:flex-start;gap:8px;font-size:.87rem;color:var(--muted);line-height:1.45;">
-            <input id="signup-consent" name="consent" type="checkbox" required style="margin-top:2px;" />
+          <label class="consent-row" style="font-size:.87rem;color:var(--muted);line-height:1.45;">
+            <input id="signup-consent" name="consent" type="checkbox" required />
             <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
           </label>
           <button class="btn-home btn-volunteer" type="submit">Join the campaign</button>

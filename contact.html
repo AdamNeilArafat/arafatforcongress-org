@@ -136,6 +136,8 @@
     .area-status { display:block; font-size:.76rem; font-weight:700; color:var(--muted); margin-top:3px; }
     textarea{min-height:150px;resize:vertical}
     .disclaimer{color:var(--muted);font-size:14px;margin:0}
+    .consent-row{display:grid;grid-template-columns:auto 1fr;align-items:start;column-gap:8px;row-gap:4px;text-align:left}
+    .consent-row input[type="checkbox"]{margin-top:2px}
     .hint{color:var(--muted);font-size:14px;margin:0}
 
     /* SHARE STRIP (MOVED DOWN) */
@@ -583,8 +585,8 @@
         <label for="volunteer-message">How would you like to help? <span aria-hidden="true">*</span></label>
         <textarea id="volunteer-message" name="message" required rows="4" placeholder="Share your availability, skills, or neighborhoods you can support."></textarea>
       </div>
-      <label class="disclaimer" style="display:flex;align-items:flex-start;gap:8px;">
-        <input type="checkbox" name="consent" required style="margin-top:2px;" />
+      <label class="disclaimer consent-row">
+        <input type="checkbox" name="consent" required />
         <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
       </label>
       <div class="hero__actions">
@@ -662,8 +664,8 @@
         <textarea id="storyText" name="message" required placeholder="Write what you want us to know..." rows="5"></textarea>
       </div>
 
-      <label class="disclaimer" style="display:flex;align-items:flex-start;gap:8px;">
-        <input type="checkbox" name="consent" required style="margin-top:2px;" />
+      <label class="disclaimer consent-row">
+        <input type="checkbox" name="consent" required />
         <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
       </label>
 
