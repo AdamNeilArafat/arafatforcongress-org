@@ -21,19 +21,64 @@ async function api(path, opts = {}) {
   return payload;
 }
 
+function safeNumber(value) {
+  return Number.isFinite(Number(value)) ? Number(value) : 0;
+}
+
 function showKpis(data) {
   document.getElementById('kpis').innerHTML = [
     ['Voters', data.voters],
     ['Households', data.households],
     ['Interactions', data.interactions],
     ['Annotations', data.annotations]
-  ].map(([k, v]) => `<div class="card"><strong>${v}</strong><div class="muted">${k}</div></div>`).join('');
+  ].map(([k, v]) => `<div class="card"><strong>${safeNumber(v)}</strong><div class="muted">${k}</div></div>`).join('');
+}
+
+function showDataQuality(quality = {}) {
+  const latestImport = quality.latestImportAt ? new Date(quality.latestImportAt).toLocaleString() : 'None yet';
+  const noteCoverage = Number.isFinite(quality.interactionNoteCoveragePct)
+    ? `${quality.interactionNoteCoveragePct}%`
+    : 'No interactions yet';
+
+  document.getElementById('dataQuality').innerHTML = [
+    `Deterministic geocodes (review recommended): <strong>${safeNumber(quality.deterministicGeocodes)}</strong>`,
+    `CSV geocodes: <strong>${safeNumber(quality.csvGeocodes)}</strong>`,
+    `Interaction note coverage: <strong>${noteCoverage}</strong>`,
+    `Latest import: <strong>${latestImport}</strong>`,
+    `Latest reject rate: <strong>${Number.isFinite(quality.latestImportRejectRatePct) ? `${quality.latestImportRejectRatePct}%` : 'N/A'}</strong>`
+  ].join('<br>');
+}
+
+function showLiveFeed(liveFeed = {}) {
+  const metrics = liveFeed.publicMetrics || {};
+  const outreach = liveFeed.outreachData || {};
+  const staleFlag = outreach.stale ? '⚠️ Possibly stale' : '✅ Fresh';
+
+  document.getElementById('liveFeedKpis').innerHTML = [
+    ['Live Doors', metrics.doorsKnocked],
+    ['Live Calls', metrics.callsMade],
+    ['Live Texts', metrics.textsSent],
+    ['Outreach Contacts', outreach.totalOutreachContacts]
+  ].map(([k, v]) => `<div class="card"><strong>${safeNumber(v)}</strong><div class="muted">${k}</div></div>`).join('');
+
+  const metricsUpdated = metrics.lastUpdated ? new Date(metrics.lastUpdated).toLocaleString() : 'Unavailable';
+  const outreachPull = outreach.dataPullDate ? new Date(outreach.dataPullDate).toLocaleString() : 'Unavailable';
+
+  document.getElementById('liveFeedMeta').innerHTML = [
+    `Feed source: <strong>${liveFeed.source || 'Unknown'}</strong>`,
+    `Public metrics updated: <strong>${metricsUpdated}</strong>`,
+    `Outreach pull date: <strong>${outreachPull}</strong>`,
+    `Feed freshness: <strong>${staleFlag}</strong>`,
+    outreach.staleReason ? `Stale reason: <strong>${outreach.staleReason}</strong>` : ''
+  ].filter(Boolean).join('<br>');
 }
 
 async function refreshDashboard() {
   if (!state.token) return;
   const d = await api('/api/dashboard');
   showKpis(d);
+  showDataQuality(d.dataQuality);
+  showLiveFeed(d.liveFeed);
   const audit = await api('/api/audit');
   document.getElementById('audit').innerHTML = audit.slice(0, 8).map((a) => `${new Date(a.timestamp).toLocaleString()} · ${a.action}`).join('<br>');
 }
