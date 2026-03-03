@@ -21,7 +21,7 @@
   <link rel="alternate" hreflang="en" href="https://arafatforcongress.org/" />
   <link rel="alternate" hreflang="es" href="https://arafatforcongress.org/es/" />
   <meta name="ga-measurement-id" content="G-9XQ4W6E2H1" />
-  <meta name="campaign-signup-endpoint" content="https://formsubmit.co/ajax/volunteer@arafatforcongress.org" />
+  <meta name="campaign-signup-endpoint" content="SIGNUP_ENDPOINT_PLACEHOLDER" />
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="assets/site.css" />
@@ -697,7 +697,14 @@
       "description": "Turn urgency into action. People over donors."
     }
   </script>
-  <script src="/js/ga-loader.js"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9XQ4W6E2H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9XQ4W6E2H1');
+  </script>
 </head>
 
 <body>
@@ -804,18 +811,6 @@
           <li>
             <span class="metrics-label">Town halls held</span>
             <span class="metrics-value" id="metric-townhalls">—</span>
-          </li>
-          <li>
-            <span class="metrics-label">Endorsements (confirmed)</span>
-            <span class="metrics-value" id="metric-endorsements-confirmed">—</span>
-          </li>
-          <li>
-            <span class="metrics-label">Endorsements (pending)</span>
-            <span class="metrics-value" id="metric-endorsements-pending">—</span>
-          </li>
-          <li>
-            <span class="metrics-label">Endorsements (outreach)</span>
-            <span class="metrics-value" id="metric-endorsements-outreach">—</span>
           </li>
         </ul>
         <p class="metrics-strip__methodology" id="metrics-methodology">Methodology: Loading…</p>
@@ -1076,9 +1071,8 @@
     <section class="section" id="press-path" aria-labelledby="press-path-title">
       <h2 id="press-path-title">For press &amp; endorsers</h2>
       <div class="cta-band">
-        <p>Looking for background, policy context, or endorsement details? Reach the campaign directly and review current endorsements in one place.</p>
+        <p>Looking for background, policy context, or interview coordination? Reach the campaign directly.</p>
         <div class="cta-band__buttons">
-          <a class="btn-home btn-record" href="/endorsements.html">Endorsements</a>
           <a class="btn-home btn-volunteer" href="mailto:info@arafatforcongress.org">Email press desk</a>
         </div>
       </div>
