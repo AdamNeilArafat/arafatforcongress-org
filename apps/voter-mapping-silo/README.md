@@ -51,3 +51,24 @@ Recommended columns:
 ```bash
 npm run silo:test
 ```
+
+
+## Website-accessible deployment pattern (piggyback + separation)
+Use the campaign domain as a launch surface while keeping the silo isolated:
+
+1. Keep the silo process running separately (`npm run silo:start`) with its own environment secrets.
+2. Publish it behind a reverse proxy path such as `https://arafatforcongress.org/silo/` -> `http://127.0.0.1:4177/`.
+3. Use `/admin/silo-dashboard.html` as the website launchpad and URL switchboard.
+4. Continue using `/admin/volunteer-dashboard.html` as the original operational dashboard.
+
+Minimal nginx example:
+
+```nginx
+location /silo/ {
+  proxy_pass http://127.0.0.1:4177/;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+

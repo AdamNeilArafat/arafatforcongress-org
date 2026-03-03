@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Silo Dashboard Launchpad | Arafat for Congress WA-10</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f3f5fb;color:#07152b;margin:0}
+    main{max-width:860px;margin:0 auto;padding:28px 18px 40px}
+    .card{background:#fff;border:1px solid #d8e0ef;border-radius:12px;padding:18px 20px;margin-bottom:14px}
+    h1{font-size:1.35rem;margin-bottom:6px}
+    .muted{color:#51607b;font-size:.92rem;line-height:1.5}
+    input,button{font:inherit;padding:10px 12px;border-radius:8px;border:1px solid #c7d4ea}
+    input{width:100%;margin:8px 0}
+    button{background:#1d4fa8;color:#fff;font-weight:700;cursor:pointer}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    a.btn{display:inline-block;padding:10px 12px;background:#07152b;color:#fff;text-decoration:none;border-radius:8px;font-weight:700}
+    ul{margin:8px 0 0 20px;line-height:1.5}
+    code{background:#f0f4fc;padding:2px 5px;border-radius:6px}
+  </style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <h1>Silo Dashboard Launchpad</h1>
+    <p class="muted">This page stays on your main site domain while launching the voter-mapping silo at a separate URL. Default production path is <code>https://arafatforcongress.org/silo/app/</code>.</p>
+    <label for="siloUrl"><strong>Silo URL</strong></label>
+    <input id="siloUrl" type="url" placeholder="https://arafatforcongress.org/silo/app/">
+    <div class="actions">
+      <button id="save">Save URL</button>
+      <a class="btn" id="openSilo" href="https://arafatforcongress.org/silo/app/" target="_blank" rel="noopener">Open Silo Dashboard ↗</a>
+      <a class="btn" href="/admin/volunteer-dashboard.html">Open Original Dashboard ↗</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Separation model (kept siloed)</h2>
+    <ul>
+      <li>Main campaign website remains public at <code>arafatforcongress.org</code>.</li>
+      <li>Silo runs under separate path/subdomain and keeps its own auth/token/data store.</li>
+      <li>Only summary bridge data is shared into the silo (public metrics/outreach/volunteer snapshot).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Improvement options review</h2>
+    <ul>
+      <li>Move silo auth from PIN to SSO + MFA before production volunteers use it.</li>
+      <li>Add role-based permissions (import-only, canvass-only, admin).</li>
+      <li>Add encrypted storage + backups for <code>apps/voter-mapping-silo/data/store.json</code>.</li>
+      <li>Add daily alert if volunteer sync is stale or import reject rate spikes.</li>
+      <li>Deploy silo at <code>/silo/</code> reverse proxy so it has a stable URL under the campaign domain.</li>
+    </ul>
+  </div>
+</main>
+<script>
+  const key = 'siloDashboardUrl';
+  const fallback = 'https://arafatforcongress.org/silo/app/';
+  const input = document.getElementById('siloUrl');
+  const openSilo = document.getElementById('openSilo');
+
+  function setUrl(url) {
+    openSilo.href = url;
+    input.value = url;
+  }
+
+  const initial = localStorage.getItem(key) || fallback;
+  setUrl(initial);
+
+  document.getElementById('save').addEventListener('click', () => {
+    const v = input.value.trim();
+    if (!v || !/^https?:\/\//.test(v)) {
+      alert('Enter a full http(s) URL.');
+      return;
+    }
+    localStorage.setItem(key, v);
+    setUrl(v);
+    alert('Silo URL saved for this browser.');
+  });
+</script>
+</body>
+</html>
