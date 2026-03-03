@@ -22,6 +22,7 @@
   <meta name="campaign-signup-endpoint" content="https://formsubmit.co/ajax/volunteer@arafatforcongress.org" />
 
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/site.css" />
 
   <style>
     :root{
@@ -806,10 +807,10 @@
           <strong style="display:block;margin-bottom:3px;font-weight:800;">Goal: 1,000 donors by June 30 &rarr; unlocks full voter contact + phone bank infrastructure</strong>
           Reaching 1,000 donors from WA-10 families gives this campaign the grassroots signal that moves endorsers, media, and undecided voters. No corporate PAC money — just neighbors building something together.
         </div>
-        <div class="fundraising-cta" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-          <a class="btn-home" href="https://secure.actblue.com/donate/adam-arafat-1?amount=10" target="_blank" rel="noopener noreferrer" style="background:rgba(29,79,168,0.10);color:var(--navy);border:1px solid rgba(29,79,168,0.25);border-radius:10px;padding:9px 16px;text-decoration:none;font-weight:800;font-size:.92rem;">Chip in $10</a>
-          <a class="btn-home" href="https://secure.actblue.com/donate/adam-arafat-1?amount=25" target="_blank" rel="noopener noreferrer" style="background:rgba(29,79,168,0.10);color:var(--navy);border:1px solid rgba(29,79,168,0.25);border-radius:10px;padding:9px 16px;text-decoration:none;font-weight:800;font-size:.92rem;">Chip in $25</a>
-          <a class="btn-home" href="https://secure.actblue.com/donate/adam-arafat-1?amount=50" target="_blank" rel="noopener noreferrer" style="background:rgba(29,79,168,0.10);color:var(--navy);border:1px solid rgba(29,79,168,0.25);border-radius:10px;padding:9px 16px;text-decoration:none;font-weight:800;font-size:.92rem;">Chip in $50</a>
+        <div class="fundraising-cta inline-cta-row" style="margin-bottom:10px;">
+          <a class="btn-home chip-btn" href="https://secure.actblue.com/donate/adam-arafat-1?amount=10" target="_blank" rel="noopener noreferrer">Chip in $10</a>
+          <a class="btn-home chip-btn" href="https://secure.actblue.com/donate/adam-arafat-1?amount=25" target="_blank" rel="noopener noreferrer">Chip in $25</a>
+          <a class="btn-home chip-btn" href="https://secure.actblue.com/donate/adam-arafat-1?amount=50" target="_blank" rel="noopener noreferrer">Chip in $50</a>
           <a class="btn-home btn-donate" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Other amount</a>
         </div>
         <p style="font-size:.82rem;color:var(--muted);font-weight:600;">
@@ -898,7 +899,7 @@
         </div>
       </div>
 
-      <div class="cta" style="justify-content:center; margin-top:16px;">
+      <div class="cta cta-center cta-top-lg">
         <a class="btn-home btn-record" href="/record-contrast.html">See the scorecard</a>
         <a class="btn-home btn-volunteer" href="/issues.html">See the bills</a>
       </div>
@@ -922,7 +923,7 @@
         <article class="issue-card" role="listitem"><h3>Artificial Intelligence</h3><p>Ensure AI serves people, not corporations.</p></article>
       </div>
 
-      <div class="cta" style="justify-content:center; margin-top:16px;">
+      <div class="cta cta-center cta-top-lg">
         <a class="btn-home btn-record" href="/issues.html">See the legislation</a>
         <a class="btn-home btn-volunteer" href="/record-contrast.html">Compare the record</a>
       </div>
@@ -977,7 +978,7 @@
           <p style="margin:0 0 4px;color:#fff;font-weight:800;font-size:1.05rem;">Quick join &mdash; just your email</p>
           <p style="margin:0;color:rgba(255,255,255,0.7);font-size:.9rem;">Stay informed on WA-10 progress. No spam, unsubscribe anytime.</p>
         </div>
-        <form id="quick-signup-form" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;" novalidate>
+        <form id="quick-signup-form" class="inline-cta-row" novalidate>
           <input type="email" id="quick-signup-email" placeholder="your@email.com" autocomplete="email" required
             style="min-height:44px;padding:0 14px;border-radius:10px;border:none;font:inherit;font-size:.95rem;min-width:220px;background:rgba(255,255,255,0.95);color:var(--navy);" />
           <button type="submit"
@@ -1025,19 +1026,19 @@
 
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
-    <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
+    <nav aria-label="Footer navigation" class="site-footer-nav">
       <a href="/events.html">Events</a>
       <a href="/privacy-policy.html">Privacy Policy</a>
       <a href="/contact.html">Volunteer</a>
       <a href="https://www.instagram.com/adam.neil.arafat.wa10?igsh=MXZudHU1cWN2dXpkcw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
     </nav>
     <strong>Paid for by Arafat for Congress</strong> &bull; <a href="mailto:info@arafatforcongress.org">info@arafatforcongress.org</a>
-    <p style="font-size:.78rem;margin:8px auto 0;max-width:780px;line-height:1.6;color:var(--muted);">
+    <p class="site-footer-legal">
       Contributions or gifts to Arafat for Congress are not tax-deductible.<br>
       Federal law requires us to use our best efforts to collect and report the name, mailing address, occupation, and name of employer of individuals whose contributions exceed $200 in a calendar year.
     </p>
-    <div style="margin-top:14px;">
-      <a href="/es/index.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,79,168,0.08);border:1px solid rgba(29,79,168,0.22);color:#091b36;font-weight:700;font-size:.92rem;padding:8px 16px;border-radius:999px;text-decoration:none;" aria-label="View full Spanish version of this site">&#127760; Ver en Espa&ntilde;ol</a>
+    <div class="lang-pill-wrap">
+      <a href="/es/index.html" class="lang-pill" aria-label="View full Spanish version of this site">&#127760; Ver en Espa&ntilde;ol</a>
     </div>
   </footer>
 
