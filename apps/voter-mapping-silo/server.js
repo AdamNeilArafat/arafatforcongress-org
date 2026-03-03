@@ -8,6 +8,8 @@ const PORT = Number(process.env.SILO_PORT || 4177);
 const DATA_DIR = path.join(__dirname, 'data');
 const STORE_PATH = path.join(DATA_DIR, 'store.json');
 const PUBLIC_DIR = path.join(__dirname, 'public');
+const LIVE_PUBLIC_METRICS_PATH = path.join(__dirname, '..', '..', 'data', 'public-metrics.json');
+const LIVE_OUTREACH_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'outreach_data.json');
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 8;
 const sessions = new Map();
 
@@ -38,6 +40,61 @@ function audit(store, actor, action, targetType, targetId, metadata = {}) {
 function send(res, status, payload, headers = {}) {
   res.writeHead(status, { 'Content-Type': 'application/json', ...headers });
   res.end(JSON.stringify(payload));
+}
+function readJsonSafe(filePath, fallback = null) {
+  try {
+    if (!fs.existsSync(filePath)) return fallback;
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (_) {
+    return fallback;
+  }
+}
+function isoOrNull(value) {
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+}
+function dashboardDataQuality(store) {
+  const householdsWithDeterministicGeo = store.households.filter((h) => h.geocode_source === 'deterministic-fallback').length;
+  const interactionsWithoutNotes = store.canvassInteractions.filter((i) => !String(i.notes || '').trim()).length;
+  const newestImport = store.imports[0] || null;
+  return {
+    deterministicGeocodes: householdsWithDeterministicGeo,
+    csvGeocodes: Math.max(0, store.households.length - householdsWithDeterministicGeo),
+    interactionNoteCoveragePct: store.canvassInteractions.length
+      ? Number((((store.canvassInteractions.length - interactionsWithoutNotes) / store.canvassInteractions.length) * 100).toFixed(1))
+      : null,
+    latestImportAt: newestImport?.uploaded_at || null,
+    latestImportCounty: newestImport?.county || null,
+    latestImportRejectRatePct: newestImport
+      ? Number(((newestImport.rejected_rows / Math.max(1, newestImport.accepted_rows + newestImport.rejected_rows)) * 100).toFixed(1))
+      : null
+  };
+}
+function liveFeedSummary() {
+  const publicMetrics = readJsonSafe(LIVE_PUBLIC_METRICS_PATH, {});
+  const outreachData = readJsonSafe(LIVE_OUTREACH_DATA_PATH, {});
+  const metrics = publicMetrics?.metrics || {};
+  const outreachMeta = outreachData?.meta || {};
+  return {
+    source: 'campaign-live-feed',
+    publicMetrics: {
+      volunteersOnboarded: Number(metrics.volunteersOnboarded || 0),
+      doorsKnocked: Number(metrics.doorsKnocked || 0),
+      callsMade: Number(metrics.callsMade || 0),
+      textsSent: Number(metrics.textsSent || 0),
+      townHallsHeld: Number(metrics.townHallsHeld || 0),
+      lastUpdated: isoOrNull(publicMetrics?.lastUpdated),
+      methodology: publicMetrics?.methodology || null
+    },
+    outreachData: {
+      totalOutreachContacts: Number(outreachMeta.total_outreach_contacts || outreachData?.total_outreach_contacts || 0),
+      totalRecords: Number(outreachMeta.total_records || outreachData?.total_records || 0),
+      dataPullDate: isoOrNull(outreachMeta.data_pull_date || outreachData?.data_pull_date),
+      stale: Boolean(outreachMeta.stale ?? outreachData?.stale),
+      staleReason: outreachMeta.stale_reason || outreachData?.stale_reason || null
+    }
+  };
 }
 function parseBody(req) {
   return new Promise((resolve, reject) => {
@@ -85,7 +142,17 @@ async function handler(req, res) {
   if (req.method === 'GET' && req.url === '/api/dashboard') {
     const store = readStore();
     const countyCounts = store.voters.reduce((acc, v) => ((acc[v.source_county] = (acc[v.source_county] || 0) + 1), acc), {});
-    return send(res, 200, { voters: store.voters.length, households: store.households.length, interactions: store.canvassInteractions.length, annotations: store.mapAnnotations.length, countyCounts });
+    const outcomeCounts = store.canvassInteractions.reduce((acc, i) => ((acc[i.outcome] = (acc[i.outcome] || 0) + 1), acc), {});
+    return send(res, 200, {
+      voters: store.voters.length,
+      households: store.households.length,
+      interactions: store.canvassInteractions.length,
+      annotations: store.mapAnnotations.length,
+      countyCounts,
+      outcomeCounts,
+      dataQuality: dashboardDataQuality(store),
+      liveFeed: liveFeedSummary()
+    });
   }
 
   if (req.method === 'POST' && req.url === '/api/imports/voters') {

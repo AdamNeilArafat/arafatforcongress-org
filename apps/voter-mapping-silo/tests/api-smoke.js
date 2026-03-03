@@ -49,6 +49,10 @@ async function run() {
   assert.equal(dashboard.households, 2);
   assert.equal(dashboard.interactions, 1);
   assert.equal(dashboard.annotations, 1);
+  assert(dashboard.dataQuality);
+  assert.equal(typeof dashboard.dataQuality.deterministicGeocodes, 'number');
+  assert(dashboard.liveFeed);
+  assert.equal(dashboard.liveFeed.source, 'campaign-live-feed');
 
   server.close();
   console.log('api-smoke ok');

@@ -13,6 +13,8 @@ Isolated, test-only field operations app for Pierce + Thurston voter-roll mappin
 - Click-to-log canvass outcomes (`/api/canvass/logs`).
 - Map click annotation mode (`/api/annotations`).
 - Dashboard counters + audit event stream.
+- Combined live campaign feed (from `data/public-metrics.json` and `data/outreach_data.json`) inside the silo dashboard.
+- Data quality panel (geocode confidence source split, import reject rate, interaction note coverage).
 - JSON persistence in `apps/voter-mapping-silo/data/store.json`.
 
 ## Security controls included in this package
