@@ -485,17 +485,18 @@
           var doors = document.getElementById('ol-doors').value || '0';
           var flyers = document.getElementById('ol-flyers').value || '0';
           var notes = document.getElementById('ol-notes').value.trim() || 'None';
+          var outreachCount = String(parseInt(doors, 10) || 0);
           var subject = encodeURIComponent('Outreach Log: ' + group + ' | ' + date);
           var body = encodeURIComponent(
             'VOLUNTEER OUTREACH LOG\n' +
-            '======================\n' +
-            'Name: ' + name + '\n' +
-            'Team: ' + group + '\n' +
-            'Area: ' + area + '\n' +
             'Date: ' + date + '\n' +
-            'Doors / contacts: ' + doors + '\n' +
+            'Volunteer_Group: ' + group + '\n' +
+            'Outreach_Count: ' + outreachCount + '\n' +
+            'Area: ' + area + '\n' +
             'Flyers: ' + flyers + '\n' +
             'Notes: ' + notes + '\n\n' +
+            'Reporter: ' + name + '\n' +
+            'Source: contact.html form\n' +
             '--- Submitted from arafatforcongress.org/contact ---'
           );
           feedback.textContent = 'Opening your email app to submit the log…';
