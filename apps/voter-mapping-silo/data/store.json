@@ -1,0 +1,130 @@
+{
+  "voters": [
+    {
+      "voter_id": "1",
+      "first_name": "Ada",
+      "last_name": "Lovelace",
+      "party": "DEM",
+      "precinct": "",
+      "source_county": "pierce",
+      "source_file_id": "import_f10a92bb-6a6e-4c28-82c8-4910f667c25f",
+      "household_id": "hh_037c2c0a-d0bc-41ed-b691-b8f21836844d",
+      "created_at": "2026-03-03T23:07:38.521Z"
+    },
+    {
+      "voter_id": "2",
+      "first_name": "Grace",
+      "last_name": "Hopper",
+      "party": "DEM",
+      "precinct": "",
+      "source_county": "pierce",
+      "source_file_id": "import_f10a92bb-6a6e-4c28-82c8-4910f667c25f",
+      "household_id": "hh_037c2c0a-d0bc-41ed-b691-b8f21836844d",
+      "created_at": "2026-03-03T23:07:38.521Z"
+    },
+    {
+      "voter_id": "3",
+      "first_name": "Alan",
+      "last_name": "Turing",
+      "party": "IND",
+      "precinct": "",
+      "source_county": "pierce",
+      "source_file_id": "import_f10a92bb-6a6e-4c28-82c8-4910f667c25f",
+      "household_id": "hh_47c3583f-31cb-4434-9d1f-deff9da00b92",
+      "created_at": "2026-03-03T23:07:38.521Z"
+    }
+  ],
+  "households": [
+    {
+      "household_id": "hh_037c2c0a-d0bc-41ed-b691-b8f21836844d",
+      "normalized_address": "100 MAIN ST TACOMA WA 98402",
+      "lat": 46.796219,
+      "lng": -122.709153,
+      "geocode_confidence": 0.5,
+      "geocode_source": "deterministic-fallback",
+      "created_at": "2026-03-03T23:07:38.521Z"
+    },
+    {
+      "household_id": "hh_47c3583f-31cb-4434-9d1f-deff9da00b92",
+      "normalized_address": "200 PINE ST OLYMPIA WA 98501",
+      "lat": 47.171551,
+      "lng": -123.014901,
+      "geocode_confidence": 0.5,
+      "geocode_source": "deterministic-fallback",
+      "created_at": "2026-03-03T23:07:38.521Z"
+    }
+  ],
+  "canvassInteractions": [
+    {
+      "interaction_id": "int_0493f0a0-da34-4750-80ac-00c2f514e774",
+      "household_id": "hh_037c2c0a-d0bc-41ed-b691-b8f21836844d",
+      "voter_id": null,
+      "outcome": "Contacted",
+      "notes": "",
+      "next_followup_at": null,
+      "created_by": "admin",
+      "created_at": "2026-03-03T23:07:38.531Z"
+    }
+  ],
+  "mapAnnotations": [
+    {
+      "annotation_id": "ann_c1b01f44-1f08-4875-a327-1b3ec6eac13d",
+      "lat": 47,
+      "lng": -122.9,
+      "type": "issue",
+      "note": "Street light out",
+      "followup_at": null,
+      "created_by": "admin",
+      "created_at": "2026-03-03T23:07:38.534Z"
+    }
+  ],
+  "imports": [
+    {
+      "import_id": "import_f10a92bb-6a6e-4c28-82c8-4910f667c25f",
+      "county": "pierce",
+      "uploaded_by": "admin",
+      "uploaded_at": "2026-03-03T23:07:38.521Z",
+      "status": "completed",
+      "accepted_rows": 3,
+      "rejected_rows": 0,
+      "rejected_detail": []
+    }
+  ],
+  "auditEvents": [
+    {
+      "id": "audit_3828baa3-c79e-4991-b5bd-d486adf201c5",
+      "actor": "admin",
+      "action": "ADD_ANNOTATION",
+      "targetType": "annotation",
+      "targetId": "ann_c1b01f44-1f08-4875-a327-1b3ec6eac13d",
+      "timestamp": "2026-03-03T23:07:38.534Z",
+      "metadata": {
+        "type": "issue"
+      }
+    },
+    {
+      "id": "audit_3d6c05a3-ad5d-421d-9328-2730b79ab0c2",
+      "actor": "admin",
+      "action": "CANVASS_LOG",
+      "targetType": "household",
+      "targetId": "hh_037c2c0a-d0bc-41ed-b691-b8f21836844d",
+      "timestamp": "2026-03-03T23:07:38.531Z",
+      "metadata": {
+        "outcome": "Contacted"
+      }
+    },
+    {
+      "id": "audit_376aa871-5529-44cf-9135-aad77ec64103",
+      "actor": "admin",
+      "action": "IMPORT_VOTERS",
+      "targetType": "import",
+      "targetId": "import_f10a92bb-6a6e-4c28-82c8-4910f667c25f",
+      "timestamp": "2026-03-03T23:07:38.521Z",
+      "metadata": {
+        "county": "pierce",
+        "accepted": 3,
+        "rejected": 0
+      }
+    }
+  ]
+}

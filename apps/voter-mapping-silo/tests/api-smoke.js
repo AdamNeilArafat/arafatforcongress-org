@@ -1,0 +1,60 @@
+const fs = require('fs');
+const assert = require('assert');
+const { createServer, STORE_PATH, ensureStore } = require('../server');
+
+async function run() {
+  ensureStore();
+  fs.writeFileSync(STORE_PATH, JSON.stringify({ voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [] }, null, 2));
+
+  process.env.SILO_ADMIN_PIN = '1234';
+  const server = createServer().listen(0);
+  const port = server.address().port;
+  const base = `http://127.0.0.1:${port}`;
+
+  const req = async (url, opts = {}) => {
+    const r = await fetch(base + url, opts);
+    const j = await r.json();
+    if (!r.ok) throw new Error(`${r.status}: ${JSON.stringify(j)}`);
+    return j;
+  };
+
+  const login = await req('/api/auth/login', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: '1234' })
+  });
+  assert(login.token);
+  const authHeaders = { Authorization: `Bearer ${login.token}` };
+
+  const csv = `voter_id,first_name,last_name,address,city,state,zip,party\n1,Ada,Lovelace,100 Main St,Tacoma,WA,98402,DEM\n2,Grace,Hopper,100 Main St,Tacoma,WA,98402,DEM\n3,Alan,Turing,200 Pine St,Olympia,WA,98501,IND`;
+  const importResp = await req('/api/imports/voters', {
+    method: 'POST',
+    headers: { ...authHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ county: 'pierce', csv })
+  });
+  assert.equal(importResp.accepted, 3);
+
+  const features = await req('/api/map/features?county=all', { headers: authHeaders });
+  assert.equal(features.households.features.length, 2);
+
+  const hhId = features.households.features[0].properties.household_id;
+  await req('/api/canvass/logs', {
+    method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ household_id: hhId, outcome: 'Contacted' })
+  });
+
+  await req('/api/annotations', {
+    method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ lat: 47.0, lng: -122.9, type: 'issue', note: 'Street light out' })
+  });
+
+  const dashboard = await req('/api/dashboard', { headers: authHeaders });
+  assert.equal(dashboard.voters, 3);
+  assert.equal(dashboard.households, 2);
+  assert.equal(dashboard.interactions, 1);
+  assert.equal(dashboard.annotations, 1);
+
+  server.close();
+  console.log('api-smoke ok');
+}
+
+run().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

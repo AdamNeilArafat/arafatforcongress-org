@@ -1,0 +1,140 @@
+const state = { token: '', households: null, annotations: null, selected: null };
+
+const map = L.map('map').setView([47.03, -122.85], 9);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
+const heatLayer = L.heatLayer([], { radius: 25, blur: 20, maxZoom: 14 }).addTo(map);
+const clusterLayer = L.markerClusterGroup();
+const annotationLayer = L.layerGroup().addTo(map);
+map.addLayer(clusterLayer);
+
+function headers() {
+  return state.token ? { Authorization: `Bearer ${state.token}` } : {};
+}
+
+async function api(path, opts = {}) {
+  const response = await fetch(path, {
+    ...opts,
+    headers: { ...(opts.headers || {}), ...headers() }
+  });
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+  return payload;
+}
+
+function showKpis(data) {
+  document.getElementById('kpis').innerHTML = [
+    ['Voters', data.voters],
+    ['Households', data.households],
+    ['Interactions', data.interactions],
+    ['Annotations', data.annotations]
+  ].map(([k, v]) => `<div class="card"><strong>${v}</strong><div class="muted">${k}</div></div>`).join('');
+}
+
+async function refreshDashboard() {
+  if (!state.token) return;
+  const d = await api('/api/dashboard');
+  showKpis(d);
+  const audit = await api('/api/audit');
+  document.getElementById('audit').innerHTML = audit.slice(0, 8).map((a) => `${new Date(a.timestamp).toLocaleString()} · ${a.action}`).join('<br>');
+}
+
+function renderMap() {
+  clusterLayer.clearLayers();
+  annotationLayer.clearLayers();
+  const heat = [];
+
+  state.households.features.forEach((f) => {
+    const [lng, lat] = f.geometry.coordinates;
+    heat.push([lat, lng, Math.max(1, f.properties.voter_count)]);
+    const marker = L.marker([lat, lng]);
+    marker.bindPopup(`
+      <strong>${f.properties.normalized_address}</strong><br>
+      Voters: ${f.properties.voter_count}<br>
+      Status: ${f.properties.status}<br>
+      <button onclick="window.logOutcome('${f.properties.household_id}','Contacted')">Mark Contacted</button>
+      <button onclick="window.logOutcome('${f.properties.household_id}','Not Home')">Mark Not Home</button>
+      <button onclick="window.logOutcome('${f.properties.household_id}','Supporter')">Mark Supporter</button>
+    `);
+    clusterLayer.addLayer(marker);
+  });
+
+  state.annotations.features.forEach((f) => {
+    const [lng, lat] = f.geometry.coordinates;
+    const marker = L.circleMarker([lat, lng], { radius: 7, color: '#c026d3' }).bindPopup(`<strong>${f.properties.type}</strong><br>${f.properties.note || ''}`);
+    annotationLayer.addLayer(marker);
+  });
+
+  heatLayer.setLatLngs(heat);
+}
+
+async function loadFeatures() {
+  const county = document.getElementById('mapCounty').value;
+  const payload = await api(`/api/map/features?county=${encodeURIComponent(county)}`);
+  state.households = payload.households;
+  state.annotations = payload.annotations;
+  renderMap();
+}
+
+window.logOutcome = async (householdId, outcome) => {
+  if (!state.token) return;
+  const notes = prompt(`Notes for ${outcome}?`) || '';
+  await api('/api/canvass/logs', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ household_id: householdId, outcome, notes })
+  });
+  await loadFeatures();
+  await refreshDashboard();
+};
+
+map.on('click', async (e) => {
+  if (!document.getElementById('annotateMode').checked || !state.token) return;
+  const type = document.getElementById('annotationType').value;
+  const note = document.getElementById('annotationNote').value;
+  await api('/api/annotations', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ lat: e.latlng.lat, lng: e.latlng.lng, type, note })
+  });
+  await loadFeatures();
+  await refreshDashboard();
+});
+
+document.getElementById('loginBtn').onclick = async () => {
+  try {
+    const payload = await api('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin: document.getElementById('pin').value })
+    });
+    state.token = payload.token;
+    document.getElementById('authState').textContent = 'Unlocked';
+    await loadFeatures();
+    await refreshDashboard();
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+document.getElementById('refreshBtn').onclick = async () => {
+  await loadFeatures();
+  await refreshDashboard();
+};
+
+document.getElementById('importBtn').onclick = async () => {
+  try {
+    const file = document.getElementById('csv').files[0];
+    if (!file) throw new Error('Choose a CSV first');
+    const csv = await file.text();
+    const result = await api('/api/imports/voters', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ county: document.getElementById('county').value, csv })
+    });
+    document.getElementById('importResult').textContent = `Import ${result.importId}: accepted ${result.accepted}, rejected ${result.rejected}`;
+    await loadFeatures();
+    await refreshDashboard();
+  } catch (e) {
+    document.getElementById('importResult').textContent = e.message;
+  }
+};

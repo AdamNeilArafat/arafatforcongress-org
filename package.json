@@ -9,7 +9,9 @@
     "verify:ga": "node scripts/verify-ga.js",
     "build": "npm run ga:inject && npm run signup:inject && npm run qr:build && npm run verify:ga",
     "postinstall": "node -v > /dev/null",
-    "signup:inject": "node scripts/inject-signup.js"
+    "signup:inject": "node scripts/inject-signup.js",
+    "silo:start": "node apps/voter-mapping-silo/server.js",
+    "silo:test": "node apps/voter-mapping-silo/tests/api-smoke.js"
   },
   "dependencies": {
     "csv-parse": "^5.5.6",
