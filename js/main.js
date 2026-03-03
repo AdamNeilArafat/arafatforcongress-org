@@ -2,6 +2,8 @@ const SHARE_LINES = [
   "Share this page. Every new voice shrinks the power of big money."
 ];
 
+const STANDARD_CONSENT_TEXT = "I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.";
+
 function getSiteConfig() {
   if (window.AFC_CONFIG) return window.AFC_CONFIG;
   const gaMeta = document.querySelector('meta[name="ga-measurement-id"]');
@@ -15,6 +17,13 @@ function getSiteConfig() {
 
 function track(action, params = {}) {
   if (typeof window.trackEvent === 'function') window.trackEvent(action, params);
+}
+
+function trackFormEvent(eventName, details = {}) {
+  track(eventName, {
+    page: window.location.pathname,
+    ...details
+  });
 }
 
 function rotateShareLine() {
@@ -53,10 +62,9 @@ function setupShareIcons() {
 
 async function submitSignup(payload) {
   const { signupEndpoint } = getSiteConfig();
-  const endpoint = signupEndpoint;
-  if (!endpoint) throw new Error('missing-endpoint');
+  if (!signupEndpoint) throw new Error('missing-endpoint');
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(signupEndpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json", "Accept": "application/json" },
     body: JSON.stringify(payload)
@@ -76,6 +84,13 @@ function wireSimpleEmailForm(config) {
   if (!form) return;
   const input = document.getElementById(config.emailId);
   const feedback = document.getElementById(config.feedbackId);
+  let hasStarted = false;
+
+  form.addEventListener('focusin', () => {
+    if (hasStarted) return;
+    hasStarted = true;
+    trackFormEvent('form_start', { form_id: config.formId, source: config.source, action_type: config.actionType || 'general' });
+  }, { once: true });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -87,61 +102,130 @@ function wireSimpleEmailForm(config) {
 
     setFeedback(feedback, config.pendingMessage, null);
     try {
-      await submitSignup({ email, source: config.source, firstName: '' });
+      await submitSignup({
+        fullName: '',
+        email,
+        zip: '',
+        message: config.defaultMessage || '',
+        consent: true,
+        consentText: STANDARD_CONSENT_TEXT,
+        source: config.source,
+        actionType: config.actionType || 'general'
+      });
       setFeedback(feedback, config.successMessage, 'is-success');
       form.reset();
-      track(config.trackEvent || 'volunteer_submit', { source: config.source, status: 'success' });
+      trackFormEvent('form_submit_success', { form_id: config.formId, source: config.source, action_type: config.actionType || 'general' });
     } catch (_) {
       setFeedback(feedback, config.errorMessage, 'is-error');
-      track(config.trackEvent || 'volunteer_submit', { source: config.source, status: 'error' });
+      trackFormEvent('form_submit_failure', { form_id: config.formId, source: config.source, action_type: config.actionType || 'general' });
+    }
+  });
+}
+
+function wireStandardCampaignForm(config) {
+  const form = document.getElementById(config.formId);
+  if (!form) return;
+  const feedback = document.getElementById(config.feedbackId);
+  let hasStarted = false;
+
+  form.addEventListener('focusin', () => {
+    if (hasStarted) return;
+    hasStarted = true;
+    trackFormEvent('form_start', { form_id: config.formId, source: config.source, action_type: config.actionType });
+  }, { once: true });
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      setFeedback(feedback, config.invalidMessage || 'Please complete all required fields.', 'is-error');
+      return;
+    }
+
+    const data = new FormData(form);
+    const payload = {
+      fullName: String(data.get('fullName') || '').trim(),
+      email: String(data.get('email') || '').trim(),
+      zip: String(data.get('zip') || '').trim(),
+      message: String(data.get('message') || '').trim(),
+      consent: data.get('consent') === 'on' || data.get('consent') === 'true',
+      consentText: STANDARD_CONSENT_TEXT,
+      source: config.source,
+      actionType: config.actionType,
+      topic: String(data.get('topic') || '').trim()
+    };
+
+    setFeedback(feedback, config.pendingMessage || 'Submitting…', null);
+    try {
+      await submitSignup(payload);
+      setFeedback(feedback, config.successMessage, 'is-success');
+      form.reset();
+      trackFormEvent('form_submit_success', { form_id: config.formId, source: config.source, action_type: config.actionType });
+    } catch (_) {
+      setFeedback(feedback, config.errorMessage, 'is-error');
+      trackFormEvent('form_submit_failure', { form_id: config.formId, source: config.source, action_type: config.actionType });
     }
   });
 }
 
 function setupSignupForm() {
-  const form = document.getElementById("campaign-signup-form");
-  if (!form) return;
-
-  const emailInput = document.getElementById("signup-email");
-  const feedback = document.getElementById("signup-feedback");
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    if (!emailInput.checkValidity()) {
-      setFeedback(feedback, "Please enter a valid email address.", "is-error");
-      return;
-    }
-
-    const data = {
-      firstName: form.firstName ? form.firstName.value.trim() : "",
-      email: form.email.value.trim(),
-      source: "homepage"
-    };
-
-    setFeedback(feedback, "Submitting...", null);
-    try {
-      await submitSignup(data);
-      setFeedback(feedback, "Thanks for signing up. You’re on the list.", "is-success");
-      form.reset();
-      track('volunteer_submit', { source: 'homepage', status: 'success' });
-    } catch (_) {
-      setFeedback(feedback, "We couldn’t submit right now. Please try again or email volunteer@arafatforcongress.org.", "is-error");
-      track('volunteer_submit', { source: 'homepage', status: 'error' });
-    }
+  wireStandardCampaignForm({
+    formId: 'campaign-signup-form',
+    feedbackId: 'signup-feedback',
+    source: 'homepage',
+    actionType: 'volunteer_intake',
+    successMessage: 'Thanks for joining the campaign. We will follow up soon.',
+    errorMessage: 'We could not submit right now. Please try again or use the mailto fallback link.',
+    invalidMessage: 'Please complete name, email, ZIP, how you want to help, and consent.'
   });
 }
 
 function setupEventsNotifyForm() {
-  wireSimpleEmailForm({
+  wireStandardCampaignForm({
     formId: 'event-notify-form',
-    emailId: 'notify-email',
     feedbackId: 'notify-feedback',
-    source: 'events-notify',
-    trackEvent: 'events_notify_submit',
-    invalidMessage: 'Please enter a valid email.',
-    pendingMessage: 'Submitting…',
-    successMessage: 'Thanks — we’ll notify you when events are scheduled near you.',
-    errorMessage: 'We couldn’t save that request. Please try again or email volunteer@arafatforcongress.org.'
+    source: 'events-page',
+    actionType: 'event_interest',
+    successMessage: 'Thanks — you are on the event interest list for upcoming WA-10 events.',
+    errorMessage: 'We could not save your event interest right now. Please try again or use the mailto fallback link.',
+    invalidMessage: 'Please complete all required event interest fields.'
+  });
+}
+
+function setupHostEventForm() {
+  wireStandardCampaignForm({
+    formId: 'host-event-form',
+    feedbackId: 'host-event-feedback',
+    source: 'events-page',
+    actionType: 'host_event_request',
+    successMessage: 'Thank you for offering to host. Our team will follow up with next steps.',
+    errorMessage: 'We could not submit your host request right now. Please try again or use the mailto fallback link.',
+    invalidMessage: 'Please complete all required host event fields.'
+  });
+}
+
+function setupStoryForm() {
+  wireStandardCampaignForm({
+    formId: 'story-form',
+    feedbackId: 'story-feedback',
+    source: 'contact-page',
+    actionType: 'story_submission',
+    successMessage: 'Thank you for sharing your story. The campaign team has received it.',
+    errorMessage: 'We could not submit your story right now. Please try again or use the mailto fallback link.',
+    invalidMessage: 'Please complete all required story fields.'
+  });
+}
+
+function setupVolunteerIntakeForm() {
+  wireStandardCampaignForm({
+    formId: 'volunteer-intake-form',
+    feedbackId: 'volunteer-intake-feedback',
+    source: 'contact-page',
+    actionType: 'volunteer_intake',
+    successMessage: 'Thanks for stepping up. A volunteer coordinator will contact you soon.',
+    errorMessage: 'We could not submit your volunteer intake right now. Please try again or use the mailto fallback link.',
+    invalidMessage: 'Please complete all required volunteer intake fields.'
   });
 }
 
@@ -151,6 +235,7 @@ function setupQuickForms() {
     emailId: 'quick-signup-email',
     feedbackId: 'quick-signup-feedback',
     source: 'homepage-quick-signup',
+    actionType: 'volunteer_intake',
     invalidMessage: 'Please enter a valid email address.',
     pendingMessage: 'Submitting…',
     successMessage: "You're on the list. Thank you!",
@@ -162,6 +247,7 @@ function setupQuickForms() {
     emailId: 'contact-quick-email',
     feedbackId: 'contact-quick-feedback',
     source: 'contact-page-quick-signup',
+    actionType: 'volunteer_intake',
     invalidMessage: 'Please enter a valid email address.',
     pendingMessage: 'Submitting…',
     successMessage: 'Got it! Someone from the team will be in touch.',
@@ -203,7 +289,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(rotateShareLine, 7000);
   setupShareIcons();
   setupSignupForm();
+  setupVolunteerIntakeForm();
+  setupStoryForm();
   setupQuickForms();
   setupEventsNotifyForm();
+  setupHostEventForm();
   loadEndorsements();
 });

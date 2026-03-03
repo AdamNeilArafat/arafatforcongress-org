@@ -1046,17 +1046,29 @@
         <form class="signup-form" id="campaign-signup-form" novalidate>
           <div class="signup-grid">
             <div class="signup-field">
-              <label for="signup-first-name">First name (optional)</label>
-              <input id="signup-first-name" name="firstName" autocomplete="given-name" />
+              <label for="signup-full-name">Full name <span aria-hidden="true">*</span></label>
+              <input id="signup-full-name" name="fullName" autocomplete="name" required />
             </div>
             <div class="signup-field">
               <label for="signup-email">Email (required)</label>
               <input id="signup-email" name="email" type="email" required autocomplete="email" />
             </div>
+            <div class="signup-field">
+              <label for="signup-zip">ZIP code <span aria-hidden="true">*</span></label>
+              <input id="signup-zip" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required autocomplete="postal-code" />
+            </div>
+            <div class="signup-field">
+              <label for="signup-message">How would you like to help? <span aria-hidden="true">*</span></label>
+              <input id="signup-message" name="message" required placeholder="Canvassing, phonebanking, hosting, digital outreach..." />
+            </div>
           </div>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:.87rem;color:var(--muted);line-height:1.45;">
+            <input id="signup-consent" name="consent" type="checkbox" required style="margin-top:2px;" />
+            <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
+          </label>
           <button class="btn-home btn-volunteer" type="submit">Join the campaign</button>
           <p id="signup-feedback" class="signup-feedback" role="status" aria-live="polite"></p>
-          <p class="privacy-note">No spam. Unsubscribe anytime. People-funded. No corporate PAC money.</p>
+          <p class="privacy-note">No spam. Unsubscribe anytime. People-funded. No corporate PAC money. Prefer email? <a href="mailto:volunteer@arafatforcongress.org?subject=Volunteer%20Intake">Use mailto fallback</a>.</p>
         </form>
       </div>
     </section>
