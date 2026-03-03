@@ -1,0 +1,16 @@
+{
+  "lastUpdated": "2026-03-03T13:30:00Z",
+  "methodology": "These figures are aggregate-only and privacy-safe. Metrics are compiled from a curated public feed that excludes names, contact details, and other personally identifiable information. Values are rounded campaign activity totals and endorsement status counts intended for public transparency.",
+  "metrics": {
+    "volunteersOnboarded": 128,
+    "doorsKnocked": 3460,
+    "callsMade": 1910,
+    "textsSent": 12480,
+    "townHallsHeld": 9,
+    "endorsements": {
+      "confirmed": 1,
+      "pending": 1,
+      "outreach": 14
+    }
+  }
+}
