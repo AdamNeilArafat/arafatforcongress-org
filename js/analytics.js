@@ -1,7 +1,18 @@
-// ===== GA4 event helper =====
+// ===== Site config + GA4 event helper =====
+function getSiteConfig() {
+  if (window.AFC_CONFIG) return window.AFC_CONFIG;
+  const gaMeta = document.querySelector('meta[name="ga-measurement-id"]');
+  const endpointMeta = document.querySelector('meta[name="campaign-signup-endpoint"]');
+  window.AFC_CONFIG = {
+    gaMeasurementId: gaMeta ? gaMeta.content.trim() : '',
+    signupEndpoint: endpointMeta ? endpointMeta.content.trim() : ''
+  };
+  return window.AFC_CONFIG;
+}
+
 const GA_MEASUREMENT_ID = (() => {
-  const meta = document.querySelector('meta[name="ga-measurement-id"]');
-  if (!meta || !meta.content || meta.content.includes('REPLACE') || meta.content === 'G-PLACEHOLDER') {
+  const measurementId = getSiteConfig().gaMeasurementId;
+  if (!measurementId || measurementId.includes('REPLACE') || measurementId === 'G-PLACEHOLDER') {
     console.warn(
       '[Arafat for Congress] GA4 not configured. ' +
       'Add GA_MEASUREMENT_ID as a GitHub Actions secret. ' +
@@ -9,7 +20,7 @@ const GA_MEASUREMENT_ID = (() => {
     );
     return null;
   }
-  return meta.content.trim();
+  return measurementId;
 })();
 
 function trackEvent(action, params = {}) {
@@ -178,7 +189,9 @@ function initClickTracking() {
       const action = el.getAttribute('data-event');
       const location = el.getAttribute('data-location') || 'unknown';
       const dataNet = el.getAttribute('data-net');
-      const extra = el.getAttribute('data-extra') || dataNet || null;
+      const dataRole = el.getAttribute('data-role');
+      const dataEmail = el.getAttribute('data-email');
+      const extra = el.getAttribute('data-extra') || dataRole || dataEmail || dataNet || null;
 
       const eventParams = {
         location,
@@ -302,6 +315,20 @@ function init404Tracking() {
   }
 }
 
+
+function initFunnelTracking() {
+  document.querySelectorAll('a[href*="secure.actblue.com/donate/"]').forEach(link => {
+    if (link.dataset.funnelBound === 'true') return;
+    link.dataset.funnelBound = 'true';
+    link.addEventListener('click', () => {
+      trackEvent('donate_click', {
+        location: link.getAttribute('data-location') || 'site',
+        page_path: window.location.pathname
+      });
+    });
+  });
+}
+
 // ===== Main init =====
 function initAnalytics() {
   TRACKING_CONTEXT = initSourceTracking();
@@ -311,6 +338,7 @@ function initAnalytics() {
   initFormAugmentation();
   initSectionTracking();
   init404Tracking();
+  initFunnelTracking();
 }
 
 // Send session quality when user leaves or tab hides
@@ -322,3 +350,5 @@ document.addEventListener('visibilitychange', () => {
 });
 
 document.addEventListener('DOMContentLoaded', initAnalytics);
+
+window.trackEvent = trackEvent;
