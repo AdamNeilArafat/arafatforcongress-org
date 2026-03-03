@@ -301,3 +301,29 @@ Volunteer Dashboard (PIN-gated)
 └── admin/
     └── volunteer-dashboard.html  # PIN-gated CRM view
 ```
+
+
+---
+
+## 6. Reuse Inventory (Core Pages)
+
+Audit scope: `index.html`, `issues.html`, `contact.html`, `events.html`, `about.html`.
+
+### Repeated classes/components
+- **Header shell**: `.site-header`, `.header-inner`, `.brand`, `.site-nav`, `.nav-link`, `.header-cta`, `.mobile-drawer`
+- **CTA buttons**: `.btn`, `.btn-primary`, `.btn-ghost`
+- **Section rhythm**: `.section`, `.section-intro`
+- **Card surfaces**: `.card`, `.info-card`, `.copy-block`, `.event-card`
+- **Footer block**: `.footer-tagline` with repeated nav/legal/spanish-link patterns
+
+### Repeated design tokens
+- `--navy`, `--navy-2`, `--muted`, `--brand`, `--brand-dark`, `--gold`
+- `--border-soft`, `--shadow-soft`, `--radius`
+
+### Shared CSS source of truth
+- `styles.css` remains base global stylesheet.
+- `assets/site.css` now holds shared cross-page modules for:
+  - footer nav/legal/spanish-language pill (`.site-footer-nav`, `.site-footer-legal`, `.lang-pill`)
+  - repeated CTA rows (`.inline-cta-row`, modifiers)
+  - reusable card/chip helpers (`.section-shell`, `.chip-btn`)
+  - repeated text helpers (`.brand-accent`, `.link-inherit`, `.text-link-strong`)
