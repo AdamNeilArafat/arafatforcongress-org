@@ -92,6 +92,8 @@
     .notify-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px;}
     .notify-form input{flex:1 1 220px;min-height:44px;padding:0 14px;border:1px solid rgba(11,28,61,0.18);border-radius:14px;font:inherit;background:rgba(11,28,61,0.03);}
     .notify-form input:focus-visible{outline:3px solid rgba(29,79,168,.22);outline-offset:2px;}
+    .consent-row{display:grid;grid-template-columns:auto 1fr;align-items:start;column-gap:8px;row-gap:4px;text-align:left;}
+    .consent-row input[type="checkbox"]{margin-top:2px;}
 
     .area-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px;}
     .area-pill{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius);padding:14px 16px;text-align:center;box-shadow:var(--shadow-soft);}
@@ -195,8 +197,8 @@
             <input type="text" name="topic" required placeholder="Event type of interest (town hall, canvass, meetup)" aria-label="Event type of interest" />
           </div>
           <textarea name="message" required rows="3" placeholder="Tell us your preferred days, neighborhoods, or accessibility needs." aria-label="Event interest details"></textarea>
-          <label style="display:flex;align-items:flex-start;gap:8px;text-align:left;font-size:.86rem;color:var(--muted);line-height:1.45;">
-            <input type="checkbox" name="consent" required style="margin-top:2px;" />
+          <label class="consent-row" style="font-size:.86rem;color:var(--muted);line-height:1.45;">
+            <input type="checkbox" name="consent" required />
             <span>I agree to be contacted by Arafat for Congress about campaign updates and volunteer opportunities. Msg/data rates may apply. Reply STOP to unsubscribe.</span>
           </label>
           <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
