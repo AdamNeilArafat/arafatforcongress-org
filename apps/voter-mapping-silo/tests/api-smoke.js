@@ -53,6 +53,9 @@ async function run() {
   assert.equal(typeof dashboard.dataQuality.deterministicGeocodes, 'number');
   assert(dashboard.liveFeed);
   assert.equal(dashboard.liveFeed.source, 'campaign-live-feed');
+  assert(dashboard.volunteerDashboard);
+  assert.equal(dashboard.volunteerDashboard.source, 'volunteer-dashboard-sync');
+  assert.equal(typeof dashboard.volunteerDashboard.totalVolunteers, 'number');
 
   server.close();
   console.log('api-smoke ok');

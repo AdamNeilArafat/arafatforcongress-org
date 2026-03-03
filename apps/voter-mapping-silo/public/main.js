@@ -73,12 +73,41 @@ function showLiveFeed(liveFeed = {}) {
   ].filter(Boolean).join('<br>');
 }
 
+function showVolunteerBridge(volunteerDashboard = {}) {
+  const pullDate = volunteerDashboard.dataPullDate
+    ? new Date(volunteerDashboard.dataPullDate).toLocaleString()
+    : 'Unavailable';
+  const staleState = volunteerDashboard.stale ? '⚠️ Stale' : '✅ Synced';
+  const skillSummary = Object.entries(volunteerDashboard.skillsBreakdown || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(([label, count]) => `${label}: ${safeNumber(count)}`)
+    .join(' · ');
+
+  document.getElementById('volunteerBridgeKpis').innerHTML = [
+    ['Volunteers', volunteerDashboard.totalVolunteers],
+    ['Active', volunteerDashboard.activeVolunteers]
+  ].map(([k, v]) => `<div class="card"><strong>${safeNumber(v)}</strong><div class="muted">${k}</div></div>`).join('');
+
+  document.getElementById('volunteerBridgeMeta').innerHTML = [
+    `Source: <strong>${volunteerDashboard.source || 'Unknown'}</strong>`,
+    `Data pull date: <strong>${pullDate}</strong>`,
+    `Sync health: <strong>${staleState}</strong>`,
+    skillSummary ? `Top skills: <strong>${skillSummary}</strong>` : 'Top skills: <strong>No skills published yet</strong>'
+  ].join('<br>');
+
+  const adminLink = volunteerDashboard.adminPath || '/admin/volunteer-dashboard.html';
+  const directLink = document.getElementById('openVolunteerDashboard');
+  directLink.href = adminLink;
+}
+
 async function refreshDashboard() {
   if (!state.token) return;
   const d = await api('/api/dashboard');
   showKpis(d);
   showDataQuality(d.dataQuality);
   showLiveFeed(d.liveFeed);
+  showVolunteerBridge(d.volunteerDashboard);
   const audit = await api('/api/audit');
   document.getElementById('audit').innerHTML = audit.slice(0, 8).map((a) => `${new Date(a.timestamp).toLocaleString()} · ${a.action}`).join('<br>');
 }

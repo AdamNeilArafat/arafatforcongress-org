@@ -10,6 +10,7 @@ const STORE_PATH = path.join(DATA_DIR, 'store.json');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const LIVE_PUBLIC_METRICS_PATH = path.join(__dirname, '..', '..', 'data', 'public-metrics.json');
 const LIVE_OUTREACH_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'outreach_data.json');
+const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volunteer_data.json');
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 8;
 const sessions = new Map();
 
@@ -96,6 +97,19 @@ function liveFeedSummary() {
     }
   };
 }
+function volunteerDashboardBridge() {
+  const volunteerData = readJsonSafe(LIVE_VOLUNTEER_DATA_PATH, {});
+  const meta = volunteerData?.meta || {};
+  return {
+    source: 'volunteer-dashboard-sync',
+    adminPath: '/admin/volunteer-dashboard.html',
+    totalVolunteers: Number(meta.total_volunteers || 0),
+    activeVolunteers: Number(meta.active_volunteers || 0),
+    stale: Boolean(meta.stale),
+    dataPullDate: isoOrNull(meta.data_pull_date),
+    skillsBreakdown: meta.skills_breakdown && typeof meta.skills_breakdown === 'object' ? meta.skills_breakdown : {}
+  };
+}
 function parseBody(req) {
   return new Promise((resolve, reject) => {
     let raw = '';
@@ -151,7 +165,8 @@ async function handler(req, res) {
       countyCounts,
       outcomeCounts,
       dataQuality: dashboardDataQuality(store),
-      liveFeed: liveFeedSummary()
+      liveFeed: liveFeedSummary(),
+      volunteerDashboard: volunteerDashboardBridge()
     });
   }
 
