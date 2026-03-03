@@ -47,6 +47,7 @@
     .brand{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:2px; min-width:220px; }
     .brand__name{ font-weight:950; letter-spacing:.2px; font-size:1.06rem; line-height:1.05; color:var(--navy); }
     .brand__meta{ font-weight:850; font-size:.85rem; color:var(--muted); }
+    .brand__logo{ height:42px; width:auto; display:block; }
     .site-nav{ display:flex; gap:10px; align-items:center; }
     .nav-link{ text-decoration:none; color:var(--navy); font-weight:850; font-size:.95rem; padding:10px 10px; border-radius:12px; transition:background .15s ease,color .15s ease; white-space:nowrap; }
     .nav-link:hover{ background:rgba(29,79,168,0.08); }
@@ -144,15 +145,13 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam <span style="color:var(--brand)">Arafat</span></span>
-        <span class="brand__meta">for Congress • WA-10</span>
+        <img src="/images/Name Logo.png" alt="Adam Arafat for Congress" class="brand__logo" />
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
         <a class="nav-link" href="/issues.html">Issues</a>
         <a class="nav-link" href="/record-contrast.html">The Difference</a>
         <a class="nav-link" href="/about.html">Meet Adam</a>
-        <a class="nav-link" href="/endorsements.html">Endorsements</a>
         <a class="nav-link" href="/contact.html">Contact / Volunteer</a>
       </nav>
       <div class="header-cta">
@@ -169,11 +168,9 @@
     <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
-      <a href="/why-im-running.html" aria-current="page">Why I'm Running</a>
       <a href="/issues.html">Issues</a>
       <a href="/record-contrast.html">The Difference</a>
       <a href="/about.html">Meet Adam</a>
-      <a href="/endorsements.html">Endorsements</a>
       <a href="/events.html">Events</a>
       <a href="/contact.html">Contact / Volunteer</a>
       <a class="drawer-cta" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">Donate</a>
@@ -289,7 +286,6 @@
     <p class=”footer-tagline”>Citizens serving citizens. That’s the job.</p>
     <nav aria-label=”Footer navigation” style=”margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;”>
       <a href=”/events.html”>Events</a>
-      <a href=”/endorsements.html”>Endorsements</a>
       <a href=”/privacy-policy.html”>Privacy Policy</a>
       <a href=”/contact.html”>Volunteer</a>
     </nav>

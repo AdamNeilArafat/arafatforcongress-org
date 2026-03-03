@@ -34,6 +34,7 @@
     .brand{text-decoration:none;color:var(--navy);display:flex;flex-direction:column;gap:2px;}
     .brand__name{font-weight:900;font-size:1.06rem;line-height:1.05;color:var(--navy);}
     .brand__meta{font-weight:700;font-size:.85rem;color:var(--muted);}
+    .brand__logo{ height:42px; width:auto; display:block; }
     .site-nav{display:flex;gap:8px;align-items:center;}
     .nav-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:.95rem;padding:9px 10px;border-radius:12px;transition:background .15s;}
     .nav-link:hover{background:rgba(29,79,168,0.08);}
@@ -84,8 +85,7 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="/index.html" aria-label="Arafat for Congress home">
-        <span class="brand__name">Adam <span style="color:var(--brand)">Arafat</span></span>
-        <span class="brand__meta">for Congress &bull; WA-10</span>
+        <img src="/images/Name Logo.png" alt="Adam Arafat for Congress" class="brand__logo" />
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a class="nav-link" href="/index.html">Home</a>
@@ -103,7 +103,6 @@
     <div class="mobile-pac-strip" aria-label="Funding policy">No corporate PAC or AIPAC money</div>
     <div class="mobile-drawer" hidden>
       <a href="/index.html">Home</a>
-      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/issues.html">Issues</a>
       <a href="/about.html">Meet Adam</a>
       <a href="/events.html">Events</a>
@@ -238,7 +237,6 @@
   <footer>
     <p class="footer-tagline">Citizens serving citizens. That's the job.</p>
     <nav aria-label="Footer navigation" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:.93rem;">
-      <a href="/why-im-running.html">Why I'm Running</a>
       <a href="/events.html">Events</a>
       <a href="/contact.html">Volunteer</a>
     </nav>
