@@ -55,9 +55,11 @@ async function api(path, opts = {}) {
   for (const base of bases) {
     const endpoint = buildEndpoint(base, path);
     try {
+      const headers = { ...(opts.headers || {}) };
+      if (state.token) headers.Authorization = `Bearer ${state.token}`;
       const response = await fetch(endpoint, {
         ...opts,
-        headers: { ...(opts.headers || {}) }
+        headers
       });
       const payload = await parsePayload(response);
       if (!response.ok) {
