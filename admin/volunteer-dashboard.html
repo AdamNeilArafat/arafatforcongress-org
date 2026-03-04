@@ -822,6 +822,10 @@
             <input type="file" id="sheets-file-input" accept=".csv,text/csv" />
             <button class="config-btn config-btn--ghost" id="load-sheets-file-btn" type="button">Load Outreach CSV File</button>
           </div>
+          <p style="margin:8px 0 0;font-size:.85rem;color:var(--muted);">
+            <strong>What this updates:</strong> The outreach upload powers this dashboard's contact table, filters, export, and follow-up workflow.
+            It does <strong>not</strong> update the Field Operations map or phone/text queue by itself.
+          </p>
           <div class="config-feedback" id="sheets-feedback"></div>
           <details class="setup-guide">
             <summary>Outreach tab — column reference</summary>
@@ -859,6 +863,9 @@
             <input type="file" id="vol-file-input" accept=".csv,text/csv" />
             <button class="config-btn config-btn--ghost" id="load-vol-file-btn" type="button">Load Volunteer CSV File</button>
           </div>
+          <p style="margin:8px 0 0;font-size:.85rem;color:var(--muted);">
+            <strong>What this updates:</strong> The volunteer upload enriches people records in this dashboard (skills, availability, status) and combines with outreach for list views/export.
+          </p>
           <div class="config-feedback" id="vol-feedback"></div>
           <details class="setup-guide">
             <summary>Volunteer tab — column reference</summary>
@@ -880,6 +887,15 @@
               <span class="col-chip">Notes</span>
             </div>
           </details>
+        </div>
+
+        <div class="config-section" style="border-top:1px solid var(--border);padding-top:20px;">
+          <h3>Voter Mapping + Phone/Text Queue Source</h3>
+          <p style="margin-bottom:10px;font-size:.88rem;color:var(--muted);">
+            To update the map households and phone/text banking queue, use the
+            <strong>Admin Imports</strong> section in <a href="/admin/field-operations.html">Field Operations Dashboard</a>.
+            That upload creates the household dataset used for map pins, walk lists, phone bank, and text bank.
+          </p>
         </div>
 
         <div class="config-section" style="border-top:1px solid var(--border);padding-top:20px;">
