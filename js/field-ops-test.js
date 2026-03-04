@@ -14,7 +14,14 @@ const state = {
 };
 
 const tabs = [
-  ['map', 'Map'], ['walk', 'Walk Lists'], ['flyer', 'Flyer Runs'], ['phone', 'Phone Bank'], ['text', 'Text Bank'], ['imports', 'Imports'], ['reporting', 'Reporting']
+  ['map', 'Map'],
+  ['walk', 'Walk Lists'],
+  ['flyer', 'Flyer Runs'],
+  ['phone', 'Phone Bank'],
+  ['text', 'Text Bank'],
+  ['mapping', 'Voter Mapping'],
+  ['imports', 'Admin Imports'],
+  ['reporting', 'Reporting']
 ];
 
 const map = L.map('map').setView([47.03, -122.84], 10);
