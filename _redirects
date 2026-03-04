@@ -1,1 +1,5 @@
 /digging-into-the-issues.html /issues.html 301
+/admin/silo-dashboard /admin/silo-dashboard.html 200
+/admin/silo-dashboard/ /admin/silo-dashboard.html 200
+/silo-dashboard /admin/silo-dashboard.html 301
+/silo-dashboard/ /admin/silo-dashboard.html 301
