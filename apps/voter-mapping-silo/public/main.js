@@ -387,3 +387,168 @@ document.getElementById('saveApiBaseBtn').onclick = () => {
   localStorage.setItem(API_BASE_STORAGE_KEY, nextBase);
   document.getElementById('authState').textContent = 'Open (custom API route saved)';
 };
+
+function switchScreen(screenId) {
+  document.querySelectorAll('.screen').forEach((node) => node.classList.remove('active'));
+  const target = document.getElementById(screenId);
+  if (target) target.classList.add('active');
+}
+
+document.querySelectorAll('[data-screen]').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    switchScreen(btn.getAttribute('data-screen'));
+    if (btn.getAttribute('data-screen') === 'screen-donate') await loadDonateScreen();
+    if (btn.getAttribute('data-screen') === 'screen-queues') await refreshQueues();
+  });
+});
+
+async function loadDonateScreen() {
+  try {
+    const payload = await api('/donate');
+    const link = payload.actblue_url || '';
+    document.getElementById('donateLink').value = link;
+    document.getElementById('donateQr').src = payload.qr_url || '';
+    document.getElementById('donateState').textContent = link ? 'ActBlue loaded.' : 'ActBlue URL not configured yet.';
+  } catch (error) {
+    document.getElementById('donateState').textContent = error.message;
+  }
+}
+
+document.getElementById('saveActblueBtn').onclick = async () => {
+  try {
+    const payload = await api('/settings/actblue', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ actblue_url: document.getElementById('actblueUrl').value })
+    });
+    document.getElementById('actblueState').textContent = `Saved ${payload.actblue_url}`;
+  } catch (error) {
+    document.getElementById('actblueState').textContent = error.message;
+  }
+};
+
+document.getElementById('copyDonateBtn').onclick = async () => {
+  const value = document.getElementById('donateLink').value;
+  if (!value) return;
+  await navigator.clipboard.writeText(value);
+  document.getElementById('donateState').textContent = 'Copied donate link.';
+};
+
+document.getElementById('shareDonateBtn').onclick = async () => {
+  const url = document.getElementById('donateLink').value;
+  if (!url) return;
+  if (navigator.share) {
+    await navigator.share({ title: 'Donate', text: 'Support our campaign', url });
+    document.getElementById('donateState').textContent = 'Share dialog opened.';
+  } else {
+    document.getElementById('donateState').textContent = `Share not supported. Link: ${url}`;
+  }
+};
+
+async function refreshQueues() {
+  try {
+    const payload = await api('/queues');
+    document.getElementById('queueEvents').innerHTML = (payload.queueEvents || []).slice(0, 20).map((event) => `${event.created_at} · ${event.channel} · ${event.action}`).join('<br>');
+  } catch (error) {
+    document.getElementById('queueEvents').textContent = error.message;
+  }
+}
+
+document.getElementById('enqueueBtn').onclick = async () => {
+  try {
+    const payload = await api('/queues/enqueue', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        channel: document.getElementById('queueChannel').value,
+        recipient: document.getElementById('queueRecipient').value,
+        body: document.getElementById('queueScript').value
+      })
+    });
+    document.getElementById('queueState').textContent = `Queued ${payload.queue_id} (${payload.channel})`;
+    await refreshQueues();
+  } catch (error) {
+    document.getElementById('queueState').textContent = error.message;
+  }
+};
+
+document.getElementById('optOutBtn').onclick = async () => {
+  try {
+    const payload = await api('/queues/opt-out', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        channel: document.getElementById('queueChannel').value,
+        recipient: document.getElementById('queueRecipient').value,
+        reason: 'manual lock'
+      })
+    });
+    document.getElementById('queueState').textContent = `Locked ${payload.recipient} for ${payload.channel}`;
+    await refreshQueues();
+  } catch (error) {
+    document.getElementById('queueState').textContent = error.message;
+  }
+};
+
+document.getElementById('sendTextBtn').onclick = async () => {
+  try {
+    const payload = await api('/text/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        provider: document.getElementById('textProvider').value,
+        to: document.getElementById('textTo').value,
+        body: document.getElementById('textBody').value
+      })
+    });
+    if (payload.status === 'manual_required') {
+      document.getElementById('textResult').textContent = `Manual send: copy text and open ${payload.sms_deep_link}`;
+    } else {
+      document.getElementById('textResult').textContent = `Provider queued: ${payload.provider_message_id}`;
+    }
+  } catch (error) {
+    document.getElementById('textResult').textContent = error.message;
+  }
+};
+
+document.getElementById('createTurfBtn').onclick = async () => {
+  try {
+    const households = document.getElementById('turfHouseholds').value.split(',').map((v) => v.trim()).filter(Boolean);
+    const payload = await api('/turfs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: document.getElementById('turfName').value, household_ids: households })
+    });
+    document.getElementById('turfState').textContent = `Created ${payload.turf_id} (${payload.household_ids.length} households)`;
+  } catch (error) {
+    document.getElementById('turfState').textContent = error.message;
+  }
+};
+
+document.getElementById('assignRouteBtn').onclick = async () => {
+  try {
+    const households = document.getElementById('turfHouseholds').value.split(',').map((v) => v.trim()).filter(Boolean);
+    const payload = await api('/assignments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: document.getElementById('assignUser').value, household_ids: households })
+    });
+    document.getElementById('turfState').textContent = `Assignment ${payload.assignment_id} created. Route stops: ${payload.route_order.length}`;
+  } catch (error) {
+    document.getElementById('turfState').textContent = error.message;
+  }
+};
+
+document.getElementById('optimizeRouteBtn').onclick = async () => {
+  try {
+    const households = document.getElementById('turfHouseholds').value.split(',').map((v) => v.trim()).filter(Boolean);
+    const payload = await api('/routes/optimize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ household_ids: households })
+    });
+    document.getElementById('turfState').textContent = `Optimized route (${payload.algorithm.join(' + ')}) with ${payload.stop_count} stops.`;
+  } catch (error) {
+    document.getElementById('turfState').textContent = error.message;
+  }
+};

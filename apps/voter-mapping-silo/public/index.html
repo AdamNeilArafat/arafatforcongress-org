@@ -21,6 +21,7 @@
     .muted{font-size:.82rem;color:#5f6f86}
     .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
     .kpi .card{text-align:center}
+    .screen{display:none}.screen.active{display:block}.screen-nav{display:grid;grid-template-columns:1fr 1fr;gap:6px} .screen-nav button{font-size:.82rem;padding:7px}
     @media (max-width:900px){.shell{grid-template-columns:1fr}.panel{border-right:0;border-bottom:1px solid #dbe2ef}#map{height:60vh}}
   </style>
 </head>
@@ -37,6 +38,20 @@
         <p class="muted">Use your campaign dashboard access key. If unlock returns 405, set the API endpoint and save it before retrying.</p>
       </div>
 
+      
+      <div class="card">
+        <h3>Screens</h3>
+        <div class="screen-nav">
+          <button class="secondary" data-screen="screen-dashboard">Dashboard</button>
+          <button class="secondary" data-screen="screen-admin-settings">Admin Settings</button>
+          <button class="secondary" data-screen="screen-donate">Donate (Volunteer)</button>
+          <button class="secondary" data-screen="screen-queues">Call/Text Queues</button>
+          <button class="secondary" data-screen="screen-text">Text Send</button>
+          <button class="secondary" data-screen="screen-turf">Turf + Route</button>
+        </div>
+      </div>
+
+      <div id="screen-dashboard" class="screen active">
       <div class="card">
         <h3>CSV Import</h3>
         <select id="county"><option value="pierce">Pierce</option><option value="thurston">Thurston</option></select>
@@ -93,6 +108,28 @@ thurston,https://...csv"></textarea>
       <div class="card">
         <h3>Latest Audit Events</h3>
         <div id="audit" class="muted"></div>
+      </div>
+      </div>
+
+      <div id="screen-admin-settings" class="screen">
+        <div class="card"><h3>Admin: ActBlue URL</h3><input id="actblueUrl" type="url" placeholder="https://secure.actblue.com/..." /><button id="saveActblueBtn">Save ActBlue URL</button><div id="actblueState" class="muted"></div></div>
+      </div>
+
+      <div id="screen-donate" class="screen">
+        <div class="card"><h3>Volunteer Donate Screen</h3><img id="donateQr" alt="Donate QR" style="max-width:220px;width:100%;border:1px solid #dbe2ef;border-radius:8px;display:block;margin-bottom:8px" /><input id="donateLink" readonly /><button id="copyDonateBtn" class="secondary">Copy link</button><button id="shareDonateBtn">Share</button><div id="donateState" class="muted"></div></div>
+      </div>
+
+      <div id="screen-queues" class="screen">
+        <div class="card"><h3>Queue Enqueue</h3><select id="queueChannel"><option value="call">Call</option><option value="text">Text</option></select><input id="queueRecipient" placeholder="Recipient phone" /><textarea id="queueScript" placeholder="Script or message"></textarea><button id="enqueueBtn">Enqueue</button><button id="optOutBtn" class="secondary">Opt-out lock recipient</button><div id="queueState" class="muted"></div></div>
+        <div class="card"><h3>Queue Events</h3><div id="queueEvents" class="muted"></div></div>
+      </div>
+
+      <div id="screen-text" class="screen">
+        <div class="card"><h3>Text Provider Adapter</h3><select id="textProvider"><option value="manual">manual (MVP copy+sms)</option><option value="twilio">twilio (future provider-backed path)</option></select><input id="textTo" placeholder="To phone" /><textarea id="textBody" placeholder="Message body"></textarea><button id="sendTextBtn">Send Text</button><div id="textResult" class="muted"></div></div>
+      </div>
+
+      <div id="screen-turf" class="screen">
+        <div class="card"><h3>Turf Assignment Workflow</h3><input id="turfName" placeholder="Turf name" /><textarea id="turfHouseholds" placeholder="Household IDs (comma-separated)"></textarea><button id="createTurfBtn">Create Turf</button><input id="assignUser" placeholder="Assign user_id" /><button id="assignRouteBtn" class="secondary">Create Assignment + Route</button><button id="optimizeRouteBtn" class="secondary">Preview Optimized Route</button><div id="turfState" class="muted"></div></div>
       </div>
     </aside>
     <section id="map"></section>

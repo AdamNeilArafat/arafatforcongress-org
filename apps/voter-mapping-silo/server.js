@@ -28,6 +28,11 @@ const DEFAULT_STORE = {
   mapAnnotations: [],
   imports: [],
   turfAssignments: [],
+  turfs: [],
+  callQueue: [],
+  textQueue: [],
+  queueEvents: [],
+  optOutLocks: [],
   users: [],
   auditEvents: [],
   settings: {}
@@ -46,6 +51,11 @@ function readStore() {
   if (!Array.isArray(parsed.canvassInteractions)) parsed.canvassInteractions = [];
   if (!Array.isArray(parsed.mapAnnotations)) parsed.mapAnnotations = [];
   if (!Array.isArray(parsed.imports)) parsed.imports = [];
+  if (!Array.isArray(parsed.turfs)) parsed.turfs = [];
+  if (!Array.isArray(parsed.callQueue)) parsed.callQueue = [];
+  if (!Array.isArray(parsed.textQueue)) parsed.textQueue = [];
+  if (!Array.isArray(parsed.queueEvents)) parsed.queueEvents = [];
+  if (!Array.isArray(parsed.optOutLocks)) parsed.optOutLocks = [];
   if (!Array.isArray(parsed.auditEvents)) parsed.auditEvents = [];
   if (!parsed.settings || typeof parsed.settings !== 'object') parsed.settings = {};
   parsed.voters.forEach(withSoftDeleteDefaults);
@@ -352,6 +362,112 @@ async function processImportFile(importId) {
     });
   }
 }
+
+function sanitizeActBlueUrl(value = '') {
+  const trimmed = String(value || '').trim();
+  if (!trimmed) return '';
+  try {
+    const parsed = new URL(trimmed);
+    if (!['http:', 'https:'].includes(parsed.protocol)) return '';
+    return parsed.toString();
+  } catch (_) {
+    return '';
+  }
+}
+function normalizePhone(value = '') {
+  return String(value || '').replace(/[^0-9+]/g, '');
+}
+function optOutKey(channel, recipient) {
+  return `${channel}:${recipient}`;
+}
+function hasOptOutLock(store, channel, recipient) {
+  const key = optOutKey(channel, recipient);
+  return store.optOutLocks.some((lock) => String(lock.lock_key) === key && !lock.released_at);
+}
+function addQueueEvent(store, event) {
+  store.queueEvents.unshift(Object.freeze({
+    event_id: id('evt'),
+    created_at: now(),
+    ...event
+  }));
+  store.queueEvents = store.queueEvents.slice(0, 20000);
+}
+function distance(a, b) {
+  const dx = Number(a.lat) - Number(b.lat);
+  const dy = Number(a.lng) - Number(b.lng);
+  return Math.sqrt(dx * dx + dy * dy);
+}
+function routeDistance(route = []) {
+  let total = 0;
+  for (let i = 1; i < route.length; i += 1) total += distance(route[i - 1], route[i]);
+  return total;
+}
+function nearestNeighbor(points = []) {
+  if (!points.length) return [];
+  const remaining = points.slice(1);
+  const route = [points[0]];
+  while (remaining.length) {
+    const current = route[route.length - 1];
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < remaining.length; i += 1) {
+      const d = distance(current, remaining[i]);
+      if (d < bestDist) {
+        bestDist = d;
+        bestIdx = i;
+      }
+    }
+    route.push(remaining.splice(bestIdx, 1)[0]);
+  }
+  return route;
+}
+function twoOpt(route = []) {
+  if (route.length < 4) return route;
+  let improved = true;
+  let best = route.slice();
+  while (improved) {
+    improved = false;
+    for (let i = 1; i < best.length - 2; i += 1) {
+      for (let k = i + 1; k < best.length - 1; k += 1) {
+        const next = best.slice(0, i).concat(best.slice(i, k + 1).reverse(), best.slice(k + 1));
+        if (routeDistance(next) + 1e-9 < routeDistance(best)) {
+          best = next;
+          improved = true;
+        }
+      }
+    }
+  }
+  return best;
+}
+function buildRouteForHouseholds(households = []) {
+  const points = households
+    .filter((h) => Number.isFinite(Number(h.lat)) && Number.isFinite(Number(h.lng)))
+    .map((h) => ({ household_id: h.household_id, lat: Number(h.lat), lng: Number(h.lng), normalized_address: h.normalized_address }));
+  return twoOpt(nearestNeighbor(points)).map((point, idx) => ({ ...point, order: idx + 1 }));
+}
+function createTextProviderAdapter(provider = 'manual') {
+  return {
+    provider,
+    async send(message) {
+      if (provider === 'manual') {
+        const body = encodeURIComponent(String(message.body || ''));
+        const to = encodeURIComponent(String(message.to || ''));
+        return {
+          status: 'manual_required',
+          copy_text: String(message.body || ''),
+          sms_deep_link: `sms:${to}?&body=${body}`,
+          provider: 'manual'
+        };
+      }
+      return {
+        status: 'queued_provider',
+        provider,
+        provider_message_id: id('provider-msg')
+      };
+    }
+  };
+}
+
 function audit(store, actor, action, targetType, targetId, metadata = {}) {
   store.auditEvents.unshift({ id: id('audit'), actor, action, targetType, targetId, timestamp: now(), metadata });
   store.auditEvents = store.auditEvents.slice(0, 10000);
@@ -534,7 +650,7 @@ function isAdminOnlyRoute(req, pathname) {
   if (pathname.startsWith('/api/imports')) return true;
   if (pathname.startsWith('/api/settings')) return true;
   if (pathname.startsWith('/api/export')) return true;
-  if (pathname.startsWith('/api/assignments')) return true;
+  if (req.method !== 'GET' && pathname.startsWith('/api/assignments')) return true;
   if (req.method === 'DELETE' && pathname.startsWith('/api/')) return true;
   if (req.method === 'POST' && pathname.startsWith('/api/clear')) return true;
   return false;
@@ -787,6 +903,149 @@ async function handler(req, res) {
     });
   }
 
+
+  if (req.method === 'GET' && pathname === '/api/settings/actblue') {
+    const store = readStore();
+    return send(res, 200, { actblue_url: String(store.settings?.actblue_url || '') });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/settings/actblue') {
+    if (user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const nextUrl = sanitizeActBlueUrl(body.actblue_url);
+    if (!nextUrl) return send(res, 400, { error: 'actblue_url must be a valid http/https URL' });
+    const store = readStore();
+    store.settings.actblue_url = nextUrl;
+    audit(store, user.userId, 'SETTINGS_ACTBLUE_URL', 'settings', 'actblue_url', { actblue_url: nextUrl });
+    writeStore(store);
+    return send(res, 200, { ok: true, actblue_url: nextUrl });
+  }
+
+  if (req.method === 'GET' && pathname === '/api/donate') {
+    const store = readStore();
+    const actblueUrl = String(store.settings?.actblue_url || '').trim();
+    return send(res, 200, {
+      actblue_url: actblueUrl,
+      qr_url: actblueUrl ? `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(actblueUrl)}` : null,
+      share_text: 'Support our campaign',
+      canShare: true
+    });
+  }
+
+  if (req.method === 'GET' && pathname === '/api/queues') {
+    const store = readStore();
+    return send(res, 200, {
+      callQueue: store.callQueue,
+      textQueue: store.textQueue,
+      optOutLocks: store.optOutLocks,
+      queueEvents: store.queueEvents.slice(0, 300)
+    });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/queues/enqueue') {
+    if (user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const channel = body.channel === 'text' ? 'text' : 'call';
+    const recipient = normalizePhone(body.recipient || body.phone || '');
+    if (!recipient) return send(res, 400, { error: 'recipient is required' });
+    const store = readStore();
+    if (hasOptOutLock(store, channel, recipient)) return send(res, 423, { error: 'recipient is opt-out locked', channel, recipient });
+    const item = {
+      queue_id: id(channel === 'text' ? 'txtq' : 'callq'),
+      channel,
+      recipient,
+      household_id: body.household_id || null,
+      voter_id: body.voter_id || null,
+      script: String(body.script || body.body || ''),
+      status: 'pending',
+      created_by: user.userId,
+      created_at: now()
+    };
+    if (channel === 'text') store.textQueue.push(item); else store.callQueue.push(item);
+    addQueueEvent(store, { channel, queue_id: item.queue_id, action: 'queued', actor: user.userId, payload: { recipient } });
+    writeStore(store);
+    return send(res, 201, item);
+  }
+
+  if (req.method === 'POST' && pathname === '/api/queues/opt-out') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const channel = body.channel === 'call' ? 'call' : 'text';
+    const recipient = normalizePhone(body.recipient || body.phone || '');
+    if (!recipient) return send(res, 400, { error: 'recipient is required' });
+    const store = readStore();
+    const lock = {
+      lock_id: id('lock'),
+      lock_key: optOutKey(channel, recipient),
+      channel,
+      recipient,
+      reason: String(body.reason || 'recipient-request').trim(),
+      created_by: user.userId,
+      created_at: now(),
+      released_at: null
+    };
+    store.optOutLocks.unshift(lock);
+    addQueueEvent(store, { channel, action: 'opt_out_locked', actor: user.userId, payload: { recipient, reason: lock.reason } });
+    writeStore(store);
+    return send(res, 201, lock);
+  }
+
+  if (req.method === 'POST' && pathname === '/api/text/send') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const provider = String(body.provider || 'manual').trim().toLowerCase();
+    const to = normalizePhone(body.to || body.recipient || '');
+    const messageBody = String(body.body || body.message || '').trim();
+    if (!to || !messageBody) return send(res, 400, { error: 'to and body are required' });
+    const store = readStore();
+    if (hasOptOutLock(store, 'text', to)) return send(res, 423, { error: 'recipient is opt-out locked', channel: 'text', recipient: to });
+    const adapter = createTextProviderAdapter(provider);
+    const delivery = await adapter.send({ to, body: messageBody });
+    const eventAction = delivery.status === 'manual_required' ? 'manual_send_prepared' : 'provider_send_queued';
+    addQueueEvent(store, { channel: 'text', action: eventAction, actor: user.userId, payload: { to, provider: delivery.provider } });
+    writeStore(store);
+    return send(res, 200, { channel: 'text', to, ...delivery });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/turfs') {
+    if (user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const store = readStore();
+    const county = String(body.county || 'all').toLowerCase();
+    const householdIds = Array.isArray(body.household_ids) ? [...new Set(body.household_ids.map((x) => String(x)))] : [];
+    if (!householdIds.length) return send(res, 400, { error: 'household_ids[] required' });
+    const turf = {
+      turf_id: id('turf'),
+      name: String(body.name || `Turf ${store.turfs.length + 1}`),
+      county,
+      household_ids: householdIds,
+      created_by: user.userId,
+      created_at: now()
+    };
+    store.turfs.push(turf);
+    audit(store, user.userId, 'CREATE_TURF', 'turf', turf.turf_id, { county, household_count: householdIds.length });
+    writeStore(store);
+    return send(res, 201, turf);
+  }
+
+  if (req.method === 'GET' && pathname === '/api/turfs') {
+    const store = readStore();
+    return send(res, 200, store.turfs);
+  }
+
+  if (req.method === 'POST' && pathname === '/api/routes/optimize') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const store = readStore();
+    const ids = Array.isArray(body.household_ids) ? new Set(body.household_ids.map((x) => String(x))) : null;
+    const source = ids ? store.households.filter((h) => ids.has(h.household_id)) : store.households;
+    const route = buildRouteForHouseholds(source);
+    return send(res, 200, { algorithm: ['nearest-neighbor', '2-opt'], stop_count: route.length, route });
+  }
+
   if (req.method === 'POST' && pathname === '/api/imports/voters') {
     const contentType = String(req.headers['content-type'] || '').toLowerCase();
     if (!contentType.includes('multipart/form-data')) {
@@ -917,6 +1176,12 @@ async function handler(req, res) {
     const votersSource = visibleRecords(store.voters, includeDeleted);
     const interactionsSource = visibleRecords(store.canvassInteractions, includeDeleted);
     const eligible = new Set(county === 'all' ? householdsSource.map((h) => h.household_id) : votersSource.filter((v) => v.source_county === county).map((v) => v.household_id));
+    const assignmentScope = assignmentSetForUser(store, user);
+    if (assignmentScope) {
+      for (const householdId of [...eligible]) {
+        if (!assignmentScope.has(householdId)) eligible.delete(householdId);
+      }
+    }
     const latestByHousehold = latestInteractionByHousehold(interactionsSource);
     const votersByHousehold = new Map();
     for (const voter of votersSource) {
@@ -950,6 +1215,10 @@ async function handler(req, res) {
     const store = readStore();
     const household = store.households.find((item) => item.household_id === body.household_id);
     if (!household || isSoftDeleted(household)) return send(res, 404, { error: 'Household not found' });
+    const assignmentScope = assignmentSetForUser(store, user);
+    if (assignmentScope && !assignmentScope.has(body.household_id)) {
+      return send(res, 403, { error: 'Forbidden: household outside assigned turf' });
+    }
     if (body.voter_id) {
       const voter = store.voters.find((item) => item.voter_id === body.voter_id && item.household_id === body.household_id);
       if (!voter || isSoftDeleted(voter)) return send(res, 404, { error: 'Voter not found' });
@@ -961,7 +1230,9 @@ async function handler(req, res) {
 
   if (req.method === 'GET' && pathname === '/api/assignments') {
     const store = readStore();
-    return send(res, 200, store.turfAssignments);
+    if (user.role === 'admin') return send(res, 200, store.turfAssignments);
+    const mine = store.turfAssignments.filter((assignment) => String(assignment.user_id) === String(user.userId));
+    return send(res, 200, mine);
   }
 
   if (req.method === 'POST' && pathname === '/api/assignments') {
@@ -974,12 +1245,16 @@ async function handler(req, res) {
       return send(res, 400, { error: 'user_id and household_ids[] are required' });
     }
     const store = readStore();
+    const householdIds = [...new Set(body.household_ids.map((item) => String(item)))];
+    const route = buildRouteForHouseholds(store.households.filter((household) => householdIds.includes(household.household_id)));
     const record = {
       assignment_id: id('assign'),
       user_id: String(body.user_id),
       turf_id: String(body.turf_id || id('turf')),
       county: String(body.county || 'all').toLowerCase(),
-      household_ids: [...new Set(body.household_ids.map((item) => String(item)))],
+      household_ids: householdIds,
+      route_order: route,
+      checklist: route.map((stop) => ({ household_id: stop.household_id, order: stop.order, completed_at: null })),
       created_by: user.userId,
       created_at: now()
     };

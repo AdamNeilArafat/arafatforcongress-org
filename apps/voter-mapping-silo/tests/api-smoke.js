@@ -12,6 +12,11 @@ async function run() {
     mapAnnotations: [],
     imports: [],
     turfAssignments: [],
+    turfs: [],
+    callQueue: [],
+    textQueue: [],
+    queueEvents: [],
+    optOutLocks: [],
     users: [],
     auditEvents: [],
     settings: {}
@@ -101,6 +106,57 @@ async function run() {
     body: JSON.stringify({ household_id: householdIds[1], outcome: 'Contacted' })
   }, 403);
   assert(outOfScope.error.includes('outside assigned turf'));
+
+
+  await req('/silo/api/settings/actblue', {
+    method: 'POST',
+    headers: { ...adminHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ actblue_url: 'https://secure.actblue.com/donate/example' })
+  }, 200);
+  const donate = await req('/silo/api/donate', { headers: assignedVolunteerHeaders }, 200);
+  assert(donate.actblue_url.includes('actblue.com'));
+
+  const queueItem = await req('/silo/api/queues/enqueue', {
+    method: 'POST',
+    headers: { ...adminHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ channel: 'text', recipient: '+1 (360) 555-1111', body: 'Hello there' })
+  }, 201);
+  assert.equal(queueItem.channel, 'text');
+
+  const manualSend = await req('/silo/api/text/send', {
+    method: 'POST',
+    headers: { ...assignedVolunteerHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ provider: 'manual', to: '3605551111', body: 'Can we count on your vote?' })
+  }, 200);
+  assert.equal(manualSend.status, 'manual_required');
+  assert(manualSend.sms_deep_link.startsWith('sms:'));
+
+  const optOut = await req('/silo/api/queues/opt-out', {
+    method: 'POST',
+    headers: { ...assignedVolunteerHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ channel: 'text', recipient: '3605551111', reason: 'STOP' })
+  }, 201);
+  assert.equal(optOut.channel, 'text');
+
+  await req('/silo/api/queues/enqueue', {
+    method: 'POST',
+    headers: { ...adminHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ channel: 'text', recipient: '3605551111', body: 'blocked' })
+  }, 423);
+
+  const turf = await req('/silo/api/turfs', {
+    method: 'POST',
+    headers: { ...adminHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Pierce A', county: 'pierce', household_ids: householdIds })
+  }, 201);
+  assert.equal(turf.household_ids.length, 2);
+
+  const optimized = await req('/silo/api/routes/optimize', {
+    method: 'POST',
+    headers: { ...assignedVolunteerHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ household_ids: householdIds })
+  }, 200);
+  assert.equal(optimized.algorithm[0], 'nearest-neighbor');
 
   server.close();
   console.log('api-smoke ok');
