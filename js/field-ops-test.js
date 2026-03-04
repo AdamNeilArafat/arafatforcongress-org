@@ -507,9 +507,24 @@ function wireEvents() {
   };
   document.getElementById('text-next').onclick = () => { state.textIndex += 1; renderText(); };
 
-  document.getElementById('csv').addEventListener('change', async e => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const csvInput = document.getElementById('csv');
+  const csvSelected = document.getElementById('csv-selected');
+
+  document.getElementById('pick-csv').addEventListener('click', () => {
+    csvInput.click();
+  });
+
+  csvInput.addEventListener('change', () => {
+    const file = csvInput.files?.[0];
+    csvSelected.textContent = file ? `Selected local file: ${file.name}` : 'No local file selected.';
+  });
+
+  document.getElementById('upload-csv').addEventListener('click', async () => {
+    const file = csvInput.files?.[0];
+    if (!file) {
+      document.getElementById('import-result').textContent = 'Select a local CSV file first.';
+      return;
+    }
     await importCsvText(await file.text(), `file ${file.name}`);
   });
 
