@@ -415,6 +415,7 @@
     <input type="password" id="pin-input" maxlength="20" autocomplete="off" placeholder="Enter password" />
     <button id="pin-submit">Enter Dashboard</button>
     <p id="pin-error"></p>
+    <button id="pin-reset" type="button" style="margin-top:6px;background:transparent;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:.8rem;">Reset local password on this device</button>
     <p class="pin-hint">Staff access only. Contact campaign leadership for credentials.</p>
   </div>
 </div>
@@ -991,6 +992,7 @@
   const dashboard   = document.getElementById('dashboard');
   const pinInput    = document.getElementById('pin-input');
   const pinSubmit   = document.getElementById('pin-submit');
+  const pinReset    = document.getElementById('pin-reset');
   const pinError    = document.getElementById('pin-error');
 
   function getPin() { return localStorage.getItem(LS_PIN) || DEFAULT_PIN; }
@@ -1007,6 +1009,16 @@
   } else {
     pinSubmit.addEventListener('click', () => { tryPin().catch(() => {}); });
     pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin().catch(() => {}); });
+    pinReset.addEventListener('click', () => {
+      localStorage.removeItem(LS_PIN);
+      sessionStorage.removeItem('arafat_auth');
+      sessionStorage.removeItem('arafat_silo_token');
+      siloToken = '';
+      pinInput.value = '';
+      pinError.style.color = 'var(--green)';
+      pinError.textContent = 'Local password reset on this device. Try the default team password again.';
+      pinInput.focus();
+    });
   }
 
   async function tryPin() {
@@ -1021,11 +1033,18 @@
     try {
       await loginAgainstSilo(enteredPin);
       localStorage.setItem(LS_PIN, enteredPin);
+      pinError.style.color = 'var(--red)';
       pinError.textContent = '';
       unlock();
       return;
-    } catch (_) {
-      pinError.textContent = 'Incorrect password. Try again.';
+    } catch (err) {
+      pinError.style.color = 'var(--red)';
+      const msg = String(err && err.message ? err.message : '');
+      if (msg.includes('Failed to fetch') || msg.includes('Unable to reach API')) {
+        pinError.textContent = 'Password check service is unavailable. Use this device\'s saved password, or reset local password below.';
+      } else {
+        pinError.textContent = 'Incorrect password. Try again.';
+      }
     }
     pinInput.value = '';
     pinInput.focus();
