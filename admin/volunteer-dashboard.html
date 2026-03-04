@@ -35,34 +35,8 @@
       min-height: 100vh;
     }
 
-    /* ---- PIN SCREEN ---- */
-    #pin-screen {
-      position: fixed; inset: 0; background: var(--navy);
-      display: flex; align-items: center; justify-content: center; z-index: 9999;
-    }
-    .pin-box {
-      background: #fff; border-radius: 16px; padding: 40px 36px;
-      width: 340px; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.30);
-    }
-    .pin-logo { font-weight: 900; font-size: 1.1rem; color: var(--navy); letter-spacing: .2px; }
-    .pin-sub { font-size: .82rem; color: var(--muted); margin-bottom: 24px; font-weight: 600; }
-    .pin-box h2 { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 16px; }
-    #pin-input {
-      width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px;
-      font-size: 18px; text-align: center; letter-spacing: .4em; margin-bottom: 12px;
-      background: #f7f8fb; color: var(--navy);
-    }
-    #pin-submit {
-      width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer;
-      background: linear-gradient(160deg, var(--brand), var(--brand-dark));
-      color: #fff; font-weight: 800; font-size: 1rem; letter-spacing: .2px;
-    }
-    #pin-submit:hover { filter: brightness(1.06); }
-    #pin-error { color: var(--red); font-size: .88rem; margin-top: 10px; min-height: 1.4em; font-weight: 600; }
-    .pin-hint { font-size: .76rem; color: var(--muted); margin-top: 16px; line-height: 1.5; }
-
     /* ---- DASHBOARD LAYOUT ---- */
-    #dashboard { display: none; min-height: 100vh; }
+    #dashboard { min-height: 100vh; }
 
     .dash-header {
       background: var(--navy);
@@ -406,20 +380,6 @@
 </head>
 <body>
 
-<!-- PIN SCREEN -->
-<div id="pin-screen">
-  <div class="pin-box">
-    <div class="pin-logo">Arafat for Congress</div>
-    <div class="pin-sub">Campaign Dashboard &bull; WA-10</div>
-    <h2>Team access only</h2>
-    <input type="password" id="pin-input" maxlength="20" autocomplete="off" placeholder="Enter password" />
-    <button id="pin-submit">Enter Dashboard</button>
-    <p id="pin-error"></p>
-    <button id="pin-reset" type="button" style="margin-top:6px;background:transparent;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:.8rem;">Reset local password on this device</button>
-    <p class="pin-hint">Staff access only. Contact campaign leadership for credentials.</p>
-  </div>
-</div>
-
 <!-- DASHBOARD -->
 <div id="dashboard">
   <header class="dash-header">
@@ -432,7 +392,7 @@
       <button class="dash-btn dash-btn--gold" id="export-btn">&#11123; Export CSV</button>
       <a class="dash-btn" href="/admin/field-ops-test.html">Field Ops Test</a>
       <a class="dash-btn" href="/index.html" target="_blank">View Site &rarr;</a>
-      <button class="dash-btn" id="logout-btn">&#128274; Lock</button>
+      <button class="dash-btn" id="logout-btn">&#8635; Reload</button>
     </div>
   </header>
 
@@ -900,14 +860,6 @@
         </div>
 
         <div class="config-section" style="border-top:1px solid var(--border);padding-top:20px;">
-          <h3>Change Dashboard Password</h3>
-          <p>Change the dashboard password here. Passwords are stored in this browser only.</p>
-          <input type="password" id="new-pin-input" placeholder="New password" maxlength="20" />
-          <button class="config-btn" id="save-pin-btn">Update PIN</button>
-          <div class="config-feedback" id="pin-change-feedback"></div>
-        </div>
-
-        <div class="config-section" style="border-top:1px solid var(--border);padding-top:20px;">
           <h3>Clear Local Contacts</h3>
           <p>Contacts added manually via this form are stored in your browser. This removes them.</p>
           <button class="config-btn" id="clear-local-btn" style="background:linear-gradient(160deg,#991b1b,#7f1d1d);">Clear Local Contacts</button>
@@ -925,11 +877,9 @@
   'use strict';
 
   /* -------- CONFIG -------- */
-  const LS_PIN     = 'arafat_dash_pin';
   const LS_SHEETS  = 'arafat_dash_sheets_url';
   const LS_VOL     = 'arafat_dash_vol_url';
   const LS_LOCAL   = 'arafat_dash_local_contacts';
-  const DEFAULT_PIN = 'Arafat 2026';
   const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY/export?format=csv&gid=1573758032';
   const DEFAULT_VOL_URL    = 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351';
   const SILO_API_BASES = ['/silo/api', '/api'];
@@ -951,7 +901,6 @@
   let sheetsContacts = [];
   let volContacts = [];
   let localContacts = [];
-  let siloToken = sessionStorage.getItem('arafat_silo_token') || '';
 
   async function parseApiPayload(resp) {
     const text = await resp.text();
@@ -975,86 +924,10 @@
     throw lastError || new Error('Unable to reach API');
   }
 
-  async function loginAgainstSilo(pin) {
-    const payload = await siloApi('/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin })
-    });
-    if (!payload.token) throw new Error('Missing auth token');
-    siloToken = payload.token;
-    sessionStorage.setItem('arafat_silo_token', siloToken);
-    return true;
-  }
-
-  /* -------- PIN LOGIC -------- */
-  const pinScreen   = document.getElementById('pin-screen');
-  const dashboard   = document.getElementById('dashboard');
-  const pinInput    = document.getElementById('pin-input');
-  const pinSubmit   = document.getElementById('pin-submit');
-  const pinReset    = document.getElementById('pin-reset');
-  const pinError    = document.getElementById('pin-error');
-
-  function getPin() { return localStorage.getItem(LS_PIN) || DEFAULT_PIN; }
-
-  function unlock() {
-    pinScreen.style.display = 'none';
-    dashboard.style.display = 'block';
-    sessionStorage.setItem('arafat_auth', '1');
-    init();
-  }
-
-  if (sessionStorage.getItem('arafat_auth') === '1') {
-    unlock();
-  } else {
-    pinSubmit.addEventListener('click', () => { tryPin().catch(() => {}); });
-    pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin().catch(() => {}); });
-    pinReset.addEventListener('click', () => {
-      localStorage.removeItem(LS_PIN);
-      sessionStorage.removeItem('arafat_auth');
-      sessionStorage.removeItem('arafat_silo_token');
-      siloToken = '';
-      pinInput.value = '';
-      pinError.style.color = 'var(--green)';
-      pinError.textContent = 'Local password reset on this device. Try the default team password again.';
-      pinInput.focus();
-    });
-  }
-
-  async function tryPin() {
-    const enteredPin = pinInput.value.trim();
-    if (!enteredPin) return;
-    if (enteredPin === getPin()) {
-      pinError.textContent = '';
-      unlock();
-      return;
-    }
-
-    try {
-      await loginAgainstSilo(enteredPin);
-      localStorage.setItem(LS_PIN, enteredPin);
-      pinError.style.color = 'var(--red)';
-      pinError.textContent = '';
-      unlock();
-      return;
-    } catch (err) {
-      pinError.style.color = 'var(--red)';
-      const msg = String(err && err.message ? err.message : '');
-      if (msg.includes('Failed to fetch') || msg.includes('Unable to reach API')) {
-        pinError.textContent = 'Password check service is unavailable. Use this device\'s saved password, or reset local password below.';
-      } else {
-        pinError.textContent = 'Incorrect password. Try again.';
-      }
-    }
-    pinInput.value = '';
-    pinInput.focus();
-  }
-
   // Expose for global use in follow-up alert button
   window.applyFiltersAndSortGlobal = function() { applyFiltersAndSort(); };
 
   document.getElementById('logout-btn').addEventListener('click', () => {
-    sessionStorage.removeItem('arafat_auth');
     location.reload();
   });
 
@@ -1491,29 +1364,6 @@
     fb.textContent = 'Volunteer tab loaded (' + volContacts.length + ' records).';
   });
 
-  document.getElementById('save-pin-btn').addEventListener('click', async () => {
-    const np = document.getElementById('new-pin-input').value.trim();
-    const fb = document.getElementById('pin-change-feedback');
-    if (np.length < 8) { fb.style.color = 'var(--red)'; fb.textContent = 'Password must be at least 8 characters. Use a strong, unique password.'; return; }
-    localStorage.setItem(LS_PIN, np);
-    try {
-      if (!siloToken) {
-        await loginAgainstSilo(getPin());
-      }
-      await siloApi('/settings/pin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + siloToken },
-        body: JSON.stringify({ pin: np })
-      });
-      fb.style.color = 'var(--green)';
-      fb.textContent = 'Password updated across both dashboards.';
-    } catch (_) {
-      fb.style.color = 'var(--amber)';
-      fb.textContent = 'Password updated for this dashboard only. Silo sync failed; login there and retry if needed.';
-    }
-    document.getElementById('new-pin-input').value = '';
-  });
-
   document.getElementById('clear-local-btn').addEventListener('click', () => {
     if (confirm('Delete all locally-added contacts? Sheet data is not affected.')) {
       localContacts = [];
@@ -1527,6 +1377,8 @@
   document.getElementById('refresh-btn').addEventListener('click', async () => {
     await refreshRemoteData();
   });
+
+  init().catch(() => {});
 
   /* -------- OUTREACH LOG INBOX -------- */
   const LS_OUTREACH_LOGS = 'arafat_outreach_logs';

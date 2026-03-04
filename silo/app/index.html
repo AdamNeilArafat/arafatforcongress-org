@@ -25,23 +25,14 @@
   </style>
 </head>
 <body>
-  <header class="top"><strong>Secure Voter Mapping Silo Dashboard</strong><span id="authState">Locked</span></header>
+  <header class="top"><strong>Voter Mapping Silo Dashboard</strong><span id="authState">Open</span></header>
   <main class="shell">
     <aside class="panel">
       <div class="card">
-        <h3>Login</h3>
-        <input id="pin" type="password" placeholder="Admin PIN" />
+        <h3>API Endpoint</h3>
         <input id="apiBase" type="url" placeholder="Optional API base (e.g. https://silo.example.org/api)" />
         <button id="saveApiBaseBtn" class="secondary">Save API Endpoint</button>
-        <button id="loginBtn">Unlock</button>
-        <p class="muted">Use your campaign dashboard PIN. If unlock returns 405, set the API endpoint and save it before retrying.</p>
-      </div>
-
-      <div class="card">
-        <h3>Setup & Security</h3>
-        <input id="newPin" type="password" placeholder="New PIN (8+ chars)" />
-        <button id="savePinBtn" class="secondary">Update PIN</button>
-        <div class="muted" id="pinSaveResult">This replaces silo login PIN for future sign-ins.</div>
+        <p class="muted">Set this only if your API is hosted on a different base URL.</p>
       </div>
 
       <div class="card">
