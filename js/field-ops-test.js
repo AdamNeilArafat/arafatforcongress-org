@@ -297,16 +297,35 @@ function normalizeGoogleSheetCsvUrl(input = '') {
   return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv&gid=${gid}`;
 }
 
-async function importCsvText(csvText, sourceLabel) {
+function setUploadProgress(message = '') {
+  const progressEl = document.getElementById('upload-progress');
+  if (!progressEl) return;
+  progressEl.textContent = message;
+}
+
+function scanCsvText(csvText = '') {
   const parsedRows = parseCsvRows(csvText);
+  return {
+    parsedRows,
+    rowCount: parsedRows.length,
+    columns: parsedRows.length ? Object.keys(parsedRows[0]).filter((key) => !/^col_[a-z]$/.test(key) && key.length > 1).slice(0, 12) : []
+  };
+}
+
+async function importCsvText(csvText, sourceLabel) {
+  setUploadProgress(`Uploading ${sourceLabel}...`);
+  const { parsedRows, rowCount, columns } = scanCsvText(csvText);
   if (!parsedRows.length) {
     document.getElementById('import-result').textContent = `No rows found in ${sourceLabel}.`;
+    setUploadProgress(`No import data found in ${sourceLabel}.`);
     return;
   }
 
+  setUploadProgress(`Scanning ${rowCount} row(s) from ${sourceLabel}...`);
   const { accepted, rejected } = csvRowsToHouseholds(parsedRows);
   if (!accepted.length) {
     document.getElementById('import-result').textContent = `0 imported from ${sourceLabel}. ${rejected.slice(0, 4).join(' | ')}`;
+    setUploadProgress(`Finished scan for ${sourceLabel}, but no rows were importable.`);
     return;
   }
 
@@ -332,7 +351,9 @@ async function importCsvText(csvText, sourceLabel) {
   renderKpis();
   renderReporting();
 
-  document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}`;
+  const columnText = columns.length ? ` Fields found: ${columns.join(', ')}.` : '';
+  document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}${columnText}`;
+  setUploadProgress(`Upload complete: ${accepted.length} household(s) imported from ${sourceLabel}.`);
 }
 
 function renderSavedImportNotice() {
@@ -511,20 +532,37 @@ function wireEvents() {
   const csvSelected = document.getElementById('csv-selected');
 
   document.getElementById('pick-csv').addEventListener('click', () => {
+    setUploadProgress('Choose a local file to scan before uploading.');
     csvInput.click();
   });
 
-  csvInput.addEventListener('change', () => {
+  csvInput.addEventListener('change', async () => {
     const file = csvInput.files?.[0];
     csvSelected.textContent = file ? `Selected local file: ${file.name}` : 'No local file selected.';
+    if (!file) {
+      setUploadProgress('No local file selected.');
+      return;
+    }
+
+    setUploadProgress(`Scanning selected file ${file.name} on this device...`);
+    try {
+      const text = await file.text();
+      const { rowCount, columns } = scanCsvText(text);
+      const details = columns.length ? ` Fields: ${columns.join(', ')}.` : '';
+      setUploadProgress(`Ready to upload ${file.name}. Found ${rowCount} row(s).${details}`);
+    } catch (error) {
+      setUploadProgress(`Could not read ${file.name}: ${error.message}`);
+    }
   });
 
   document.getElementById('upload-csv').addEventListener('click', async () => {
     const file = csvInput.files?.[0];
     if (!file) {
       document.getElementById('import-result').textContent = 'Select a local CSV file first.';
+      setUploadProgress('Upload blocked: please attach a local CSV first.');
       return;
     }
+    setUploadProgress(`Reading ${file.name}...`);
     await importCsvText(await file.text(), `file ${file.name}`);
   });
 
@@ -533,8 +571,10 @@ function wireEvents() {
     const csvUrl = normalizeGoogleSheetCsvUrl(rawUrl);
     if (!csvUrl) {
       document.getElementById('import-result').textContent = 'Paste a Google Sheet URL first.';
+      setUploadProgress('No Google Sheet URL found.');
       return;
     }
+    setUploadProgress('Downloading Google Sheet CSV...');
     try {
       const response = await fetch(csvUrl);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -542,6 +582,7 @@ function wireEvents() {
       await importCsvText(csvText, 'Google Sheet');
     } catch (error) {
       document.getElementById('import-result').textContent = `Unable to load Google Sheet CSV: ${error.message}`;
+      setUploadProgress(`Google Sheet import failed: ${error.message}`);
     }
   });
 
@@ -557,6 +598,7 @@ function wireEvents() {
     renderKpis();
     renderReporting();
     document.getElementById('import-result').textContent = 'Saved import cleared. Restored default test households.';
+    setUploadProgress('Import reset. Default households restored.');
   });
 }
 
