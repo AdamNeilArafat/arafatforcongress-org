@@ -347,6 +347,38 @@ function scanCsvText(csvText = '') {
   };
 }
 
+function inferCountyFromSource(sourceLabel = '') {
+  const normalized = String(sourceLabel).toLowerCase();
+  if (normalized.includes('thurston')) return 'thurston';
+  return 'pierce';
+}
+
+async function mirrorCsvImportToSilo(csvText, sourceLabel) {
+  const county = inferCountyFromSource(sourceLabel);
+  const response = await fetch('/silo/api/imports/voters', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ county, csv: csvText })
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload.error || `HTTP ${response.status}`);
+  }
+  return payload;
+}
+
+function refreshMappingFrame() {
+  const frame = document.getElementById('mapping-frame');
+  if (!frame) return;
+  try {
+    const current = new URL(frame.src, window.location.origin);
+    current.searchParams.set('refresh', String(Date.now()));
+    frame.src = current.toString();
+  } catch {
+    frame.src = '/silo/app/';
+  }
+}
+
 async function importCsvText(csvText, sourceLabel) {
   setUploadProgress(`Uploading ${sourceLabel}...`);
   const { parsedRows, rowCount, columns } = scanCsvText(csvText);
@@ -367,6 +399,15 @@ async function importCsvText(csvText, sourceLabel) {
     document.getElementById('import-result').textContent = `0 imported from ${sourceLabel}. ${rejected.slice(0, 4).join(' | ')}`;
     setUploadProgress(`Finished scan for ${sourceLabel}, but no rows were importable.`);
     return;
+  }
+
+  let siloResult = null;
+  setUploadProgress(`Syncing ${sourceLabel} into voter-mapping data store...`);
+  try {
+    siloResult = await mirrorCsvImportToSilo(csvText, sourceLabel);
+    refreshMappingFrame();
+  } catch (error) {
+    console.warn('Silo sync failed', error);
   }
 
   state.households = accepted;
@@ -392,7 +433,10 @@ async function importCsvText(csvText, sourceLabel) {
   renderReporting();
 
   const columnText = columns.length ? ` Fields found: ${columns.join(', ')}.` : '';
-  document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}${columnText}`;
+  const siloText = siloResult
+    ? ` Silo import ${siloResult.importId || 'complete'}: accepted ${siloResult.accepted || 0}, rejected ${siloResult.rejected || 0}.`
+    : ' Silo import did not complete (dashboard import still saved locally).';
+  document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}${columnText}${siloText}`;
   setUploadProgress(`Upload complete: ${accepted.length} household(s) imported from ${sourceLabel}.`);
 }
 
