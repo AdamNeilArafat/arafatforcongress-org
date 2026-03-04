@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const path = require('path');
 const fs = require('fs');
-const { getMeasurementId, REQUIRED_ENV } = require('./env');
+const { getOptionalMeasurementId } = require('./env');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -70,12 +70,12 @@ function injectMeasurementId(filePath, measurementId) {
 }
 
 function main() {
-  REQUIRED_ENV.forEach(name => {
-    if (!process.env[name]) {
-      throw new Error(`${name} must be set before running ga:inject`);
-    }
-  });
-  const measurementId = getMeasurementId();
+  const measurementId = getOptionalMeasurementId();
+  if (!measurementId) {
+    console.warn('Skipping ga:inject (GA_MEASUREMENT_ID is not set).');
+    return;
+  }
+
   const htmlFiles = walkHtmlFiles(ROOT);
   const updatedCount = htmlFiles.reduce((count, file) => {
     return injectMeasurementId(file, measurementId) ? count + 1 : count;
