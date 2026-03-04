@@ -1,5 +1,12 @@
 const API_BASE_STORAGE_KEY = 'silo_api_base';
-const state = { token: '', households: null, annotations: null, selected: null };
+const SHARED_AUTH_KEY = 'arafat_auth';
+const SHARED_TOKEN_KEY = 'arafat_silo_token';
+const state = {
+  token: sessionStorage.getItem(SHARED_TOKEN_KEY) || '',
+  households: null,
+  annotations: null,
+  selected: null
+};
 
 function normalizeApiBase(value) {
   const trimmed = String(value || '').trim();
@@ -258,12 +265,15 @@ map.on('click', async (e) => {
 
 document.getElementById('loginBtn').onclick = async () => {
   try {
+    const pin = String(document.getElementById('pin').value || '').trim();
     const payload = await api('/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin: document.getElementById('pin').value })
+      body: JSON.stringify({ pin })
     });
     state.token = payload.token;
+    sessionStorage.setItem(SHARED_TOKEN_KEY, state.token);
+    sessionStorage.setItem(SHARED_AUTH_KEY, '1');
     document.getElementById('authState').textContent = 'Unlocked';
     await loadFeatures();
     await refreshDashboard();
@@ -329,3 +339,19 @@ document.getElementById('saveApiBaseBtn').onclick = () => {
   localStorage.setItem(API_BASE_STORAGE_KEY, nextBase);
   document.getElementById('authState').textContent = 'Locked (custom API route saved)';
 };
+
+async function resumeSharedSession() {
+  if (!state.token) return;
+  try {
+    document.getElementById('authState').textContent = 'Unlocked';
+    await loadFeatures();
+    await refreshDashboard();
+  } catch (_) {
+    state.token = '';
+    sessionStorage.removeItem(SHARED_TOKEN_KEY);
+    sessionStorage.removeItem(SHARED_AUTH_KEY);
+    document.getElementById('authState').textContent = 'Locked';
+  }
+}
+
+resumeSharedSession().catch(() => {});
