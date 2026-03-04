@@ -20,10 +20,19 @@
   // 2) Base URL + UTM
   const wrapper = document.querySelector('.share-buttons');
   if (!wrapper) return;
-  const baseUrl = (wrapper.dataset.shareUrl || window.location.href).replace(/\/?$/, '/');
+  const rawBaseUrl = (wrapper.dataset.shareUrl || window.location.href).trim();
+
+  const resolveBaseUrl = () => {
+    const normalized = rawBaseUrl.replace(/\/?$/, '/');
+    try {
+      return new URL(normalized, window.location.href);
+    } catch {
+      return new URL(window.location.href);
+    }
+  };
 
   const makeUrl = (network) => {
-    const u = new URL(baseUrl);
+    const u = resolveBaseUrl();
     u.searchParams.set('utm_source', network);
     u.searchParams.set('utm_medium', 'social');
     u.searchParams.set('utm_campaign', 'grassroots');
