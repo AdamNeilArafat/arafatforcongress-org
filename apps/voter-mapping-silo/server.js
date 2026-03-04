@@ -12,6 +12,9 @@ const LIVE_PUBLIC_METRICS_PATH = path.join(__dirname, '..', '..', 'data', 'publi
 const LIVE_OUTREACH_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'outreach_data.json');
 const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volunteer_data.json');
 
+const TOKEN_TTL_MS = Number(process.env.SILO_TOKEN_TTL_MS || 12 * 60 * 60 * 1000);
+const sessions = new Map();
+
 const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [], settings: {} };
 
 function ensureStore() {
@@ -28,11 +31,23 @@ function writeStore(store) { fs.writeFileSync(STORE_PATH, JSON.stringify(store, 
 function id(prefix) { return `${prefix}_${crypto.randomUUID()}`; }
 function now() { return new Date().toISOString(); }
 function normalizeAddress(row) {
+  const registrationStreet = [
+    row.regstpredirection,
+    row.regstnum,
+    row.regstfrac,
+    row.regstname,
+    row.regsttype,
+    row.regstpostdirection,
+    row.regunittype,
+    row.regstunitnum
+  ].filter(Boolean).join(' ');
+  const mailingStreet = [row.mail1, row.mail2, row.mail3].filter(Boolean).join(' ');
+
   return [
-    row.address || row.address1 || row.street || row.residence_address || row.full_address || row['full address'],
-    row.city || row.town,
-    row.state,
-    row.zip || row.zip_code || row.postal || row['zip code']
+    row.address || row.address1 || row.street || row.residence_address || row.full_address || row['full address'] || registrationStreet || mailingStreet,
+    row.city || row.town || row.regcity || row.mailcity,
+    row.state || row.regstate || row.mailstate,
+    row.zip || row.zip_code || row.postal || row['zip code'] || row.regzipcode || row.mailzip
   ]
     .filter(Boolean).join(' ').replace(/\s+/g, ' ').trim().toUpperCase();
 }
@@ -100,7 +115,7 @@ function importVotersFromCsv({ store, county, csvText, actor, sourceLabel = 'man
       householdByAddress.set(normalized, household);
       store.households.push(household);
     }
-    const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'voter id'], id('voter'));
+    const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'statevoterid', 'voter id'], id('voter'));
     if (store.voters.some((v) => v.voter_id === String(voterId) && v.source_county === county)) {
       report.rejected += 1;
       report.rejectedRows.push({ row: idx + 2, reason: 'Duplicate voter_id in county' });
@@ -114,10 +129,10 @@ function importVotersFromCsv({ store, county, csvText, actor, sourceLabel = 'man
       first_name: rawFirst || parsedFromFullName.firstName,
       last_name: rawLast || parsedFromFullName.lastName,
       age: firstNonEmpty(row, ['age']),
-      birth_year: firstNonEmpty(row, ['birth_year', 'birth year', 'year_of_birth', 'yob']),
-      last_voted: firstNonEmpty(row, ['last_voted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
+      birth_year: firstNonEmpty(row, ['birth_year', 'birthyear', 'birth year', 'year_of_birth', 'yob']),
+      last_voted: firstNonEmpty(row, ['last_voted', 'lastvoted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
       party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
-      precinct: firstNonEmpty(row, ['precinct']),
+      precinct: firstNonEmpty(row, ['precinct', 'precinctcode', 'precinct_code']),
       source_county: county,
       source_file_id: importId,
       created_from: sourceLabel,
@@ -303,6 +318,9 @@ async function handler(req, res) {
       }
     });
   }
+
+  const user = bearer(req);
+  if (!user) return send(res, 401, { error: 'Unauthorized' });
 
   if (req.method === 'GET' && pathname === '/api/dashboard') {
     const store = readStore();

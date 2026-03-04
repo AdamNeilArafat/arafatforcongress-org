@@ -51,6 +51,16 @@ async function run() {
   assert.equal(importResp.accepted, 3);
 
   const remoteCsv = 'voter_id,first_name,last_name,address,city,state,zip,party\n4,Katherine,Johnson,300 Cedar St,Lacey,WA,98503,DEM';
+
+  const waVoterCsv = `StateVoterID,FName,MName,LName,NameSuffix,Birthyear,Gender,RegStNum,RegStFrac,RegStName,RegStType,RegUnitType,RegStPreDirection,RegStPostDirection,RegStUnitNum,RegCity,RegState,RegZipCode,CountyCode,PrecinctCode,PrecinctPart,LegislativeDistrict,CongressionalDistrict,Mail1,Mail2,Mail3,MailCity,MailZip,MailState,MailCountry,Registrationdate,LastVoted,StatusCode
+5,Dorothy,,Vaughan,,1960,F,400,,Maple,Ave,,,N,,12,Tacoma,WA,98403,53,P-01,,27,10,PO Box 44,,,Tacoma,98401,WA,US,2020-01-01,2024-11-05,A`;
+  const waImportResp = await req('/silo/api/imports/voters', {
+    method: 'POST',
+    headers: { ...authHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ county: 'pierce', csv: waVoterCsv })
+  });
+  assert.equal(waImportResp.accepted, 1);
+  assert.equal(waImportResp.rejected, 0);
   const csvHost = require('http').createServer((_, res) => {
     res.writeHead(200, { 'Content-Type': 'text/csv' });
     res.end(remoteCsv);
@@ -68,20 +78,20 @@ async function run() {
   csvHost.close();
 
   const features = await req('/silo/api/map/features?county=all', { headers: authHeaders });
-  assert.equal(features.households.features.length, 3);
+  assert.equal(features.households.features.length, 4);
 
   const hhId = features.households.features[0].properties.household_id;
   await req('/silo/api/canvass/logs', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ household_id: hhId, outcome: 'Contacted' })
+    method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ household_id: hhId, outcome: 'Contacted' })
   });
 
   await req('/silo/api/annotations', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lat: 47.0, lng: -122.9, type: 'issue', note: 'Street light out' })
+    method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ lat: 47.0, lng: -122.9, type: 'issue', note: 'Street light out' })
   });
 
   const dashboard = await req('/silo/api/dashboard', { headers: authHeaders });
-  assert.equal(dashboard.voters, 4);
-  assert.equal(dashboard.households, 3);
+  assert.equal(dashboard.voters, 5);
+  assert.equal(dashboard.households, 4);
   assert.equal(dashboard.interactions, 1);
   assert.equal(dashboard.annotations, 1);
   assert(dashboard.dataQuality);
