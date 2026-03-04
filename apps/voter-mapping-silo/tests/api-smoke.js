@@ -1,12 +1,14 @@
 const fs = require('fs');
 const assert = require('assert');
+const crypto = require('crypto');
 const { createServer, STORE_PATH, ensureStore } = require('../server');
 
 async function run() {
   ensureStore();
   fs.writeFileSync(STORE_PATH, JSON.stringify({ voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [] }, null, 2));
 
-  process.env.SILO_ADMIN_PIN = 'Arafat 2026';
+  const accessKey = `test-${crypto.randomUUID()}`;
+  process.env.SILO_ADMIN_SECRET = accessKey;
   const server = createServer().listen(0);
   const port = server.address().port;
   const base = `http://127.0.0.1:${port}`;
@@ -34,33 +36,11 @@ async function run() {
   assert.equal(health.ok, true);
 
   const login = await req('/silo/api/auth/login', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: 'Arafat 2026' })
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accessKey })
   });
   assert(login.token);
   assert.equal(login.authSource, 'env');
   const authHeaders = { Authorization: `Bearer ${login.token}` };
-
-  await req('/silo/api/settings/pin', {
-    method: 'POST',
-    headers: { ...authHeaders, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pin: 'Silo_New_Pin_2026' })
-  });
-
-  const storePinLogin = await req('/silo/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pin: 'Silo_New_Pin_2026' })
-  });
-  assert(storePinLogin.token);
-  assert.equal(storePinLogin.authSource, 'store');
-
-  const envFallbackLogin = await req('/silo/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pin: 'Arafat 2026' })
-  });
-  assert(envFallbackLogin.token);
-  assert.equal(envFallbackLogin.authSource, 'env');
 
   const csv = `voter_id,first_name,last_name,address,city,state,zip,party\n1,Ada,Lovelace,100 Main St,Tacoma,WA,98402,DEM\n2,Grace,Hopper,100 Main St,Tacoma,WA,98402,DEM\n3,Alan,Turing,200 Pine St,Olympia,WA,98501,IND`;
   const importResp = await req('/silo/api/imports/voters', {

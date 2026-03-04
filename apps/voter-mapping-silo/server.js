@@ -239,15 +239,15 @@ function bearer(req) {
   if (!s || s.expiresAt < Date.now()) return null;
   return s;
 }
-function pinHash(pin) {
-  return crypto.createHash('sha256').update(String(pin)).digest('hex');
+function secretHash(secret) {
+  return crypto.createHash('sha256').update(String(secret)).digest('hex');
 }
-function configuredPinCandidates(store) {
+function configuredAuthSecrets(store) {
   const candidates = [];
-  const configuredHash = store.settings?.adminPinHash;
-  const envPin = process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN || 'Arafat 2026';
+  const configuredHash = store.settings?.adminSecretHash || store.settings?.adminPinHash;
+  const envSecret = process.env.SILO_ADMIN_SECRET || process.env.ADMIN_SECRET || process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN;
   if (configuredHash) candidates.push({ hash: configuredHash, source: 'store' });
-  candidates.push({ hash: pinHash(envPin), source: 'env' });
+  if (envSecret) candidates.push({ hash: secretHash(envSecret), source: 'env' });
   return candidates;
 }
 function appRelativePath(pathname) {
@@ -278,11 +278,12 @@ async function handler(req, res) {
   if (req.method === 'POST' && pathname === '/api/auth/login') {
     const body = await parseBody(req).catch(() => null);
     if (!body) return send(res, 400, { error: 'Invalid JSON' });
-    const pin = String(body.pin || '').trim();
+    const accessKey = String(body.accessKey || body.pin || '').trim();
     const store = readStore();
-    const expectedPins = configuredPinCandidates(store);
-    const matched = expectedPins.find((candidate) => pinHash(pin) === candidate.hash);
-    if (!matched) return send(res, 401, { error: 'Invalid PIN' });
+    const expectedSecrets = configuredAuthSecrets(store);
+    if (!expectedSecrets.length) return send(res, 503, { error: 'Dashboard access key is not configured on the server.' });
+    const matched = expectedSecrets.find((candidate) => secretHash(accessKey) === candidate.hash);
+    if (!matched) return send(res, 401, { error: 'Invalid access key' });
     const token = crypto.randomBytes(24).toString('hex');
     sessions.set(token, { userId: 'admin', role: 'admin', expiresAt: Date.now() + TOKEN_TTL_MS });
     return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: matched.source });
@@ -323,22 +324,9 @@ async function handler(req, res) {
       liveFeed: liveFeedSummary(),
       volunteerDashboard: volunteerDashboardBridge(),
       settings: {
-        pinConfiguredInStore: Boolean(store.settings?.adminPinHash)
+        accessKeyConfiguredInStore: Boolean(store.settings?.adminSecretHash || store.settings?.adminPinHash)
       }
     });
-  }
-
-  if (req.method === 'POST' && pathname === '/api/settings/pin') {
-    const body = await parseBody(req).catch(() => null);
-    if (!body) return send(res, 400, { error: 'Invalid JSON' });
-    const nextPin = String(body.pin || '').trim();
-    if (nextPin.length < 8) return send(res, 400, { error: 'PIN must be at least 8 characters' });
-    const store = readStore();
-    store.settings.adminPinHash = pinHash(nextPin);
-    store.settings.adminPinUpdatedAt = now();
-    audit(store, user.userId, 'SETTINGS_PIN_UPDATED', 'settings', 'admin_pin', {});
-    writeStore(store);
-    return send(res, 200, { ok: true, updatedAt: store.settings.adminPinUpdatedAt });
   }
 
   if (req.method === 'POST' && pathname === '/api/imports/voters') {

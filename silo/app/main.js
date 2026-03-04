@@ -272,11 +272,11 @@ map.on('click', async (e) => {
 
 document.getElementById('loginBtn').onclick = async () => {
   try {
-    const pin = String(document.getElementById('pin').value || '').trim();
+    const accessKey = String(document.getElementById('pin').value || '').trim();
     const payload = await api('/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin })
+      body: JSON.stringify({ accessKey })
     });
     state.token = payload.token;
     sessionStorage.setItem(SHARED_TOKEN_KEY, state.token);
@@ -347,26 +347,6 @@ document.getElementById('importRemoteBtn').onclick = async () => {
     await refreshDashboard();
   } catch (e) {
     document.getElementById('importResult').textContent = e.message;
-  }
-};
-
-document.getElementById('savePinBtn').onclick = async () => {
-  const status = document.getElementById('pinSaveResult');
-  const pin = String(document.getElementById('newPin').value || '').trim();
-  if (pin.length < 8) {
-    status.textContent = 'PIN must be at least 8 characters.';
-    return;
-  }
-  try {
-    await api('/settings/pin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin })
-    });
-    document.getElementById('newPin').value = '';
-    status.textContent = 'PIN updated successfully.';
-  } catch (e) {
-    status.textContent = e.message;
   }
 };
 

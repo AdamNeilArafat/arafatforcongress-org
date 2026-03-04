@@ -241,7 +241,7 @@ document.getElementById('loginBtn').onclick = async () => {
     const payload = await api('/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin: document.getElementById('pin').value })
+      body: JSON.stringify({ accessKey: document.getElementById('pin').value })
     });
     state.token = payload.token;
     document.getElementById('authState').textContent = 'Unlocked';
