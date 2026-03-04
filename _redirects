@@ -5,3 +5,7 @@
 /admin/silo-dashboard/ /admin/silo-dashboard.html 200
 /silo-dashboard /admin/silo-dashboard.html 301
 /silo-dashboard/ /admin/silo-dashboard.html 301
+/admin/sailed-dashboard /admin/silo-dashboard.html 301
+/admin/sailed-dashboard/ /admin/silo-dashboard.html 301
+/sailed-dashboard /admin/silo-dashboard.html 301
+/sailed-dashboard/ /admin/silo-dashboard.html 301
