@@ -162,11 +162,13 @@ function bearer(req) {
 function pinHash(pin) {
   return crypto.createHash('sha256').update(String(pin)).digest('hex');
 }
-function expectedPin(store) {
+function configuredPinCandidates(store) {
+  const candidates = [];
   const configuredHash = store.settings?.adminPinHash;
-  if (configuredHash) return { hash: configuredHash, source: 'store' };
   const envPin = process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN || 'Arafat_Admin_2026';
-  return { hash: pinHash(envPin), source: 'env' };
+  if (configuredHash) candidates.push({ hash: configuredHash, source: 'store' });
+  candidates.push({ hash: pinHash(envPin), source: 'env' });
+  return candidates;
 }
 function appRelativePath(pathname) {
   if (pathname === '/' || pathname === '/app' || pathname === '/app/') return 'index.html';
@@ -198,11 +200,12 @@ async function handler(req, res) {
     if (!body) return send(res, 400, { error: 'Invalid JSON' });
     const pin = String(body.pin || '').trim();
     const store = readStore();
-    const expected = expectedPin(store);
-    if (pinHash(pin) !== expected.hash) return send(res, 401, { error: 'Invalid PIN' });
+    const expectedPins = configuredPinCandidates(store);
+    const matched = expectedPins.find((candidate) => pinHash(pin) === candidate.hash);
+    if (!matched) return send(res, 401, { error: 'Invalid PIN' });
     const token = crypto.randomBytes(24).toString('hex');
     sessions.set(token, { userId: 'admin', role: 'admin', expiresAt: Date.now() + TOKEN_TTL_MS });
-    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: expected.source });
+    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: matched.source });
   }
 
   if (!pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
