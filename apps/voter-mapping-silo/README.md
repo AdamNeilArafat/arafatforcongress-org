@@ -3,7 +3,7 @@
 Isolated, test-only field operations app for Pierce + Thurston voter-roll mapping.
 
 ## Features implemented
-- PIN login gate (`/api/auth/login`).
+- Access-key login gate (`/api/auth/login`).
 - CSV import endpoint (`/api/imports/voters`) with county partition (`pierce|thurston`).
 - Address normalization + household deduplication.
 - Household map rendering with:
@@ -19,7 +19,7 @@ Isolated, test-only field operations app for Pierce + Thurston voter-roll mappin
 
 ## Security controls included in this package
 - Separate app path (`/app`) designed for silo deployment.
-- Auth gate using environment PIN (must change default in real deployment).
+- Auth gate using an environment-provided access key (`SILO_ADMIN_SECRET`).
 - Audit log on imports, annotations, and canvass writes.
 - No linkage to public campaign pages.
 
@@ -28,7 +28,7 @@ Isolated, test-only field operations app for Pierce + Thurston voter-roll mappin
 ## Run
 ```bash
 npm install
-SILO_ADMIN_PIN='Arafat 2026' npm run silo:start
+SILO_ADMIN_SECRET='replace-with-strong-secret' npm run silo:start
 # open http://localhost:4177/app/
 ```
 
@@ -79,7 +79,7 @@ If you need a temporary public URL that works from anywhere:
 
 ```bash
 # terminal 1
-SILO_ADMIN_PIN='Arafat 2026' npm run silo:start
+SILO_ADMIN_SECRET='replace-with-strong-secret' npm run silo:start
 
 # terminal 2 (cloudflared installed on host)
 cloudflared tunnel --url http://localhost:4177

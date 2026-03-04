@@ -29,10 +29,12 @@
   <main class="shell">
     <aside class="panel">
       <div class="card">
-        <h3>API Endpoint</h3>
+        <h3>Login</h3>
+        <input id="pin" type="password" placeholder="Dashboard access key" />
         <input id="apiBase" type="url" placeholder="Optional API base (e.g. https://silo.example.org/api)" />
         <button id="saveApiBaseBtn" class="secondary">Save API Endpoint</button>
-        <p class="muted">Set this only if your API is hosted on a different base URL.</p>
+        <button id="loginBtn">Unlock</button>
+        <p class="muted">Use your campaign dashboard access key. If unlock returns 405, set the API endpoint and save it before retrying.</p>
       </div>
 
       <div class="card">
@@ -40,6 +42,12 @@
         <select id="county"><option value="pierce">Pierce</option><option value="thurston">Thurston</option></select>
         <input type="file" id="csv" accept=".csv" />
         <button id="importBtn">Upload voter file</button>
+        <p class="muted" style="margin-top:8px">Remote CSV pull (ex: Google Drive direct download links)</p>
+        <textarea id="remoteCsvUrls" placeholder="pierce,https://...csv
+pierce,https://...csv
+pierce,https://...csv
+thurston,https://...csv"></textarea>
+        <button id="importRemoteBtn" class="secondary">Pull remote CSV files</button>
         <div class="muted" id="importResult"></div>
       </div>
 

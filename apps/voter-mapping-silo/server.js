@@ -67,6 +67,86 @@ function deterministicGeo(address) {
   const b = hash.readUInt32BE(4) / 0xffffffff;
   return { lat: Number((46.79 + a * (47.35 - 46.79)).toFixed(6)), lng: Number((-123.35 + b * (-122.02 + 123.35)).toFixed(6)), geocode_confidence: 0.5, geocode_source: 'deterministic-fallback' };
 }
+function importVotersFromCsv({ store, county, csvText, actor, sourceLabel = 'manual-upload' }) {
+  const rows = parse(String(csvText), { columns: true, skip_empty_lines: true, bom: true, relax_column_count: true });
+  const importId = id('import');
+  const report = { importId, county, accepted: 0, rejected: 0, rejectedRows: [] };
+  const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
+
+  rows.forEach((rawRow, idx) => {
+    const row = normalizeRow(rawRow);
+    const normalized = normalizeAddress(row);
+    if (!normalized) {
+      report.rejected += 1;
+      report.rejectedRows.push({ row: idx + 2, reason: 'Missing address' });
+      return;
+    }
+    let household = householdByAddress.get(normalized);
+    if (!household) {
+      const lat = Number(row.lat || row.latitude);
+      const lng = Number(row.lng || row.longitude || row.lon);
+      const geo = Number.isFinite(lat) && Number.isFinite(lng)
+        ? { lat, lng, geocode_confidence: 1, geocode_source: 'csv' }
+        : deterministicGeo(normalized);
+      household = {
+        household_id: id('hh'),
+        normalized_address: normalized,
+        lat: geo.lat,
+        lng: geo.lng,
+        geocode_confidence: geo.geocode_confidence,
+        geocode_source: geo.geocode_source,
+        created_at: now()
+      };
+      householdByAddress.set(normalized, household);
+      store.households.push(household);
+    }
+    const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'voter id'], id('voter'));
+    if (store.voters.some((v) => v.voter_id === String(voterId) && v.source_county === county)) {
+      report.rejected += 1;
+      report.rejectedRows.push({ row: idx + 2, reason: 'Duplicate voter_id in county' });
+      return;
+    }
+    const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
+    const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
+    const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
+    store.voters.push({
+      voter_id: String(voterId),
+      first_name: rawFirst || parsedFromFullName.firstName,
+      last_name: rawLast || parsedFromFullName.lastName,
+      age: firstNonEmpty(row, ['age']),
+      birth_year: firstNonEmpty(row, ['birth_year', 'birth year', 'year_of_birth', 'yob']),
+      last_voted: firstNonEmpty(row, ['last_voted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
+      party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
+      precinct: firstNonEmpty(row, ['precinct']),
+      source_county: county,
+      source_file_id: importId,
+      created_from: sourceLabel,
+      household_id: household.household_id,
+      created_at: now()
+    });
+    report.accepted += 1;
+  });
+
+  store.imports.unshift({
+    import_id: importId,
+    county,
+    uploaded_by: actor,
+    uploaded_at: now(),
+    status: 'completed',
+    accepted_rows: report.accepted,
+    rejected_rows: report.rejected,
+    source: sourceLabel,
+    rejected_detail: report.rejectedRows
+  });
+  audit(store, actor, 'IMPORT_VOTERS', 'import', importId, {
+    county,
+    accepted: report.accepted,
+    rejected: report.rejected,
+    source: sourceLabel
+  });
+
+  return report;
+}
 function audit(store, actor, action, targetType, targetId, metadata = {}) {
   store.auditEvents.unshift({ id: id('audit'), actor, action, targetType, targetId, timestamp: now(), metadata });
   store.auditEvents = store.auditEvents.slice(0, 10000);
@@ -151,6 +231,23 @@ function parseBody(req) {
     req.on('error', reject);
   });
 }
+function bearer(req) {
+  const token = String(req.headers.authorization || '').replace('Bearer ', '').trim();
+  const s = sessions.get(token);
+  if (!s || s.expiresAt < Date.now()) return null;
+  return s;
+}
+function secretHash(secret) {
+  return crypto.createHash('sha256').update(String(secret)).digest('hex');
+}
+function configuredAuthSecrets(store) {
+  const candidates = [];
+  const configuredHash = store.settings?.adminSecretHash || store.settings?.adminPinHash;
+  const envSecret = process.env.SILO_ADMIN_SECRET || process.env.ADMIN_SECRET || process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN;
+  if (configuredHash) candidates.push({ hash: configuredHash, source: 'store' });
+  if (envSecret) candidates.push({ hash: secretHash(envSecret), source: 'env' });
+  return candidates;
+}
 function appRelativePath(pathname) {
   if (pathname === '/' || pathname === '/app' || pathname === '/app/') return 'index.html';
   const appIndex = pathname.indexOf('/app/');
@@ -176,6 +273,19 @@ async function handler(req, res) {
   if (pathname === '/health') return send(res, 200, { ok: true });
   if (serveStatic(req, res, pathname)) return;
 
+  if (req.method === 'POST' && pathname === '/api/auth/login') {
+    const body = await parseBody(req).catch(() => null);
+    if (!body) return send(res, 400, { error: 'Invalid JSON' });
+    const accessKey = String(body.accessKey || body.pin || '').trim();
+    const store = readStore();
+    const expectedSecrets = configuredAuthSecrets(store);
+    if (!expectedSecrets.length) return send(res, 503, { error: 'Dashboard access key is not configured on the server.' });
+    const matched = expectedSecrets.find((candidate) => secretHash(accessKey) === candidate.hash);
+    if (!matched) return send(res, 401, { error: 'Invalid access key' });
+    const token = crypto.randomBytes(24).toString('hex');
+    sessions.set(token, { userId: 'admin', role: 'admin', expiresAt: Date.now() + TOKEN_TTL_MS });
+    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: matched.source });
+  }
 
   if (!pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
   if (req.method === 'GET' && pathname === '/api/health') {
@@ -208,10 +318,11 @@ async function handler(req, res) {
       dataQuality: dashboardDataQuality(store),
       liveFeed: liveFeedSummary(),
       volunteerDashboard: volunteerDashboardBridge(),
-      settings: {}
+      settings: {
+        accessKeyConfiguredInStore: Boolean(store.settings?.adminSecretHash || store.settings?.adminPinHash)
+      }
     });
   }
-
 
   if (req.method === 'POST' && pathname === '/api/imports/voters') {
     const body = await parseBody(req).catch(() => null);
@@ -220,50 +331,60 @@ async function handler(req, res) {
     if (!['pierce', 'thurston'].includes(county)) return send(res, 400, { error: 'County must be pierce or thurston' });
     if (!body.csv) return send(res, 400, { error: 'csv text required' });
 
-    const rows = parse(String(body.csv), { columns: true, skip_empty_lines: true, bom: true, relax_column_count: true });
     const store = readStore();
-    const importId = id('import');
-    const report = { importId, county, accepted: 0, rejected: 0, rejectedRows: [] };
-    const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
-
-    rows.forEach((rawRow, idx) => {
-      const row = normalizeRow(rawRow);
-      const normalized = normalizeAddress(row);
-      if (!normalized) { report.rejected += 1; report.rejectedRows.push({ row: idx + 2, reason: 'Missing address' }); return; }
-      let household = householdByAddress.get(normalized);
-      if (!household) {
-        const lat = Number(row.lat || row.latitude), lng = Number(row.lng || row.longitude || row.lon);
-        const geo = Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng, geocode_confidence: 1, geocode_source: 'csv' } : deterministicGeo(normalized);
-        household = { household_id: id('hh'), normalized_address: normalized, lat: geo.lat, lng: geo.lng, geocode_confidence: geo.geocode_confidence, geocode_source: geo.geocode_source, created_at: now() };
-        householdByAddress.set(normalized, household);
-        store.households.push(household);
-      }
-      const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'voter id'], id('voter'));
-      if (store.voters.some((v) => v.voter_id === String(voterId) && v.source_county === county)) { report.rejected += 1; report.rejectedRows.push({ row: idx + 2, reason: 'Duplicate voter_id in county' }); return; }
-      const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
-      const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
-      const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
-      store.voters.push({
-        voter_id: String(voterId),
-        first_name: rawFirst || parsedFromFullName.firstName,
-        last_name: rawLast || parsedFromFullName.lastName,
-        age: firstNonEmpty(row, ['age']),
-        birth_year: firstNonEmpty(row, ['birth_year', 'birth year', 'year_of_birth', 'yob']),
-        last_voted: firstNonEmpty(row, ['last_voted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
-        party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
-        precinct: firstNonEmpty(row, ['precinct']),
-        source_county: county,
-        source_file_id: importId,
-        household_id: household.household_id,
-        created_at: now()
-      });
-      report.accepted += 1;
+    const report = importVotersFromCsv({
+      store,
+      county,
+      csvText: body.csv,
+      actor: user.userId,
+      sourceLabel: 'manual-upload'
     });
-
-    store.imports.unshift({ import_id: importId, county, uploaded_by: 'dashboard', uploaded_at: now(), status: 'completed', accepted_rows: report.accepted, rejected_rows: report.rejected, rejected_detail: report.rejectedRows });
-    audit(store, 'dashboard', 'IMPORT_VOTERS', 'import', importId, { county, accepted: report.accepted, rejected: report.rejected });
     writeStore(store);
     return send(res, 200, report);
+  }
+
+  if (req.method === 'POST' && pathname === '/api/imports/voters/remote') {
+    const body = await parseBody(req).catch(() => null);
+    if (!body || !Array.isArray(body.files) || !body.files.length) {
+      return send(res, 400, { error: 'files[] is required' });
+    }
+    const store = readStore();
+    const results = [];
+
+    for (const file of body.files.slice(0, 12)) {
+      const county = String(file.county || '').toLowerCase().trim();
+      const url = String(file.url || '').trim();
+      const label = String(file.label || url || `${county}-remote`).trim();
+      if (!['pierce', 'thurston'].includes(county) || !url) {
+        results.push({ label, county, url, error: 'Each file needs a valid county (pierce/thurston) and URL' });
+        continue;
+      }
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+        const report = importVotersFromCsv({
+          store,
+          county,
+          csvText,
+          actor: user.userId,
+          sourceLabel: `remote-url:${label}`
+        });
+        results.push({ label, county, url, ...report });
+      } catch (error) {
+        results.push({ label, county, url, error: `Unable to fetch/parse CSV: ${error.message}` });
+      }
+    }
+
+    writeStore(store);
+    const totals = results.reduce((acc, item) => {
+      acc.accepted += Number(item.accepted || 0);
+      acc.rejected += Number(item.rejected || 0);
+      if (item.error) acc.failed += 1;
+      return acc;
+    }, { accepted: 0, rejected: 0, failed: 0 });
+
+    return send(res, 200, { ok: true, totals, results });
   }
 
   if (req.method === 'GET' && pathname.startsWith('/api/map/features')) {
