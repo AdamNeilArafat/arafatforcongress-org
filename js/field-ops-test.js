@@ -281,6 +281,13 @@ function csvRowsToHouseholds(rows = []) {
 function normalizeGoogleSheetCsvUrl(input = '') {
   const raw = String(input).trim();
   if (!raw) return '';
+
+  const publishedMatch = raw.match(/\/spreadsheets\/d\/e\/([a-zA-Z0-9-_]+)/);
+  if (publishedMatch) {
+    if (/output=csv/.test(raw)) return raw;
+    return `https://docs.google.com/spreadsheets/d/e/${publishedMatch[1]}/pub?output=csv`;
+  }
+
   if (raw.includes('/export?format=csv')) {
     const gidMatch = raw.match(/[?&#]gid=([0-9]+)/);
     if (gidMatch) return raw;
