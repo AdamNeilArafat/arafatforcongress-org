@@ -1,5 +1,14 @@
 const API_BASE_STORAGE_KEY = 'silo_api_base';
-const state = { households: null, annotations: null, selected: null };
+const state = {
+  households: null,
+  annotations: null,
+  selected: null,
+  eventVersion: 0,
+  eventTimestamp: 0,
+  eventSource: null,
+  pendingCanvassByHousehold: new Map(),
+  pendingAnnotations: new Set()
+};
 
 function normalizeApiBase(value) {
   const trimmed = String(value || '').trim();
@@ -172,6 +181,7 @@ async function refreshDashboard() {
 }
 
 function renderMap({ fitToData = false } = {}) {
+  if (!state.households || !state.annotations) return;
   clusterLayer.clearLayers();
   annotationLayer.clearLayers();
   const heat = [];
@@ -206,6 +216,91 @@ function renderMap({ fitToData = false } = {}) {
   }
 }
 
+function upsertAnnotationFeature(record) {
+  if (!state.annotations) return;
+  const existingIndex = state.annotations.features.findIndex((feature) => feature.properties.annotation_id === record.annotation_id);
+  const nextFeature = {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [record.lng, record.lat] },
+    properties: record
+  };
+  if (existingIndex === -1) state.annotations.features.unshift(nextFeature);
+  else state.annotations.features[existingIndex] = nextFeature;
+}
+
+function applyCanvassInteraction(record) {
+  if (!state.households || !record?.household_id) return;
+  const household = state.households.features.find((feature) => feature.properties.household_id === record.household_id);
+  if (!household) return;
+  household.properties.status = record.outcome;
+  state.pendingCanvassByHousehold.delete(record.household_id);
+}
+
+function applyServerEvent(eventEnvelope) {
+  const eventTimestamp = Date.parse(eventEnvelope.timestamp || 0) || 0;
+  if (Number.isFinite(eventEnvelope.version) && eventEnvelope.version <= state.eventVersion) return;
+  if (eventTimestamp && eventTimestamp < state.eventTimestamp) return;
+  state.eventVersion = Math.max(state.eventVersion, Number(eventEnvelope.version) || 0);
+  state.eventTimestamp = Math.max(state.eventTimestamp, eventTimestamp);
+
+  const payload = eventEnvelope.payload || {};
+  if (eventEnvelope.type === 'canvass.event_created' && payload.interaction) {
+    applyCanvassInteraction(payload.interaction);
+    renderMap();
+    refreshDashboard().catch(() => {});
+    return;
+  }
+  if (eventEnvelope.type === 'annotation.created' && payload.annotation) {
+    upsertAnnotationFeature(payload.annotation);
+    state.pendingAnnotations.delete(payload.annotation.annotation_id);
+    renderMap();
+    refreshDashboard().catch(() => {});
+    return;
+  }
+  if (eventEnvelope.type === 'import.progress') {
+    const importId = payload.importId || 'unknown';
+    document.getElementById('importResult').textContent = `Import ${importId}: ${payload.status || 'queued'} (${safeNumber(payload.progressPct)}%) · processed ${safeNumber(payload.processedRows)} · accepted ${safeNumber(payload.acceptedRows)} · rejected ${safeNumber(payload.rejectedRows)}`;
+    if (payload.status === 'completed') {
+      loadFeatures({ fitToData: true }).catch(() => {});
+      refreshDashboard().catch(() => {});
+    }
+    return;
+  }
+  if (eventEnvelope.type === 'import.geocode_update') {
+    const importId = payload.importId || 'unknown';
+    document.getElementById('importResult').textContent = `Import ${importId}: geocoding (${safeNumber(payload.progressPct)}%) · processed ${safeNumber(payload.processedRows)} · accepted ${safeNumber(payload.acceptedRows)}`;
+    return;
+  }
+  if (eventEnvelope.type.startsWith('dataset.')) {
+    loadFeatures().catch(() => {});
+    refreshDashboard().catch(() => {});
+  }
+}
+
+function connectEvents() {
+  if (!state.token) return;
+  if (state.eventSource) state.eventSource.close();
+  const base = resolveApiBases()[0] || '';
+  const streamUrl = `${buildEndpoint(base, '/events')}?token=${encodeURIComponent(state.token)}`;
+  const source = new EventSource(streamUrl);
+  state.eventSource = source;
+  ['import.progress', 'import.geocode_update', 'canvass.event_created', 'annotation.created', 'dataset.cleared', 'dataset.voter_deleted', 'dataset.voter_restored']
+    .forEach((type) => {
+      source.addEventListener(type, (evt) => {
+        try {
+          applyServerEvent(JSON.parse(evt.data));
+        } catch (_) {}
+      });
+    });
+  source.onerror = () => {
+    if (state.eventSource === source) {
+      state.eventSource.close();
+      state.eventSource = null;
+      setTimeout(() => connectEvents(), 1500);
+    }
+  };
+}
+
 async function loadFeatures({ county, fitToData = false } = {}) {
   const mapCountyEl = document.getElementById('mapCounty');
   const selectedCounty = county || mapCountyEl.value;
@@ -223,26 +318,36 @@ async function loadFeatures({ county, fitToData = false } = {}) {
 
 window.logOutcome = async (householdId, outcome) => {
   const notes = prompt(`Notes for ${outcome}?`) || '';
+  state.pendingCanvassByHousehold.set(householdId, { outcome, notes, at: Date.now() });
+  applyCanvassInteraction({ household_id: householdId, outcome });
+  renderMap();
   await api('/canvass/logs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ household_id: householdId, outcome, notes })
   });
-  await loadFeatures();
-  await refreshDashboard();
+  refreshDashboard().catch(() => {});
 };
 
 map.on('click', async (e) => {
   if (!document.getElementById('annotateMode').checked) return;
   const type = document.getElementById('annotationType').value;
   const note = document.getElementById('annotationNote').value;
-  await api('/annotations', {
+  const optimisticId = `optimistic-${Date.now()}`;
+  state.pendingAnnotations.add(optimisticId);
+  upsertAnnotationFeature({ annotation_id: optimisticId, lat: e.latlng.lat, lng: e.latlng.lng, type, note, created_by: 'local-user', created_at: new Date().toISOString() });
+  renderMap();
+  const created = await api('/annotations', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ lat: e.latlng.lat, lng: e.latlng.lng, type, note })
   });
-  await loadFeatures();
-  await refreshDashboard();
+  if (state.annotations) {
+    state.annotations.features = state.annotations.features.filter((feature) => feature.properties.annotation_id !== optimisticId);
+  }
+  upsertAnnotationFeature(created);
+  renderMap();
+  refreshDashboard().catch(() => {});
 });
 
 document.getElementById('loginBtn').onclick = async () => {
@@ -253,9 +358,12 @@ document.getElementById('loginBtn').onclick = async () => {
       body: JSON.stringify({ accessKey: document.getElementById('pin').value })
     });
     state.token = payload.token;
+    state.eventVersion = 0;
+    state.eventTimestamp = 0;
     document.getElementById('authState').textContent = 'Unlocked';
     await loadFeatures();
     await refreshDashboard();
+    connectEvents();
   } catch (e) {
     alert(e.message);
   }

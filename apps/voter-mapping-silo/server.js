@@ -18,6 +18,8 @@ const MAX_UPLOAD_BODY_BYTES = Number(process.env.SILO_MAX_UPLOAD_BODY_BYTES || 2
 const IMPORT_BATCH_SIZE = Math.max(5000, Math.min(20000, Number(process.env.SILO_IMPORT_BATCH_SIZE || 5000)));
 const IMPORT_FILES_DIR = path.join(DATA_DIR, 'imports');
 const sessions = new Map();
+const sseClients = new Set();
+let eventVersion = 0;
 const CLEAR_DATASETS_CONFIRMATION_KEYWORD = 'CLEAR_DATASETS';
 const DELETE_VOTER_CONFIRMATION_KEYWORD = 'DELETE_VOTER';
 
@@ -160,7 +162,45 @@ function updateImport(importId, updater) {
   if (!target) return null;
   updater(target, store);
   writeStore(store);
+  publishServerEvent('import.progress', {
+    importId,
+    status: target.status,
+    phaseStartedAt: target.phase_started_at || null,
+    progressPct: Number(target.progress_pct || 0),
+    processedRows: Number(target.processed_rows || 0),
+    acceptedRows: Number(target.accepted_rows || 0),
+    rejectedRows: Number(target.rejected_rows || 0),
+    county: target.county || null
+  });
+  if (target.status === 'geocoding') {
+    publishServerEvent('import.geocode_update', {
+      importId,
+      county: target.county || null,
+      processedRows: Number(target.processed_rows || 0),
+      acceptedRows: Number(target.accepted_rows || 0),
+      progressPct: Number(target.progress_pct || 0)
+    });
+  }
   return target;
+}
+
+function publishServerEvent(type, payload = {}) {
+  eventVersion += 1;
+  const event = {
+    type,
+    version: eventVersion,
+    timestamp: now(),
+    payload
+  };
+  const wire = `event: ${type}\ndata: ${JSON.stringify(event)}\n\n`;
+  for (const client of sseClients) {
+    try {
+      client.write(wire);
+    } catch (_) {
+      sseClients.delete(client);
+    }
+  }
+  return event;
 }
 function extractMultipartFile(bodyBuffer, contentType) {
   const boundaryMatch = String(contentType || '').match(/boundary=([^;]+)/i);
@@ -344,6 +384,16 @@ async function processImportFile(importId) {
       finalRecord.rejected_detail = rejectedRows;
     }
     writeStore(store);
+    publishServerEvent('import.progress', {
+      importId,
+      status: 'completed',
+      phaseStartedAt: finalRecord?.phase_started_at || null,
+      progressPct: 100,
+      processedRows: totalRows,
+      acceptedRows: accepted,
+      rejectedRows: rejected,
+      county
+    });
   } catch (error) {
     updateImport(importId, (current) => {
       current.status = 'failed';
@@ -458,6 +508,13 @@ function bearer(req) {
   if (!s || s.expiresAt < Date.now()) return null;
   return s;
 }
+function bearerFromToken(token) {
+  const normalized = String(token || '').trim();
+  if (!normalized) return null;
+  const s = sessions.get(normalized);
+  if (!s || s.expiresAt < Date.now()) return null;
+  return s;
+}
 function secretHash(secret) {
   return crypto.createHash('sha256').update(String(secret)).digest('hex');
 }
@@ -559,7 +616,8 @@ function serveStatic(req, res, pathname) {
 }
 
 async function handler(req, res) {
-  const { pathname: rawPathname } = new URL(req.url, 'http://localhost');
+  const parsedUrl = new URL(req.url, 'http://localhost');
+  const { pathname: rawPathname } = parsedUrl;
   const pathname = rawPathname === '/silo' ? '/' : (rawPathname.startsWith('/silo/') ? rawPathname.slice('/silo'.length) : rawPathname);
   if (pathname === '/health') return send(res, 200, { ok: true });
   if (serveStatic(req, res, pathname)) return;
@@ -618,6 +676,20 @@ async function handler(req, res) {
     });
   }
 
+  if (req.method === 'GET' && pathname === '/api/events') {
+    const eventUser = bearer(req) || bearerFromToken(parsedUrl.searchParams.get('token'));
+    if (!eventUser) return send(res, 401, { error: 'Unauthorized' });
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive'
+    });
+    res.write(': connected\n\n');
+    sseClients.add(res);
+    req.on('close', () => sseClients.delete(res));
+    return;
+  }
+
   const user = bearer(req);
   if (!user) return send(res, 401, { error: 'Unauthorized' });
   if (isAdminOnlyRoute(req, pathname) && user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
@@ -664,6 +736,13 @@ async function handler(req, res) {
       confirmationKeyword: confirmation.typedKeyword
     });
     writeStore(store);
+    publishServerEvent('dataset.cleared', {
+      actor: user.userId,
+      affectedVoters,
+      affectedHouseholds,
+      affectedInteractions,
+      reason: String(body.reason || '').trim() || null
+    });
     return send(res, 200, { ok: true, affectedVoters, affectedHouseholds, affectedInteractions });
   }
 
@@ -711,6 +790,14 @@ async function handler(req, res) {
       confirmationKeyword: confirmation.typedKeyword
     });
     writeStore(store);
+    publishServerEvent('dataset.voter_deleted', {
+      actor: user.userId,
+      voterId: voter.voter_id,
+      householdId: voter.household_id,
+      householdSoftDeleted,
+      reason: reason || null,
+      relatedInteractionsSoftDeleted: relatedInteractions.length
+    });
     return send(res, 200, { ok: true, voterId: voter.voter_id, householdSoftDeleted });
   }
 
@@ -759,6 +846,13 @@ async function handler(req, res) {
       confirmationKeyword: confirmation.typedKeyword
     });
     writeStore(store);
+    publishServerEvent('dataset.voter_restored', {
+      actor: user.userId,
+      voterId: voter.voter_id,
+      householdId: voter.household_id,
+      restoredHousehold,
+      restoredInteractions: restoredInteractions.length
+    });
     return send(res, 200, { ok: true, voterId: voter.voter_id, restoredHousehold, restoredInteractions: restoredInteractions.length });
   }
 
@@ -834,6 +928,15 @@ async function handler(req, res) {
     };
     store.imports.unshift(importRecord);
     writeStore(store);
+    publishServerEvent('import.progress', {
+      importId,
+      status: 'uploaded',
+      progressPct: 0,
+      processedRows: 0,
+      acceptedRows: 0,
+      rejectedRows: 0,
+      county
+    });
     setImmediate(() => {
       processImportFile(importId).catch((error) => {
         updateImport(importId, (current) => {
@@ -892,6 +995,15 @@ async function handler(req, res) {
           rejected_detail: []
         });
         writeStore(store);
+        publishServerEvent('import.progress', {
+          importId,
+          status: 'uploaded',
+          progressPct: 0,
+          processedRows: 0,
+          acceptedRows: 0,
+          rejectedRows: 0,
+          county
+        });
         createdImports.push({ label, county, url, importId, status: 'uploaded' });
         setImmediate(() => processImportFile(importId).catch((error) => {
           updateImport(importId, (current) => {
@@ -956,6 +1068,9 @@ async function handler(req, res) {
     }
     const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: 'dashboard', created_at: now(), deleted_at: null, deleted_by: null, delete_reason: null };
     store.canvassInteractions.unshift(record); audit(store, 'dashboard', 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome }); writeStore(store);
+    publishServerEvent('canvass.event_created', {
+      interaction: record
+    });
     return send(res, 200, record);
   }
 
@@ -999,6 +1114,9 @@ async function handler(req, res) {
     const store = readStore();
     const record = { annotation_id: id('ann'), lat: body.lat, lng: body.lng, type: body.type || 'note', note: body.note || '', followup_at: body.followup_at || null, created_by: 'dashboard', created_at: now() };
     store.mapAnnotations.unshift(record); audit(store, 'dashboard', 'ADD_ANNOTATION', 'annotation', record.annotation_id, { type: record.type }); writeStore(store);
+    publishServerEvent('annotation.created', {
+      annotation: record
+    });
     return send(res, 200, record);
   }
 
