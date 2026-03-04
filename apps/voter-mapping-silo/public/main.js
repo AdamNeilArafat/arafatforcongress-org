@@ -171,14 +171,16 @@ async function refreshDashboard() {
   document.getElementById('audit').innerHTML = audit.slice(0, 8).map((a) => `${new Date(a.timestamp).toLocaleString()} · ${a.action}`).join('<br>');
 }
 
-function renderMap() {
+function renderMap({ fitToData = false } = {}) {
   clusterLayer.clearLayers();
   annotationLayer.clearLayers();
   const heat = [];
+  const bounds = [];
 
   state.households.features.forEach((f) => {
     const [lng, lat] = f.geometry.coordinates;
     heat.push([lat, lng, Math.max(1, f.properties.voter_count)]);
+    bounds.push([lat, lng]);
     const marker = L.marker([lat, lng]);
     marker.bindPopup(`
       <strong>${f.properties.normalized_address}</strong><br>
@@ -198,14 +200,25 @@ function renderMap() {
   });
 
   heatLayer.setLatLngs(heat);
+
+  if (fitToData && bounds.length) {
+    map.fitBounds(bounds, { padding: [20, 20], maxZoom: 14 });
+  }
 }
 
-async function loadFeatures() {
-  const county = document.getElementById('mapCounty').value;
-  const payload = await api(`/map/features?county=${encodeURIComponent(county)}`);
+async function loadFeatures({ county, fitToData = false } = {}) {
+  const mapCountyEl = document.getElementById('mapCounty');
+  const selectedCounty = county || mapCountyEl.value;
+  if (county && mapCountyEl.value !== county) mapCountyEl.value = county;
+  const payload = await api(`/map/features?county=${encodeURIComponent(selectedCounty)}`);
   state.households = payload.households;
   state.annotations = payload.annotations;
-  renderMap();
+  renderMap({ fitToData });
+  return {
+    households: state.households.features.length,
+    annotations: state.annotations.features.length,
+    county: selectedCounty
+  };
 }
 
 window.logOutcome = async (householdId, outcome) => {
@@ -249,8 +262,12 @@ document.getElementById('loginBtn').onclick = async () => {
 };
 
 document.getElementById('refreshBtn').onclick = async () => {
-  await loadFeatures();
+  await loadFeatures({ fitToData: true });
   await refreshDashboard();
+};
+
+document.getElementById('mapCounty').onchange = async () => {
+  await loadFeatures({ fitToData: true });
 };
 
 async function initDashboard() {
@@ -274,8 +291,9 @@ document.getElementById('importBtn').onclick = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ county: document.getElementById('county').value, csv })
     });
-    document.getElementById('importResult').textContent = `Import ${result.importId}: accepted ${result.accepted}, rejected ${result.rejected}`;
-    await loadFeatures();
+    const importedCounty = document.getElementById('county').value;
+    const mapLoad = await loadFeatures({ county: importedCounty, fitToData: true });
+    document.getElementById('importResult').textContent = `Import ${result.importId}: accepted ${result.accepted}, rejected ${result.rejected}. Showing ${mapLoad.households} mapped households for ${mapLoad.county}.`;
     await refreshDashboard();
   } catch (e) {
     document.getElementById('importResult').textContent = e.message;
@@ -312,8 +330,8 @@ document.getElementById('importRemoteBtn').onclick = async () => {
         : `${item.label}: accepted ${safeNumber(item.accepted)}, rejected ${safeNumber(item.rejected)}`)
       .join(' | ');
 
+    await loadFeatures({ fitToData: true });
     document.getElementById('importResult').textContent = `${summary}${detail ? ` :: ${detail}` : ''}`;
-    await loadFeatures();
     await refreshDashboard();
   } catch (e) {
     document.getElementById('importResult').textContent = e.message;
