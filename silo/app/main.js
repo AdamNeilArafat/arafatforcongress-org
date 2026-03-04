@@ -23,12 +23,19 @@ function configuredApiBase() {
   return normalizeApiBase(localStorage.getItem(API_BASE_STORAGE_KEY));
 }
 
+function withApiSuffix(base) {
+  if (!base) return '';
+  return base.endsWith('/api') ? base : `${base}/api`;
+}
+
 function resolveApiBases() {
   const customBase = configuredApiBase();
   const defaultBases = window.location.pathname.includes('/silo/app')
     ? ['/silo/api', '/api']
     : ['/api', '/silo/api'];
-  return customBase ? [customBase, ...defaultBases] : defaultBases;
+  if (!customBase) return defaultBases;
+  const candidates = [customBase, withApiSuffix(customBase), ...defaultBases];
+  return [...new Set(candidates.filter(Boolean))];
 }
 
 const map = L.map('map').setView([47.03, -122.85], 9);
