@@ -905,7 +905,6 @@
   const LS_LOCAL   = 'arafat_dash_local_contacts';
   const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY/export?format=csv&gid=1573758032';
   const DEFAULT_VOL_URL    = 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351';
-  const SILO_API_BASES = ['/silo/api', '/api'];
 
   /* -------- SAMPLE DATA (shown when no Google Sheet configured) -------- */
   const SAMPLE_CONTACTS = [
@@ -925,27 +924,6 @@
   let volContacts = [];
   let localContacts = [];
 
-  async function parseApiPayload(resp) {
-    const text = await resp.text();
-    if (!text) return {};
-    try { return JSON.parse(text); } catch (_) { return { error: text.slice(0, 160) || ('HTTP ' + resp.status) }; }
-  }
-
-  async function siloApi(path, options) {
-    let lastError = null;
-    for (const base of SILO_API_BASES) {
-      const endpoint = base + path;
-      try {
-        const resp = await fetch(endpoint, options);
-        const payload = await parseApiPayload(resp);
-        if (!resp.ok) throw new Error(payload.error || ('HTTP ' + resp.status));
-        return payload;
-      } catch (err) {
-        lastError = err;
-      }
-    }
-    throw lastError || new Error('Unable to reach API');
-  }
 
   // Expose for global use in follow-up alert button
   window.applyFiltersAndSortGlobal = function() { applyFiltersAndSort(); };
