@@ -271,6 +271,9 @@ async function importCsvText(csvText, sourceLabel) {
     importedAt: new Date().toISOString()
   });
 
+  const rejectText = rejected.length ? ` Rejected ${rejected.length}: ${rejected.slice(0, 3).join(' | ')}` : '';
+  logActivity('IMPORT', null, `Imported ${accepted.length} households`, `${sourceLabel}.${rejectText ? ` ${rejectText.trim()}` : ''}`.trim());
+
   setTab('map');
   renderMap();
   renderWalk();
@@ -279,7 +282,6 @@ async function importCsvText(csvText, sourceLabel) {
   renderKpis();
   renderReporting();
 
-  const rejectText = rejected.length ? ` Rejected ${rejected.length}: ${rejected.slice(0, 3).join(' | ')}` : '';
   document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}`;
 }
 
@@ -482,6 +484,7 @@ function wireEvents() {
     state.households = DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
     saveImportMeta(null);
     saveHouseholds();
+    logActivity('IMPORT', null, 'Import reset', 'Restored default test households.');
     renderMap();
     renderWalk();
     renderPhone();
