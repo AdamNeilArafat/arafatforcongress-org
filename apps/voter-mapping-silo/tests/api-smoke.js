@@ -30,33 +30,36 @@ async function run() {
   await staticReq('/app/');
   await staticReq('/silo/app/');
 
-  const login = await req('/api/auth/login', {
+  const health = await req('/silo/api/health');
+  assert.equal(health.ok, true);
+
+  const login = await req('/silo/api/auth/login', {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: '1234' })
   });
   assert(login.token);
   const authHeaders = { Authorization: `Bearer ${login.token}` };
 
   const csv = `voter_id,first_name,last_name,address,city,state,zip,party\n1,Ada,Lovelace,100 Main St,Tacoma,WA,98402,DEM\n2,Grace,Hopper,100 Main St,Tacoma,WA,98402,DEM\n3,Alan,Turing,200 Pine St,Olympia,WA,98501,IND`;
-  const importResp = await req('/api/imports/voters', {
+  const importResp = await req('/silo/api/imports/voters', {
     method: 'POST',
     headers: { ...authHeaders, 'Content-Type': 'application/json' },
     body: JSON.stringify({ county: 'pierce', csv })
   });
   assert.equal(importResp.accepted, 3);
 
-  const features = await req('/api/map/features?county=all', { headers: authHeaders });
+  const features = await req('/silo/api/map/features?county=all', { headers: authHeaders });
   assert.equal(features.households.features.length, 2);
 
   const hhId = features.households.features[0].properties.household_id;
-  await req('/api/canvass/logs', {
+  await req('/silo/api/canvass/logs', {
     method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ household_id: hhId, outcome: 'Contacted' })
   });
 
-  await req('/api/annotations', {
+  await req('/silo/api/annotations', {
     method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ lat: 47.0, lng: -122.9, type: 'issue', note: 'Street light out' })
   });
 
-  const dashboard = await req('/api/dashboard', { headers: authHeaders });
+  const dashboard = await req('/silo/api/dashboard', { headers: authHeaders });
   assert.equal(dashboard.voters, 3);
   assert.equal(dashboard.households, 2);
   assert.equal(dashboard.interactions, 1);

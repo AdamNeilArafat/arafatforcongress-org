@@ -144,7 +144,8 @@ function serveStatic(req, res, pathname) {
 }
 
 async function handler(req, res) {
-  const { pathname } = new URL(req.url, 'http://localhost');
+  const { pathname: rawPathname } = new URL(req.url, 'http://localhost');
+  const pathname = rawPathname === '/silo' ? '/' : (rawPathname.startsWith('/silo/') ? rawPathname.slice('/silo'.length) : rawPathname);
   if (pathname === '/health') return send(res, 200, { ok: true });
   if (serveStatic(req, res, pathname)) return;
 
