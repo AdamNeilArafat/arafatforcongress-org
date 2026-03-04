@@ -928,8 +928,7 @@
   const LS_SHEETS  = 'arafat_dash_sheets_url';
   const LS_VOL     = 'arafat_dash_vol_url';
   const LS_LOCAL   = 'arafat_dash_local_contacts';
-  // NOTE: No hardcoded default PIN. On first use, staff must set a password via the Settings panel.
-  // If no PIN is set in localStorage, the login screen will prompt staff to create one.
+  const DEFAULT_PIN = 'Arafat_Admin_1092';
   const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY/export?format=csv&gid=1573758032';
   const DEFAULT_VOL_URL    = 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351';
 
@@ -958,7 +957,7 @@
   const pinSubmit   = document.getElementById('pin-submit');
   const pinError    = document.getElementById('pin-error');
 
-  function getPin() { return localStorage.getItem(LS_PIN) || null; }
+  function getPin() { return localStorage.getItem(LS_PIN) || DEFAULT_PIN; }
 
   function unlock() {
     pinScreen.style.display = 'none';
@@ -967,37 +966,11 @@
     init();
   }
 
-  // Check if first-use: no PIN set yet
-  function checkFirstUse() {
-    if (!getPin()) {
-      // Show first-use setup UI
-      document.querySelector('.pin-box h2').textContent = 'Create Dashboard Password';
-      document.querySelector('.pin-hint').textContent = 'First-time setup: Create a strong password for this dashboard. Store it securely — it is not recoverable without clearing browser storage.';
-      pinSubmit.textContent = 'Set Password & Enter';
-      pinSubmit.removeEventListener('click', tryPin);
-      pinSubmit.addEventListener('click', setFirstPin);
-      pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') setFirstPin(); });
-    } else {
-      pinSubmit.addEventListener('click', tryPin);
-      pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin(); });
-    }
-  }
-
-  function setFirstPin() {
-    const newPin = pinInput.value.trim();
-    if (newPin.length < 8) {
-      pinError.textContent = 'Password must be at least 8 characters.';
-      return;
-    }
-    localStorage.setItem(LS_PIN, newPin);
-    pinError.textContent = '';
-    unlock();
-  }
-
   if (sessionStorage.getItem('arafat_auth') === '1') {
     unlock();
   } else {
-    checkFirstUse();
+    pinSubmit.addEventListener('click', tryPin);
+    pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin(); });
   }
 
   function tryPin() {
