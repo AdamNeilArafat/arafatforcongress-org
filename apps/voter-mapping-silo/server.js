@@ -165,7 +165,7 @@ function pinHash(pin) {
 function expectedPin(store) {
   const configuredHash = store.settings?.adminPinHash;
   if (configuredHash) return { hash: configuredHash, source: 'store' };
-  const envPin = process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN || 'Arafat_Admin_1092';
+  const envPin = process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN || 'Arafat_Admin_2026';
   return { hash: pinHash(envPin), source: 'env' };
 }
 function appRelativePath(pathname) {

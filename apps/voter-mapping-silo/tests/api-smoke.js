@@ -6,7 +6,7 @@ async function run() {
   ensureStore();
   fs.writeFileSync(STORE_PATH, JSON.stringify({ voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [] }, null, 2));
 
-  process.env.SILO_ADMIN_PIN = '1234';
+  process.env.SILO_ADMIN_PIN = 'Arafat_Admin_2026';
   const server = createServer().listen(0);
   const port = server.address().port;
   const base = `http://127.0.0.1:${port}`;
@@ -34,7 +34,7 @@ async function run() {
   assert.equal(health.ok, true);
 
   const login = await req('/silo/api/auth/login', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: '1234' })
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: 'Arafat_Admin_2026' })
   });
   assert(login.token);
   const authHeaders = { Authorization: `Bearer ${login.token}` };
