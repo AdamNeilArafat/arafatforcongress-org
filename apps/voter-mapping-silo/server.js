@@ -35,6 +35,23 @@ function readStore() {
 function writeStore(store) { fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2)); }
 function id(prefix) { return `${prefix}_${crypto.randomUUID()}`; }
 function now() { return new Date().toISOString(); }
+function latestInteractionByHousehold(interactions = []) {
+  const latestByHousehold = new Map();
+  for (const interaction of interactions) {
+    if (!interaction?.household_id) continue;
+    const existing = latestByHousehold.get(interaction.household_id);
+    if (!existing) {
+      latestByHousehold.set(interaction.household_id, interaction);
+      continue;
+    }
+    const existingTimestamp = Date.parse(existing.created_at || 0);
+    const candidateTimestamp = Date.parse(interaction.created_at || 0);
+    if (candidateTimestamp >= existingTimestamp) {
+      latestByHousehold.set(interaction.household_id, interaction);
+    }
+  }
+  return latestByHousehold;
+}
 function normalizeAddress(row) {
   const registrationStreet = [
     row.regstpredirection,
@@ -461,7 +478,8 @@ async function handler(req, res) {
   if (req.method === 'GET' && pathname === '/api/dashboard') {
     const store = readStore();
     const countyCounts = store.voters.reduce((acc, v) => ((acc[v.source_county] = (acc[v.source_county] || 0) + 1), acc), {});
-    const outcomeCounts = store.canvassInteractions.reduce((acc, i) => ((acc[i.outcome] = (acc[i.outcome] || 0) + 1), acc), {});
+    const latestInteractions = latestInteractionByHousehold(store.canvassInteractions);
+    const outcomeCounts = [...latestInteractions.values()].reduce((acc, interaction) => ((acc[interaction.outcome] = (acc[interaction.outcome] || 0) + 1), acc), {});
     return send(res, 200, {
       voters: store.voters.length,
       households: store.households.length,
@@ -603,10 +621,7 @@ async function handler(req, res) {
     const county = new URL(req.url, 'http://localhost').searchParams.get('county') || 'all';
     const store = readStore();
     const eligible = new Set(county === 'all' ? store.households.map((h) => h.household_id) : store.voters.filter((v) => v.source_county === county).map((v) => v.household_id));
-    const latestInteractionByHousehold = new Map();
-    for (const interaction of store.canvassInteractions) {
-      if (!latestInteractionByHousehold.has(interaction.household_id)) latestInteractionByHousehold.set(interaction.household_id, interaction);
-    }
+    const latestByHousehold = latestInteractionByHousehold(store.canvassInteractions);
     const votersByHousehold = new Map();
     for (const voter of store.voters) {
       if (county !== 'all' && voter.source_county !== county) continue;
@@ -619,7 +634,7 @@ async function handler(req, res) {
     for (const household of store.households) {
       if (!eligible.has(household.household_id)) continue;
       const voters = votersByHousehold.get(household.household_id) || [];
-      const last = latestInteractionByHousehold.get(household.household_id);
+      const last = latestByHousehold.get(household.household_id);
       households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted' } });
     }
     const annotations = store.mapAnnotations.map((a) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: a }));
