@@ -72,3 +72,23 @@ location /silo/ {
 }
 ```
 
+
+
+## Quick internet link (Cloudflare Tunnel)
+If you need a temporary public URL that works from anywhere:
+
+```bash
+# terminal 1
+SILO_ADMIN_PIN='replace-this' npm run silo:start
+
+# terminal 2 (cloudflared installed on host)
+cloudflared tunnel --url http://localhost:4177
+```
+
+Use the generated `https://<random>.trycloudflare.com/app/` as the silo URL in `/admin/silo-dashboard.html`.
+
+Health check URL pattern:
+
+```
+https://<random>.trycloudflare.com/api/health
+```

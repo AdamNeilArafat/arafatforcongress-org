@@ -160,6 +160,22 @@ async function handler(req, res) {
   }
 
   if (!pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
+  if (req.method === 'GET' && pathname === '/api/health') {
+    const store = readStore();
+    return send(res, 200, {
+      ok: true,
+      service: 'voter-mapping-silo',
+      timestamp: now(),
+      counts: {
+        households: store.households.length,
+        voters: store.voters.length,
+        imports: store.imports.length,
+        annotations: store.mapAnnotations.length,
+        canvassInteractions: store.canvassInteractions.length
+      }
+    });
+  }
+
   const user = bearer(req);
   if (!user) return send(res, 401, { error: 'Unauthorized' });
 
