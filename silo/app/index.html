@@ -32,7 +32,14 @@
         <h3>Login</h3>
         <input id="pin" type="password" placeholder="Admin PIN" />
         <button id="loginBtn">Unlock</button>
-        <p class="muted">Set `SILO_ADMIN_PIN` in environment.</p>
+        <p class="muted">Use your campaign dashboard PIN. You can also rotate it in Setup after login.</p>
+      </div>
+
+      <div class="card">
+        <h3>Setup & Security</h3>
+        <input id="newPin" type="password" placeholder="New PIN (8+ chars)" />
+        <button id="savePinBtn" class="secondary">Update PIN</button>
+        <div class="muted" id="pinSaveResult">This replaces silo login PIN for future sign-ins.</div>
       </div>
 
       <div class="card">
@@ -79,6 +86,7 @@
         <div class="kpi" id="volunteerBridgeKpis"></div>
         <div id="volunteerBridgeMeta" class="muted"></div>
         <a id="openVolunteerDashboard" class="muted" href="/admin/volunteer-dashboard.html" style="display:inline-block;margin-top:8px">Open original dashboard ↗</a><br>
+        <a id="openVolunteerSetup" class="muted" href="/admin/volunteer-dashboard.html#settings-panel" style="display:inline-block;margin-top:6px">Open original setup form ↗</a><br>
         <a class="muted" href="/admin/volunteer-dashboard.html" style="display:inline-block;margin-top:6px">Open original HTML dashboard ↗</a>
       </div>
 

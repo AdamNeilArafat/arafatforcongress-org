@@ -14,13 +14,18 @@ const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volun
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 8;
 const sessions = new Map();
 
-const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [] };
+const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [], settings: {} };
 
 function ensureStore() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
   if (!fs.existsSync(STORE_PATH)) fs.writeFileSync(STORE_PATH, JSON.stringify(DEFAULT_STORE, null, 2));
 }
-function readStore() { ensureStore(); return JSON.parse(fs.readFileSync(STORE_PATH, 'utf8')); }
+function readStore() {
+  ensureStore();
+  const parsed = JSON.parse(fs.readFileSync(STORE_PATH, 'utf8'));
+  if (!parsed.settings || typeof parsed.settings !== 'object') parsed.settings = {};
+  return parsed;
+}
 function writeStore(store) { fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2)); }
 function id(prefix) { return `${prefix}_${crypto.randomUUID()}`; }
 function now() { return new Date().toISOString(); }
@@ -32,6 +37,16 @@ function normalizeAddress(row) {
     row.zip || row.zip_code || row.postal || row['zip code']
   ]
     .filter(Boolean).join(' ').replace(/\s+/g, ' ').trim().toUpperCase();
+}
+function normalizeKey(value = '') {
+  return String(value).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+}
+function normalizeRow(row = {}) {
+  return Object.entries(row).reduce((acc, [key, value]) => {
+    const normalized = normalizeKey(key);
+    if (normalized) acc[normalized] = value;
+    return acc;
+  }, {});
 }
 function firstNonEmpty(row, keys, fallback = '') {
   for (const key of keys) {
@@ -144,6 +159,15 @@ function bearer(req) {
   if (!s || s.expiresAt < Date.now()) return null;
   return s;
 }
+function pinHash(pin) {
+  return crypto.createHash('sha256').update(String(pin)).digest('hex');
+}
+function expectedPin(store) {
+  const configuredHash = store.settings?.adminPinHash;
+  if (configuredHash) return { hash: configuredHash, source: 'store' };
+  const envPin = process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN || 'Arafat_Admin_1092';
+  return { hash: pinHash(envPin), source: 'env' };
+}
 function appRelativePath(pathname) {
   if (pathname === '/' || pathname === '/app' || pathname === '/app/') return 'index.html';
   const appIndex = pathname.indexOf('/app/');
@@ -173,11 +197,12 @@ async function handler(req, res) {
     const body = await parseBody(req).catch(() => null);
     if (!body) return send(res, 400, { error: 'Invalid JSON' });
     const pin = String(body.pin || '');
-    const expected = process.env.SILO_ADMIN_PIN || 'Arafat_Admin_1092';
-    if (pin !== expected) return send(res, 401, { error: 'Invalid PIN' });
+    const store = readStore();
+    const expected = expectedPin(store);
+    if (pinHash(pin) !== expected.hash) return send(res, 401, { error: 'Invalid PIN' });
     const token = crypto.randomBytes(24).toString('hex');
     sessions.set(token, { userId: 'admin', role: 'admin', expiresAt: Date.now() + TOKEN_TTL_MS });
-    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS });
+    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: expected.source });
   }
 
   if (!pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
@@ -213,8 +238,24 @@ async function handler(req, res) {
       outcomeCounts,
       dataQuality: dashboardDataQuality(store),
       liveFeed: liveFeedSummary(),
-      volunteerDashboard: volunteerDashboardBridge()
+      volunteerDashboard: volunteerDashboardBridge(),
+      settings: {
+        pinConfiguredInStore: Boolean(store.settings?.adminPinHash)
+      }
     });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/settings/pin') {
+    const body = await parseBody(req).catch(() => null);
+    if (!body) return send(res, 400, { error: 'Invalid JSON' });
+    const nextPin = String(body.pin || '').trim();
+    if (nextPin.length < 8) return send(res, 400, { error: 'PIN must be at least 8 characters' });
+    const store = readStore();
+    store.settings.adminPinHash = pinHash(nextPin);
+    store.settings.adminPinUpdatedAt = now();
+    audit(store, user.userId, 'SETTINGS_PIN_UPDATED', 'settings', 'admin_pin', {});
+    writeStore(store);
+    return send(res, 200, { ok: true, updatedAt: store.settings.adminPinUpdatedAt });
   }
 
   if (req.method === 'POST' && pathname === '/api/imports/voters') {
@@ -230,7 +271,8 @@ async function handler(req, res) {
     const report = { importId, county, accepted: 0, rejected: 0, rejectedRows: [] };
     const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
 
-    rows.forEach((row, idx) => {
+    rows.forEach((rawRow, idx) => {
+      const row = normalizeRow(rawRow);
       const normalized = normalizeAddress(row);
       if (!normalized) { report.rejected += 1; report.rejectedRows.push({ row: idx + 2, reason: 'Missing address' }); return; }
       let household = householdByAddress.get(normalized);
