@@ -11,8 +11,6 @@ const PUBLIC_DIR = path.join(__dirname, 'public');
 const LIVE_PUBLIC_METRICS_PATH = path.join(__dirname, '..', '..', 'data', 'public-metrics.json');
 const LIVE_OUTREACH_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'outreach_data.json');
 const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volunteer_data.json');
-const TOKEN_TTL_MS = 1000 * 60 * 60 * 8;
-const sessions = new Map();
 
 const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [], settings: {} };
 
@@ -306,9 +304,6 @@ async function handler(req, res) {
     });
   }
 
-  const user = bearer(req);
-  if (!user) return send(res, 401, { error: 'Unauthorized' });
-
   if (req.method === 'GET' && pathname === '/api/dashboard') {
     const store = readStore();
     const countyCounts = store.voters.reduce((acc, v) => ((acc[v.source_county] = (acc[v.source_county] || 0) + 1), acc), {});
@@ -409,8 +404,8 @@ async function handler(req, res) {
     const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
     if (!body.household_id || !body.outcome) return send(res, 400, { error: 'household_id and outcome are required' });
     const store = readStore();
-    const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: user.userId, created_at: now() };
-    store.canvassInteractions.unshift(record); audit(store, user.userId, 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome }); writeStore(store);
+    const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: 'dashboard', created_at: now() };
+    store.canvassInteractions.unshift(record); audit(store, 'dashboard', 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome }); writeStore(store);
     return send(res, 200, record);
   }
 
@@ -418,8 +413,8 @@ async function handler(req, res) {
     const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
     if (!Number.isFinite(body.lat) || !Number.isFinite(body.lng)) return send(res, 400, { error: 'lat/lng required' });
     const store = readStore();
-    const record = { annotation_id: id('ann'), lat: body.lat, lng: body.lng, type: body.type || 'note', note: body.note || '', followup_at: body.followup_at || null, created_by: user.userId, created_at: now() };
-    store.mapAnnotations.unshift(record); audit(store, user.userId, 'ADD_ANNOTATION', 'annotation', record.annotation_id, { type: record.type }); writeStore(store);
+    const record = { annotation_id: id('ann'), lat: body.lat, lng: body.lng, type: body.type || 'note', note: body.note || '', followup_at: body.followup_at || null, created_by: 'dashboard', created_at: now() };
+    store.mapAnnotations.unshift(record); audit(store, 'dashboard', 'ADD_ANNOTATION', 'annotation', record.annotation_id, { type: record.type }); writeStore(store);
     return send(res, 200, record);
   }
 

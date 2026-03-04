@@ -72,11 +72,11 @@ async function run() {
 
   const hhId = features.households.features[0].properties.household_id;
   await req('/silo/api/canvass/logs', {
-    method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ household_id: hhId, outcome: 'Contacted' })
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ household_id: hhId, outcome: 'Contacted' })
   });
 
   await req('/silo/api/annotations', {
-    method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ lat: 47.0, lng: -122.9, type: 'issue', note: 'Street light out' })
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lat: 47.0, lng: -122.9, type: 'issue', note: 'Street light out' })
   });
 
   const dashboard = await req('/silo/api/dashboard', { headers: authHeaders });

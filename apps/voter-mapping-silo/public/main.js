@@ -1,5 +1,5 @@
 const API_BASE_STORAGE_KEY = 'silo_api_base';
-const state = { token: '', households: null, annotations: null, selected: null };
+const state = { households: null, annotations: null, selected: null };
 
 function normalizeApiBase(value) {
   const trimmed = String(value || '').trim();
@@ -31,10 +31,6 @@ const clusterLayer = L.markerClusterGroup();
 const annotationLayer = L.layerGroup().addTo(map);
 map.addLayer(clusterLayer);
 
-function headers() {
-  return state.token ? { Authorization: `Bearer ${state.token}` } : {};
-}
-
 function buildEndpoint(base, path) {
   if (path.startsWith('http')) return path;
   const normalized = path.startsWith('/') ? path : `/${path}`;
@@ -61,7 +57,7 @@ async function api(path, opts = {}) {
     try {
       const response = await fetch(endpoint, {
         ...opts,
-        headers: { ...(opts.headers || {}), ...headers() }
+        headers: { ...(opts.headers || {}) }
       });
       const payload = await parsePayload(response);
       if (!response.ok) {
@@ -164,7 +160,6 @@ function showVolunteerBridge(volunteerDashboard = {}) {
 }
 
 async function refreshDashboard() {
-  if (!state.token) return;
   const d = await api('/dashboard');
   showKpis(d);
   showDataQuality(d.dataQuality);
@@ -212,7 +207,6 @@ async function loadFeatures() {
 }
 
 window.logOutcome = async (householdId, outcome) => {
-  if (!state.token) return;
   const notes = prompt(`Notes for ${outcome}?`) || '';
   await api('/canvass/logs', {
     method: 'POST',
@@ -224,7 +218,7 @@ window.logOutcome = async (householdId, outcome) => {
 };
 
 map.on('click', async (e) => {
-  if (!document.getElementById('annotateMode').checked || !state.token) return;
+  if (!document.getElementById('annotateMode').checked) return;
   const type = document.getElementById('annotationType').value;
   const note = document.getElementById('annotationNote').value;
   await api('/annotations', {
@@ -256,6 +250,17 @@ document.getElementById('refreshBtn').onclick = async () => {
   await loadFeatures();
   await refreshDashboard();
 };
+
+async function initDashboard() {
+  try {
+    await loadFeatures();
+    await refreshDashboard();
+  } catch (error) {
+    document.getElementById('authState').textContent = `Open (${error.message})`;
+  }
+}
+
+initDashboard().catch(() => {});
 
 document.getElementById('importBtn').onclick = async () => {
   try {
@@ -321,9 +326,9 @@ document.getElementById('saveApiBaseBtn').onclick = () => {
   const nextBase = normalizeApiBase(document.getElementById('apiBase').value);
   if (!nextBase) {
     localStorage.removeItem(API_BASE_STORAGE_KEY);
-    document.getElementById('authState').textContent = 'Locked (default API route)';
+    document.getElementById('authState').textContent = 'Open (default API route)';
     return;
   }
   localStorage.setItem(API_BASE_STORAGE_KEY, nextBase);
-  document.getElementById('authState').textContent = 'Locked (custom API route saved)';
+  document.getElementById('authState').textContent = 'Open (custom API route saved)';
 };
