@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secure Voter Mapping Silo | Arafat for Congress WA-10</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f3f5fb;color:#07152b;margin:0}
+    main{max-width:860px;margin:0 auto;padding:28px 18px 40px}
+    .card{background:#fff;border:1px solid #d8e0ef;border-radius:12px;padding:18px 20px;margin-bottom:14px}
+    h1{font-size:1.35rem;margin-bottom:6px}
+    .muted{color:#51607b;font-size:.92rem;line-height:1.5}
+    input,button{font:inherit;padding:10px 12px;border-radius:8px;border:1px solid #c7d4ea}
+    input{width:100%;margin:8px 0}
+    button{background:#1d4fa8;color:#fff;font-weight:700;cursor:pointer}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    a.btn{display:inline-block;padding:10px 12px;background:#07152b;color:#fff;text-decoration:none;border-radius:8px;font-weight:700}
+    ul{margin:8px 0 0 20px;line-height:1.5}
+    code{background:#f0f4fc;padding:2px 5px;border-radius:6px}
+  </style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <h1>Secure Voter Mapping Silo</h1>
+    <p class="muted">This is a regular campaign-domain webpage that launches the isolated voter-mapping app. The silo itself remains separate and can run on its own URL, while this page avoids 404s and gives a stable entry point on the main site.</p>
+    <label for="siloUrl"><strong>Silo App URL</strong></label>
+    <input id="siloUrl" type="url" placeholder="https://your-subdomain.trycloudflare.com/app/">
+    <div class="actions">
+      <button id="save">Save URL</button>
+      <a class="btn" id="openSilo" href="https://arafatforcongress.org/silo/" target="_blank" rel="noopener">Open Silo App ↗</a>
+      <a class="btn" id="healthLink" href="https://arafatforcongress.org/silo/api/health" target="_blank" rel="noopener">Check Silo Health ↗</a>
+      <a class="btn" href="/admin/silo-dashboard.html">Admin Launchpad ↗</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Silo boundary</h2>
+    <ul>
+      <li>This page lives with the main website as a simple launch surface.</li>
+      <li>The actual silo app stays separate with its own auth and data store.</li>
+      <li>No public site pages depend on silo internals.</li>
+    </ul>
+  </div>
+</main>
+<script>
+  const key = 'siloDashboardUrl';
+  const fallback = 'https://arafatforcongress.org/silo/';
+  const input = document.getElementById('siloUrl');
+  const openSilo = document.getElementById('openSilo');
+  const healthLink = document.getElementById('healthLink');
+
+  function setUrl(url) {
+    openSilo.href = url;
+    input.value = url;
+    try {
+      const parsed = new URL(url);
+      const basePath = parsed.pathname
+        .replace(/\/app\/?$/i, '/')
+        .replace(/\/$/, '');
+      healthLink.href = `${parsed.origin}${basePath}/api/health`;
+    } catch {
+      healthLink.href = `${fallback.replace(/\/$/, '')}/api/health`;
+    }
+  }
+
+  const initial = localStorage.getItem(key) || fallback;
+  setUrl(initial);
+
+  document.getElementById('save').addEventListener('click', () => {
+    const v = input.value.trim();
+    if (!v || !/^https?:\/\//.test(v)) {
+      alert('Enter a full http(s) URL.');
+      return;
+    }
+    localStorage.setItem(key, v);
+    setUrl(v);
+    alert('Silo URL saved for this browser.');
+  });
+</script>
+</body>
+</html>
