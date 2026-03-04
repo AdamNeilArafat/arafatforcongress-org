@@ -29,7 +29,7 @@
     <input id="siloUrl" type="url" placeholder="https://your-subdomain.trycloudflare.com/app/">
     <div class="actions">
       <button id="save">Save URL</button>
-      <a class="btn" id="openSilo" href="https://arafatforcongress.org/silo/app/" target="_blank" rel="noopener">Open Silo Dashboard ↗</a>
+      <a class="btn" id="openSilo" href="https://arafatforcongress.org/silo/" target="_blank" rel="noopener">Open Silo Dashboard ↗</a>
       <a class="btn" id="healthLink" href="https://arafatforcongress.org/silo/api/health" target="_blank" rel="noopener">Check Silo Health ↗</a>
       <a class="btn" href="/admin/volunteer-dashboard.html">Open Original Dashboard ↗</a>
     </div>
@@ -57,7 +57,7 @@
 </main>
 <script>
   const key = 'siloDashboardUrl';
-  const fallback = 'https://arafatforcongress.org/silo/app/';
+  const fallback = 'https://arafatforcongress.org/silo/';
   const input = document.getElementById('siloUrl');
   const openSilo = document.getElementById('openSilo');
   const healthLink = document.getElementById('healthLink');
@@ -67,9 +67,12 @@
     input.value = url;
     try {
       const parsed = new URL(url);
-      healthLink.href = `${parsed.origin}/api/health`;
+      const basePath = parsed.pathname
+        .replace(/\/app\/?$/i, '/')
+        .replace(/\/$/, '');
+      healthLink.href = `${parsed.origin}${basePath}/api/health`;
     } catch {
-      healthLink.href = fallback.replace(/\/app\/?$/, '/api/health');
+      healthLink.href = `${fallback.replace(/\/$/, '')}/api/health`;
     }
   }
 
