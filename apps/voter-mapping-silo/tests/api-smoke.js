@@ -18,6 +18,18 @@ async function run() {
     return j;
   };
 
+  const staticReq = async (url) => {
+    const r = await fetch(base + url);
+    const body = await r.text();
+    assert.equal(r.status, 200, `Expected 200 for ${url}, got ${r.status}`);
+    assert(body.includes('Voter Mapping Silo'));
+  };
+
+  await staticReq('/');
+  await staticReq('/app');
+  await staticReq('/app/');
+  await staticReq('/silo/app/');
+
   const login = await req('/api/auth/login', {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: '1234' })
   });

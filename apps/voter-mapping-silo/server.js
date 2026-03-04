@@ -124,21 +124,31 @@ function bearer(req) {
   if (!s || s.expiresAt < Date.now()) return null;
   return s;
 }
-function serveStatic(req, res) {
-  const rel = req.url.replace('/app/', '') || 'index.html';
-  const filePath = path.join(PUBLIC_DIR, rel);
-  if (!filePath.startsWith(PUBLIC_DIR) || !fs.existsSync(filePath)) { res.writeHead(404); res.end('Not found'); return; }
+function appRelativePath(pathname) {
+  if (pathname === '/' || pathname === '/app' || pathname === '/app/') return 'index.html';
+  const appIndex = pathname.indexOf('/app/');
+  if (appIndex === -1) return null;
+  const rel = pathname.slice(appIndex + '/app/'.length);
+  return rel || 'index.html';
+}
+function serveStatic(req, res, pathname) {
+  const rel = appRelativePath(pathname);
+  if (!rel) return false;
+  const filePath = path.resolve(PUBLIC_DIR, rel);
+  if (!filePath.startsWith(PUBLIC_DIR) || !fs.existsSync(filePath)) { res.writeHead(404); res.end('Not found'); return true; }
   const ext = path.extname(filePath);
   const ctype = ext === '.html' ? 'text/html' : ext === '.js' ? 'application/javascript' : 'text/plain';
   res.writeHead(200, { 'Content-Type': ctype });
   fs.createReadStream(filePath).pipe(res);
+  return true;
 }
 
 async function handler(req, res) {
-  if (req.url === '/health') return send(res, 200, { ok: true });
-  if (req.url.startsWith('/app/')) return serveStatic(req, res);
+  const { pathname } = new URL(req.url, 'http://localhost');
+  if (pathname === '/health') return send(res, 200, { ok: true });
+  if (serveStatic(req, res, pathname)) return;
 
-  if (req.method === 'POST' && req.url === '/api/auth/login') {
+  if (req.method === 'POST' && pathname === '/api/auth/login') {
     const body = await parseBody(req).catch(() => null);
     if (!body) return send(res, 400, { error: 'Invalid JSON' });
     const pin = String(body.pin || '');
@@ -149,11 +159,11 @@ async function handler(req, res) {
     return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS });
   }
 
-  if (!req.url.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
+  if (!pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
   const user = bearer(req);
   if (!user) return send(res, 401, { error: 'Unauthorized' });
 
-  if (req.method === 'GET' && req.url === '/api/dashboard') {
+  if (req.method === 'GET' && pathname === '/api/dashboard') {
     const store = readStore();
     const countyCounts = store.voters.reduce((acc, v) => ((acc[v.source_county] = (acc[v.source_county] || 0) + 1), acc), {});
     const outcomeCounts = store.canvassInteractions.reduce((acc, i) => ((acc[i.outcome] = (acc[i.outcome] || 0) + 1), acc), {});
@@ -170,7 +180,7 @@ async function handler(req, res) {
     });
   }
 
-  if (req.method === 'POST' && req.url === '/api/imports/voters') {
+  if (req.method === 'POST' && pathname === '/api/imports/voters') {
     const body = await parseBody(req).catch(() => null);
     if (!body) return send(res, 400, { error: 'Invalid JSON' });
     const county = String(body.county || '').toLowerCase().trim();
@@ -206,7 +216,7 @@ async function handler(req, res) {
     return send(res, 200, report);
   }
 
-  if (req.method === 'GET' && req.url.startsWith('/api/map/features')) {
+  if (req.method === 'GET' && pathname.startsWith('/api/map/features')) {
     const county = new URL(req.url, 'http://localhost').searchParams.get('county') || 'all';
     const store = readStore();
     const eligible = new Set(county === 'all' ? store.households.map((h) => h.household_id) : store.voters.filter((v) => v.source_county === county).map((v) => v.household_id));
@@ -219,7 +229,7 @@ async function handler(req, res) {
     return send(res, 200, { households: { type: 'FeatureCollection', features: households }, annotations: { type: 'FeatureCollection', features: annotations } });
   }
 
-  if (req.method === 'POST' && req.url === '/api/canvass/logs') {
+  if (req.method === 'POST' && pathname === '/api/canvass/logs') {
     const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
     if (!body.household_id || !body.outcome) return send(res, 400, { error: 'household_id and outcome are required' });
     const store = readStore();
@@ -228,7 +238,7 @@ async function handler(req, res) {
     return send(res, 200, record);
   }
 
-  if (req.method === 'POST' && req.url === '/api/annotations') {
+  if (req.method === 'POST' && pathname === '/api/annotations') {
     const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
     if (!Number.isFinite(body.lat) || !Number.isFinite(body.lng)) return send(res, 400, { error: 'lat/lng required' });
     const store = readStore();
@@ -237,8 +247,8 @@ async function handler(req, res) {
     return send(res, 200, record);
   }
 
-  if (req.method === 'GET' && req.url === '/api/imports') return send(res, 200, readStore().imports.slice(0, 50));
-  if (req.method === 'GET' && req.url === '/api/audit') return send(res, 200, readStore().auditEvents.slice(0, 200));
+  if (req.method === 'GET' && pathname === '/api/imports') return send(res, 200, readStore().imports.slice(0, 50));
+  if (req.method === 'GET' && pathname === '/api/audit') return send(res, 200, readStore().auditEvents.slice(0, 200));
   return send(res, 404, { error: 'Not found' });
 }
 
