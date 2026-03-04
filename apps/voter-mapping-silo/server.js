@@ -18,6 +18,8 @@ const MAX_UPLOAD_BODY_BYTES = Number(process.env.SILO_MAX_UPLOAD_BODY_BYTES || 2
 const IMPORT_BATCH_SIZE = Math.max(5000, Math.min(20000, Number(process.env.SILO_IMPORT_BATCH_SIZE || 5000)));
 const IMPORT_FILES_DIR = path.join(DATA_DIR, 'imports');
 const sessions = new Map();
+const CLEAR_DATASETS_CONFIRMATION_KEYWORD = 'CLEAR_DATASETS';
+const DELETE_VOTER_CONFIRMATION_KEYWORD = 'DELETE_VOTER';
 
 const DEFAULT_STORE = {
   voters: [],
@@ -39,14 +41,50 @@ function ensureStore() {
 function readStore() {
   ensureStore();
   const parsed = JSON.parse(fs.readFileSync(STORE_PATH, 'utf8'));
+  if (!Array.isArray(parsed.voters)) parsed.voters = [];
+  if (!Array.isArray(parsed.households)) parsed.households = [];
+  if (!Array.isArray(parsed.canvassInteractions)) parsed.canvassInteractions = [];
+  if (!Array.isArray(parsed.mapAnnotations)) parsed.mapAnnotations = [];
+  if (!Array.isArray(parsed.imports)) parsed.imports = [];
+  if (!Array.isArray(parsed.auditEvents)) parsed.auditEvents = [];
   if (!parsed.settings || typeof parsed.settings !== 'object') parsed.settings = {};
-  if (!Array.isArray(parsed.turfAssignments)) parsed.turfAssignments = [];
-  if (!Array.isArray(parsed.users)) parsed.users = [];
+  parsed.voters.forEach(withSoftDeleteDefaults);
+  parsed.households.forEach(withSoftDeleteDefaults);
+  parsed.canvassInteractions.forEach(withSoftDeleteDefaults);
   return parsed;
 }
 function writeStore(store) { fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2)); }
 function id(prefix) { return `${prefix}_${crypto.randomUUID()}`; }
 function now() { return new Date().toISOString(); }
+function isSoftDeleted(record) {
+  return Boolean(record && record.deleted_at);
+}
+function visibleRecords(records = [], includeDeleted = false) {
+  return includeDeleted ? records : records.filter((record) => !isSoftDeleted(record));
+}
+function requireConfirmationKeyword(payload, expectedKeyword) {
+  const typedKeyword = String(payload?.typedKeyword || payload?.confirmation || '').trim();
+  if (!typedKeyword) return { ok: false, message: 'typedKeyword is required for this destructive action' };
+  if (typedKeyword !== expectedKeyword) return { ok: false, message: `typedKeyword must exactly match ${expectedKeyword}` };
+  return { ok: true, typedKeyword };
+}
+function softDeleteRecord(record, actor, reason = '') {
+  record.deleted_at = now();
+  record.deleted_by = actor;
+  record.delete_reason = String(reason || '').trim();
+}
+function restoreRecord(record) {
+  delete record.deleted_at;
+  delete record.deleted_by;
+  delete record.delete_reason;
+}
+function withSoftDeleteDefaults(record) {
+  if (!record || typeof record !== 'object') return record;
+  if (!Object.prototype.hasOwnProperty.call(record, 'deleted_at')) record.deleted_at = null;
+  if (!Object.prototype.hasOwnProperty.call(record, 'deleted_by')) record.deleted_by = null;
+  if (!Object.prototype.hasOwnProperty.call(record, 'delete_reason')) record.delete_reason = null;
+  return record;
+}
 function latestInteractionByHousehold(interactions = []) {
   const latestByHousehold = new Map();
   for (const interaction of interactions) {
@@ -229,7 +267,10 @@ async function processImportFile(importId) {
           lng: geo.lng,
           geocode_confidence: geo.geocode_confidence,
           geocode_source: geo.geocode_source,
-          created_at: now()
+          created_at: now(),
+          deleted_at: null,
+          deleted_by: null,
+          delete_reason: null
         };
         householdByNormalizedAddress.set(normalized, household);
         store.households.push(household);
@@ -258,7 +299,10 @@ async function processImportFile(importId) {
         source_file_id: importId,
         created_from: sourceLabel,
         household_id: household.household_id,
-        created_at: now()
+        created_at: now(),
+        deleted_at: null,
+        deleted_by: null,
+        delete_reason: null
       };
       store.voters.push(newVoter);
       voterByHousehold.set(household.household_id, (voterByHousehold.get(household.household_id) || 0) + 1);
@@ -330,14 +374,14 @@ function isoOrNull(value) {
   return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
 }
 function dashboardDataQuality(store) {
-  const householdsWithDeterministicGeo = store.households.filter((h) => h.geocode_source === 'deterministic-fallback').length;
-  const interactionsWithoutNotes = store.canvassInteractions.filter((i) => !String(i.notes || '').trim()).length;
+  const householdsWithDeterministicGeo = visibleRecords(store.households).filter((h) => h.geocode_source === 'deterministic-fallback').length;
+  const interactionsWithoutNotes = visibleRecords(store.canvassInteractions).filter((i) => !String(i.notes || '').trim()).length;
   const newestImport = store.imports[0] || null;
   return {
     deterministicGeocodes: householdsWithDeterministicGeo,
-    csvGeocodes: Math.max(0, store.households.length - householdsWithDeterministicGeo),
-    interactionNoteCoveragePct: store.canvassInteractions.length
-      ? Number((((store.canvassInteractions.length - interactionsWithoutNotes) / store.canvassInteractions.length) * 100).toFixed(1))
+    csvGeocodes: Math.max(0, visibleRecords(store.households).length - householdsWithDeterministicGeo),
+    interactionNoteCoveragePct: visibleRecords(store.canvassInteractions).length
+      ? Number((((visibleRecords(store.canvassInteractions).length - interactionsWithoutNotes) / visibleRecords(store.canvassInteractions).length) * 100).toFixed(1))
       : null,
     latestImportAt: newestImport?.uploaded_at || null,
     latestImportCounty: newestImport?.county || null,
@@ -565,11 +609,11 @@ async function handler(req, res) {
       service: 'voter-mapping-silo',
       timestamp: now(),
       counts: {
-        households: store.households.length,
-        voters: store.voters.length,
+        households: visibleRecords(store.households).length,
+        voters: visibleRecords(store.voters).length,
         imports: store.imports.length,
         annotations: store.mapAnnotations.length,
-        canvassInteractions: store.canvassInteractions.length
+        canvassInteractions: visibleRecords(store.canvassInteractions).length
       }
     });
   }
@@ -578,15 +622,159 @@ async function handler(req, res) {
   if (!user) return send(res, 401, { error: 'Unauthorized' });
   if (isAdminOnlyRoute(req, pathname) && user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
 
-  if (req.method === 'GET' && pathname === '/api/dashboard') {
+  if (req.method === 'POST' && pathname === '/api/admin/datasets/clear') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
+    const confirmation = requireConfirmationKeyword(body, CLEAR_DATASETS_CONFIRMATION_KEYWORD);
+    if (!confirmation.ok) return send(res, 400, { error: confirmation.message, requiredKeyword: CLEAR_DATASETS_CONFIRMATION_KEYWORD });
+
     const store = readStore();
-    const countyCounts = store.voters.reduce((acc, v) => ((acc[v.source_county] = (acc[v.source_county] || 0) + 1), acc), {});
-    const latestInteractions = latestInteractionByHousehold(store.canvassInteractions);
+    const deletedAt = now();
+    let affectedVoters = 0;
+    let affectedHouseholds = 0;
+    let affectedInteractions = 0;
+
+    for (const voter of store.voters) {
+      if (isSoftDeleted(voter)) continue;
+      softDeleteRecord(voter, user.userId, body.reason || 'bulk-dataset-clear');
+      voter.deleted_at = deletedAt;
+      affectedVoters += 1;
+    }
+    for (const household of store.households) {
+      if (isSoftDeleted(household)) continue;
+      softDeleteRecord(household, user.userId, body.reason || 'bulk-dataset-clear');
+      household.deleted_at = deletedAt;
+      affectedHouseholds += 1;
+    }
+    for (const interaction of store.canvassInteractions) {
+      if (isSoftDeleted(interaction)) continue;
+      softDeleteRecord(interaction, user.userId, body.reason || 'bulk-dataset-clear');
+      interaction.deleted_at = deletedAt;
+      affectedInteractions += 1;
+    }
+
+    audit(store, user.userId, 'CLEAR_DATASETS', 'dataset', 'all', {
+      affectedVoters,
+      affectedHouseholds,
+      affectedInteractions,
+      reason: String(body.reason || '').trim() || null,
+      confirmationKeyword: confirmation.typedKeyword
+    });
+    writeStore(store);
+    return send(res, 200, { ok: true, affectedVoters, affectedHouseholds, affectedInteractions });
+  }
+
+  const deleteVoterMatch = pathname.match(/^\/api\/admin\/voters\/([^/]+)$/);
+  if (req.method === 'DELETE' && deleteVoterMatch) {
+    const voterId = decodeURIComponent(deleteVoterMatch[1]);
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
+    const confirmation = requireConfirmationKeyword(body, DELETE_VOTER_CONFIRMATION_KEYWORD);
+    if (!confirmation.ok) return send(res, 400, { error: confirmation.message, requiredKeyword: DELETE_VOTER_CONFIRMATION_KEYWORD });
+
+    const store = readStore();
+    const voter = store.voters.find((item) => item.voter_id === voterId);
+    if (!voter) return send(res, 404, { error: 'Voter not found' });
+    if (isSoftDeleted(voter)) return send(res, 409, { error: 'Voter already deleted' });
+
+    const reason = String(body.reason || '').trim();
+    softDeleteRecord(voter, user.userId, reason || 'admin-voter-delete');
+    const relatedInteractions = store.canvassInteractions.filter((item) => item.voter_id === voter.voter_id && !isSoftDeleted(item));
+    for (const interaction of relatedInteractions) {
+      softDeleteRecord(interaction, user.userId, `cascade-delete:${voter.voter_id}`);
+    }
+
+    const activeHouseholdVoters = store.voters.filter((item) => item.household_id === voter.household_id && !isSoftDeleted(item));
+    let householdSoftDeleted = false;
+    if (!activeHouseholdVoters.length) {
+      const household = store.households.find((item) => item.household_id === voter.household_id);
+      if (household && !isSoftDeleted(household)) {
+        softDeleteRecord(household, user.userId, `cascade-delete:${voter.voter_id}`);
+        householdSoftDeleted = true;
+      }
+      for (const interaction of store.canvassInteractions.filter((item) => item.household_id === voter.household_id && !isSoftDeleted(item))) {
+        softDeleteRecord(interaction, user.userId, `cascade-delete:${voter.voter_id}`);
+      }
+    }
+
+    audit(store, user.userId, 'DELETE_VOTER', 'voter', voter.voter_id, {
+      household_id: voter.household_id,
+      reason: reason || null,
+      relatedInteractionsSoftDeleted: relatedInteractions.length,
+      householdSoftDeleted,
+      confirmationKeyword: confirmation.typedKeyword
+    });
+    writeStore(store);
+    return send(res, 200, { ok: true, voterId: voter.voter_id, householdSoftDeleted });
+  }
+
+  const restoreVoterMatch = pathname.match(/^\/api\/admin\/voters\/([^/]+)\/restore$/);
+  if (req.method === 'POST' && restoreVoterMatch) {
+    const voterId = decodeURIComponent(restoreVoterMatch[1]);
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
+    const confirmation = requireConfirmationKeyword(body, DELETE_VOTER_CONFIRMATION_KEYWORD);
+    if (!confirmation.ok) return send(res, 400, { error: confirmation.message, requiredKeyword: DELETE_VOTER_CONFIRMATION_KEYWORD });
+
+    const store = readStore();
+    const voter = store.voters.find((item) => item.voter_id === voterId);
+    if (!voter) return send(res, 404, { error: 'Voter not found' });
+    if (!isSoftDeleted(voter)) return send(res, 409, { error: 'Voter is not deleted' });
+
+    restoreRecord(voter);
+    withSoftDeleteDefaults(voter);
+
+    let restoredHousehold = false;
+    const household = store.households.find((item) => item.household_id === voter.household_id);
+    if (household && isSoftDeleted(household)) {
+      restoreRecord(household);
+      withSoftDeleteDefaults(household);
+      restoredHousehold = true;
+    }
+
+    const restoredInteractions = [];
+    for (const interaction of store.canvassInteractions) {
+      if (!isSoftDeleted(interaction)) continue;
+      if (interaction.voter_id === voter.voter_id || interaction.household_id === voter.household_id) {
+        restoreRecord(interaction);
+        withSoftDeleteDefaults(interaction);
+        restoredInteractions.push(interaction.interaction_id);
+      }
+    }
+
+    audit(store, user.userId, 'RESTORE_VOTER', 'voter', voter.voter_id, {
+      household_id: voter.household_id,
+      restoredHousehold,
+      restoredInteractions,
+      reason: String(body.reason || '').trim() || null,
+      confirmationKeyword: confirmation.typedKeyword
+    });
+    writeStore(store);
+    return send(res, 200, { ok: true, voterId: voter.voter_id, restoredHousehold, restoredInteractions: restoredInteractions.length });
+  }
+
+  if (req.method === 'GET' && pathname === '/api/dashboard') {
+    const includeDeleted = user.role === 'admin' && new URL(req.url, 'http://localhost').searchParams.get('include_deleted') === 'true';
+    const store = readStore();
+    const activeVoters = visibleRecords(store.voters, includeDeleted);
+    const activeHouseholds = visibleRecords(store.households, includeDeleted);
+    const activeInteractions = visibleRecords(store.canvassInteractions, includeDeleted);
+    const countyCounts = activeVoters.reduce((acc, v) => ((acc[v.source_county] = (acc[v.source_county] || 0) + 1), acc), {});
+    const latestInteractions = latestInteractionByHousehold(activeInteractions);
     const outcomeCounts = [...latestInteractions.values()].reduce((acc, interaction) => ((acc[interaction.outcome] = (acc[interaction.outcome] || 0) + 1), acc), {});
     return send(res, 200, {
-      voters: store.voters.length,
-      households: store.households.length,
-      interactions: store.canvassInteractions.length,
+      voters: activeVoters.length,
+      households: activeHouseholds.length,
+      interactions: activeInteractions.length,
       annotations: store.mapAnnotations.length,
       countyCounts,
       outcomeCounts,
@@ -721,18 +909,17 @@ async function handler(req, res) {
   }
 
   if (req.method === 'GET' && pathname.startsWith('/api/map/features')) {
-    const county = new URL(req.url, 'http://localhost').searchParams.get('county') || 'all';
+    const params = new URL(req.url, 'http://localhost').searchParams;
+    const county = params.get('county') || 'all';
+    const includeDeleted = user.role === 'admin' && params.get('include_deleted') === 'true';
     const store = readStore();
-    const roleScopeHouseholds = assignmentSetForUser(store, user);
-    const eligible = new Set(county === 'all' ? store.households.map((h) => h.household_id) : store.voters.filter((v) => v.source_county === county).map((v) => v.household_id));
-    if (roleScopeHouseholds) {
-      for (const householdId of [...eligible]) {
-        if (!roleScopeHouseholds.has(householdId)) eligible.delete(householdId);
-      }
-    }
-    const latestByHousehold = latestInteractionByHousehold(store.canvassInteractions);
+    const householdsSource = visibleRecords(store.households, includeDeleted);
+    const votersSource = visibleRecords(store.voters, includeDeleted);
+    const interactionsSource = visibleRecords(store.canvassInteractions, includeDeleted);
+    const eligible = new Set(county === 'all' ? householdsSource.map((h) => h.household_id) : votersSource.filter((v) => v.source_county === county).map((v) => v.household_id));
+    const latestByHousehold = latestInteractionByHousehold(interactionsSource);
     const votersByHousehold = new Map();
-    for (const voter of store.voters) {
+    for (const voter of votersSource) {
       if (county !== 'all' && voter.source_county !== county) continue;
       if (!eligible.has(voter.household_id)) continue;
       const group = votersByHousehold.get(voter.household_id);
@@ -741,11 +928,11 @@ async function handler(req, res) {
       else votersByHousehold.set(voter.household_id, [sanitized]);
     }
     const households = [];
-    for (const household of store.households) {
+    for (const household of householdsSource) {
       if (!eligible.has(household.household_id)) continue;
       const voters = votersByHousehold.get(household.household_id) || [];
       const last = latestByHousehold.get(household.household_id);
-      households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted' } });
+      households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted', deleted_at: household.deleted_at, deleted_by: household.deleted_by, delete_reason: household.delete_reason } });
     }
     const annotations = user.role === 'admin'
       ? store.mapAnnotations.map((a) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: a }))
@@ -761,14 +948,14 @@ async function handler(req, res) {
     }
     if (!body.household_id || !body.outcome) return send(res, 400, { error: 'household_id and outcome are required' });
     const store = readStore();
-    if (user.role === 'volunteer') {
-      const assigned = assignmentSetForUser(store, user);
-      if (!assigned?.has(body.household_id)) {
-        return send(res, 403, { error: 'Forbidden: household outside assigned turf' });
-      }
+    const household = store.households.find((item) => item.household_id === body.household_id);
+    if (!household || isSoftDeleted(household)) return send(res, 404, { error: 'Household not found' });
+    if (body.voter_id) {
+      const voter = store.voters.find((item) => item.voter_id === body.voter_id && item.household_id === body.household_id);
+      if (!voter || isSoftDeleted(voter)) return send(res, 404, { error: 'Voter not found' });
     }
-    const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: user.userId, created_at: now() };
-    store.canvassInteractions.unshift(record); audit(store, user.userId, 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome, role: user.role }); writeStore(store);
+    const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: 'dashboard', created_at: now(), deleted_at: null, deleted_by: null, delete_reason: null };
+    store.canvassInteractions.unshift(record); audit(store, 'dashboard', 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome }); writeStore(store);
     return send(res, 200, record);
   }
 
