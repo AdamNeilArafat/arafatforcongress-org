@@ -24,12 +24,12 @@
 <main>
   <div class="card">
     <h1>Silo Dashboard Launchpad</h1>
-    <p class="muted">This page stays on your main site domain while launching the voter-mapping silo at a separate URL. Set your public tunnel URL here (for example <code>https://your-subdomain.trycloudflare.com/app/</code>) so volunteers can open it from anywhere.</p>
+    <p class="muted">This page stays on your main site domain while launching the voter-mapping silo at a separate URL. Set your public tunnel URL here (for example <code>https://your-subdomain.trycloudflare.com/silo/app/</code>) so volunteers can open it from anywhere.</p>
     <label for="siloUrl"><strong>Silo URL</strong></label>
-    <input id="siloUrl" type="url" placeholder="https://your-subdomain.trycloudflare.com/app/">
+    <input id="siloUrl" type="url" placeholder="https://your-subdomain.trycloudflare.com/silo/app/">
     <div class="actions">
       <button id="save">Save URL</button>
-      <a class="btn" id="openSilo" href="https://arafatforcongress.org/silo/" target="_blank" rel="noopener">Open Silo Dashboard ↗</a>
+      <a class="btn" id="openSilo" href="https://arafatforcongress.org/silo/app/" target="_blank" rel="noopener">Open Silo Dashboard ↗</a>
       <a class="btn" id="healthLink" href="https://arafatforcongress.org/silo/api/health" target="_blank" rel="noopener">Check Silo Health ↗</a>
       <a class="btn" href="/admin/volunteer-dashboard.html">Open Original Dashboard ↗</a>
     </div>
@@ -57,16 +57,33 @@
 </main>
 <script>
   const key = 'siloDashboardUrl';
-  const fallback = 'https://arafatforcongress.org/silo/';
+  const fallback = 'https://arafatforcongress.org/silo/app/';
   const input = document.getElementById('siloUrl');
   const openSilo = document.getElementById('openSilo');
   const healthLink = document.getElementById('healthLink');
 
-  function setUrl(url) {
-    openSilo.href = url;
-    input.value = url;
+  function normalizeSiloUrl(url) {
     try {
-      const parsed = new URL(url);
+      const parsed = new URL(url, window.location.origin);
+      const normalizedPath = parsed.pathname.replace(/\/+$/, '') || '/';
+      const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+
+      if (parsed.origin === window.location.origin && (normalizedPath === '/silo' || normalizedPath === currentPath)) {
+        parsed.pathname = '/silo/app/';
+      }
+
+      return parsed.toString();
+    } catch {
+      return url;
+    }
+  }
+
+  function setUrl(url) {
+    const normalized = normalizeSiloUrl(url);
+    openSilo.href = normalized;
+    input.value = normalized;
+    try {
+      const parsed = new URL(normalized);
       const basePath = parsed.pathname
         .replace(/\/app\/?$/i, '/')
         .replace(/\/$/, '');
@@ -76,7 +93,7 @@
     }
   }
 
-  const initial = localStorage.getItem(key) || fallback;
+  const initial = normalizeSiloUrl(localStorage.getItem(key) || fallback);
   setUrl(initial);
 
   document.getElementById('save').addEventListener('click', () => {
@@ -85,8 +102,9 @@
       alert('Enter a full http(s) URL.');
       return;
     }
-    localStorage.setItem(key, v);
-    setUrl(v);
+    const normalized = normalizeSiloUrl(v);
+    localStorage.setItem(key, normalized);
+    setUrl(normalized);
     alert('Silo URL saved for this browser.');
   });
 </script>
