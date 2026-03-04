@@ -931,6 +931,7 @@
   const DEFAULT_PIN = 'Arafat 2026';
   const DEFAULT_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY/export?format=csv&gid=1573758032';
   const DEFAULT_VOL_URL    = 'https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351';
+  const SILO_API_BASES = ['/silo/api', '/api'];
 
   /* -------- SAMPLE DATA (shown when no Google Sheet configured) -------- */
   const SAMPLE_CONTACTS = [
@@ -949,6 +950,41 @@
   let sheetsContacts = [];
   let volContacts = [];
   let localContacts = [];
+  let siloToken = sessionStorage.getItem('arafat_silo_token') || '';
+
+  async function parseApiPayload(resp) {
+    const text = await resp.text();
+    if (!text) return {};
+    try { return JSON.parse(text); } catch (_) { return { error: text.slice(0, 160) || ('HTTP ' + resp.status) }; }
+  }
+
+  async function siloApi(path, options) {
+    let lastError = null;
+    for (const base of SILO_API_BASES) {
+      const endpoint = base + path;
+      try {
+        const resp = await fetch(endpoint, options);
+        const payload = await parseApiPayload(resp);
+        if (!resp.ok) throw new Error(payload.error || ('HTTP ' + resp.status));
+        return payload;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    throw lastError || new Error('Unable to reach API');
+  }
+
+  async function loginAgainstSilo(pin) {
+    const payload = await siloApi('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin })
+    });
+    if (!payload.token) throw new Error('Missing auth token');
+    siloToken = payload.token;
+    sessionStorage.setItem('arafat_silo_token', siloToken);
+    return true;
+  }
 
   /* -------- PIN LOGIC -------- */
   const pinScreen   = document.getElementById('pin-screen');
@@ -969,19 +1005,30 @@
   if (sessionStorage.getItem('arafat_auth') === '1') {
     unlock();
   } else {
-    pinSubmit.addEventListener('click', tryPin);
-    pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin(); });
+    pinSubmit.addEventListener('click', () => { tryPin().catch(() => {}); });
+    pinInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryPin().catch(() => {}); });
   }
 
-  function tryPin() {
+  async function tryPin() {
+    const enteredPin = pinInput.value.trim();
+    if (!enteredPin) return;
     if (pinInput.value === getPin()) {
       pinError.textContent = '';
       unlock();
-    } else {
-      pinError.textContent = 'Incorrect password. Try again.';
-      pinInput.value = '';
-      pinInput.focus();
+      return;
     }
+
+    try {
+      await loginAgainstSilo(enteredPin);
+      localStorage.setItem(LS_PIN, enteredPin);
+      pinError.textContent = '';
+      unlock();
+      return;
+    } catch (_) {
+      pinError.textContent = 'Incorrect password. Try again.';
+    }
+    pinInput.value = '';
+    pinInput.focus();
   }
 
   // Expose for global use in follow-up alert button
@@ -1425,12 +1472,26 @@
     fb.textContent = 'Volunteer tab loaded (' + volContacts.length + ' records).';
   });
 
-  document.getElementById('save-pin-btn').addEventListener('click', () => {
+  document.getElementById('save-pin-btn').addEventListener('click', async () => {
     const np = document.getElementById('new-pin-input').value.trim();
     const fb = document.getElementById('pin-change-feedback');
     if (np.length < 8) { fb.style.color = 'var(--red)'; fb.textContent = 'Password must be at least 8 characters. Use a strong, unique password.'; return; }
     localStorage.setItem(LS_PIN, np);
-    fb.style.color = 'var(--green)'; fb.textContent = 'Password updated. Store it securely — it is not recoverable without clearing browser storage.';
+    try {
+      if (!siloToken) {
+        await loginAgainstSilo(getPin());
+      }
+      await siloApi('/settings/pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + siloToken },
+        body: JSON.stringify({ pin: np })
+      });
+      fb.style.color = 'var(--green)';
+      fb.textContent = 'Password updated across both dashboards.';
+    } catch (_) {
+      fb.style.color = 'var(--amber)';
+      fb.textContent = 'Password updated for this dashboard only. Silo sync failed; login there and retry if needed.';
+    }
     document.getElementById('new-pin-input').value = '';
   });
 
