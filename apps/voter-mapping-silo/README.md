@@ -28,7 +28,7 @@ Isolated, test-only field operations app for Pierce + Thurston voter-roll mappin
 ## Run
 ```bash
 npm install
-SILO_ADMIN_PIN='replace-this' npm run silo:start
+SILO_ADMIN_PIN='Arafat 2026' npm run silo:start
 # open http://localhost:4177/app/
 ```
 
@@ -79,7 +79,7 @@ If you need a temporary public URL that works from anywhere:
 
 ```bash
 # terminal 1
-SILO_ADMIN_PIN='replace-this' npm run silo:start
+SILO_ADMIN_PIN='Arafat 2026' npm run silo:start
 
 # terminal 2 (cloudflared installed on host)
 cloudflared tunnel --url http://localhost:4177

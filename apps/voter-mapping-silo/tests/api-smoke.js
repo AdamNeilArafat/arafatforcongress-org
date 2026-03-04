@@ -6,7 +6,7 @@ async function run() {
   ensureStore();
   fs.writeFileSync(STORE_PATH, JSON.stringify({ voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [] }, null, 2));
 
-  process.env.SILO_ADMIN_PIN = 'Arafat_Admin_2026';
+  process.env.SILO_ADMIN_PIN = 'Arafat 2026';
   const server = createServer().listen(0);
   const port = server.address().port;
   const base = `http://127.0.0.1:${port}`;
@@ -34,7 +34,7 @@ async function run() {
   assert.equal(health.ok, true);
 
   const login = await req('/silo/api/auth/login', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: 'Arafat_Admin_2026' })
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: 'Arafat 2026' })
   });
   assert(login.token);
   assert.equal(login.authSource, 'env');
@@ -57,7 +57,7 @@ async function run() {
   const envFallbackLogin = await req('/silo/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pin: 'Arafat_Admin_2026' })
+    body: JSON.stringify({ pin: 'Arafat 2026' })
   });
   assert(envFallbackLogin.token);
   assert.equal(envFallbackLogin.authSource, 'env');
