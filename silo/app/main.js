@@ -1,7 +1,28 @@
+const API_BASE_STORAGE_KEY = 'silo_api_base';
 const state = { token: '', households: null, annotations: null, selected: null };
-const API_BASES = window.location.pathname.includes('/silo/app')
-  ? ['/silo/api', '/api']
-  : ['/api', '/silo/api'];
+
+function normalizeApiBase(value) {
+  const trimmed = String(value || '').trim();
+  return trimmed.replace(/\/$/, '');
+}
+
+function configuredApiBase() {
+  const params = new URLSearchParams(window.location.search);
+  const queryBase = normalizeApiBase(params.get('apiBase') || params.get('api_base') || params.get('siloApi'));
+  if (queryBase) {
+    localStorage.setItem(API_BASE_STORAGE_KEY, queryBase);
+    return queryBase;
+  }
+  return normalizeApiBase(localStorage.getItem(API_BASE_STORAGE_KEY));
+}
+
+function resolveApiBases() {
+  const customBase = configuredApiBase();
+  const defaultBases = window.location.pathname.includes('/silo/app')
+    ? ['/silo/api', '/api']
+    : ['/api', '/silo/api'];
+  return customBase ? [customBase, ...defaultBases] : defaultBases;
+}
 
 const map = L.map('map').setView([47.03, -122.85], 9);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
@@ -31,8 +52,9 @@ async function parsePayload(response) {
 }
 
 async function api(path, opts = {}) {
-  const bases = path.startsWith('http') ? [''] : API_BASES;
+  const bases = path.startsWith('http') ? [''] : resolveApiBases();
   let lastError = null;
+  let sawMethodNotAllowed = false;
 
   for (const base of bases) {
     const endpoint = buildEndpoint(base, path);
@@ -42,13 +64,19 @@ async function api(path, opts = {}) {
         headers: { ...(opts.headers || {}), ...headers() }
       });
       const payload = await parsePayload(response);
-      if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+      if (!response.ok) {
+        if (response.status === 405) sawMethodNotAllowed = true;
+        throw new Error(payload.error || `HTTP ${response.status}`);
+      }
       return payload;
     } catch (error) {
       lastError = error;
     }
   }
 
+  if (sawMethodNotAllowed) {
+    throw new Error('Unlock failed with HTTP 405. The silo API route is not accepting POST requests. Save the correct API base URL and try again.');
+  }
   if (lastError && String(lastError.message || '').includes('expected pattern')) {
     throw new Error('Could not reach the dashboard API. Reload the page and verify the dashboard URL.');
   }
@@ -285,4 +313,19 @@ document.getElementById('savePinBtn').onclick = async () => {
   } catch (e) {
     status.textContent = e.message;
   }
+};
+
+
+const apiBaseInput = document.getElementById('apiBase');
+if (apiBaseInput) apiBaseInput.value = configuredApiBase();
+
+document.getElementById('saveApiBaseBtn').onclick = () => {
+  const nextBase = normalizeApiBase(document.getElementById('apiBase').value);
+  if (!nextBase) {
+    localStorage.removeItem(API_BASE_STORAGE_KEY);
+    document.getElementById('authState').textContent = 'Locked (default API route)';
+    return;
+  }
+  localStorage.setItem(API_BASE_STORAGE_KEY, nextBase);
+  document.getElementById('authState').textContent = 'Locked (custom API route saved)';
 };

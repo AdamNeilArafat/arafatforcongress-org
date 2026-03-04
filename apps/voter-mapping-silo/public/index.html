@@ -31,8 +31,10 @@
       <div class="card">
         <h3>Login</h3>
         <input id="pin" type="password" placeholder="Admin PIN" />
+        <input id="apiBase" type="url" placeholder="Optional API base (e.g. https://silo.example.org/api)" />
+        <button id="saveApiBaseBtn" class="secondary">Save API Endpoint</button>
         <button id="loginBtn">Unlock</button>
-        <p class="muted">Set `SILO_ADMIN_PIN` in environment.</p>
+        <p class="muted">Use your campaign dashboard PIN. If unlock returns 405, set the API endpoint and save it before retrying.</p>
       </div>
 
       <div class="card">
