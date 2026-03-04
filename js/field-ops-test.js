@@ -1,6 +1,7 @@
 const volunteerId = 'vol-test-01';
 const HOUSEHOLD_STORAGE_KEY = 'fieldOpsHouseholds';
 const ACTIVITY_STORAGE_KEY = 'fieldOpsActivities';
+const IMPORT_META_STORAGE_KEY = 'fieldOpsImportMeta';
 const DEFAULT_HOUSEHOLDS = [
   { id: 'h1', name: 'Riley Johnson', address: '4918 Pacific Ave SE, Lacey', lat: 47.001, lng: -122.824, turf: 'WA10-TAC-014', assignedTo: volunteerId, phone: '253-555-0101', status: 'Not Attempted' },
   { id: 'h2', name: 'Jordan Lee', address: '1204 6th Ave, Olympia', lat: 47.04, lng: -122.897, turf: 'WA10-TAC-014', assignedTo: volunteerId, phone: '253-555-0102', status: 'Attempted' },
@@ -74,6 +75,26 @@ function loadHouseholds() {
 
 function saveHouseholds() {
   localStorage.setItem(HOUSEHOLD_STORAGE_KEY, JSON.stringify(state.households));
+}
+
+function saveImportMeta(meta) {
+  if (!meta) {
+    localStorage.removeItem(IMPORT_META_STORAGE_KEY);
+    return;
+  }
+  localStorage.setItem(IMPORT_META_STORAGE_KEY, JSON.stringify(meta));
+}
+
+function loadImportMeta() {
+  try {
+    const raw = localStorage.getItem(IMPORT_META_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return null;
+    return parsed;
+  } catch {
+    return null;
+  }
 }
 
 function normalizeHeader(name = '') {
@@ -199,7 +220,13 @@ async function importCsvText(csvText, sourceLabel) {
   state.phoneIndex = 0;
   state.textIndex = 0;
   saveHouseholds();
+  saveImportMeta({
+    source: sourceLabel,
+    count: accepted.length,
+    importedAt: new Date().toISOString()
+  });
 
+  setTab('map');
   renderMap();
   renderWalk();
   renderPhone();
@@ -209,6 +236,13 @@ async function importCsvText(csvText, sourceLabel) {
 
   const rejectText = rejected.length ? ` Rejected ${rejected.length}: ${rejected.slice(0, 3).join(' | ')}` : '';
   document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}`;
+}
+
+function renderSavedImportNotice() {
+  const meta = loadImportMeta();
+  if (!meta || !meta.count) return;
+  const savedAt = meta.importedAt ? new Date(meta.importedAt).toLocaleString() : 'an earlier session';
+  document.getElementById('import-result').textContent = `Loaded saved upload: ${meta.count} household(s) from ${meta.source || 'CSV'} (${savedAt}). Use “Reset to Demo Data” to clear.`;
 }
 
 function logActivity(type, household, outcome, notes = '') {
@@ -401,6 +435,7 @@ function wireEvents() {
 
   document.getElementById('reset-imported').addEventListener('click', () => {
     state.households = DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
+    saveImportMeta(null);
     saveHouseholds();
     renderMap();
     renderWalk();
@@ -422,3 +457,4 @@ renderText();
 renderActivity();
 renderKpis();
 renderReporting();
+renderSavedImportNotice();
