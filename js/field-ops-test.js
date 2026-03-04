@@ -1,16 +1,20 @@
 const volunteerId = 'vol-test-01';
+const HOUSEHOLD_STORAGE_KEY = 'fieldOpsHouseholds';
+const ACTIVITY_STORAGE_KEY = 'fieldOpsActivities';
+const DEFAULT_HOUSEHOLDS = [
+  { id: 'h1', name: 'Riley Johnson', address: '4918 Pacific Ave SE, Lacey', lat: 47.001, lng: -122.824, turf: 'WA10-TAC-014', assignedTo: volunteerId, phone: '253-555-0101', status: 'Not Attempted' },
+  { id: 'h2', name: 'Jordan Lee', address: '1204 6th Ave, Olympia', lat: 47.04, lng: -122.897, turf: 'WA10-TAC-014', assignedTo: volunteerId, phone: '253-555-0102', status: 'Attempted' },
+  { id: 'h3', name: 'Casey Smith', address: '8136 Canyon Rd E, Puyallup', lat: 47.183, lng: -122.317, turf: 'WA10-TAC-015', assignedTo: '', phone: '', status: 'Not Attempted' },
+  { id: 'h4', name: 'Morgan Patel', address: '1102 Yelm Hwy, Olympia', lat: 47.024, lng: -122.885, turf: 'WA10-TAC-016', assignedTo: volunteerId, phone: '253-555-0103', status: 'Contacted' }
+];
+
 const state = {
   tab: 'map',
   walkIndex: 0,
   phoneIndex: 0,
   textIndex: 0,
-  households: [
-    { id: 'h1', name: 'Riley Johnson', address: '4918 Pacific Ave SE, Lacey', lat: 47.001, lng: -122.824, turf: 'WA10-TAC-014', assignedTo: volunteerId, phone: '253-555-0101', status: 'Not Attempted' },
-    { id: 'h2', name: 'Jordan Lee', address: '1204 6th Ave, Olympia', lat: 47.04, lng: -122.897, turf: 'WA10-TAC-014', assignedTo: volunteerId, phone: '253-555-0102', status: 'Attempted' },
-    { id: 'h3', name: 'Casey Smith', address: '8136 Canyon Rd E, Puyallup', lat: 47.183, lng: -122.317, turf: 'WA10-TAC-015', assignedTo: '', phone: '', status: 'Not Attempted' },
-    { id: 'h4', name: 'Morgan Patel', address: '1102 Yelm Hwy, Olympia', lat: 47.024, lng: -122.885, turf: 'WA10-TAC-016', assignedTo: volunteerId, phone: '253-555-0103', status: 'Contacted' }
-  ],
-  activities: JSON.parse(localStorage.getItem('fieldOpsActivities') || '[]')
+  households: loadHouseholds(),
+  activities: JSON.parse(localStorage.getItem(ACTIVITY_STORAGE_KEY) || '[]')
 };
 
 const tabs = [
@@ -28,10 +32,190 @@ const map = L.map('map').setView([47.03, -122.84], 10);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
 const markerLayer = L.layerGroup().addTo(map);
 
+function stableHash(text = '') {
+  let hash = 2166136261;
+  const str = String(text);
+  for (let i = 0; i < str.length; i += 1) {
+    hash ^= str.charCodeAt(i);
+    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+  }
+  return hash >>> 0;
+}
+
+function deterministicGeo(address = '') {
+  const hash = stableHash(address);
+  const lat = 47.03 + ((hash % 2000) - 1000) / 10000;
+  const lng = -122.84 + (((hash >>> 11) % 2400) - 1200) / 10000;
+  return { lat: Number(lat.toFixed(6)), lng: Number(lng.toFixed(6)) };
+}
+
+function householdPopupHtml(h) {
+  const details = [
+    `<strong>${h.name || 'Unknown'}</strong>`,
+    h.address || '',
+    h.phone ? `Phone: ${h.phone}` : '',
+    h.email ? `Email: ${h.email}` : '',
+    h.party ? `Party: ${h.party}` : '',
+    `Status: ${h.status || 'Not Attempted'}`
+  ].filter(Boolean).join('<br>');
+  return `${details}<br><button class="btn" onclick="window.openFieldOpsHousehold('${h.id}')">Open Actions</button>`;
+}
+
+function loadHouseholds() {
+  const saved = localStorage.getItem(HOUSEHOLD_STORAGE_KEY);
+  if (!saved) return DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
+  try {
+    const parsed = JSON.parse(saved);
+    return Array.isArray(parsed) && parsed.length ? parsed : DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
+  } catch {
+    return DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
+  }
+}
+
+function saveHouseholds() {
+  localStorage.setItem(HOUSEHOLD_STORAGE_KEY, JSON.stringify(state.households));
+}
+
+function normalizeHeader(name = '') {
+  return String(name).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+}
+
+function parseCsvLine(line = '') {
+  const cols = [];
+  let value = '';
+  let inQuote = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const c = line[i];
+    if (c === '"') {
+      if (inQuote && line[i + 1] === '"') {
+        value += '"';
+        i += 1;
+      } else {
+        inQuote = !inQuote;
+      }
+    } else if (c === ',' && !inQuote) {
+      cols.push(value);
+      value = '';
+    } else {
+      value += c;
+    }
+  }
+  cols.push(value);
+  return cols.map((part) => part.trim());
+}
+
+function parseCsvRows(csvText = '') {
+  const lines = String(csvText).split(/\r?\n/).filter((line) => line.trim());
+  if (lines.length < 2) return [];
+  const headers = parseCsvLine(lines[0]).map(normalizeHeader);
+  return lines.slice(1).map((line) => {
+    const values = parseCsvLine(line);
+    return headers.reduce((row, header, idx) => {
+      row[header] = values[idx] || '';
+      return row;
+    }, {});
+  });
+}
+
+function first(row, keys, fallback = '') {
+  for (const key of keys) {
+    const value = row[key];
+    if (value && String(value).trim()) return String(value).trim();
+  }
+  return fallback;
+}
+
+function csvRowsToHouseholds(rows = []) {
+  const accepted = [];
+  const rejected = [];
+
+  rows.forEach((row, idx) => {
+    const street = first(row, ['address', 'full_address', 'street', 'address1', 'residence_address']);
+    const city = first(row, ['city', 'town']);
+    const stateCode = first(row, ['state', 'st']);
+    const zip = first(row, ['zip', 'zip_code', 'postal', 'postal_code']);
+    const address = [street, city, stateCode, zip].filter(Boolean).join(', ');
+    if (!address) {
+      rejected.push(`Row ${idx + 2}: missing address column/value`);
+      return;
+    }
+
+    const latValue = Number(first(row, ['lat', 'latitude']));
+    const lngValue = Number(first(row, ['lng', 'lon', 'long', 'longitude']));
+    const geocoded = Number.isFinite(latValue) && Number.isFinite(lngValue)
+      ? { lat: latValue, lng: lngValue }
+      : deterministicGeo(address);
+
+    const name = first(row, ['name', 'full_name'], '').trim();
+    const firstName = first(row, ['first_name', 'firstname'], '').trim();
+    const lastName = first(row, ['last_name', 'lastname'], '').trim();
+
+    accepted.push({
+      id: first(row, ['id', 'household_id', 'voter_id'], `import-${Date.now()}-${idx}`),
+      name: name || `${firstName} ${lastName}`.trim() || `Imported Household ${idx + 1}`,
+      address,
+      lat: geocoded.lat,
+      lng: geocoded.lng,
+      turf: first(row, ['turf', 'precinct', 'district'], 'Imported'),
+      assignedTo: first(row, ['assigned_to', 'assignedto'], ''),
+      phone: first(row, ['phone', 'phone_number', 'mobile'], ''),
+      email: first(row, ['email', 'email_address'], ''),
+      party: first(row, ['party', 'party_affiliation'], ''),
+      status: first(row, ['status'], 'Not Attempted')
+    });
+  });
+
+  return { accepted, rejected };
+}
+
+function normalizeGoogleSheetCsvUrl(input = '') {
+  const raw = String(input).trim();
+  if (!raw) return '';
+  if (raw.includes('/export?format=csv')) return raw;
+
+  const match = raw.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (!match) return raw;
+
+  const gidMatch = raw.match(/[?&]gid=([0-9]+)/);
+  const gid = gidMatch ? gidMatch[1] : '0';
+  return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv&gid=${gid}`;
+}
+
+async function importCsvText(csvText, sourceLabel) {
+  const parsedRows = parseCsvRows(csvText);
+  if (!parsedRows.length) {
+    document.getElementById('import-result').textContent = `No rows found in ${sourceLabel}.`;
+    return;
+  }
+
+  const { accepted, rejected } = csvRowsToHouseholds(parsedRows);
+  if (!accepted.length) {
+    document.getElementById('import-result').textContent = `0 imported from ${sourceLabel}. ${rejected.slice(0, 4).join(' | ')}`;
+    return;
+  }
+
+  state.households = accepted;
+  state.walkIndex = 0;
+  state.phoneIndex = 0;
+  state.textIndex = 0;
+  saveHouseholds();
+
+  renderMap();
+  renderWalk();
+  renderPhone();
+  renderText();
+  renderKpis();
+  renderReporting();
+
+  const rejectText = rejected.length ? ` Rejected ${rejected.length}: ${rejected.slice(0, 3).join(' | ')}` : '';
+  document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}`;
+}
+
 function logActivity(type, household, outcome, notes = '') {
   const row = { when: new Date().toISOString(), who: volunteerId, type, householdId: household?.id || 'n/a', name: household?.name || 'Area', outcome, notes };
   state.activities.unshift(row);
-  localStorage.setItem('fieldOpsActivities', JSON.stringify(state.activities.slice(0, 300)));
+  localStorage.setItem(ACTIVITY_STORAGE_KEY, JSON.stringify(state.activities.slice(0, 300)));
+  saveHouseholds();
   renderActivity();
   renderKpis();
   renderReporting();
@@ -65,9 +249,15 @@ function renderMap() {
   markerLayer.clearLayers();
   filteredHouseholds().forEach(h => {
     const marker = L.marker([h.lat, h.lng]).addTo(markerLayer);
-    marker.on('click', () => openSheet(h));
+    marker.bindPopup(householdPopupHtml(h));
+    marker.on('click', () => marker.openPopup());
   });
 }
+
+window.openFieldOpsHousehold = (id) => {
+  const household = state.households.find((h) => String(h.id) === String(id));
+  if (household) openSheet(household);
+};
 
 function openSheet(h) {
   const sheet = document.getElementById('bottom-sheet');
@@ -92,7 +282,7 @@ function openSheet(h) {
 
 function renderWalk() {
   const mine = state.households.filter(h => h.assignedTo === volunteerId);
-  const h = mine[state.walkIndex % mine.length];
+  const h = mine[state.walkIndex % Math.max(1, mine.length)];
   document.getElementById('walk-card').innerHTML = `<strong>${h?.name || 'No homes assigned'}</strong><div>${h?.address || ''}</div><div class="muted">Turf ${h?.turf || ''}</div>`;
 }
 
@@ -144,13 +334,14 @@ function wireEvents() {
   document.getElementById('filter-status').addEventListener('change', renderMap);
   document.querySelectorAll('[data-walk]').forEach(b => b.addEventListener('click', () => {
     const mine = state.households.filter(h => h.assignedTo === volunteerId);
-    const h = mine[state.walkIndex % mine.length];
+    const h = mine[state.walkIndex % Math.max(1, mine.length)];
     if (!h) return;
     if (b.dataset.walk !== 'Skip') {
       h.status = b.dataset.walk;
       logActivity('KNOCK', h, b.dataset.walk);
     }
     state.walkIndex += 1;
+    saveHouseholds();
     renderWalk();
     renderMap();
   }));
@@ -179,16 +370,45 @@ function wireEvents() {
     if (!h) return;
     h.status = 'Do Not Contact';
     logActivity('DNC', h, 'STOP/DNC');
+    saveHouseholds();
     renderText();
     renderMap();
   };
   document.getElementById('text-next').onclick = () => { state.textIndex += 1; renderText(); };
+
   document.getElementById('csv').addEventListener('change', async e => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const text = await file.text();
-    const rows = text.trim().split('\n').length - 1;
-    document.getElementById('import-result').textContent = `Preview: ${rows} row(s) read. This test dashboard does not upload data.`;
+    await importCsvText(await file.text(), `file ${file.name}`);
+  });
+
+  document.getElementById('import-sheet-url').addEventListener('click', async () => {
+    const rawUrl = document.getElementById('sheet-url').value;
+    const csvUrl = normalizeGoogleSheetCsvUrl(rawUrl);
+    if (!csvUrl) {
+      document.getElementById('import-result').textContent = 'Paste a Google Sheet URL first.';
+      return;
+    }
+    try {
+      const response = await fetch(csvUrl);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const csvText = await response.text();
+      await importCsvText(csvText, 'Google Sheet');
+    } catch (error) {
+      document.getElementById('import-result').textContent = `Unable to load Google Sheet CSV: ${error.message}`;
+    }
+  });
+
+  document.getElementById('reset-imported').addEventListener('click', () => {
+    state.households = DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
+    saveHouseholds();
+    renderMap();
+    renderWalk();
+    renderPhone();
+    renderText();
+    renderKpis();
+    renderReporting();
+    document.getElementById('import-result').textContent = 'Saved import cleared. Restored default test households.';
   });
 }
 
