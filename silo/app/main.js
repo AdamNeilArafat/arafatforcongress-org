@@ -312,6 +312,44 @@ document.getElementById('importBtn').onclick = async () => {
   }
 };
 
+document.getElementById('importRemoteBtn').onclick = async () => {
+  try {
+    const lines = String(document.getElementById('remoteCsvUrls').value || '')
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+    if (!lines.length) throw new Error('Add at least one county,url line');
+    const files = lines.map((line, idx) => {
+      const [countyPart, ...urlParts] = line.split(',');
+      const county = String(countyPart || '').trim().toLowerCase();
+      const url = urlParts.join(',').trim();
+      if (!['pierce', 'thurston'].includes(county) || !url) {
+        throw new Error(`Line ${idx + 1} must be formatted as county,url`);
+      }
+      return { county, url, label: `remote-${idx + 1}` };
+    });
+
+    const result = await api('/imports/voters/remote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ files })
+    });
+
+    const summary = `Remote imports complete: accepted ${safeNumber(result.totals?.accepted)}, rejected ${safeNumber(result.totals?.rejected)}, failed ${safeNumber(result.totals?.failed)}`;
+    const detail = (result.results || [])
+      .map((item) => item.error
+        ? `${item.label}: ${item.error}`
+        : `${item.label}: accepted ${safeNumber(item.accepted)}, rejected ${safeNumber(item.rejected)}`)
+      .join(' | ');
+
+    document.getElementById('importResult').textContent = `${summary}${detail ? ` :: ${detail}` : ''}`;
+    await loadFeatures();
+    await refreshDashboard();
+  } catch (e) {
+    document.getElementById('importResult').textContent = e.message;
+  }
+};
+
 document.getElementById('savePinBtn').onclick = async () => {
   const status = document.getElementById('pinSaveResult');
   const pin = String(document.getElementById('newPin').value || '').trim();

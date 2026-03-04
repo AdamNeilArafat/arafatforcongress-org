@@ -69,6 +69,86 @@ function deterministicGeo(address) {
   const b = hash.readUInt32BE(4) / 0xffffffff;
   return { lat: Number((46.79 + a * (47.35 - 46.79)).toFixed(6)), lng: Number((-123.35 + b * (-122.02 + 123.35)).toFixed(6)), geocode_confidence: 0.5, geocode_source: 'deterministic-fallback' };
 }
+function importVotersFromCsv({ store, county, csvText, actor, sourceLabel = 'manual-upload' }) {
+  const rows = parse(String(csvText), { columns: true, skip_empty_lines: true, bom: true, relax_column_count: true });
+  const importId = id('import');
+  const report = { importId, county, accepted: 0, rejected: 0, rejectedRows: [] };
+  const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
+
+  rows.forEach((rawRow, idx) => {
+    const row = normalizeRow(rawRow);
+    const normalized = normalizeAddress(row);
+    if (!normalized) {
+      report.rejected += 1;
+      report.rejectedRows.push({ row: idx + 2, reason: 'Missing address' });
+      return;
+    }
+    let household = householdByAddress.get(normalized);
+    if (!household) {
+      const lat = Number(row.lat || row.latitude);
+      const lng = Number(row.lng || row.longitude || row.lon);
+      const geo = Number.isFinite(lat) && Number.isFinite(lng)
+        ? { lat, lng, geocode_confidence: 1, geocode_source: 'csv' }
+        : deterministicGeo(normalized);
+      household = {
+        household_id: id('hh'),
+        normalized_address: normalized,
+        lat: geo.lat,
+        lng: geo.lng,
+        geocode_confidence: geo.geocode_confidence,
+        geocode_source: geo.geocode_source,
+        created_at: now()
+      };
+      householdByAddress.set(normalized, household);
+      store.households.push(household);
+    }
+    const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'voter id'], id('voter'));
+    if (store.voters.some((v) => v.voter_id === String(voterId) && v.source_county === county)) {
+      report.rejected += 1;
+      report.rejectedRows.push({ row: idx + 2, reason: 'Duplicate voter_id in county' });
+      return;
+    }
+    const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
+    const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
+    const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
+    store.voters.push({
+      voter_id: String(voterId),
+      first_name: rawFirst || parsedFromFullName.firstName,
+      last_name: rawLast || parsedFromFullName.lastName,
+      age: firstNonEmpty(row, ['age']),
+      birth_year: firstNonEmpty(row, ['birth_year', 'birth year', 'year_of_birth', 'yob']),
+      last_voted: firstNonEmpty(row, ['last_voted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
+      party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
+      precinct: firstNonEmpty(row, ['precinct']),
+      source_county: county,
+      source_file_id: importId,
+      created_from: sourceLabel,
+      household_id: household.household_id,
+      created_at: now()
+    });
+    report.accepted += 1;
+  });
+
+  store.imports.unshift({
+    import_id: importId,
+    county,
+    uploaded_by: actor,
+    uploaded_at: now(),
+    status: 'completed',
+    accepted_rows: report.accepted,
+    rejected_rows: report.rejected,
+    source: sourceLabel,
+    rejected_detail: report.rejectedRows
+  });
+  audit(store, actor, 'IMPORT_VOTERS', 'import', importId, {
+    county,
+    accepted: report.accepted,
+    rejected: report.rejected,
+    source: sourceLabel
+  });
+
+  return report;
+}
 function audit(store, actor, action, targetType, targetId, metadata = {}) {
   store.auditEvents.unshift({ id: id('audit'), actor, action, targetType, targetId, timestamp: now(), metadata });
   store.auditEvents = store.auditEvents.slice(0, 10000);
@@ -268,50 +348,60 @@ async function handler(req, res) {
     if (!['pierce', 'thurston'].includes(county)) return send(res, 400, { error: 'County must be pierce or thurston' });
     if (!body.csv) return send(res, 400, { error: 'csv text required' });
 
-    const rows = parse(String(body.csv), { columns: true, skip_empty_lines: true, bom: true, relax_column_count: true });
     const store = readStore();
-    const importId = id('import');
-    const report = { importId, county, accepted: 0, rejected: 0, rejectedRows: [] };
-    const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
-
-    rows.forEach((rawRow, idx) => {
-      const row = normalizeRow(rawRow);
-      const normalized = normalizeAddress(row);
-      if (!normalized) { report.rejected += 1; report.rejectedRows.push({ row: idx + 2, reason: 'Missing address' }); return; }
-      let household = householdByAddress.get(normalized);
-      if (!household) {
-        const lat = Number(row.lat || row.latitude), lng = Number(row.lng || row.longitude || row.lon);
-        const geo = Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng, geocode_confidence: 1, geocode_source: 'csv' } : deterministicGeo(normalized);
-        household = { household_id: id('hh'), normalized_address: normalized, lat: geo.lat, lng: geo.lng, geocode_confidence: geo.geocode_confidence, geocode_source: geo.geocode_source, created_at: now() };
-        householdByAddress.set(normalized, household);
-        store.households.push(household);
-      }
-      const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'voter id'], id('voter'));
-      if (store.voters.some((v) => v.voter_id === String(voterId) && v.source_county === county)) { report.rejected += 1; report.rejectedRows.push({ row: idx + 2, reason: 'Duplicate voter_id in county' }); return; }
-      const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
-      const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
-      const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
-      store.voters.push({
-        voter_id: String(voterId),
-        first_name: rawFirst || parsedFromFullName.firstName,
-        last_name: rawLast || parsedFromFullName.lastName,
-        age: firstNonEmpty(row, ['age']),
-        birth_year: firstNonEmpty(row, ['birth_year', 'birth year', 'year_of_birth', 'yob']),
-        last_voted: firstNonEmpty(row, ['last_voted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
-        party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
-        precinct: firstNonEmpty(row, ['precinct']),
-        source_county: county,
-        source_file_id: importId,
-        household_id: household.household_id,
-        created_at: now()
-      });
-      report.accepted += 1;
+    const report = importVotersFromCsv({
+      store,
+      county,
+      csvText: body.csv,
+      actor: user.userId,
+      sourceLabel: 'manual-upload'
     });
-
-    store.imports.unshift({ import_id: importId, county, uploaded_by: user.userId, uploaded_at: now(), status: 'completed', accepted_rows: report.accepted, rejected_rows: report.rejected, rejected_detail: report.rejectedRows });
-    audit(store, user.userId, 'IMPORT_VOTERS', 'import', importId, { county, accepted: report.accepted, rejected: report.rejected });
     writeStore(store);
     return send(res, 200, report);
+  }
+
+  if (req.method === 'POST' && pathname === '/api/imports/voters/remote') {
+    const body = await parseBody(req).catch(() => null);
+    if (!body || !Array.isArray(body.files) || !body.files.length) {
+      return send(res, 400, { error: 'files[] is required' });
+    }
+    const store = readStore();
+    const results = [];
+
+    for (const file of body.files.slice(0, 12)) {
+      const county = String(file.county || '').toLowerCase().trim();
+      const url = String(file.url || '').trim();
+      const label = String(file.label || url || `${county}-remote`).trim();
+      if (!['pierce', 'thurston'].includes(county) || !url) {
+        results.push({ label, county, url, error: 'Each file needs a valid county (pierce/thurston) and URL' });
+        continue;
+      }
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+        const report = importVotersFromCsv({
+          store,
+          county,
+          csvText,
+          actor: user.userId,
+          sourceLabel: `remote-url:${label}`
+        });
+        results.push({ label, county, url, ...report });
+      } catch (error) {
+        results.push({ label, county, url, error: `Unable to fetch/parse CSV: ${error.message}` });
+      }
+    }
+
+    writeStore(store);
+    const totals = results.reduce((acc, item) => {
+      acc.accepted += Number(item.accepted || 0);
+      acc.rejected += Number(item.rejected || 0);
+      if (item.error) acc.failed += 1;
+      return acc;
+    }, { accepted: 0, rejected: 0, failed: 0 });
+
+    return send(res, 200, { ok: true, totals, results });
   }
 
   if (req.method === 'GET' && pathname.startsWith('/api/map/features')) {

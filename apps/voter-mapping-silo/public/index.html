@@ -42,6 +42,12 @@
         <select id="county"><option value="pierce">Pierce</option><option value="thurston">Thurston</option></select>
         <input type="file" id="csv" accept=".csv" />
         <button id="importBtn">Upload voter file</button>
+        <p class="muted" style="margin-top:8px">Remote CSV pull (ex: Google Drive direct download links)</p>
+        <textarea id="remoteCsvUrls" placeholder="pierce,https://...csv
+pierce,https://...csv
+pierce,https://...csv
+thurston,https://...csv"></textarea>
+        <button id="importRemoteBtn" class="secondary">Pull remote CSV files</button>
         <div class="muted" id="importResult"></div>
       </div>
 

@@ -70,8 +70,25 @@ async function run() {
   });
   assert.equal(importResp.accepted, 3);
 
+  const remoteCsv = 'voter_id,first_name,last_name,address,city,state,zip,party\n4,Katherine,Johnson,300 Cedar St,Lacey,WA,98503,DEM';
+  const csvHost = require('http').createServer((_, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/csv' });
+    res.end(remoteCsv);
+  }).listen(0);
+  const csvUrl = `http://127.0.0.1:${csvHost.address().port}/thurston.csv`;
+
+  const remoteImportResp = await req('/silo/api/imports/voters/remote', {
+    method: 'POST',
+    headers: { ...authHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ files: [{ county: 'thurston', url: csvUrl, label: 'thurston-remote' }] })
+  });
+  assert.equal(remoteImportResp.ok, true);
+  assert.equal(remoteImportResp.totals.accepted, 1);
+  assert.equal(remoteImportResp.totals.failed, 0);
+  csvHost.close();
+
   const features = await req('/silo/api/map/features?county=all', { headers: authHeaders });
-  assert.equal(features.households.features.length, 2);
+  assert.equal(features.households.features.length, 3);
 
   const hhId = features.households.features[0].properties.household_id;
   await req('/silo/api/canvass/logs', {
@@ -83,8 +100,8 @@ async function run() {
   });
 
   const dashboard = await req('/silo/api/dashboard', { headers: authHeaders });
-  assert.equal(dashboard.voters, 3);
-  assert.equal(dashboard.households, 2);
+  assert.equal(dashboard.voters, 4);
+  assert.equal(dashboard.households, 3);
   assert.equal(dashboard.interactions, 1);
   assert.equal(dashboard.annotations, 1);
   assert(dashboard.dataQuality);
