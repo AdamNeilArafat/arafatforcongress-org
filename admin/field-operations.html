@@ -96,6 +96,7 @@
       <div id="phone-card" class="item"></div>
       <div class="actions" id="phone-actions"></div>
       <textarea id="phone-note" placeholder="Call note (optional)"></textarea>
+      <p class="muted" id="phone-status"></p>
       <button class="btn" id="phone-next">Next call</button>
     </section>
 
@@ -105,6 +106,19 @@
       <div id="text-controls" class="hidden">
         <div id="text-card" class="item"></div>
         <textarea id="text-msg">Hi {{firstName}}, this is Arafat for Congress. Can we count on your support? Reply STOP to opt out.</textarea>
+        <p class="muted" id="text-status"></p>
+        <div class="actions">
+          <select id="carrier-domain">
+            <option value="">Cell provider email ending…</option>
+            <option value="vtext.com">Verizon (vtext.com)</option>
+            <option value="txt.att.net">AT&amp;T (txt.att.net)</option>
+            <option value="tmomail.net">T-Mobile (tmomail.net)</option>
+            <option value="messaging.sprintpcs.com">Sprint (messaging.sprintpcs.com)</option>
+            <option value="mms.cricketwireless.net">Cricket (mms.cricketwireless.net)</option>
+          </select>
+          <button class="btn" id="build-email-hub">Build email blast list</button>
+        </div>
+        <textarea id="email-hub-output" placeholder="Phone-to-email blast targets will appear here." readonly></textarea>
         <div class="actions"><button class="btn primary" id="send-text">Log sent text</button><button class="btn warn" id="text-optout">Mark STOP / DNC</button><button class="btn" id="text-next">Next text</button></div>
       </div>
     </section>
@@ -133,7 +147,10 @@
     </section>
 
     <section class="card">
-      <h3>Activity Log (audit trail)</h3>
+      <div class="actions" style="justify-content:space-between;align-items:center">
+        <h3 style="margin:0">Activity Log (audit trail)</h3>
+        <button class="btn warn" id="reset-audit">Reset audit tracker</button>
+      </div>
       <div id="activity" class="log"></div>
     </section>
   </main>

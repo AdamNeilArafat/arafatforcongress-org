@@ -100,6 +100,16 @@ function normalizeHeader(name = '') {
   return String(name).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 }
 
+function normalizePhoneDigits(value = '') {
+  return String(value).replace(/\D+/g, '');
+}
+
+function buildPhoneEmail(phone = '', domain = '') {
+  const digits = normalizePhoneDigits(phone);
+  if (digits.length !== 10 || !domain) return '';
+  return `${digits}@${domain}`;
+}
+
 function parseCsvLine(line = '') {
   const cols = [];
   let value = '';
@@ -425,6 +435,9 @@ function setTab(tab) {
   renderTabs();
   document.querySelectorAll('[id^="panel-"]').forEach(el => el.classList.add('hidden'));
   document.getElementById(`panel-${tab}`)?.classList.remove('hidden');
+  if (tab === 'map') {
+    setTimeout(() => map.invalidateSize(), 0);
+  }
 }
 
 function filteredHouseholds() {
@@ -489,6 +502,10 @@ function renderPhone() {
     if (!h) return;
     if (b.dataset.phone === 'DNC') h.status = 'Do Not Contact';
     logActivity('PHONE_CALL', h, b.dataset.phone, document.getElementById('phone-note').value.trim());
+    document.getElementById('phone-status').textContent = `Saved call result for ${h.name}: ${b.dataset.phone}.`;
+    saveHouseholds();
+    renderMap();
+    renderPhone();
   });
 }
 
@@ -556,6 +573,9 @@ function wireEvents() {
     const h = queue[state.textIndex % Math.max(1, queue.length)];
     if (!h) return;
     logActivity('TEXT', h, 'Sent', document.getElementById('text-msg').value);
+    document.getElementById('text-status').textContent = `Logged outbound text for ${h.name}.`;
+    state.textIndex += 1;
+    renderText();
   };
   document.getElementById('text-optout').onclick = () => {
     const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
@@ -564,10 +584,34 @@ function wireEvents() {
     h.status = 'Do Not Contact';
     logActivity('DNC', h, 'STOP/DNC');
     saveHouseholds();
+    document.getElementById('text-status').textContent = `${h.name} marked STOP / Do Not Contact.`;
     renderText();
     renderMap();
   };
   document.getElementById('text-next').onclick = () => { state.textIndex += 1; renderText(); };
+
+  document.getElementById('build-email-hub').onclick = () => {
+    const domain = document.getElementById('carrier-domain').value.trim();
+    const output = document.getElementById('email-hub-output');
+    const uniqueTargets = [...new Set(
+      state.households
+        .filter((h) => h.status !== 'Do Not Contact')
+        .map((h) => buildPhoneEmail(h.phone, domain))
+        .filter(Boolean)
+    )];
+
+    if (!domain) {
+      document.getElementById('text-status').textContent = 'Pick a cell provider email ending first.';
+      output.value = '';
+      return;
+    }
+
+    output.value = uniqueTargets.join(', ');
+    document.getElementById('text-status').textContent = uniqueTargets.length
+      ? `Built ${uniqueTargets.length} phone-email targets for ${domain}.`
+      : 'No valid 10-digit phone numbers found for the selected carrier domain.';
+    logActivity('TEXT_HUB', null, `Built ${uniqueTargets.length} targets`, domain);
+  };
 
   const csvInput = document.getElementById('csv');
   const csvSelected = document.getElementById('csv-selected');
@@ -640,6 +684,16 @@ function wireEvents() {
     renderReporting();
     document.getElementById('import-result').textContent = 'Saved import cleared. Restored default test households.';
     setUploadProgress('Import reset. Default households restored.');
+  });
+
+  document.getElementById('reset-audit').addEventListener('click', () => {
+    state.activities = [];
+    localStorage.setItem(ACTIVITY_STORAGE_KEY, '[]');
+    document.getElementById('phone-status').textContent = 'Audit tracker reset.';
+    document.getElementById('text-status').textContent = 'Audit tracker reset.';
+    renderActivity();
+    renderKpis();
+    renderReporting();
   });
 }
 
