@@ -33,6 +33,17 @@
     .log{max-height:220px;overflow:auto}
     .row{display:flex;justify-content:space-between;gap:6px;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.84rem}
     .hidden{display:none}
+    .visually-hidden-file-input{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
     @media(min-width:780px){ .tabs{grid-template-columns:repeat(7,minmax(0,1fr))} .kpi{grid-template-columns:repeat(5,minmax(0,1fr))} }
   </style>
 </head>
@@ -118,7 +129,7 @@
       <h3>Imports (admin test)</h3>
       <p class="muted">Load once from CSV or Google Sheet CSV link. Imported households are saved to this browser.</p>
       <div class="actions">
-        <input type="file" id="csv" accept=".csv" class="hidden" />
+        <input type="file" id="csv" accept=".csv" class="visually-hidden-file-input" />
         <button class="btn" id="pick-csv">Pick local CSV</button>
         <button class="btn primary" id="upload-csv">Upload selected file</button>
       </div>
