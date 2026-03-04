@@ -1012,7 +1012,7 @@
   async function tryPin() {
     const enteredPin = pinInput.value.trim();
     if (!enteredPin) return;
-    if (pinInput.value === getPin()) {
+    if (enteredPin === getPin()) {
       pinError.textContent = '';
       unlock();
       return;
