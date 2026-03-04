@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voter Mapping Silo Dashboard</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <style>
+    body{margin:0;font-family:system-ui,sans-serif;background:#f3f6fb;color:#0c1b2a}
+    .top{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px 14px;background:#0c1b2a;color:#fff}
+    .shell{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 52px)}
+    .panel{padding:12px;border-right:1px solid #dbe2ef;background:#fff;overflow:auto}
+    #map{height:calc(100vh - 52px)}
+    input,select,button,textarea{width:100%;padding:9px;border:1px solid #c9d6ea;border-radius:8px;margin:4px 0}
+    button{cursor:pointer;background:#174ea6;color:#fff;font-weight:700}
+    button.secondary{background:#fff;color:#174ea6}
+    .card{border:1px solid #dbe2ef;border-radius:10px;padding:10px;margin-bottom:10px}
+    .muted{font-size:.82rem;color:#5f6f86}
+    .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .kpi .card{text-align:center}
+    @media (max-width:900px){.shell{grid-template-columns:1fr}.panel{border-right:0;border-bottom:1px solid #dbe2ef}#map{height:60vh}}
+  </style>
+</head>
+<body>
+  <header class="top"><strong>Secure Voter Mapping Silo Dashboard</strong><span id="authState">Locked</span></header>
+  <main class="shell">
+    <aside class="panel">
+      <div class="card">
+        <h3>Login</h3>
+        <input id="pin" type="password" placeholder="Admin PIN" />
+        <button id="loginBtn">Unlock</button>
+        <p class="muted">Set `SILO_ADMIN_PIN` in environment.</p>
+      </div>
+
+      <div class="card">
+        <h3>CSV Import</h3>
+        <select id="county"><option value="pierce">Pierce</option><option value="thurston">Thurston</option></select>
+        <input type="file" id="csv" accept=".csv" />
+        <button id="importBtn">Upload voter file</button>
+        <div class="muted" id="importResult"></div>
+      </div>
+
+      <div class="card">
+        <h3>Map Filters</h3>
+        <select id="mapCounty"><option value="all">All counties</option><option value="pierce">Pierce</option><option value="thurston">Thurston</option></select>
+        <button id="refreshBtn" class="secondary">Refresh map</button>
+      </div>
+
+      <div class="card">
+        <h3>Manual Annotation</h3>
+        <p class="muted">Enable then click map to drop a marker.</p>
+        <label><input type="checkbox" id="annotateMode" style="width:auto" /> Annotation mode</label>
+        <select id="annotationType"><option>issue</option><option>event</option><option>safety</option><option>volunteer_note</option></select>
+        <textarea id="annotationNote" placeholder="Annotation note"></textarea>
+      </div>
+
+      <div class="card">
+        <h3>Dashboard</h3>
+        <div class="kpi" id="kpis"></div>
+      </div>
+
+      <div class="card">
+        <h3>Data Quality</h3>
+        <div id="dataQuality" class="muted"></div>
+      </div>
+
+      <div class="card">
+        <h3>Live Campaign Feed (Combined)</h3>
+        <div class="kpi" id="liveFeedKpis"></div>
+        <div id="liveFeedMeta" class="muted"></div>
+      </div>
+
+
+      <div class="card">
+        <h3>Original Volunteer Dashboard Bridge</h3>
+        <div class="kpi" id="volunteerBridgeKpis"></div>
+        <div id="volunteerBridgeMeta" class="muted"></div>
+        <a id="openVolunteerDashboard" class="muted" href="/admin/volunteer-dashboard.html" style="display:inline-block;margin-top:8px">Open original dashboard ↗</a><br>
+        <a class="muted" href="/admin/volunteer-dashboard.html" style="display:inline-block;margin-top:6px">Open original HTML dashboard ↗</a>
+      </div>
+
+      <div class="card">
+        <h3>Latest Audit Events</h3>
+        <div id="audit" class="muted"></div>
+      </div>
+    </aside>
+    <section id="map"></section>
+  </main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+<script src="./main.js"></script>
+</body>
+</html>
