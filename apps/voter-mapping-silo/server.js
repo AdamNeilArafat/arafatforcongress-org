@@ -196,7 +196,7 @@ async function handler(req, res) {
   if (req.method === 'POST' && pathname === '/api/auth/login') {
     const body = await parseBody(req).catch(() => null);
     if (!body) return send(res, 400, { error: 'Invalid JSON' });
-    const pin = String(body.pin || '');
+    const pin = String(body.pin || '').trim();
     const store = readStore();
     const expected = expectedPin(store);
     if (pinHash(pin) !== expected.hash) return send(res, 401, { error: 'Invalid PIN' });
