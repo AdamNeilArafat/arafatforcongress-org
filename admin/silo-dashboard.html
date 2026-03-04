@@ -24,12 +24,13 @@
 <main>
   <div class="card">
     <h1>Silo Dashboard Launchpad</h1>
-    <p class="muted">This page stays on your main site domain while launching the voter-mapping silo at a separate URL. Default production path is <code>https://arafatforcongress.org/silo/app/</code>.</p>
+    <p class="muted">This page stays on your main site domain while launching the voter-mapping silo at a separate URL. Set your public tunnel URL here (for example <code>https://your-subdomain.trycloudflare.com/app/</code>) so volunteers can open it from anywhere.</p>
     <label for="siloUrl"><strong>Silo URL</strong></label>
-    <input id="siloUrl" type="url" placeholder="https://arafatforcongress.org/silo/app/">
+    <input id="siloUrl" type="url" placeholder="https://your-subdomain.trycloudflare.com/app/">
     <div class="actions">
       <button id="save">Save URL</button>
       <a class="btn" id="openSilo" href="https://arafatforcongress.org/silo/app/" target="_blank" rel="noopener">Open Silo Dashboard ↗</a>
+      <a class="btn" id="healthLink" href="https://arafatforcongress.org/silo/api/health" target="_blank" rel="noopener">Check Silo Health ↗</a>
       <a class="btn" href="/admin/volunteer-dashboard.html">Open Original Dashboard ↗</a>
     </div>
   </div>
@@ -59,10 +60,17 @@
   const fallback = 'https://arafatforcongress.org/silo/app/';
   const input = document.getElementById('siloUrl');
   const openSilo = document.getElementById('openSilo');
+  const healthLink = document.getElementById('healthLink');
 
   function setUrl(url) {
     openSilo.href = url;
     input.value = url;
+    try {
+      const parsed = new URL(url);
+      healthLink.href = `${parsed.origin}/api/health`;
+    } catch {
+      healthLink.href = fallback.replace(/\/app\/?$/, '/api/health');
+    }
   }
 
   const initial = localStorage.getItem(key) || fallback;
