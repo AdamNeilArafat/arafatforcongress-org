@@ -1,4 +1,5 @@
 const state = { token: '', households: null, annotations: null, selected: null };
+const API_BASE = window.location.pathname.includes('/silo/app') ? '/silo/api' : '/api';
 
 const map = L.map('map').setView([47.03, -122.85], 9);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
@@ -12,7 +13,8 @@ function headers() {
 }
 
 async function api(path, opts = {}) {
-  const response = await fetch(path, {
+  const endpoint = path.startsWith('http') ? path : `${API_BASE}${path}`;
+  const response = await fetch(endpoint, {
     ...opts,
     headers: { ...(opts.headers || {}), ...headers() }
   });
@@ -103,12 +105,12 @@ function showVolunteerBridge(volunteerDashboard = {}) {
 
 async function refreshDashboard() {
   if (!state.token) return;
-  const d = await api('/api/dashboard');
+  const d = await api('/dashboard');
   showKpis(d);
   showDataQuality(d.dataQuality);
   showLiveFeed(d.liveFeed);
   showVolunteerBridge(d.volunteerDashboard);
-  const audit = await api('/api/audit');
+  const audit = await api('/audit');
   document.getElementById('audit').innerHTML = audit.slice(0, 8).map((a) => `${new Date(a.timestamp).toLocaleString()} · ${a.action}`).join('<br>');
 }
 
@@ -143,7 +145,7 @@ function renderMap() {
 
 async function loadFeatures() {
   const county = document.getElementById('mapCounty').value;
-  const payload = await api(`/api/map/features?county=${encodeURIComponent(county)}`);
+  const payload = await api(`/map/features?county=${encodeURIComponent(county)}`);
   state.households = payload.households;
   state.annotations = payload.annotations;
   renderMap();
@@ -152,7 +154,7 @@ async function loadFeatures() {
 window.logOutcome = async (householdId, outcome) => {
   if (!state.token) return;
   const notes = prompt(`Notes for ${outcome}?`) || '';
-  await api('/api/canvass/logs', {
+  await api('/canvass/logs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ household_id: householdId, outcome, notes })
@@ -165,7 +167,7 @@ map.on('click', async (e) => {
   if (!document.getElementById('annotateMode').checked || !state.token) return;
   const type = document.getElementById('annotationType').value;
   const note = document.getElementById('annotationNote').value;
-  await api('/api/annotations', {
+  await api('/annotations', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ lat: e.latlng.lat, lng: e.latlng.lng, type, note })
@@ -176,7 +178,7 @@ map.on('click', async (e) => {
 
 document.getElementById('loginBtn').onclick = async () => {
   try {
-    const payload = await api('/api/auth/login', {
+    const payload = await api('/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pin: document.getElementById('pin').value })
@@ -200,7 +202,7 @@ document.getElementById('importBtn').onclick = async () => {
     const file = document.getElementById('csv').files[0];
     if (!file) throw new Error('Choose a CSV first');
     const csv = await file.text();
-    const result = await api('/api/imports/voters', {
+    const result = await api('/imports/voters', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ county: document.getElementById('county').value, csv })
