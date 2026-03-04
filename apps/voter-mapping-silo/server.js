@@ -11,8 +11,6 @@ const PUBLIC_DIR = path.join(__dirname, 'public');
 const LIVE_PUBLIC_METRICS_PATH = path.join(__dirname, '..', '..', 'data', 'public-metrics.json');
 const LIVE_OUTREACH_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'outreach_data.json');
 const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volunteer_data.json');
-const TOKEN_TTL_MS = 1000 * 60 * 60 * 8;
-const sessions = new Map();
 
 const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [], settings: {} };
 
@@ -153,23 +151,6 @@ function parseBody(req) {
     req.on('error', reject);
   });
 }
-function bearer(req) {
-  const token = String(req.headers.authorization || '').replace('Bearer ', '').trim();
-  const s = sessions.get(token);
-  if (!s || s.expiresAt < Date.now()) return null;
-  return s;
-}
-function pinHash(pin) {
-  return crypto.createHash('sha256').update(String(pin)).digest('hex');
-}
-function configuredPinCandidates(store) {
-  const candidates = [];
-  const configuredHash = store.settings?.adminPinHash;
-  const envPin = process.env.SILO_ADMIN_PIN || process.env.ADMIN_PIN || process.env.ARAFAT_DASH_PIN || 'Arafat 2026';
-  if (configuredHash) candidates.push({ hash: configuredHash, source: 'store' });
-  candidates.push({ hash: pinHash(envPin), source: 'env' });
-  return candidates;
-}
 function appRelativePath(pathname) {
   if (pathname === '/' || pathname === '/app' || pathname === '/app/') return 'index.html';
   const appIndex = pathname.indexOf('/app/');
@@ -195,18 +176,6 @@ async function handler(req, res) {
   if (pathname === '/health') return send(res, 200, { ok: true });
   if (serveStatic(req, res, pathname)) return;
 
-  if (req.method === 'POST' && pathname === '/api/auth/login') {
-    const body = await parseBody(req).catch(() => null);
-    if (!body) return send(res, 400, { error: 'Invalid JSON' });
-    const pin = String(body.pin || '').trim();
-    const store = readStore();
-    const expectedPins = configuredPinCandidates(store);
-    const matched = expectedPins.find((candidate) => pinHash(pin) === candidate.hash);
-    if (!matched) return send(res, 401, { error: 'Invalid PIN' });
-    const token = crypto.randomBytes(24).toString('hex');
-    sessions.set(token, { userId: 'admin', role: 'admin', expiresAt: Date.now() + TOKEN_TTL_MS });
-    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: matched.source });
-  }
 
   if (!pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
   if (req.method === 'GET' && pathname === '/api/health') {
@@ -225,9 +194,6 @@ async function handler(req, res) {
     });
   }
 
-  const user = bearer(req);
-  if (!user) return send(res, 401, { error: 'Unauthorized' });
-
   if (req.method === 'GET' && pathname === '/api/dashboard') {
     const store = readStore();
     const countyCounts = store.voters.reduce((acc, v) => ((acc[v.source_county] = (acc[v.source_county] || 0) + 1), acc), {});
@@ -242,24 +208,10 @@ async function handler(req, res) {
       dataQuality: dashboardDataQuality(store),
       liveFeed: liveFeedSummary(),
       volunteerDashboard: volunteerDashboardBridge(),
-      settings: {
-        pinConfiguredInStore: Boolean(store.settings?.adminPinHash)
-      }
+      settings: {}
     });
   }
 
-  if (req.method === 'POST' && pathname === '/api/settings/pin') {
-    const body = await parseBody(req).catch(() => null);
-    if (!body) return send(res, 400, { error: 'Invalid JSON' });
-    const nextPin = String(body.pin || '').trim();
-    if (nextPin.length < 8) return send(res, 400, { error: 'PIN must be at least 8 characters' });
-    const store = readStore();
-    store.settings.adminPinHash = pinHash(nextPin);
-    store.settings.adminPinUpdatedAt = now();
-    audit(store, user.userId, 'SETTINGS_PIN_UPDATED', 'settings', 'admin_pin', {});
-    writeStore(store);
-    return send(res, 200, { ok: true, updatedAt: store.settings.adminPinUpdatedAt });
-  }
 
   if (req.method === 'POST' && pathname === '/api/imports/voters') {
     const body = await parseBody(req).catch(() => null);
@@ -308,8 +260,8 @@ async function handler(req, res) {
       report.accepted += 1;
     });
 
-    store.imports.unshift({ import_id: importId, county, uploaded_by: user.userId, uploaded_at: now(), status: 'completed', accepted_rows: report.accepted, rejected_rows: report.rejected, rejected_detail: report.rejectedRows });
-    audit(store, user.userId, 'IMPORT_VOTERS', 'import', importId, { county, accepted: report.accepted, rejected: report.rejected });
+    store.imports.unshift({ import_id: importId, county, uploaded_by: 'dashboard', uploaded_at: now(), status: 'completed', accepted_rows: report.accepted, rejected_rows: report.rejected, rejected_detail: report.rejectedRows });
+    audit(store, 'dashboard', 'IMPORT_VOTERS', 'import', importId, { county, accepted: report.accepted, rejected: report.rejected });
     writeStore(store);
     return send(res, 200, report);
   }
@@ -331,8 +283,8 @@ async function handler(req, res) {
     const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
     if (!body.household_id || !body.outcome) return send(res, 400, { error: 'household_id and outcome are required' });
     const store = readStore();
-    const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: user.userId, created_at: now() };
-    store.canvassInteractions.unshift(record); audit(store, user.userId, 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome }); writeStore(store);
+    const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: 'dashboard', created_at: now() };
+    store.canvassInteractions.unshift(record); audit(store, 'dashboard', 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome }); writeStore(store);
     return send(res, 200, record);
   }
 
@@ -340,8 +292,8 @@ async function handler(req, res) {
     const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
     if (!Number.isFinite(body.lat) || !Number.isFinite(body.lng)) return send(res, 400, { error: 'lat/lng required' });
     const store = readStore();
-    const record = { annotation_id: id('ann'), lat: body.lat, lng: body.lng, type: body.type || 'note', note: body.note || '', followup_at: body.followup_at || null, created_by: user.userId, created_at: now() };
-    store.mapAnnotations.unshift(record); audit(store, user.userId, 'ADD_ANNOTATION', 'annotation', record.annotation_id, { type: record.type }); writeStore(store);
+    const record = { annotation_id: id('ann'), lat: body.lat, lng: body.lng, type: body.type || 'note', note: body.note || '', followup_at: body.followup_at || null, created_by: 'dashboard', created_at: now() };
+    store.mapAnnotations.unshift(record); audit(store, 'dashboard', 'ADD_ANNOTATION', 'annotation', record.annotation_id, { type: record.type }); writeStore(store);
     return send(res, 200, record);
   }
 
