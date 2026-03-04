@@ -37,7 +37,30 @@ async function run() {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: 'Arafat_Admin_2026' })
   });
   assert(login.token);
+  assert.equal(login.authSource, 'env');
   const authHeaders = { Authorization: `Bearer ${login.token}` };
+
+  await req('/silo/api/settings/pin', {
+    method: 'POST',
+    headers: { ...authHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ pin: 'Silo_New_Pin_2026' })
+  });
+
+  const storePinLogin = await req('/silo/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ pin: 'Silo_New_Pin_2026' })
+  });
+  assert(storePinLogin.token);
+  assert.equal(storePinLogin.authSource, 'store');
+
+  const envFallbackLogin = await req('/silo/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ pin: 'Arafat_Admin_2026' })
+  });
+  assert(envFallbackLogin.token);
+  assert.equal(envFallbackLogin.authSource, 'env');
 
   const csv = `voter_id,first_name,last_name,address,city,state,zip,party\n1,Ada,Lovelace,100 Main St,Tacoma,WA,98402,DEM\n2,Grace,Hopper,100 Main St,Tacoma,WA,98402,DEM\n3,Alan,Turing,200 Pine St,Olympia,WA,98501,IND`;
   const importResp = await req('/silo/api/imports/voters', {
