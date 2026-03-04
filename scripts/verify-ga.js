@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const path = require('path');
 const fs = require('fs');
-const { getMeasurementId } = require('./env');
+const { getOptionalMeasurementId } = require('./env');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -29,13 +29,19 @@ function assert(condition, message) {
 }
 
 function main() {
-  const measurementId = getMeasurementId();
+  const measurementId = getOptionalMeasurementId();
+  if (!measurementId) {
+    console.warn('Skipping verify:ga (GA_MEASUREMENT_ID is not set).');
+    return;
+  }
+
   const htmlFiles = walkHtmlFiles(ROOT);
 
   assert(htmlFiles.length > 0, 'No HTML files found to verify GA.');
 
-  const srcPattern = new RegExp(`https://www\\.googletagmanager\\.com/gtag/js\\?id=${measurementId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`);
-  const configPattern = new RegExp(`gtag\\(['"]config['"],\\s*['"]${measurementId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`);
+  const escapedMeasurementId = measurementId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const srcPattern = new RegExp(`https://www\\.googletagmanager\\.com/gtag/js\\?id=${escapedMeasurementId}`);
+  const configPattern = new RegExp(`gtag\\(['"]config['"],\\s*['"]${escapedMeasurementId}['"]`);
   const anyGPattern = /G-[A-Z0-9]{4,}/i;
 
   const withSrc = [];

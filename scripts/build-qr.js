@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const QRCode = require('qrcode');
 const { loadQrRecords, ROOT } = require('./qr-data');
-const { getMeasurementId } = require('./env');
+const { getOptionalMeasurementId } = require('./env');
 
 async function generateRedirectPage(entry, measurementId) {
   const pageDir = path.join(ROOT, entry.path.replace(/^\//, ''), '/');
@@ -105,7 +105,11 @@ async function writeManifest(entries) {
 }
 
 async function main() {
-  const measurementId = getMeasurementId();
+  const measurementId = getOptionalMeasurementId();
+  if (!measurementId) {
+    console.warn('Skipping qr:build (GA_MEASUREMENT_ID is not set).');
+    return;
+  }
   const records = loadQrRecords();
   const outputs = [];
 
