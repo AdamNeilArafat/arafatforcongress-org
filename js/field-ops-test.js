@@ -146,15 +146,44 @@ function first(row, keys, fallback = '') {
   return fallback;
 }
 
+function composeStreet(row = {}) {
+  const directStreet = first(row, [
+    'address',
+    'full_address',
+    'street',
+    'street_address',
+    'address1',
+    'address_line_1',
+    'residence_address',
+    'voter_address',
+    'mail1',
+    'mailing_address'
+  ]);
+  if (directStreet) return directStreet;
+
+  const registrationStreet = [
+    first(row, ['regstnum']),
+    first(row, ['regstfrac']),
+    first(row, ['regstpredirection']),
+    first(row, ['regstname']),
+    first(row, ['regsttype']),
+    first(row, ['regstpostdirection']),
+    first(row, ['regunittype']),
+    first(row, ['regstunitnum'])
+  ].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+
+  return registrationStreet;
+}
+
 function csvRowsToHouseholds(rows = []) {
   const accepted = [];
   const rejected = [];
 
   rows.forEach((row, idx) => {
-    const street = first(row, ['address', 'full_address', 'street', 'address1', 'residence_address']);
-    const city = first(row, ['city', 'town']);
-    const stateCode = first(row, ['state', 'st']);
-    const zip = first(row, ['zip', 'zip_code', 'postal', 'postal_code']);
+    const street = composeStreet(row);
+    const city = first(row, ['city', 'town', 'regcity', 'mailcity']);
+    const stateCode = first(row, ['state', 'st', 'regstate', 'mailstate']);
+    const zip = first(row, ['zip', 'zip_code', 'postal', 'postal_code', 'regzipcode', 'mailzip', 'zip_code_5']);
     const address = [street, city, stateCode, zip].filter(Boolean).join(', ');
     if (!address) {
       rejected.push(`Row ${idx + 2}: missing address column/value`);
