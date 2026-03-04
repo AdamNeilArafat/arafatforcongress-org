@@ -1,5 +1,7 @@
 const state = { token: '', households: null, annotations: null, selected: null };
-const API_BASE = window.location.pathname.includes('/silo/app') ? '/silo/api' : '/api';
+const API_BASES = window.location.pathname.includes('/silo/app')
+  ? ['/silo/api', '/api']
+  : ['/api', '/silo/api'];
 
 const map = L.map('map').setView([47.03, -122.85], 9);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
@@ -12,15 +14,45 @@ function headers() {
   return state.token ? { Authorization: `Bearer ${state.token}` } : {};
 }
 
+function buildEndpoint(base, path) {
+  if (path.startsWith('http')) return path;
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  return `${base}${normalized}`;
+}
+
+async function parsePayload(response) {
+  const text = await response.text();
+  if (!text) return {};
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { error: text.slice(0, 160) || `HTTP ${response.status}` };
+  }
+}
+
 async function api(path, opts = {}) {
-  const endpoint = path.startsWith('http') ? path : `${API_BASE}${path}`;
-  const response = await fetch(endpoint, {
-    ...opts,
-    headers: { ...(opts.headers || {}), ...headers() }
-  });
-  const payload = await response.json();
-  if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
-  return payload;
+  const bases = path.startsWith('http') ? [''] : API_BASES;
+  let lastError = null;
+
+  for (const base of bases) {
+    const endpoint = buildEndpoint(base, path);
+    try {
+      const response = await fetch(endpoint, {
+        ...opts,
+        headers: { ...(opts.headers || {}), ...headers() }
+      });
+      const payload = await parsePayload(response);
+      if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+      return payload;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  if (lastError && String(lastError.message || '').includes('expected pattern')) {
+    throw new Error('Could not reach the dashboard API. Reload the page and verify the dashboard URL.');
+  }
+  throw lastError || new Error('API request failed');
 }
 
 function safeNumber(value) {
