@@ -25,8 +25,28 @@ function writeStore(store) { fs.writeFileSync(STORE_PATH, JSON.stringify(store, 
 function id(prefix) { return `${prefix}_${crypto.randomUUID()}`; }
 function now() { return new Date().toISOString(); }
 function normalizeAddress(row) {
-  return [row.address || row.address1 || row.street || row.residence_address, row.city, row.state, row.zip || row.zip_code || row.postal]
+  return [
+    row.address || row.address1 || row.street || row.residence_address || row.full_address || row['full address'],
+    row.city || row.town,
+    row.state,
+    row.zip || row.zip_code || row.postal || row['zip code']
+  ]
     .filter(Boolean).join(' ').replace(/\s+/g, ' ').trim().toUpperCase();
+}
+function firstNonEmpty(row, keys, fallback = '') {
+  for (const key of keys) {
+    const value = row[key];
+    if (value === undefined || value === null) continue;
+    const normalized = String(value).trim();
+    if (normalized) return normalized;
+  }
+  return fallback;
+}
+function splitName(fullName = '') {
+  const normalized = String(fullName).trim().replace(/\s+/g, ' ');
+  if (!normalized) return { firstName: '', lastName: '' };
+  const parts = normalized.split(' ');
+  return { firstName: parts.shift() || '', lastName: parts.join(' ') || '' };
 }
 function deterministicGeo(address) {
   const hash = crypto.createHash('sha256').update(address).digest();
@@ -153,7 +173,7 @@ async function handler(req, res) {
     const body = await parseBody(req).catch(() => null);
     if (!body) return send(res, 400, { error: 'Invalid JSON' });
     const pin = String(body.pin || '');
-    const expected = process.env.SILO_ADMIN_PIN || 'change-me-now';
+    const expected = process.env.SILO_ADMIN_PIN || 'Arafat_Admin_1092';
     if (pin !== expected) return send(res, 401, { error: 'Invalid PIN' });
     const token = crypto.randomBytes(24).toString('hex');
     sessions.set(token, { userId: 'admin', role: 'admin', expiresAt: Date.now() + TOKEN_TTL_MS });
@@ -221,9 +241,25 @@ async function handler(req, res) {
         householdByAddress.set(normalized, household);
         store.households.push(household);
       }
-      const voterId = row.voter_id || row.voterid || row.state_voter_id || id('voter');
+      const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'voter id'], id('voter'));
       if (store.voters.some((v) => v.voter_id === String(voterId) && v.source_county === county)) { report.rejected += 1; report.rejectedRows.push({ row: idx + 2, reason: 'Duplicate voter_id in county' }); return; }
-      store.voters.push({ voter_id: String(voterId), first_name: row.first_name || row.firstname || row.first || '', last_name: row.last_name || row.lastname || row.last || '', party: row.party || row.registered_party || row.party_code || 'Unknown', precinct: row.precinct || '', source_county: county, source_file_id: importId, household_id: household.household_id, created_at: now() });
+      const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
+      const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
+      const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
+      store.voters.push({
+        voter_id: String(voterId),
+        first_name: rawFirst || parsedFromFullName.firstName,
+        last_name: rawLast || parsedFromFullName.lastName,
+        age: firstNonEmpty(row, ['age']),
+        birth_year: firstNonEmpty(row, ['birth_year', 'birth year', 'year_of_birth', 'yob']),
+        last_voted: firstNonEmpty(row, ['last_voted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
+        party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
+        precinct: firstNonEmpty(row, ['precinct']),
+        source_county: county,
+        source_file_id: importId,
+        household_id: household.household_id,
+        created_at: now()
+      });
       report.accepted += 1;
     });
 
