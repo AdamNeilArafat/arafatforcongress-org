@@ -163,8 +163,12 @@ async function processImportFile(importId) {
   const county = record.county;
   const sourceLabel = record.source || 'manual-upload';
   const actor = record.uploaded_by || 'system';
-  const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
-  const votersInCounty = new Set(store.voters.filter((v) => v.source_county === county).map((v) => `${county}:${v.voter_id}`));
+  const householdByNormalizedAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
+  const existingVoterByCountyKey = new Map(store.voters.map((v) => [`${v.source_county}:${v.voter_id}`, v]));
+  const voterByHousehold = new Map();
+  for (const voter of store.voters) {
+    voterByHousehold.set(voter.household_id, (voterByHousehold.get(voter.household_id) || 0) + 1);
+  }
   const rejectedRows = [];
   let accepted = 0;
   let rejected = 0;
@@ -182,7 +186,7 @@ async function processImportFile(importId) {
         if (rejectedRows.length < 200) rejectedRows.push({ row: rowNumber, reason: 'Missing address' });
         continue;
       }
-      let household = householdByAddress.get(normalized);
+      let household = householdByNormalizedAddress.get(normalized);
       if (!household) {
         const lat = Number(row.lat || row.latitude);
         const lng = Number(row.lng || row.longitude || row.lon);
@@ -198,21 +202,21 @@ async function processImportFile(importId) {
           geocode_source: geo.geocode_source,
           created_at: now()
         };
-        householdByAddress.set(normalized, household);
+        householdByNormalizedAddress.set(normalized, household);
         store.households.push(household);
       }
       const voterId = String(firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'statevoterid', 'voter id'], id('voter')));
       const voterKey = `${county}:${voterId}`;
-      if (votersInCounty.has(voterKey)) {
+      if (existingVoterByCountyKey.has(voterKey)) {
         rejected += 1;
         if (rejectedRows.length < 200) rejectedRows.push({ row: rowNumber, reason: 'Duplicate voter_id in county' });
         continue;
       }
-      votersInCounty.add(voterKey);
+      existingVoterByCountyKey.set(voterKey, true);
       const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
       const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
       const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
-      store.voters.push({
+      const newVoter = {
         voter_id: voterId,
         first_name: rawFirst || parsedFromFullName.firstName,
         last_name: rawLast || parsedFromFullName.lastName,
@@ -226,7 +230,9 @@ async function processImportFile(importId) {
         created_from: sourceLabel,
         household_id: household.household_id,
         created_at: now()
-      });
+      };
+      store.voters.push(newVoter);
+      voterByHousehold.set(household.household_id, (voterByHousehold.get(household.household_id) || 0) + 1);
       accepted += 1;
     }
     batch = [];
@@ -597,11 +603,25 @@ async function handler(req, res) {
     const county = new URL(req.url, 'http://localhost').searchParams.get('county') || 'all';
     const store = readStore();
     const eligible = new Set(county === 'all' ? store.households.map((h) => h.household_id) : store.voters.filter((v) => v.source_county === county).map((v) => v.household_id));
-    const households = store.households.filter((h) => eligible.has(h.household_id)).map((h) => {
-      const voters = store.voters.filter((v) => v.household_id === h.household_id);
-      const last = store.canvassInteractions.find((i) => i.household_id === h.household_id);
-      return { type: 'Feature', geometry: { type: 'Point', coordinates: [h.lng, h.lat] }, properties: { household_id: h.household_id, normalized_address: h.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted' } };
-    });
+    const latestInteractionByHousehold = new Map();
+    for (const interaction of store.canvassInteractions) {
+      if (!latestInteractionByHousehold.has(interaction.household_id)) latestInteractionByHousehold.set(interaction.household_id, interaction);
+    }
+    const votersByHousehold = new Map();
+    for (const voter of store.voters) {
+      if (county !== 'all' && voter.source_county !== county) continue;
+      if (!eligible.has(voter.household_id)) continue;
+      const group = votersByHousehold.get(voter.household_id);
+      if (group) group.push(voter);
+      else votersByHousehold.set(voter.household_id, [voter]);
+    }
+    const households = [];
+    for (const household of store.households) {
+      if (!eligible.has(household.household_id)) continue;
+      const voters = votersByHousehold.get(household.household_id) || [];
+      const last = latestInteractionByHousehold.get(household.household_id);
+      households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted' } });
+    }
     const annotations = store.mapAnnotations.map((a) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: a }));
     return send(res, 200, { households: { type: 'FeatureCollection', features: households }, annotations: { type: 'FeatureCollection', features: annotations } });
   }
