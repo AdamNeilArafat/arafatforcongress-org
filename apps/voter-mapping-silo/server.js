@@ -21,7 +21,17 @@ const sessions = new Map();
 const CLEAR_DATASETS_CONFIRMATION_KEYWORD = 'CLEAR_DATASETS';
 const DELETE_VOTER_CONFIRMATION_KEYWORD = 'DELETE_VOTER';
 
-const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [], settings: {} };
+const DEFAULT_STORE = {
+  voters: [],
+  households: [],
+  canvassInteractions: [],
+  mapAnnotations: [],
+  imports: [],
+  turfAssignments: [],
+  users: [],
+  auditEvents: [],
+  settings: {}
+};
 
 function ensureStore() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -459,6 +469,76 @@ function configuredAuthSecrets(store) {
   if (envSecret) candidates.push({ hash: secretHash(envSecret), source: 'env' });
   return candidates;
 }
+function configuredRoleCredentialMaps(store) {
+  const entries = [];
+  const fromStore = store.settings?.roleCredentialMap;
+  if (fromStore && typeof fromStore === 'object') {
+    for (const [accessKey, role] of Object.entries(fromStore)) {
+      entries.push({ accessKey: String(accessKey), role: String(role || '').toLowerCase(), source: 'store-role-map' });
+    }
+  }
+  const envRaw = process.env.SILO_ROLE_CREDENTIALS || process.env.SILO_ROLE_CREDENTIAL_MAP;
+  if (envRaw) {
+    try {
+      const parsed = JSON.parse(envRaw);
+      if (parsed && typeof parsed === 'object') {
+        for (const [accessKey, role] of Object.entries(parsed)) {
+          entries.push({ accessKey: String(accessKey), role: String(role || '').toLowerCase(), source: 'env-role-map' });
+        }
+      }
+    } catch (_) {
+      // Ignore malformed env JSON map.
+    }
+  }
+  return entries.filter((item) => item.accessKey && ['admin', 'volunteer'].includes(item.role));
+}
+function findPersistedUser(store, loginId, accessKey) {
+  if (!loginId || !accessKey) return null;
+  const loginNorm = String(loginId).trim().toLowerCase();
+  const keyHash = secretHash(accessKey);
+  const user = store.users.find((candidate) => {
+    const userLogin = String(candidate.username || candidate.email || candidate.user_id || '').trim().toLowerCase();
+    const candidateHash = String(candidate.accessKeyHash || candidate.pinHash || candidate.passwordHash || '').trim();
+    return userLogin && candidateHash && userLogin === loginNorm && candidateHash === keyHash;
+  });
+  if (!user) return null;
+  const role = String(user.role || 'volunteer').toLowerCase();
+  return {
+    userId: String(user.user_id || user.username || user.email || id('user')),
+    role: ['admin', 'volunteer'].includes(role) ? role : 'volunteer',
+    authSource: 'persisted-user'
+  };
+}
+function assignmentSetForUser(store, user) {
+  if (user.role === 'admin') return null;
+  const assignedIds = new Set();
+  for (const assignment of store.turfAssignments) {
+    if (String(assignment.user_id || '').trim() !== String(user.userId || '').trim()) continue;
+    for (const householdId of assignment.household_ids || []) assignedIds.add(householdId);
+  }
+  return assignedIds;
+}
+function sanitizeVoterForRole(voter, role) {
+  if (role === 'volunteer') {
+    return {
+      voter_id: voter.voter_id,
+      first_name: voter.first_name,
+      last_name: voter.last_name,
+      party: voter.party
+    };
+  }
+  return voter;
+}
+function isAdminOnlyRoute(req, pathname) {
+  if (!pathname.startsWith('/api/')) return false;
+  if (pathname.startsWith('/api/imports')) return true;
+  if (pathname.startsWith('/api/settings')) return true;
+  if (pathname.startsWith('/api/export')) return true;
+  if (pathname.startsWith('/api/assignments')) return true;
+  if (req.method === 'DELETE' && pathname.startsWith('/api/')) return true;
+  if (req.method === 'POST' && pathname.startsWith('/api/clear')) return true;
+  return false;
+}
 function appRelativePath(pathname) {
   if (pathname === '/' || pathname === '/app' || pathname === '/app/') return 'index.html';
   const appIndex = pathname.indexOf('/app/');
@@ -491,14 +571,34 @@ async function handler(req, res) {
       return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
     }
     const accessKey = String(body.accessKey || body.pin || '').trim();
+    const loginId = String(body.username || body.email || body.userId || '').trim();
     const store = readStore();
-    const expectedSecrets = configuredAuthSecrets(store);
-    if (!expectedSecrets.length) return send(res, 503, { error: 'Dashboard access key is not configured on the server.' });
-    const matched = expectedSecrets.find((candidate) => secretHash(accessKey) === candidate.hash);
-    if (!matched) return send(res, 401, { error: 'Invalid access key' });
+    let principal = findPersistedUser(store, loginId, accessKey);
+
+    if (!principal) {
+      const roleMapMatch = configuredRoleCredentialMaps(store).find((candidate) => candidate.accessKey === accessKey);
+      if (roleMapMatch) {
+        principal = {
+          userId: `${roleMapMatch.role}-${secretHash(accessKey).slice(0, 8)}`,
+          role: roleMapMatch.role,
+          authSource: roleMapMatch.source
+        };
+      }
+    }
+
+    if (!principal) {
+      const expectedSecrets = configuredAuthSecrets(store);
+      if (!expectedSecrets.length) return send(res, 503, { error: 'Dashboard access key is not configured on the server.' });
+      const matched = expectedSecrets.find((candidate) => secretHash(accessKey) === candidate.hash);
+      if (matched) {
+        principal = { userId: 'admin', role: 'admin', authSource: matched.source };
+      }
+    }
+
+    if (!principal) return send(res, 401, { error: 'Invalid access key' });
     const token = crypto.randomBytes(24).toString('hex');
-    sessions.set(token, { userId: 'admin', role: 'admin', expiresAt: Date.now() + TOKEN_TTL_MS });
-    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: matched.source });
+    sessions.set(token, { userId: principal.userId, role: principal.role, expiresAt: Date.now() + TOKEN_TTL_MS });
+    return send(res, 200, { token, expiresInMs: TOKEN_TTL_MS, authSource: principal.authSource, role: principal.role, userId: principal.userId });
   }
 
   if (!pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
@@ -520,6 +620,7 @@ async function handler(req, res) {
 
   const user = bearer(req);
   if (!user) return send(res, 401, { error: 'Unauthorized' });
+  if (isAdminOnlyRoute(req, pathname) && user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
 
   if (req.method === 'POST' && pathname === '/api/admin/datasets/clear') {
     const body = await parseBody(req).catch((error) => ({ __parseError: error }));
@@ -822,8 +923,9 @@ async function handler(req, res) {
       if (county !== 'all' && voter.source_county !== county) continue;
       if (!eligible.has(voter.household_id)) continue;
       const group = votersByHousehold.get(voter.household_id);
-      if (group) group.push(voter);
-      else votersByHousehold.set(voter.household_id, [voter]);
+      const sanitized = sanitizeVoterForRole(voter, user.role);
+      if (group) group.push(sanitized);
+      else votersByHousehold.set(voter.household_id, [sanitized]);
     }
     const households = [];
     for (const household of householdsSource) {
@@ -832,7 +934,9 @@ async function handler(req, res) {
       const last = latestByHousehold.get(household.household_id);
       households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted', deleted_at: household.deleted_at, deleted_by: household.deleted_by, delete_reason: household.delete_reason } });
     }
-    const annotations = store.mapAnnotations.map((a) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: a }));
+    const annotations = user.role === 'admin'
+      ? store.mapAnnotations.map((a) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: a }))
+      : [];
     return send(res, 200, { households: { type: 'FeatureCollection', features: households }, annotations: { type: 'FeatureCollection', features: annotations } });
   }
 
@@ -853,6 +957,36 @@ async function handler(req, res) {
     const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: 'dashboard', created_at: now(), deleted_at: null, deleted_by: null, delete_reason: null };
     store.canvassInteractions.unshift(record); audit(store, 'dashboard', 'CANVASS_LOG', 'household', body.household_id, { outcome: body.outcome }); writeStore(store);
     return send(res, 200, record);
+  }
+
+  if (req.method === 'GET' && pathname === '/api/assignments') {
+    const store = readStore();
+    return send(res, 200, store.turfAssignments);
+  }
+
+  if (req.method === 'POST' && pathname === '/api/assignments') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
+    if (!body.user_id || !Array.isArray(body.household_ids) || !body.household_ids.length) {
+      return send(res, 400, { error: 'user_id and household_ids[] are required' });
+    }
+    const store = readStore();
+    const record = {
+      assignment_id: id('assign'),
+      user_id: String(body.user_id),
+      turf_id: String(body.turf_id || id('turf')),
+      county: String(body.county || 'all').toLowerCase(),
+      household_ids: [...new Set(body.household_ids.map((item) => String(item)))],
+      created_by: user.userId,
+      created_at: now()
+    };
+    store.turfAssignments.push(record);
+    audit(store, user.userId, 'ASSIGN_TURF', 'assignment', record.assignment_id, { user_id: record.user_id, household_count: record.household_ids.length });
+    writeStore(store);
+    return send(res, 201, record);
   }
 
   if (req.method === 'POST' && pathname === '/api/annotations') {
