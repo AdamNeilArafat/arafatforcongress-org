@@ -255,6 +255,21 @@
       padding: 9px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 800; font-size: .88rem;
       background: linear-gradient(160deg, var(--brand), var(--brand-dark)); color: #fff;
     }
+    .config-btn--ghost {
+      background: #fff;
+      color: var(--brand);
+      border: 1px solid rgba(29,79,168,0.35);
+    }
+    .config-upload-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .config-upload-row input[type="file"] {
+      max-width: 100%;
+    }
     .config-feedback { font-size: .82rem; font-weight: 700; margin-top: 8px; min-height: 1.4em; }
     .setup-guide { margin-top: 14px; }
     .setup-guide summary { cursor: pointer; font-weight: 700; color: var(--brand); font-size: .88rem; }
@@ -803,6 +818,10 @@
           </p>
           <input type="url" id="sheets-url-input" value="https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY/export?format=csv&gid=1573758032" />
           <button class="config-btn" id="save-sheets-btn">Save &amp; Load Outreach Tab</button>
+          <div class="config-upload-row">
+            <input type="file" id="sheets-file-input" accept=".csv,text/csv" />
+            <button class="config-btn config-btn--ghost" id="load-sheets-file-btn" type="button">Load Outreach CSV File</button>
+          </div>
           <div class="config-feedback" id="sheets-feedback"></div>
           <details class="setup-guide">
             <summary>Outreach tab — column reference</summary>
@@ -836,6 +855,10 @@
           </p>
           <input type="url" id="vol-url-input" value="https://docs.google.com/spreadsheets/d/1HbROvg-NwAgsplDhmyUA-7l5ip0iCMhf/export?format=csv&gid=1943968351" />
           <button class="config-btn" id="save-vol-btn">Save &amp; Load Volunteer Tab</button>
+          <div class="config-upload-row">
+            <input type="file" id="vol-file-input" accept=".csv,text/csv" />
+            <button class="config-btn config-btn--ghost" id="load-vol-file-btn" type="button">Load Volunteer CSV File</button>
+          </div>
           <div class="config-feedback" id="vol-feedback"></div>
           <details class="setup-guide">
             <summary>Volunteer tab — column reference</summary>
@@ -933,8 +956,8 @@
 
   /* -------- INIT -------- */
   async function refreshRemoteData() {
-    const sheetsUrl = localStorage.getItem(LS_SHEETS) || DEFAULT_SHEETS_URL;
-    const volUrl = localStorage.getItem(LS_VOL) || DEFAULT_VOL_URL;
+    const sheetsUrl = normalizeSheetCsvUrl(localStorage.getItem(LS_SHEETS) || DEFAULT_SHEETS_URL);
+    const volUrl = normalizeSheetCsvUrl(localStorage.getItem(LS_VOL) || DEFAULT_VOL_URL);
     document.getElementById('sheets-url-input').value = sheetsUrl;
     document.getElementById('vol-url-input').value = volUrl;
     const fetches = [fetchSheets(sheetsUrl), fetchVolSheet(volUrl)];
@@ -954,6 +977,23 @@
   function setDate() {
     const dateField = document.getElementById('f-date');
     if (dateField) dateField.value = new Date().toISOString().slice(0, 10);
+  }
+
+  function normalizeSheetCsvUrl(rawUrl) {
+    const raw = String(rawUrl || '').trim();
+    if (!raw) return '';
+    if (raw.includes('/export?format=csv')) return raw;
+    const match = raw.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+    if (!match) return raw;
+    const gidMatch = raw.match(/[?&]gid=([0-9]+)/);
+    const gid = gidMatch ? gidMatch[1] : '0';
+    return 'https://docs.google.com/spreadsheets/d/' + match[1] + '/export?format=csv&gid=' + gid;
+  }
+
+  async function loadCsvFile(inputEl) {
+    const file = inputEl && inputEl.files ? inputEl.files[0] : null;
+    if (!file) throw new Error('Select a CSV file first.');
+    return file.text();
   }
 
   /* -------- DATA STATUS BAR HELPER -------- */
@@ -1343,25 +1383,60 @@
   });
 
   document.getElementById('save-sheets-btn').addEventListener('click', async () => {
-    const url = document.getElementById('sheets-url-input').value.trim();
+    const url = normalizeSheetCsvUrl(document.getElementById('sheets-url-input').value.trim());
     const fb = document.getElementById('sheets-feedback');
     if (!url) { fb.style.color = 'var(--red)'; fb.textContent = 'Please enter a URL.'; return; }
     localStorage.setItem(LS_SHEETS, url);
+    document.getElementById('sheets-url-input').value = url;
     fb.style.color = 'var(--green)'; fb.textContent = 'Saved. Loading...';
     await fetchSheets(url);
     mergeAndRender();
     fb.textContent = 'Connected. Dashboard will auto-load this sheet on every visit.';
   });
 
+  document.getElementById('load-sheets-file-btn').addEventListener('click', async () => {
+    const fb = document.getElementById('sheets-feedback');
+    try {
+      fb.style.color = 'var(--green)';
+      fb.textContent = 'Loading CSV file...';
+      const csv = await loadCsvFile(document.getElementById('sheets-file-input'));
+      sheetsContacts = parseCSV(csv);
+      setDataStatus('live', 'Loaded outreach CSV file (' + sheetsContacts.length + ' rows) · ' + new Date().toLocaleTimeString());
+      mergeAndRender();
+      fb.textContent = 'Outreach CSV loaded (' + sheetsContacts.length + ' records).';
+    } catch (error) {
+      fb.style.color = 'var(--red)';
+      fb.textContent = error.message;
+    }
+  });
+
   document.getElementById('save-vol-btn').addEventListener('click', async () => {
-    const url = document.getElementById('vol-url-input').value.trim();
+    const url = normalizeSheetCsvUrl(document.getElementById('vol-url-input').value.trim());
     const fb = document.getElementById('vol-feedback');
     if (!url) { fb.style.color = 'var(--red)'; fb.textContent = 'Please enter a URL.'; return; }
     localStorage.setItem(LS_VOL, url);
+    document.getElementById('vol-url-input').value = url;
     fb.style.color = 'var(--green)'; fb.textContent = 'Saved. Loading...';
     await fetchVolSheet(url);
     mergeAndRender();
     fb.textContent = 'Volunteer tab loaded (' + volContacts.length + ' records).';
+  });
+
+  document.getElementById('load-vol-file-btn').addEventListener('click', async () => {
+    const fb = document.getElementById('vol-feedback');
+    try {
+      fb.style.color = 'var(--green)';
+      fb.textContent = 'Loading CSV file...';
+      const csv = await loadCsvFile(document.getElementById('vol-file-input'));
+      volContacts = parseCSV(csv).map(r => ({ ...r, _tab: 'volunteer' }));
+      const line = document.getElementById('data-source-line');
+      if (line.textContent) line.textContent += ' · Volunteers CSV: ' + volContacts.length;
+      mergeAndRender();
+      fb.textContent = 'Volunteer CSV loaded (' + volContacts.length + ' records).';
+    } catch (error) {
+      fb.style.color = 'var(--red)';
+      fb.textContent = error.message;
+    }
   });
 
   document.getElementById('clear-local-btn').addEventListener('click', () => {
