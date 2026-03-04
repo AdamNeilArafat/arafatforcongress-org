@@ -101,6 +101,8 @@ function showVolunteerBridge(volunteerDashboard = {}) {
   const adminLink = volunteerDashboard.adminPath || '/admin/volunteer-dashboard.html';
   const directLink = document.getElementById('openVolunteerDashboard');
   directLink.href = adminLink;
+  const setupLink = document.getElementById('openVolunteerSetup');
+  if (setupLink) setupLink.href = `${adminLink}#settings-panel`;
 }
 
 async function refreshDashboard() {
@@ -122,7 +124,13 @@ function renderMap() {
   state.households.features.forEach((f) => {
     const [lng, lat] = f.geometry.coordinates;
     heat.push([lat, lng, Math.max(1, f.properties.voter_count)]);
-    const marker = L.marker([lat, lng]);
+    const marker = L.circleMarker([lat, lng], {
+      radius: Math.min(14, 4 + Math.max(1, f.properties.voter_count)),
+      weight: 1,
+      color: '#1346a5',
+      fillColor: '#2f6ad8',
+      fillOpacity: 0.82
+    });
     marker.bindPopup(`
       <strong>${f.properties.normalized_address}</strong><br>
       Voters: ${f.properties.voter_count}<br>
@@ -141,6 +149,14 @@ function renderMap() {
   });
 
   heatLayer.setLatLngs(heat);
+  const showHeat = map.getZoom() <= 12;
+  if (showHeat) {
+    if (map.hasLayer(clusterLayer)) map.removeLayer(clusterLayer);
+    if (!map.hasLayer(heatLayer)) map.addLayer(heatLayer);
+  } else {
+    if (!map.hasLayer(clusterLayer)) map.addLayer(clusterLayer);
+    if (map.hasLayer(heatLayer)) map.removeLayer(heatLayer);
+  }
 }
 
 async function loadFeatures() {
@@ -150,6 +166,10 @@ async function loadFeatures() {
   state.annotations = payload.annotations;
   renderMap();
 }
+
+map.on('zoomend', () => {
+  if (state.households && state.annotations) renderMap();
+});
 
 window.logOutcome = async (householdId, outcome) => {
   if (!state.token) return;
@@ -212,5 +232,25 @@ document.getElementById('importBtn').onclick = async () => {
     await refreshDashboard();
   } catch (e) {
     document.getElementById('importResult').textContent = e.message;
+  }
+};
+
+document.getElementById('savePinBtn').onclick = async () => {
+  const status = document.getElementById('pinSaveResult');
+  const pin = String(document.getElementById('newPin').value || '').trim();
+  if (pin.length < 8) {
+    status.textContent = 'PIN must be at least 8 characters.';
+    return;
+  }
+  try {
+    await api('/settings/pin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin })
+    });
+    document.getElementById('newPin').value = '';
+    status.textContent = 'PIN updated successfully.';
+  } catch (e) {
+    status.textContent = e.message;
   }
 };
