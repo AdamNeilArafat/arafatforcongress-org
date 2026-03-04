@@ -132,7 +132,13 @@ function parseCsvRows(csvText = '') {
   return lines.slice(1).map((line) => {
     const values = parseCsvLine(line);
     return headers.reduce((row, header, idx) => {
-      row[header] = values[idx] || '';
+      const value = values[idx] || '';
+      const letter = idx < 26 ? String.fromCharCode(97 + idx) : '';
+      if (header) row[header] = value;
+      if (letter) {
+        row[`col_${letter}`] = value;
+        row[letter] = value;
+      }
       return row;
     }, {});
   });
@@ -149,6 +155,8 @@ function first(row, keys, fallback = '') {
 function composeStreet(row = {}) {
   const directStreet = first(row, [
     'address',
+    'combined_address',
+    'address_combined',
     'full_address',
     'street',
     'street_address',
@@ -156,6 +164,8 @@ function composeStreet(row = {}) {
     'address_line_1',
     'residence_address',
     'voter_address',
+    'col_s',
+    's',
     'mail1',
     'mailing_address'
   ]);
@@ -221,12 +231,18 @@ function csvRowsToHouseholds(rows = []) {
 function normalizeGoogleSheetCsvUrl(input = '') {
   const raw = String(input).trim();
   if (!raw) return '';
-  if (raw.includes('/export?format=csv')) return raw;
+  if (raw.includes('/export?format=csv')) {
+    const gidMatch = raw.match(/[?&#]gid=([0-9]+)/);
+    if (gidMatch) return raw;
+    const hashGidMatch = raw.match(/#gid=([0-9]+)/);
+    if (hashGidMatch) return `${raw}${raw.includes('?') ? '&' : '?'}gid=${hashGidMatch[1]}`;
+    return raw;
+  }
 
   const match = raw.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
   if (!match) return raw;
 
-  const gidMatch = raw.match(/[?&]gid=([0-9]+)/);
+  const gidMatch = raw.match(/[?&#]gid=([0-9]+)/);
   const gid = gidMatch ? gidMatch[1] : '0';
   return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv&gid=${gid}`;
 }
