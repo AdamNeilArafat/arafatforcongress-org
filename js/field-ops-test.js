@@ -235,45 +235,73 @@ function composeStreet(row = {}) {
   return registrationStreet;
 }
 
-function csvRowsToHouseholds(rows = []) {
+const CSV_IMPORT_BATCH_SIZE = 1000;
+
+function formatDuration(ms = 0) {
+  if (!Number.isFinite(ms) || ms <= 0) return 'under 1s';
+  const totalSeconds = Math.max(1, Math.round(ms / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return minutes ? `${minutes}m ${String(seconds).padStart(2, '0')}s` : `${seconds}s`;
+}
+
+async function csvRowsToHouseholds(rows = [], { batchSize = CSV_IMPORT_BATCH_SIZE, onProgress } = {}) {
   const accepted = [];
   const rejected = [];
+  const startedAt = performance.now();
 
-  rows.forEach((row, idx) => {
-    const street = composeStreet(row);
-    const city = first(row, ['city', 'town', 'regcity', 'mailcity']);
-    const stateCode = first(row, ['state', 'st', 'regstate', 'mailstate']);
-    const zip = first(row, ['zip', 'zip_code', 'postal', 'postal_code', 'regzipcode', 'mailzip', 'zip_code_5']);
-    const address = [street, city, stateCode, zip].filter(Boolean).join(', ');
-    if (!address) {
-      rejected.push(`Row ${idx + 2}: missing address column/value`);
-      return;
+  for (let start = 0; start < rows.length; start += batchSize) {
+    const end = Math.min(start + batchSize, rows.length);
+
+    for (let idx = start; idx < end; idx += 1) {
+      const row = rows[idx];
+      const street = composeStreet(row);
+      const city = first(row, ['city', 'town', 'regcity', 'mailcity']);
+      const stateCode = first(row, ['state', 'st', 'regstate', 'mailstate']);
+      const zip = first(row, ['zip', 'zip_code', 'postal', 'postal_code', 'regzipcode', 'mailzip', 'zip_code_5']);
+      const address = [street, city, stateCode, zip].filter(Boolean).join(', ');
+      if (!address) {
+        rejected.push(`Row ${idx + 2}: missing address column/value`);
+        continue;
+      }
+
+      const latValue = Number(first(row, ['lat', 'latitude']));
+      const lngValue = Number(first(row, ['lng', 'lon', 'long', 'longitude']));
+      const geocoded = Number.isFinite(latValue) && Number.isFinite(lngValue)
+        ? { lat: latValue, lng: lngValue }
+        : deterministicGeo(address);
+
+      const name = first(row, ['name', 'full_name'], '').trim();
+      const firstName = first(row, ['first_name', 'firstname'], '').trim();
+      const lastName = first(row, ['last_name', 'lastname'], '').trim();
+
+      accepted.push({
+        id: first(row, ['id', 'household_id', 'voter_id'], `import-${Date.now()}-${idx}`),
+        name: name || `${firstName} ${lastName}`.trim() || `Imported Household ${idx + 1}`,
+        address,
+        lat: geocoded.lat,
+        lng: geocoded.lng,
+        turf: first(row, ['turf', 'precinct', 'district'], 'Imported'),
+        assignedTo: first(row, ['assigned_to', 'assignedto'], ''),
+        phone: first(row, ['phone', 'phone_number', 'mobile'], ''),
+        email: first(row, ['email', 'email_address'], ''),
+        party: first(row, ['party', 'party_affiliation'], ''),
+        status: first(row, ['status'], 'Not Attempted')
+      });
     }
 
-    const latValue = Number(first(row, ['lat', 'latitude']));
-    const lngValue = Number(first(row, ['lng', 'lon', 'long', 'longitude']));
-    const geocoded = Number.isFinite(latValue) && Number.isFinite(lngValue)
-      ? { lat: latValue, lng: lngValue }
-      : deterministicGeo(address);
+    if (typeof onProgress === 'function') {
+      const processed = end;
+      const elapsedMs = performance.now() - startedAt;
+      const rowsPerSecond = elapsedMs > 0 ? (processed / elapsedMs) * 1000 : 0;
+      const etaMs = rowsPerSecond > 0 ? ((rows.length - processed) / rowsPerSecond) * 1000 : 0;
+      onProgress({ processed, total: rows.length, batchStart: start + 1, batchEnd: end, etaMs, elapsedMs });
+    }
 
-    const name = first(row, ['name', 'full_name'], '').trim();
-    const firstName = first(row, ['first_name', 'firstname'], '').trim();
-    const lastName = first(row, ['last_name', 'lastname'], '').trim();
-
-    accepted.push({
-      id: first(row, ['id', 'household_id', 'voter_id'], `import-${Date.now()}-${idx}`),
-      name: name || `${firstName} ${lastName}`.trim() || `Imported Household ${idx + 1}`,
-      address,
-      lat: geocoded.lat,
-      lng: geocoded.lng,
-      turf: first(row, ['turf', 'precinct', 'district'], 'Imported'),
-      assignedTo: first(row, ['assigned_to', 'assignedto'], ''),
-      phone: first(row, ['phone', 'phone_number', 'mobile'], ''),
-      email: first(row, ['email', 'email_address'], ''),
-      party: first(row, ['party', 'party_affiliation'], ''),
-      status: first(row, ['status'], 'Not Attempted')
-    });
-  });
+    if (end < rows.length) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+  }
 
   return { accepted, rejected };
 }
@@ -328,8 +356,13 @@ async function importCsvText(csvText, sourceLabel) {
     return;
   }
 
-  setUploadProgress(`Scanning ${rowCount} row(s) from ${sourceLabel}...`);
-  const { accepted, rejected } = csvRowsToHouseholds(parsedRows);
+  setUploadProgress(`Scanning ${rowCount} row(s) from ${sourceLabel} in batches of ${CSV_IMPORT_BATCH_SIZE}...`);
+  const { accepted, rejected } = await csvRowsToHouseholds(parsedRows, {
+    batchSize: CSV_IMPORT_BATCH_SIZE,
+    onProgress: ({ batchStart, batchEnd, total, etaMs, elapsedMs }) => {
+      setUploadProgress(`Scanning ${sourceLabel}: rows ${batchStart}-${batchEnd} of ${total}. ETA ${formatDuration(etaMs)} (elapsed ${formatDuration(elapsedMs)}).`);
+    }
+  });
   if (!accepted.length) {
     document.getElementById('import-result').textContent = `0 imported from ${sourceLabel}. ${rejected.slice(0, 4).join(' | ')}`;
     setUploadProgress(`Finished scan for ${sourceLabel}, but no rows were importable.`);
