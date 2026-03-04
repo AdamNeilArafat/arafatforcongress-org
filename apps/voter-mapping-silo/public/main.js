@@ -281,20 +281,59 @@ async function initDashboard() {
 
 initDashboard().catch(() => {});
 
+
+async function previewCsv(file, limit = 5) {
+  const text = await file.slice(0, 128 * 1024).text();
+  const lines = text.split(/\r?\n/).filter(Boolean);
+  if (!lines.length) return { headers: [], rows: [] };
+  const headers = lines[0].split(',').map((v) => v.trim());
+  const rows = lines.slice(1, limit + 1).map((line) => {
+    const cols = line.split(',').map((v) => v.trim());
+    return headers.reduce((acc, key, idx) => ((acc[key] = cols[idx] || ''), acc), {});
+  });
+  return { headers, rows };
+}
+
+async function watchImport(importId, county) {
+  let attempts = 0;
+  while (attempts < 180) {
+    attempts += 1;
+    const latest = await api(`/imports/${encodeURIComponent(importId)}`);
+    document.getElementById('importResult').textContent = `Import ${importId}: ${latest.status} (${safeNumber(latest.progress_pct)}%) · processed ${safeNumber(latest.processed_rows)} · accepted ${safeNumber(latest.accepted_rows)} · rejected ${safeNumber(latest.rejected_rows)}`;
+    if (latest.status === 'completed') {
+      const mapLoad = await loadFeatures({ county, fitToData: true });
+      document.getElementById('importResult').textContent = `Import ${importId} completed: accepted ${safeNumber(latest.accepted_rows)}, rejected ${safeNumber(latest.rejected_rows)}. Showing ${mapLoad.households} mapped households for ${mapLoad.county}.`;
+      await refreshDashboard();
+      return;
+    }
+    if (latest.status === 'failed') {
+      throw new Error(latest.error || `Import ${importId} failed`);
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+  }
+  throw new Error(`Timed out waiting for import ${importId}`);
+}
+
 document.getElementById('importBtn').onclick = async () => {
   try {
     const file = document.getElementById('csv').files[0];
     if (!file) throw new Error('Choose a CSV first');
-    const csv = await file.text();
+    const importedCounty = document.getElementById('county').value;
+    const preview = await previewCsv(file, 3);
+    const previewText = preview.rows.length
+      ? `Preview (${preview.rows.length} rows): ${preview.rows.map((row) => Object.values(row).slice(0, 3).join(' | ')).join(' || ')}`
+      : 'Preview unavailable (empty file?)';
+
+    const formData = new FormData();
+    formData.set('county', importedCounty);
+    formData.set('file', file, file.name || `${importedCounty}.csv`);
     const result = await api('/imports/voters', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ county: document.getElementById('county').value, csv })
+      body: formData
     });
-    const importedCounty = document.getElementById('county').value;
-    const mapLoad = await loadFeatures({ county: importedCounty, fitToData: true });
-    document.getElementById('importResult').textContent = `Import ${result.importId}: accepted ${result.accepted}, rejected ${result.rejected}. Showing ${mapLoad.households} mapped households for ${mapLoad.county}.`;
-    await refreshDashboard();
+
+    document.getElementById('importResult').textContent = `${previewText}. Upload queued as ${result.importId}.`;
+    await watchImport(result.importId, importedCounty);
   } catch (e) {
     document.getElementById('importResult').textContent = e.message;
   }
@@ -323,16 +362,12 @@ document.getElementById('importRemoteBtn').onclick = async () => {
       body: JSON.stringify({ files })
     });
 
-    const summary = `Remote imports complete: accepted ${safeNumber(result.totals?.accepted)}, rejected ${safeNumber(result.totals?.rejected)}, failed ${safeNumber(result.totals?.failed)}`;
-    const detail = (result.results || [])
-      .map((item) => item.error
-        ? `${item.label}: ${item.error}`
-        : `${item.label}: accepted ${safeNumber(item.accepted)}, rejected ${safeNumber(item.rejected)}`)
-      .join(' | ');
-
-    await loadFeatures({ fitToData: true });
-    document.getElementById('importResult').textContent = `${summary}${detail ? ` :: ${detail}` : ''}`;
-    await refreshDashboard();
+    const queued = (result.results || []).filter((item) => item.importId);
+    const failed = (result.results || []).filter((item) => item.error);
+    document.getElementById('importResult').textContent = `Queued ${queued.length} remote imports${failed.length ? `, failed to queue ${failed.length}` : ''}.`;
+    for (const item of queued) {
+      await watchImport(item.importId, item.county);
+    }
   } catch (e) {
     document.getElementById('importResult').textContent = e.message;
   }

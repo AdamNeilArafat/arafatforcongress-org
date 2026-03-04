@@ -2,7 +2,7 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
-const { parse } = require('csv-parse/sync');
+const { parse } = require('csv-parse');
 
 const PORT = Number(process.env.SILO_PORT || 4177);
 const DATA_DIR = path.join(__dirname, 'data');
@@ -14,12 +14,16 @@ const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volun
 
 const TOKEN_TTL_MS = Number(process.env.SILO_TOKEN_TTL_MS || 12 * 60 * 60 * 1000);
 const MAX_JSON_BODY_BYTES = Number(process.env.SILO_MAX_JSON_BODY_BYTES || 80 * 1024 * 1024);
+const MAX_UPLOAD_BODY_BYTES = Number(process.env.SILO_MAX_UPLOAD_BODY_BYTES || 200 * 1024 * 1024);
+const IMPORT_BATCH_SIZE = Math.max(5000, Math.min(20000, Number(process.env.SILO_IMPORT_BATCH_SIZE || 5000)));
+const IMPORT_FILES_DIR = path.join(DATA_DIR, 'imports');
 const sessions = new Map();
 
 const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [], settings: {} };
 
 function ensureStore() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+  if (!fs.existsSync(IMPORT_FILES_DIR)) fs.mkdirSync(IMPORT_FILES_DIR, { recursive: true });
   if (!fs.existsSync(STORE_PATH)) fs.writeFileSync(STORE_PATH, JSON.stringify(DEFAULT_STORE, null, 2));
 }
 function readStore() {
@@ -83,85 +87,191 @@ function deterministicGeo(address) {
   const b = hash.readUInt32BE(4) / 0xffffffff;
   return { lat: Number((46.79 + a * (47.35 - 46.79)).toFixed(6)), lng: Number((-123.35 + b * (-122.02 + 123.35)).toFixed(6)), geocode_confidence: 0.5, geocode_source: 'deterministic-fallback' };
 }
-function importVotersFromCsv({ store, county, csvText, actor, sourceLabel = 'manual-upload' }) {
-  const rows = parse(String(csvText), { columns: true, skip_empty_lines: true, bom: true, relax_column_count: true });
-  const importId = id('import');
-  const report = { importId, county, accepted: 0, rejected: 0, rejectedRows: [] };
-  const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
+function updateImport(importId, updater) {
+  const store = readStore();
+  const target = store.imports.find((item) => item.import_id === importId);
+  if (!target) return null;
+  updater(target, store);
+  writeStore(store);
+  return target;
+}
+function extractMultipartFile(bodyBuffer, contentType) {
+  const boundaryMatch = String(contentType || '').match(/boundary=([^;]+)/i);
+  if (!boundaryMatch) throw new Error('Missing multipart boundary');
+  const boundary = boundaryMatch[1].trim();
+  const bodyText = bodyBuffer.toString('latin1');
+  const parts = bodyText.split(`--${boundary}`);
+  const fields = {};
+  let filePart = null;
 
-  rows.forEach((rawRow, idx) => {
-    const row = normalizeRow(rawRow);
-    const normalized = normalizeAddress(row);
-    if (!normalized) {
-      report.rejected += 1;
-      report.rejectedRows.push({ row: idx + 2, reason: 'Missing address' });
-      return;
-    }
-    let household = householdByAddress.get(normalized);
-    if (!household) {
-      const lat = Number(row.lat || row.latitude);
-      const lng = Number(row.lng || row.longitude || row.lon);
-      const geo = Number.isFinite(lat) && Number.isFinite(lng)
-        ? { lat, lng, geocode_confidence: 1, geocode_source: 'csv' }
-        : deterministicGeo(normalized);
-      household = {
-        household_id: id('hh'),
-        normalized_address: normalized,
-        lat: geo.lat,
-        lng: geo.lng,
-        geocode_confidence: geo.geocode_confidence,
-        geocode_source: geo.geocode_source,
-        created_at: now()
+  for (const rawPart of parts) {
+    if (!rawPart || rawPart === '--' || rawPart === '--\r\n') continue;
+    const part = rawPart.startsWith('\r\n') ? rawPart.slice(2) : rawPart;
+    const splitAt = part.indexOf('\r\n\r\n');
+    if (splitAt === -1) continue;
+    const headerBlock = part.slice(0, splitAt);
+    let valueBlock = part.slice(splitAt + 4);
+    valueBlock = valueBlock.replace(/\r\n$/, '').replace(/--$/, '');
+    const nameMatch = headerBlock.match(/name="([^"]+)"/i);
+    if (!nameMatch) continue;
+    const fieldName = nameMatch[1];
+    const filenameMatch = headerBlock.match(/filename="([^"]*)"/i);
+    if (filenameMatch) {
+      const partStart = bodyText.indexOf(part);
+      const contentStart = partStart + splitAt + 4;
+      const binaryLength = Buffer.from(valueBlock, 'latin1').length;
+      filePart = {
+        fieldName,
+        filename: filenameMatch[1],
+        mimeType: (headerBlock.match(/Content-Type:\s*([^\r\n]+)/i) || [])[1] || 'text/csv',
+        buffer: bodyBuffer.subarray(contentStart, contentStart + binaryLength)
       };
-      householdByAddress.set(normalized, household);
-      store.households.push(household);
+      continue;
     }
-    const voterId = firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'statevoterid', 'voter id'], id('voter'));
-    if (store.voters.some((v) => v.voter_id === String(voterId) && v.source_county === county)) {
-      report.rejected += 1;
-      report.rejectedRows.push({ row: idx + 2, reason: 'Duplicate voter_id in county' });
-      return;
-    }
-    const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
-    const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
-    const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
-    store.voters.push({
-      voter_id: String(voterId),
-      first_name: rawFirst || parsedFromFullName.firstName,
-      last_name: rawLast || parsedFromFullName.lastName,
-      age: firstNonEmpty(row, ['age']),
-      birth_year: firstNonEmpty(row, ['birth_year', 'birthyear', 'birth year', 'year_of_birth', 'yob']),
-      last_voted: firstNonEmpty(row, ['last_voted', 'lastvoted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
-      party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
-      precinct: firstNonEmpty(row, ['precinct', 'precinctcode', 'precinct_code']),
-      source_county: county,
-      source_file_id: importId,
-      created_from: sourceLabel,
-      household_id: household.household_id,
-      created_at: now()
+    fields[fieldName] = valueBlock.trim();
+  }
+
+  if (!filePart) throw new Error('Multipart upload missing file');
+  return { fields, file: filePart };
+}
+function parseUploadBody(req) {
+  return new Promise((resolve, reject) => {
+    let total = 0;
+    const chunks = [];
+    req.on('data', (chunk) => {
+      total += chunk.length;
+      if (total > MAX_UPLOAD_BODY_BYTES) {
+        reject(new Error('Upload payload too large'));
+        req.destroy();
+        return;
+      }
+      chunks.push(chunk);
     });
-    report.accepted += 1;
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+}
+async function processImportFile(importId) {
+  updateImport(importId, (record) => {
+    record.status = 'parsing';
+    record.phase_started_at = now();
   });
 
-  store.imports.unshift({
-    import_id: importId,
-    county,
-    uploaded_by: actor,
-    uploaded_at: now(),
-    status: 'completed',
-    accepted_rows: report.accepted,
-    rejected_rows: report.rejected,
-    source: sourceLabel,
-    rejected_detail: report.rejectedRows
-  });
-  audit(store, actor, 'IMPORT_VOTERS', 'import', importId, {
-    county,
-    accepted: report.accepted,
-    rejected: report.rejected,
-    source: sourceLabel
-  });
+  const store = readStore();
+  const record = store.imports.find((item) => item.import_id === importId);
+  if (!record) return;
+  const county = record.county;
+  const sourceLabel = record.source || 'manual-upload';
+  const actor = record.uploaded_by || 'system';
+  const householdByAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
+  const votersInCounty = new Set(store.voters.filter((v) => v.source_county === county).map((v) => `${county}:${v.voter_id}`));
+  const rejectedRows = [];
+  let accepted = 0;
+  let rejected = 0;
+  let totalRows = 0;
+  let batch = [];
 
-  return report;
+  const flushBatch = () => {
+    for (const item of batch) {
+      const rawRow = item.rawRow;
+      const rowNumber = item.rowNumber;
+      const row = normalizeRow(rawRow);
+      const normalized = normalizeAddress(row);
+      if (!normalized) {
+        rejected += 1;
+        if (rejectedRows.length < 200) rejectedRows.push({ row: rowNumber, reason: 'Missing address' });
+        continue;
+      }
+      let household = householdByAddress.get(normalized);
+      if (!household) {
+        const lat = Number(row.lat || row.latitude);
+        const lng = Number(row.lng || row.longitude || row.lon);
+        const geo = Number.isFinite(lat) && Number.isFinite(lng)
+          ? { lat, lng, geocode_confidence: 1, geocode_source: 'csv' }
+          : deterministicGeo(normalized);
+        household = {
+          household_id: id('hh'),
+          normalized_address: normalized,
+          lat: geo.lat,
+          lng: geo.lng,
+          geocode_confidence: geo.geocode_confidence,
+          geocode_source: geo.geocode_source,
+          created_at: now()
+        };
+        householdByAddress.set(normalized, household);
+        store.households.push(household);
+      }
+      const voterId = String(firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id', 'statevoterid', 'voter id'], id('voter')));
+      const voterKey = `${county}:${voterId}`;
+      if (votersInCounty.has(voterKey)) {
+        rejected += 1;
+        if (rejectedRows.length < 200) rejectedRows.push({ row: rowNumber, reason: 'Duplicate voter_id in county' });
+        continue;
+      }
+      votersInCounty.add(voterKey);
+      const rawFirst = firstNonEmpty(row, ['first_name', 'firstname', 'first', 'first name']);
+      const rawLast = firstNonEmpty(row, ['last_name', 'lastname', 'last', 'last name']);
+      const parsedFromFullName = splitName(firstNonEmpty(row, ['name', 'full_name', 'full name', 'voter_name']));
+      store.voters.push({
+        voter_id: voterId,
+        first_name: rawFirst || parsedFromFullName.firstName,
+        last_name: rawLast || parsedFromFullName.lastName,
+        age: firstNonEmpty(row, ['age']),
+        birth_year: firstNonEmpty(row, ['birth_year', 'birthyear', 'birth year', 'year_of_birth', 'yob']),
+        last_voted: firstNonEmpty(row, ['last_voted', 'lastvoted', 'last voted', 'when_voted', 'when voted', 'voted_date']),
+        party: firstNonEmpty(row, ['party', 'registered_party', 'party_code'], 'Unknown'),
+        precinct: firstNonEmpty(row, ['precinct', 'precinctcode', 'precinct_code']),
+        source_county: county,
+        source_file_id: importId,
+        created_from: sourceLabel,
+        household_id: household.household_id,
+        created_at: now()
+      });
+      accepted += 1;
+    }
+    batch = [];
+
+    updateImport(importId, (current) => {
+      current.processed_rows = totalRows;
+      current.accepted_rows = accepted;
+      current.rejected_rows = rejected;
+      current.progress_pct = Number(((totalRows / Math.max(1, current.estimated_rows || totalRows || 1)) * 100).toFixed(1));
+    });
+  };
+
+  try {
+    const parser = parse({ columns: true, skip_empty_lines: true, bom: true, relax_column_count: true });
+    const stream = fs.createReadStream(record.file_path).pipe(parser);
+    for await (const row of stream) {
+      totalRows += 1;
+      batch.push({ rawRow: row, rowNumber: totalRows + 1 });
+      if (batch.length >= IMPORT_BATCH_SIZE) {
+        updateImport(importId, (current) => { current.status = 'deduping'; });
+        flushBatch();
+        updateImport(importId, (current) => { current.status = 'geocoding'; });
+      }
+    }
+    if (batch.length) flushBatch();
+    audit(store, actor, 'IMPORT_VOTERS', 'import', importId, { county, accepted, rejected, source: sourceLabel });
+    const completedAt = now();
+    const finalRecord = store.imports.find((item) => item.import_id === importId);
+    if (finalRecord) {
+      finalRecord.status = 'completed';
+      finalRecord.completed_at = completedAt;
+      finalRecord.accepted_rows = accepted;
+      finalRecord.rejected_rows = rejected;
+      finalRecord.processed_rows = totalRows;
+      finalRecord.progress_pct = 100;
+      finalRecord.rejected_detail = rejectedRows;
+    }
+    writeStore(store);
+  } catch (error) {
+    updateImport(importId, (current) => {
+      current.status = 'failed';
+      current.error = error.message;
+      current.completed_at = now();
+    });
+  }
 }
 function audit(store, actor, action, targetType, targetId, metadata = {}) {
   store.auditEvents.unshift({ id: id('audit'), actor, action, targetType, targetId, timestamp: now(), metadata });
@@ -363,25 +473,62 @@ async function handler(req, res) {
   }
 
   if (req.method === 'POST' && pathname === '/api/imports/voters') {
-    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
-    if (body?.__parseError) {
-      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
-      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    const contentType = String(req.headers['content-type'] || '').toLowerCase();
+    if (!contentType.includes('multipart/form-data')) {
+      return send(res, 415, { error: 'Use multipart/form-data with fields county and file' });
     }
-    const county = String(body.county || '').toLowerCase().trim();
+    const bodyBuffer = await parseUploadBody(req).catch((error) => ({ __parseError: error }));
+    if (bodyBuffer?.__parseError) {
+      const isTooLarge = String(bodyBuffer.__parseError.message || '').includes('too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Upload payload too large. Limit is ${Math.round(MAX_UPLOAD_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid multipart upload' });
+    }
+
+    let payload;
+    try {
+      payload = extractMultipartFile(bodyBuffer, contentType);
+    } catch (error) {
+      return send(res, 400, { error: error.message || 'Invalid multipart payload' });
+    }
+
+    const county = String(payload.fields.county || '').toLowerCase().trim();
     if (!['pierce', 'thurston'].includes(county)) return send(res, 400, { error: 'County must be pierce or thurston' });
-    if (!body.csv) return send(res, 400, { error: 'csv text required' });
+    if (!payload.file?.buffer?.length) return send(res, 400, { error: 'CSV file required' });
+
+    const importId = id('import');
+    const filename = payload.file.filename || `${county}-${importId}.csv`;
+    const safeFileName = `${importId}-${path.basename(filename).replace(/[^a-zA-Z0-9._-]+/g, '_')}`;
+    const filePath = path.join(IMPORT_FILES_DIR, safeFileName);
+    fs.writeFileSync(filePath, payload.file.buffer);
 
     const store = readStore();
-    const report = importVotersFromCsv({
-      store,
+    const importRecord = {
+      import_id: importId,
       county,
-      csvText: body.csv,
-      actor: user.userId,
-      sourceLabel: 'manual-upload'
-    });
+      uploaded_by: user.userId,
+      uploaded_at: now(),
+      status: 'uploaded',
+      source: 'manual-upload',
+      original_filename: filename,
+      file_path: filePath,
+      file_size_bytes: payload.file.buffer.length,
+      processed_rows: 0,
+      accepted_rows: 0,
+      rejected_rows: 0,
+      progress_pct: 0,
+      rejected_detail: []
+    };
+    store.imports.unshift(importRecord);
     writeStore(store);
-    return send(res, 200, report);
+    setImmediate(() => {
+      processImportFile(importId).catch((error) => {
+        updateImport(importId, (current) => {
+          current.status = 'failed';
+          current.error = error.message;
+          current.completed_at = now();
+        });
+      });
+    });
+    return send(res, 202, { importId, status: 'uploaded' });
   }
 
   if (req.method === 'POST' && pathname === '/api/imports/voters/remote') {
@@ -393,43 +540,57 @@ async function handler(req, res) {
     if (!Array.isArray(body.files) || !body.files.length) {
       return send(res, 400, { error: 'files[] is required' });
     }
-    const store = readStore();
-    const results = [];
 
+    const createdImports = [];
     for (const file of body.files.slice(0, 12)) {
       const county = String(file.county || '').toLowerCase().trim();
       const url = String(file.url || '').trim();
       const label = String(file.label || url || `${county}-remote`).trim();
       if (!['pierce', 'thurston'].includes(county) || !url) {
-        results.push({ label, county, url, error: 'Each file needs a valid county (pierce/thurston) and URL' });
+        createdImports.push({ label, county, url, error: 'Each file needs a valid county (pierce/thurston) and URL' });
         continue;
       }
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const csvText = await response.text();
-        const report = importVotersFromCsv({
-          store,
+        const fileBuffer = Buffer.from(await response.arrayBuffer());
+        const importId = id('import');
+        const safeFileName = `${importId}-${path.basename(label).replace(/[^a-zA-Z0-9._-]+/g, '_')}.csv`;
+        const filePath = path.join(IMPORT_FILES_DIR, safeFileName);
+        fs.writeFileSync(filePath, fileBuffer);
+
+        const store = readStore();
+        store.imports.unshift({
+          import_id: importId,
           county,
-          csvText,
-          actor: user.userId,
-          sourceLabel: `remote-url:${label}`
+          uploaded_by: user.userId,
+          uploaded_at: now(),
+          status: 'uploaded',
+          source: `remote-url:${label}`,
+          original_filename: `${label}.csv`,
+          file_path: filePath,
+          file_size_bytes: fileBuffer.length,
+          processed_rows: 0,
+          accepted_rows: 0,
+          rejected_rows: 0,
+          progress_pct: 0,
+          rejected_detail: []
         });
-        results.push({ label, county, url, ...report });
+        writeStore(store);
+        createdImports.push({ label, county, url, importId, status: 'uploaded' });
+        setImmediate(() => processImportFile(importId).catch((error) => {
+          updateImport(importId, (current) => {
+            current.status = 'failed';
+            current.error = error.message;
+            current.completed_at = now();
+          });
+        }));
       } catch (error) {
-        results.push({ label, county, url, error: `Unable to fetch/parse CSV: ${error.message}` });
+        createdImports.push({ label, county, url, error: `Unable to fetch/queue CSV: ${error.message}` });
       }
     }
 
-    writeStore(store);
-    const totals = results.reduce((acc, item) => {
-      acc.accepted += Number(item.accepted || 0);
-      acc.rejected += Number(item.rejected || 0);
-      if (item.error) acc.failed += 1;
-      return acc;
-    }, { accepted: 0, rejected: 0, failed: 0 });
-
-    return send(res, 200, { ok: true, totals, results });
+    return send(res, 202, { ok: true, results: createdImports });
   }
 
   if (req.method === 'GET' && pathname.startsWith('/api/map/features')) {
@@ -472,6 +633,12 @@ async function handler(req, res) {
   }
 
   if (req.method === 'GET' && pathname === '/api/imports') return send(res, 200, readStore().imports.slice(0, 50));
+  if (req.method === 'GET' && pathname.startsWith('/api/imports/')) {
+    const importId = pathname.split('/').pop();
+    const record = readStore().imports.find((item) => item.import_id === importId);
+    if (!record) return send(res, 404, { error: 'Import not found' });
+    return send(res, 200, record);
+  }
   if (req.method === 'GET' && pathname === '/api/audit') return send(res, 200, readStore().auditEvents.slice(0, 200));
   return send(res, 404, { error: 'Not found' });
 }
