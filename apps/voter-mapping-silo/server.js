@@ -13,6 +13,7 @@ const LIVE_OUTREACH_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'outrea
 const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volunteer_data.json');
 
 const TOKEN_TTL_MS = Number(process.env.SILO_TOKEN_TTL_MS || 12 * 60 * 60 * 1000);
+const MAX_JSON_BODY_BYTES = Number(process.env.SILO_MAX_JSON_BODY_BYTES || 80 * 1024 * 1024);
 const sessions = new Map();
 
 const DEFAULT_STORE = { voters: [], households: [], canvassInteractions: [], mapAnnotations: [], imports: [], auditEvents: [], settings: {} };
@@ -240,9 +241,25 @@ function volunteerDashboardBridge() {
 }
 function parseBody(req) {
   return new Promise((resolve, reject) => {
-    let raw = '';
-    req.on('data', (c) => { raw += c; if (raw.length > 12 * 1024 * 1024) req.destroy(); });
-    req.on('end', () => { try { resolve(raw ? JSON.parse(raw) : {}); } catch (e) { reject(e); } });
+    let total = 0;
+    const chunks = [];
+    req.on('data', (chunk) => {
+      total += chunk.length;
+      if (total > MAX_JSON_BODY_BYTES) {
+        reject(new Error('Payload too large'));
+        req.destroy();
+        return;
+      }
+      chunks.push(chunk);
+    });
+    req.on('end', () => {
+      try {
+        const raw = Buffer.concat(chunks).toString('utf8');
+        resolve(raw ? JSON.parse(raw) : {});
+      } catch (e) {
+        reject(e);
+      }
+    });
     req.on('error', reject);
   });
 }
@@ -289,8 +306,11 @@ async function handler(req, res) {
   if (serveStatic(req, res, pathname)) return;
 
   if (req.method === 'POST' && pathname === '/api/auth/login') {
-    const body = await parseBody(req).catch(() => null);
-    if (!body) return send(res, 400, { error: 'Invalid JSON' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
     const accessKey = String(body.accessKey || body.pin || '').trim();
     const store = readStore();
     const expectedSecrets = configuredAuthSecrets(store);
@@ -343,8 +363,11 @@ async function handler(req, res) {
   }
 
   if (req.method === 'POST' && pathname === '/api/imports/voters') {
-    const body = await parseBody(req).catch(() => null);
-    if (!body) return send(res, 400, { error: 'Invalid JSON' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
     const county = String(body.county || '').toLowerCase().trim();
     if (!['pierce', 'thurston'].includes(county)) return send(res, 400, { error: 'County must be pierce or thurston' });
     if (!body.csv) return send(res, 400, { error: 'csv text required' });
@@ -362,8 +385,12 @@ async function handler(req, res) {
   }
 
   if (req.method === 'POST' && pathname === '/api/imports/voters/remote') {
-    const body = await parseBody(req).catch(() => null);
-    if (!body || !Array.isArray(body.files) || !body.files.length) {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
+    if (!Array.isArray(body.files) || !body.files.length) {
       return send(res, 400, { error: 'files[] is required' });
     }
     const store = readStore();
@@ -419,7 +446,11 @@ async function handler(req, res) {
   }
 
   if (req.method === 'POST' && pathname === '/api/canvass/logs') {
-    const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
     if (!body.household_id || !body.outcome) return send(res, 400, { error: 'household_id and outcome are required' });
     const store = readStore();
     const record = { interaction_id: id('int'), household_id: body.household_id, voter_id: body.voter_id || null, outcome: body.outcome, notes: body.notes || '', next_followup_at: body.next_followup_at || null, created_by: 'dashboard', created_at: now() };
@@ -428,7 +459,11 @@ async function handler(req, res) {
   }
 
   if (req.method === 'POST' && pathname === '/api/annotations') {
-    const body = await parseBody(req).catch(() => null); if (!body) return send(res, 400, { error: 'Invalid JSON' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) {
+      const isTooLarge = String(body.__parseError.message || '').includes('Payload too large');
+      return send(res, isTooLarge ? 413 : 400, { error: isTooLarge ? `Payload too large. Limit is ${Math.round(MAX_JSON_BODY_BYTES / (1024 * 1024))}MB.` : 'Invalid JSON' });
+    }
     if (!Number.isFinite(body.lat) || !Number.isFinite(body.lng)) return send(res, 400, { error: 'lat/lng required' });
     const store = readStore();
     const record = { annotation_id: id('ann'), lat: body.lat, lng: body.lng, type: body.type || 'note', note: body.note || '', followup_at: body.followup_at || null, created_by: 'dashboard', created_at: now() };
