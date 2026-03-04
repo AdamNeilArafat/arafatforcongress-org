@@ -149,6 +149,51 @@ function first(row, keys, fallback = '') {
     const value = row[key];
     if (value && String(value).trim()) return String(value).trim();
   }
+
+  const rowKeys = Object.keys(row);
+  let bestMatch = null;
+  const normalizeForCompare = (value = '') => String(value).toLowerCase().replace(/[^a-z0-9]/g, '');
+  const levenshteinDistance = (left = '', right = '') => {
+    const rows = left.length + 1;
+    const cols = right.length + 1;
+    const matrix = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+    for (let r = 0; r < rows; r += 1) matrix[r][0] = r;
+    for (let c = 0; c < cols; c += 1) matrix[0][c] = c;
+
+    for (let r = 1; r < rows; r += 1) {
+      for (let c = 1; c < cols; c += 1) {
+        const cost = left[r - 1] === right[c - 1] ? 0 : 1;
+        matrix[r][c] = Math.min(
+          matrix[r - 1][c] + 1,
+          matrix[r][c - 1] + 1,
+          matrix[r - 1][c - 1] + cost
+        );
+      }
+    }
+
+    return matrix[left.length][right.length];
+  };
+
+  keys.forEach((targetKey) => {
+    const target = normalizeForCompare(targetKey);
+    if (target.length < 4) return;
+
+    rowKeys.forEach((candidateKey) => {
+      const candidate = normalizeForCompare(candidateKey);
+      if (candidate.length < 4) return;
+      const distance = levenshteinDistance(target, candidate);
+      const similarity = 1 - (distance / Math.max(target.length, candidate.length));
+      if (distance <= 3 && similarity >= 0.72 && (!bestMatch || similarity > bestMatch.similarity)) {
+        const value = row[candidateKey];
+        if (value && String(value).trim()) {
+          bestMatch = { value: String(value).trim(), similarity };
+        }
+      }
+    });
+  });
+
+  if (bestMatch) return bestMatch.value;
   return fallback;
 }
 
@@ -160,7 +205,12 @@ function composeStreet(row = {}) {
     'full_address',
     'street',
     'street_address',
+    'address_1',
     'address1',
+    'street1',
+    'res_address',
+    'regaddress',
+    'regaddress1',
     'address_line_1',
     'residence_address',
     'voter_address',
