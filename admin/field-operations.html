@@ -116,8 +116,15 @@
 
     <section class="card hidden" id="panel-imports">
       <h3>Imports (admin test)</h3>
-      <p class="muted">CSV parsing simulation for test only. No server upload in this sandbox.</p>
-      <input type="file" id="csv" accept=".csv" />
+      <p class="muted">Load once from CSV or Google Sheet CSV link. Imported households are saved to this browser.</p>
+      <div class="actions">
+        <input type="file" id="csv" accept=".csv" />
+      </div>
+      <div class="actions">
+        <input type="url" id="sheet-url" placeholder="Google Sheet URL (share/export link)" style="min-width:280px;flex:1" />
+        <button class="btn" id="import-sheet-url">Import from Google Sheet</button>
+        <button class="btn warn" id="reset-imported">Reset to Demo Data</button>
+      </div>
       <div id="import-result" class="muted"></div>
     </section>
 
