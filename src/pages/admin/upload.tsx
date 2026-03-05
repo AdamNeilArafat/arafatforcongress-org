@@ -1,24 +1,61 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { geocodeHouseholdsBatch } from '../../jobs/geocodeHouseholds';
 import { parseCsvText } from '../../lib/csv/parse';
-import { importRows } from '../../lib/db/store';
+import { clearAll, clearByImport, deleteVoter, importRows, listImports, listVoters } from '../../lib/db/store';
 
 export default function AdminUploadPage() {
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState('');
+  const [version, setVersion] = useState(0);
 
-  async function onFile(file: File) {
-    const text = await file.text();
-    const result = await parseCsvText(text, setProgress);
-    const batch = importRows(file.name, result.rows, result.errors.length);
-    setMessage(`Inserted ${batch.inserted_count}. Duplicates skipped ${batch.duplicate_count}. Invalid rows ${batch.invalid_count}. Pinned now ${batch.pinnable_count}. Geocode queued ${batch.geocode_queued_count}. Blocked ${batch.blocked_count}.`);
+  const imports = useMemo(() => listImports(), [version]);
+  const voters = useMemo(() => listVoters(), [version]);
+
+  async function onFiles(fileList: FileList) {
+    const files = Array.from(fileList);
+    for (const file of files) {
+      const text = await file.text();
+      const result = await parseCsvText(text, setProgress);
+      const batch = importRows(file.name, result.rows, result.errors.length);
+      setMessage(`Imported ${file.name}: inserted ${batch.inserted_count}, duplicates ${batch.duplicate_count}, invalid ${batch.invalid_count}, pinnable ${batch.pinnable_count}, geocode queued ${batch.geocode_queued_count}, blocked ${batch.blocked_count}, geocode failed ${batch.geocode_failed_count}.`);
+    }
+    setVersion((x) => x + 1);
+  }
+
+  async function runWorker() {
+    const result = await geocodeHouseholdsBatch(100);
+    setMessage(`Worker complete: scanned ${result.scanned}, geocoded ${result.geocoded}, failed ${result.errors}`);
+    setVersion((x) => x + 1);
   }
 
   return (
     <main>
       <h1>Admin CSV Upload</h1>
-      <input type="file" accept=".csv" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
+      <input type="file" multiple accept=".csv" onChange={(e) => e.target.files && onFiles(e.target.files)} />
+      <button onClick={runWorker}>Run Geocode Worker</button>
+      <button onClick={() => { clearAll(); setVersion((x) => x + 1); }}>Clear All</button>
       <p>Rows processed: {progress}</p>
       <p>{message}</p>
+
+      <h2>Import batches</h2>
+      <ul>
+        {imports.map((batch) => (
+          <li key={batch.id}>
+            {batch.source_file_name}: inserted {batch.inserted_count}, duplicates {batch.duplicate_count}, invalid {batch.invalid_count}, pinnable {batch.pinnable_count}, queued {batch.geocode_queued_count}, blocked {batch.blocked_count}, failed {batch.geocode_failed_count}
+            <button onClick={() => { clearByImport(batch.id); setVersion((x) => x + 1); }}>Clear Import</button>
+          </li>
+        ))}
+      </ul>
+
+      <h2>Voters</h2>
+      <ul>
+        {voters.slice(0, 30).map((voter) => (
+          <li key={voter.id}>
+            {voter.first_name} {voter.last_name} — {voter.full_address ?? 'no address'} — {voter.geocode_status}
+            <button onClick={() => { deleteVoter(voter.id); setVersion((x) => x + 1); }}>Delete Row</button>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }

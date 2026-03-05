@@ -27,44 +27,65 @@ export class MockGeocodingProvider implements GeocodingProvider {
   }
 }
 
-export class MapboxGeocodingProvider implements GeocodingProvider {
-  constructor(private apiKey: string) {}
+export class NominatimLocalProvider implements GeocodingProvider {
+  constructor(
+    private baseUrl: string,
+    private countryCodes: string,
+    private userAgent: string,
+    private acceptLanguage: string
+  ) {}
 
   async geocode(address: string): Promise<GeocodeResult> {
-    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?limit=1&access_token=${this.apiKey}`;
-    const response = await fetch(url);
+    const params = new URLSearchParams({
+      q: address,
+      format: 'jsonv2',
+      limit: '1',
+      countrycodes: this.countryCodes
+    });
+    const url = `${this.baseUrl.replace(/\/$/, '')}/search?${params.toString()}`;
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': this.userAgent,
+        'Accept-Language': this.acceptLanguage
+      }
+    });
     if (!response.ok) {
-      throw new Error(`Mapbox geocoding failed with ${response.status}`);
+      throw new Error(`Nominatim local geocoding failed with ${response.status}`);
     }
     const payload = await response.json();
-    const feature = payload.features?.[0];
-    if (!feature?.center || feature.center.length < 2) {
-      throw new Error('Mapbox returned no geocoding candidates');
+    const first = Array.isArray(payload) ? payload[0] : undefined;
+    if (!first?.lat || !first?.lon) {
+      throw new Error('Nominatim returned no geocoding candidates');
     }
     return {
-      lng: Number(feature.center[0]),
-      lat: Number(feature.center[1]),
-      confidence: typeof feature.relevance === 'number' ? feature.relevance : undefined,
-      raw: feature
+      lat: Number(first.lat),
+      lng: Number(first.lon),
+      confidence: first.importance ? Number(first.importance) : undefined,
+      raw: first
     };
   }
 }
 
 export function createGeocodingProvider(): GeocodingProvider {
-  const provider = env('GEOCODER_PROVIDER', 'mock');
-  if (provider === 'mapbox') {
-    const apiKey = env('GEOCODING_API_KEY');
-    if (!apiKey) throw new Error('GEOCODING_API_KEY is required for mapbox geocoder provider');
-    return new MapboxGeocodingProvider(apiKey);
+  const provider = env('GEOCODER_PROVIDER', 'nominatim_local');
+  if (provider === 'mock') return new MockGeocodingProvider();
+  if (provider === 'nominatim_local') {
+    return new NominatimLocalProvider(
+      env('NOMINATIM_BASE_URL', 'http://localhost:8080') as string,
+      env('NOMINATIM_COUNTRYCODES', 'us') as string,
+      env('GEOCODER_USER_AGENT', 'afc-dashboard/1.0 (local geocoder)') as string,
+      env('GEOCODER_ACCEPT_LANGUAGE', 'en-US') as string
+    );
   }
-  return new MockGeocodingProvider();
+  throw new Error(`Unsupported geocoder provider: ${provider}`);
 }
 
 export function geocodeConfig() {
   return {
-    provider: env('GEOCODER_PROVIDER', 'mock') ?? 'mock',
-    rateLimitPerSec: Number(env('GEOCODING_RATE_LIMIT_PER_SEC', '5')),
+    provider: env('GEOCODER_PROVIDER', 'nominatim_local') ?? 'nominatim_local',
+    rateLimitPerSec: Number(env('GEOCODING_RATE_LIMIT_PER_SEC', '8')),
     maxAttempts: Number(env('GEOCODING_MAX_ATTEMPTS', '3')),
-    backoffSeconds: Number(env('GEOCODING_BACKOFF_SECONDS', '30'))
+    backoffSeconds: Number(env('GEOCODING_BACKOFF_SECONDS', '30')),
+    workerConcurrency: Number(env('GEOCODING_CONCURRENCY', '6'))
   };
 }

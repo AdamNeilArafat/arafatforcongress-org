@@ -12,6 +12,7 @@ create table if not exists public.imports (
   geocode_queued_count integer not null default 0,
   geocode_success_count integer not null default 0,
   geocode_failed_count integer not null default 0,
+  blocked_count integer not null default 0,
   status text not null default 'processing',
   error_summary text
 );
@@ -20,6 +21,7 @@ alter table public.voters
   add column if not exists import_id uuid references public.imports(id),
   add column if not exists address_line1 text,
   add column if not exists full_address text,
+  add column if not exists normalized_address_hash text,
   add column if not exists geocode_status text default 'pending',
   add column if not exists geocode_provider text,
   add column if not exists geocode_confidence numeric,
@@ -29,9 +31,19 @@ alter table public.voters
   add column if not exists created_at timestamptz not null default now(),
   add column if not exists updated_at timestamptz not null default now();
 
+create table if not exists public.geocode_cache (
+  normalized_address_hash text primary key,
+  normalized_address_text text not null,
+  provider text not null,
+  lat numeric not null,
+  lng numeric not null,
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.geocode_jobs (
   id uuid primary key default gen_random_uuid(),
   voter_id uuid not null references public.voters(id),
+  normalized_address_hash text not null,
   full_address text not null,
   status text not null default 'queued',
   attempts integer not null default 0,
@@ -43,3 +55,4 @@ create table if not exists public.geocode_jobs (
 
 create index if not exists geocode_jobs_status_next_run_idx on public.geocode_jobs(status, next_run_at);
 create index if not exists voters_import_id_idx on public.voters(import_id);
+create index if not exists voters_normalized_hash_idx on public.voters(normalized_address_hash);
