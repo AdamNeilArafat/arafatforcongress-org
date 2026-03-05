@@ -98,6 +98,17 @@ function deterministicGeo(address = '') {
   return { lat: Number(lat.toFixed(6)), lng: Number(lng.toFixed(6)) };
 }
 
+function isValidLatLng(lat, lng) {
+  return Number.isFinite(lat) && Number.isFinite(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+}
+
+function normalizeCoordinates(lat, lng, address = '') {
+  if (isValidLatLng(lat, lng)) return { lat, lng, source: 'csv' };
+  if (isValidLatLng(lng, lat)) return { lat: lng, lng: lat, source: 'csv_swapped' };
+  const fallback = deterministicGeo(address);
+  return { ...fallback, source: 'deterministic' };
+}
+
 function householdPopupHtml(h) {
   const details = [
     `<strong>${h.name || 'Unknown'}</strong>`,
@@ -349,9 +360,7 @@ async function csvRowsToHouseholds(rows = [], { batchSize = CSV_IMPORT_BATCH_SIZ
 
       const latValue = Number(first(row, ['lat', 'latitude']));
       const lngValue = Number(first(row, ['lng', 'lon', 'long', 'longitude']));
-      const geocoded = Number.isFinite(latValue) && Number.isFinite(lngValue)
-        ? { lat: latValue, lng: lngValue }
-        : deterministicGeo(address);
+      const geocoded = normalizeCoordinates(latValue, lngValue, address);
 
       const name = first(row, ['name', 'full_name', 'voter_name'], '').trim();
       const firstName = first(row, ['first_name', 'firstname', 'fname', 'first'], '').trim();
@@ -621,8 +630,8 @@ function filteredHouseholds() {
 function renderMap() {
   markerLayer.clearLayers();
   const households = filteredHouseholds();
-  const pinned = households.filter((h) => Number.isFinite(h.lat) && Number.isFinite(h.lng));
-  const blocked = households.filter((h) => !Number.isFinite(h.lat) || !Number.isFinite(h.lng)).length;
+  const pinned = households.filter((h) => isValidLatLng(h.lat, h.lng));
+  const blocked = households.filter((h) => !isValidLatLng(h.lat, h.lng)).length;
   const statusEl = document.getElementById('map-status');
   if (statusEl) {
     statusEl.textContent = pinned.length
