@@ -1,7 +1,5 @@
 (function () {
-  // TODO: update this to the real WebCrawler feed URL
-  // Example: 'https://<username>.github.io/WebCrawler/conversations.json'
-  const FEED_URL = 'https://arafatforcongress.github.io/WebCrawler/conversations.json';
+  const LEGACY_FEED_URL = 'https://arafatforcongress.github.io/WebCrawler/conversations.json';
 
   const VISIBLE_COUNT = 2;
   const SCROLL_INTERVAL_MS = 4500;
@@ -11,6 +9,34 @@
   let cardHeight = 0;
   let gap = 12; // px; should roughly match .conversation-card__link margin-bottom
   let isAnimating = false;
+
+
+  function readMetaContent(name) {
+    const meta = document.head
+      ? document.head.querySelector('meta[name="' + name + '"]')
+      : null;
+    const value = meta ? meta.getAttribute('content') : '';
+    return value ? value.trim() : '';
+  }
+
+  function getFeedUrl() {
+    const metaUrl = readMetaContent('conversations-feed-url');
+    if (metaUrl) return metaUrl;
+
+    const afcConfigUrl =
+      window.AFC_CONFIG && typeof window.AFC_CONFIG.conversationsFeedUrl === 'string'
+        ? window.AFC_CONFIG.conversationsFeedUrl.trim()
+        : '';
+    if (afcConfigUrl) return afcConfigUrl;
+
+    const windowUrl =
+      typeof window.CONVERSATIONS_FEED_URL === 'string'
+        ? window.CONVERSATIONS_FEED_URL.trim()
+        : '';
+    if (windowUrl) return windowUrl;
+
+    return LEGACY_FEED_URL;
+  }
 
   function formatDate(iso) {
     if (!iso) return '';
@@ -119,7 +145,7 @@
     // If this page doesn't have the section, just exit quietly.
     if (!trackEl) return;
 
-    fetch(FEED_URL, { cache: 'no-store' })
+    fetch(getFeedUrl(), { cache: 'no-store' })
       .then(res => {
         if (!res.ok) throw new Error('Feed load failed');
         return res.json();

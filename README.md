@@ -35,3 +35,25 @@ Deployment files:
 - Successful geocodes are cached in `geocode_cache` by normalized-address hash.
 - Map/Calls/Texts read from the same voter DB store.
 - Clear All, Clear Import, and Delete Row are soft-delete operations with audit log entries.
+
+## Conversations feed configuration
+
+`js/conversations-feed.js` now resolves the feed endpoint in this order:
+
+1. `<meta name="conversations-feed-url" content="...">` in the page `<head>`
+2. `window.AFC_CONFIG.conversationsFeedUrl`
+3. `window.CONVERSATIONS_FEED_URL`
+4. Legacy fallback: `https://arafatforcongress.github.io/WebCrawler/conversations.json`
+
+This means existing pages keep working even if no custom feed is provided.
+
+If you are generating pages from environment variables, set `CONVERSATIONS_FEED_URL` (see `.env.example`) and inject it into either the meta tag or one of the supported `window` config objects before `js/conversations-feed.js` runs.
+
+### Deployment cleanup (remove prototype/test pages)
+
+Before deploying, remove prototype/test artifacts from the publish output, including:
+
+- `ga-test/` (contains GA test markup with `G-PLACEHOLDER`)
+- field-ops test/prototype pages and scripts (for example `admin/field-ops-test.html` and `js/field-ops-test.js`)
+
+Keep deployment artifacts limited to production pages only.
