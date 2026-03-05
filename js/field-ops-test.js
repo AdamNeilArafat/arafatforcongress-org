@@ -280,9 +280,9 @@ async function csvRowsToHouseholds(rows = [], { batchSize = CSV_IMPORT_BATCH_SIZ
         ? { lat: latValue, lng: lngValue }
         : deterministicGeo(address);
 
-      const name = first(row, ['name', 'full_name'], '').trim();
-      const firstName = first(row, ['first_name', 'firstname'], '').trim();
-      const lastName = first(row, ['last_name', 'lastname'], '').trim();
+      const name = first(row, ['name', 'full_name', 'voter_name'], '').trim();
+      const firstName = first(row, ['first_name', 'firstname', 'fname', 'first'], '').trim();
+      const lastName = first(row, ['last_name', 'lastname', 'lname', 'last'], '').trim();
 
       accepted.push({
         id: first(row, ['id', 'household_id', 'voter_id'], `import-${Date.now()}-${idx}`),
@@ -292,7 +292,7 @@ async function csvRowsToHouseholds(rows = [], { batchSize = CSV_IMPORT_BATCH_SIZ
         lng: geocoded.lng,
         turf: first(row, ['turf', 'precinct', 'district'], 'Imported'),
         assignedTo: first(row, ['assigned_to', 'assignedto'], ''),
-        phone: first(row, ['phone', 'phone_number', 'mobile'], ''),
+        phone: first(row, ['phone', 'phone_number', 'mobile', 'cell', 'cell_phone', 'cellphone', 'home_phone', 'homephone', 'phone1', 'regphone'], ''),
         email: first(row, ['email', 'email_address'], ''),
         party: first(row, ['party', 'party_affiliation'], ''),
         status: first(row, ['status'], 'Not Attempted')
@@ -488,14 +488,16 @@ function openSheet(h) {
 
 function renderWalk() {
   const mine = state.households.filter(h => h.assignedTo === volunteerId);
-  const h = mine[state.walkIndex % Math.max(1, mine.length)];
+  const queue = mine.length ? mine : state.households;
+  const h = queue[state.walkIndex % Math.max(1, queue.length)];
   document.getElementById('walk-card').innerHTML = `<strong>${h?.name || 'No homes assigned'}</strong><div>${h?.address || ''}</div><div class="muted">Turf ${h?.turf || ''}</div>`;
 }
 
 function renderPhone() {
-  const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
+  const queue = state.households.filter(h => h.status !== 'Do Not Contact');
   const h = queue[state.phoneIndex % Math.max(1, queue.length)];
-  document.getElementById('phone-card').innerHTML = h ? `<strong>${h.name}</strong><div>${h.phone}</div><div>${h.address}</div>` : 'No callable contacts';
+  const phoneLine = h?.phone ? `<div>${h.phone}</div>` : '<div class="muted">No phone on file</div>';
+  document.getElementById('phone-card').innerHTML = h ? `<strong>${h.name}</strong>${phoneLine}<div>${h.address}</div>` : 'No callable contacts';
   const outcomes = ['No Answer', 'Left VM', 'Talked', 'Wrong Number', 'DNC'];
   document.getElementById('phone-actions').innerHTML = outcomes.map(o => `<button class="btn ${o === 'Talked' ? 'primary' : ''}" data-phone="${o}">${o}</button>`).join('');
   document.querySelectorAll('[data-phone]').forEach(b => b.onclick = () => {
@@ -513,9 +515,10 @@ function renderText() {
   const enabled = document.getElementById('text-enable').checked;
   document.getElementById('text-controls').classList.toggle('hidden', !enabled);
   if (!enabled) return;
-  const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
+  const queue = state.households.filter(h => h.status !== 'Do Not Contact');
   const h = queue[state.textIndex % Math.max(1, queue.length)];
-  document.getElementById('text-card').innerHTML = h ? `<strong>${h.name}</strong><div>${h.phone}</div>` : 'No textable contacts';
+  const phoneLine = h?.phone ? `<div>${h.phone}</div>` : '<div class="muted">No phone on file</div>';
+  document.getElementById('text-card').innerHTML = h ? `<strong>${h.name}</strong>${phoneLine}` : 'No textable contacts';
 }
 
 function renderActivity() {
