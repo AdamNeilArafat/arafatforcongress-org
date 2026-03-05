@@ -160,6 +160,42 @@ function splitName(fullName = '') {
   const parts = normalized.split(' ');
   return { firstName: parts.shift() || '', lastName: parts.join(' ') || '' };
 }
+const IMPORT_FIELD_ALIASES = {
+  voter_id: ['voter_id', 'voterid', 'state_voter_id', 'statevoterid', 'voter_id_number', 'voter id'],
+  first_name: ['first_name', 'firstname', 'first', 'first name'],
+  last_name: ['last_name', 'lastname', 'last', 'last name'],
+  full_name: ['name', 'full_name', 'full name', 'voter_name'],
+  party: ['party', 'registered_party', 'party_code'],
+  precinct: ['precinct', 'precinctcode', 'precinct_code'],
+  age: ['age'],
+  birth_year: ['birth_year', 'birthyear', 'birth year', 'year_of_birth', 'yob'],
+  last_voted: ['last_voted', 'lastvoted', 'last voted', 'when_voted', 'when voted', 'voted_date'],
+  address: ['address', 'address1', 'street', 'residence_address', 'full_address', 'full address', 'regstnum'],
+  city: ['city', 'town', 'regcity', 'mailcity'],
+  state: ['state', 'regstate', 'mailstate'],
+  zip: ['zip', 'zip_code', 'postal', 'zip code', 'regzipcode', 'mailzip'],
+  lat: ['lat', 'latitude'],
+  lng: ['lng', 'longitude', 'lon']
+};
+const KNOWN_IMPORT_FIELD_KEYS = new Set(Object.values(IMPORT_FIELD_ALIASES).flat().map((key) => normalizeKey(key)));
+function inferImportColumnMapping(rawRow = {}) {
+  const mapping = {};
+  const unmapped = [];
+  const normalizedToOriginal = new Map();
+  for (const key of Object.keys(rawRow || {})) {
+    const normalized = normalizeKey(key);
+    if (!normalized) continue;
+    normalizedToOriginal.set(normalized, String(key));
+  }
+  for (const [targetField, aliases] of Object.entries(IMPORT_FIELD_ALIASES)) {
+    const sourceKey = aliases.map((alias) => normalizeKey(alias)).find((candidate) => normalizedToOriginal.has(candidate));
+    if (sourceKey) mapping[targetField] = normalizedToOriginal.get(sourceKey);
+  }
+  for (const [normalized, original] of normalizedToOriginal.entries()) {
+    if (!KNOWN_IMPORT_FIELD_KEYS.has(normalized)) unmapped.push(original);
+  }
+  return { mapping, unmappedHeaders: unmapped.sort((a, b) => a.localeCompare(b)) };
+}
 function deterministicGeo(address) {
   const hash = crypto.createHash('sha256').update(address).digest();
   const a = hash.readUInt32BE(0) / 0xffffffff;
@@ -291,6 +327,7 @@ async function processImportFile(importId) {
   let rejected = 0;
   let totalRows = 0;
   let batch = [];
+  let detectedMapping = null;
 
   const flushBatch = () => {
     for (const item of batch) {
@@ -372,6 +409,7 @@ async function processImportFile(importId) {
     const parser = parse({ columns: true, skip_empty_lines: true, bom: true, relax_column_count: true });
     const stream = fs.createReadStream(record.file_path).pipe(parser);
     for await (const row of stream) {
+      if (!detectedMapping) detectedMapping = inferImportColumnMapping(row);
       totalRows += 1;
       batch.push({ rawRow: row, rowNumber: totalRows + 1 });
       if (batch.length >= IMPORT_BATCH_SIZE) {
@@ -392,6 +430,9 @@ async function processImportFile(importId) {
       finalRecord.processed_rows = totalRows;
       finalRecord.progress_pct = 100;
       finalRecord.rejected_detail = rejectedRows;
+      finalRecord.column_mapping = detectedMapping?.mapping || {};
+      finalRecord.unmapped_headers = detectedMapping?.unmappedHeaders || [];
+      finalRecord.mapping_status = Object.keys(finalRecord.column_mapping).length ? 'detected' : 'unknown';
     }
     writeStore(store);
     publishServerEvent('import.progress', {
@@ -1179,11 +1220,15 @@ async function handler(req, res) {
       original_filename: filename,
       file_path: filePath,
       file_size_bytes: payload.file.buffer.length,
+      file_sha256: crypto.createHash('sha256').update(payload.file.buffer).digest('hex'),
       processed_rows: 0,
       accepted_rows: 0,
       rejected_rows: 0,
       progress_pct: 0,
-      rejected_detail: []
+      rejected_detail: [],
+      column_mapping: {},
+      unmapped_headers: [],
+      mapping_status: 'pending'
     };
     store.imports.unshift(importRecord);
     writeStore(store);
@@ -1247,11 +1292,15 @@ async function handler(req, res) {
           original_filename: `${label}.csv`,
           file_path: filePath,
           file_size_bytes: fileBuffer.length,
+          file_sha256: crypto.createHash('sha256').update(fileBuffer).digest('hex'),
           processed_rows: 0,
           accepted_rows: 0,
           rejected_rows: 0,
           progress_pct: 0,
-          rejected_detail: []
+          rejected_detail: [],
+          column_mapping: {},
+          unmapped_headers: [],
+          mapping_status: 'pending'
         });
         writeStore(store);
         publishServerEvent('import.progress', {

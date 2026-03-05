@@ -52,6 +52,13 @@ async function run() {
   assert(importRes.importId);
 
   await new Promise((resolve) => setTimeout(resolve, 150));
+  const importStatus = await req(`/silo/api/imports/${importRes.importId}`, { headers: adminHeaders });
+  assert.equal(importStatus.status, 'completed');
+  assert.equal(importStatus.mapping_status, 'detected');
+  assert.equal(importStatus.column_mapping.address, 'address');
+  assert.equal(importStatus.column_mapping.voter_id, 'voter_id');
+  assert(importStatus.file_sha256 && importStatus.file_sha256.length === 64);
+  assert(fs.existsSync(importStatus.file_path), 'Uploaded CSV should be persisted on disk');
 
   const featuresAdmin = await req('/silo/api/map/features?county=all', { headers: adminHeaders });
   assert.equal(featuresAdmin.households.features.length, 2);
