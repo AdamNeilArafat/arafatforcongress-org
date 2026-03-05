@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { parseCsvText } from '../../lib/csv/parse';
+import { saveUploadedRows } from '../../lib/csv/storage';
 
 export default function AdminUploadPage() {
   const [progress, setProgress] = useState(0);
@@ -8,7 +9,8 @@ export default function AdminUploadPage() {
   async function onFile(file: File) {
     const text = await file.text();
     const result = await parseCsvText(text, setProgress);
-    setMessage(`Processed ${result.processed} rows, ${result.errors.length} validation errors.`);
+    saveUploadedRows(result.rows);
+    setMessage(`Processed ${result.processed} rows, ${result.errors.length} validation errors, ${result.rows.length} rows saved for reporting.`);
   }
 
   return (
