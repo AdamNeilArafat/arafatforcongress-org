@@ -86,10 +86,25 @@ async function submitSignup(payload) {
   const { signupEndpoint } = getSiteConfig();
   if (!signupEndpoint) throw new Error('missing-endpoint');
 
+  const email = String(payload.email || '').trim();
+  const fullName = String(payload.fullName || '').trim();
+  const actionType = String(payload.actionType || '').trim();
+  const source = String(payload.source || '').trim();
+
+  const outboundPayload = {
+    ...payload,
+    _replyto: email,
+    _subject: actionType ? `Campaign ${actionType.replace(/_/g, ' ')}` : 'Campaign form submission',
+    _from: fullName && email ? `${fullName} <${email}>` : email,
+    _template: 'table',
+    _captcha: 'false',
+    submittedFrom: source || window.location.pathname
+  };
+
   const response = await fetch(signupEndpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json", "Accept": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(outboundPayload)
   });
   if (!response.ok) throw new Error(`signup-${response.status}`);
 }
