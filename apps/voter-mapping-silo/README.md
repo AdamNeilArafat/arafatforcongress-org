@@ -47,6 +47,27 @@ Recommended columns:
 - `precinct`
 - optional `lat`, `lng`
 
+
+## Geocoding providers (free + automated)
+Geocoding during voter imports is automated and can run against free services.
+
+Set `SILO_GEOCODER_PROVIDER` to one of:
+- `nominatim` (default, OpenStreetMap Nominatim)
+- `photon` (free OSM-based Photon API)
+- `deterministic` (offline deterministic fallback only)
+
+Optional controls:
+- `SILO_GEOCODE_TIMEOUT_MS` (default `5000`)
+- `SILO_GEOCODE_USER_AGENT` (set to your org/app contact string for provider policies)
+
+Example:
+```bash
+SILO_ADMIN_SECRET='replace-with-strong-secret' \
+SILO_GEOCODER_PROVIDER='nominatim' \
+SILO_GEOCODE_USER_AGENT='ArafatForCongressOps/1.0 (ops@arafatforcongress.org)' \
+npm run silo:start
+```
+
 ## Test
 ```bash
 npm run silo:test

@@ -18,6 +18,7 @@ const MAX_UPLOAD_BODY_BYTES = Number(process.env.SILO_MAX_UPLOAD_BODY_BYTES || 2
 const IMPORT_BATCH_SIZE = Math.max(5000, Math.min(20000, Number(process.env.SILO_IMPORT_BATCH_SIZE || 5000)));
 const GEOCODE_TIMEOUT_MS = Math.max(500, Number(process.env.SILO_GEOCODE_TIMEOUT_MS || 5000));
 const GEOCODE_USER_AGENT = process.env.SILO_GEOCODE_USER_AGENT || 'voter-mapping-silo/1.0 (+https://arafatforcongress.org)';
+const GEOCODER_PROVIDER = String(process.env.SILO_GEOCODER_PROVIDER || 'nominatim').trim().toLowerCase();
 const IMPORT_FILES_DIR = path.join(DATA_DIR, 'imports');
 const sessions = new Map();
 const sseClients = new Set();
@@ -213,11 +214,19 @@ async function geocodeAddress(address, cache = new Map()) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), GEOCODE_TIMEOUT_MS);
     try {
-      const url = new URL('https://nominatim.openstreetmap.org/search');
+      if (GEOCODER_PROVIDER === 'deterministic') return deterministicGeo(normalizedAddress);
+
+      const url = GEOCODER_PROVIDER === 'photon'
+        ? new URL('https://photon.komoot.io/api')
+        : new URL('https://nominatim.openstreetmap.org/search');
       url.searchParams.set('q', normalizedAddress);
-      url.searchParams.set('format', 'jsonv2');
       url.searchParams.set('limit', '1');
-      url.searchParams.set('countrycodes', 'us');
+      if (GEOCODER_PROVIDER === 'photon') {
+        url.searchParams.set('lang', 'en');
+      } else {
+        url.searchParams.set('format', 'jsonv2');
+        url.searchParams.set('countrycodes', 'us');
+      }
 
       const response = await fetch(url, {
         signal: controller.signal,
@@ -228,15 +237,21 @@ async function geocodeAddress(address, cache = new Map()) {
       });
       if (!response.ok) throw new Error(`Geocoder HTTP ${response.status}`);
       const payload = await response.json();
-      const match = Array.isArray(payload) ? payload[0] : null;
-      const lat = Number(match?.lat);
-      const lng = Number(match?.lon);
+      const match = GEOCODER_PROVIDER === 'photon'
+        ? (Array.isArray(payload?.features) ? payload.features[0] : null)
+        : (Array.isArray(payload) ? payload[0] : null);
+      const lat = GEOCODER_PROVIDER === 'photon'
+        ? Number(match?.geometry?.coordinates?.[1])
+        : Number(match?.lat);
+      const lng = GEOCODER_PROVIDER === 'photon'
+        ? Number(match?.geometry?.coordinates?.[0])
+        : Number(match?.lon);
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) throw new Error('Geocoder returned no coordinates');
       return {
         lat: Number(lat.toFixed(6)),
         lng: Number(lng.toFixed(6)),
         geocode_confidence: 0.9,
-        geocode_source: 'nominatim'
+        geocode_source: GEOCODER_PROVIDER
       };
     } catch (_) {
       return deterministicGeo(normalizedAddress);
