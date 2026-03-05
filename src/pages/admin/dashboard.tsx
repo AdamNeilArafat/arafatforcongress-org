@@ -1,7 +1,7 @@
 import React from 'react';
 import { geocodeHouseholdsBatch } from '../../jobs/geocodeHouseholds';
 import { parseCsvText } from '../../lib/csv/parse';
-import { type VoterField, waPreset } from '../../lib/csv/schema';
+import { inferMappingForHeaders, type VoterField, waPreset } from '../../lib/csv/schema';
 import {
   clearAll,
   clearByImport,
@@ -53,10 +53,7 @@ function ImportPanel({ refresh, imports }: { refresh: () => void; imports: Retur
     const parsed: ParsedFile[] = [];
     for (const file of Array.from(input)) {
       const result = await parseCsvText(await file.text());
-      const mapping: Record<string, VoterField> = {};
-      for (const h of result.headers) {
-        if (waPreset[h]) mapping[h] = waPreset[h];
-      }
+      const mapping: Record<string, VoterField> = inferMappingForHeaders(result.headers);
       parsed.push({ file, headers: result.headers, preview: result.preview, validRows: result.rows, errors: result.errors, mapping });
     }
     setFiles(parsed);
