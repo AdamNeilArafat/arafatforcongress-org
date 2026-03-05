@@ -1,35 +1,35 @@
-# District 10 Ops Dashboard Runbook (Happy Path)
+# Ops Dashboard Runbook
 
-1. **Create admin user**
-   - Create Supabase auth user.
-   - Insert role row in `user_roles` with `role='admin'`.
+## Local setup
+1. Install dependencies (if your environment allows npm registry access):
+   - `npm install`
+2. Start app:
+   - `npm run dev`
+3. Open dashboard and use tabs: imports, voters, map, phone, text, audit.
 
-2. **Upload CSV**
-   - Open dashboard upload page (`AdminUploadPage`).
-   - Select voter CSV and watch row progress.
-   - Resolve any line-level validation errors.
+## Environment
+- Optional Supabase env values are in `.env.example` for production DB integration.
+- Current dev dashboard persists canonical ops data in browser localStorage key `afc_ops_db_v2`.
 
-3. **Geocode**
-   - Run geocode batch job for households missing lat/lng.
-   - Verify geocode status page for completion and retry count.
+## Import workflow
+1. Go to **imports** tab.
+2. Upload one or more CSV files.
+3. Verify preview + adjust column mapping.
+4. Click **Import all files**.
+5. Confirm import history shows inserted/duplicate/invalid counts and pinned/pending geocode counts.
 
-4. **Create turf**
-   - Open admin turfs page and define turf boundaries.
-   - Set turf status to `active`.
+## Verification checks
+- Voters tab row count should increase after import.
+- Map tab should show `X pinned, Y pending geocode`.
+- Phone/text tabs should show eligible voters (`phone != null`, `do_not_contact=false`).
 
-5. **Assign volunteer**
-   - Create assignment linking turf to volunteer user.
-   - Confirm volunteer sees only assigned list/map.
+## Delete/clear operations
+- Row delete: Voters tab -> `Delete` on a voter.
+- Batch clear: Imports tab -> `Clear batch` for one upload source.
+- Clear all: top nav -> `Clear all`.
+- All clear/delete actions are audit logged.
 
-6. **Volunteer logs calls/texts**
-   - Volunteer opens call/text pages.
-   - Logs each result to `contact_attempts`.
-
-7. **Admin sees progress**
-   - Review dashboard tiles for completion and outcomes.
-   - Export contact attempts/turf lists for reporting.
-
-## Local dev
-- Install: `npm install`
-- Run dashboard app: `npm run dev` then open `/dashboard.html`
-- Run tests: `npm test`
+## Reset dataset
+- Browser devtools console:
+  - `localStorage.removeItem('afc_ops_db_v2')`
+- Reload dashboard.
