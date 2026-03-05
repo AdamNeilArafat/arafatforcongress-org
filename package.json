@@ -2,18 +2,35 @@
   "name": "arafatforcongress-org",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "ga:inject": "node scripts/inject-ga.js",
     "qr:build": "node scripts/build-qr.js",
     "qr:verify": "node scripts/verify-qr.js",
     "verify:ga": "node scripts/verify-ga.js",
-    "build": "npm run ga:inject && npm run signup:inject && npm run qr:build && npm run verify:ga",
+    "build": "npm run ga:inject && npm run signup:inject && npm run qr:build && npm run verify:ga && vite build",
     "postinstall": "node -v > /dev/null",
-    "signup:inject": "node scripts/inject-signup.js"
+    "signup:inject": "node scripts/inject-signup.js",
+    "dev": "vite",
+    "test": "vitest run"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "csv-parse": "^5.5.6",
     "fs-extra": "^11.2.0",
-    "qrcode": "^1.5.3"
+    "papaparse": "^5.5.3",
+    "qrcode": "^1.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/node": "^22.13.10",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.4.1",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.1",
+    "vitest": "^3.0.8"
   }
 }
