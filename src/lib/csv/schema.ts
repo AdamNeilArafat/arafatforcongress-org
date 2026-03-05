@@ -55,6 +55,45 @@ export const waPreset: Record<string, VoterField> = {
   Tags: 'tags'
 };
 
+function normalizeHeader(header: string) {
+  return String(header || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+const headerAliases: Record<string, VoterField> = {
+  firstname: 'first_name',
+  lastname: 'last_name',
+  middlename: 'middle_name',
+  statevoterid: 'external_voter_id',
+  voterid: 'external_voter_id',
+  zipcode: 'zip',
+  postalcode: 'zip',
+  phonenumber: 'phone',
+  emailaddress: 'email',
+  addressline1: 'address_line1'
+};
+
+export function inferMappingForHeaders(headers: string[]): Record<string, VoterField> {
+  const auto: Record<string, VoterField> = {};
+  const byNormalizedHeader = new Map<string, VoterField>();
+
+  for (const [sourceHeader, field] of Object.entries(waPreset)) {
+    byNormalizedHeader.set(normalizeHeader(sourceHeader), field);
+  }
+  for (const field of Object.values(waPreset)) {
+    byNormalizedHeader.set(normalizeHeader(field), field);
+  }
+  for (const [alias, field] of Object.entries(headerAliases)) {
+    byNormalizedHeader.set(alias, field);
+  }
+
+  for (const header of headers) {
+    const mapped = byNormalizedHeader.get(normalizeHeader(header));
+    if (mapped) auto[header] = mapped;
+  }
+
+  return auto;
+}
+
 export type ValidationError = { line: number; problem: string };
 
 export function normalizeRow(row: CsvRow, mapping: Record<string, VoterField>) {

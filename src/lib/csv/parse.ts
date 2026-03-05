@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import { CsvRow, ValidationError, normalizeRow, validateRow, waPreset, type VoterField } from './schema';
+import { CsvRow, ValidationError, inferMappingForHeaders, normalizeRow, validateRow, type VoterField } from './schema';
 
 export type ParseProgress = {
   processed: number;
@@ -12,13 +12,14 @@ export type ParseProgress = {
 export async function parseCsvText(
   csvText: string,
   onProgress?: (count: number) => void,
-  mapping: Record<string, VoterField> = waPreset
+  mapping?: Record<string, VoterField>
 ): Promise<ParseProgress> {
   const errors: ValidationError[] = [];
   const rows: Record<string, string>[] = [];
   const preview: CsvRow[] = [];
   let processed = 0;
   let headers: string[] = [];
+  let activeMapping: Record<string, VoterField> = mapping ?? {};
 
   Papa.parse<CsvRow>(csvText, {
     header: true,
@@ -26,11 +27,12 @@ export async function parseCsvText(
     step: (result) => {
       if (processed === 0) {
         headers = Object.keys(result.data ?? {});
+        if (!mapping) activeMapping = inferMappingForHeaders(headers);
       }
       processed += 1;
       onProgress?.(processed);
       if (preview.length < 100) preview.push(result.data);
-      const normalized = normalizeRow(result.data, mapping);
+      const normalized = normalizeRow(result.data, activeMapping);
       const rowErrors = validateRow(normalized, processed + 1);
       if (rowErrors.length) errors.push(...rowErrors);
       else rows.push(normalized);

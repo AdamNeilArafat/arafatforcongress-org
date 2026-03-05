@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeRow, validateRow, waPreset } from '../lib/csv/schema';
+import { inferMappingForHeaders, normalizeRow, validateRow, waPreset } from '../lib/csv/schema';
 
 describe('csv schema validation', () => {
   it('normalizes WA row and validates success', () => {
@@ -22,5 +22,15 @@ describe('csv schema validation', () => {
   it('returns errors for missing minimums', () => {
     const errors = validateRow({}, 5);
     expect(errors.length).toBeGreaterThan(0);
+  });
+
+  it('infers mapping for mixed header naming styles', () => {
+    const mapping = inferMappingForHeaders(['First Name', 'LastName', 'Postal Code', 'Address Line 1']);
+    expect(mapping).toEqual({
+      'First Name': 'first_name',
+      LastName: 'last_name',
+      'Postal Code': 'zip',
+      'Address Line 1': 'address_line1'
+    });
   });
 });
