@@ -16,6 +16,8 @@ const TOKEN_TTL_MS = Number(process.env.SILO_TOKEN_TTL_MS || 12 * 60 * 60 * 1000
 const MAX_JSON_BODY_BYTES = Number(process.env.SILO_MAX_JSON_BODY_BYTES || 80 * 1024 * 1024);
 const MAX_UPLOAD_BODY_BYTES = Number(process.env.SILO_MAX_UPLOAD_BODY_BYTES || 200 * 1024 * 1024);
 const IMPORT_BATCH_SIZE = Math.max(5000, Math.min(20000, Number(process.env.SILO_IMPORT_BATCH_SIZE || 5000)));
+const GEOCODE_TIMEOUT_MS = Math.max(500, Number(process.env.SILO_GEOCODE_TIMEOUT_MS || 5000));
+const GEOCODE_USER_AGENT = process.env.SILO_GEOCODE_USER_AGENT || 'voter-mapping-silo/1.0 (+https://arafatforcongress.org)';
 const IMPORT_FILES_DIR = path.join(DATA_DIR, 'imports');
 const sessions = new Map();
 const sseClients = new Set();
@@ -202,6 +204,52 @@ function deterministicGeo(address) {
   const b = hash.readUInt32BE(4) / 0xffffffff;
   return { lat: Number((46.79 + a * (47.35 - 46.79)).toFixed(6)), lng: Number((-123.35 + b * (-122.02 + 123.35)).toFixed(6)), geocode_confidence: 0.5, geocode_source: 'deterministic-fallback' };
 }
+async function geocodeAddress(address, cache = new Map()) {
+  const normalizedAddress = String(address || '').trim();
+  if (!normalizedAddress) return deterministicGeo('UNKNOWN');
+  if (cache.has(normalizedAddress)) return cache.get(normalizedAddress);
+
+  const geocodePromise = (async () => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), GEOCODE_TIMEOUT_MS);
+    try {
+      const url = new URL('https://nominatim.openstreetmap.org/search');
+      url.searchParams.set('q', normalizedAddress);
+      url.searchParams.set('format', 'jsonv2');
+      url.searchParams.set('limit', '1');
+      url.searchParams.set('countrycodes', 'us');
+
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          accept: 'application/json',
+          'user-agent': GEOCODE_USER_AGENT
+        }
+      });
+      if (!response.ok) throw new Error(`Geocoder HTTP ${response.status}`);
+      const payload = await response.json();
+      const match = Array.isArray(payload) ? payload[0] : null;
+      const lat = Number(match?.lat);
+      const lng = Number(match?.lon);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) throw new Error('Geocoder returned no coordinates');
+      return {
+        lat: Number(lat.toFixed(6)),
+        lng: Number(lng.toFixed(6)),
+        geocode_confidence: 0.9,
+        geocode_source: 'nominatim'
+      };
+    } catch (_) {
+      return deterministicGeo(normalizedAddress);
+    } finally {
+      clearTimeout(timeout);
+    }
+  })();
+
+  cache.set(normalizedAddress, geocodePromise);
+  const result = await geocodePromise;
+  cache.set(normalizedAddress, result);
+  return result;
+}
 function updateImport(importId, updater) {
   const store = readStore();
   const target = store.imports.find((item) => item.import_id === importId);
@@ -328,8 +376,9 @@ async function processImportFile(importId) {
   let totalRows = 0;
   let batch = [];
   let detectedMapping = null;
+  const geocodeCache = new Map();
 
-  const flushBatch = () => {
+  const flushBatch = async () => {
     for (const item of batch) {
       const rawRow = item.rawRow;
       const rowNumber = item.rowNumber;
@@ -346,7 +395,7 @@ async function processImportFile(importId) {
         const lng = Number(row.lng || row.longitude || row.lon);
         const geo = Number.isFinite(lat) && Number.isFinite(lng)
           ? { lat, lng, geocode_confidence: 1, geocode_source: 'csv' }
-          : deterministicGeo(normalized);
+          : await geocodeAddress(normalized, geocodeCache);
         household = {
           household_id: id('hh'),
           normalized_address: normalized,
@@ -414,11 +463,11 @@ async function processImportFile(importId) {
       batch.push({ rawRow: row, rowNumber: totalRows + 1 });
       if (batch.length >= IMPORT_BATCH_SIZE) {
         updateImport(importId, (current) => { current.status = 'deduping'; });
-        flushBatch();
+        await flushBatch();
         updateImport(importId, (current) => { current.status = 'geocoding'; });
       }
     }
-    if (batch.length) flushBatch();
+    if (batch.length) await flushBatch();
     audit(store, actor, 'IMPORT_VOTERS', 'import', importId, { county, accepted, rejected, source: sourceLabel });
     const completedAt = now();
     const finalRecord = store.imports.find((item) => item.import_id === importId);
