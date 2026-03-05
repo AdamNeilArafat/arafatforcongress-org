@@ -38,12 +38,14 @@ function dedupeKey(voter) {
 }
 
 function toHousehold(v) {
+  const lat = Number(v.latitude);
+  const lng = Number(v.longitude);
   return {
     id: v.id,
     name: [v.first_name, v.last_name].filter(Boolean).join(' ') || 'Imported Household',
     address: v.full_address || [v.address_line1, v.city, v.state, v.zip].filter(Boolean).join(', '),
-    lat: v.latitude,
-    lng: v.longitude,
+    lat: Number.isFinite(lat) ? lat : null,
+    lng: Number.isFinite(lng) ? lng : null,
     turf: v.precinct || 'Imported',
     assignedTo: v.assigned_to || '',
     phone: v.phone || '',
@@ -99,7 +101,9 @@ function deterministicGeo(address = '') {
 }
 
 function isValidLatLng(lat, lng) {
-  return Number.isFinite(lat) && Number.isFinite(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+  const latNum = Number(lat);
+  const lngNum = Number(lng);
+  return Number.isFinite(latNum) && Number.isFinite(lngNum) && latNum >= -90 && latNum <= 90 && lngNum >= -180 && lngNum <= 180;
 }
 
 function normalizeCoordinates(lat, lng, address = '') {
