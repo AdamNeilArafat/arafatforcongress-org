@@ -275,6 +275,12 @@ export default function AdminDashboardPage() {
   return (
     <main>
       <h1>District Ops Dashboard (DB-backed)</h1>
+      <p>
+        Continue to the full Field Ops Dashboard for volunteer workflows, reporting, and campaign operations:{' '}
+        <a href="/admin/volunteer-dashboard.html" target="_blank" rel="noreferrer">
+          Open Field Ops Dashboard ↗
+        </a>
+      </p>
       <nav style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {['imports', 'voters', 'map', 'phone', 'text', 'audit'].map((t) => <button key={t} onClick={() => setTab(t as typeof tab)}>{t}</button>)}
         <button onClick={() => { if (confirm('Clear ALL voters and outreach logs?')) { clearAll(); data.refresh(); } }}>Clear all</button>
