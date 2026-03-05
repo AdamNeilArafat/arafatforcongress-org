@@ -163,6 +163,20 @@ function normalizePhoneDigits(value = '') {
   return String(value).replace(/\D+/g, '');
 }
 
+function normalizeImportedPhone(value = '') {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  const digits = normalizePhoneDigits(raw);
+  if (digits.length === 10) return digits;
+  if (digits.length === 11 && digits.startsWith('1')) return digits.slice(1);
+  return '';
+}
+
+function extractImportedPhone(row = {}) {
+  const rawPhone = first(row, ['phone', 'phone_number', 'mobile', 'cell', 'cell_phone', 'cellphone', 'home_phone', 'homephone', 'phone1', 'regphone'], '');
+  return normalizeImportedPhone(rawPhone);
+}
+
 function buildPhoneEmail(phone = '', domain = '') {
   const digits = normalizePhoneDigits(phone);
   if (digits.length !== 10 || !domain) return '';
@@ -351,7 +365,7 @@ async function csvRowsToHouseholds(rows = [], { batchSize = CSV_IMPORT_BATCH_SIZ
         lng: geocoded.lng,
         turf: first(row, ['turf', 'precinct', 'district'], 'Imported'),
         assignedTo: first(row, ['assigned_to', 'assignedto'], ''),
-        phone: first(row, ['phone', 'phone_number', 'mobile', 'cell', 'cell_phone', 'cellphone', 'home_phone', 'homephone', 'phone1', 'regphone'], ''),
+        phone: extractImportedPhone(row),
         email: first(row, ['email', 'email_address'], ''),
         party: first(row, ['party', 'party_affiliation'], ''),
         status: first(row, ['status'], 'Not Attempted')
@@ -466,7 +480,7 @@ async function importCsvText(csvText, sourceLabel) {
     }
 
     const hasCoords = Number.isFinite(row.lat) && Number.isFinite(row.lng);
-    const phone = String(row.phone || '').trim();
+    const phone = normalizeImportedPhone(row.phone || '');
     const hasPhone = phone.length > 0;
     const dnc = row.status === 'Do Not Contact';
     if (hasCoords) pinnableCount += 1;
@@ -669,7 +683,7 @@ function renderWalk() {
 }
 
 function renderPhone() {
-  const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
+  const queue = state.households.filter(h => h.status !== 'Do Not Contact');
   const h = queue[state.phoneIndex % Math.max(1, queue.length)];
   const phoneLine = h?.phone ? `<div>${h.phone}</div>` : '<div class="muted">No phone on file</div>';
   document.getElementById('phone-card').innerHTML = h ? `<strong>${h.name}</strong>${phoneLine}<div>${h.address}</div>` : 'No callable contacts';
@@ -690,7 +704,7 @@ function renderText() {
   const enabled = document.getElementById('text-enable').checked;
   document.getElementById('text-controls').classList.toggle('hidden', !enabled);
   if (!enabled) return;
-  const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
+  const queue = state.households.filter(h => h.status !== 'Do Not Contact');
   const h = queue[state.textIndex % Math.max(1, queue.length)];
   const phoneLine = h?.phone ? `<div>${h.phone}</div>` : '<div class="muted">No phone on file</div>';
   document.getElementById('text-card').innerHTML = h ? `<strong>${h.name}</strong>${phoneLine}` : 'No textable contacts';
@@ -766,16 +780,20 @@ function wireEvents() {
   document.getElementById('phone-next').onclick = () => { state.phoneIndex += 1; renderPhone(); };
   document.getElementById('text-enable').onchange = renderText;
   document.getElementById('send-text').onclick = () => {
-    const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
+    const queue = state.households.filter(h => h.status !== 'Do Not Contact');
     const h = queue[state.textIndex % Math.max(1, queue.length)];
     if (!h) return;
+    if (!h.phone) {
+      document.getElementById('text-status').textContent = `No phone on file for ${h.name}.`;
+      return;
+    }
     logActivity('TEXT', h, 'Sent', document.getElementById('text-msg').value);
     document.getElementById('text-status').textContent = `Logged outbound text for ${h.name}.`;
     state.textIndex += 1;
     renderText();
   };
   document.getElementById('text-optout').onclick = () => {
-    const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
+    const queue = state.households.filter(h => h.status !== 'Do Not Contact');
     const h = queue[state.textIndex % Math.max(1, queue.length)];
     if (!h) return;
     h.status = 'Do Not Contact';
