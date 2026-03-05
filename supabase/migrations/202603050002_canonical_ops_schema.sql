@@ -2,13 +2,16 @@ create extension if not exists "uuid-ossp";
 
 create table if not exists public.imports (
   id uuid primary key default uuid_generate_v4(),
-  source_file_name text not null,
+  source_name text not null,
+  source_type text not null check (source_type in ('file','sheet')),
   uploaded_at timestamptz not null default now(),
   row_count integer not null default 0,
   inserted_count integer not null default 0,
   duplicate_count integer not null default 0,
   invalid_count integer not null default 0,
-  pinned_count integer not null default 0,
+  pinnable_count integer not null default 0,
+  callable_count integer not null default 0,
+  textable_count integer not null default 0,
   status text not null check (status in ('processing','complete','failed')),
   error_summary text
 );
@@ -16,38 +19,35 @@ create table if not exists public.imports (
 create table if not exists public.voters (
   id uuid primary key default uuid_generate_v4(),
   import_id uuid references public.imports(id) on delete set null,
-  external_voter_id text,
+  state_voter_id text,
   first_name text,
   middle_name text,
   last_name text,
+  suffix text,
   birth_year integer,
   gender text,
-  address text,
+  address_line1 text,
   city text,
   state text,
   zip text,
-  precinct text,
-  legislative_district text,
-  congressional_district text,
+  full_address text,
   latitude double precision,
   longitude double precision,
-  geocode_status text,
+  geocode_status text not null default 'pending' check (geocode_status in ('pending','success','failed','blocked_missing_city_zip','blocked_missing_fields')),
   geocode_error text,
   phone text,
   email text,
   do_not_contact boolean not null default false,
-  tags jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   deleted_at timestamptz
 );
 
-create unique index if not exists voters_external_voter_id_active_uniq on public.voters(external_voter_id) where deleted_at is null and external_voter_id is not null;
 create index if not exists voters_last_name_idx on public.voters(last_name);
-create index if not exists voters_precinct_idx on public.voters(precinct);
-create index if not exists voters_congressional_district_idx on public.voters(congressional_district);
-create index if not exists voters_phone_idx on public.voters(phone);
+create index if not exists voters_state_voter_id_idx on public.voters(state_voter_id);
 create index if not exists voters_lat_lng_idx on public.voters(latitude, longitude);
+create index if not exists voters_phone_idx on public.voters(phone);
+create index if not exists voters_zip_idx on public.voters(zip);
 
 create table if not exists public.outreach_logs (
   id uuid primary key default uuid_generate_v4(),

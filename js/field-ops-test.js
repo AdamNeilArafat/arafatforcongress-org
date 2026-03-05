@@ -1,4 +1,5 @@
 const volunteerId = 'vol-test-01';
+const OPS_DB_STORAGE_KEY = 'fieldOpsCanonicalDb';
 const HOUSEHOLD_STORAGE_KEY = 'fieldOpsHouseholds';
 const ACTIVITY_STORAGE_KEY = 'fieldOpsActivities';
 const IMPORT_META_STORAGE_KEY = 'fieldOpsImportMeta';
@@ -8,6 +9,54 @@ const DEFAULT_HOUSEHOLDS = [
   { id: 'h3', name: 'Casey Smith', address: '8136 Canyon Rd E, Puyallup', lat: 47.183, lng: -122.317, turf: 'WA10-TAC-015', assignedTo: '', phone: '', status: 'Not Attempted' },
   { id: 'h4', name: 'Morgan Patel', address: '1102 Yelm Hwy, Olympia', lat: 47.024, lng: -122.885, turf: 'WA10-TAC-016', assignedTo: volunteerId, phone: '253-555-0103', status: 'Contacted' }
 ];
+
+function nowIso() {
+  return new Date().toISOString();
+}
+
+function loadOpsDb() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(OPS_DB_STORAGE_KEY) || '{}');
+    return {
+      imports: Array.isArray(parsed.imports) ? parsed.imports : [],
+      voters: Array.isArray(parsed.voters) ? parsed.voters : [],
+      outreach_logs: Array.isArray(parsed.outreach_logs) ? parsed.outreach_logs : [],
+      audit_logs: Array.isArray(parsed.audit_logs) ? parsed.audit_logs : []
+    };
+  } catch {
+    return { imports: [], voters: [], outreach_logs: [], audit_logs: [] };
+  }
+}
+
+function saveOpsDb(db) {
+  localStorage.setItem(OPS_DB_STORAGE_KEY, JSON.stringify(db));
+}
+
+function dedupeKey(voter) {
+  if (voter.state_voter_id) return `id:${String(voter.state_voter_id).toLowerCase()}`;
+  return `name_addr:${String(voter.first_name || '').toLowerCase()}|${String(voter.last_name || '').toLowerCase()}|${String(voter.address_line1 || '').toLowerCase()}|${String(voter.city || '').toLowerCase()}|${String(voter.zip || '').toLowerCase()}`;
+}
+
+function toHousehold(v) {
+  return {
+    id: v.id,
+    name: [v.first_name, v.last_name].filter(Boolean).join(' ') || 'Imported Household',
+    address: v.full_address || [v.address_line1, v.city, v.state, v.zip].filter(Boolean).join(', '),
+    lat: v.latitude,
+    lng: v.longitude,
+    turf: v.precinct || 'Imported',
+    assignedTo: v.assigned_to || '',
+    phone: v.phone || '',
+    email: v.email || '',
+    party: v.party || '',
+    status: v.status || 'Not Attempted'
+  };
+}
+
+function refreshHouseholdsFromDb() {
+  const db = loadOpsDb();
+  return db.voters.filter((v) => !v.deleted_at).map(toHousehold);
+}
 
 const state = {
   tab: 'map',
@@ -62,17 +111,27 @@ function householdPopupHtml(h) {
 }
 
 function loadHouseholds() {
-  const saved = localStorage.getItem(HOUSEHOLD_STORAGE_KEY);
-  if (!saved) return DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
-  try {
-    const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) && parsed.length ? parsed : DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
-  } catch {
-    return DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
-  }
+  const fromDb = refreshHouseholdsFromDb();
+  if (fromDb.length) return fromDb;
+  return DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
 }
 
 function saveHouseholds() {
+  const db = loadOpsDb();
+  const votersById = new Map(db.voters.map((v) => [String(v.id), v]));
+  state.households.forEach((h) => {
+    const voter = votersById.get(String(h.id));
+    if (!voter) return;
+    voter.phone = h.phone || voter.phone || null;
+    voter.status = h.status || voter.status || 'Not Attempted';
+    voter.updated_at = nowIso();
+    if (Number.isFinite(h.lat) && Number.isFinite(h.lng)) {
+      voter.latitude = h.lat;
+      voter.longitude = h.lng;
+      voter.geocode_status = 'success';
+    }
+  });
+  saveOpsDb(db);
   localStorage.setItem(HOUSEHOLD_STORAGE_KEY, JSON.stringify(state.households));
 }
 
@@ -380,19 +439,112 @@ async function importCsvText(csvText, sourceLabel) {
   }
 
 
-  state.households = accepted;
+  const db = loadOpsDb();
+  const importId = `imp_${Date.now()}`;
+  const existing = new Set(db.voters.filter((v) => !v.deleted_at).map((v) => dedupeKey(v)));
+  let insertedCount = 0;
+  let duplicateCount = 0;
+  let pinnableCount = 0;
+  let callableCount = 0;
+  let textableCount = 0;
+  let blockedGeocode = 0;
+
+  accepted.forEach((row, idx) => {
+    const [street = '', city = '', stateCode = '', zip = ''] = String(row.address || '').split(',').map((part) => part.trim());
+    const key = dedupeKey({
+      state_voter_id: row.state_voter_id,
+      first_name: (row.name || '').split(' ')[0] || '',
+      last_name: (row.name || '').split(' ').slice(1).join(' ') || '',
+      address_line1: street,
+      city,
+      zip
+    });
+
+    if (existing.has(key)) {
+      duplicateCount += 1;
+      return;
+    }
+
+    const hasCoords = Number.isFinite(row.lat) && Number.isFinite(row.lng);
+    const phone = String(row.phone || '').trim();
+    const hasPhone = phone.length > 0;
+    const dnc = row.status === 'Do Not Contact';
+    if (hasCoords) pinnableCount += 1;
+    else if (!city || !zip) blockedGeocode += 1;
+    if (hasPhone) callableCount += 1;
+    if (hasPhone && !dnc) textableCount += 1;
+
+    db.voters.push({
+      id: `${importId}_v_${idx}`,
+      import_id: importId,
+      state_voter_id: row.state_voter_id || null,
+      first_name: (row.name || '').split(' ')[0] || '',
+      last_name: (row.name || '').split(' ').slice(1).join(' ') || '',
+      address_line1: street,
+      city,
+      state: stateCode,
+      zip,
+      full_address: [street, city, stateCode, zip].filter(Boolean).join(', '),
+      latitude: hasCoords ? row.lat : null,
+      longitude: hasCoords ? row.lng : null,
+      geocode_status: hasCoords ? 'success' : (city && zip ? 'pending' : 'blocked_missing_city_zip'),
+      geocode_error: !hasCoords && (!city || !zip) ? 'No lat/lng and missing city/zip' : null,
+      precinct: row.turf || null,
+      phone: phone || null,
+      email: row.email || null,
+      do_not_contact: dnc,
+      status: row.status || 'Not Attempted',
+      created_at: nowIso(),
+      updated_at: nowIso(),
+      deleted_at: null
+    });
+    existing.add(key);
+    insertedCount += 1;
+  });
+
+  db.imports.unshift({
+    id: importId,
+    source_name: sourceLabel,
+    source_type: sourceLabel.toLowerCase().includes('google') ? 'sheet' : 'file',
+    uploaded_at: nowIso(),
+    row_count: parsedRows.length,
+    inserted_count: insertedCount,
+    duplicate_count: duplicateCount,
+    invalid_count: rejected.length,
+    pinnable_count: pinnableCount,
+    callable_count: callableCount,
+    textable_count: textableCount,
+    status: 'complete',
+    error_summary: blockedGeocode ? `${blockedGeocode} rows blocked missing city/zip for geocoding` : ''
+  });
+
+  db.audit_logs.unshift({
+    id: `audit_${Date.now()}`,
+    action: 'IMPORT_COMPLETE',
+    entity: 'import',
+    entity_id: importId,
+    payload_json: {
+      source: sourceLabel,
+      inserted_count: insertedCount,
+      duplicate_count: duplicateCount,
+      invalid_count: rejected.length,
+      pinnable_count: pinnableCount,
+      callable_count: callableCount,
+      textable_count: textableCount
+    },
+    created_at: nowIso()
+  });
+
+  saveOpsDb(db);
+  state.households = refreshHouseholdsFromDb();
   state.walkIndex = 0;
   state.phoneIndex = 0;
   state.textIndex = 0;
   saveHouseholds();
-  saveImportMeta({
-    source: sourceLabel,
-    count: accepted.length,
-    importedAt: new Date().toISOString()
-  });
+  saveImportMeta({ source: sourceLabel, count: insertedCount, importedAt: nowIso() });
 
   const rejectText = rejected.length ? ` Rejected ${rejected.length}: ${rejected.slice(0, 3).join(' | ')}` : '';
-  logActivity('IMPORT', null, `Imported ${accepted.length} households`, `${sourceLabel}.${rejectText ? ` ${rejectText.trim()}` : ''}`.trim());
+  logActivity('IMPORT', null, `Imported ${insertedCount} households`, `${sourceLabel}.${rejectText ? ` ${rejectText.trim()}` : ''}`.trim());
 
   setTab('map');
   renderMap();
@@ -403,8 +555,9 @@ async function importCsvText(csvText, sourceLabel) {
   renderReporting();
 
   const columnText = columns.length ? ` Fields found: ${columns.join(', ')}.` : '';
-  document.getElementById('import-result').textContent = `Saved ${accepted.length} household(s) from ${sourceLabel}.${rejectText}${columnText}`;
-  setUploadProgress(`Upload complete: ${accepted.length} household(s) imported from ${sourceLabel}.`);
+  const geocodeText = pinnableCount === 0 ? ` 0 pinned, ${blockedGeocode} blocked geocode${blockedGeocode ? ' (missing city/zip)' : ''}.` : ` ${pinnableCount} pinned.`;
+  document.getElementById('import-result').textContent = `Saved/Imported ${insertedCount} household(s) from ${sourceLabel}. Duplicates ${duplicateCount}. Callable ${callableCount}. Textable ${textableCount}.${geocodeText}${rejectText}${columnText}`;
+  setUploadProgress(`Upload complete: ${insertedCount} household(s) imported from ${sourceLabel}.`);
 }
 
 function renderSavedImportNotice() {
@@ -453,7 +606,17 @@ function filteredHouseholds() {
 
 function renderMap() {
   markerLayer.clearLayers();
-  filteredHouseholds().forEach(h => {
+  const households = filteredHouseholds();
+  const pinned = households.filter((h) => Number.isFinite(h.lat) && Number.isFinite(h.lng));
+  const blocked = households.filter((h) => !Number.isFinite(h.lat) || !Number.isFinite(h.lng)).length;
+  const statusEl = document.getElementById('map-status');
+  if (statusEl) {
+    statusEl.textContent = pinned.length
+      ? `${pinned.length} pinned, ${blocked} pending/blocked geocode.`
+      : `0 pinned, ${blocked} blocked/pending geocode. No lat/lng present or address fields are incomplete.`;
+  }
+
+  pinned.forEach(h => {
     const marker = L.marker([h.lat, h.lng]).addTo(markerLayer);
     marker.bindPopup(householdPopupHtml(h));
     marker.on('click', () => marker.openPopup());
@@ -476,6 +639,7 @@ function openSheet(h) {
       <button class="btn warn" data-a="Do Not Contact">Do Not Contact</button>
     </div>
     <textarea id="sheet-note" placeholder="Add note"></textarea>
+    <button class="btn warn" id="sheet-delete">Delete Row</button>
     <button class="btn" id="sheet-close">Close</button>`;
   sheet.querySelectorAll('[data-a]').forEach(btn => btn.addEventListener('click', () => {
     h.status = btn.dataset.a;
@@ -484,6 +648,17 @@ function openSheet(h) {
     sheet.classList.remove('open');
   }));
   sheet.querySelector('#sheet-close').onclick = () => sheet.classList.remove('open');
+  sheet.querySelector('#sheet-delete').onclick = () => {
+    const db = loadOpsDb();
+    const voter = db.voters.find((v) => String(v.id) === String(h.id));
+    if (voter) voter.deleted_at = nowIso();
+    db.outreach_logs = db.outreach_logs.map((l) => String(l.voter_id) === String(h.id) ? { ...l, deleted_at: nowIso() } : l);
+    db.audit_logs.unshift({ id: `audit_${Date.now()}`, action: 'VOTER_DELETE', entity: 'voter', entity_id: h.id, payload_json: {}, created_at: nowIso() });
+    saveOpsDb(db);
+    state.households = refreshHouseholdsFromDb();
+    renderMap(); renderWalk(); renderPhone(); renderText(); renderKpis(); renderReporting();
+    sheet.classList.remove('open');
+  };
 }
 
 function renderWalk() {
@@ -494,7 +669,7 @@ function renderWalk() {
 }
 
 function renderPhone() {
-  const queue = state.households.filter(h => h.status !== 'Do Not Contact');
+  const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
   const h = queue[state.phoneIndex % Math.max(1, queue.length)];
   const phoneLine = h?.phone ? `<div>${h.phone}</div>` : '<div class="muted">No phone on file</div>';
   document.getElementById('phone-card').innerHTML = h ? `<strong>${h.name}</strong>${phoneLine}<div>${h.address}</div>` : 'No callable contacts';
@@ -515,7 +690,7 @@ function renderText() {
   const enabled = document.getElementById('text-enable').checked;
   document.getElementById('text-controls').classList.toggle('hidden', !enabled);
   if (!enabled) return;
-  const queue = state.households.filter(h => h.status !== 'Do Not Contact');
+  const queue = state.households.filter(h => h.phone && h.status !== 'Do Not Contact');
   const h = queue[state.textIndex % Math.max(1, queue.length)];
   const phoneLine = h?.phone ? `<div>${h.phone}</div>` : '<div class="muted">No phone on file</div>';
   document.getElementById('text-card').innerHTML = h ? `<strong>${h.name}</strong>${phoneLine}` : 'No textable contacts';
@@ -545,6 +720,25 @@ function renderReporting() {
 function wireEvents() {
   document.getElementById('filter-assignment').addEventListener('change', renderMap);
   document.getElementById('filter-status').addEventListener('change', renderMap);
+
+  document.getElementById('geocode-pending').addEventListener('click', () => {
+    const db = loadOpsDb();
+    let updated = 0;
+    db.voters = db.voters.map((v) => {
+      if (v.deleted_at || Number.isFinite(v.latitude) && Number.isFinite(v.longitude)) return v;
+      if (!v.full_address || !v.city || !v.zip) {
+        return { ...v, geocode_status: 'blocked_missing_city_zip', geocode_error: 'No city/zip for geocoding' };
+      }
+      const geo = deterministicGeo(v.full_address);
+      updated += 1;
+      return { ...v, latitude: geo.lat, longitude: geo.lng, geocode_status: 'success', geocode_error: null, updated_at: nowIso() };
+    });
+    db.audit_logs.unshift({ id: `audit_${Date.now()}`, action: 'GEOCODE_BATCH_RUN', entity: 'system', payload_json: { updated }, created_at: nowIso() });
+    saveOpsDb(db);
+    state.households = refreshHouseholdsFromDb();
+    renderMap();
+    setUploadProgress(`Geocode batch complete. Updated ${updated} record(s).`);
+  });
   document.querySelectorAll('[data-walk]').forEach(b => b.addEventListener('click', () => {
     const mine = state.households.filter(h => h.assignedTo === volunteerId);
     const h = mine[state.walkIndex % Math.max(1, mine.length)];
@@ -675,18 +869,32 @@ function wireEvents() {
   });
 
   document.getElementById('reset-imported').addEventListener('click', () => {
-    state.households = DEFAULT_HOUSEHOLDS.map((row) => ({ ...row }));
+    const db = loadOpsDb();
+    const deletedAt = nowIso();
+    const voterCount = db.voters.filter((v) => !v.deleted_at).length;
+    const outreachCount = db.outreach_logs.filter((l) => !l.deleted_at).length;
+    db.voters = db.voters.map((v) => ({ ...v, deleted_at: deletedAt }));
+    db.outreach_logs = db.outreach_logs.map((l) => ({ ...l, deleted_at: deletedAt }));
+    db.audit_logs.unshift({
+      id: `audit_${Date.now()}`,
+      action: 'PURGE_RUN',
+      entity: 'system',
+      payload_json: { mode: 'all', voterCount, outreachCount },
+      created_at: deletedAt
+    });
+    saveOpsDb(db);
+    state.households = refreshHouseholdsFromDb();
     saveImportMeta(null);
     saveHouseholds();
-    logActivity('IMPORT', null, 'Import reset', 'Restored default test households.');
+    logActivity('IMPORT', null, 'Import reset', `Soft deleted ${voterCount} voters and ${outreachCount} outreach logs.`);
     renderMap();
     renderWalk();
     renderPhone();
     renderText();
     renderKpis();
     renderReporting();
-    document.getElementById('import-result').textContent = 'Saved import cleared. Restored default test households.';
-    setUploadProgress('Import reset. Default households restored.');
+    document.getElementById('import-result').textContent = `Clear all complete. Soft deleted ${voterCount} voter row(s).`;
+    setUploadProgress('All imported voter data cleared.');
   });
 
   document.getElementById('reset-audit').addEventListener('click', () => {
