@@ -12,7 +12,8 @@
     "postinstall": "node -v > /dev/null",
     "signup:inject": "node scripts/inject-signup.js",
     "dev": "vite",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:dashboard": "node scripts/dashboard-smoke-test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
