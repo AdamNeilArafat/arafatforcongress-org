@@ -191,7 +191,14 @@ function VoterList({ voters, refresh, imports }: { voters: Voter[]; refresh: () 
 
 function MapPanel({ voters }: { voters: Voter[] }) {
   const pinned = voters.filter((v) => v.latitude != null && v.longitude != null);
+  const addressOnly = voters.filter((v) => (v.latitude == null || v.longitude == null) && (v.address || v.city || v.state || v.zip));
   const pending = voters.length - pinned.length;
+
+  const toMapSearchUrl = (voter: Voter) => {
+    const query = [voter.address, voter.city, voter.state, voter.zip].filter(Boolean).join(', ');
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  };
+
   return (
     <section>
       <h2>Map / Canvassing</h2>
@@ -203,6 +210,20 @@ function MapPanel({ voters }: { voters: Voter[] }) {
           return <span key={v.id} title={`${v.first_name} ${v.last_name}`} style={{ position: 'absolute', left: `${x}%`, top: `${y}%`, width: 8, height: 8, background: 'red', borderRadius: '50%' }} />;
         })}
       </div>
+      {addressOnly.length > 0 ? (
+        <>
+          <h3>Address-only pins (Google Maps)</h3>
+          <p>For records missing latitude/longitude, use the voter address to place the pin in Google Maps.</p>
+          <ul>
+            {addressOnly.slice(0, 100).map((v) => (
+              <li key={v.id}>
+                {v.first_name} {v.last_name} · {[v.address, v.city, v.state, v.zip].filter(Boolean).join(', ')}{' '}
+                <a href={toMapSearchUrl(v)} target="_blank" rel="noreferrer">View pin</a>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
     </section>
   );
 }
