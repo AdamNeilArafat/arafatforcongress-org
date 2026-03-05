@@ -6,6 +6,13 @@ export type VoterField =
   | 'birth_year'
   | 'gender'
   | 'address'
+  | 'address_line1'
+  | 'regstnum'
+  | 'regstfrac'
+  | 'regstname'
+  | 'regsttype'
+  | 'regunittype'
+  | 'regunitnum'
   | 'city'
   | 'state'
   | 'zip'
@@ -29,6 +36,12 @@ export const waPreset: Record<string, VoterField> = {
   Gender: 'gender',
   FullAddress: 'address',
   RegAddress: 'address',
+  RegStNum: 'regstnum',
+  RegStFrac: 'regstfrac',
+  RegStName: 'regstname',
+  RegStType: 'regsttype',
+  RegUnitType: 'regunittype',
+  RegUnitNum: 'regunitnum',
   RegCity: 'city',
   RegState: 'state',
   RegZipCode: 'zip',
@@ -51,8 +64,8 @@ export function normalizeRow(row: CsvRow, mapping: Record<string, VoterField>) {
     if (value) normalized[field] = value;
   }
 
-  if (!normalized.address) {
-    const address = [row.RegStNum, row.RegStName, row.RegStType].filter(Boolean).join(' ').trim();
+  if (!normalized.address && !normalized.address_line1) {
+    const address = [row.RegStNum, row.RegStFrac, row.RegStName, row.RegStType, row.RegUnitType, row.RegUnitNum].filter(Boolean).join(' ').trim();
     if (address) normalized.address = address;
   }
 
@@ -67,8 +80,7 @@ function isValidCoordinate(lat?: number, lng?: number) {
 export function validateRow(row: Record<string, string>, line: number): ValidationError[] {
   const errors: ValidationError[] = [];
   if (!row.first_name && !row.last_name) errors.push({ line, problem: 'Missing name fields' });
-  if (!row.address) errors.push({ line, problem: 'Missing address' });
-  if (!row.city) errors.push({ line, problem: 'Missing city' });
+  if (!row.address && !row.address_line1 && !row.regstname) errors.push({ line, problem: 'Missing address' });
 
   if (row.birth_year && Number.isNaN(Number(row.birth_year))) {
     errors.push({ line, problem: 'Birth year must be numeric' });

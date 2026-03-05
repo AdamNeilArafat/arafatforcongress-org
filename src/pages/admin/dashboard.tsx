@@ -1,4 +1,5 @@
 import React from 'react';
+import { geocodeHouseholdsBatch } from '../../jobs/geocodeHouseholds';
 import { parseCsvText } from '../../lib/csv/parse';
 import { type VoterField, waPreset } from '../../lib/csv/schema';
 import {
@@ -64,12 +65,14 @@ function ImportPanel({ refresh, imports }: { refresh: () => void; imports: Retur
 
   async function runImport() {
     let inserted = 0;
+    let queued = 0;
     for (const file of files) {
       const reparsed = await parseCsvText(await file.file.text(), undefined, file.mapping);
       const batch = importRows(file.file.name, reparsed.rows, reparsed.errors.length);
       inserted += batch.inserted_count;
+      queued += batch.geocode_queued_count;
     }
-    setStatus(`Import complete. Inserted ${inserted} voters across ${files.length} files.`);
+    setStatus(`Import complete. Inserted ${inserted} voters across ${files.length} files. Queued ${queued} geocode jobs.`);
     setFiles([]);
     refresh();
   }
@@ -117,7 +120,7 @@ function ImportPanel({ refresh, imports }: { refresh: () => void; imports: Retur
       <ul>
         {imports.map((batch) => (
           <li key={batch.id}>
-            {batch.source_file_name}: inserted {batch.inserted_count}/{batch.row_count}, duplicates {batch.duplicate_count}, invalid {batch.invalid_count}, pinned {batch.pinned_count}, pending geocode {batch.pending_geocode_count} ({batch.status})
+            {batch.source_file_name}: Inserted {batch.inserted_count} · Duplicates skipped {batch.duplicate_count} · Invalid rows {batch.invalid_count} · Pinned now {batch.pinnable_count} · Geocode queued {batch.geocode_queued_count} · Blocked {batch.blocked_count} · Geocode failures {batch.geocode_failed_count} ({batch.status})
             <button onClick={() => { if (confirm('Clear this import batch?')) { clearByImport(batch.id); refresh(); } }}>Clear batch</button>
           </li>
         ))}
@@ -135,7 +138,7 @@ function VoterList({ voters, refresh, imports }: { voters: Voter[]; refresh: () 
 
   const filtered = voters.filter((v) => {
     if (importFilter !== 'all' && v.import_id !== importFilter) return false;
-    const haystack = `${v.first_name ?? ''} ${v.last_name ?? ''} ${v.address ?? ''} ${v.city ?? ''}`.toLowerCase();
+    const haystack = `${v.first_name ?? ''} ${v.last_name ?? ''} ${v.address_line1 ?? ''} ${v.city ?? ''}`.toLowerCase();
     return haystack.includes(q.toLowerCase());
   });
 
@@ -155,9 +158,9 @@ function VoterList({ voters, refresh, imports }: { voters: Voter[]; refresh: () 
           {filtered.slice(0, 200).map((v) => (
             <tr key={v.id} onClick={() => setSelected(v)}>
               <td>{v.first_name} {v.last_name}</td>
-              <td>{v.address}, {v.city}</td>
+              <td>{v.address_line1}, {v.city}</td>
               <td>{v.phone ?? '—'}</td>
-              <td>{v.latitude != null && v.longitude != null ? 'pinned' : 'pending geocode'}</td>
+              <td>{v.latitude != null && v.longitude != null ? 'pinned' : v.geocode_status}</td>
               <td><button onClick={(e) => { e.stopPropagation(); deleteVoter(v.id); refresh(); }}>Delete</button></td>
             </tr>
           ))}
@@ -168,7 +171,7 @@ function VoterList({ voters, refresh, imports }: { voters: Voter[]; refresh: () 
         <aside>
           <h3>Voter detail</h3>
           <p>{selected.first_name} {selected.last_name}</p>
-          <p>{selected.address}, {selected.city}, {selected.state} {selected.zip}</p>
+          <p>{selected.address_line1}, {selected.city}, {selected.state} {selected.zip}</p>
           <p>Coords: {selected.latitude ?? '—'}, {selected.longitude ?? '—'}</p>
           <h4>Log outreach</h4>
           <select value={outcome} onChange={(e) => setOutcome(e.target.value)}>
@@ -189,20 +192,21 @@ function VoterList({ voters, refresh, imports }: { voters: Voter[]; refresh: () 
   );
 }
 
-function MapPanel({ voters }: { voters: Voter[] }) {
+function MapPanel({ voters, refresh }: { voters: Voter[]; refresh: () => void }) {
   const pinned = voters.filter((v) => v.latitude != null && v.longitude != null);
-  const addressOnly = voters.filter((v) => (v.latitude == null || v.longitude == null) && (v.address || v.city || v.state || v.zip));
-  const pending = voters.length - pinned.length;
+  const pending = voters.filter((v) => v.geocode_status === 'pending').length;
+  const blocked = voters.filter((v) => v.geocode_status === 'blocked_missing_fields').length;
 
   const toMapSearchUrl = (voter: Voter) => {
-    const query = [voter.address, voter.city, voter.state, voter.zip].filter(Boolean).join(', ');
+    const query = [voter.address_line1, voter.city, voter.state, voter.zip].filter(Boolean).join(', ');
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
   };
 
   return (
     <section>
       <h2>Map / Canvassing</h2>
-      <p>{pinned.length} pinned, {pending} pending geocode.</p>
+      <p>Pins: {pinned.length} | Pending geocode: {pending} | Blocked: {blocked}</p>
+      <button onClick={async () => { await geocodeHouseholdsBatch(50); refresh(); }}>Run Geocoding Now</button>
       <div style={{ border: '1px solid #ddd', width: 600, height: 300, position: 'relative', overflow: 'hidden' }}>
         {pinned.slice(0, 250).map((v) => {
           const x = (((v.longitude ?? 0) + 180) / 360) * 100;
@@ -210,19 +214,12 @@ function MapPanel({ voters }: { voters: Voter[] }) {
           return <span key={v.id} title={`${v.first_name} ${v.last_name}`} style={{ position: 'absolute', left: `${x}%`, top: `${y}%`, width: 8, height: 8, background: 'red', borderRadius: '50%' }} />;
         })}
       </div>
-      {addressOnly.length > 0 ? (
-        <>
-          <h3>Address-only pins (Google Maps)</h3>
-          <p>For records missing latitude/longitude, use the voter address to place the pin in Google Maps.</p>
-          <ul>
-            {addressOnly.slice(0, 100).map((v) => (
-              <li key={v.id}>
-                {v.first_name} {v.last_name} · {[v.address, v.city, v.state, v.zip].filter(Boolean).join(', ')}{' '}
-                <a href={toMapSearchUrl(v)} target="_blank" rel="noreferrer">View pin</a>
-              </li>
-            ))}
-          </ul>
-        </>
+      {voters.filter((v) => v.geocode_status === 'pending').length > 0 ? (
+        <ul>
+          {voters.filter((v) => v.geocode_status === 'pending').slice(0, 50).map((v) => (
+            <li key={v.id}>{v.first_name} {v.last_name} · {[v.address_line1, v.city, v.state, v.zip].filter(Boolean).join(', ')} <a href={toMapSearchUrl(v)} target="_blank" rel="noreferrer">View pin</a></li>
+          ))}
+        </ul>
       ) : null}
     </section>
   );
@@ -241,7 +238,7 @@ function PhonePanel({ voters, refresh }: { voters: Voter[]; refresh: () => void 
           <button onClick={() => { logOutreach({ voter_id: voter.id, channel: 'phone', outcome: 'talked' }); setIdx((i) => i + 1); refresh(); }}>Log talked + next</button>
           <button onClick={() => { logOutreach({ voter_id: voter.id, channel: 'phone', outcome: 'no_answer' }); setIdx((i) => i + 1); refresh(); }}>No answer + next</button>
         </>
-      ) : <p>No eligible voters.</p>}
+      ) : <p>0 callable/textable records because no phone data was provided.</p>}
     </section>
   );
 }
@@ -269,7 +266,7 @@ function TextPanel({ voters, templates, refresh }: { voters: Voter[]; templates:
           <p>{mergeScript(template, { first_name: voter.first_name ?? 'neighbor', city: voter.city ?? '' })}</p>
           <button onClick={() => { logOutreach({ voter_id: voter.id, channel: 'text', outcome: 'sent', metadata_json: { provider: 'mock' } }); setIdx((i) => i + 1); refresh(); }}>Send (mock) + next</button>
         </>
-      ) : <p>No eligible voters.</p>}
+      ) : <p>0 callable/textable records because no phone data was provided.</p>}
     </section>
   );
 }
@@ -288,7 +285,7 @@ export default function AdminDashboardPage() {
 
       {tab === 'imports' && <ImportPanel imports={data.imports} refresh={data.refresh} />}
       {tab === 'voters' && <VoterList voters={data.voters} imports={data.imports} refresh={data.refresh} />}
-      {tab === 'map' && <MapPanel voters={data.voters} />}
+      {tab === 'map' && <MapPanel voters={data.voters} refresh={data.refresh} />}
       {tab === 'phone' && <PhonePanel voters={data.voters} refresh={data.refresh} />}
       {tab === 'text' && <TextPanel voters={data.voters} templates={data.templates} refresh={data.refresh} />}
       {tab === 'audit' && (
