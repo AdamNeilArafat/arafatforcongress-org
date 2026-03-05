@@ -34,6 +34,7 @@ export type Voter = {
   state?: string;
   zip?: string;
   full_address?: string;
+  normalized_address_hash?: string;
   precinct?: string;
   legislative_district?: string;
   congressional_district?: string;
@@ -53,10 +54,21 @@ export type Voter = {
   deleted_at?: string;
 };
 
+export type GeocodeCacheRow = {
+  id: string;
+  normalized_address_hash: string;
+  normalized_address_text: string;
+  provider: string;
+  lat: number;
+  lng: number;
+  updated_at: string;
+};
+
 export type GeocodeJob = {
   id: string;
   voter_id: string;
   import_id?: string;
+  normalized_address_hash: string;
   full_address: string;
   status: 'queued' | 'processing' | 'success' | 'failed' | 'cancelled';
   attempts: number;
@@ -91,6 +103,7 @@ export type AuditLog = {
 type DBState = {
   imports: ImportBatch[];
   voters: Voter[];
+  geocode_cache: GeocodeCacheRow[];
   geocode_jobs: GeocodeJob[];
   outreach_logs: OutreachLog[];
   audit_logs: AuditLog[];
@@ -98,7 +111,7 @@ type DBState = {
   mapping_templates: Record<string, Record<string, string>>;
 };
 
-const KEY = 'afc_ops_db_v3';
+const KEY = 'afc_ops_db_v4';
 
 function id() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
 function now() { return new Date().toISOString(); }
@@ -107,7 +120,7 @@ function storageLike() {
   return (globalThis as any).localStorage ?? (typeof window !== 'undefined' ? window.localStorage : undefined);
 }
 
-const empty = (): DBState => ({ imports: [], voters: [], geocode_jobs: [], outreach_logs: [], audit_logs: [], text_templates: [], mapping_templates: {} });
+const empty = (): DBState => ({ imports: [], voters: [], geocode_cache: [], geocode_jobs: [], outreach_logs: [], audit_logs: [], text_templates: [], mapping_templates: {} });
 
 function loadState(): DBState {
   const storage = storageLike();
@@ -116,7 +129,7 @@ function loadState(): DBState {
   if (!raw) return empty();
   try {
     const parsed = JSON.parse(raw) as Partial<DBState>;
-    return { ...empty(), ...parsed, geocode_jobs: parsed.geocode_jobs ?? [] };
+    return { ...empty(), ...parsed, geocode_jobs: parsed.geocode_jobs ?? [], geocode_cache: parsed.geocode_cache ?? [] };
   } catch {
     return empty();
   }
@@ -141,8 +154,8 @@ export function resetDb() {
 
 function dedupeKey(row: Partial<Voter & Record<string, string>>) {
   if (row.external_voter_id) return `id:${row.external_voter_id.toLowerCase()}`;
-  const addr = (row.address_line1 ?? row.address ?? '').toLowerCase();
-  return `name_addr:${(row.first_name ?? '').toLowerCase()}|${(row.last_name ?? '').toLowerCase()}|${addr}|${(row.zip ?? '').toLowerCase()}|${row.birth_year ?? ''}`;
+  const addr = (row.address_line1 ?? row.address ?? row.full_address ?? '').toLowerCase();
+  return `name_addr:${(row.first_name ?? '').toLowerCase()}|${(row.last_name ?? '').toLowerCase()}|${addr}|${(row.zip ?? '').toLowerCase()}`;
 }
 
 function parseTags(tags?: string) {
@@ -188,6 +201,7 @@ function toVoter(row: Record<string, string>, importId: string): Voter {
     state: normalizedAddress.state,
     zip: normalizedAddress.zip,
     full_address: normalizedAddress.full_address,
+    normalized_address_hash: normalizedAddress.normalized_address_hash,
     precinct: row.precinct,
     legislative_district: row.legislative_district,
     congressional_district: row.congressional_district,
@@ -237,12 +251,33 @@ export function importRows(sourceFileName: string, rows: Record<string, string>[
 
       if (voter.latitude != null && voter.longitude != null) {
         batch.pinnable_count += 1;
-      } else if (voter.geocode_status === 'pending' && voter.full_address) {
+        continue;
+      }
+
+      if (voter.geocode_status === 'blocked_missing_fields') {
+        batch.blocked_count += 1;
+        continue;
+      }
+
+      if (voter.geocode_status === 'pending' && voter.full_address && voter.normalized_address_hash) {
+        const cache = state.geocode_cache.find((entry) => entry.normalized_address_hash === voter.normalized_address_hash);
+        if (cache) {
+          voter.latitude = cache.lat;
+          voter.longitude = cache.lng;
+          voter.geocode_status = 'success';
+          voter.geocode_provider = cache.provider;
+          voter.updated_at = now();
+          batch.pinnable_count += 1;
+          batch.geocode_success_count += 1;
+          continue;
+        }
+
         batch.geocode_queued_count += 1;
         state.geocode_jobs.push({
           id: id(),
           voter_id: voter.id,
           import_id: batch.id,
+          normalized_address_hash: voter.normalized_address_hash,
           full_address: voter.full_address,
           status: 'queued',
           attempts: 0,
@@ -250,8 +285,6 @@ export function importRows(sourceFileName: string, rows: Record<string, string>[
           created_at: now(),
           updated_at: now()
         });
-      } else if (voter.geocode_status === 'blocked_missing_fields') {
-        batch.blocked_count += 1;
       }
     }
 
@@ -294,12 +327,14 @@ export function updateImportGeocodeCounters(importId: string) {
     batch.geocode_success_count = voters.filter((v) => v.geocode_status === 'success').length;
     batch.geocode_failed_count = voters.filter((v) => v.geocode_status === 'failed').length;
     batch.blocked_count = voters.filter((v) => v.geocode_status === 'blocked_missing_fields').length;
+    batch.geocode_queued_count = voters.filter((v) => v.geocode_status === 'pending').length;
   });
 }
 
 export function listImports() { return loadState().imports; }
 export function listVoters() { return loadState().voters.filter((v) => !v.deleted_at); }
 export function listGeocodeJobs() { return loadState().geocode_jobs.filter((j) => !j.deleted_at); }
+export function listGeocodeCache() { return loadState().geocode_cache; }
 
 export function listOutreachLogs(voterId?: string) {
   const logs = loadState().outreach_logs.filter((l) => !l.deleted_at);
@@ -312,7 +347,7 @@ export function logOutreach(input: Omit<OutreachLog, 'id' | 'created_at' | 'time
   withDbWrite((state) => {
     const entry: OutreachLog = { ...input, id: id(), created_at: now(), timestamp: input.timestamp ?? now() };
     state.outreach_logs.unshift(entry);
-    state.audit_logs.unshift({ id: id(), action: 'OUTREACH_LOG_CREATE', entity: 'outreach', entity_id: entry.id, payload_json: { voter_id: entry.voter_id, channel: entry.channel, outcome: entry.outcome }, created_at: now() });
+    state.audit_logs.unshift({ id: id(), action: 'OUTREACH_LOG_CREATE', entity: 'outreach', entity_id: entry.id, payload_json: { channel: entry.channel, outcome: entry.outcome }, created_at: now() });
   });
 }
 
@@ -344,10 +379,11 @@ export function clearAll() {
     const deletedAt = now();
     const voterCount = state.voters.filter((v) => !v.deleted_at).length;
     const outreachCount = state.outreach_logs.filter((l) => !l.deleted_at).length;
+    const jobCount = state.geocode_jobs.filter((j) => !j.deleted_at).length;
     state.voters = state.voters.map((v) => ({ ...v, deleted_at: deletedAt }));
     state.outreach_logs = state.outreach_logs.map((l) => ({ ...l, deleted_at: deletedAt }));
     state.geocode_jobs = state.geocode_jobs.map((j) => ({ ...j, deleted_at: deletedAt, status: 'cancelled' }));
-    state.audit_logs.unshift({ id: id(), action: 'PURGE_RUN', entity: 'system', payload_json: { voterCount, outreachCount, mode: 'all' }, created_at: now() });
+    state.audit_logs.unshift({ id: id(), action: 'PURGE_RUN', entity: 'system', payload_json: { voterCount, outreachCount, jobCount, mode: 'all' }, created_at: now() });
   });
 }
 

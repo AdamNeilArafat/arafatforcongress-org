@@ -1,10 +1,6 @@
 import { createGeocodingProvider, geocodeConfig } from '../lib/geocoding/provider';
 import { listGeocodeJobs, updateImportGeocodeCounters, withDbWrite } from '../lib/db/store';
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export async function geocodeHouseholdsBatch(limit = 50) {
   const config = geocodeConfig();
   const provider = createGeocodingProvider();
@@ -13,15 +9,16 @@ export async function geocodeHouseholdsBatch(limit = 50) {
     .sort((a, b) => a.next_run_at.localeCompare(b.next_run_at))
     .slice(0, limit);
 
-  let scanned = 0;
   let geocoded = 0;
   let errors = 0;
 
-  for (const job of jobs) {
-    scanned += 1;
+  async function processJob(job: (typeof jobs)[number]) {
     withDbWrite((state) => {
       const target = state.geocode_jobs.find((j) => j.id === job.id);
-      if (target) target.status = 'processing';
+      if (target) {
+        target.status = 'processing';
+        target.updated_at = new Date().toISOString();
+      }
     });
 
     try {
@@ -30,8 +27,9 @@ export async function geocodeHouseholdsBatch(limit = 50) {
         const targetJob = state.geocode_jobs.find((j) => j.id === job.id);
         const voter = state.voters.find((item) => item.id === job.voter_id && !item.deleted_at);
         if (!targetJob || !voter) return;
+        const timestamp = new Date().toISOString();
         targetJob.status = 'success';
-        targetJob.updated_at = new Date().toISOString();
+        targetJob.updated_at = timestamp;
         targetJob.attempts += 1;
         voter.latitude = result.lat;
         voter.longitude = result.lng;
@@ -40,7 +38,28 @@ export async function geocodeHouseholdsBatch(limit = 50) {
         voter.geocode_provider = config.provider;
         voter.geocode_confidence = result.confidence;
         voter.geocode_error = undefined;
-        voter.updated_at = new Date().toISOString();
+        voter.updated_at = timestamp;
+
+        const cacheIndex = state.geocode_cache.findIndex((row) => row.normalized_address_hash === job.normalized_address_hash);
+        if (cacheIndex >= 0) {
+          state.geocode_cache[cacheIndex] = {
+            ...state.geocode_cache[cacheIndex],
+            lat: result.lat,
+            lng: result.lng,
+            provider: config.provider,
+            updated_at: timestamp
+          };
+        } else {
+          state.geocode_cache.push({
+            id: `${job.normalized_address_hash}-${Date.now()}`,
+            normalized_address_hash: job.normalized_address_hash,
+            normalized_address_text: job.full_address.toLowerCase(),
+            provider: config.provider,
+            lat: result.lat,
+            lng: result.lng,
+            updated_at: timestamp
+          });
+        }
       });
       geocoded += 1;
     } catch (error) {
@@ -61,15 +80,19 @@ export async function geocodeHouseholdsBatch(limit = 50) {
         voter.geocode_status = exhausted ? 'failed' : 'pending';
       });
     }
+  }
 
-    await sleep(Math.ceil(1000 / Math.max(config.rateLimitPerSec, 1)));
+  const concurrency = Math.max(1, config.workerConcurrency);
+  for (let i = 0; i < jobs.length; i += concurrency) {
+    const slice = jobs.slice(i, i + concurrency);
+    await Promise.all(slice.map((job) => processJob(job)));
   }
 
   const importIds = [...new Set(jobs.map((job) => job.import_id).filter(Boolean))] as string[];
   importIds.forEach((importId) => updateImportGeocodeCounters(importId));
 
   return {
-    scanned,
+    scanned: jobs.length,
     geocoded,
     skippedCached: 0,
     errors

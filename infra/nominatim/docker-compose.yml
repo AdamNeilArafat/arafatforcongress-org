@@ -1,0 +1,25 @@
+services:
+  nominatim:
+    image: mediagis/nominatim:4.4
+    container_name: afc-nominatim
+    ports:
+      - "127.0.0.1:${NOMINATIM_PORT:-8080}:8080"
+    environment:
+      PBF_URL: ${NOMINATIM_PBF_URL:-https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf}
+      REPLICATION_URL: ${NOMINATIM_REPLICATION_URL:-}
+      IMPORT_WIKIPEDIA: "false"
+      IMPORT_US_POSTCODES: "true"
+      THREADS: ${NOMINATIM_IMPORT_THREADS:-4}
+    volumes:
+      - nominatim-data:/var/lib/postgresql/14/main
+      - nominatim-flatnode:/nominatim/flatnode
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/status || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+
+volumes:
+  nominatim-data:
+  nominatim-flatnode:

@@ -1,21 +1,37 @@
 # District Ops Dashboard
 
-## Geocoding environment variables
+## Local Nominatim geocoding (self-hosted)
 
-Set these for import + background geocoding:
+Run a local geocoder (no dependency on public Nominatim):
 
-- `GEOCODER_PROVIDER=mock|mapbox` (default: `mock`)
-- `GEOCODING_API_KEY=...` (required when `GEOCODER_PROVIDER=mapbox`)
-- `GEOCODING_RATE_LIMIT_PER_SEC=5`
+```bash
+make nominatim-up
+make nominatim-import
+make nominatim-logs
+```
+
+Deployment files:
+- `infra/nominatim/docker-compose.yml`
+- `infra/nominatim/README.md`
+
+### Geocoding env vars
+
+- `GEOCODER_PROVIDER=nominatim_local|mock` (default: `nominatim_local`)
+- `NOMINATIM_BASE_URL=http://localhost:8080`
+- `NOMINATIM_PBF_URL=https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf`
+- `NOMINATIM_PORT=8080`
+- `NOMINATIM_IMPORT_THREADS=4`
+- `GEOCODING_CONCURRENCY=6`
+- `GEOCODING_RATE_LIMIT_PER_SEC=8`
 - `GEOCODING_MAX_ATTEMPTS=3`
 - `GEOCODING_BACKOFF_SECONDS=30`
 
-## Running geocoding
+## Import + geocoding pipeline behavior
 
-- Upload CSVs from the admin imports panel. Imports append and dedupe in the local DB store.
-- Use **Run Geocoding Now** in the map tab to process queued address geocode jobs in batches.
-
-## Notes
-
-- Mock provider is deterministic and intended for tests/local development.
-- Voters, outreach, and geocode jobs are soft-deleted by Clear All / Clear Batch controls.
+- CSV uploads append (multi-file supported) and create one import batch per file.
+- Dedupe is global across all non-deleted voters by `external_voter_id`, else normalized `name+address+zip`.
+- Rows with missing address parts (`city/state/zip/address`) are marked `blocked_missing_fields` and are not queued.
+- Geocode jobs are queued per voter and processed by background worker (`src/jobs/runGeocodeWorker.ts`).
+- Successful geocodes are cached in `geocode_cache` by normalized-address hash.
+- Map/Calls/Texts read from the same voter DB store.
+- Clear All, Clear Import, and Delete Row are soft-delete operations with audit log entries.
