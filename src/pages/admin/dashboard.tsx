@@ -1,7 +1,7 @@
 import React from 'react';
 import { geocodeHouseholdsBatch } from '../../jobs/geocodeHouseholds';
 import { parseCsvText } from '../../lib/csv/parse';
-import { inferMappingForHeaders, type VoterField, waPreset } from '../../lib/csv/schema';
+import { inferMappingForHeaders, VOTER_FIELDS, type VoterField } from '../../lib/csv/schema';
 import {
   clearAll,
   clearByImport,
@@ -45,7 +45,7 @@ function useData() {
   };
 }
 
-function ImportPanel({ refresh, imports }: { refresh: () => void; imports: ReturnType<typeof listImports> }) {
+function ImportPanel({ refresh, imports, mappingTemplates }: { refresh: () => void; imports: ReturnType<typeof listImports>; mappingTemplates: ReturnType<typeof listMappingTemplates> }) {
   const [files, setFiles] = React.useState<ParsedFile[]>([]);
   const [status, setStatus] = React.useState('');
 
@@ -57,68 +57,115 @@ function ImportPanel({ refresh, imports }: { refresh: () => void; imports: Retur
       parsed.push({ file, headers: result.headers, preview: result.preview, validRows: result.rows, errors: result.errors, mapping });
     }
     setFiles(parsed);
-    setStatus(`Loaded ${parsed.length} file(s) for preview.`);
+    setStatus(`Loaded ${parsed.length} file(s). Review column mapping below — map address, phone, and name columns to enable phone/text banking.`);
+  }
+
+  function applyTemplate(fileName: string, templateName: string) {
+    const tpl = mappingTemplates[templateName];
+    if (!tpl) return;
+    setFiles((prev) => prev.map((pf) => {
+      if (pf.file.name !== fileName) return pf;
+      const merged: Record<string, VoterField> = { ...pf.mapping };
+      for (const [col, field] of Object.entries(tpl)) {
+        if (pf.headers.includes(col)) merged[col] = field as VoterField;
+      }
+      return { ...pf, mapping: merged };
+    }));
   }
 
   async function runImport() {
     let inserted = 0;
     let queued = 0;
+    let invalid = 0;
     for (const file of files) {
       const reparsed = await parseCsvText(await file.file.text(), undefined, file.mapping);
       const batch = importRows(file.file.name, reparsed.rows, reparsed.errors.length);
       inserted += batch.inserted_count;
       queued += batch.geocode_queued_count;
+      invalid += batch.invalid_count;
     }
-    setStatus(`Import complete. Inserted ${inserted} voters across ${files.length} files. Queued ${queued} geocode jobs.`);
+    setStatus(`Import complete. Inserted ${inserted} voters · ${queued} address geocode jobs queued · ${invalid} invalid rows skipped.`);
     setFiles([]);
     refresh();
   }
 
+  const templateNames = Object.keys(mappingTemplates);
+
   return (
     <section>
       <h2>CSV Imports (append + dedupe)</h2>
+      <p style={{ color: '#555' }}>Upload a voter CSV. Map each column to a field — especially <strong>address</strong>, <strong>city</strong>, <strong>state</strong>, <strong>zip</strong>, and <strong>phone</strong> — so records can be geocoded and used in phone/text banking.</p>
       <input type="file" accept=".csv" multiple onChange={(e) => e.target.files && loadFiles(e.target.files)} />
       <p>{status}</p>
       {files.map((f) => (
-        <details key={f.file.name}>
+        <details key={f.file.name} open>
           <summary>
-            {f.file.name} · valid {f.validRows.length} · invalid {f.errors.length}
+            {f.file.name} · {f.headers.length} columns · {f.validRows.length} valid rows · {f.errors.length} invalid
           </summary>
-          <button onClick={() => saveMappingTemplate(f.file.name, f.mapping)}>Save mapping template</button>
-          <table>
-            <thead>
-              <tr>
-                {f.headers.slice(0, 8).map((h) => (
-                  <th key={h}>
-                    {h}
-                    <br />
-                    <select value={f.mapping[h] ?? ''} onChange={(e) => {
-                      const value = e.target.value as VoterField;
-                      setFiles((prev) => prev.map((pf) => pf.file.name === f.file.name ? { ...pf, mapping: { ...pf.mapping, [h]: value } } : pf));
-                    }}>
-                      <option value="">--ignore--</option>
-                      {Object.values(waPreset).map((field) => <option key={field} value={field}>{field}</option>)}
-                    </select>
-                  </th>
+          <div style={{ margin: '8px 0', display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+            <button onClick={() => saveMappingTemplate(f.file.name, f.mapping)}>Save mapping as template</button>
+            {templateNames.length > 0 && (
+              <select defaultValue="" onChange={(e) => { if (e.target.value) applyTemplate(f.file.name, e.target.value); }}>
+                <option value="">Load saved mapping…</option>
+                {templateNames.map((n) => <option key={n} value={n}>{n}</option>)}
+              </select>
+            )}
+          </div>
+          {f.errors.length > 0 && (
+            <details style={{ color: 'red' }}>
+              <summary>{f.errors.length} row error(s)</summary>
+              <ul>{f.errors.slice(0, 20).map((e, i) => <li key={i}>Line {e.line}: {e.problem}</li>)}</ul>
+            </details>
+          )}
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ borderCollapse: 'collapse', fontSize: 12 }}>
+              <thead>
+                <tr>
+                  {f.headers.map((h) => (
+                    <th key={h} style={{ border: '1px solid #ccc', padding: '4px 6px', background: f.mapping[h] ? '#e6f4ea' : '#fff' }}>
+                      <div style={{ fontWeight: 'bold' }}>{h}</div>
+                      <select
+                        value={f.mapping[h] ?? ''}
+                        style={{ fontSize: 11, maxWidth: 130 }}
+                        onChange={(e) => {
+                          const value = e.target.value as VoterField | '';
+                          setFiles((prev) => prev.map((pf) => {
+                            if (pf.file.name !== f.file.name) return pf;
+                            const next = { ...pf.mapping };
+                            if (value) next[h] = value; else delete next[h];
+                            return { ...pf, mapping: next };
+                          }));
+                        }}
+                      >
+                        <option value="">-- ignore --</option>
+                        {VOTER_FIELDS.map((field) => <option key={field} value={field}>{field}</option>)}
+                      </select>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {f.preview.slice(0, 3).map((row, i) => (
+                  <tr key={i}>
+                    {f.headers.map((h) => <td key={h} style={{ border: '1px solid #eee', padding: '2px 6px' }}>{row[h]}</td>)}
+                  </tr>
                 ))}
-              </tr>
-            </thead>
-            <tbody>
-              {f.preview.slice(0, 3).map((row, i) => (
-                <tr key={i}>{f.headers.slice(0, 8).map((h) => <td key={h}>{row[h]}</td>)}</tr>
-              ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
+          <p style={{ fontSize: 12, color: '#555', marginTop: 4 }}>
+            Mapped: {Object.entries(f.mapping).filter(([, v]) => v).map(([k, v]) => `${k} → ${v}`).join(' · ') || 'none'}
+          </p>
         </details>
       ))}
-      {files.length > 0 ? <button onClick={runImport}>Import all files</button> : null}
+      {files.length > 0 ? <button onClick={runImport} style={{ marginTop: 12, fontWeight: 'bold' }}>Import all files</button> : null}
 
       <h3>Import history</h3>
       <ul>
         {imports.map((batch) => (
-          <li key={batch.id}>
-            {batch.source_file_name}: Inserted {batch.inserted_count} · Duplicates skipped {batch.duplicate_count} · Invalid rows {batch.invalid_count} · Pinned now {batch.pinnable_count} · Geocode queued {batch.geocode_queued_count} · Blocked {batch.blocked_count} · Geocode failures {batch.geocode_failed_count} ({batch.status})
-            <button onClick={() => { if (confirm('Clear this import batch?')) { clearByImport(batch.id); refresh(); } }}>Clear batch</button>
+          <li key={batch.id} style={{ marginBottom: 4 }}>
+            <strong>{batch.source_file_name}</strong>: Inserted {batch.inserted_count} · Duplicates {batch.duplicate_count} · Invalid {batch.invalid_count} · Pinned {batch.pinnable_count} · Geocode queued {batch.geocode_queued_count} · Blocked {batch.blocked_count} · Geocode failed {batch.geocode_failed_count} ({batch.status})
+            <button style={{ marginLeft: 8 }} onClick={() => { if (confirm('Clear this import batch?')) { clearByImport(batch.id); refresh(); } }}>Clear batch</button>
           </li>
         ))}
       </ul>
@@ -286,7 +333,7 @@ export default function AdminDashboardPage() {
         <button onClick={() => { if (confirm('Clear ALL voters and outreach logs?')) { clearAll(); data.refresh(); } }}>Clear all</button>
       </nav>
 
-      {tab === 'imports' && <ImportPanel imports={data.imports} refresh={data.refresh} />}
+      {tab === 'imports' && <ImportPanel imports={data.imports} refresh={data.refresh} mappingTemplates={data.mappingTemplates} />}
       {tab === 'voters' && <VoterList voters={data.voters} imports={data.imports} refresh={data.refresh} />}
       {tab === 'map' && <MapPanel voters={data.voters} refresh={data.refresh} />}
       {tab === 'phone' && <PhonePanel voters={data.voters} refresh={data.refresh} />}

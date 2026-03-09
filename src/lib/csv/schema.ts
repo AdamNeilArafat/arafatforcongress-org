@@ -25,6 +25,19 @@ export type VoterField =
   | 'email'
   | 'tags';
 
+/** Ordered list of all valid VoterField values for dropdowns. */
+export const VOTER_FIELDS: VoterField[] = [
+  'first_name', 'middle_name', 'last_name', 'external_voter_id',
+  'phone', 'email',
+  'address', 'address_line1',
+  'regstnum', 'regstfrac', 'regstname', 'regsttype', 'regunittype', 'regunitnum',
+  'city', 'state', 'zip',
+  'birth_year', 'gender',
+  'precinct', 'legislative_district', 'congressional_district',
+  'latitude', 'longitude',
+  'tags',
+];
+
 export type CsvRow = Record<string, string | undefined>;
 
 export const waPreset: Record<string, VoterField> = {
