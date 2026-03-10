@@ -169,6 +169,11 @@
     .territory-badge--active  { background: var(--green-bg); color: var(--green); border: 1px solid rgba(22,101,52,0.22); }
     .territory-badge--pending { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(184,134,13,0.25); }
     .territory-badge--none    { background: rgba(5,16,30,0.06); color: var(--muted); border: 1px solid var(--border); }
+    .territory-age { font-size: .72rem; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
+    .territory-age--fresh  { color: var(--green); }
+    .territory-age--ok     { color: var(--brand); }
+    .territory-age--stale  { color: var(--amber); }
+    .territory-age--cold   { color: var(--red); }
 
     /* ---- SESSION LOG TABLE ---- */
     .filter-bar {
@@ -352,7 +357,8 @@
     </div>
     <div class="dash-header-actions">
       <button class="dash-btn" id="refresh-btn">&#8635; Refresh</button>
-      <button class="dash-btn dash-btn--gold" id="export-btn">&#11123; Export CSV</button>
+      <button class="dash-btn dash-btn--gold" id="export-btn">&#11123; Export All CSV</button>
+      <button class="dash-btn dash-btn--gold" id="export-filtered-btn">&#11123; Export Filtered</button>
       <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteer Dashboard</a>
       <a class="dash-btn" href="/index.html" target="_blank">View Site &rarr;</a>
     </div>
@@ -430,6 +436,7 @@
           <p style="font-size:.84rem;color:var(--muted);margin-bottom:12px;font-weight:600;">Set campaign targets. Saved in this browser.</p>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:12px;">
             <div class="form-group"><label>Doors Target</label><input type="number" id="goal-doors" min="0" placeholder="10000" /></div>
+            <div class="form-group"><label>Flyers Target</label><input type="number" id="goal-flyers" min="0" placeholder="8000" /></div>
             <div class="form-group"><label>Calls Target</label><input type="number" id="goal-calls" min="0" placeholder="5000" /></div>
             <div class="form-group"><label>Texts Target</label><input type="number" id="goal-texts" min="0" placeholder="20000" /></div>
             <div class="form-group"><label>Contacts Target</label><input type="number" id="goal-contacts" min="0" placeholder="3000" /></div>
@@ -933,7 +940,7 @@
     document.getElementById('stat-areas').textContent    = areaSet.size.toLocaleString();
     document.getElementById('stat-hours').textContent    = Math.round(hours).toLocaleString();
 
-    renderGoals(doors, calls, texts, contacts);
+    renderGoals(doors, flyers, calls, texts, contacts);
   }
 
   /* ---- CAMPAIGN GOALS ---- */
@@ -943,13 +950,14 @@
   }
   function saveGoals(g) { localStorage.setItem(LS_GOALS, JSON.stringify(g)); }
 
-  function renderGoals(doors, calls, texts, contacts) {
+  function renderGoals(doors, flyers, calls, texts, contacts) {
     const g = loadGoals();
     const targets = [
-      { label: 'Doors Knocked', val: doors, goal: toNum(g.doors) || 10000, color: 'var(--brand)' },
-      { label: 'Phone Calls',   val: calls,   goal: toNum(g.calls) || 5000,  color: '#166534' },
-      { label: 'Texts Sent',    val: texts,   goal: toNum(g.texts) || 20000, color: '#92400e' },
-      { label: 'Contacts Made', val: contacts, goal: toNum(g.contacts) || 3000, color: '#7c3aed' },
+      { label: 'Doors Knocked',      val: doors,    goal: toNum(g.doors)    || 10000, color: 'var(--brand)' },
+      { label: 'Flyers Distributed', val: flyers,   goal: toNum(g.flyers)   || 8000,  color: '#0e7490' },
+      { label: 'Phone Calls',        val: calls,    goal: toNum(g.calls)    || 5000,  color: '#166534' },
+      { label: 'Texts Sent',         val: texts,    goal: toNum(g.texts)    || 20000, color: '#92400e' },
+      { label: 'Contacts Made',      val: contacts, goal: toNum(g.contacts) || 3000,  color: '#7c3aed' },
     ];
     const body = document.getElementById('goals-progress-body');
     body.innerHTML = targets.map(t => {
@@ -1098,11 +1106,17 @@
   document.getElementById('trend-metric').addEventListener('change', renderWeeklyTrend);
 
   /* ---- TERRITORY GRID ---- */
+  function daysSince(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr + 'T12:00:00');
+    if (isNaN(d)) return null;
+    const now = new Date();
+    return Math.floor((now - d) / (1000 * 60 * 60 * 24));
+  }
+
   function renderTerritoryGrid() {
     const grid = document.getElementById('territory-grid');
     const areas = trackerData ? trackerData.areas : null;
-
-    const covered = new Set(allSessions.map(r => r.area).filter(Boolean));
 
     const rows = AREAS.map(name => {
       // find matching tracker entry
@@ -1118,6 +1132,21 @@
       const texts  = sessions.reduce((s,r) => s + toNum(r.texts), 0);
       const isActive = sessions.length > 0;
       const needsLead = !lead;
+
+      // Days since last session
+      let lastDays = null, ageHtml = '';
+      if (sessions.length > 0) {
+        const lastDate = sessions.map(r => r.date).filter(Boolean).sort().pop();
+        lastDays = daysSince(lastDate);
+        if (lastDays !== null) {
+          let ageCls, ageLabel;
+          if (lastDays <= 3)       { ageCls = 'territory-age--fresh'; ageLabel = lastDays === 0 ? 'Today' : `${lastDays}d ago`; }
+          else if (lastDays <= 7)  { ageCls = 'territory-age--ok';    ageLabel = `${lastDays}d ago`; }
+          else if (lastDays <= 14) { ageCls = 'territory-age--stale'; ageLabel = `${lastDays}d ago`; }
+          else                     { ageCls = 'territory-age--cold';  ageLabel = `${lastDays}d ago`; }
+          ageHtml = `<span class="territory-age ${ageCls}" title="Last session ${lastDays} day(s) ago">&#128337; ${ageLabel}</span>`;
+        }
+      }
 
       let cls = 'territory-item--none';
       let badgeCls = 'territory-badge--none', badgeLabel = 'No activity';
@@ -1135,7 +1164,10 @@
             <div class="territory-stat">Texts <span>${texts}</span></div>
             <div class="territory-stat">Sessions <span>${sessions.length}</span></div>
           </div>
-          <span class="territory-badge ${badgeCls}">${badgeLabel}</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="territory-badge ${badgeCls}">${badgeLabel}</span>
+            ${ageHtml}
+          </div>
         </div>`;
     });
 
@@ -1219,6 +1251,24 @@
     renderAll();
   };
 
+  window.duplicateSession = function(id) {
+    const original = allSessions.find(s => s.id === id);
+    if (!original || original._sample || original._sheet) return;
+    const copy = { ...original, id: uid(), date: today() };
+    delete copy._sample; delete copy._sheet;
+    const local = loadLocal();
+    local.push(copy);
+    saveLocal(local);
+    allSessions = [...SAMPLE_SESSIONS, ...local];
+    renderAll();
+    // briefly open the log panel so user can see or edit the new entry
+    document.getElementById('log-panel').open = true;
+    const fb = document.getElementById('log-feedback');
+    fb.className = 'form-feedback form-feedback--success';
+    fb.textContent = 'Session duplicated — edit as needed.';
+    setTimeout(() => { fb.textContent = ''; }, 4000);
+  };
+
   /* ---- SESSION TABLE ---- */
   function applyFiltersAndSort() {
     const search   = (document.getElementById('search').value || '').toLowerCase();
@@ -1275,6 +1325,7 @@
         <td class="td-muted" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escHtml(r.notes||'')}">${escHtml(r.notes || '—')}</td>
         <td style="white-space:nowrap;">${!r._sample && !r._sheet ? `
           <button onclick="openEditSession('${r.id}')" title="Edit session" style="padding:3px 8px;border-radius:6px;border:1px solid rgba(29,79,168,0.25);background:transparent;color:var(--brand);cursor:pointer;font-size:.74rem;font-weight:700;margin-right:4px;">&#9998;</button>
+          <button onclick="duplicateSession('${r.id}')" title="Duplicate session" style="padding:3px 8px;border-radius:6px;border:1px solid rgba(22,101,52,0.25);background:transparent;color:var(--green);cursor:pointer;font-size:.74rem;font-weight:700;margin-right:4px;">&#10064;</button>
           <button onclick="deleteSession('${r.id}')" title="Delete session" style="padding:3px 8px;border-radius:6px;border:1px solid rgba(153,27,27,0.25);background:transparent;color:var(--red);cursor:pointer;font-size:.74rem;font-weight:700;">&#10005;</button>` : ''}</td>
       </tr>`).join('');
   }
@@ -1389,17 +1440,28 @@
   });
 
   /* ---- EXPORT CSV ---- */
-  document.getElementById('export-btn').addEventListener('click', function() {
+  function sessionsToCSV(sessions) {
     const header = ['Date','Type','Volunteer / Team','Area','Doors','Flyers','Calls','Texts','Contacts','Volunteers','Notes'];
-    const rows = allSessions.map(r => [
+    const rows = sessions.map(r => [
       r.date, r.type, r.volunteer, r.area,
       r.doors, r.flyers, r.calls, r.texts, r.contacts, r.vols,
       r.notes
     ].map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(','));
-    const csv = [header.join(','), ...rows].join('\n');
+    return [header.join(','), ...rows].join('\n');
+  }
+
+  document.getElementById('export-btn').addEventListener('click', function() {
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    a.download = `field-ops-sessions-${today()}.csv`;
+    a.href = URL.createObjectURL(new Blob([sessionsToCSV(allSessions)], { type: 'text/csv' }));
+    a.download = `field-ops-sessions-all-${today()}.csv`;
+    a.click();
+  });
+
+  document.getElementById('export-filtered-btn').addEventListener('click', function() {
+    if (!filteredSessions.length) { alert('No sessions match the current filters.'); return; }
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([sessionsToCSV(filteredSessions)], { type: 'text/csv' }));
+    a.download = `field-ops-sessions-filtered-${today()}.csv`;
     a.click();
   });
 
@@ -1417,6 +1479,7 @@
     if (isHidden) {
       const g = loadGoals();
       document.getElementById('goal-doors').value    = g.doors    || '';
+      document.getElementById('goal-flyers').value   = g.flyers   || '';
       document.getElementById('goal-calls').value    = g.calls    || '';
       document.getElementById('goal-texts').value    = g.texts    || '';
       document.getElementById('goal-contacts').value = g.contacts || '';
@@ -1426,6 +1489,7 @@
   document.getElementById('save-goals-btn').addEventListener('click', function() {
     saveGoals({
       doors:    toNum(document.getElementById('goal-doors').value)    || 10000,
+      flyers:   toNum(document.getElementById('goal-flyers').value)   || 8000,
       calls:    toNum(document.getElementById('goal-calls').value)    || 5000,
       texts:    toNum(document.getElementById('goal-texts').value)    || 20000,
       contacts: toNum(document.getElementById('goal-contacts').value) || 3000
