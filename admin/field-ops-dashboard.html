@@ -88,6 +88,27 @@
     .stat-card--urgent .stat-num { color: var(--amber); }
     .stat-card--green .stat-num { color: var(--green); }
     .stat-card--brand .stat-num { color: var(--brand); }
+    .stat-delta { font-size: .72rem; font-weight: 800; margin-top: 5px; min-height: 1em; letter-spacing: .02em; }
+    .stat-delta--up   { color: var(--green); }
+    .stat-delta--down { color: var(--red); }
+    .stat-delta--flat { color: var(--muted); }
+
+    /* ---- COVERAGE GAP ALERT ---- */
+    .coverage-gap-alert {
+      background: rgba(146,64,14,0.08); border: 1px solid rgba(184,134,13,0.35);
+      border-radius: var(--radius); padding: 11px 16px; margin-bottom: 18px;
+      display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap;
+    }
+    .coverage-gap-alert__icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .coverage-gap-alert__body { flex: 1 1 200px; }
+    .coverage-gap-alert__headline { font-weight: 800; color: var(--amber); font-size: .9rem; }
+    .coverage-gap-alert__detail { font-size: .82rem; color: var(--muted); font-weight: 600; margin-top: 3px; }
+    .gap-pill {
+      display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px;
+      border-radius: 999px; font-size: .72rem; font-weight: 800; white-space: nowrap;
+      background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(184,134,13,0.30);
+    }
+    .gap-pill--critical { background: var(--red-bg); color: var(--red); border-color: rgba(153,27,27,0.25); }
 
     /* ---- QUICK LINKS ---- */
     .quick-links-bar {
@@ -404,6 +425,37 @@
       .events-grid { grid-template-columns: 1fr; }
       .territory-grid { grid-template-columns: 1fr; }
     }
+
+    /* ---- PRINT BRIEFING ---- */
+    @media print {
+      body { background: #fff !important; font-size: 12px; }
+      .dash-header, .quick-links-bar, .filter-bar, .config-section,
+      .dash-btn, .btn-submit, .config-btn, #add-event-form-wrap,
+      #goals-edit-wrap, .section-header button, .table-wrap,
+      #toggle-add-event-btn, #edit-goals-btn, #export-btn, #export-filtered-btn,
+      #copy-summary-btn, #print-briefing-btn,
+      #sessions-section, #territory-section,
+      .events-grid, #phase-card, #endorsement-card, #capacity-card,
+      #reengagement-section, #dow-section
+      { display: none !important; }
+      .dash-content { max-width: 100%; padding: 0; }
+      .stats-row { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+      .stat-card { border: 1px solid #ccc; box-shadow: none; padding: 10px 12px; }
+      .stat-num { font-size: 1.6rem; }
+      .section-card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+      .this-week-bar, .this-month-bar, .highlights-bar { break-inside: avoid; }
+      .coverage-gap-alert { break-inside: avoid; }
+      #goals-card { break-inside: avoid; }
+      #print-briefing-header { display: block !important; }
+    }
+    #print-briefing-header {
+      display: none;
+      padding: 0 0 16px;
+      border-bottom: 2px solid var(--navy);
+      margin-bottom: 20px;
+    }
+    #print-briefing-header h1 { font-size: 1.3rem; font-weight: 900; color: var(--navy); }
+    #print-briefing-header p { font-size: .85rem; color: var(--muted); margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -419,12 +471,18 @@
       <button class="dash-btn dash-btn--gold" id="export-btn">&#11123; Export All CSV</button>
       <button class="dash-btn dash-btn--gold" id="export-filtered-btn">&#11123; Export Filtered</button>
       <button class="dash-btn" id="copy-summary-btn" title="Copy weekly summary to clipboard">&#128203; Copy Summary</button>
+      <button class="dash-btn" id="print-briefing-btn" title="Print daily ops briefing">&#128438; Print Briefing</button>
       <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteer Dashboard</a>
       <a class="dash-btn" href="/index.html" target="_blank">View Site &rarr;</a>
     </div>
   </header>
 
   <div class="dash-content">
+    <!-- PRINT-ONLY HEADER (hidden on screen) -->
+    <div id="print-briefing-header">
+      <h1>Arafat for Congress WA-10 — Field Ops Daily Briefing</h1>
+      <p id="print-briefing-date"><!-- filled by JS --></p>
+    </div>
 
     <!-- THIS WEEK AT A GLANCE -->
     <div id="this-week-bar" class="this-week-bar" style="display:none;"></div>
@@ -441,31 +499,47 @@
       <span id="data-source-line">Loading data…</span>
     </div>
 
+    <!-- COVERAGE GAP ALERT -->
+    <div id="coverage-gap-bar" class="coverage-gap-alert" style="display:none;">
+      <div class="coverage-gap-alert__icon">&#9888;&#65039;</div>
+      <div class="coverage-gap-alert__body">
+        <div class="coverage-gap-alert__headline" id="coverage-gap-headline">Coverage Gaps Detected</div>
+        <div class="coverage-gap-alert__detail" id="coverage-gap-detail">Loading…</div>
+        <div id="coverage-gap-pills" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
+      </div>
+    </div>
+
     <!-- STATS ROW -->
     <div class="stats-row">
       <div class="stat-card stat-card--brand">
         <div class="stat-num" id="stat-doors">0</div>
         <div class="stat-label">Doors Knocked</div>
+        <div class="stat-delta" id="delta-doors"></div>
       </div>
       <div class="stat-card stat-card--green">
         <div class="stat-num" id="stat-flyers">0</div>
         <div class="stat-label">Flyers Distributed</div>
+        <div class="stat-delta" id="delta-flyers"></div>
       </div>
       <div class="stat-card">
         <div class="stat-num" id="stat-calls">0</div>
         <div class="stat-label">Phone Calls</div>
+        <div class="stat-delta" id="delta-calls"></div>
       </div>
       <div class="stat-card">
         <div class="stat-num" id="stat-texts">0</div>
         <div class="stat-label">Texts Sent</div>
+        <div class="stat-delta" id="delta-texts"></div>
       </div>
       <div class="stat-card" style="--stat-color:#7c3aed;">
         <div class="stat-num" id="stat-contacts" style="color:#7c3aed;">0</div>
         <div class="stat-label">Contacts Made</div>
+        <div class="stat-delta" id="delta-contacts"></div>
       </div>
       <div class="stat-card stat-card--urgent">
         <div class="stat-num" id="stat-sessions">0</div>
         <div class="stat-label">Sessions Logged</div>
+        <div class="stat-delta" id="delta-sessions"></div>
       </div>
       <div class="stat-card">
         <div class="stat-num" id="stat-vols">0</div>
@@ -1082,6 +1156,118 @@
     document.getElementById('stat-streak').textContent        = calcWeekStreak();
 
     renderGoals(doors, flyers, calls, texts, contacts);
+    renderMomentumDeltas();
+    renderCoverageGapAlert();
+  }
+
+  /* ---- MOMENTUM DELTAS ---- */
+  function renderMomentumDeltas() {
+    // Compare past 7 days vs previous 7 days
+    const now = new Date();
+    const cutRecent = new Date(now); cutRecent.setDate(now.getDate() - 7);
+    const cutPrev   = new Date(now); cutPrev.setDate(now.getDate() - 14);
+
+    const recentSrc = allSessions.filter(r => {
+      if (!r.date) return false;
+      const d = new Date(r.date + 'T12:00:00');
+      return d > cutRecent && d <= now;
+    });
+    const prevSrc = allSessions.filter(r => {
+      if (!r.date) return false;
+      const d = new Date(r.date + 'T12:00:00');
+      return d > cutPrev && d <= cutRecent;
+    });
+
+    function sum(arr, key) { return arr.reduce((s, r) => s + toNum(r[key]), 0); }
+
+    const metrics = [
+      { id: 'delta-doors',    curr: sum(recentSrc,'doors'),    prev: sum(prevSrc,'doors')    },
+      { id: 'delta-flyers',   curr: sum(recentSrc,'flyers'),   prev: sum(prevSrc,'flyers')   },
+      { id: 'delta-calls',    curr: sum(recentSrc,'calls'),    prev: sum(prevSrc,'calls')    },
+      { id: 'delta-texts',    curr: sum(recentSrc,'texts'),    prev: sum(prevSrc,'texts')    },
+      { id: 'delta-contacts', curr: sum(recentSrc,'contacts'), prev: sum(prevSrc,'contacts') },
+      { id: 'delta-sessions', curr: recentSrc.length,         prev: prevSrc.length          },
+    ];
+
+    metrics.forEach(({ id, curr, prev }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (curr === 0 && prev === 0) { el.textContent = ''; return; }
+      const diff = curr - prev;
+      if (diff === 0) {
+        el.className = 'stat-delta stat-delta--flat';
+        el.textContent = '± 0 vs prev 7d';
+      } else if (prev === 0) {
+        el.className = 'stat-delta stat-delta--up';
+        el.textContent = `▲ ${curr} new (7d)`;
+      } else {
+        const pct = Math.round(Math.abs(diff) / prev * 100);
+        if (diff > 0) {
+          el.className = 'stat-delta stat-delta--up';
+          el.textContent = `▲ +${pct}% vs prev 7d`;
+        } else {
+          el.className = 'stat-delta stat-delta--down';
+          el.textContent = `▼ −${pct}% vs prev 7d`;
+        }
+      }
+    });
+  }
+
+  /* ---- COVERAGE GAP ALERT ---- */
+  function renderCoverageGapAlert() {
+    const bar = document.getElementById('coverage-gap-bar');
+    if (!bar || !allSessions.length) { if (bar) bar.style.display = 'none'; return; }
+
+    const WARN_DAYS = 14;
+    const CRITICAL_DAYS = 28;
+
+    // Find last session date per area (excluding "Multiple / Remote" catch-all)
+    const lastByArea = {};
+    allSessions.forEach(r => {
+      if (!r.area || !r.date || r.area === 'Multiple / Remote') return;
+      const existing = lastByArea[r.area];
+      if (!existing || r.date > existing) lastByArea[r.area] = r.date;
+    });
+
+    const now = new Date();
+    const gaps = AREAS
+      .map(area => {
+        const last = lastByArea[area];
+        if (!last) return { area, days: Infinity, label: 'Never canvassed' };
+        const d = new Date(last + 'T12:00:00');
+        const days = Math.floor((now - d) / (1000 * 60 * 60 * 24));
+        return { area, days, label: `${days}d ago` };
+      })
+      .filter(({ days }) => days >= WARN_DAYS)
+      .sort((a, b) => b.days - a.days);
+
+    if (!gaps.length) { bar.style.display = 'none'; return; }
+
+    const critical = gaps.filter(g => g.days >= CRITICAL_DAYS);
+    const warn     = gaps.filter(g => g.days < CRITICAL_DAYS);
+
+    const headline = document.getElementById('coverage-gap-headline');
+    const detail   = document.getElementById('coverage-gap-detail');
+    const pills    = document.getElementById('coverage-gap-pills');
+
+    if (headline) headline.textContent = `${gaps.length} Area${gaps.length !== 1 ? 's' : ''} Need${gaps.length === 1 ? 's' : ''} Attention`;
+    if (detail) {
+      if (critical.length) {
+        detail.textContent = `${critical.length} area${critical.length !== 1 ? 's' : ''} without a session in 28+ days — schedule canvassing soon.`;
+      } else {
+        detail.textContent = `${gaps.length} area${gaps.length !== 1 ? 's' : ''} without a session in 14+ days — consider scheduling field activity.`;
+      }
+    }
+
+    if (pills) {
+      pills.innerHTML = gaps.map(({ area, days, label }) => {
+        const cls = days >= CRITICAL_DAYS ? 'gap-pill gap-pill--critical' : 'gap-pill';
+        const icon = days === Infinity ? '⊘' : days >= CRITICAL_DAYS ? '🔴' : '⚠';
+        return `<span class="${cls}">${icon} ${area} · ${label}</span>`;
+      }).join('');
+    }
+
+    bar.style.display = 'flex';
   }
 
   /* ---- WEEK STREAK ---- */
@@ -1942,6 +2128,17 @@
     }).catch(() => {
       alert('Could not copy to clipboard — please check browser permissions.');
     });
+  });
+
+  /* ---- PRINT BRIEFING ---- */
+  document.getElementById('print-briefing-btn').addEventListener('click', function() {
+    const dateEl = document.getElementById('print-briefing-date');
+    if (dateEl) {
+      const now = new Date();
+      dateEl.textContent = 'Printed: ' + now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) +
+        ' at ' + now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
+    window.print();
   });
 
   /* ---- REFRESH ---- */
