@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phone Banking | Arafat for Congress WA-10</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #05101e; --brand: #1d4fa8; --brand-dark: #143480; --gold: #b8860d;
+      --green: #166534; --amber: #92400e; --red: #991b1b;
+      --muted: #4b5568; --border: rgba(5,16,30,0.13);
+      --shadow: 0 4px 16px rgba(5,16,30,0.08); --radius: 10px; --bg: #f3f5fb;
+    }
+    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; background: var(--bg); color: var(--navy); font-size: 14px; min-height: 100vh; }
+
+    .dash-header {
+      background: linear-gradient(90deg, var(--navy), #0d2054);
+      color: #fff; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .dash-brand-name { font-weight: 900; font-size: 1.05rem; }
+    .dash-brand-sub { font-size: .78rem; color: rgba(255,255,255,0.55); font-weight: 600; }
+    .dash-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dash-btn {
+      padding: 7px 13px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; font-size: .82rem; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: background .12s;
+    }
+    .dash-btn:hover { background: rgba(255,255,255,0.16); }
+    .dash-btn--active { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.50); }
+
+    .page-content { max-width: 1300px; margin: 0 auto; padding: 20px 20px 60px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 380px; gap: 20px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    .section-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    }
+    .section-header {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .section-title { font-weight: 800; color: var(--navy); font-size: .95rem; }
+    .section-sub { font-size: .78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .section-body { padding: 16px 18px; }
+
+    .filter-bar {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+      padding: 14px 18px; border-bottom: 1px solid var(--border); background: #f7f8fb;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; }
+    .filter-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .filter-group select, .filter-group input {
+      padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .83rem; color: var(--navy); background: #fff; font-weight: 600;
+    }
+
+    .btn-action {
+      padding: 8px 14px; border-radius: 7px; border: none; cursor: pointer;
+      font-size: .83rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-green { background: #166534; color: #fff; }
+    .btn-green:hover { background: #14532d; }
+    .btn-amber { background: #d97706; color: #fff; }
+    .btn-amber:hover { background: #b45309; }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: #7f1d1d; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--navy); }
+    .btn-outline:hover { background: #f7f8fb; }
+
+    /* Voter queue */
+    .voter-queue { display: flex; flex-direction: column; gap: 8px; }
+    .voter-queue-item {
+      border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      transition: border-color .12s, background .12s; flex-wrap: wrap;
+    }
+    .voter-queue-item:hover { border-color: var(--brand); background: rgba(29,79,168,0.04); }
+    .voter-queue-item.active { border-color: var(--brand); background: #eff6ff; }
+    .voter-queue-item.done { opacity: .55; }
+    .voter-q-name { font-weight: 800; flex: 1 1 140px; }
+    .voter-q-meta { font-size: .75rem; color: var(--muted); }
+    .voter-q-status { margin-left: auto; }
+
+    .badge {
+      display: inline-block; padding: 2px 7px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800;
+    }
+    .badge-nc      { background: #f3f4f6; color: #374151; }
+    .badge-fu      { background: #fef3c7; color: #92400e; }
+    .badge-donor   { background: #fefce8; color: #854d0e; }
+    .badge-cont    { background: #dcfce7; color: #166534; }
+    .badge-canv    { background: #dbeafe; color: #1e40af; }
+    .badge-dnc     { background: #fee2e2; color: #991b1b; }
+
+    /* Call panel */
+    .call-panel { position: sticky; top: 80px; }
+    .call-panel-voter {
+      background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px;
+      margin-bottom: 14px;
+    }
+    .call-panel-voter h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 4px; }
+    .call-panel-voter .voter-meta { font-size: .8rem; color: var(--muted); margin-bottom: 2px; }
+    .call-tel { display: inline-flex; align-items: center; gap: 6px; font-size: 1rem; font-weight: 900; color: var(--brand); text-decoration: none; }
+    .call-tel:hover { text-decoration: underline; }
+
+    /* Script */
+    .script-card {
+      border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+      background: #f7f8fb; margin-bottom: 14px; font-size: .85rem; line-height: 1.6;
+    }
+    .script-card h4 { font-size: .82rem; font-weight: 800; color: var(--brand); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+    .script-highlight { color: var(--navy); font-weight: 700; }
+    .script-placeholder { color: #7c3aed; font-style: italic; }
+
+    /* Result form */
+    .result-form { display: flex; flex-direction: column; gap: 10px; }
+    .result-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .result-btn {
+      padding: 10px 8px; border-radius: 7px; border: 2px solid var(--border); background: #f7f8fb;
+      cursor: pointer; font-size: .82rem; font-weight: 800; text-align: center;
+      transition: border-color .12s, background .12s; color: var(--navy);
+    }
+    .result-btn:hover { border-color: var(--brand); background: rgba(29,79,168,0.07); }
+    .result-btn.selected { border-color: var(--brand); background: #eff6ff; color: var(--brand); }
+    .result-btn--green.selected  { border-color: #166534; background: #f0fdf4; color: #166534; }
+    .result-btn--amber.selected  { border-color: #d97706; background: #fffbeb; color: #92400e; }
+    .result-btn--gold.selected   { border-color: #b8860d; background: #fefce8; color: #854d0e; }
+    .result-btn--red.selected    { border-color: var(--red); background: #fef2f2; color: var(--red); }
+
+    .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+    .form-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .87rem; color: var(--navy); background: #fff;
+    }
+    .form-group textarea { min-height: 70px; resize: vertical; }
+
+    /* Stats */
+    .stats-mini { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stat-mini { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 110px; }
+    .stat-mini-num { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .stat-mini-label { font-size: .70rem; font-weight: 700; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* Log */
+    .log-table-wrap { overflow-x: auto; }
+    table.log-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+    table.log-table th {
+      padding: 8px 10px; text-align: left; font-size: .72rem; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--border); background: #f7f8fb;
+    }
+    table.log-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    table.log-table tr:hover td { background: rgba(29,79,168,0.04); }
+
+    .dnc-warning {
+      background: #fef2f2; border: 1px solid #fca5a5; border-radius: 7px; padding: 10px 14px;
+      font-size: .83rem; font-weight: 700; color: #991b1b; display: flex; align-items: center; gap: 8px;
+    }
+    .form-feedback { font-size: .82rem; font-weight: 700; }
+    .form-feedback--ok  { color: var(--green); }
+    .form-feedback--err { color: var(--red); }
+
+    .no-voter-msg {
+      text-align: center; padding: 40px 20px; color: var(--muted); font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<div id="page">
+  <header class="dash-header">
+    <div>
+      <div class="dash-brand-name">Arafat for Congress &mdash; WA-10</div>
+      <div class="dash-brand-sub">Phone Banking &bull; Internal Use Only</div>
+    </div>
+    <div class="dash-header-actions">
+      <a class="dash-btn" href="/admin/field-ops-dashboard.html">&#128200; Field Ops</a>
+      <a class="dash-btn" href="/admin/text-banking.html">&#128172; Text Bank</a>
+      <a class="dash-btn dash-btn--active" href="/admin/phone-banking.html">&#128222; Phone Bank</a>
+      <a class="dash-btn" href="/admin/canvassing.html">&#127968; Canvass</a>
+      <a class="dash-btn" href="/admin/flyer-ops.html">&#128251; Flyers</a>
+      <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteers</a>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- Stats -->
+    <div class="stats-mini">
+      <div class="stat-mini"><div class="stat-mini-num" id="pb-stat-total" style="color:var(--navy);">—</div><div class="stat-mini-label">Queue</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="pb-stat-called" style="color:var(--brand);">0</div><div class="stat-mini-label">Called</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="pb-stat-reached" style="color:var(--green);">0</div><div class="stat-mini-label">Reached</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="pb-stat-followup" style="color:#d97706;">0</div><div class="stat-mini-label">Follow-Ups</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="pb-stat-donor" style="color:var(--gold);">0</div><div class="stat-mini-label">Donor Prospects</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="pb-stat-dnc" style="color:var(--red);">0</div><div class="stat-mini-label">DNC Logged</div></div>
+    </div>
+
+    <div class="two-col">
+
+      <!-- LEFT: Queue + Filters -->
+      <div>
+        <!-- Filters -->
+        <div class="section-card">
+          <div class="section-header">
+            <div>
+              <div class="section-title">&#128222; Call Queue</div>
+              <div class="section-sub">Filter voters by area, status, or ZIP. Click a voter to begin calling.</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn-action btn-outline" id="pb-reload-btn">&#8635; Reload CSV</button>
+              <button class="btn-action btn-primary" id="pb-apply-btn">&#128269; Apply</button>
+            </div>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-group">
+              <label>Area</label>
+              <select id="pb-filter-area">
+                <option value="all">All Areas</option>
+                <option value="Spanaway">Spanaway</option>
+                <option value="Lakewood">Lakewood</option>
+                <option value="Olympia">Olympia</option>
+                <option value="Lacey / Tumwater">Lacey / Tumwater</option>
+                <option value="University Place">University Place</option>
+                <option value="JBLM Communities">JBLM Communities</option>
+                <option value="Puyallup / South Hill">Puyallup / South Hill</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Status</label>
+              <select id="pb-filter-status">
+                <option value="active">Not Contacted + Follow-Ups</option>
+                <option value="all">All (non-DNC)</option>
+                <option value="not_contacted">Not Contacted Only</option>
+                <option value="follow_up">Follow-Ups Only</option>
+                <option value="donor_interest">Donor Prospects</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>ZIP</label>
+              <input type="text" id="pb-filter-zip" placeholder="98387" style="width:90px;">
+            </div>
+            <div class="filter-group">
+              <label>Has Phone</label>
+              <select id="pb-filter-phone">
+                <option value="yes">Has Phone Only</option>
+                <option value="all">All</option>
+              </select>
+            </div>
+          </div>
+          <div id="pb-queue-wrap" style="padding:14px 18px;max-height:580px;overflow-y:auto;">
+            <div class="voter-queue" id="pb-queue">
+              <div class="no-voter-msg">Loading…</div>
+            </div>
+          </div>
+          <div style="padding:10px 18px;font-size:.78rem;color:var(--muted);font-weight:700;border-top:1px solid var(--border);" id="pb-queue-count">0 voters in queue</div>
+        </div>
+
+        <!-- Call Log -->
+        <div class="section-card">
+          <div class="section-header">
+            <div>
+              <div class="section-title">&#128203; Call Log</div>
+              <div class="section-sub">Results logged this session — synced to voter map</div>
+            </div>
+            <button class="btn-action btn-outline" id="pb-export-btn" style="font-size:.78rem;padding:6px 10px;">&#11123; Export CSV</button>
+          </div>
+          <div class="log-table-wrap">
+            <table class="log-table" id="pb-log-table">
+              <thead>
+                <tr>
+                  <th>Time</th><th>Voter</th><th>Area</th><th>Phone</th><th>Result</th><th>Notes</th><th>Logged By</th>
+                </tr>
+              </thead>
+              <tbody id="pb-log-tbody">
+                <tr><td colspan="7" style="text-align:center;padding:20px;color:var(--muted);">No calls logged yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Call Panel -->
+      <div class="call-panel">
+        <div class="section-card" id="pb-call-panel">
+          <div class="section-header">
+            <div class="section-title">&#128222; Active Call</div>
+          </div>
+          <div class="section-body" id="pb-call-body">
+            <div class="no-voter-msg">
+              <div style="font-size:2.5rem;margin-bottom:12px;">&#128222;</div>
+              <div>Select a voter from the queue to begin calling.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /two-col -->
+  </div><!-- /page-content -->
+</div>
+
+<script src="/admin/voter-data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  let allVoters     = [];
+  let queueVoters   = [];
+  let activeVoter   = null;
+  let sessionLog    = [];
+  let selectedResult = null;
+
+  // Session stats
+  let sCalled = 0, sReached = 0, sFollowUp = 0, sDonor = 0, sDnc = 0;
+
+  const CALL_RESULTS = [
+    { id: 'contacted',     label: '&#10003; Contacted',     cls: 'result-btn--green',  statusSet: 'contacted'     },
+    { id: 'follow_up',     label: '&#9873; Follow-Up',      cls: 'result-btn--amber',  statusSet: 'follow_up'     },
+    { id: 'donor_interest',label: '&#11088; Donor Interest', cls: 'result-btn--gold',   statusSet: 'donor_interest'},
+    { id: 'no_answer',     label: '&#128263; No Answer',     cls: '',                   statusSet: 'not_contacted' },
+    { id: 'left_message',  label: '&#128275; Left Message',  cls: '',                   statusSet: 'follow_up'     },
+    { id: 'wrong_number',  label: '&#10060; Wrong Number',   cls: '',                   statusSet: 'not_contacted' },
+    { id: 'dnc',           label: '&#128683; DNC Request',   cls: 'result-btn--red',    statusSet: 'dnc'           }
+  ];
+
+  const SCRIPTS = {
+    not_contacted: {
+      title: 'First Contact Script',
+      body: `Hello, may I speak with <span class="script-placeholder">[First Name]</span>?
+<br><br>
+Hi <span class="script-placeholder">[First Name]</span>, my name is <span class="script-placeholder">[Your Name]</span>, and I'm a volunteer for Adam Arafat's campaign for Washington's 10th Congressional District.
+<br><br>
+Adam is running because working families in Pierce and Thurston counties need a real champion in Congress — someone who'll fight for <span class="script-highlight">affordable housing, veterans' healthcare, and good-paying jobs</span>.
+<br><br>
+Can Adam count on your support in the August primary?
+<br><br>
+<em style="color:var(--muted);">[If yes → Thank them, ask about volunteering or donating]</em>
+<br>
+<em style="color:var(--muted);">[If unsure → Share one key issue, offer to send more info]</em>
+<br>
+<em style="color:var(--muted);">[If no → Thank them for their time, don't argue]</em>
+<br><br>
+Thanks so much for your time. Have a great day!`
+    },
+    follow_up: {
+      title: 'Follow-Up Script',
+      body: `Hello, may I speak with <span class="script-placeholder">[First Name]</span>?
+<br><br>
+Hi <span class="script-placeholder">[First Name]</span>, this is <span class="script-placeholder">[Your Name]</span> following up from Adam Arafat's congressional campaign. We spoke recently and I wanted to check in.
+<br><br>
+Do you have any questions about Adam's platform? We're focused on <span class="script-highlight">housing affordability, veterans' issues, and economic opportunity</span> for WA-10.
+<br><br>
+<em style="color:var(--muted);">[Offer volunteer or donation opportunity if they're supportive]</em>
+<br><br>
+Thanks again for your time!`
+    },
+    donor_interest: {
+      title: 'Donor Prospect Script',
+      body: `Hello, may I speak with <span class="script-placeholder">[First Name]</span>?
+<br><br>
+Hi <span class="script-placeholder">[First Name]</span>, this is <span class="script-placeholder">[Your Name]</span> from Adam Arafat's WA-10 campaign. You'd expressed interest in supporting the campaign financially — I wanted to personally thank you and share how you can help.
+<br><br>
+Small-dollar donations from neighbors like you make a real difference. You can donate at <span class="script-highlight">arafatforcongress.org/donate</span>, or I can send you a direct link.
+<br><br>
+Any questions about the campaign or Adam's positions?
+<br><br>
+Thank you so much — every contribution helps us reach more voters!`
+    }
+  };
+
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function statusBadge(status) {
+    const map = {
+      not_contacted: ['badge-nc', 'Not Contacted'],
+      follow_up:     ['badge-fu', 'Follow-Up'],
+      donor_interest:['badge-donor', 'Donor Interest'],
+      contacted:     ['badge-cont', 'Contacted'],
+      canvassed:     ['badge-canv', 'Canvassed'],
+      dnc:           ['badge-dnc', 'DNC']
+    };
+    const [cls, label] = map[status] || ['badge-nc', status];
+    return `<span class="badge ${cls}">${escHtml(label)}</span>`;
+  }
+
+  function getFilters() {
+    const areaEl   = document.getElementById('pb-filter-area');
+    const statusEl = document.getElementById('pb-filter-status');
+    const zipEl    = document.getElementById('pb-filter-zip');
+    const phoneEl  = document.getElementById('pb-filter-phone');
+    return {
+      area:      (areaEl   || {}).value || 'all',
+      status:    (statusEl || {}).value || 'active',
+      zip:       ((zipEl   || {}).value || '').trim(),
+      phoneOnly: (phoneEl  || {}).value !== 'all'
+    };
+  }
+
+  function applyFilters() {
+    if (!window.VoterData) return;
+    const f = getFilters();
+
+    let filtered = allVoters.filter(v => !v.dnc && v.status !== 'dnc');
+    if (f.area !== 'all') filtered = filtered.filter(v => v.area === f.area);
+    if (f.zip)            filtered = filtered.filter(v => v.zip === f.zip);
+    if (f.phoneOnly)      filtered = filtered.filter(v => !!v.phone);
+
+    if (f.status === 'active') {
+      filtered = filtered.filter(v => v.status === 'not_contacted' || v.status === 'follow_up');
+    } else if (f.status !== 'all') {
+      filtered = filtered.filter(v => v.status === f.status);
+    }
+
+    queueVoters = filtered;
+    renderQueue();
+    updateStats();
+  }
+
+  function renderQueue() {
+    const queue = document.getElementById('pb-queue');
+    const countEl = document.getElementById('pb-queue-count');
+    if (!queue) return;
+
+    if (!queueVoters.length) {
+      queue.innerHTML = '<div class="no-voter-msg">No voters match these filters.</div>';
+      if (countEl) countEl.textContent = '0 voters in queue';
+      return;
+    }
+
+    queue.innerHTML = queueVoters.map(v => {
+      const isActive = activeVoter && activeVoter.id === v.id;
+      const isDone   = sessionLog.some(l => l.voterId === v.id);
+      return `
+        <div class="voter-queue-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" data-id="${escHtml(v.id)}">
+          <div>
+            <div class="voter-q-name">${escHtml(v.firstName)} ${escHtml(v.lastName)}</div>
+            <div class="voter-q-meta">${escHtml(v.address)}, ${escHtml(v.zip)} &bull; ${escHtml(v.area)}</div>
+          </div>
+          <div class="voter-q-status">${statusBadge(v.status)}</div>
+          ${isDone ? '<div style="font-size:.72rem;font-weight:700;color:var(--green);">&#10003; Done</div>' : ''}
+        </div>`;
+    }).join('');
+
+    queue.querySelectorAll('.voter-queue-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const id = item.dataset.id;
+        const voter = queueVoters.find(v => v.id === id);
+        if (voter) setActiveVoter(voter);
+      });
+    });
+
+    if (countEl) countEl.textContent = `${queueVoters.length} voter${queueVoters.length !== 1 ? 's' : ''} in queue`;
+    document.getElementById('pb-stat-total').textContent = queueVoters.length;
+  }
+
+  function setActiveVoter(voter) {
+    activeVoter = voter;
+    selectedResult = null;
+    renderCallPanel();
+    renderQueue();
+  }
+
+  function renderCallPanel() {
+    const body = document.getElementById('pb-call-body');
+    if (!body) return;
+
+    if (!activeVoter) {
+      body.innerHTML = '<div class="no-voter-msg"><div style="font-size:2.5rem;margin-bottom:12px;">&#128222;</div><div>Select a voter from the queue.</div></div>';
+      return;
+    }
+
+    const v = activeVoter;
+    const isDnc = v.dnc || v.status === 'dnc';
+    const scriptKey = v.status === 'donor_interest' ? 'donor_interest' : v.status === 'follow_up' ? 'follow_up' : 'not_contacted';
+    const script = SCRIPTS[scriptKey] || SCRIPTS.not_contacted;
+
+    body.innerHTML = `
+      ${isDnc ? `<div class="dnc-warning">&#128683; DNC — Do Not Call this voter. Remove from call list.</div><br>` : ''}
+
+      <div class="call-panel-voter">
+        <h3>${escHtml(v.firstName)} ${escHtml(v.lastName)}</h3>
+        <div class="voter-meta">&#127968; ${escHtml(v.address)}, ${escHtml(v.city)} ${escHtml(v.zip)}</div>
+        <div class="voter-meta">&#128205; ${escHtml(v.area)} &bull; Party: ${escHtml(v.party || '—')}</div>
+        ${v.notes ? `<div class="voter-meta" style="margin-top:6px;color:var(--amber);"><b>Note:</b> ${escHtml(v.notes)}</div>` : ''}
+        ${v.lastContact ? `<div class="voter-meta" style="margin-top:4px;">Last contact: ${escHtml(v.lastContact)} by ${escHtml(v.lastContactBy)}</div>` : ''}
+        <div style="margin-top:10px;">
+          ${v.phone ? `<a class="call-tel" href="tel:${escHtml(v.phone)}">&#128222; ${escHtml(v.phone)}</a>` : '<span style="color:var(--red);font-weight:700;">No phone on file</span>'}
+        </div>
+      </div>
+
+      <!-- Call Script -->
+      <div class="script-card">
+        <h4>&#128221; ${escHtml(script.title)}</h4>
+        <div>${script.body}</div>
+      </div>
+
+      <!-- Result Logging -->
+      <div class="result-form">
+        <div style="font-weight:800;font-size:.85rem;margin-bottom:8px;">&#128203; Log Call Result</div>
+        <div class="result-options" id="pb-result-options">
+          ${CALL_RESULTS.map(r => `
+            <button class="result-btn ${r.cls}" data-result="${r.id}">
+              ${r.label}
+            </button>
+          `).join('')}
+        </div>
+
+        <div class="form-group" style="margin-top:8px;">
+          <label>Follow-Up Date (if needed)</label>
+          <input type="date" id="pb-followup-date" value="">
+        </div>
+        <div class="form-group">
+          <label>Logged By (Volunteer Name)</label>
+          <input type="text" id="pb-volunteer-name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="pb-call-notes" placeholder="Key concerns, interest level, follow-up details…"></textarea>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <button class="btn-action btn-green" id="pb-log-btn">&#10003; Log &amp; Next</button>
+          <button class="btn-action btn-outline" id="pb-skip-btn">&#8594; Skip Voter</button>
+          <span class="form-feedback" id="pb-log-feedback"></span>
+        </div>
+      </div>
+    `;
+
+    // Wire result buttons
+    document.querySelectorAll('#pb-result-options .result-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#pb-result-options .result-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedResult = btn.dataset.result;
+      });
+    });
+
+    document.getElementById('pb-log-btn').addEventListener('click', logAndNext);
+    document.getElementById('pb-skip-btn').addEventListener('click', skipVoter);
+  }
+
+  function logAndNext() {
+    if (!activeVoter) return;
+    if (!selectedResult) {
+      showFeedback('pb-log-feedback', 'Select a call result first.', 'err');
+      return;
+    }
+
+    const volunteer = (document.getElementById('pb-volunteer-name') || {}).value || 'Volunteer';
+    const notes     = (document.getElementById('pb-call-notes')     || {}).value || '';
+    const fuDate    = (document.getElementById('pb-followup-date')  || {}).value || '';
+    const result    = CALL_RESULTS.find(r => r.id === selectedResult);
+    const today     = window.VoterData ? window.VoterData.today() : new Date().toISOString().slice(0, 10);
+
+    // Update voter status
+    if (window.VoterData && result) {
+      const updates = {
+        status: result.statusSet,
+        contactMethod: 'phone',
+        lastContact: today,
+        lastContactBy: volunteer,
+        notes: notes || activeVoter.notes
+      };
+      if (selectedResult === 'follow_up' || selectedResult === 'left_message') {
+        updates.followUpDate = fuDate || '';
+        updates.followUpBy   = volunteer;
+      }
+      if (selectedResult === 'donor_interest') {
+        updates.donorInterest = true;
+      }
+      if (selectedResult === 'dnc') {
+        updates.dnc = true;
+        updates.status = 'dnc';
+      }
+      window.VoterData.updateVoterStatus(activeVoter.id, updates);
+      allVoters = window.VoterData.loadVoters() || allVoters;
+    }
+
+    // Log entry
+    const entry = {
+      time: new Date().toLocaleTimeString(),
+      voterId: activeVoter.id,
+      name: `${activeVoter.firstName} ${activeVoter.lastName}`,
+      area: activeVoter.area,
+      phone: activeVoter.phone,
+      result: result ? result.label.replace(/<[^>]+>/g, '') : selectedResult,
+      resultId: selectedResult,
+      notes,
+      volunteer
+    };
+    sessionLog.unshift(entry);
+
+    // Update stats
+    sCalled++;
+    if (selectedResult === 'contacted')      sReached++;
+    if (selectedResult === 'follow_up' || selectedResult === 'left_message') sFollowUp++;
+    if (selectedResult === 'donor_interest') sDonor++;
+    if (selectedResult === 'dnc')            sDnc++;
+
+    updateStats();
+    renderLog();
+    advanceQueue();
+  }
+
+  function skipVoter() {
+    advanceQueue();
+  }
+
+  function advanceQueue() {
+    if (!activeVoter) return;
+    const currentIdx = queueVoters.findIndex(v => v.id === activeVoter.id);
+    const nextVoter  = queueVoters[currentIdx + 1];
+    if (nextVoter) {
+      setActiveVoter(nextVoter);
+    } else {
+      activeVoter = null;
+      renderCallPanel();
+    }
+    applyFilters(); // Re-render queue with updated statuses
+  }
+
+  function updateStats() {
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('pb-stat-called',  sCalled);
+    set('pb-stat-reached', sReached);
+    set('pb-stat-followup',sFollowUp);
+    set('pb-stat-donor',   sDonor);
+    set('pb-stat-dnc',     sDnc);
+  }
+
+  function renderLog() {
+    const tbody = document.getElementById('pb-log-tbody');
+    if (!tbody) return;
+    if (!sessionLog.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--muted);">No calls logged yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = sessionLog.map(e => `
+      <tr>
+        <td style="font-size:.78rem;">${escHtml(e.time)}</td>
+        <td><b>${escHtml(e.name)}</b></td>
+        <td style="font-size:.78rem;">${escHtml(e.area)}</td>
+        <td>${e.phone ? `<a href="tel:${escHtml(e.phone)}" style="color:var(--brand);">${escHtml(e.phone)}</a>` : '—'}</td>
+        <td>${statusBadge(e.resultId)}</td>
+        <td style="font-size:.75rem;color:var(--muted);max-width:150px;white-space:normal;">${escHtml(e.notes)}</td>
+        <td style="font-size:.78rem;">${escHtml(e.volunteer)}</td>
+      </tr>
+    `).join('');
+  }
+
+  function showFeedback(id, msg, type) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.className = `form-feedback form-feedback--${type}`;
+    setTimeout(() => { el.textContent = ''; }, 3500);
+  }
+
+  function exportLog() {
+    if (!sessionLog.length) return;
+    const headers = ['Time','Voter','Area','Phone','Result','Notes','Logged By'];
+    const rows = sessionLog.map(e => [e.time, e.name, e.area, e.phone, e.result.replace(/<[^>]+>/g,''), e.notes, e.volunteer]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `phone-banking-log-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  async function init() {
+    if (!window.VoterData) return;
+    allVoters = await window.VoterData.getVoters();
+    applyFilters();
+
+    document.getElementById('pb-apply-btn').addEventListener('click', applyFilters);
+    document.getElementById('pb-export-btn').addEventListener('click', exportLog);
+    document.getElementById('pb-reload-btn').addEventListener('click', async () => {
+      if (window.VoterData) localStorage.removeItem(window.VoterData.LS_VOTERS);
+      allVoters = await window.VoterData.getVoters();
+      applyFilters();
+    });
+    document.getElementById('pb-filter-zip').addEventListener('keydown', e => {
+      if (e.key === 'Enter') applyFilters();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

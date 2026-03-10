@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Banking | Arafat for Congress WA-10</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #05101e; --navy-2: #091b36; --brand: #1d4fa8; --brand-dark: #143480;
+      --gold: #b8860d; --green: #166534; --green-bg: rgba(22,101,52,0.10);
+      --amber: #92400e; --amber-bg: rgba(184,134,13,0.10);
+      --red: #991b1b; --red-bg: rgba(153,27,27,0.08);
+      --muted: #4b5568; --border: rgba(5,16,30,0.13);
+      --shadow: 0 4px 16px rgba(5,16,30,0.08); --radius: 10px; --bg: #f3f5fb;
+    }
+
+    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif; background: var(--bg); color: var(--navy); font-size: 14px; min-height: 100vh; }
+
+    .dash-header {
+      background: linear-gradient(90deg, var(--navy), #0d2054);
+      color: #fff; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .dash-brand-name { font-weight: 900; font-size: 1.05rem; }
+    .dash-brand-sub { font-size: .78rem; color: rgba(255,255,255,0.55); font-weight: 600; }
+    .dash-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dash-btn {
+      padding: 7px 13px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; font-size: .82rem; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: background .12s;
+    }
+    .dash-btn:hover { background: rgba(255,255,255,0.16); }
+    .dash-btn--active { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.50); }
+
+    .page-content { max-width: 1300px; margin: 0 auto; padding: 20px 20px 60px; }
+
+    .section-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    }
+    .section-header {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .section-title { font-weight: 800; color: var(--navy); font-size: .95rem; }
+    .section-sub { font-size: .78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .section-body { padding: 16px 18px; }
+
+    /* Filters */
+    .filter-bar {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+      padding: 14px 18px; border-bottom: 1px solid var(--border); background: #f7f8fb;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; }
+    .filter-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .filter-group select, .filter-group input {
+      padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .83rem; color: var(--navy); background: #fff; font-weight: 600;
+    }
+    .btn-action {
+      padding: 8px 14px; border-radius: 7px; border: none; cursor: pointer;
+      font-size: .83rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-green { background: #166534; color: #fff; }
+    .btn-green:hover { background: #14532d; }
+    .btn-amber { background: #d97706; color: #fff; }
+    .btn-amber:hover { background: #b45309; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--navy); }
+    .btn-outline:hover { background: #f7f8fb; }
+
+    /* Voter Table */
+    .voter-table-wrap { overflow-x: auto; }
+    table.voter-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+    table.voter-table th {
+      padding: 8px 10px; text-align: left; font-size: .72rem; font-weight: 800;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .06em;
+      border-bottom: 2px solid var(--border); background: #f7f8fb; white-space: nowrap;
+    }
+    table.voter-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    table.voter-table tr:hover td { background: rgba(29,79,168,0.04); }
+    .row-check { width: 20px; }
+
+    .badge {
+      display: inline-block; padding: 2px 7px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800; letter-spacing: .03em;
+    }
+    .badge-nc      { background: #f3f4f6; color: #374151; }
+    .badge-fu      { background: #fef3c7; color: #92400e; }
+    .badge-donor   { background: #fefce8; color: #854d0e; }
+    .badge-cont    { background: #dcfce7; color: #166534; }
+    .badge-canv    { background: #dbeafe; color: #1e40af; }
+    .badge-dnc     { background: #fee2e2; color: #991b1b; }
+
+    .carrier-badge {
+      display: inline-block; padding: 2px 6px; border-radius: 5px;
+      font-size: .70rem; font-weight: 700; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;
+    }
+
+    /* Message Composer */
+    .composer-card { background: #f0f4ff; border: 1px solid rgba(29,79,168,0.20); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+    .composer-card textarea {
+      width: 100%; min-height: 100px; padding: 10px; border-radius: 7px;
+      border: 1px solid var(--border); font-size: .9rem; font-family: inherit;
+      resize: vertical; margin-top: 8px;
+    }
+    .char-count { font-size: .75rem; color: var(--muted); text-align: right; margin-top: 4px; font-weight: 600; }
+    .char-count.over { color: var(--red); }
+
+    /* Templates */
+    .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 14px; }
+    .template-btn {
+      padding: 10px 12px; border-radius: 7px; border: 1px solid var(--border);
+      background: #fff; text-align: left; cursor: pointer; font-size: .82rem; font-weight: 700;
+      color: var(--navy); transition: background .1s;
+    }
+    .template-btn:hover { background: rgba(29,79,168,0.07); border-color: rgba(29,79,168,0.25); }
+    .template-btn span { display: block; font-size: .72rem; font-weight: 600; color: var(--muted); margin-top: 3px; }
+
+    /* Batch status */
+    .batch-bar {
+      display: flex; align-items: center; gap: 12px; padding: 12px 18px;
+      border-bottom: 1px solid var(--border); background: #f7f8fb; flex-wrap: wrap;
+    }
+    .batch-count { font-size: .95rem; font-weight: 900; color: var(--brand); }
+    .batch-label { font-size: .78rem; font-weight: 700; color: var(--muted); }
+
+    /* Log table */
+    .log-row-new { animation: logFlash .8s ease; }
+    @keyframes logFlash { from { background: #dbeafe; } to { background: transparent; } }
+
+    /* Stats row */
+    .stats-mini { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .stat-mini { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 110px; }
+    .stat-mini-num { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .stat-mini-label { font-size: .70rem; font-weight: 700; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .05em; }
+
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .87rem; color: var(--navy); background: #fff;
+    }
+    .form-feedback { font-size: .82rem; font-weight: 700; }
+    .form-feedback--ok  { color: var(--green); }
+    .form-feedback--err { color: var(--red); }
+
+    .select-all-bar {
+      display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+      background: #eff6ff; border-bottom: 1px solid #bfdbfe; font-size: .82rem; font-weight: 700; color: var(--brand);
+    }
+
+    @media (max-width: 680px) {
+      .filter-bar { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="page">
+  <header class="dash-header">
+    <div>
+      <div class="dash-brand-name">Arafat for Congress &mdash; WA-10</div>
+      <div class="dash-brand-sub">Text Banking &bull; Internal Use Only</div>
+    </div>
+    <div class="dash-header-actions">
+      <a class="dash-btn" href="/admin/field-ops-dashboard.html">&#128200; Field Ops</a>
+      <a class="dash-btn dash-btn--active" href="/admin/text-banking.html">&#128172; Text Bank</a>
+      <a class="dash-btn" href="/admin/phone-banking.html">&#128222; Phone Bank</a>
+      <a class="dash-btn" href="/admin/canvassing.html">&#127968; Canvass</a>
+      <a class="dash-btn" href="/admin/flyer-ops.html">&#128251; Flyers</a>
+      <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteers</a>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- STATS -->
+    <div class="stats-mini" id="tb-stats">
+      <div class="stat-mini"><div class="stat-mini-num" id="tb-stat-total" style="color:var(--navy);">—</div><div class="stat-mini-label">Total Voters</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="tb-stat-sms" style="color:var(--brand);">—</div><div class="stat-mini-label">SMS Opt-In</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="tb-stat-selected" style="color:#7c3aed;">0</div><div class="stat-mini-label">Selected</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="tb-stat-sent" style="color:var(--green);">0</div><div class="stat-mini-label">Sent This Session</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="tb-stat-followup" style="color:#d97706;">—</div><div class="stat-mini-label">Follow-Ups</div></div>
+    </div>
+
+    <!-- FILTERS + TARGET SELECTION -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#127919; Target Voters</div>
+          <div class="section-sub">Filter by ZIP, area, status, or carrier. Select individual rows or use batch selection.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-action btn-outline" id="tb-reload-btn">&#8635; Reload CSV</button>
+          <button class="btn-action btn-primary" id="tb-select-all-btn">&#9745; Select All Filtered</button>
+          <button class="btn-action btn-outline" id="tb-deselect-all-btn">&#9744; Deselect All</button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label>Area</label>
+          <select id="tb-filter-area">
+            <option value="all">All Areas</option>
+            <option value="Spanaway">Spanaway</option>
+            <option value="Lakewood">Lakewood</option>
+            <option value="Olympia">Olympia</option>
+            <option value="Lacey / Tumwater">Lacey / Tumwater</option>
+            <option value="University Place">University Place</option>
+            <option value="JBLM Communities">JBLM Communities</option>
+            <option value="Puyallup / South Hill">Puyallup / South Hill</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>ZIP Code</label>
+          <input type="text" id="tb-filter-zip" placeholder="e.g. 98387" style="width:110px;">
+        </div>
+        <div class="filter-group">
+          <label>Status</label>
+          <select id="tb-filter-status">
+            <option value="all">All Statuses</option>
+            <option value="not_contacted">Not Contacted</option>
+            <option value="follow_up">Follow-Up Needed</option>
+            <option value="donor_interest">Donor Interest</option>
+            <option value="contacted">Contacted</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Carrier</label>
+          <select id="tb-filter-carrier">
+            <option value="all">All Carriers</option>
+            <option value="T-Mobile">T-Mobile</option>
+            <option value="Verizon">Verizon</option>
+            <option value="AT&T">AT&T</option>
+            <option value="Cricket">Cricket</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>SMS Opt-In</label>
+          <select id="tb-filter-sms">
+            <option value="yes">SMS Opt-In Only</option>
+            <option value="all">All (incl. opt-out)</option>
+          </select>
+        </div>
+        <div class="filter-group" style="justify-content:flex-end;">
+          <label>&nbsp;</label>
+          <button class="btn-action btn-primary" id="tb-apply-filters-btn">&#128269; Apply Filters</button>
+        </div>
+      </div>
+      <div class="select-all-bar" id="tb-select-bar" style="display:none;">
+        <span id="tb-select-count">0 voters selected</span>
+        <button class="btn-action btn-outline" style="padding:4px 10px;font-size:.78rem;" id="tb-clear-selection-btn">Clear Selection</button>
+      </div>
+      <div class="voter-table-wrap">
+        <table class="voter-table" id="tb-voter-table">
+          <thead>
+            <tr>
+              <th class="row-check"><input type="checkbox" id="tb-check-all" title="Select all visible"></th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>ZIP</th>
+              <th>Area</th>
+              <th>Phone</th>
+              <th>Carrier</th>
+              <th>SMS</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Last Contact</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="tb-voter-tbody">
+            <tr><td colspan="12" style="text-align:center;padding:30px;color:var(--muted);">Loading voter data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:10px 18px;font-size:.78rem;color:var(--muted);font-weight:700;" id="tb-row-count">0 voters shown</div>
+    </div>
+
+    <!-- MESSAGE COMPOSER -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128172; Compose Message</div>
+          <div class="section-sub">Use templates or write a custom message. Merge fields: {firstName}, {lastName}, {area}</div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="template-grid" id="tb-template-grid">
+          <!-- templates rendered by JS -->
+        </div>
+        <div class="composer-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <label style="font-weight:800;font-size:.85rem;">Message Text</label>
+            <select id="tb-msg-type" style="padding:5px 8px;border-radius:5px;border:1px solid var(--border);font-size:.8rem;">
+              <option value="sms">SMS</option>
+              <option value="email">Email</option>
+              <option value="both">SMS + Email</option>
+            </select>
+          </div>
+          <textarea id="tb-message" placeholder="Hi {firstName}, this is [Volunteer] calling for Adam Arafat's campaign for WA-10 Congress. We'd love your support! Reply STOP to opt out."></textarea>
+          <div class="char-count" id="tb-char-count">0 / 160 chars</div>
+        </div>
+
+        <!-- Multi-group batch options -->
+        <div style="background:#f7f8fb;border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px;">
+          <div style="font-weight:800;font-size:.85rem;margin-bottom:10px;">&#128101; Multi-Group Batch Options</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">
+            <div class="form-group">
+              <label>Batch Label / Wave</label>
+              <input type="text" id="tb-batch-label" placeholder="e.g. Wave 1 — Spanaway">
+            </div>
+            <div class="form-group">
+              <label>Scheduled Date</label>
+              <input type="date" id="tb-batch-date">
+            </div>
+            <div class="form-group">
+              <label>Sender / Volunteer Name</label>
+              <input type="text" id="tb-sender-name" placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label>Max Recipients per Wave</label>
+              <input type="number" id="tb-max-recipients" value="50" min="1" max="500">
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button class="btn-action btn-green" id="tb-send-btn">&#128172; Log as Sent to Selected</button>
+          <button class="btn-action btn-amber" id="tb-flag-followup-btn">&#9873; Flag Selected for Follow-Up</button>
+          <button class="btn-action btn-outline" id="tb-preview-btn">&#128065; Preview Message</button>
+          <span class="form-feedback" id="tb-send-feedback"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEND LOG -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128203; Send Log</div>
+          <div class="section-sub">Text banking activity this session — updates voter status and map pins</div>
+        </div>
+        <button class="btn-action btn-outline" id="tb-export-log-btn" style="font-size:.78rem;padding:6px 10px;">&#11123; Export Log CSV</button>
+      </div>
+      <div class="voter-table-wrap">
+        <table class="voter-table" id="tb-log-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Voter</th>
+              <th>ZIP / Area</th>
+              <th>Carrier</th>
+              <th>Type</th>
+              <th>Message Preview</th>
+              <th>Status Set</th>
+              <th>Sender</th>
+            </tr>
+          </thead>
+          <tbody id="tb-log-tbody">
+            <tr><td colspan="8" style="text-align:center;padding:20px;color:var(--muted);">No messages sent yet this session.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /page-content -->
+</div><!-- /page -->
+
+<!-- Modal Preview -->
+<div id="tb-preview-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:12px;padding:24px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;">
+    <div style="font-weight:900;font-size:1rem;margin-bottom:12px;">&#128172; Message Preview</div>
+    <div id="tb-preview-body" style="font-size:.88rem;line-height:1.55;white-space:pre-wrap;background:#f7f8fb;padding:12px;border-radius:7px;border:1px solid var(--border);"></div>
+    <div style="margin-top:14px;text-align:right;">
+      <button onclick="document.getElementById('tb-preview-modal').style.display='none';" style="padding:8px 16px;border-radius:7px;border:1px solid var(--border);background:#f7f8fb;cursor:pointer;font-weight:700;">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="/admin/voter-data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const LS_TB_LOG = 'arafat_tb_log';
+
+  let allVoters     = [];
+  let filteredVoters = [];
+  let selectedIds   = new Set();
+  let sessionLog    = [];
+  let sentCount     = 0;
+
+  const SMS_TEMPLATES = [
+    { label: 'General Support', sub: 'Intro ask', text: 'Hi {firstName}! I\'m reaching out for Adam Arafat\'s campaign for WA-10 Congress. Adam fights for housing affordability, veterans\' care, and working families. Can we count on your support? Visit arafatforcongress.org. Reply STOP to opt out.' },
+    { label: 'Volunteer Ask', sub: 'Recruit volunteers', text: 'Hi {firstName}, Adam Arafat is running for WA-10 Congress and needs volunteers in {area}! Canvassing, phone banking, and digital work available. Interested? Reply YES or visit arafatforcongress.org/volunteer. Reply STOP to opt out.' },
+    { label: 'Donate Ask', sub: 'Fundraising', text: 'Hi {firstName}, Adam Arafat\'s WA-10 campaign is running on small-dollar donations from neighbors like you. Can you chip in $10 to help reach voters in {area}? Donate at arafatforcongress.org/donate. Reply STOP to opt out.' },
+    { label: 'Event Invite', sub: 'Upcoming event', text: 'Hi {firstName}! You\'re invited to meet Adam Arafat for Congress in {area}. Join us for a community conversation about housing, jobs, and veterans\' issues. RSVP at arafatforcongress.org/events. Reply STOP to opt out.' },
+    { label: 'Follow-Up', sub: 'Prior contact', text: 'Hi {firstName}, just following up from my earlier message about Adam Arafat\'s WA-10 congressional campaign. We\'d love your support! Any questions? Reply here or visit arafatforcongress.org. Reply STOP to opt out.' }
+  ];
+
+  function statusBadge(v) {
+    const map = {
+      not_contacted: ['badge-nc', 'Not Contacted'],
+      follow_up:     ['badge-fu', 'Follow-Up'],
+      donor_interest:['badge-donor', 'Donor Interest'],
+      contacted:     ['badge-cont', 'Contacted'],
+      canvassed:     ['badge-canv', 'Canvassed'],
+      dnc:           ['badge-dnc', 'DNC']
+    };
+    const [cls, label] = map[v.status] || ['badge-nc', v.status];
+    return `<span class="badge ${cls}">${label}</span>`;
+  }
+
+  function smsBadge(v) {
+    return v.smsOptIn
+      ? `<span style="color:#166534;font-weight:700;">&#10003; Yes</span>`
+      : `<span style="color:#991b1b;font-weight:700;">&#10005; No</span>`;
+  }
+
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function renderTemplates() {
+    const grid = document.getElementById('tb-template-grid');
+    if (!grid) return;
+    grid.innerHTML = SMS_TEMPLATES.map((t, i) =>
+      `<button class="template-btn" data-idx="${i}">${escHtml(t.label)}<span>${escHtml(t.sub)}</span></button>`
+    ).join('');
+    grid.querySelectorAll('.template-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const t = SMS_TEMPLATES[parseInt(btn.dataset.idx)];
+        document.getElementById('tb-message').value = t.text;
+        updateCharCount();
+      });
+    });
+  }
+
+  function updateCharCount() {
+    const ta = document.getElementById('tb-message');
+    const cc = document.getElementById('tb-char-count');
+    if (!ta || !cc) return;
+    const len = ta.value.length;
+    cc.textContent = `${len} / 160 chars`;
+    cc.classList.toggle('over', len > 160);
+  }
+
+  function getFilters() {
+    return {
+      area:     (document.getElementById('tb-filter-area')    || {}).value || 'all',
+      zip:      ((document.getElementById('tb-filter-zip')    || {}).value || '').trim(),
+      status:   (document.getElementById('tb-filter-status')  || {}).value || 'all',
+      carrier:  (document.getElementById('tb-filter-carrier') || {}).value || 'all',
+      smsOnly:  (document.getElementById('tb-filter-sms')     || {}).value !== 'all'
+    };
+  }
+
+  function applyFilters() {
+    if (!window.VoterData) return;
+    const f = getFilters();
+    filteredVoters = window.VoterData.filterVoters(allVoters, {
+      area:       f.area !== 'all'    ? f.area    : null,
+      zip:        f.zip               ? f.zip     : null,
+      status:     f.status !== 'all'  ? f.status  : null,
+      smsOnly:    f.smsOnly,
+      excludeDnc: true
+    });
+    if (f.carrier !== 'all') {
+      filteredVoters = filteredVoters.filter(v => v.carrier === f.carrier);
+    }
+    renderVoterTable();
+  }
+
+  function renderVoterTable() {
+    const tbody = document.getElementById('tb-voter-tbody');
+    const countEl = document.getElementById('tb-row-count');
+    if (!tbody) return;
+
+    if (!filteredVoters.length) {
+      tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:30px;color:var(--muted);">No voters match the current filters.</td></tr>';
+      if (countEl) countEl.textContent = '0 voters shown';
+      return;
+    }
+
+    tbody.innerHTML = filteredVoters.map(v => `
+      <tr data-id="${escHtml(v.id)}" class="${selectedIds.has(v.id) ? 'selected-row' : ''}">
+        <td><input type="checkbox" class="voter-row-check" data-id="${escHtml(v.id)}" ${selectedIds.has(v.id) ? 'checked' : ''}></td>
+        <td><b>${escHtml(v.firstName)} ${escHtml(v.lastName)}</b><br><span style="font-size:.72rem;color:var(--muted);">${escHtml(v.party || '—')}</span></td>
+        <td style="font-size:.78rem;">${escHtml(v.address)}</td>
+        <td>${escHtml(v.zip)}</td>
+        <td style="font-size:.78rem;">${escHtml(v.area)}</td>
+        <td>${v.phone ? `<a href="sms:${escHtml(v.phone)}" style="color:var(--brand);">${escHtml(v.phone)}</a>` : '—'}</td>
+        <td>${v.carrier ? `<span class="carrier-badge">${escHtml(v.carrier)}</span>` : '—'}</td>
+        <td>${smsBadge(v)}</td>
+        <td style="font-size:.78rem;">${v.email ? escHtml(v.email) : '—'}</td>
+        <td>${statusBadge(v)}</td>
+        <td style="font-size:.75rem;color:var(--muted);">${v.lastContact ? `${escHtml(v.lastContact)}<br>${escHtml(v.lastContactBy)}` : '—'}</td>
+        <td style="font-size:.75rem;color:var(--muted);max-width:120px;white-space:normal;">${escHtml(v.notes)}</td>
+      </tr>
+    `).join('');
+
+    // Attach checkbox events
+    tbody.querySelectorAll('.voter-row-check').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const id = cb.dataset.id;
+        if (cb.checked) selectedIds.add(id);
+        else selectedIds.delete(id);
+        updateSelectionUI();
+      });
+    });
+
+    // Style selected rows
+    tbody.querySelectorAll('tr[data-id]').forEach(row => {
+      if (selectedIds.has(row.dataset.id)) {
+        row.style.background = '#eff6ff';
+      }
+    });
+
+    if (countEl) countEl.textContent = `${filteredVoters.length} voter${filteredVoters.length !== 1 ? 's' : ''} shown`;
+    updateSelectionUI();
+  }
+
+  function updateSelectionUI() {
+    const countEl = document.getElementById('tb-stat-selected');
+    if (countEl) countEl.textContent = selectedIds.size;
+    const selectBar = document.getElementById('tb-select-bar');
+    const selectCount = document.getElementById('tb-select-count');
+    if (selectBar) selectBar.style.display = selectedIds.size ? 'flex' : 'none';
+    if (selectCount) selectCount.textContent = `${selectedIds.size} voter${selectedIds.size !== 1 ? 's' : ''} selected`;
+  }
+
+  function updateStats() {
+    const voters = allVoters;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('tb-stat-total',   voters.length);
+    set('tb-stat-sms',     voters.filter(v => v.smsOptIn && !v.dnc).length);
+    set('tb-stat-followup',voters.filter(v => v.status === 'follow_up').length);
+    set('tb-stat-sent',    sentCount);
+  }
+
+  function mergeMessage(template, voter) {
+    return template
+      .replace(/\{firstName\}/g, voter.firstName || '')
+      .replace(/\{lastName\}/g,  voter.lastName  || '')
+      .replace(/\{area\}/g,      voter.area      || 'your area');
+  }
+
+  function logSend(voter, msgType, msgText, statusSet, sender) {
+    const now = new Date();
+    const entry = {
+      time: now.toLocaleTimeString(),
+      voterId: voter.id,
+      name: `${voter.firstName} ${voter.lastName}`,
+      zip: voter.zip,
+      area: voter.area,
+      carrier: voter.carrier,
+      type: msgType,
+      msgPreview: msgText.slice(0, 60) + (msgText.length > 60 ? '…' : ''),
+      statusSet,
+      sender
+    };
+    sessionLog.unshift(entry);
+    return entry;
+  }
+
+  function renderLog() {
+    const tbody = document.getElementById('tb-log-tbody');
+    if (!tbody) return;
+    if (!sessionLog.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--muted);">No messages sent yet this session.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = sessionLog.map((e, i) => `
+      <tr class="${i === 0 ? 'log-row-new' : ''}">
+        <td style="font-size:.78rem;">${escHtml(e.time)}</td>
+        <td><b>${escHtml(e.name)}</b></td>
+        <td style="font-size:.78rem;">${escHtml(e.zip)} / ${escHtml(e.area)}</td>
+        <td>${e.carrier ? `<span class="carrier-badge">${escHtml(e.carrier)}</span>` : '—'}</td>
+        <td><span class="badge badge-cont">${escHtml(e.type)}</span></td>
+        <td style="font-size:.75rem;color:var(--muted);">${escHtml(e.msgPreview)}</td>
+        <td>${statusBadge({ status: e.statusSet })}</td>
+        <td style="font-size:.78rem;">${escHtml(e.sender)}</td>
+      </tr>
+    `).join('');
+  }
+
+  function sendToSelected() {
+    if (!selectedIds.size) {
+      showFeedback('tb-send-feedback', 'No voters selected.', 'err');
+      return;
+    }
+    const msgText = (document.getElementById('tb-message') || {}).value || '';
+    if (!msgText.trim()) {
+      showFeedback('tb-send-feedback', 'Message cannot be empty.', 'err');
+      return;
+    }
+    const msgType  = (document.getElementById('tb-msg-type')     || {}).value || 'sms';
+    const sender   = (document.getElementById('tb-sender-name')  || {}).value || 'Campaign Team';
+    const batchLbl = (document.getElementById('tb-batch-label')  || {}).value || '';
+
+    let count = 0;
+    selectedIds.forEach(id => {
+      const voter = allVoters.find(v => v.id === id);
+      if (!voter) return;
+      const merged = mergeMessage(msgText, voter);
+      logSend(voter, msgType + (batchLbl ? ` (${batchLbl})` : ''), merged, 'contacted', sender);
+
+      if (window.VoterData) {
+        window.VoterData.updateVoterStatus(id, {
+          status: voter.status === 'not_contacted' ? 'contacted' : voter.status,
+          contactMethod: 'text',
+          lastContact: window.VoterData.today(),
+          lastContactBy: sender
+        });
+      }
+      count++;
+    });
+
+    sentCount += count;
+    selectedIds.clear();
+
+    // Refresh voter data from localStorage
+    if (window.VoterData) {
+      allVoters = window.VoterData.loadVoters() || allVoters;
+    }
+
+    applyFilters();
+    renderLog();
+    updateStats();
+    showFeedback('tb-send-feedback', `&#10003; Logged ${count} message${count !== 1 ? 's' : ''} as sent.`, 'ok');
+  }
+
+  function flagFollowUp() {
+    if (!selectedIds.size) {
+      showFeedback('tb-send-feedback', 'No voters selected.', 'err');
+      return;
+    }
+    const sender = (document.getElementById('tb-sender-name') || {}).value || 'Campaign Team';
+    const today  = window.VoterData ? window.VoterData.today() : new Date().toISOString().slice(0, 10);
+    // Default follow-up in 7 days
+    const fuDate = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+
+    selectedIds.forEach(id => {
+      if (window.VoterData) {
+        window.VoterData.updateVoterStatus(id, {
+          status: 'follow_up',
+          followUpDate: fuDate,
+          followUpBy: sender,
+          lastContact: today,
+          lastContactBy: sender
+        });
+      }
+    });
+
+    if (window.VoterData) allVoters = window.VoterData.loadVoters() || allVoters;
+    const count = selectedIds.size;
+    selectedIds.clear();
+    applyFilters();
+    updateStats();
+    showFeedback('tb-send-feedback', `&#9873; Flagged ${count} voter${count !== 1 ? 's' : ''} for follow-up.`, 'ok');
+  }
+
+  function showFeedback(id, msg, type) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = msg;
+    el.className = `form-feedback form-feedback--${type}`;
+    setTimeout(() => { el.textContent = ''; }, 4000);
+  }
+
+  function exportLog() {
+    if (!sessionLog.length) return;
+    const headers = ['Time','Voter','ZIP','Area','Carrier','Type','Message Preview','Status Set','Sender'];
+    const rows = sessionLog.map(e => [e.time, e.name, e.zip, e.area, e.carrier, e.type, e.msgPreview, e.statusSet, e.sender]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `text-banking-log-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  async function init() {
+    if (!window.VoterData) {
+      console.error('VoterData module not loaded');
+      return;
+    }
+    allVoters = await window.VoterData.getVoters();
+    applyFilters();
+    updateStats();
+    renderTemplates();
+
+    // Set today's date
+    const dateInput = document.getElementById('tb-batch-date');
+    if (dateInput) dateInput.value = window.VoterData.today();
+
+    // Wire up controls
+    document.getElementById('tb-apply-filters-btn').addEventListener('click', applyFilters);
+    document.getElementById('tb-select-all-btn').addEventListener('click', () => {
+      filteredVoters.forEach(v => selectedIds.add(v.id));
+      renderVoterTable();
+    });
+    document.getElementById('tb-deselect-all-btn').addEventListener('click', () => {
+      selectedIds.clear();
+      renderVoterTable();
+    });
+    document.getElementById('tb-clear-selection-btn').addEventListener('click', () => {
+      selectedIds.clear();
+      renderVoterTable();
+    });
+    document.getElementById('tb-check-all').addEventListener('change', e => {
+      if (e.target.checked) filteredVoters.forEach(v => selectedIds.add(v.id));
+      else filteredVoters.forEach(v => selectedIds.delete(v.id));
+      renderVoterTable();
+    });
+    document.getElementById('tb-send-btn').addEventListener('click', sendToSelected);
+    document.getElementById('tb-flag-followup-btn').addEventListener('click', flagFollowUp);
+    document.getElementById('tb-export-log-btn').addEventListener('click', exportLog);
+    document.getElementById('tb-reload-btn').addEventListener('click', async () => {
+      if (window.VoterData) localStorage.removeItem(window.VoterData.LS_VOTERS);
+      allVoters = await window.VoterData.getVoters();
+      applyFilters();
+      updateStats();
+    });
+    document.getElementById('tb-message').addEventListener('input', updateCharCount);
+    document.getElementById('tb-preview-btn').addEventListener('click', () => {
+      const msg = document.getElementById('tb-message').value;
+      const firstVoter = filteredVoters[0] || { firstName: 'Jane', lastName: 'Doe', area: 'Spanaway' };
+      document.getElementById('tb-preview-body').textContent = mergeMessage(msg, firstVoter);
+      document.getElementById('tb-preview-modal').style.display = 'flex';
+    });
+
+    // Filter on enter for zip
+    document.getElementById('tb-filter-zip').addEventListener('keydown', e => {
+      if (e.key === 'Enter') applyFilters();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

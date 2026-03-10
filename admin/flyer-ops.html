@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flyer Ops | Arafat for Congress WA-10</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #05101e; --brand: #1d4fa8; --brand-dark: #143480; --gold: #b8860d;
+      --green: #166534; --amber: #92400e; --red: #991b1b;
+      --muted: #4b5568; --border: rgba(5,16,30,0.13);
+      --shadow: 0 4px 16px rgba(5,16,30,0.08); --radius: 10px; --bg: #f3f5fb;
+    }
+    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; background: var(--bg); color: var(--navy); font-size: 14px; min-height: 100vh; }
+
+    .dash-header {
+      background: linear-gradient(90deg, var(--navy), #0d2054);
+      color: #fff; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .dash-brand-name { font-weight: 900; font-size: 1.05rem; }
+    .dash-brand-sub  { font-size: .78rem; color: rgba(255,255,255,0.55); font-weight: 600; }
+    .dash-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dash-btn {
+      padding: 7px 13px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; font-size: .82rem; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: background .12s;
+    }
+    .dash-btn:hover { background: rgba(255,255,255,0.16); }
+    .dash-btn--active { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.50); }
+
+    .page-content { max-width: 1300px; margin: 0 auto; padding: 20px 20px 60px; }
+
+    .section-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    }
+    .section-header {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .section-title { font-weight: 800; color: var(--navy); font-size: .95rem; }
+    .section-sub   { font-size: .78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .section-body  { padding: 16px 18px; }
+
+    .filter-bar {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+      padding: 14px 18px; border-bottom: 1px solid var(--border); background: #f7f8fb;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; }
+    .filter-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .filter-group select, .filter-group input {
+      padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .83rem; color: var(--navy); background: #fff; font-weight: 600;
+    }
+
+    .btn-action {
+      padding: 8px 14px; border-radius: 7px; border: none; cursor: pointer;
+      font-size: .83rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-green  { background: #166534; color: #fff; }
+    .btn-green:hover { background: #14532d; }
+    .btn-purple { background: #7c3aed; color: #fff; }
+    .btn-purple:hover { background: #6d28d9; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--navy); }
+    .btn-outline:hover { background: #f7f8fb; }
+
+    .stats-mini { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stat-mini { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 110px; }
+    .stat-mini-num { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .stat-mini-label { font-size: .70rem; font-weight: 700; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* Area cards */
+    .area-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .area-card {
+      border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+      background: #f7f8fb; display: flex; flex-direction: column; gap: 8px;
+    }
+    .area-card h4 { font-weight: 800; font-size: .9rem; margin-bottom: 2px; }
+    .area-meta { font-size: .78rem; color: var(--muted); }
+    .progress-bar { height: 8px; border-radius: 999px; background: #e5e7eb; overflow: hidden; margin-top: 4px; }
+    .progress-fill { height: 100%; border-radius: 999px; background: var(--brand); transition: width .3s; }
+
+    /* Voter table */
+    .voter-table-wrap { overflow-x: auto; }
+    table.voter-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+    table.voter-table th {
+      padding: 8px 10px; text-align: left; font-size: .72rem; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--border); background: #f7f8fb;
+    }
+    table.voter-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    table.voter-table tr:hover td { background: rgba(29,79,168,0.04); }
+
+    .badge {
+      display: inline-block; padding: 2px 7px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800;
+    }
+    .badge-nc    { background: #f3f4f6; color: #374151; }
+    .badge-fu    { background: #fef3c7; color: #92400e; }
+    .badge-donor { background: #fefce8; color: #854d0e; }
+    .badge-cont  { background: #dcfce7; color: #166534; }
+    .badge-canv  { background: #dbeafe; color: #1e40af; }
+    .badge-flyer { background: #f3e8ff; color: #6d28d9; }
+
+    /* Log form */
+    .log-form-card { background: #f0f4ff; border: 1px solid rgba(29,79,168,0.20); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+    .log-form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .87rem; color: var(--navy); background: #fff;
+    }
+
+    .select-all-bar {
+      display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+      background: #eff6ff; border-bottom: 1px solid #bfdbfe; font-size: .82rem; font-weight: 700; color: var(--brand);
+    }
+
+    .log-table-wrap { overflow-x: auto; }
+    table.log-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+    table.log-table th {
+      padding: 8px 10px; text-align: left; font-size: .72rem; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--border); background: #f7f8fb;
+    }
+    table.log-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+
+    .form-feedback { font-size: .82rem; font-weight: 700; }
+    .form-feedback--ok  { color: var(--green); }
+    .form-feedback--err { color: var(--red); }
+  </style>
+</head>
+<body>
+
+<div id="page">
+  <header class="dash-header">
+    <div>
+      <div class="dash-brand-name">Arafat for Congress &mdash; WA-10</div>
+      <div class="dash-brand-sub">Flyer Distribution Operations &bull; Internal Use Only</div>
+    </div>
+    <div class="dash-header-actions">
+      <a class="dash-btn" href="/admin/field-ops-dashboard.html">&#128200; Field Ops</a>
+      <a class="dash-btn" href="/admin/text-banking.html">&#128172; Text Bank</a>
+      <a class="dash-btn" href="/admin/phone-banking.html">&#128222; Phone Bank</a>
+      <a class="dash-btn" href="/admin/canvassing.html">&#127968; Canvass</a>
+      <a class="dash-btn dash-btn--active" href="/admin/flyer-ops.html">&#128251; Flyers</a>
+      <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteers</a>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- Stats -->
+    <div class="stats-mini">
+      <div class="stat-mini"><div class="stat-mini-num" id="fl-stat-total" style="color:#7c3aed;">0</div><div class="stat-mini-label">Total Distributed</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="fl-stat-households" style="color:var(--brand);">0</div><div class="stat-mini-label">Households Reached</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="fl-stat-areas" style="color:var(--green);">0</div><div class="stat-mini-label">Areas Covered</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="fl-stat-followup" style="color:#d97706;">0</div><div class="stat-mini-label">Follow-Ups Generated</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="fl-stat-remaining" style="color:var(--muted);">—</div><div class="stat-mini-label">Not Yet Reached</div></div>
+    </div>
+
+    <!-- Log New Flyer Distribution -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128251; Log Flyer Distribution</div>
+          <div class="section-sub">Record flyers distributed by area, route, or individual voter contact. Updates voter map pins.</div>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="log-form-card">
+          <div class="log-form-grid">
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="fl-date">
+            </div>
+            <div class="form-group">
+              <label>Area / Route</label>
+              <select id="fl-area">
+                <option value="">Select area…</option>
+                <option value="Spanaway">Spanaway</option>
+                <option value="Lakewood">Lakewood</option>
+                <option value="Olympia">Olympia</option>
+                <option value="Lacey / Tumwater">Lacey / Tumwater</option>
+                <option value="University Place">University Place</option>
+                <option value="JBLM Communities">JBLM Communities</option>
+                <option value="Puyallup / South Hill">Puyallup / South Hill</option>
+                <option value="Multiple">Multiple / Mixed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Flyers Distributed</label>
+              <input type="number" id="fl-count" min="0" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label>Households Reached</label>
+              <input type="number" id="fl-households" min="0" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label>Volunteer Name</label>
+              <input type="text" id="fl-volunteer" placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label>Flyer Type / Version</label>
+              <select id="fl-type">
+                <option value="general">General Campaign</option>
+                <option value="veterans">Veterans Issues</option>
+                <option value="housing">Housing Affordability</option>
+                <option value="jobs">Jobs &amp; Economy</option>
+                <option value="event">Event Invite</option>
+                <option value="donate">Donate Ask</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Route / Location Notes</label>
+            <input type="text" id="fl-route-notes" placeholder="e.g. Pacific Ave blocks 4500–4900, Spanaway Park area…">
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <button class="btn-action btn-green" id="fl-log-btn">&#10003; Log Distribution</button>
+            <button class="btn-action btn-outline" id="fl-clear-btn">&#10005; Clear</button>
+            <span class="form-feedback" id="fl-log-feedback"></span>
+          </div>
+        </div>
+
+        <!-- Quick area batch -->
+        <div style="background:#f7f8fb;border:1px solid var(--border);border-radius:8px;padding:14px;">
+          <div style="font-weight:800;font-size:.85rem;margin-bottom:10px;">&#128101; Mark Selected Voters as Flyer Received</div>
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;">Select voters from the list below and mark them as flyer recipients. Updates their contact status and map pin.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-action btn-purple" id="fl-mark-selected-btn">&#128251; Mark Selected as Flyer Left</button>
+            <button class="btn-action btn-outline" id="fl-flag-followup-btn">&#9873; Flag Selected for Follow-Up</button>
+            <span class="form-feedback" id="fl-bulk-feedback"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Area Coverage Summary -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128205; Area Coverage</div>
+          <div class="section-sub">Flyer distribution progress by area — based on logged distributions and voter contacts</div>
+        </div>
+        <button class="btn-action btn-outline" id="fl-reload-btn">&#8635; Reload Data</button>
+      </div>
+      <div class="section-body">
+        <div class="area-grid" id="fl-area-grid">
+          <div style="color:var(--muted);font-weight:700;">Loading…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voter Target List -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128100; Voter Target List</div>
+          <div class="section-sub">Voters who have not yet received a flyer. Filter by area or ZIP.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-action btn-outline" id="fl-select-all-btn">&#9745; Select All</button>
+          <button class="btn-action btn-outline" id="fl-deselect-all-btn">&#9744; Deselect All</button>
+          <button class="btn-action btn-outline" id="fl-export-list-btn" style="font-size:.78rem;padding:6px 10px;">&#11123; Export List</button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label>Area</label>
+          <select id="fl-filter-area">
+            <option value="all">All Areas</option>
+            <option value="Spanaway">Spanaway</option>
+            <option value="Lakewood">Lakewood</option>
+            <option value="Olympia">Olympia</option>
+            <option value="Lacey / Tumwater">Lacey / Tumwater</option>
+            <option value="University Place">University Place</option>
+            <option value="JBLM Communities">JBLM Communities</option>
+            <option value="Puyallup / South Hill">Puyallup / South Hill</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>ZIP</label>
+          <input type="text" id="fl-filter-zip" placeholder="98387" style="width:90px;">
+        </div>
+        <div class="filter-group">
+          <label>Status Filter</label>
+          <select id="fl-filter-status">
+            <option value="not_contacted">Not Yet Reached</option>
+            <option value="follow_up">Follow-Up Needed</option>
+            <option value="all">All (non-DNC)</option>
+          </select>
+        </div>
+        <div class="filter-group" style="justify-content:flex-end;">
+          <label>&nbsp;</label>
+          <button class="btn-action btn-primary" id="fl-apply-btn">&#128269; Apply</button>
+        </div>
+      </div>
+      <div class="select-all-bar" id="fl-select-bar" style="display:none;">
+        <span id="fl-select-count">0 voters selected</span>
+      </div>
+      <div class="voter-table-wrap">
+        <table class="voter-table" id="fl-voter-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="fl-check-all"></th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>ZIP</th>
+              <th>Area</th>
+              <th>Status</th>
+              <th>Last Contact</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="fl-voter-tbody">
+            <tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted);">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:10px 18px;font-size:.78rem;color:var(--muted);font-weight:700;" id="fl-row-count">0 voters</div>
+    </div>
+
+    <!-- Distribution Log -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128203; Distribution Log</div>
+          <div class="section-sub">All logged flyer distribution sessions</div>
+        </div>
+        <button class="btn-action btn-outline" id="fl-export-log-btn" style="font-size:.78rem;padding:6px 10px;">&#11123; Export Log CSV</button>
+      </div>
+      <div class="log-table-wrap">
+        <table class="log-table">
+          <thead><tr><th>Date</th><th>Area</th><th>Flyers</th><th>Households</th><th>Type</th><th>Route Notes</th><th>Volunteer</th></tr></thead>
+          <tbody id="fl-log-tbody">
+            <tr><td colspan="7" style="text-align:center;padding:20px;color:var(--muted);">No distributions logged yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="/admin/voter-data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const LS_FLYER_LOG = 'arafat_flyer_log';
+
+  let allVoters    = [];
+  let filteredVoters = [];
+  let selectedIds  = new Set();
+  let distributionLog = [];
+
+  // Area totals
+  let areaTotals = {};
+
+  // Flyer type labels
+  const FLYER_TYPES = {
+    general: 'General Campaign', veterans: 'Veterans Issues',
+    housing: 'Housing Affordability', jobs: 'Jobs & Economy',
+    event: 'Event Invite', donate: 'Donate Ask'
+  };
+
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function statusBadge(status) {
+    const map = {
+      not_contacted: ['badge-nc', 'Not Contacted'], follow_up: ['badge-fu', 'Follow-Up'],
+      donor_interest: ['badge-donor', 'Donor Interest'], contacted: ['badge-cont', 'Contacted'],
+      canvassed: ['badge-canv', 'Canvassed'], flyer_left: ['badge-flyer', 'Flyer Left']
+    };
+    const [cls, label] = map[status] || ['badge-nc', status];
+    return `<span class="badge ${cls}">${escHtml(label)}</span>`;
+  }
+
+  function getFilters() {
+    return {
+      area:   (document.getElementById('fl-filter-area')   || {}).value || 'all',
+      zip:    ((document.getElementById('fl-filter-zip')   || {}).value || '').trim(),
+      status: (document.getElementById('fl-filter-status') || {}).value || 'not_contacted'
+    };
+  }
+
+  function applyFilters() {
+    const f = getFilters();
+    let result = allVoters.filter(v => !v.dnc && v.status !== 'dnc');
+    if (f.area !== 'all') result = result.filter(v => v.area === f.area);
+    if (f.zip)            result = result.filter(v => v.zip === f.zip);
+    if (f.status !== 'all') result = result.filter(v => v.status === f.status);
+    filteredVoters = result;
+    renderVoterTable();
+    renderAreaGrid();
+    updateStats();
+  }
+
+  function renderVoterTable() {
+    const tbody  = document.getElementById('fl-voter-tbody');
+    const countEl = document.getElementById('fl-row-count');
+    if (!tbody) return;
+
+    if (!filteredVoters.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted);">No voters match filters.</td></tr>';
+      if (countEl) countEl.textContent = '0 voters';
+      return;
+    }
+
+    tbody.innerHTML = filteredVoters.map(v => `
+      <tr data-id="${escHtml(v.id)}" style="${selectedIds.has(v.id) ? 'background:#eff6ff;' : ''}">
+        <td><input type="checkbox" class="fl-row-check" data-id="${escHtml(v.id)}" ${selectedIds.has(v.id) ? 'checked' : ''}></td>
+        <td><b>${escHtml(v.firstName)} ${escHtml(v.lastName)}</b></td>
+        <td style="font-size:.78rem;">${escHtml(v.address)}</td>
+        <td>${escHtml(v.zip)}</td>
+        <td style="font-size:.78rem;">${escHtml(v.area)}</td>
+        <td>${statusBadge(v.status)}</td>
+        <td style="font-size:.75rem;color:var(--muted);">${v.lastContact ? `${escHtml(v.lastContact)} (${escHtml(v.lastContactBy)})` : '—'}</td>
+        <td style="font-size:.75rem;color:var(--muted);max-width:120px;white-space:normal;">${escHtml(v.notes)}</td>
+      </tr>
+    `).join('');
+
+    tbody.querySelectorAll('.fl-row-check').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const id = cb.dataset.id;
+        if (cb.checked) selectedIds.add(id);
+        else selectedIds.delete(id);
+        updateSelectionUI();
+      });
+    });
+
+    if (countEl) countEl.textContent = `${filteredVoters.length} voter${filteredVoters.length !== 1 ? 's' : ''}`;
+    updateSelectionUI();
+  }
+
+  function updateSelectionUI() {
+    const bar   = document.getElementById('fl-select-bar');
+    const count = document.getElementById('fl-select-count');
+    if (bar)   bar.style.display   = selectedIds.size ? 'flex' : 'none';
+    if (count) count.textContent   = `${selectedIds.size} voter${selectedIds.size !== 1 ? 's' : ''} selected`;
+  }
+
+  function renderAreaGrid() {
+    const grid = document.getElementById('fl-area-grid');
+    if (!grid || !window.VoterData) return;
+    const AREAS = window.VoterData.AREAS;
+
+    grid.innerHTML = AREAS.map(area => {
+      const total   = allVoters.filter(v => v.area === area).length;
+      const reached = allVoters.filter(v => v.area === area && v.status !== 'not_contacted' && !v.dnc).length;
+      const pct     = total ? Math.round((reached / total) * 100) : 0;
+      const logTotal = (areaTotals[area] || 0);
+
+      return `
+        <div class="area-card">
+          <h4>&#128205; ${escHtml(area)}</h4>
+          <div class="area-meta">Voters contacted: <b>${reached}</b> / ${total}</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;"></div></div>
+          <div class="area-meta" style="font-size:.72rem;">${pct}% contacted</div>
+          ${logTotal ? `<div class="area-meta" style="color:#7c3aed;font-weight:700;">&#128251; ${logTotal} flyers logged for this area</div>` : ''}
+        </div>`;
+    }).join('');
+  }
+
+  function updateStats() {
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const totalFlyers      = distributionLog.reduce((s, e) => s + e.count, 0);
+    const totalHouseholds  = distributionLog.reduce((s, e) => s + e.households, 0);
+    const areasWithFlyers  = new Set(distributionLog.map(e => e.area)).size;
+    const followUpGenerated = allVoters.filter(v => v.status === 'follow_up').length;
+    const notReached       = allVoters.filter(v => v.status === 'not_contacted').length;
+    set('fl-stat-total',      totalFlyers);
+    set('fl-stat-households', totalHouseholds);
+    set('fl-stat-areas',      areasWithFlyers);
+    set('fl-stat-followup',   followUpGenerated);
+    set('fl-stat-remaining',  notReached);
+  }
+
+  function logDistribution() {
+    const date       = (document.getElementById('fl-date')        || {}).value;
+    const area       = (document.getElementById('fl-area')        || {}).value;
+    const count      = parseInt((document.getElementById('fl-count')      || {}).value) || 0;
+    const households = parseInt((document.getElementById('fl-households') || {}).value) || 0;
+    const volunteer  = (document.getElementById('fl-volunteer')   || {}).value || 'Team';
+    const type       = (document.getElementById('fl-type')        || {}).value || 'general';
+    const routeNotes = (document.getElementById('fl-route-notes') || {}).value || '';
+
+    if (!area) { showFeedback('fl-log-feedback', 'Select an area.', 'err'); return; }
+    if (!count) { showFeedback('fl-log-feedback', 'Enter number of flyers distributed.', 'err'); return; }
+
+    const entry = { date: date || (window.VoterData ? window.VoterData.today() : new Date().toISOString().slice(0,10)), area, count, households, volunteer, type, routeNotes };
+    distributionLog.unshift(entry);
+    areaTotals[area] = (areaTotals[area] || 0) + count;
+
+    renderLog();
+    renderAreaGrid();
+    updateStats();
+    showFeedback('fl-log-feedback', `&#10003; Logged ${count} flyers in ${area}.`, 'ok');
+
+    // Clear form
+    document.getElementById('fl-count').value = '';
+    document.getElementById('fl-households').value = '';
+    document.getElementById('fl-route-notes').value = '';
+  }
+
+  function markSelectedAsFlyerLeft() {
+    if (!selectedIds.size) { showFeedback('fl-bulk-feedback', 'No voters selected.', 'err'); return; }
+    const volunteer = (document.getElementById('fl-volunteer') || {}).value || 'Team';
+    const today = window.VoterData ? window.VoterData.today() : new Date().toISOString().slice(0,10);
+    let count = 0;
+    selectedIds.forEach(id => {
+      if (window.VoterData) {
+        window.VoterData.updateVoterStatus(id, {
+          status: 'not_contacted', // flyer left — not a full contact, but mark last interaction
+          contactMethod: 'flyer',
+          lastContact: today,
+          lastContactBy: volunteer,
+          notes: 'Flyer left at door'
+        });
+      }
+      count++;
+    });
+    if (window.VoterData) allVoters = window.VoterData.loadVoters() || allVoters;
+    const flyers = count;
+    areaTotals['(individual)'] = (areaTotals['(individual)'] || 0) + flyers;
+    distributionLog.unshift({
+      date: today, area: 'Multiple (individual)', count: flyers,
+      households: flyers, volunteer, type: 'general', routeNotes: 'Marked via voter list'
+    });
+    selectedIds.clear();
+    applyFilters();
+    renderLog();
+    showFeedback('fl-bulk-feedback', `&#128251; Marked ${flyers} voter${flyers !== 1 ? 's' : ''} as flyer received.`, 'ok');
+  }
+
+  function flagFollowUp() {
+    if (!selectedIds.size) { showFeedback('fl-bulk-feedback', 'No voters selected.', 'err'); return; }
+    const volunteer = (document.getElementById('fl-volunteer') || {}).value || 'Team';
+    const today     = window.VoterData ? window.VoterData.today() : new Date().toISOString().slice(0,10);
+    const fuDate    = new Date(Date.now() + 7 * 86400000).toISOString().slice(0,10);
+    let count = 0;
+    selectedIds.forEach(id => {
+      if (window.VoterData) {
+        window.VoterData.updateVoterStatus(id, { status: 'follow_up', followUpDate: fuDate, followUpBy: volunteer, lastContact: today, lastContactBy: volunteer });
+      }
+      count++;
+    });
+    if (window.VoterData) allVoters = window.VoterData.loadVoters() || allVoters;
+    selectedIds.clear();
+    applyFilters();
+    showFeedback('fl-bulk-feedback', `&#9873; Flagged ${count} for follow-up.`, 'ok');
+  }
+
+  function renderLog() {
+    const tbody = document.getElementById('fl-log-tbody');
+    if (!tbody) return;
+    if (!distributionLog.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--muted);">No distributions logged yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = distributionLog.map(e => `
+      <tr>
+        <td>${escHtml(e.date)}</td>
+        <td><b>${escHtml(e.area)}</b></td>
+        <td style="font-weight:800;color:#7c3aed;">${e.count}</td>
+        <td>${e.households || '—'}</td>
+        <td style="font-size:.78rem;">${escHtml(FLYER_TYPES[e.type] || e.type)}</td>
+        <td style="font-size:.75rem;color:var(--muted);max-width:180px;white-space:normal;">${escHtml(e.routeNotes)}</td>
+        <td style="font-size:.78rem;">${escHtml(e.volunteer)}</td>
+      </tr>`).join('');
+  }
+
+  function showFeedback(id, msg, type) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = msg;
+    el.className = `form-feedback form-feedback--${type}`;
+    setTimeout(() => { el.textContent = ''; }, 4000);
+  }
+
+  function exportLog() {
+    if (!distributionLog.length) return;
+    const headers = ['Date','Area','Flyers','Households','Type','Route Notes','Volunteer'];
+    const rows = distributionLog.map(e => [e.date, e.area, e.count, e.households, FLYER_TYPES[e.type]||e.type, e.routeNotes, e.volunteer]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `flyer-log-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  function exportList() {
+    if (!filteredVoters.length) return;
+    const headers = ['First Name','Last Name','Address','City','ZIP','Area','Status','Phone','Email'];
+    const rows = filteredVoters.map(v => [v.firstName, v.lastName, v.address, v.city, v.zip, v.area, v.status, v.phone, v.email]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `flyer-target-list-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  async function init() {
+    if (!window.VoterData) return;
+    allVoters = await window.VoterData.getVoters();
+    applyFilters();
+
+    // Set today's date
+    const dateInput = document.getElementById('fl-date');
+    if (dateInput) dateInput.value = window.VoterData.today();
+
+    document.getElementById('fl-apply-btn').addEventListener('click', applyFilters);
+    document.getElementById('fl-log-btn').addEventListener('click', logDistribution);
+    document.getElementById('fl-clear-btn').addEventListener('click', () => {
+      ['fl-count','fl-households','fl-route-notes','fl-volunteer'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+      });
+    });
+    document.getElementById('fl-mark-selected-btn').addEventListener('click', markSelectedAsFlyerLeft);
+    document.getElementById('fl-flag-followup-btn').addEventListener('click', flagFollowUp);
+    document.getElementById('fl-export-log-btn').addEventListener('click', exportLog);
+    document.getElementById('fl-export-list-btn').addEventListener('click', exportList);
+    document.getElementById('fl-reload-btn').addEventListener('click', async () => {
+      localStorage.removeItem(window.VoterData.LS_VOTERS);
+      allVoters = await window.VoterData.getVoters();
+      applyFilters();
+    });
+    document.getElementById('fl-select-all-btn').addEventListener('click', () => {
+      filteredVoters.forEach(v => selectedIds.add(v.id));
+      renderVoterTable();
+    });
+    document.getElementById('fl-deselect-all-btn').addEventListener('click', () => {
+      selectedIds.clear();
+      renderVoterTable();
+    });
+    document.getElementById('fl-check-all').addEventListener('change', e => {
+      if (e.target.checked) filteredVoters.forEach(v => selectedIds.add(v.id));
+      else filteredVoters.forEach(v => selectedIds.delete(v.id));
+      renderVoterTable();
+    });
+    document.getElementById('fl-filter-zip').addEventListener('keydown', e => {
+      if (e.key === 'Enter') applyFilters();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>
