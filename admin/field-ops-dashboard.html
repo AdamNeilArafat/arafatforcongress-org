@@ -349,6 +349,38 @@
     .tw-item { font-size: .84rem; color: var(--navy); white-space: nowrap; }
     .tw-sep { color: var(--border); font-weight: 700; }
 
+    /* ---- THIS MONTH BAR ---- */
+    .this-month-bar {
+      background: rgba(22,101,52,0.05); border: 1px solid rgba(22,101,52,0.18);
+      border-radius: var(--radius); padding: 10px 16px; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px; font-size: .84rem; flex-wrap: wrap;
+    }
+    .tm-label {
+      font-weight: 900; font-size: .76rem; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--green); margin-right: 4px; white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ---- VOLUNTEER RE-ENGAGEMENT ---- */
+    .vol-reeng-row {
+      display: flex; align-items: center; gap: 12px; padding: 9px 12px;
+      border-bottom: 1px solid rgba(5,16,30,0.06); flex-wrap: wrap;
+    }
+    .vol-reeng-row:last-child { border-bottom: none; }
+    .vol-reeng-row:hover { background: rgba(29,79,168,0.03) !important; }
+    .vol-reeng-name { font-weight: 800; min-width: 140px; flex-shrink: 0; font-size: .9rem; }
+    .vol-reeng-date { font-size: .8rem; color: var(--muted); min-width: 100px; flex-shrink: 0; }
+    .vol-reeng-stats { display: flex; gap: 14px; font-size: .78rem; color: var(--muted); font-weight: 700; flex: 1; min-width: 160px; }
+    .vol-reeng-area { font-size: .78rem; color: var(--muted); min-width: 120px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+    .vol-status-badge {
+      display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800; letter-spacing: .03em; white-space: nowrap; flex-shrink: 0;
+    }
+    .vol-status--fresh   { background: rgba(22,101,52,0.12); color: var(--green); border: 1px solid rgba(22,101,52,0.25); }
+    .vol-status--ok      { background: rgba(29,79,168,0.10); color: var(--brand); border: 1px solid rgba(29,79,168,0.22); }
+    .vol-status--stale   { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(184,134,13,0.30); }
+    .vol-status--cold    { background: var(--red-bg); color: var(--red); border: 1px solid rgba(153,27,27,0.25); }
+    .vol-status--unknown { background: rgba(5,16,30,0.06); color: var(--muted); border: 1px solid var(--border); }
+
     /* ---- RESPONSIVE ---- */
     @media(max-width: 600px) {
       .dash-content { padding: 14px 12px 36px; }
@@ -381,6 +413,9 @@
 
     <!-- THIS WEEK AT A GLANCE -->
     <div id="this-week-bar" class="this-week-bar" style="display:none;"></div>
+
+    <!-- THIS MONTH AT A GLANCE -->
+    <div id="this-month-bar" class="this-month-bar" style="display:none;"></div>
 
     <!-- DATA SOURCE STATUS -->
     <div id="data-source-bar" class="data-status data-status--sample" style="display:none;">
@@ -429,6 +464,10 @@
       <div class="stat-card">
         <div class="stat-num" id="stat-contact-rate" style="color:#0e7490;">—</div>
         <div class="stat-label">Contact Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-pickup-rate" style="color:#0369a1;">—</div>
+        <div class="stat-label">Phone Pickup Rate</div>
       </div>
     </div>
 
@@ -554,6 +593,21 @@
       </div>
       <div class="section-body">
         <div class="leaderboard-list" id="leaderboard-list"><!-- populated by JS --></div>
+      </div>
+    </div>
+
+    <!-- VOLUNTEER RE-ENGAGEMENT TRACKER -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128276; Volunteer Re-engagement Tracker</div>
+          <div class="section-sub">Sorted by days since last field session — identify who needs a follow-up call</div>
+        </div>
+        <span id="reengagement-summary" class="badge badge-canvass">Loading…</span>
+      </div>
+      <div class="section-body">
+        <div id="reengagement-legend" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;"></div>
+        <div id="reengagement-list"><!-- populated by JS --></div>
       </div>
     </div>
 
@@ -976,6 +1030,12 @@
 
     const contactRate = doors > 0 ? (contacts / doors * 100).toFixed(1) + '%' : '—';
 
+    // Phone pickup rate: contacts / calls for phone-bank sessions
+    const phoneSrc = src.filter(r => r.type === 'phone');
+    const phoneCalls    = phoneSrc.reduce((s,r) => s + toNum(r.calls), 0);
+    const phoneContacts = phoneSrc.reduce((s,r) => s + toNum(r.contacts), 0);
+    const pickupRate = phoneCalls > 0 ? (phoneContacts / phoneCalls * 100).toFixed(1) + '%' : '—';
+
     document.getElementById('stat-doors').textContent         = doors.toLocaleString();
     document.getElementById('stat-flyers').textContent        = flyers.toLocaleString();
     document.getElementById('stat-calls').textContent         = calls.toLocaleString();
@@ -986,6 +1046,7 @@
     document.getElementById('stat-areas').textContent         = areaSet.size.toLocaleString();
     document.getElementById('stat-hours').textContent         = Math.round(hours).toLocaleString();
     document.getElementById('stat-contact-rate').textContent  = contactRate;
+    document.getElementById('stat-pickup-rate').textContent   = pickupRate;
 
     renderGoals(doors, flyers, calls, texts, contacts);
   }
@@ -1202,6 +1263,125 @@
       <span class="tw-sep">·</span>
       <span class="tw-item"><strong>${tw.contacts}</strong> contacts ${delta(tw.contacts, lw.contacts)}</span>
       <span style="margin-left:auto;font-size:.74rem;color:var(--muted);font-weight:600;white-space:nowrap;">vs last week</span>`;
+  }
+
+  /* ---- THIS MONTH AT A GLANCE ---- */
+  function getMonthSessions(sessions, monthOffset) {
+    const now = new Date();
+    const target = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
+    const prefix = target.toISOString().slice(0, 7); // YYYY-MM
+    return sessions.filter(r => r.date && r.date.startsWith(prefix));
+  }
+
+  function renderThisMonthSummary() {
+    const bar = document.getElementById('this-month-bar');
+    if (!bar) return;
+    const thisMonth = getMonthSessions(allSessions, 0);
+    const lastMonth = getMonthSessions(allSessions, -1);
+
+    function sum(arr, key) { return arr.reduce((s, r) => s + toNum(r[key]), 0); }
+
+    const tm = { sessions: thisMonth.length, doors: sum(thisMonth, 'doors'), calls: sum(thisMonth, 'calls'), contacts: sum(thisMonth, 'contacts'), flyers: sum(thisMonth, 'flyers') };
+    const lm = { sessions: lastMonth.length, doors: sum(lastMonth, 'doors'), calls: sum(lastMonth, 'calls'), contacts: sum(lastMonth, 'contacts'), flyers: sum(lastMonth, 'flyers') };
+
+    function delta(curr, prev) {
+      const d = curr - prev;
+      if (d === 0) return '<span style="color:var(--muted);font-size:.75em">±0</span>';
+      if (d > 0)   return `<span style="color:var(--green);font-size:.75em">+${d}</span>`;
+      return `<span style="color:var(--red);font-size:.75em">${d}</span>`;
+    }
+
+    const monthName = new Date().toLocaleDateString('en-US', { month: 'long' });
+    bar.style.display = 'flex';
+    bar.innerHTML = `
+      <span class="tm-label">&#128197; ${monthName}</span>
+      <span class="tw-item"><strong>${tm.sessions}</strong> sessions ${delta(tm.sessions, lm.sessions)}</span>
+      <span class="tw-sep">·</span>
+      <span class="tw-item"><strong>${tm.doors}</strong> doors ${delta(tm.doors, lm.doors)}</span>
+      <span class="tw-sep">·</span>
+      <span class="tw-item"><strong>${tm.flyers}</strong> flyers ${delta(tm.flyers, lm.flyers)}</span>
+      <span class="tw-sep">·</span>
+      <span class="tw-item"><strong>${tm.calls}</strong> calls ${delta(tm.calls, lm.calls)}</span>
+      <span class="tw-sep">·</span>
+      <span class="tw-item"><strong>${tm.contacts}</strong> contacts ${delta(tm.contacts, lm.contacts)}</span>
+      <span style="margin-left:auto;font-size:.74rem;color:var(--muted);font-weight:600;white-space:nowrap;">vs last month</span>`;
+  }
+
+  /* ---- VOLUNTEER RE-ENGAGEMENT TRACKER ---- */
+  function renderVolReengagement() {
+    const list    = document.getElementById('reengagement-list');
+    const summary = document.getElementById('reengagement-summary');
+    const legend  = document.getElementById('reengagement-legend');
+    if (!list) return;
+
+    // Build volunteer map with last session date and totals
+    const volMap = {};
+    allSessions.forEach(r => {
+      const name = (r.volunteer || '').trim() || 'Unknown';
+      if (!volMap[name]) volMap[name] = { name, sessions: 0, doors: 0, calls: 0, contacts: 0, lastDate: null, areaSet: new Set() };
+      volMap[name].sessions++;
+      volMap[name].doors    += toNum(r.doors);
+      volMap[name].calls    += toNum(r.calls);
+      volMap[name].contacts += toNum(r.contacts);
+      if (r.area) volMap[name].areaSet.add(r.area);
+      if (r.date && (!volMap[name].lastDate || r.date > volMap[name].lastDate)) {
+        volMap[name].lastDate = r.date;
+      }
+    });
+
+    const vols = Object.values(volMap).map(v => ({
+      ...v,
+      daysSince: daysSince(v.lastDate),
+      areas: [...v.areaSet].join(', ') || '—'
+    })).sort((a, b) => {
+      if (a.daysSince === null && b.daysSince === null) return 0;
+      if (a.daysSince === null) return 1;
+      if (b.daysSince === null) return -1;
+      return b.daysSince - a.daysSince;
+    });
+
+    let fresh = 0, ok = 0, stale = 0, cold = 0;
+
+    list.innerHTML = vols.map(v => {
+      let statusCls, statusLabel, rowBg;
+      if (v.daysSince === null) {
+        statusCls = 'vol-status--unknown'; statusLabel = 'No date'; rowBg = '';
+      } else if (v.daysSince <= 7) {
+        statusCls = 'vol-status--fresh';
+        statusLabel = v.daysSince === 0 ? 'Active today' : `Active (${v.daysSince}d ago)`;
+        rowBg = 'background:rgba(22,101,52,0.04);'; fresh++;
+      } else if (v.daysSince <= 14) {
+        statusCls = 'vol-status--ok'; statusLabel = `${v.daysSince}d ago`; rowBg = ''; ok++;
+      } else if (v.daysSince <= 30) {
+        statusCls = 'vol-status--stale'; statusLabel = `${v.daysSince}d ago`;
+        rowBg = 'background:rgba(184,134,13,0.04);'; stale++;
+      } else {
+        statusCls = 'vol-status--cold'; statusLabel = `${v.daysSince}d ago`;
+        rowBg = 'background:rgba(153,27,27,0.03);'; cold++;
+      }
+      return `
+        <div class="vol-reeng-row" style="${rowBg}">
+          <div class="vol-reeng-name">${escHtml(v.name)}</div>
+          <div class="vol-reeng-date">${v.lastDate ? fmtDate(v.lastDate) : '—'}</div>
+          <span class="vol-status-badge ${statusCls}">${statusLabel}</span>
+          <div class="vol-reeng-stats">
+            <span>${v.sessions} session${v.sessions !== 1 ? 's' : ''}</span>
+            <span>${v.doors.toLocaleString()} doors</span>
+            <span>${v.calls.toLocaleString()} calls</span>
+            <span>${v.contacts.toLocaleString()} contacts</span>
+          </div>
+          <div class="vol-reeng-area" title="${escHtml(v.areas)}">${escHtml(v.areas)}</div>
+        </div>`;
+    }).join('');
+
+    if (summary) summary.textContent = `${fresh} active · ${stale} follow-up · ${cold} cold`;
+
+    if (legend) legend.innerHTML = [
+      ['vol-status--fresh', 'Active (≤7d)'],
+      ['vol-status--ok',    'Recent (8–14d)'],
+      ['vol-status--stale', 'Follow up (15–30d)'],
+      ['vol-status--cold',  'Cold (30d+)']
+    ].map(([cls, lbl]) => `<span class="vol-status-badge ${cls}">${lbl}</span>`).join('');
   }
 
   /* ---- DAY OF WEEK BREAKDOWN ---- */
@@ -1852,7 +2032,9 @@
   function renderAll() {
     renderStats();
     renderThisWeekSummary();
+    renderThisMonthSummary();
     renderLeaderboard();
+    renderVolReengagement();
     renderWeeklyTrend();
     renderDayOfWeek();
     renderTerritoryGrid();
