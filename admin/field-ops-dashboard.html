@@ -344,6 +344,10 @@
         <div class="stat-num" id="stat-areas">0</div>
         <div class="stat-label">Areas Covered</div>
       </div>
+      <div class="stat-card stat-card--green">
+        <div class="stat-num" id="stat-hours">0</div>
+        <div class="stat-label">Vol. Hours Est.</div>
+      </div>
     </div>
 
     <!-- QUICK LINKS -->
@@ -354,6 +358,30 @@
       <a class="ql-btn" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">&#128181; ActBlue</a>
       <a class="ql-btn" href="mailto:volunteer@arafatforcongress.org">&#128231; volunteer@</a>
       <a class="ql-btn" href="/index.html" target="_blank">&#127760; View Site</a>
+    </div>
+
+    <!-- CAMPAIGN GOALS -->
+    <div class="section-card" id="goals-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#127919; Campaign Goals — Progress to Target</div>
+          <div class="section-sub">Cumulative field activity toward primary campaign targets</div>
+        </div>
+        <button class="dash-btn" id="edit-goals-btn" style="background:rgba(29,79,168,0.12);color:var(--brand);border-color:rgba(29,79,168,0.30);">&#9998; Edit Goals</button>
+      </div>
+      <div class="section-body">
+        <div id="goals-edit-wrap" style="display:none;margin-bottom:16px;padding:14px;background:#f7f8fb;border-radius:8px;border:1px solid var(--border);">
+          <p style="font-size:.84rem;color:var(--muted);margin-bottom:12px;font-weight:600;">Set campaign targets. Saved in this browser.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:12px;">
+            <div class="form-group"><label>Doors Target</label><input type="number" id="goal-doors" min="0" placeholder="10000" /></div>
+            <div class="form-group"><label>Calls Target</label><input type="number" id="goal-calls" min="0" placeholder="5000" /></div>
+            <div class="form-group"><label>Texts Target</label><input type="number" id="goal-texts" min="0" placeholder="20000" /></div>
+            <div class="form-group"><label>Contacts Target</label><input type="number" id="goal-contacts" min="0" placeholder="3000" /></div>
+          </div>
+          <button class="btn-submit" id="save-goals-btn" style="font-size:.84rem;padding:8px 16px;">Save Goals</button>
+        </div>
+        <div id="goals-progress-body"></div>
+      </div>
     </div>
 
     <!-- UPCOMING CANVASS EVENTS -->
@@ -469,6 +497,7 @@
             <th data-col="texts">Texts</th>
             <th data-col="contacts">Contacts Made</th>
             <th data-col="notes">Notes</th>
+            <th style="width:60px;"></th>
           </tr>
         </thead>
         <tbody id="sessions-tbody"></tbody>
@@ -697,6 +726,14 @@
     const volSet   = new Set(src.map(r => (r.volunteer||'').trim().toLowerCase()).filter(Boolean));
     const areaSet  = new Set(src.map(r => r.area).filter(Boolean));
 
+    // Estimate volunteer hours: ~2h per canvass session volunteer, ~1.5h per phone/text
+    const hours = src.reduce((s,r) => {
+      const v = toNum(r.vols) || 1;
+      if (r.type === 'canvass') return s + v * 2;
+      if (r.type === 'mixed') return s + v * 2;
+      return s + v * 1.5;
+    }, 0);
+
     document.getElementById('stat-doors').textContent    = doors.toLocaleString();
     document.getElementById('stat-flyers').textContent   = flyers.toLocaleString();
     document.getElementById('stat-calls').textContent    = calls.toLocaleString();
@@ -704,6 +741,38 @@
     document.getElementById('stat-sessions').textContent = sessions.toLocaleString();
     document.getElementById('stat-vols').textContent     = volSet.size.toLocaleString();
     document.getElementById('stat-areas').textContent    = areaSet.size.toLocaleString();
+    document.getElementById('stat-hours').textContent    = Math.round(hours).toLocaleString();
+
+    renderGoals(doors, calls, texts, src.reduce((s,r) => s + toNum(r.contacts), 0));
+  }
+
+  /* ---- CAMPAIGN GOALS ---- */
+  const LS_GOALS = 'arafat_fieldops_goals';
+  function loadGoals() {
+    try { return JSON.parse(localStorage.getItem(LS_GOALS)) || {}; } catch(e) { return {}; }
+  }
+  function saveGoals(g) { localStorage.setItem(LS_GOALS, JSON.stringify(g)); }
+
+  function renderGoals(doors, calls, texts, contacts) {
+    const g = loadGoals();
+    const targets = [
+      { label: 'Doors Knocked', val: doors, goal: toNum(g.doors) || 10000, color: 'var(--brand)' },
+      { label: 'Phone Calls',   val: calls,   goal: toNum(g.calls) || 5000,  color: '#166534' },
+      { label: 'Texts Sent',    val: texts,   goal: toNum(g.texts) || 20000, color: '#92400e' },
+      { label: 'Contacts Made', val: contacts, goal: toNum(g.contacts) || 3000, color: '#7c3aed' },
+    ];
+    const body = document.getElementById('goals-progress-body');
+    body.innerHTML = targets.map(t => {
+      const pct = t.goal > 0 ? Math.min(100, Math.round(t.val / t.goal * 100)) : 0;
+      return `
+        <div class="progress-row">
+          <div class="progress-label">${t.label}</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" style="width:${pct}%;background:linear-gradient(90deg,${t.color},${t.color}cc);"></div>
+          </div>
+          <div class="progress-count">${t.val.toLocaleString()} / ${t.goal.toLocaleString()} &nbsp;<span style="color:${pct>=100?'var(--green)':'var(--muted)'}">${pct}%</span></div>
+        </div>`;
+    }).join('');
   }
 
   /* ---- TERRITORY GRID ---- */
@@ -819,6 +888,14 @@
     renderEvents();
   };
 
+  window.deleteSession = function(id) {
+    if (!confirm('Delete this session?')) return;
+    const local = loadLocal().filter(s => s.id !== id);
+    saveLocal(local);
+    allSessions = [...SAMPLE_SESSIONS, ...local];
+    renderAll();
+  };
+
   /* ---- SESSION TABLE ---- */
   function applyFiltersAndSort() {
     const search = (document.getElementById('search').value || '').toLowerCase();
@@ -853,7 +930,7 @@
   function renderTable() {
     const tbody = document.getElementById('sessions-tbody');
     if (!filteredSessions.length) {
-      tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><h3>No sessions found</h3><p>Log your first field session using the form below.</p></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="11" class="empty-state"><h3>No sessions found</h3><p>Log your first field session using the form below.</p></td></tr>`;
       return;
     }
 
@@ -869,6 +946,7 @@
         <td class="td-num">${toNum(r.texts) || '—'}</td>
         <td class="td-num">${toNum(r.contacts) || '—'}</td>
         <td class="td-muted" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escHtml(r.notes||'')}">${escHtml(r.notes || '—')}</td>
+        <td>${!r._sample && !r._sheet ? `<button onclick="deleteSession('${r.id}')" title="Delete session" style="padding:3px 8px;border-radius:6px;border:1px solid rgba(153,27,27,0.25);background:transparent;color:var(--red);cursor:pointer;font-size:.74rem;font-weight:700;">&#10005;</button>` : ''}</td>
       </tr>`).join('');
   }
 
@@ -994,6 +1072,33 @@
   /* ---- REFRESH ---- */
   document.getElementById('refresh-btn').addEventListener('click', function() {
     init();
+  });
+
+  /* ---- GOALS ---- */
+  document.getElementById('edit-goals-btn').addEventListener('click', function() {
+    const wrap = document.getElementById('goals-edit-wrap');
+    const isHidden = wrap.style.display === 'none';
+    wrap.style.display = isHidden ? 'block' : 'none';
+    this.textContent = isHidden ? '✕ Close' : '✎ Edit Goals';
+    if (isHidden) {
+      const g = loadGoals();
+      document.getElementById('goal-doors').value    = g.doors    || '';
+      document.getElementById('goal-calls').value    = g.calls    || '';
+      document.getElementById('goal-texts').value    = g.texts    || '';
+      document.getElementById('goal-contacts').value = g.contacts || '';
+    }
+  });
+
+  document.getElementById('save-goals-btn').addEventListener('click', function() {
+    saveGoals({
+      doors:    toNum(document.getElementById('goal-doors').value)    || 10000,
+      calls:    toNum(document.getElementById('goal-calls').value)    || 5000,
+      texts:    toNum(document.getElementById('goal-texts').value)    || 20000,
+      contacts: toNum(document.getElementById('goal-contacts').value) || 3000
+    });
+    renderAll();
+    document.getElementById('goals-edit-wrap').style.display = 'none';
+    document.getElementById('edit-goals-btn').textContent = '✎ Edit Goals';
   });
 
   /* ---- SETTINGS ---- */
