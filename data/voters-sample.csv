@@ -1,0 +1,41 @@
+id,firstName,lastName,address,city,state,zip,phone,email,area,lat,lng,party,status,contactMethod,lastContact,lastContactBy,donorInterest,followUpDate,followUpBy,carrier,smsOptIn,emailOptIn,notes,dnc
+v001,Maria,Gonzalez,4521 Military Rd E,Spanaway,WA,98387,253-555-0101,mgonzalez@example.com,Spanaway,47.1045,-122.4323,D,not_contacted,,,,,false,,,T-Mobile,true,true,,false
+v002,Robert,Kim,8902 Pacific Ave S,Tacoma,WA,98444,253-555-0102,rkim@example.com,Spanaway,47.1129,-122.4410,R,not_contacted,,,,,false,,,Verizon,true,false,,false
+v003,Angela,Torres,1234 Spanaway Loop Rd,Spanaway,WA,98387,253-555-0103,atorres@example.com,Spanaway,47.0983,-122.4289,D,follow_up,phone,2026-03-05,Maria H.,false,2026-03-12,Maria H.,AT&T,true,true,Called - interested in volunteer,false
+v004,David,Nguyen,5678 Mountain Hwy E,Spanaway,WA,98387,253-555-0104,,dnguyen@example.com,Spanaway,47.1203,-122.4201,I,donor_interest,door,2026-03-08,Field Team,,,,T-Mobile,false,true,Expressed interest in donating,false
+v005,Lisa,Martinez,321 176th St S,Spanaway,WA,98387,253-555-0105,lmartinez@example.com,Spanaway,47.0901,-122.4450,D,contacted,door,2026-03-08,Maria H.,false,,,AT&T,true,true,Receptive - took flyer,false
+v006,James,Wilson,744 Steilacoom Blvd SW,Lakewood,WA,98498,253-555-0106,jwilson@example.com,Lakewood,47.1718,-122.5218,D,not_contacted,,,,,false,,,Verizon,true,true,,false
+v007,Sandra,Johnson,1890 Gravelly Lake Dr SW,Lakewood,WA,98499,253-555-0107,sjohnson@example.com,Lakewood,47.1643,-122.5124,R,not_contacted,,,,,false,,,T-Mobile,false,false,,false
+v008,Michael,Brown,3456 100th St SW,Lakewood,WA,98499,253-555-0108,mbrown@example.com,Lakewood,47.1781,-122.5301,D,follow_up,phone,2026-03-07,James P.,false,2026-03-14,James P.,AT&T,true,true,Left voicemail - follow up,false
+v009,Patricia,Davis,2100 Bridgeport Way W,Lakewood,WA,98499,253-555-0109,,pdavis@example.com,Lakewood,47.1701,-122.5189,I,donor_interest,text,2026-03-06,Digital Team,,,,Cricket,true,true,Replied to text - donor interest,false
+v010,Thomas,Anderson,890 Lakewood Dr SW,Lakewood,WA,98498,253-555-0110,tanderson@example.com,Lakewood,47.1654,-122.5067,D,contacted,door,2026-03-07,Field Team,false,,,Verizon,true,false,Completed contact,false
+v011,Jennifer,Taylor,456 Capitol Way N,Olympia,WA,98501,360-555-0111,jtaylor@example.com,Olympia,47.0423,-122.9007,D,not_contacted,,,,,false,,,T-Mobile,true,true,,false
+v012,Charles,Thomas,789 State Ave NE,Olympia,WA,98506,360-555-0112,cthomas@example.com,Olympia,47.0501,-122.8876,D,not_contacted,,,,,false,,,AT&T,true,true,,false
+v013,Barbara,Jackson,1234 Harrison Ave NW,Olympia,WA,98502,360-555-0113,bjackson@example.com,Olympia,47.0389,-122.9143,R,follow_up,door,2026-03-05,Susan W.,false,2026-03-12,Susan W.,Verizon,false,true,Not home - left flyer,false
+v014,Christopher,White,2345 Martin Way E,Olympia,WA,98506,360-555-0114,cwhite@example.com,Olympia,47.0467,-122.8745,D,donor_interest,door,2026-03-05,Susan W.,true,,,,T-Mobile,true,true,Strong supporter - offered to donate,false
+v015,Linda,Harris,3456 Pacific Ave SE,Olympia,WA,98501,360-555-0115,lharris@example.com,Olympia,47.0356,-122.8967,D,contacted,phone,2026-03-06,Field Team,false,,,AT&T,true,true,Confirmed support,false
+v016,Mark,Clark,567 College St SE,Lacey,WA,98503,360-555-0116,mclark@example.com,Lacey / Tumwater,47.0392,-122.8302,D,not_contacted,,,,,false,,,Verizon,true,true,,false
+v017,Nancy,Lewis,890 Sleater-Kinney Rd NE,Lacey,WA,98516,360-555-0117,,nlewis@example.com,Lacey / Tumwater,47.0534,-122.7934,I,not_contacted,,,,,false,,,T-Mobile,false,true,,false
+v018,Donald,Robinson,1234 Marvin Rd NE,Lacey,WA,98516,360-555-0118,drobinson@example.com,Lacey / Tumwater,47.0612,-122.7812,D,follow_up,text,2026-03-06,Digital Team,false,2026-03-13,Digital Team,AT&T,true,true,Engaged via text,false
+v019,Karen,Walker,2345 Yelm Hwy SE,Lacey,WA,98503,360-555-0119,kwalker@example.com,Lacey / Tumwater,47.0289,-122.7956,D,contacted,door,2026-03-08,Field Team,false,,,Cricket,true,false,Contacted successfully,false
+v020,Paul,Hall,3456 Pacific Ave SW,Tumwater,WA,98501,360-555-0120,phall@example.com,Lacey / Tumwater,47.0178,-122.9089,R,not_contacted,,,,,false,,,Verizon,true,true,,false
+v021,Betty,Allen,123 Bridgeport Way W,University Place,WA,98466,253-555-0121,ballen@example.com,University Place,47.2178,-122.5456,D,not_contacted,,,,,false,,,T-Mobile,true,true,,false
+v022,George,Young,456 Grandview Dr W,University Place,WA,98466,253-555-0122,gyoung@example.com,University Place,47.2245,-122.5534,D,not_contacted,,,,,false,,,AT&T,true,true,,false
+v023,Dorothy,Hernandez,789 27th St W,University Place,WA,98466,253-555-0123,dhernandez@example.com,University Place,47.2134,-122.5378,I,follow_up,door,2026-03-07,Field Team,false,2026-03-14,Field Team,Verizon,true,true,Door knock - asked for more info,false
+v024,Steven,King,1234 Cirque Dr W,University Place,WA,98467,253-555-0124,sking@example.com,University Place,47.2312,-122.5612,D,donor_interest,phone,2026-03-07,James P.,true,,,,T-Mobile,true,true,Donor prospect confirmed,false
+v025,Margaret,Wright,2345 Chambers Creek Rd W,University Place,WA,98466,253-555-0125,mwright@example.com,University Place,47.2056,-122.5489,D,contacted,text,2026-03-07,Digital Team,false,,,AT&T,true,true,Responded positively,false
+v026,Kevin,Lopez,890 McChord Dr,JBLM,WA,98438,253-555-0126,klopez@example.com,JBLM Communities,47.1456,-122.4789,D,not_contacted,,,,,false,,,Verizon,true,true,,false
+v027,Ruth,Hill,1234 Gate 1 Rd,JBLM,WA,98439,253-555-0127,,rhill@example.com,JBLM Communities,47.1523,-122.4856,I,not_contacted,,,,,false,,,T-Mobile,false,true,,false
+v028,Kenneth,Scott,2345 Liggett Ave,JBLM,WA,98438,253-555-0128,kscott@example.com,JBLM Communities,47.1389,-122.4723,D,follow_up,phone,2026-03-07,James P.,false,2026-03-14,James P.,AT&T,true,true,Veteran - very interested,false
+v029,Sharon,Green,3456 Barnes Blvd,JBLM,WA,98439,253-555-0129,sgreen@example.com,JBLM Communities,47.1601,-122.4934,R,contacted,door,2026-03-07,Field Team,false,,,Cricket,true,false,Spouse answered - supportive,false
+v030,Brian,Adams,4567 Pendleton Ave SW,JBLM,WA,98493,253-555-0130,badams@example.com,JBLM Communities,47.1312,-122.4601,D,donor_interest,door,2026-03-07,Field Team,true,,,,Verizon,true,true,Active duty - donor interest,false
+v031,Amy,Baker,123 S Meridian St,Puyallup,WA,98371,253-555-0131,abaker@example.com,Puyallup / South Hill,47.1856,-122.2934,D,not_contacted,,,,,false,,,T-Mobile,true,true,,false
+v032,Frank,Gonzalez,456 Shaw Rd E,Puyallup,WA,98372,253-555-0132,fgonzalez@example.com,Puyallup / South Hill,47.1934,-122.2812,D,not_contacted,,,,,false,,,AT&T,true,true,,false
+v033,Deborah,Nelson,789 Canyon Rd E,Puyallup,WA,98371,253-555-0133,dnelson@example.com,Puyallup / South Hill,47.1778,-122.2756,I,follow_up,door,2026-03-05,Area Team,false,2026-03-12,Area Team,Verizon,true,true,Follow-up door knock needed,false
+v034,Raymond,Carter,1234 S Hill Park Dr,Puyallup,WA,98374,253-555-0134,rcarter@example.com,Puyallup / South Hill,47.2012,-122.2645,D,donor_interest,phone,2026-03-05,Area Team,true,,,,T-Mobile,true,true,Donor prospect - high interest,false
+v035,Carolyn,Mitchell,2345 Meridian E,Puyallup,WA,98371,253-555-0135,cmitchell@example.com,Puyallup / South Hill,47.1712,-122.2834,R,contacted,text,2026-03-06,Digital Team,false,,,AT&T,true,false,Positive response,false
+v036,Gregory,Perez,3456 Central Ave N,Kent,WA,98032,253-555-0136,gperez@example.com,Puyallup / South Hill,47.2134,-122.2312,D,not_contacted,,,,,false,,,Cricket,true,true,,false
+v037,Cynthia,Roberts,567 Spanaway Loop Rd S,Spanaway,WA,98387,253-555-0137,croberts@example.com,Spanaway,47.0867,-122.4367,D,not_contacted,,,,,false,,,Verizon,true,true,,false
+v038,Jack,Turner,890 112th St E,Tacoma,WA,98445,253-555-0138,jturner@example.com,Spanaway,47.1034,-122.4178,D,follow_up,door,2026-03-08,Maria H.,false,2026-03-15,Maria H.,T-Mobile,true,true,Door knock - requested callback,false
+v039,Victoria,Phillips,1234 Mountain Hwy E,Spanaway,WA,98387,253-555-0139,vphillips@example.com,Spanaway,47.1156,-122.4245,I,contacted,phone,2026-03-08,Field Team,false,,,AT&T,true,true,Completed phone contact,false
+v040,Harold,Campbell,2345 Roy Y Rd,Roy,WA,98580,253-555-0140,hcampbell@example.com,Spanaway,47.0623,-122.3956,D,not_contacted,,,,,false,,,Verizon,false,true,,false

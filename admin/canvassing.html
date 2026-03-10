@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canvassing | Arafat for Congress WA-10</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #05101e; --brand: #1d4fa8; --brand-dark: #143480; --gold: #b8860d;
+      --green: #166534; --amber: #92400e; --red: #991b1b;
+      --muted: #4b5568; --border: rgba(5,16,30,0.13);
+      --shadow: 0 4px 16px rgba(5,16,30,0.08); --radius: 10px; --bg: #f3f5fb;
+    }
+    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; background: var(--bg); color: var(--navy); font-size: 14px; min-height: 100vh; }
+
+    .dash-header {
+      background: linear-gradient(90deg, var(--navy), #0d2054);
+      color: #fff; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .dash-brand-name { font-weight: 900; font-size: 1.05rem; }
+    .dash-brand-sub  { font-size: .78rem; color: rgba(255,255,255,0.55); font-weight: 600; }
+    .dash-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dash-btn {
+      padding: 7px 13px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; font-size: .82rem; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: background .12s;
+    }
+    .dash-btn:hover { background: rgba(255,255,255,0.16); }
+    .dash-btn--active { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.50); }
+
+    .page-content { max-width: 1300px; margin: 0 auto; padding: 20px 20px 60px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 360px; gap: 20px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    .section-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    }
+    .section-header {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .section-title { font-weight: 800; color: var(--navy); font-size: .95rem; }
+    .section-sub   { font-size: .78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .section-body  { padding: 16px 18px; }
+
+    .filter-bar {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+      padding: 14px 18px; border-bottom: 1px solid var(--border); background: #f7f8fb;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; }
+    .filter-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .filter-group select, .filter-group input {
+      padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .83rem; color: var(--navy); background: #fff; font-weight: 600;
+    }
+
+    .btn-action {
+      padding: 8px 14px; border-radius: 7px; border: none; cursor: pointer;
+      font-size: .83rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-green  { background: #166534; color: #fff; }
+    .btn-green:hover { background: #14532d; }
+    .btn-amber  { background: #d97706; color: #fff; }
+    .btn-amber:hover { background: #b45309; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--navy); }
+    .btn-outline:hover { background: #f7f8fb; }
+
+    /* Map */
+    #canvass-map { height: 420px; width: 100%; background: #e8eef7; }
+    .map-legend {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 10px 16px; font-size: .75rem; font-weight: 700; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    .map-legend-item { display: flex; align-items: center; gap: 5px; }
+    .map-legend-dot  { width: 12px; height: 12px; border-radius: 999px; border: 2px solid rgba(0,0,0,0.20); }
+    .map-status-bar  {
+      padding: 8px 16px; font-size: .78rem; font-weight: 700; color: var(--muted);
+      border-bottom: 1px solid var(--border); background: #f7f8fb;
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .map-status-bar span b { color: var(--navy); }
+
+    /* Door list */
+    .door-item {
+      border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
+      margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px;
+      cursor: pointer; transition: border-color .12s; flex-wrap: wrap;
+    }
+    .door-item:hover { border-color: var(--brand); background: rgba(29,79,168,0.04); }
+    .door-item.active { border-color: var(--brand); background: #eff6ff; }
+    .door-name { font-weight: 800; flex: 1 1 140px; }
+    .door-meta { font-size: .75rem; color: var(--muted); }
+
+    .badge {
+      display: inline-block; padding: 2px 7px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800;
+    }
+    .badge-nc    { background: #f3f4f6; color: #374151; }
+    .badge-fu    { background: #fef3c7; color: #92400e; }
+    .badge-donor { background: #fefce8; color: #854d0e; }
+    .badge-cont  { background: #dcfce7; color: #166534; }
+    .badge-canv  { background: #dbeafe; color: #1e40af; }
+    .badge-dnc   { background: #fee2e2; color: #991b1b; }
+
+    /* Log form panel */
+    .log-panel { position: sticky; top: 80px; }
+    .log-panel-voter {
+      background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;
+      padding: 14px; margin-bottom: 14px;
+    }
+    .log-panel-voter h3 { font-size: 1rem; font-weight: 900; margin-bottom: 4px; }
+    .voter-meta { font-size: .8rem; color: var(--muted); margin-bottom: 2px; }
+
+    .result-options { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 12px; }
+    .result-btn {
+      padding: 9px 7px; border-radius: 7px; border: 2px solid var(--border); background: #f7f8fb;
+      cursor: pointer; font-size: .8rem; font-weight: 800; text-align: center;
+      transition: border-color .12s; color: var(--navy);
+    }
+    .result-btn:hover { border-color: var(--brand); }
+    .result-btn.selected { border-color: var(--brand); background: #eff6ff; color: var(--brand); }
+    .result-btn--green.selected  { border-color: #166534; background: #f0fdf4; color: #166534; }
+    .result-btn--amber.selected  { border-color: #d97706; background: #fffbeb; color: #92400e; }
+    .result-btn--gold.selected   { border-color: #b8860d; background: #fefce8; color: #854d0e; }
+    .result-btn--red.selected    { border-color: var(--red); background: #fef2f2; color: var(--red); }
+
+    .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .form-group label { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .87rem; color: var(--navy); background: #fff;
+    }
+    .form-group textarea { min-height: 70px; resize: vertical; }
+
+    .stats-mini { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stat-mini { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 100px; }
+    .stat-mini-num { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .stat-mini-label { font-size: .70rem; font-weight: 700; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .05em; }
+
+    .log-table-wrap { overflow-x: auto; }
+    table.log-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+    table.log-table th {
+      padding: 8px 10px; text-align: left; font-size: .72rem; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--border); background: #f7f8fb;
+    }
+    table.log-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+
+    .form-feedback { font-size: .82rem; font-weight: 700; }
+    .form-feedback--ok  { color: var(--green); }
+    .form-feedback--err { color: var(--red); }
+    .no-voter-msg { text-align: center; padding: 40px 20px; color: var(--muted); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<div id="page">
+  <header class="dash-header">
+    <div>
+      <div class="dash-brand-name">Arafat for Congress &mdash; WA-10</div>
+      <div class="dash-brand-sub">Canvassing Operations &bull; Internal Use Only</div>
+    </div>
+    <div class="dash-header-actions">
+      <a class="dash-btn" href="/admin/field-ops-dashboard.html">&#128200; Field Ops</a>
+      <a class="dash-btn" href="/admin/text-banking.html">&#128172; Text Bank</a>
+      <a class="dash-btn" href="/admin/phone-banking.html">&#128222; Phone Bank</a>
+      <a class="dash-btn dash-btn--active" href="/admin/canvassing.html">&#127968; Canvass</a>
+      <a class="dash-btn" href="/admin/flyer-ops.html">&#128251; Flyers</a>
+      <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteers</a>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- Stats -->
+    <div class="stats-mini">
+      <div class="stat-mini"><div class="stat-mini-num" id="cv-stat-doors" style="color:var(--brand);">0</div><div class="stat-mini-label">Doors Knocked</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="cv-stat-contacts" style="color:var(--green);">0</div><div class="stat-mini-label">Contacts Made</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="cv-stat-followup" style="color:#d97706;">0</div><div class="stat-mini-label">Follow-Ups</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="cv-stat-donor" style="color:var(--gold);">0</div><div class="stat-mini-label">Donor Prospects</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="cv-stat-na" style="color:var(--muted);">0</div><div class="stat-mini-label">Not Home</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="cv-stat-flyers" style="color:#7c3aed;">0</div><div class="stat-mini-label">Flyers Left</div></div>
+    </div>
+
+    <!-- Map -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128205; Canvass Map — WA-10</div>
+          <div class="section-sub">Door-knock targets. Click pin to open contact panel. Green = canvassed, orange = follow-up, gold = donor prospect.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-action btn-outline" id="cv-reload-btn">&#8635; Reload Data</button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label>Area</label>
+          <select id="cv-filter-area">
+            <option value="all">All Areas</option>
+            <option value="Spanaway">Spanaway</option>
+            <option value="Lakewood">Lakewood</option>
+            <option value="Olympia">Olympia</option>
+            <option value="Lacey / Tumwater">Lacey / Tumwater</option>
+            <option value="University Place">University Place</option>
+            <option value="JBLM Communities">JBLM Communities</option>
+            <option value="Puyallup / South Hill">Puyallup / South Hill</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Status</label>
+          <select id="cv-filter-status">
+            <option value="active">Not Canvassed + Follow-Ups</option>
+            <option value="all">All (non-DNC)</option>
+            <option value="not_contacted">Not Contacted</option>
+            <option value="follow_up">Follow-Up Needed</option>
+            <option value="donor_interest">Donor Prospects</option>
+            <option value="canvassed">Already Canvassed</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>ZIP</label>
+          <input type="text" id="cv-filter-zip" placeholder="98387" style="width:90px;">
+        </div>
+        <div class="filter-group" style="justify-content:flex-end;">
+          <label>&nbsp;</label>
+          <button class="btn-action btn-primary" id="cv-apply-btn">&#128269; Apply</button>
+        </div>
+      </div>
+      <div class="map-status-bar" id="cv-map-status">
+        <span>Loading…</span>
+      </div>
+      <div id="canvass-map"></div>
+      <div class="map-legend">
+        <strong>Legend:</strong>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#9ca3af;"></div> Not Contacted</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#f59e0b;"></div> Follow-Up</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#eab308;"></div> Donor Prospect</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#3b82f6;"></div> Canvassed</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#22c55e;"></div> Contacted</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+
+      <!-- Door List -->
+      <div>
+        <div class="section-card">
+          <div class="section-header">
+            <div>
+              <div class="section-title">&#127968; Door-Knock List</div>
+              <div class="section-sub">Sorted by area and address. Click to open contact panel.</div>
+            </div>
+          </div>
+          <div style="padding:14px 18px;max-height:500px;overflow-y:auto;" id="cv-door-list-wrap">
+            <div id="cv-door-list"><div class="no-voter-msg">Loading…</div></div>
+          </div>
+          <div style="padding:10px 18px;font-size:.78rem;color:var(--muted);font-weight:700;border-top:1px solid var(--border);" id="cv-door-count">0 doors</div>
+        </div>
+
+        <!-- Session Log -->
+        <div class="section-card">
+          <div class="section-header">
+            <div>
+              <div class="section-title">&#128203; Canvass Log</div>
+              <div class="section-sub">Actions logged this session</div>
+            </div>
+            <button class="btn-action btn-outline" id="cv-export-btn" style="font-size:.78rem;padding:6px 10px;">&#11123; Export CSV</button>
+          </div>
+          <div class="log-table-wrap">
+            <table class="log-table">
+              <thead><tr><th>Time</th><th>Voter</th><th>Address</th><th>Result</th><th>Flyer</th><th>Notes</th></tr></thead>
+              <tbody id="cv-log-tbody">
+                <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">No doors logged yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Panel -->
+      <div class="log-panel">
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">&#127968; Door Contact</div>
+          </div>
+          <div class="section-body" id="cv-contact-body">
+            <div class="no-voter-msg">
+              <div style="font-size:2.5rem;margin-bottom:12px;">&#127968;</div>
+              <div>Click a voter on the map or list to start logging.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /two-col -->
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GqnE=" crossorigin=""></script>
+<script src="/admin/voter-data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  let allVoters   = [];
+  let listVoters  = [];
+  let activeVoter = null;
+  let sessionLog  = [];
+  let canvassMap  = null;
+  let markers     = [];
+  let selectedResult = null;
+
+  let sDoors = 0, sContacts = 0, sFollowUp = 0, sDonor = 0, sNotHome = 0, sFlyers = 0;
+
+  const STATUS_COLORS = {
+    not_contacted: '#9ca3af', follow_up: '#f59e0b', donor_interest: '#eab308',
+    contacted: '#22c55e', canvassed: '#3b82f6', dnc: '#ef4444'
+  };
+
+  const DOOR_RESULTS = [
+    { id: 'canvassed',      label: '&#127968; Canvassed',      cls: 'result-btn--green',  statusSet: 'canvassed'      },
+    { id: 'contacted',      label: '&#10003; Contacted',       cls: 'result-btn--green',  statusSet: 'contacted'      },
+    { id: 'follow_up',      label: '&#9873; Follow-Up',        cls: 'result-btn--amber',  statusSet: 'follow_up'      },
+    { id: 'donor_interest', label: '&#11088; Donor Interest',  cls: 'result-btn--gold',   statusSet: 'donor_interest' },
+    { id: 'not_home',       label: '&#128263; Not Home',       cls: '',                   statusSet: 'not_contacted'  },
+    { id: 'left_flyer',     label: '&#128251; Left Flyer',     cls: '',                   statusSet: 'not_contacted'  },
+    { id: 'refused',        label: '&#10060; Refused',         cls: '',                   statusSet: 'not_contacted'  },
+    { id: 'dnc',            label: '&#128683; DNC',            cls: 'result-btn--red',    statusSet: 'dnc'            }
+  ];
+
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function statusBadge(status) {
+    const map = {
+      not_contacted: ['badge-nc', 'Not Contacted'], follow_up: ['badge-fu', 'Follow-Up'],
+      donor_interest: ['badge-donor', 'Donor Interest'], contacted: ['badge-cont', 'Contacted'],
+      canvassed: ['badge-canv', 'Canvassed'], dnc: ['badge-dnc', 'DNC']
+    };
+    const [cls, label] = map[status] || ['badge-nc', status];
+    return `<span class="badge ${cls}">${escHtml(label)}</span>`;
+  }
+
+  function makeIcon(color) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+      <circle cx="14" cy="14" r="10" fill="${color}" stroke="#fff" stroke-width="2.5"/>
+      <circle cx="14" cy="14" r="4" fill="rgba(0,0,0,0.25)"/>
+    </svg>`;
+    return L.divIcon({ html: svg, className: '', iconSize: [28, 28], iconAnchor: [14, 14] });
+  }
+
+  function getFilters() {
+    return {
+      area:   (document.getElementById('cv-filter-area')   || {}).value || 'all',
+      status: (document.getElementById('cv-filter-status') || {}).value || 'active',
+      zip:    ((document.getElementById('cv-filter-zip')   || {}).value || '').trim()
+    };
+  }
+
+  function applyFilters() {
+    const f = getFilters();
+    let filtered = allVoters.filter(v => !v.dnc && v.status !== 'dnc');
+    if (f.area !== 'all') filtered = filtered.filter(v => v.area === f.area);
+    if (f.zip)            filtered = filtered.filter(v => v.zip === f.zip);
+    if (f.status === 'active') {
+      filtered = filtered.filter(v => v.status === 'not_contacted' || v.status === 'follow_up');
+    } else if (f.status !== 'all') {
+      filtered = filtered.filter(v => v.status === f.status);
+    }
+    listVoters = filtered;
+    buildMap(filtered);
+    renderDoorList();
+  }
+
+  function buildMap(voters) {
+    if (!window.L) return;
+    if (!canvassMap) {
+      canvassMap = L.map('canvass-map').setView([47.08, -122.55], 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>', maxZoom: 18
+      }).addTo(canvassMap);
+    }
+    markers.forEach(m => canvassMap.removeLayer(m));
+    markers = [];
+
+    let shown = 0;
+    voters.forEach(v => {
+      if (!v.lat || !v.lng) return;
+      const color  = STATUS_COLORS[v.status] || STATUS_COLORS.not_contacted;
+      const marker = L.marker([v.lat, v.lng], { icon: makeIcon(color) });
+      marker.bindTooltip(`${v.firstName} ${v.lastName} — ${v.address}`, { sticky: true });
+      marker.on('click', () => setActiveVoter(v));
+      marker.addTo(canvassMap);
+      markers.push(marker);
+      shown++;
+    });
+
+    const statusBar = document.getElementById('cv-map-status');
+    if (statusBar) {
+      statusBar.innerHTML = `<span>Showing <b>${shown}</b> pins</span> <span>Total: <b>${voters.length}</b></span>`;
+    }
+  }
+
+  function renderDoorList() {
+    const list = document.getElementById('cv-door-list');
+    const countEl = document.getElementById('cv-door-count');
+    if (!list) return;
+
+    if (!listVoters.length) {
+      list.innerHTML = '<div class="no-voter-msg">No voters match current filters.</div>';
+      if (countEl) countEl.textContent = '0 doors';
+      return;
+    }
+
+    list.innerHTML = listVoters.map(v => {
+      const isActive = activeVoter && activeVoter.id === v.id;
+      const isDone   = sessionLog.some(l => l.voterId === v.id);
+      return `
+        <div class="door-item ${isActive ? 'active' : ''}" data-id="${escHtml(v.id)}">
+          <div>
+            <div class="door-name">${escHtml(v.firstName)} ${escHtml(v.lastName)}</div>
+            <div class="door-meta">&#127968; ${escHtml(v.address)}, ${escHtml(v.zip)}</div>
+            <div class="door-meta">&#128205; ${escHtml(v.area)}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+            ${statusBadge(v.status)}
+            ${isDone ? '<span style="font-size:.72rem;font-weight:700;color:var(--green);">&#10003; Logged</span>' : ''}
+          </div>
+        </div>`;
+    }).join('');
+
+    list.querySelectorAll('.door-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const voter = listVoters.find(v => v.id === item.dataset.id);
+        if (voter) setActiveVoter(voter);
+      });
+    });
+
+    if (countEl) countEl.textContent = `${listVoters.length} door${listVoters.length !== 1 ? 's' : ''}`;
+  }
+
+  function setActiveVoter(voter) {
+    activeVoter = voter;
+    selectedResult = null;
+    renderContactPanel();
+    renderDoorList();
+    // Pan map to voter
+    if (canvassMap && voter.lat && voter.lng) {
+      canvassMap.setView([voter.lat, voter.lng], 15);
+    }
+  }
+
+  function renderContactPanel() {
+    const body = document.getElementById('cv-contact-body');
+    if (!body || !activeVoter) return;
+    const v = activeVoter;
+
+    body.innerHTML = `
+      <div class="log-panel-voter">
+        <h3>${escHtml(v.firstName)} ${escHtml(v.lastName)}</h3>
+        <div class="voter-meta">&#127968; ${escHtml(v.address)}, ${escHtml(v.city)} ${escHtml(v.zip)}</div>
+        <div class="voter-meta">&#128205; ${escHtml(v.area)} &bull; Party: ${escHtml(v.party || '—')}</div>
+        ${v.notes ? `<div class="voter-meta" style="margin-top:6px;color:#92400e;"><b>Note:</b> ${escHtml(v.notes)}</div>` : ''}
+        ${v.lastContact ? `<div class="voter-meta" style="margin-top:4px;font-size:.75rem;">Last: ${escHtml(v.lastContact)} (${escHtml(v.lastContactBy)})</div>` : ''}
+        <div style="margin-top:8px;">${statusBadge(v.status)}</div>
+      </div>
+
+      <div style="font-weight:800;font-size:.85rem;margin-bottom:10px;">&#128203; Log Door Result</div>
+      <div class="result-options" id="cv-result-opts">
+        ${DOOR_RESULTS.map(r => `<button class="result-btn ${r.cls}" data-result="${r.id}">${r.label}</button>`).join('')}
+      </div>
+
+      <div class="form-group">
+        <label>Left Flyer?</label>
+        <select id="cv-flyer-left">
+          <option value="no">No</option>
+          <option value="yes">Yes — left flyer</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Follow-Up Date (if needed)</label>
+        <input type="date" id="cv-followup-date">
+      </div>
+      <div class="form-group">
+        <label>Volunteer Name</label>
+        <input type="text" id="cv-volunteer-name" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea id="cv-notes" placeholder="Issues raised, interest level, household details…"></textarea>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <button class="btn-action btn-green" id="cv-log-btn">&#10003; Log &amp; Next</button>
+        <button class="btn-action btn-outline" id="cv-skip-btn">&#8594; Skip</button>
+        <span class="form-feedback" id="cv-log-feedback"></span>
+      </div>
+    `;
+
+    document.querySelectorAll('#cv-result-opts .result-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#cv-result-opts .result-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedResult = btn.dataset.result;
+      });
+    });
+    document.getElementById('cv-log-btn').addEventListener('click', logAndNext);
+    document.getElementById('cv-skip-btn').addEventListener('click', skipDoor);
+  }
+
+  function logAndNext() {
+    if (!activeVoter) return;
+    if (!selectedResult) {
+      showFeedback('cv-log-feedback', 'Select a result first.', 'err');
+      return;
+    }
+    const volunteer  = (document.getElementById('cv-volunteer-name') || {}).value || 'Canvasser';
+    const notes      = (document.getElementById('cv-notes')          || {}).value || '';
+    const fuDate     = (document.getElementById('cv-followup-date')  || {}).value || '';
+    const flyerLeft  = (document.getElementById('cv-flyer-left')     || {}).value === 'yes';
+    const result     = DOOR_RESULTS.find(r => r.id === selectedResult);
+    const today      = window.VoterData ? window.VoterData.today() : new Date().toISOString().slice(0,10);
+
+    if (window.VoterData && result) {
+      const updates = {
+        status: result.statusSet,
+        contactMethod: 'door',
+        lastContact: today,
+        lastContactBy: volunteer,
+        notes: notes || activeVoter.notes
+      };
+      if (selectedResult === 'follow_up') { updates.followUpDate = fuDate; updates.followUpBy = volunteer; }
+      if (selectedResult === 'donor_interest') updates.donorInterest = true;
+      if (selectedResult === 'dnc') { updates.dnc = true; updates.status = 'dnc'; }
+      window.VoterData.updateVoterStatus(activeVoter.id, updates);
+      allVoters = window.VoterData.loadVoters() || allVoters;
+    }
+
+    sessionLog.unshift({
+      time: new Date().toLocaleTimeString(),
+      voterId: activeVoter.id,
+      name: `${activeVoter.firstName} ${activeVoter.lastName}`,
+      address: activeVoter.address,
+      resultId: selectedResult,
+      result: result ? result.label.replace(/<[^>]+>/g,'') : selectedResult,
+      flyerLeft,
+      notes,
+      volunteer
+    });
+
+    sDoors++;
+    if (selectedResult === 'canvassed' || selectedResult === 'contacted') sContacts++;
+    if (selectedResult === 'follow_up') sFollowUp++;
+    if (selectedResult === 'donor_interest') sDonor++;
+    if (selectedResult === 'not_home') sNotHome++;
+    if (flyerLeft) sFlyers++;
+
+    updateStats();
+    renderLog();
+    advanceDoor();
+  }
+
+  function skipDoor() { advanceDoor(); }
+
+  function advanceDoor() {
+    if (!activeVoter) return;
+    const idx  = listVoters.findIndex(v => v.id === activeVoter.id);
+    const next = listVoters[idx + 1];
+    if (next) setActiveVoter(next);
+    else { activeVoter = null; document.getElementById('cv-contact-body').innerHTML = '<div class="no-voter-msg">All doors in this list logged!</div>'; }
+    applyFilters();
+  }
+
+  function updateStats() {
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('cv-stat-doors',    sDoors);
+    set('cv-stat-contacts', sContacts);
+    set('cv-stat-followup', sFollowUp);
+    set('cv-stat-donor',    sDonor);
+    set('cv-stat-na',       sNotHome);
+    set('cv-stat-flyers',   sFlyers);
+  }
+
+  function renderLog() {
+    const tbody = document.getElementById('cv-log-tbody');
+    if (!tbody) return;
+    if (!sessionLog.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">No doors logged yet.</td></tr>'; return; }
+    tbody.innerHTML = sessionLog.map(e => `
+      <tr>
+        <td style="font-size:.78rem;">${escHtml(e.time)}</td>
+        <td><b>${escHtml(e.name)}</b></td>
+        <td style="font-size:.78rem;">${escHtml(e.address)}</td>
+        <td>${statusBadge(e.resultId)}</td>
+        <td style="font-size:.78rem;">${e.flyerLeft ? '&#128251; Yes' : '—'}</td>
+        <td style="font-size:.75rem;color:var(--muted);max-width:140px;white-space:normal;">${escHtml(e.notes)}</td>
+      </tr>`).join('');
+  }
+
+  function showFeedback(id, msg, type) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.className = `form-feedback form-feedback--${type}`;
+    setTimeout(() => { el.textContent = ''; }, 3500);
+  }
+
+  function exportLog() {
+    if (!sessionLog.length) return;
+    const headers = ['Time','Voter','Address','Result','Flyer Left','Notes','Volunteer'];
+    const rows = sessionLog.map(e => [e.time, e.name, e.address, e.result.replace(/<[^>]+>/g,''), e.flyerLeft ? 'Yes' : 'No', e.notes, e.volunteer]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `canvass-log-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  async function init() {
+    if (!window.VoterData) return;
+    allVoters = await window.VoterData.getVoters();
+    applyFilters();
+
+    document.getElementById('cv-apply-btn').addEventListener('click', applyFilters);
+    document.getElementById('cv-export-btn').addEventListener('click', exportLog);
+    document.getElementById('cv-reload-btn').addEventListener('click', async () => {
+      localStorage.removeItem(window.VoterData.LS_VOTERS);
+      allVoters = await window.VoterData.getVoters();
+      applyFilters();
+    });
+    document.getElementById('cv-filter-zip').addEventListener('keydown', e => { if (e.key === 'Enter') applyFilters(); });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

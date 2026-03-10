@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Field Ops Dashboard | Arafat for Congress WA-10</title>
   <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -564,6 +565,59 @@
     }
     #print-briefing-header h1 { font-size: 1.3rem; font-weight: 900; color: var(--navy); }
     #print-briefing-header p { font-size: .85rem; color: var(--muted); margin-top: 4px; }
+
+    /* ---- VOTER MAP ---- */
+    .voter-map-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    }
+    #voter-map { height: 420px; width: 100%; background: #e8eef7; }
+    .voter-map-toolbar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 12px 16px; border-bottom: 1px solid var(--border); background: #f7f8fb;
+    }
+    .voter-map-toolbar select, .voter-map-toolbar input[type="text"] {
+      padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: .82rem; color: var(--navy); background: #fff; font-weight: 600;
+    }
+    .voter-map-toolbar label { font-size: .78rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .map-legend {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 10px 16px; font-size: .75rem; font-weight: 700; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    .map-legend-item { display: flex; align-items: center; gap: 5px; }
+    .map-legend-dot {
+      width: 12px; height: 12px; border-radius: 999px; flex-shrink: 0;
+      border: 2px solid rgba(0,0,0,0.20);
+    }
+    .map-status-bar {
+      padding: 8px 16px; font-size: .78rem; font-weight: 700; color: var(--muted);
+      border-bottom: 1px solid var(--border); background: #f7f8fb;
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .map-status-bar span b { color: var(--navy); }
+    .reload-voter-csv-btn {
+      padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(29,79,168,0.25);
+      background: rgba(29,79,168,0.09); color: var(--brand); cursor: pointer;
+      font-size: .78rem; font-weight: 700;
+    }
+    .reload-voter-csv-btn:hover { background: rgba(29,79,168,0.16); }
+
+    /* ---- VOTER REPORT ---- */
+    .voter-report-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;
+    }
+    .voter-stat-card {
+      border-radius: 8px; border: 1px solid var(--border); padding: 14px 16px;
+      text-align: center; background: #f7f8fb;
+    }
+    .voter-stat-num  { font-size: 1.8rem; font-weight: 900; line-height: 1; }
+    .voter-stat-label { font-size: .72rem; font-weight: 700; color: var(--muted); margin-top: 5px; text-transform: uppercase; letter-spacing: .06em; }
+
+    @media (max-width: 600px) {
+      #voter-map { height: 300px; }
+    }
   </style>
 </head>
 <body>
@@ -580,6 +634,10 @@
       <button class="dash-btn dash-btn--gold" id="export-filtered-btn">&#11123; Export Filtered</button>
       <button class="dash-btn" id="copy-summary-btn" title="Copy weekly summary to clipboard">&#128203; Copy Summary</button>
       <button class="dash-btn" id="print-briefing-btn" title="Print daily ops briefing">&#128438; Print Briefing</button>
+      <a class="dash-btn" href="/admin/phone-banking.html">&#128222; Phone Bank</a>
+      <a class="dash-btn" href="/admin/text-banking.html">&#128172; Text Bank</a>
+      <a class="dash-btn" href="/admin/canvassing.html">&#127968; Canvass</a>
+      <a class="dash-btn" href="/admin/flyer-ops.html">&#128251; Flyers</a>
       <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteer Dashboard</a>
       <a class="dash-btn" href="/index.html" target="_blank">View Site &rarr;</a>
     </div>
@@ -675,10 +733,90 @@
       </div>
     </div>
 
+    <!-- VOTER STATUS REPORT -->
+    <div class="section-card" id="voter-report-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128100; Voter Contact Report</div>
+          <div class="section-sub">Live status summary from voter contact CSV — updated as contacts are logged</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <button class="reload-voter-csv-btn" id="reload-voter-btn">&#8635; Reload CSV</button>
+          <span id="voter-csv-status" style="font-size:.75rem;font-weight:700;color:var(--muted);"></span>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="voter-report-grid" id="voter-report-grid">
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-total" style="color:var(--navy);">—</div><div class="voter-stat-label">Total Voters</div></div>
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-not-contacted" style="color:#6b7280;">—</div><div class="voter-stat-label">Not Contacted</div></div>
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-contacted" style="color:var(--green);">—</div><div class="voter-stat-label">Contacted</div></div>
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-follow-up" style="color:#d97706;">—</div><div class="voter-stat-label">Follow-Up Needed</div></div>
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-donor" style="color:var(--gold);">—</div><div class="voter-stat-label">Donor Interest</div></div>
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-canvassed" style="color:var(--brand);">—</div><div class="voter-stat-label">Canvassed</div></div>
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-dnc" style="color:var(--red);">—</div><div class="voter-stat-label">Do Not Contact</div></div>
+          <div class="voter-stat-card"><div class="voter-stat-num" id="vr-pct" style="color:#0e7490;">—</div><div class="voter-stat-label">Contact Rate</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOTER MAP -->
+    <div class="voter-map-card" id="voter-map-card">
+      <div class="section-header" style="padding:12px 16px;">
+        <div>
+          <div class="section-title">&#128205; Voter Contact Map — WA-10</div>
+          <div class="section-sub">Pins show contact status. Contacted voters with no follow-up are removed. Orange = follow-up needed, gold = donor interest.</div>
+        </div>
+      </div>
+      <div class="voter-map-toolbar">
+        <label>Area:</label>
+        <select id="map-filter-area">
+          <option value="all">All Areas</option>
+          <option value="Spanaway">Spanaway</option>
+          <option value="Lakewood">Lakewood</option>
+          <option value="Olympia">Olympia</option>
+          <option value="Lacey / Tumwater">Lacey / Tumwater</option>
+          <option value="University Place">University Place</option>
+          <option value="JBLM Communities">JBLM Communities</option>
+          <option value="Puyallup / South Hill">Puyallup / South Hill</option>
+        </select>
+        <label>Status:</label>
+        <select id="map-filter-status">
+          <option value="active">Active (excl. completed)</option>
+          <option value="all">All Statuses</option>
+          <option value="not_contacted">Not Contacted</option>
+          <option value="follow_up">Follow-Up Needed</option>
+          <option value="donor_interest">Donor Interest</option>
+          <option value="canvassed">Canvassed</option>
+          <option value="contacted">Contacted</option>
+          <option value="dnc">Do Not Contact</option>
+        </select>
+        <label>ZIP:</label>
+        <input type="text" id="map-filter-zip" placeholder="e.g. 98387" style="width:90px;">
+        <button class="reload-voter-csv-btn" id="map-refresh-btn">&#8635; Refresh Map</button>
+      </div>
+      <div class="map-status-bar" id="map-status-bar">
+        <span>Loading voter data…</span>
+      </div>
+      <div id="voter-map"></div>
+      <div class="map-legend">
+        <strong>Legend:</strong>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#9ca3af;"></div> Not Contacted</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#f59e0b;"></div> Follow-Up Needed</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#eab308;"></div> Donor Interest</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#3b82f6;"></div> Canvassed</div>
+        <div class="map-legend-item"><div class="map-legend-dot" style="background:#ef4444;"></div> Do Not Contact</div>
+        <div class="map-legend-item" style="font-style:italic;color:var(--muted);">&#10003; Contacted (no action) — removed from map</div>
+      </div>
+    </div>
+
     <!-- QUICK LINKS -->
     <div class="quick-links-bar">
       <span class="quick-links-bar__label">&#128279; Quick Links</span>
       <a class="ql-btn ql-btn--primary" href="https://docs.google.com/spreadsheets/d/1waU1ZDIKlGgkTCDwMThsDZsWMR0PJpzyhYImGPCWzeY" target="_blank" rel="noopener noreferrer">&#128196; Outreach Sheet</a>
+      <a class="ql-btn ql-btn--primary" href="/admin/phone-banking.html">&#128222; Phone Bank</a>
+      <a class="ql-btn ql-btn--primary" href="/admin/text-banking.html">&#128172; Text Bank</a>
+      <a class="ql-btn ql-btn--primary" href="/admin/canvassing.html">&#127968; Canvassing</a>
+      <a class="ql-btn ql-btn--primary" href="/admin/flyer-ops.html">&#128251; Flyer Ops</a>
       <a class="ql-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteers</a>
       <a class="ql-btn" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">&#128181; ActBlue</a>
       <a class="ql-btn" href="mailto:volunteer@arafatforcongress.org">&#128231; volunteer@</a>
@@ -1191,6 +1329,8 @@
   </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GqnE=" crossorigin=""></script>
+<script src="/admin/voter-data.js"></script>
 <script>
 (function () {
   'use strict';
@@ -2996,5 +3136,213 @@
 })();
 </script>
 
+
+<script>
+/* ── VOTER MAP & REPORT MODULE ─────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  let voterMap = null;
+  let voterMarkers = [];
+  let allVoters = [];
+
+  const STATUS_COLORS = {
+    not_contacted: '#9ca3af',
+    follow_up:     '#f59e0b',
+    donor_interest:'#eab308',
+    contacted:     '#22c55e',
+    canvassed:     '#3b82f6',
+    dnc:           '#ef4444'
+  };
+
+  function makeIcon(color, hasFlag) {
+    const svgSize = hasFlag ? 38 : 28;
+    const flag = hasFlag
+      ? `<rect x="13" y="2" width="10" height="7" fill="#f59e0b" stroke="#fff" stroke-width="1"/><line x1="13" y1="2" x2="13" y2="14" stroke="#555" stroke-width="1.5"/>`
+      : '';
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}">
+      <circle cx="14" cy="14" r="10" fill="${color}" stroke="#fff" stroke-width="2.5"/>
+      <circle cx="14" cy="14" r="4" fill="rgba(0,0,0,0.25)"/>
+      ${flag}
+    </svg>`;
+    return L.divIcon({
+      html: svg,
+      className: '',
+      iconSize: [svgSize, svgSize],
+      iconAnchor: [14, 14]
+    });
+  }
+
+  function popupHtml(v) {
+    const statusLabel = window.VoterData ? window.VoterData.statusLabel(v.status) : v.status;
+    const followUpFlag = v.status === 'follow_up'
+      ? `<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:6px;padding:5px 8px;margin-top:6px;font-size:.8rem;font-weight:700;color:#92400e;">&#9888; Follow-up by ${v.followUpDate || '—'} (${v.followUpBy || 'unassigned'})</div>`
+      : '';
+    const donorFlag = v.donorInterest
+      ? `<div style="background:#fefce8;border:1px solid #eab308;border-radius:6px;padding:5px 8px;margin-top:6px;font-size:.8rem;font-weight:700;color:#854d0e;">&#11088; Donor Interest</div>`
+      : '';
+    return `
+      <div style="min-width:200px;font-family:system-ui,sans-serif;">
+        <div style="font-weight:900;font-size:.95rem;margin-bottom:4px;">${v.firstName} ${v.lastName}</div>
+        <div style="font-size:.8rem;color:#4b5568;margin-bottom:2px;">${v.address}, ${v.city} ${v.zip}</div>
+        <div style="font-size:.78rem;color:#4b5568;">Area: <b>${v.area}</b></div>
+        <div style="font-size:.78rem;margin-top:4px;">
+          Status: <b style="color:${STATUS_COLORS[v.status] || '#333'};">${statusLabel}</b>
+        </div>
+        ${v.lastContact ? `<div style="font-size:.75rem;color:#6b7280;margin-top:3px;">Last contact: ${v.lastContact} by ${v.lastContactBy}</div>` : ''}
+        ${v.notes ? `<div style="font-size:.75rem;color:#6b7280;margin-top:3px;font-style:italic;">${v.notes}</div>` : ''}
+        ${followUpFlag}${donorFlag}
+        <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+          <button onclick="voterMapUpdateStatus('${v.id}','contacted')" style="padding:4px 8px;border-radius:5px;border:1px solid #22c55e;background:#f0fdf4;color:#166534;cursor:pointer;font-size:.75rem;font-weight:700;">&#10003; Mark Contacted</button>
+          <button onclick="voterMapUpdateStatus('${v.id}','follow_up')" style="padding:4px 8px;border-radius:5px;border:1px solid #f59e0b;background:#fffbeb;color:#92400e;cursor:pointer;font-size:.75rem;font-weight:700;">&#9873; Flag Follow-Up</button>
+          <button onclick="voterMapUpdateStatus('${v.id}','donor_interest')" style="padding:4px 8px;border-radius:5px;border:1px solid #eab308;background:#fefce8;color:#854d0e;cursor:pointer;font-size:.75rem;font-weight:700;">&#11088; Donor Interest</button>
+          <button onclick="voterMapUpdateStatus('${v.id}','dnc')" style="padding:4px 8px;border-radius:5px;border:1px solid #ef4444;background:#fef2f2;color:#991b1b;cursor:pointer;font-size:.75rem;font-weight:700;">&#128683; DNC</button>
+        </div>
+      </div>`;
+  }
+
+  function buildMap(voters) {
+    if (!window.L) return;
+    const mapEl = document.getElementById('voter-map');
+    if (!mapEl) return;
+
+    if (!voterMap) {
+      voterMap = L.map('voter-map').setView([47.08, -122.55], 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+        maxZoom: 18
+      }).addTo(voterMap);
+    }
+
+    // Clear existing markers
+    voterMarkers.forEach(m => voterMap.removeLayer(m));
+    voterMarkers = [];
+
+    const areaFilter   = (document.getElementById('map-filter-area')   || {}).value || 'all';
+    const statusFilter = (document.getElementById('map-filter-status') || {}).value || 'active';
+    const zipFilter    = ((document.getElementById('map-filter-zip')   || {}).value || '').trim();
+
+    let shown = 0, hidden = 0;
+
+    voters.forEach(v => {
+      if (!v.lat || !v.lng) return;
+
+      // Apply "active" filter: hide voters who are fully contacted with no follow-up action needed
+      const isCompleted = v.status === 'contacted' && !v.donorInterest && v.followUpDate === '';
+      if (statusFilter === 'active' && isCompleted) { hidden++; return; }
+      if (statusFilter !== 'active' && statusFilter !== 'all' && v.status !== statusFilter) { hidden++; return; }
+      if (areaFilter !== 'all' && v.area !== areaFilter) return;
+      if (zipFilter && v.zip !== zipFilter) return;
+
+      const hasFlag = v.status === 'follow_up';
+      const color = STATUS_COLORS[v.status] || STATUS_COLORS.not_contacted;
+      const marker = L.marker([v.lat, v.lng], { icon: makeIcon(color, hasFlag) });
+      marker.bindPopup(popupHtml(v), { maxWidth: 260 });
+      marker.addTo(voterMap);
+      voterMarkers.push(marker);
+      shown++;
+    });
+
+    const statusBar = document.getElementById('map-status-bar');
+    if (statusBar) {
+      const followUpCount = voters.filter(v => v.status === 'follow_up').length;
+      const donorCount    = voters.filter(v => v.donorInterest).length;
+      statusBar.innerHTML = `
+        <span>Showing <b>${shown}</b> pins</span>
+        <span>Total voters: <b>${voters.length}</b></span>
+        <span style="color:#d97706;">Follow-ups: <b>${followUpCount}</b></span>
+        <span style="color:#b8860d;">Donor prospects: <b>${donorCount}</b></span>
+        ${hidden ? `<span style="color:#6b7280;">${hidden} completed contacts hidden</span>` : ''}
+      `;
+    }
+  }
+
+  function renderVoterReport(voters) {
+    const total    = voters.length;
+    const nc       = voters.filter(v => v.status === 'not_contacted').length;
+    const cont     = voters.filter(v => v.status === 'contacted').length;
+    const fu       = voters.filter(v => v.status === 'follow_up').length;
+    const donor    = voters.filter(v => v.donorInterest || v.status === 'donor_interest').length;
+    const canv     = voters.filter(v => v.status === 'canvassed').length;
+    const dnc      = voters.filter(v => v.dnc || v.status === 'dnc').length;
+    const reached  = total - nc;
+    const pct      = total ? Math.round((reached / total) * 100) + '%' : '—';
+
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('vr-total',         total);
+    set('vr-not-contacted', nc);
+    set('vr-contacted',     cont);
+    set('vr-follow-up',     fu);
+    set('vr-donor',         donor);
+    set('vr-canvassed',     canv);
+    set('vr-dnc',           dnc);
+    set('vr-pct',           pct);
+  }
+
+  async function initVoterMap() {
+    const statusEl = document.getElementById('voter-csv-status');
+    if (statusEl) statusEl.textContent = 'Loading…';
+
+    const voters = await (window.VoterData ? window.VoterData.getVoters() : Promise.resolve([]));
+    allVoters = voters;
+
+    if (statusEl) {
+      statusEl.textContent = voters.length
+        ? `${voters.length} voters loaded`
+        : 'No voter data — upload CSV in Settings';
+    }
+
+    renderVoterReport(voters);
+    buildMap(voters);
+  }
+
+  // Expose globally for popup buttons
+  window.voterMapUpdateStatus = function (id, newStatus) {
+    if (!window.VoterData) return;
+    const today = window.VoterData.today();
+    window.VoterData.updateVoterStatus(id, {
+      status: newStatus,
+      lastContact: today,
+      donorInterest: newStatus === 'donor_interest' ? true : undefined,
+      followUpDate:  newStatus === 'follow_up'      ? '' : undefined
+    });
+    // Reload voter data from storage and refresh
+    allVoters = window.VoterData.loadVoters() || allVoters;
+    renderVoterReport(allVoters);
+    buildMap(allVoters);
+    // Close popup
+    if (voterMap) voterMap.closePopup();
+  };
+
+  // Wire up controls
+  document.addEventListener('DOMContentLoaded', function () {
+    const refreshBtn = document.getElementById('map-refresh-btn');
+    if (refreshBtn) refreshBtn.addEventListener('click', () => buildMap(allVoters));
+
+    const reloadBtn = document.getElementById('reload-voter-btn');
+    if (reloadBtn) reloadBtn.addEventListener('click', async () => {
+      if (window.VoterData) {
+        localStorage.removeItem(window.VoterData.LS_VOTERS);
+      }
+      await initVoterMap();
+    });
+
+    ['map-filter-area', 'map-filter-status'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('change', () => buildMap(allVoters));
+    });
+
+    const zipInput = document.getElementById('map-filter-zip');
+    if (zipInput) {
+      zipInput.addEventListener('input', () => {
+        clearTimeout(zipInput._t);
+        zipInput._t = setTimeout(() => buildMap(allVoters), 400);
+      });
+    }
+
+    initVoterMap();
+  });
+})();
+</script>
 </body>
 </html>
