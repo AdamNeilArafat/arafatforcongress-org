@@ -384,6 +384,10 @@
         <div class="stat-num" id="stat-texts">0</div>
         <div class="stat-label">Texts Sent</div>
       </div>
+      <div class="stat-card" style="--stat-color:#7c3aed;">
+        <div class="stat-num" id="stat-contacts" style="color:#7c3aed;">0</div>
+        <div class="stat-label">Contacts Made</div>
+      </div>
       <div class="stat-card stat-card--urgent">
         <div class="stat-num" id="stat-sessions">0</div>
         <div class="stat-label">Sessions Logged</div>
@@ -511,12 +515,13 @@
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <label style="font-size:.78rem;font-weight:700;color:var(--muted);">Rank by:</label>
-          <select id="lb-rank-by" style="padding:5px 8px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.82rem;background:#f7f8fb;">
+          <select id="lb-rank-by" style="padding:5px 8px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.82rem;background:#f7f8fb;" aria-label="Rank leaderboard by">
             <option value="doors">Doors</option>
             <option value="calls">Calls</option>
             <option value="texts">Texts</option>
             <option value="sessions">Sessions</option>
             <option value="contacts">Contacts</option>
+            <option value="hours">Est. Hours</option>
           </select>
         </div>
       </div>
@@ -538,6 +543,7 @@
             <option value="doors">Doors Knocked</option>
             <option value="calls">Phone Calls</option>
             <option value="texts">Texts Sent</option>
+            <option value="flyers">Flyers Distributed</option>
             <option value="sessions">Session Count</option>
             <option value="contacts">Contacts Made</option>
           </select>
@@ -579,6 +585,9 @@
         <option>JBLM Communities</option><option>Puyallup / South Hill</option>
         <option>Multiple / Remote</option><option>Other</option>
       </select>
+      <input type="date" id="filter-date-from" title="From date" style="padding:7px 10px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.82rem;background:#fff;color:var(--navy);" />
+      <input type="date" id="filter-date-to" title="To date" style="padding:7px 10px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.82rem;background:#fff;color:var(--navy);" />
+      <button id="filter-date-clear" type="button" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--muted);font-size:.78rem;font-weight:700;cursor:pointer;" title="Clear date range">&#10005; Date</button>
       <span class="filter-count" id="filter-count"></span>
     </div>
 
@@ -912,16 +921,19 @@
       return s + v * 1.5;
     }, 0);
 
+    const contacts = src.reduce((s,r) => s + toNum(r.contacts), 0);
+
     document.getElementById('stat-doors').textContent    = doors.toLocaleString();
     document.getElementById('stat-flyers').textContent   = flyers.toLocaleString();
     document.getElementById('stat-calls').textContent    = calls.toLocaleString();
     document.getElementById('stat-texts').textContent    = texts.toLocaleString();
+    document.getElementById('stat-contacts').textContent = contacts.toLocaleString();
     document.getElementById('stat-sessions').textContent = sessions.toLocaleString();
     document.getElementById('stat-vols').textContent     = volSet.size.toLocaleString();
     document.getElementById('stat-areas').textContent    = areaSet.size.toLocaleString();
     document.getElementById('stat-hours').textContent    = Math.round(hours).toLocaleString();
 
-    renderGoals(doors, calls, texts, src.reduce((s,r) => s + toNum(r.contacts), 0));
+    renderGoals(doors, calls, texts, contacts);
   }
 
   /* ---- CAMPAIGN GOALS ---- */
@@ -960,19 +972,22 @@
 
     allSessions.forEach(r => {
       const name = (r.volunteer || '').trim() || 'Unknown';
-      if (!volMap[name]) volMap[name] = { name, sessions: 0, doors: 0, calls: 0, texts: 0, contacts: 0, flyers: 0 };
+      if (!volMap[name]) volMap[name] = { name, sessions: 0, doors: 0, calls: 0, texts: 0, contacts: 0, flyers: 0, hours: 0 };
       volMap[name].sessions++;
       volMap[name].doors    += toNum(r.doors);
       volMap[name].calls    += toNum(r.calls);
       volMap[name].texts    += toNum(r.texts);
       volMap[name].contacts += toNum(r.contacts);
       volMap[name].flyers   += toNum(r.flyers);
+      const v = toNum(r.vols) || 1;
+      const hrs = (r.type === 'canvass' || r.type === 'mixed') ? v * 2 : v * 1.5;
+      volMap[name].hours += hrs;
     });
 
     const sorted = Object.values(volMap).sort((a, b) => b[rankBy] - a[rankBy]).slice(0, 10);
     const maxVal = Math.max(1, sorted[0] ? sorted[0][rankBy] : 1);
 
-    const rankLabels = { doors: 'Doors', calls: 'Calls', texts: 'Texts', sessions: 'Sessions', contacts: 'Contacts' };
+    const rankLabels = { doors: 'Doors', calls: 'Calls', texts: 'Texts', sessions: 'Sessions', contacts: 'Contacts', hours: 'Est. Hours' };
 
     const list = document.getElementById('leaderboard-list');
     if (!sorted.length) {
@@ -994,6 +1009,7 @@
             <div class="lb-stat">Doors <span>${v.doors}</span></div>
             <div class="lb-stat">Calls <span>${v.calls}</span></div>
             <div class="lb-stat">Contacts <span>${v.contacts}</span></div>
+            <div class="lb-stat">Est. Hrs <span>${Math.round(v.hours)}</span></div>
           </div>
           <div class="lb-bar-wrap" title="${v[rankBy]} ${rankLabels[rankBy]}">
             <div class="lb-bar" style="width:${pct}%"></div>
@@ -1018,7 +1034,7 @@
 
   function renderWeeklyTrend() {
     const metric = (document.getElementById('trend-metric') || {}).value || 'doors';
-    const metricLabels = { doors: 'Doors Knocked', calls: 'Phone Calls', texts: 'Texts Sent', sessions: 'Sessions', contacts: 'Contacts' };
+    const metricLabels = { doors: 'Doors Knocked', calls: 'Phone Calls', texts: 'Texts Sent', flyers: 'Flyers Distributed', sessions: 'Sessions', contacts: 'Contacts' };
 
     // Build 8-week window ending this week
     const weeks = [];
@@ -1136,16 +1152,17 @@
     const maxDoors = Math.max(1, ...AREAS.map(n => allSessions.filter(r=>r.area===n).reduce((s,r)=>s+toNum(r.doors),0)));
 
     const rows = AREAS.map(name => {
-      const sessions = allSessions.filter(r => r.area === name);
-      const doors  = sessions.reduce((s,r) => s + toNum(r.doors), 0);
-      const calls  = sessions.reduce((s,r) => s + toNum(r.calls), 0);
-      const texts  = sessions.reduce((s,r) => s + toNum(r.texts), 0);
+      const sessions  = allSessions.filter(r => r.area === name);
+      const doors    = sessions.reduce((s,r) => s + toNum(r.doors), 0);
+      const calls    = sessions.reduce((s,r) => s + toNum(r.calls), 0);
+      const texts    = sessions.reduce((s,r) => s + toNum(r.texts), 0);
+      const contacts = sessions.reduce((s,r) => s + toNum(r.contacts), 0);
       const pct = Math.round((doors / maxDoors) * 100);
       return `
         <div class="progress-row">
           <div class="progress-label">${name}</div>
           <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
-          <div class="progress-count">${doors} doors &bull; ${calls} calls &bull; ${texts} texts</div>
+          <div class="progress-count">${doors} doors &bull; ${calls} calls &bull; ${texts} texts &bull; ${contacts} contacts</div>
         </div>`;
     });
 
@@ -1204,13 +1221,17 @@
 
   /* ---- SESSION TABLE ---- */
   function applyFiltersAndSort() {
-    const search = (document.getElementById('search').value || '').toLowerCase();
-    const typeF  = document.getElementById('filter-type').value;
-    const areaF  = document.getElementById('filter-area').value;
+    const search   = (document.getElementById('search').value || '').toLowerCase();
+    const typeF    = document.getElementById('filter-type').value;
+    const areaF    = document.getElementById('filter-area').value;
+    const dateFrom = document.getElementById('filter-date-from').value;
+    const dateTo   = document.getElementById('filter-date-to').value;
 
     filteredSessions = allSessions.filter(r => {
       if (typeF && r.type !== typeF) return false;
       if (areaF && r.area !== areaF) return false;
+      if (dateFrom && r.date && r.date < dateFrom) return false;
+      if (dateTo   && r.date && r.date > dateTo)   return false;
       if (search) {
         const hay = [r.volunteer, r.area, r.notes, r.type].join(' ').toLowerCase();
         if (!hay.includes(search)) return false;
@@ -1275,8 +1296,13 @@
   });
 
   /* ---- FILTERS ---- */
-  ['search','filter-type','filter-area'].forEach(id => {
+  ['search','filter-type','filter-area','filter-date-from','filter-date-to'].forEach(id => {
     document.getElementById(id).addEventListener('input', applyFiltersAndSort);
+  });
+  document.getElementById('filter-date-clear').addEventListener('click', function() {
+    document.getElementById('filter-date-from').value = '';
+    document.getElementById('filter-date-to').value = '';
+    applyFiltersAndSort();
   });
 
   /* ---- LOG SESSION FORM ---- */
