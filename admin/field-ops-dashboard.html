@@ -279,6 +279,58 @@
     .config-upload-row input[type="file"] { max-width: 100%; }
     .config-feedback { font-size: .82rem; font-weight: 700; margin-top: 8px; min-height: 1.4em; }
 
+    /* ---- LEADERBOARD ---- */
+    .leaderboard-list { display: flex; flex-direction: column; gap: 8px; }
+    .lb-row {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: 8px; background: #f7f8fb;
+      transition: background .1s;
+    }
+    .lb-row:hover { background: rgba(29,79,168,0.04); }
+    .lb-rank { font-size: .78rem; font-weight: 900; color: var(--muted); min-width: 22px; text-align: center; }
+    .lb-rank--1 { color: #b8860d; }
+    .lb-rank--2 { color: #888; }
+    .lb-rank--3 { color: #a0522d; }
+    .lb-name { font-weight: 800; color: var(--navy); flex: 1; font-size: .9rem; }
+    .lb-stats { display: flex; gap: 14px; flex-wrap: wrap; }
+    .lb-stat { font-size: .78rem; color: var(--muted); font-weight: 700; white-space: nowrap; }
+    .lb-stat span { color: var(--navy); font-weight: 900; }
+    .lb-bar-wrap { width: 80px; height: 6px; background: rgba(5,16,30,0.08); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
+    .lb-bar { height: 100%; background: linear-gradient(90deg, var(--brand), #2d6bd4); border-radius: 999px; }
+
+    /* ---- WEEKLY TREND ---- */
+    .trend-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; padding: 0 4px; }
+    .trend-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .trend-bar-wrap { width: 100%; flex: 1; display: flex; align-items: flex-end; }
+    .trend-bar { width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--brand), #2d6bd4); min-height: 2px; transition: height .3s ease; }
+    .trend-bar--zero { background: rgba(5,16,30,0.08); }
+    .trend-label { font-size: .64rem; font-weight: 700; color: var(--muted); text-align: center; white-space: nowrap; }
+    .trend-count { font-size: .68rem; font-weight: 800; color: var(--navy); }
+    .trend-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+    .trend-legend-item { display: flex; align-items: center; gap: 5px; font-size: .78rem; font-weight: 700; color: var(--muted); }
+    .trend-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    /* ---- EDIT MODAL ---- */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(5,16,30,0.55); z-index: 1000;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-box {
+      background: #fff; border-radius: 12px; box-shadow: 0 8px 40px rgba(5,16,30,0.25);
+      width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-weight: 800; font-size: 1rem; color: var(--navy); }
+    .modal-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--muted); line-height: 1; padding: 2px 6px; border-radius: 6px;
+    }
+    .modal-close:hover { background: rgba(5,16,30,0.06); }
+    .modal-body { padding: 20px; }
+
     /* ---- RESPONSIVE ---- */
     @media(max-width: 600px) {
       .dash-content { padding: 14px 12px 36px; }
@@ -450,6 +502,53 @@
       </div>
     </div>
 
+    <!-- VOLUNTEER LEADERBOARD -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#127942; Volunteer Leaderboard</div>
+          <div class="section-sub">Top contributors ranked by doors knocked + calls made across all sessions</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <label style="font-size:.78rem;font-weight:700;color:var(--muted);">Rank by:</label>
+          <select id="lb-rank-by" style="padding:5px 8px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.82rem;background:#f7f8fb;">
+            <option value="doors">Doors</option>
+            <option value="calls">Calls</option>
+            <option value="texts">Texts</option>
+            <option value="sessions">Sessions</option>
+            <option value="contacts">Contacts</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="leaderboard-list" id="leaderboard-list"><!-- populated by JS --></div>
+      </div>
+    </div>
+
+    <!-- WEEKLY ACTIVITY TREND -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128200; Weekly Activity Trend</div>
+          <div class="section-sub">Sessions and doors knocked per week over the last 8 weeks</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <label style="font-size:.78rem;font-weight:700;color:var(--muted);">Show:</label>
+          <select id="trend-metric" style="padding:5px 8px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.82rem;background:#f7f8fb;">
+            <option value="doors">Doors Knocked</option>
+            <option value="calls">Phone Calls</option>
+            <option value="texts">Texts Sent</option>
+            <option value="sessions">Session Count</option>
+            <option value="contacts">Contacts Made</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="trend-chart" id="trend-chart"><!-- populated by JS --></div>
+        <div class="trend-legend" id="trend-legend"></div>
+      </div>
+    </div>
+
     <!-- ACTIVITY BY AREA BREAKDOWN -->
     <div class="section-card">
       <div class="section-header">
@@ -497,7 +596,7 @@
             <th data-col="texts">Texts</th>
             <th data-col="contacts">Contacts Made</th>
             <th data-col="notes">Notes</th>
-            <th style="width:60px;"></th>
+            <th style="width:100px;"></th>
           </tr>
         </thead>
         <tbody id="sessions-tbody"></tbody>
@@ -610,6 +709,85 @@
 
   </div><!-- /dash-content -->
 </div><!-- /dashboard -->
+
+<!-- EDIT SESSION MODAL -->
+<div class="modal-overlay" id="edit-modal" style="display:none;" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">&#9998; Edit Session</div>
+      <button class="modal-close" onclick="closeEditModal()" title="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form class="add-form" id="edit-form" novalidate>
+        <input type="hidden" id="e-id" />
+        <div class="add-form-row">
+          <div class="form-group">
+            <label>Date *</label>
+            <input type="date" id="e-date" required />
+          </div>
+          <div class="form-group">
+            <label>Session Type</label>
+            <select id="e-type">
+              <option value="canvass">Door Canvass</option>
+              <option value="phone">Phone Bank</option>
+              <option value="text">Text Bank</option>
+              <option value="mixed">Mixed / Multi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Volunteer / Team</label>
+            <input type="text" id="e-vol" placeholder="Maria H. / Field Team" />
+          </div>
+          <div class="form-group">
+            <label>Area</label>
+            <select id="e-area">
+              <option value="">Select area…</option>
+              <option>Spanaway</option><option>Lakewood</option><option>Olympia</option>
+              <option>Lacey / Tumwater</option><option>University Place</option>
+              <option>JBLM Communities</option><option>Puyallup / South Hill</option>
+              <option>Multiple / Remote</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="add-form-row">
+          <div class="form-group">
+            <label>Doors Knocked</label>
+            <input type="number" id="e-doors" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>Flyers Distributed</label>
+            <input type="number" id="e-flyers" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>Phone Calls Made</label>
+            <input type="number" id="e-calls" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>Texts Sent</label>
+            <input type="number" id="e-texts" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>Contacts / Conversations</label>
+            <input type="number" id="e-contacts" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label># Volunteers in Session</label>
+            <input type="number" id="e-vols" min="1" placeholder="1" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="e-notes" placeholder="Key takeaways, issues, follow-ups needed…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">Save Changes</button>
+          <button type="button" class="btn-clear" onclick="closeEditModal()">Cancel</button>
+          <span class="form-feedback" id="edit-feedback"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <script>
 (function () {
@@ -774,6 +952,134 @@
         </div>`;
     }).join('');
   }
+
+  /* ---- VOLUNTEER LEADERBOARD ---- */
+  function renderLeaderboard() {
+    const rankBy = (document.getElementById('lb-rank-by') || {}).value || 'doors';
+    const volMap = {};
+
+    allSessions.forEach(r => {
+      const name = (r.volunteer || '').trim() || 'Unknown';
+      if (!volMap[name]) volMap[name] = { name, sessions: 0, doors: 0, calls: 0, texts: 0, contacts: 0, flyers: 0 };
+      volMap[name].sessions++;
+      volMap[name].doors    += toNum(r.doors);
+      volMap[name].calls    += toNum(r.calls);
+      volMap[name].texts    += toNum(r.texts);
+      volMap[name].contacts += toNum(r.contacts);
+      volMap[name].flyers   += toNum(r.flyers);
+    });
+
+    const sorted = Object.values(volMap).sort((a, b) => b[rankBy] - a[rankBy]).slice(0, 10);
+    const maxVal = Math.max(1, sorted[0] ? sorted[0][rankBy] : 1);
+
+    const rankLabels = { doors: 'Doors', calls: 'Calls', texts: 'Texts', sessions: 'Sessions', contacts: 'Contacts' };
+
+    const list = document.getElementById('leaderboard-list');
+    if (!sorted.length) {
+      list.innerHTML = '<div style="color:var(--muted);font-size:.88rem;padding:12px 0;">No session data yet.</div>';
+      return;
+    }
+
+    list.innerHTML = sorted.map((v, i) => {
+      const rank = i + 1;
+      const pct = Math.round((v[rankBy] / maxVal) * 100);
+      const rankClass = rank <= 3 ? `lb-rank--${rank}` : '';
+      const medal = rank === 1 ? '&#127947;' : rank === 2 ? '&#129352;' : rank === 3 ? '&#129353;' : '';
+      return `
+        <div class="lb-row">
+          <div class="lb-rank ${rankClass}">${medal || rank}</div>
+          <div class="lb-name">${escHtml(v.name)}</div>
+          <div class="lb-stats">
+            <div class="lb-stat">Sessions <span>${v.sessions}</span></div>
+            <div class="lb-stat">Doors <span>${v.doors}</span></div>
+            <div class="lb-stat">Calls <span>${v.calls}</span></div>
+            <div class="lb-stat">Contacts <span>${v.contacts}</span></div>
+          </div>
+          <div class="lb-bar-wrap" title="${v[rankBy]} ${rankLabels[rankBy]}">
+            <div class="lb-bar" style="width:${pct}%"></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  document.getElementById('lb-rank-by').addEventListener('change', renderLeaderboard);
+
+  /* ---- WEEKLY TREND CHART ---- */
+  function getWeekKey(dateStr) {
+    // Returns ISO week start (Monday) as YYYY-MM-DD
+    const d = new Date(dateStr + 'T12:00:00');
+    if (isNaN(d)) return null;
+    const day = d.getDay(); // 0=Sun
+    const diff = (day === 0 ? -6 : 1) - day;
+    const mon = new Date(d);
+    mon.setDate(d.getDate() + diff);
+    return mon.toISOString().slice(0, 10);
+  }
+
+  function renderWeeklyTrend() {
+    const metric = (document.getElementById('trend-metric') || {}).value || 'doors';
+    const metricLabels = { doors: 'Doors Knocked', calls: 'Phone Calls', texts: 'Texts Sent', sessions: 'Sessions', contacts: 'Contacts' };
+
+    // Build 8-week window ending this week
+    const weeks = [];
+    const now = new Date();
+    const day = now.getDay();
+    const diff = (day === 0 ? -6 : 1) - day;
+    const thisMonday = new Date(now);
+    thisMonday.setDate(now.getDate() + diff);
+
+    for (let i = 7; i >= 0; i--) {
+      const d = new Date(thisMonday);
+      d.setDate(thisMonday.getDate() - i * 7);
+      weeks.push(d.toISOString().slice(0, 10));
+    }
+
+    // Aggregate by week
+    const weekData = {};
+    weeks.forEach(w => { weekData[w] = 0; });
+
+    allSessions.forEach(r => {
+      const wk = getWeekKey(r.date);
+      if (wk && weekData.hasOwnProperty(wk)) {
+        weekData[wk] += metric === 'sessions' ? 1 : toNum(r[metric]);
+      }
+    });
+
+    const vals = weeks.map(w => weekData[w]);
+    const maxVal = Math.max(1, ...vals);
+
+    const chart = document.getElementById('trend-chart');
+    chart.innerHTML = weeks.map((w, i) => {
+      const v = vals[i];
+      const pct = Math.round((v / maxVal) * 100);
+      const d = new Date(w + 'T12:00:00');
+      const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const isZero = v === 0;
+      return `
+        <div class="trend-col" title="Week of ${label}: ${v} ${metricLabels[metric]}">
+          <div class="trend-count" style="font-size:.62rem;color:${v>0?'var(--brand)':'var(--muted)'}">${v > 0 ? v : ''}</div>
+          <div class="trend-bar-wrap">
+            <div class="trend-bar${isZero ? ' trend-bar--zero' : ''}" style="height:${Math.max(4, pct)}%"></div>
+          </div>
+          <div class="trend-label">${label}</div>
+        </div>`;
+    }).join('');
+
+    const legend = document.getElementById('trend-legend');
+    const total = vals.reduce((s,v) => s+v, 0);
+    const thisWk = vals[vals.length - 1];
+    const lastWk = vals[vals.length - 2] || 0;
+    const delta = thisWk - lastWk;
+    const deltaStr = delta > 0 ? `+${delta}` : String(delta);
+    const deltaColor = delta >= 0 ? 'var(--green)' : 'var(--red)';
+    legend.innerHTML = `
+      <div class="trend-legend-item"><div class="trend-legend-dot" style="background:linear-gradient(180deg,var(--brand),#2d6bd4)"></div>${metricLabels[metric]}</div>
+      <div class="trend-legend-item" style="margin-left:auto;color:var(--navy);">8-week total: <strong style="margin-left:4px">${total.toLocaleString()}</strong></div>
+      <div class="trend-legend-item">This week: <strong style="margin-left:4px;color:var(--brand)">${thisWk}</strong></div>
+      <div class="trend-legend-item">vs last week: <strong style="margin-left:4px;color:${deltaColor}">${deltaStr}</strong></div>`;
+  }
+
+  document.getElementById('trend-metric').addEventListener('change', renderWeeklyTrend);
 
   /* ---- TERRITORY GRID ---- */
   function renderTerritoryGrid() {
@@ -946,7 +1252,9 @@
         <td class="td-num">${toNum(r.texts) || '—'}</td>
         <td class="td-num">${toNum(r.contacts) || '—'}</td>
         <td class="td-muted" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escHtml(r.notes||'')}">${escHtml(r.notes || '—')}</td>
-        <td>${!r._sample && !r._sheet ? `<button onclick="deleteSession('${r.id}')" title="Delete session" style="padding:3px 8px;border-radius:6px;border:1px solid rgba(153,27,27,0.25);background:transparent;color:var(--red);cursor:pointer;font-size:.74rem;font-weight:700;">&#10005;</button>` : ''}</td>
+        <td style="white-space:nowrap;">${!r._sample && !r._sheet ? `
+          <button onclick="openEditSession('${r.id}')" title="Edit session" style="padding:3px 8px;border-radius:6px;border:1px solid rgba(29,79,168,0.25);background:transparent;color:var(--brand);cursor:pointer;font-size:.74rem;font-weight:700;margin-right:4px;">&#9998;</button>
+          <button onclick="deleteSession('${r.id}')" title="Delete session" style="padding:3px 8px;border-radius:6px;border:1px solid rgba(153,27,27,0.25);background:transparent;color:var(--red);cursor:pointer;font-size:.74rem;font-weight:700;">&#10005;</button>` : ''}</td>
       </tr>`).join('');
   }
 
@@ -1221,6 +1529,71 @@
     return result;
   }
 
+  /* ---- EDIT SESSION MODAL ---- */
+  window.openEditSession = function(id) {
+    const session = allSessions.find(s => s.id === id);
+    if (!session || session._sample || session._sheet) return;
+
+    document.getElementById('e-id').value       = session.id;
+    document.getElementById('e-date').value     = session.date || '';
+    document.getElementById('e-type').value     = session.type || 'canvass';
+    document.getElementById('e-vol').value      = session.volunteer || '';
+    document.getElementById('e-area').value     = session.area || '';
+    document.getElementById('e-doors').value    = session.doors || 0;
+    document.getElementById('e-flyers').value   = session.flyers || 0;
+    document.getElementById('e-calls').value    = session.calls || 0;
+    document.getElementById('e-texts').value    = session.texts || 0;
+    document.getElementById('e-contacts').value = session.contacts || 0;
+    document.getElementById('e-vols').value     = session.vols || 1;
+    document.getElementById('e-notes').value    = session.notes || '';
+    document.getElementById('edit-feedback').textContent = '';
+
+    document.getElementById('edit-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeEditModal = function() {
+    document.getElementById('edit-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  document.getElementById('edit-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fb = document.getElementById('edit-feedback');
+    const id   = document.getElementById('e-id').value;
+    const area = document.getElementById('e-area').value;
+    if (!area) { fb.className = 'form-feedback form-feedback--error'; fb.textContent = 'Please select an area.'; return; }
+
+    const local = loadLocal();
+    const idx = local.findIndex(s => s.id === id);
+    if (idx < 0) { fb.className = 'form-feedback form-feedback--error'; fb.textContent = 'Session not found.'; return; }
+
+    local[idx] = {
+      ...local[idx],
+      date:      document.getElementById('e-date').value || local[idx].date,
+      type:      document.getElementById('e-type').value,
+      volunteer: document.getElementById('e-vol').value.trim(),
+      area,
+      doors:    toNum(document.getElementById('e-doors').value),
+      flyers:   toNum(document.getElementById('e-flyers').value),
+      calls:    toNum(document.getElementById('e-calls').value),
+      texts:    toNum(document.getElementById('e-texts').value),
+      contacts: toNum(document.getElementById('e-contacts').value),
+      vols:     toNum(document.getElementById('e-vols').value) || 1,
+      notes:    document.getElementById('e-notes').value.trim()
+    };
+
+    saveLocal(local);
+    allSessions = [...SAMPLE_SESSIONS, ...local];
+    renderAll();
+    closeEditModal();
+  });
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeEditModal();
+  });
+
   /* ---- TRACKER JSON ---- */
   async function loadTrackerData() {
     try {
@@ -1235,6 +1608,8 @@
   /* ---- RENDER ALL ---- */
   function renderAll() {
     renderStats();
+    renderLeaderboard();
+    renderWeeklyTrend();
     renderTerritoryGrid();
     renderAreaBreakdown();
     renderEvents();
