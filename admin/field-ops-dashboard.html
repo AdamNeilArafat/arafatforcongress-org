@@ -505,6 +505,26 @@
     .record-card__meta strong { color: var(--navy); font-weight: 900; }
     .record-card--empty .record-card__value { color: var(--muted); font-size: 1.1rem; }
 
+    /* ---- ACTIVITY CALENDAR HEATMAP ---- */
+    .cal-heatmap-wrap { overflow-x: auto; padding-bottom: 4px; }
+    .cal-grid { display: flex; gap: 3px; }
+    .cal-yaxis { display: flex; flex-direction: column; gap: 2px; padding-top: 20px; margin-right: 4px; flex-shrink: 0; }
+    .cal-yaxis-label { height: 14px; font-size: .64rem; font-weight: 700; color: var(--muted); line-height: 14px; white-space: nowrap; }
+    .cal-month-row { display: flex; gap: 3px; height: 18px; margin-bottom: 2px; }
+    .cal-month-label { font-size: .66rem; font-weight: 800; color: var(--muted); white-space: nowrap; overflow: hidden; }
+    .cal-weeks { display: flex; gap: 3px; }
+    .cal-week-col { display: flex; flex-direction: column; gap: 2px; }
+    .cal-cell { width: 14px; height: 14px; border-radius: 3px; cursor: default; flex-shrink: 0; transition: transform .1s; }
+    .cal-cell:hover { transform: scale(1.35); z-index: 2; outline: 2px solid rgba(29,79,168,0.45); }
+    .cal-cell--none   { background: rgba(5,16,30,0.06); }
+    .cal-cell--low    { background: rgba(29,79,168,0.22); }
+    .cal-cell--mid    { background: rgba(29,79,168,0.48); }
+    .cal-cell--high   { background: rgba(29,79,168,0.75); }
+    .cal-cell--peak   { background: var(--brand); box-shadow: 0 0 5px rgba(29,79,168,0.40); }
+    .cal-cell--future { background: rgba(5,16,30,0.03); border: 1px dashed rgba(5,16,30,0.08); }
+    .cal-legend-row { display: flex; align-items: center; gap: 6px; margin-top: 12px; flex-wrap: wrap; font-size: .72rem; font-weight: 700; color: var(--muted); }
+    .cal-legend-cell { width: 12px; height: 12px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+
     /* ---- PRINT BRIEFING ---- */
     @media print {
       body { background: #fff !important; font-size: 12px; }
@@ -515,7 +535,7 @@
       #copy-summary-btn, #print-briefing-btn,
       #sessions-section, #territory-section,
       .events-grid, #phase-card, #endorsement-card, #capacity-card,
-      #reengagement-section, #dow-section, #records-card,
+      #reengagement-section, #dow-section, #records-card, #cal-heatmap-section,
       #election-date-edit-wrap
       { display: none !important; }
       .dash-content { max-width: 100%; padding: 0; }
@@ -890,6 +910,31 @@
       <div class="section-body">
         <div class="trend-chart" id="dow-chart" style="height:90px;"></div>
         <div id="dow-legend" style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted);font-weight:700;"></div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY CALENDAR HEATMAP -->
+    <div class="section-card" id="cal-heatmap-section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#128338; Campaign Activity Calendar</div>
+          <div class="section-sub">16-week heatmap &mdash; daily field activity intensity across all session types</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <label style="font-size:.78rem;font-weight:700;color:var(--muted);">Intensity by:</label>
+          <select id="cal-metric" style="padding:5px 8px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.82rem;background:#f7f8fb;" aria-label="Calendar heatmap metric">
+            <option value="composite">Combined Outreach</option>
+            <option value="doors">Doors Knocked</option>
+            <option value="contacts">Contacts Made</option>
+            <option value="calls">Phone Calls</option>
+            <option value="texts">Texts Sent</option>
+            <option value="sessions">Session Count</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="cal-heatmap-wrap" id="cal-heatmap-container"><!-- populated by JS --></div>
+        <div class="cal-legend-row" id="cal-legend-row"><!-- populated by JS --></div>
       </div>
     </div>
 
@@ -2098,6 +2143,152 @@
 
   document.getElementById('dow-metric').addEventListener('change', renderDayOfWeek);
 
+  /* ---- ACTIVITY CALENDAR HEATMAP ---- */
+  function renderActivityCalendar() {
+    const container = document.getElementById('cal-heatmap-container');
+    const legendRow  = document.getElementById('cal-legend-row');
+    if (!container) return;
+
+    const metric = (document.getElementById('cal-metric') || {}).value || 'composite';
+    const WEEKS = 16;
+
+    // Build date-keyed activity map
+    const dayMap = {};
+    allSessions.forEach(r => {
+      if (!r.date) return;
+      const key = r.date;
+      if (!dayMap[key]) dayMap[key] = { doors: 0, contacts: 0, calls: 0, texts: 0, sessions: 0 };
+      dayMap[key].doors    += toNum(r.doors);
+      dayMap[key].contacts += toNum(r.contacts);
+      dayMap[key].calls    += toNum(r.calls);
+      dayMap[key].texts    += toNum(r.texts);
+      dayMap[key].sessions += 1;
+    });
+
+    function getVal(key) {
+      const d = dayMap[key];
+      if (!d) return 0;
+      if (metric === 'composite') return d.doors + d.contacts + Math.ceil(d.calls / 5) + Math.ceil(d.texts / 10);
+      return d[metric] || 0;
+    }
+
+    // Anchor: Monday of the current week
+    const now = new Date();
+    now.setHours(12, 0, 0, 0);
+    const jsDay = now.getDay(); // 0=Sun
+    const offset = jsDay === 0 ? -6 : 1 - jsDay;
+    const thisMonday = new Date(now);
+    thisMonday.setDate(now.getDate() + offset);
+
+    // Start = thisMonday minus (WEEKS-1) full weeks
+    const startDate = new Date(thisMonday);
+    startDate.setDate(thisMonday.getDate() - (WEEKS - 1) * 7);
+
+    // Build week arrays (Mon–Sun)
+    const weeks = [];
+    for (let w = 0; w < WEEKS; w++) {
+      const week = [];
+      for (let d = 0; d < 7; d++) {
+        const dd = new Date(startDate);
+        dd.setDate(startDate.getDate() + w * 7 + d);
+        week.push(dd);
+      }
+      weeks.push(week);
+    }
+
+    // Max value for color scaling
+    let maxVal = 1;
+    weeks.forEach(wk => wk.forEach(d => {
+      if (d <= now) maxVal = Math.max(maxVal, getVal(d.toISOString().slice(0, 10)));
+    }));
+
+    function levelClass(v, isFuture) {
+      if (isFuture) return 'cal-cell--future';
+      if (v === 0) return 'cal-cell--none';
+      const pct = v / maxVal;
+      if (pct < 0.25) return 'cal-cell--low';
+      if (pct < 0.50) return 'cal-cell--mid';
+      if (pct < 0.80) return 'cal-cell--high';
+      return 'cal-cell--peak';
+    }
+
+    function cellTitle(d, key) {
+      const ds = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      if (d > now) return ds + ' (upcoming)';
+      const e = dayMap[key];
+      if (!e) return ds + ': No activity';
+      const parts = [];
+      if (e.sessions)  parts.push(e.sessions + ' session' + (e.sessions !== 1 ? 's' : ''));
+      if (e.doors)     parts.push(e.doors + ' doors');
+      if (e.contacts)  parts.push(e.contacts + ' contacts');
+      if (e.calls)     parts.push(e.calls + ' calls');
+      if (e.texts)     parts.push(e.texts + ' texts');
+      return ds + ': ' + (parts.length ? parts.join(', ') : 'No activity');
+    }
+
+    // Month labels row
+    const monthRowCells = [];
+    let lastMo = -1;
+    weeks.forEach(wk => {
+      const mo = wk[0].getMonth();
+      if (mo !== lastMo) {
+        const lbl = wk[0].toLocaleDateString('en-US', { month: 'short' });
+        monthRowCells.push(`<div class="cal-month-label" style="width:14px;">${lbl}</div>`);
+        lastMo = mo;
+      } else {
+        monthRowCells.push(`<div style="width:14px;flex-shrink:0;"></div>`);
+      }
+    });
+
+    // Week columns
+    const weekCols = weeks.map(wk => {
+      const cells = wk.map(d => {
+        const key = d.toISOString().slice(0, 10);
+        const val = getVal(key);
+        const cls = levelClass(val, d > now);
+        const tip = escHtml(cellTitle(d, key));
+        return `<div class="cal-cell ${cls}" title="${tip}" aria-label="${tip}"></div>`;
+      }).join('');
+      return `<div class="cal-week-col">${cells}</div>`;
+    }).join('');
+
+    const DOW_SHORT = ['M','T','W','T','F','S','S'];
+    const yAxis = DOW_SHORT.map(l => `<div class="cal-yaxis-label">${l}</div>`).join('');
+
+    container.innerHTML = `
+      <div class="cal-grid">
+        <div class="cal-yaxis">${yAxis}</div>
+        <div>
+          <div class="cal-month-row">${monthRowCells.join('')}</div>
+          <div class="cal-weeks">${weekCols}</div>
+        </div>
+      </div>`;
+
+    // Legend
+    const metricLabels = {
+      composite: 'Combined Outreach', doors: 'Doors Knocked', contacts: 'Contacts Made',
+      calls: 'Phone Calls', texts: 'Texts Sent', sessions: 'Session Count'
+    };
+    const activeDays = Object.keys(dayMap).filter(k => {
+      const d = new Date(k + 'T12:00:00');
+      return d >= startDate && d <= now;
+    }).length;
+    if (legendRow) {
+      legendRow.innerHTML = `
+        <span>${metricLabels[metric] || metric} — last ${WEEKS} weeks</span>
+        <span style="margin-left:auto;font-weight:800;color:var(--navy);">${activeDays} active day${activeDays !== 1 ? 's' : ''} in window</span>
+        <span>Less</span>
+        <div class="cal-legend-cell" style="background:rgba(5,16,30,0.06);"></div>
+        <div class="cal-legend-cell" style="background:rgba(29,79,168,0.22);"></div>
+        <div class="cal-legend-cell" style="background:rgba(29,79,168,0.48);"></div>
+        <div class="cal-legend-cell" style="background:rgba(29,79,168,0.75);"></div>
+        <div class="cal-legend-cell" style="background:var(--brand);"></div>
+        <span>More</span>`;
+    }
+  }
+
+  document.getElementById('cal-metric').addEventListener('change', renderActivityCalendar);
+
   /* ---- TERRITORY GRID ---- */
   function daysSince(dateStr) {
     if (!dateStr) return null;
@@ -2754,6 +2945,7 @@
     renderVolReengagement();
     renderWeeklyTrend();
     renderDayOfWeek();
+    renderActivityCalendar();
     renderTerritoryGrid();
     renderAreaBreakdown();
     renderEvents();
