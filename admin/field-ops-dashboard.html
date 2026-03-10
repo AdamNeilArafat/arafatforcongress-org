@@ -426,6 +426,85 @@
       .territory-grid { grid-template-columns: 1fr; }
     }
 
+    /* ---- ELECTION COUNTDOWN + PACE ---- */
+    .countdown-card {
+      background: linear-gradient(135deg, #05101e 0%, #0d2054 100%);
+      border: 1px solid rgba(255,255,255,0.10); border-radius: var(--radius);
+      box-shadow: 0 4px 20px rgba(5,16,30,0.20); margin-bottom: 20px; overflow: hidden;
+    }
+    .countdown-header {
+      padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.10);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .countdown-title { font-weight: 800; color: #fff; font-size: .95rem; }
+    .countdown-sub { font-size: .78rem; color: rgba(255,255,255,0.55); font-weight: 600; margin-top: 2px; }
+    .countdown-body { padding: 16px 18px; }
+    .countdown-top-row {
+      display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 18px;
+    }
+    .countdown-days-block { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+    .countdown-days-num { font-size: 3.4rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -2px; }
+    .countdown-days-label { font-size: .72rem; font-weight: 800; color: rgba(255,255,255,0.50); text-transform: uppercase; letter-spacing: .1em; margin-top: 3px; }
+    .countdown-meta { flex: 1; min-width: 160px; }
+    .countdown-meta-line { font-size: .82rem; color: rgba(255,255,255,0.70); font-weight: 600; margin-bottom: 5px; }
+    .countdown-meta-line strong { color: #fff; font-weight: 900; }
+    .countdown-phase-badge {
+      display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px;
+      font-size: .72rem; font-weight: 900; letter-spacing: .04em; white-space: nowrap;
+      border: 1px solid; margin-top: 4px;
+    }
+    .countdown-phase--early  { background: rgba(29,79,168,0.25); color: #93c5fd; border-color: rgba(29,79,168,0.50); }
+    .countdown-phase--mid    { background: rgba(184,134,13,0.25); color: #fcd34d; border-color: rgba(184,134,13,0.50); }
+    .countdown-phase--final  { background: rgba(153,27,27,0.30); color: #fca5a5; border-color: rgba(153,27,27,0.50); }
+    .countdown-phase--done   { background: rgba(22,101,52,0.25); color: #86efac; border-color: rgba(22,101,52,0.50); }
+
+    .pace-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 10px;
+    }
+    .pace-item {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 8px; padding: 12px 14px;
+    }
+    .pace-item__label { font-size: .72rem; font-weight: 800; color: rgba(255,255,255,0.50); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
+    .pace-item__progress { margin-bottom: 8px; }
+    .pace-progress-wrap { height: 5px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden; margin-top: 5px; }
+    .pace-progress-bar { height: 100%; border-radius: 999px; transition: width .4s ease; }
+    .pace-progress-bar--on-track  { background: linear-gradient(90deg, #22c55e, #16a34a); }
+    .pace-progress-bar--behind    { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    .pace-progress-bar--critical  { background: linear-gradient(90deg, #ef4444, #dc2626); }
+    .pace-progress-bar--done      { background: linear-gradient(90deg, #22c55e, #16a34a); }
+    .pace-item__current { font-size: 1.3rem; font-weight: 900; color: #fff; line-height: 1; }
+    .pace-item__of { font-size: .75rem; font-weight: 700; color: rgba(255,255,255,0.45); }
+    .pace-item__need { font-size: .72rem; font-weight: 700; margin-top: 5px; }
+    .pace-need--on-track  { color: #86efac; }
+    .pace-need--behind    { color: #fcd34d; }
+    .pace-need--critical  { color: #fca5a5; }
+    .pace-need--done      { color: #86efac; }
+    .countdown-no-goal { font-size: .82rem; color: rgba(255,255,255,0.40); font-style: italic; }
+
+    /* ---- SESSION RECORDS ---- */
+    .records-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px;
+    }
+    .record-card {
+      border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+      background: #f7f8fb; display: flex; flex-direction: column; gap: 6px;
+      transition: background .1s;
+    }
+    .record-card:hover { background: rgba(29,79,168,0.04); }
+    .record-card__trophy { font-size: 1.4rem; line-height: 1; }
+    .record-card__label { font-size: .72rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+    .record-card__value { font-size: 1.9rem; font-weight: 900; line-height: 1; }
+    .record-card__value--doors    { color: var(--brand); }
+    .record-card__value--contacts { color: #7c3aed; }
+    .record-card__value--flyers   { color: var(--green); }
+    .record-card__value--calls    { color: #0e7490; }
+    .record-card__value--rate     { color: var(--amber); }
+    .record-card__value--texts    { color: #0369a1; }
+    .record-card__meta { font-size: .78rem; color: var(--muted); font-weight: 700; }
+    .record-card__meta strong { color: var(--navy); font-weight: 900; }
+    .record-card--empty .record-card__value { color: var(--muted); font-size: 1.1rem; }
+
     /* ---- PRINT BRIEFING ---- */
     @media print {
       body { background: #fff !important; font-size: 12px; }
@@ -436,7 +515,8 @@
       #copy-summary-btn, #print-briefing-btn,
       #sessions-section, #territory-section,
       .events-grid, #phase-card, #endorsement-card, #capacity-card,
-      #reengagement-section, #dow-section
+      #reengagement-section, #dow-section, #records-card,
+      #election-date-edit-wrap
       { display: none !important; }
       .dash-content { max-width: 100%; padding: 0; }
       .stats-row { grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -446,6 +526,14 @@
       .this-week-bar, .this-month-bar, .highlights-bar { break-inside: avoid; }
       .coverage-gap-alert { break-inside: avoid; }
       #goals-card { break-inside: avoid; }
+      #countdown-card { break-inside: avoid; background: #eef1fb !important; border: 1px solid #ccc; }
+      #countdown-card .countdown-title, #countdown-card .countdown-sub { color: var(--navy) !important; }
+      #countdown-card .countdown-days-num, #countdown-card .countdown-meta-line,
+      #countdown-card .countdown-meta-line strong { color: var(--navy) !important; }
+      #countdown-card .countdown-days-label { color: var(--muted) !important; }
+      #countdown-card .pace-item { background: #f7f8fb !important; border-color: #ddd !important; }
+      #countdown-card .pace-item__label, #countdown-card .pace-item__of { color: var(--muted) !important; }
+      #countdown-card .pace-item__current { color: var(--navy) !important; }
       #print-briefing-header { display: block !important; }
     }
     #print-briefing-header {
@@ -599,6 +687,55 @@
           <button class="btn-submit" id="save-goals-btn" style="font-size:.84rem;padding:8px 16px;">Save Goals</button>
         </div>
         <div id="goals-progress-body"></div>
+      </div>
+    </div>
+
+    <!-- ELECTION DAY COUNTDOWN + PACE CALCULATOR -->
+    <div class="countdown-card" id="countdown-card">
+      <div class="countdown-header">
+        <div>
+          <div class="countdown-title">&#128338; Election Day Countdown &amp; Campaign Pace</div>
+          <div class="countdown-sub">WA-10 Primary &mdash; pace toward field goals based on days remaining</div>
+        </div>
+        <button class="dash-btn" id="edit-election-date-btn" style="border-color:rgba(255,255,255,0.22);">&#9998; Set Date</button>
+      </div>
+      <div class="countdown-body">
+        <div id="election-date-edit-wrap" style="display:none;margin-bottom:16px;padding:12px 14px;background:rgba(255,255,255,0.08);border-radius:8px;border:1px solid rgba(255,255,255,0.15);">
+          <p style="font-size:.82rem;color:rgba(255,255,255,0.60);margin-bottom:10px;font-weight:600;">Set the primary election date (saved in this browser).</p>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <input type="date" id="election-date-input" style="padding:7px 10px;border:1px solid rgba(255,255,255,0.25);border-radius:8px;font:inherit;font-size:.88rem;background:rgba(255,255,255,0.10);color:#fff;" />
+            <button class="btn-submit" id="save-election-date-btn" style="padding:8px 14px;font-size:.82rem;">Save</button>
+            <button type="button" id="cancel-election-date-btn" style="padding:8px 12px;border:1px solid rgba(255,255,255,0.22);border-radius:8px;background:transparent;color:rgba(255,255,255,0.60);font-size:.82rem;font-weight:700;cursor:pointer;">Cancel</button>
+          </div>
+        </div>
+        <div class="countdown-top-row">
+          <div class="countdown-days-block">
+            <div class="countdown-days-num" id="cd-days-num">—</div>
+            <div class="countdown-days-label">Days to Election</div>
+          </div>
+          <div class="countdown-meta">
+            <div class="countdown-meta-line" id="cd-election-date-line">Election date not set</div>
+            <div class="countdown-meta-line" id="cd-campaign-days-line"></div>
+            <div id="cd-phase-badge"></div>
+          </div>
+        </div>
+        <div class="pace-grid" id="pace-grid">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL-TIME SESSION RECORDS -->
+    <div class="section-card" id="records-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">&#127942; All-Time Session Records</div>
+          <div class="section-sub">Best individual field sessions &mdash; personal bests across key metrics</div>
+        </div>
+        <span id="records-session-count" class="badge badge-canvass">0 sessions</span>
+      </div>
+      <div class="section-body">
+        <div class="records-grid" id="records-grid"><!-- populated by JS --></div>
       </div>
     </div>
 
@@ -1368,6 +1505,240 @@
           <div class="progress-count">${t.val.toLocaleString()} / ${t.goal.toLocaleString()} &nbsp;<span style="color:${pct>=100?'var(--green)':'var(--muted)'}">${pct}%</span></div>
         </div>`;
     }).join('');
+  }
+
+  /* ---- ELECTION DAY COUNTDOWN + PACE CALCULATOR ---- */
+  const LS_ELECTION_DATE = 'arafat_fieldops_election_date';
+  const DEFAULT_ELECTION_DATE = '2026-08-04'; // WA-10 Primary
+
+  function getElectionDate() {
+    return localStorage.getItem(LS_ELECTION_DATE) || DEFAULT_ELECTION_DATE;
+  }
+
+  function renderElectionCountdown() {
+    const elDate = getElectionDate();
+    const now = new Date();
+    const election = new Date(elDate + 'T00:00:00');
+    const msPerDay = 86400000;
+    const daysLeft = Math.ceil((election - now) / msPerDay);
+
+    // Days since campaign started — use earliest session date as proxy, else 180d ago
+    let campaignStart = null;
+    if (allSessions.length) {
+      const sorted = allSessions.filter(s => s.date).map(s => s.date).sort();
+      if (sorted.length) campaignStart = new Date(sorted[0] + 'T12:00:00');
+    }
+    if (!campaignStart) { campaignStart = new Date(now); campaignStart.setDate(now.getDate() - 30); }
+    const totalCampaignDays = Math.max(1, Math.round((election - campaignStart) / msPerDay));
+    const daysElapsed = Math.max(1, Math.round((now - campaignStart) / msPerDay));
+
+    const daysNumEl = document.getElementById('cd-days-num');
+    const elDateLineEl = document.getElementById('cd-election-date-line');
+    const campaignDaysLineEl = document.getElementById('cd-campaign-days-line');
+    const phaseBadgeEl = document.getElementById('cd-phase-badge');
+
+    if (daysNumEl) daysNumEl.textContent = daysLeft > 0 ? daysLeft : daysLeft === 0 ? 'TODAY' : 'PAST';
+
+    if (elDateLineEl) {
+      const formatted = election.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+      elDateLineEl.innerHTML = `Election: <strong>${formatted}</strong>`;
+    }
+    if (campaignDaysLineEl) {
+      if (daysLeft > 0) {
+        const pct = Math.min(100, Math.round(daysElapsed / totalCampaignDays * 100));
+        campaignDaysLineEl.innerHTML = `Campaign day <strong>${daysElapsed}</strong> of <strong>${totalCampaignDays}</strong> &mdash; <strong>${pct}%</strong> through primary campaign`;
+      } else {
+        campaignDaysLineEl.innerHTML = `Primary election completed`;
+      }
+    }
+
+    // Phase badge
+    let phaseClass, phaseLabel;
+    if (daysLeft > 90)      { phaseClass = 'countdown-phase--early'; phaseLabel = '🌱 Early Phase'; }
+    else if (daysLeft > 30) { phaseClass = 'countdown-phase--mid';   phaseLabel = '⚡ Mid Campaign'; }
+    else if (daysLeft > 0)  { phaseClass = 'countdown-phase--final'; phaseLabel = '🔥 Final Stretch'; }
+    else                    { phaseClass = 'countdown-phase--done';  phaseLabel = '✓ Election Complete'; }
+    if (phaseBadgeEl) phaseBadgeEl.innerHTML = `<span class="countdown-phase-badge ${phaseClass}">${phaseLabel}</span>`;
+
+    // Pace calculation: project current pace to election day
+    const g = loadGoals();
+    const src = allSessions;
+    const totalDoors    = src.reduce((s,r) => s + toNum(r.doors),    0);
+    const totalFlyers   = src.reduce((s,r) => s + toNum(r.flyers),   0);
+    const totalCalls    = src.reduce((s,r) => s + toNum(r.calls),    0);
+    const totalTexts    = src.reduce((s,r) => s + toNum(r.texts),    0);
+    const totalContacts = src.reduce((s,r) => s + toNum(r.contacts), 0);
+
+    // Average per day over campaign so far (using daysElapsed)
+    const avgDoors    = daysElapsed > 0 ? totalDoors    / daysElapsed : 0;
+    const avgFlyers   = daysElapsed > 0 ? totalFlyers   / daysElapsed : 0;
+    const avgCalls    = daysElapsed > 0 ? totalCalls    / daysElapsed : 0;
+    const avgTexts    = daysElapsed > 0 ? totalTexts    / daysElapsed : 0;
+    const avgContacts = daysElapsed > 0 ? totalContacts / daysElapsed : 0;
+
+    // Projected total by election day
+    const remainDays = Math.max(0, daysLeft);
+    const projDoors    = Math.round(totalDoors    + avgDoors    * remainDays);
+    const projFlyers   = Math.round(totalFlyers   + avgFlyers   * remainDays);
+    const projCalls    = Math.round(totalCalls    + avgCalls    * remainDays);
+    const projTexts    = Math.round(totalTexts    + avgTexts    * remainDays);
+    const projContacts = Math.round(totalContacts + avgContacts * remainDays);
+
+    const paceItems = [
+      { key: 'doors',    label: 'Doors Knocked',      curr: totalDoors,    goal: toNum(g.doors)    || 10000, proj: projDoors,    avg: avgDoors    },
+      { key: 'flyers',   label: 'Flyers Distributed', curr: totalFlyers,   goal: toNum(g.flyers)   || 8000,  proj: projFlyers,   avg: avgFlyers   },
+      { key: 'calls',    label: 'Phone Calls',         curr: totalCalls,    goal: toNum(g.calls)    || 5000,  proj: projCalls,    avg: avgCalls    },
+      { key: 'contacts', label: 'Contacts Made',       curr: totalContacts, goal: toNum(g.contacts) || 3000,  proj: projContacts, avg: avgContacts },
+      { key: 'texts',    label: 'Texts Sent',          curr: totalTexts,    goal: toNum(g.texts)    || 20000, proj: projTexts,    avg: avgTexts    },
+    ];
+
+    const paceGrid = document.getElementById('pace-grid');
+    if (!paceGrid) return;
+
+    if (daysLeft <= 0) {
+      paceGrid.innerHTML = '<p style="color:rgba(255,255,255,0.50);font-size:.88rem;font-style:italic;">Election day has passed. Final results are shown in Campaign Goals.</p>';
+      return;
+    }
+
+    paceGrid.innerHTML = paceItems.map(item => {
+      const pct = item.goal > 0 ? Math.min(100, Math.round(item.curr / item.goal * 100)) : 0;
+      const onTrack = item.proj >= item.goal;
+      const remaining = Math.max(0, item.goal - item.curr);
+      const neededPerDay = remainDays > 0 ? (remaining / remainDays) : 0;
+      const currentPerDay = item.avg;
+
+      let statusClass, needLabel;
+      if (item.curr >= item.goal) {
+        statusClass = 'done';
+        needLabel = `✓ Goal reached!`;
+      } else if (onTrack) {
+        statusClass = 'on-track';
+        const surplus = Math.round((item.proj - item.goal) / item.goal * 100);
+        needLabel = `On pace · ${Math.round(currentPerDay)}/day (need ${Math.round(neededPerDay)}/day)`;
+      } else {
+        const deficit = Math.round((item.goal - item.proj) / item.goal * 100);
+        statusClass = deficit > 30 ? 'critical' : 'behind';
+        needLabel = `Need ${Math.round(neededPerDay)}/day · at pace: ${item.proj.toLocaleString()} (${Math.round(item.proj/item.goal*100)}%)`;
+      }
+
+      return `
+        <div class="pace-item">
+          <div class="pace-item__label">${item.label}</div>
+          <div class="pace-item__progress">
+            <div class="pace-progress-wrap">
+              <div class="pace-progress-bar pace-progress-bar--${statusClass}" style="width:${pct}%;"></div>
+            </div>
+          </div>
+          <div class="pace-item__current">${item.curr.toLocaleString()} <span class="pace-item__of">/ ${item.goal.toLocaleString()}</span></div>
+          <div class="pace-item__need pace-need--${statusClass}">${needLabel}</div>
+        </div>`;
+    }).join('');
+  }
+
+  // Election date edit UI wiring (runs once after DOM ready)
+  document.getElementById('edit-election-date-btn').addEventListener('click', function() {
+    const wrap = document.getElementById('election-date-edit-wrap');
+    const input = document.getElementById('election-date-input');
+    input.value = getElectionDate();
+    wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
+  });
+  document.getElementById('save-election-date-btn').addEventListener('click', function() {
+    const val = document.getElementById('election-date-input').value;
+    if (val) {
+      localStorage.setItem(LS_ELECTION_DATE, val);
+      document.getElementById('election-date-edit-wrap').style.display = 'none';
+      renderElectionCountdown();
+    }
+  });
+  document.getElementById('cancel-election-date-btn').addEventListener('click', function() {
+    document.getElementById('election-date-edit-wrap').style.display = 'none';
+  });
+
+  /* ---- ALL-TIME SESSION RECORDS ---- */
+  function renderSessionRecords() {
+    const src = allSessions.filter(s => !s._sample);
+    const allSrc = allSessions; // include sample for display when no real data
+
+    function bestSession(metric, minVal) {
+      const pool = src.length ? src : allSrc;
+      const candidates = pool.filter(s => toNum(s[metric]) >= (minVal || 1));
+      if (!candidates.length) return null;
+      return candidates.reduce((best, s) => toNum(s[metric]) > toNum(best[metric]) ? s : best);
+    }
+
+    // Best contact-rate session (min 10 doors)
+    function bestContactRate() {
+      const pool = src.length ? src : allSrc;
+      const candidates = pool.filter(s => toNum(s.doors) >= 10 && toNum(s.contacts) > 0);
+      if (!candidates.length) return null;
+      return candidates.reduce((best, s) => {
+        const rateS = toNum(s.contacts) / toNum(s.doors);
+        const rateB = toNum(best.contacts) / toNum(best.doors);
+        return rateS > rateB ? s : best;
+      });
+    }
+
+    const records = [
+      { metric: 'doors',    label: 'Most Doors Knocked',     trophy: '🚪', valueClass: 'doors',    session: bestSession('doors')    },
+      { metric: 'contacts', label: 'Most Contacts Made',      trophy: '🤝', valueClass: 'contacts', session: bestSession('contacts') },
+      { metric: 'flyers',   label: 'Most Flyers Distributed', trophy: '📄', valueClass: 'flyers',   session: bestSession('flyers')   },
+      { metric: 'calls',    label: 'Most Phone Calls',        trophy: '📞', valueClass: 'calls',    session: bestSession('calls')    },
+      { metric: 'texts',    label: 'Most Texts Sent',         trophy: '💬', valueClass: 'texts',    session: bestSession('texts')    },
+    ];
+
+    const rateSession = bestContactRate();
+
+    const grid = document.getElementById('records-grid');
+    const countBadge = document.getElementById('records-session-count');
+    if (countBadge) countBadge.textContent = `${allSessions.length} session${allSessions.length !== 1 ? 's' : ''}`;
+
+    if (!grid) return;
+
+    let html = records.map(r => {
+      if (!r.session) {
+        return `<div class="record-card record-card--empty">
+          <div class="record-card__trophy">${r.trophy}</div>
+          <div class="record-card__label">${r.label}</div>
+          <div class="record-card__value record-card__value--${r.valueClass}">—</div>
+          <div class="record-card__meta">No sessions logged yet</div>
+        </div>`;
+      }
+      const val = toNum(r.session[r.metric]);
+      const vol = r.session.volunteer ? escHtml(r.session.volunteer) : 'Unknown';
+      const area = r.session.area ? escHtml(r.session.area) : '';
+      const date = fmtDate(r.session.date);
+      return `<div class="record-card">
+        <div class="record-card__trophy">${r.trophy}</div>
+        <div class="record-card__label">${r.label}</div>
+        <div class="record-card__value record-card__value--${r.valueClass}">${val.toLocaleString()}</div>
+        <div class="record-card__meta"><strong>${vol}</strong></div>
+        <div class="record-card__meta">${date}${area ? ' · ' + area : ''}</div>
+      </div>`;
+    }).join('');
+
+    // Append contact rate record
+    if (rateSession) {
+      const rate = (toNum(rateSession.contacts) / toNum(rateSession.doors) * 100).toFixed(1);
+      const vol = rateSession.volunteer ? escHtml(rateSession.volunteer) : 'Unknown';
+      const area = rateSession.area ? escHtml(rateSession.area) : '';
+      const date = fmtDate(rateSession.date);
+      html += `<div class="record-card">
+        <div class="record-card__trophy">🎯</div>
+        <div class="record-card__label">Best Contact Rate</div>
+        <div class="record-card__value record-card__value--rate">${rate}%</div>
+        <div class="record-card__meta"><strong>${vol}</strong></div>
+        <div class="record-card__meta">${date}${area ? ' · ' + area : ''} · ${toNum(rateSession.contacts)} / ${toNum(rateSession.doors)} doors</div>
+      </div>`;
+    } else {
+      html += `<div class="record-card record-card--empty">
+        <div class="record-card__trophy">🎯</div>
+        <div class="record-card__label">Best Contact Rate</div>
+        <div class="record-card__value record-card__value--rate">—</div>
+        <div class="record-card__meta">Need ≥10 doors in a session</div>
+      </div>`;
+    }
+
+    grid.innerHTML = html;
   }
 
   /* ---- VOLUNTEER LEADERBOARD ---- */
@@ -2377,6 +2748,8 @@
     renderHighlights();
     renderThisWeekSummary();
     renderThisMonthSummary();
+    renderElectionCountdown();
+    renderSessionRecords();
     renderLeaderboard();
     renderVolReengagement();
     renderWeeklyTrend();
