@@ -45,3 +45,39 @@ To make this assessment reproducible and CI-friendly, a dedicated smoke test was
 
 ## Conclusion
 The dashboard is in a strong operational state and can support active campaign field workflows now. The new smoke test closes a reliability gap by making core dashboard health objectively checkable in constrained environments.
+
+## Deep-Dive Upgrades: High-End “Powerhouse Working” Plan
+
+To evolve the current dashboard from operationally solid to campaign-powerhouse grade, the next upgrades should focus on faster operator decisions, tighter data reliability, and lower-friction volunteer throughput.
+
+### Upgrade Track A — Decision Velocity
+- Add a **priority queue rail** that ranks follow-ups by urgency, persuasion probability, and geography so coordinators always see the highest-value next action first.
+- Add **shift-level pacing indicators** (calls/hour, texts/hour, doors/hour vs. target) to expose in-the-moment underperformance before shifts end.
+- Add **cohort conversion funnels** (new -> contacted -> active volunteer -> recurring volunteer) broken down by channel and organizer.
+
+### Upgrade Track B — Reliability & Governance
+- Introduce **import reconciliation checkpoints** (uploaded, parsed, inserted, queryable) with hard-fail alerts for any mismatch.
+- Add **structured audit timelines** for each contact record (status changes, owner changes, outreach events) to support accountability and post-mortems.
+- Define **operational SLOs** for freshness and write durability, then surface current SLO status directly in the dashboard header.
+
+### Upgrade Track C — Field Operations Throughput
+- Add **one-click action bundles** for common workflows ("Call + text + schedule follow-up" in one guided flow).
+- Add **territory-aware assignment controls** that auto-balance workloads across volunteers while honoring language/skill constraints.
+- Add **offline-safe capture mode** for canvassing sessions with deterministic merge/sync behavior when connectivity returns.
+
+### Upgrade Track D — Automation & Scale
+- Add **rule-driven automations** (e.g., if no response in 72h, enqueue SMS; if positive interest, auto-create call task).
+- Add **provider abstraction hardening** so call/text vendors can fail over without interruption to volunteers.
+- Add **weekly resilience drills** in CI + staging with synthetic spike loads to ensure launch-week stability.
+
+## Powerhouse Readiness Scorecard (Proposed)
+
+Use this scorecard to track when the dashboard is truly operating at "high-end powerhouse" level:
+
+- **P0 Data Integrity:** 100% of imports reconcile and become queryable in target window.
+- **P0 Operator Clarity:** queue ranking + alerting produce actionable next-step views with no dead panels.
+- **P1 Throughput:** measurable lift in contacts completed per shift after action bundles/assignment tuning.
+- **P1 Reliability:** no silent write failures; retry/failover paths validated during drills.
+- **P2 Scaling:** role-based controls, assignment fairness metrics, and campaign-week stress tests all passing.
+
+When all P0/P1 items are green for two consecutive weeks, the dashboard can be considered "powerhouse working" for high-pressure campaign operations.
