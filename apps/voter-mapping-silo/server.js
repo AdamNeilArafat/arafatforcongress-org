@@ -64,7 +64,7 @@ function readStore() {
   if (!Array.isArray(parsed.auditEvents)) parsed.auditEvents = [];
   if (!parsed.settings || typeof parsed.settings !== 'object') parsed.settings = {};
   parsed.voters.forEach(withSoftDeleteDefaults);
-  parsed.households.forEach(withSoftDeleteDefaults);
+  parsed.households.forEach(withHouseholdDefaults);
   parsed.canvassInteractions.forEach(withSoftDeleteDefaults);
   return parsed;
 }
@@ -99,6 +99,12 @@ function withSoftDeleteDefaults(record) {
   if (!Object.prototype.hasOwnProperty.call(record, 'deleted_by')) record.deleted_by = null;
   if (!Object.prototype.hasOwnProperty.call(record, 'delete_reason')) record.delete_reason = null;
   return record;
+}
+function withHouseholdDefaults(household) {
+  if (!household || typeof household !== 'object') return household;
+  withSoftDeleteDefaults(household);
+  if (!household.flyer_profile || typeof household.flyer_profile !== 'object') household.flyer_profile = null;
+  return household;
 }
 function latestInteractionByHousehold(interactions = []) {
   const latestByHousehold = new Map();
@@ -421,7 +427,8 @@ async function processImportFile(importId) {
           created_at: now(),
           deleted_at: null,
           deleted_by: null,
-          delete_reason: null
+          delete_reason: null,
+          flyer_profile: null
         };
         householdByNormalizedAddress.set(normalized, household);
         store.households.push(household);
@@ -483,6 +490,7 @@ async function processImportFile(importId) {
       }
     }
     if (batch.length) await flushBatch();
+    recomputeFlyerScores(store);
     audit(store, actor, 'IMPORT_VOTERS', 'import', importId, { county, accepted, rejected, source: sourceLabel });
     const completedAt = now();
     const finalRecord = store.imports.find((item) => item.import_id === importId);
@@ -599,6 +607,125 @@ function buildRouteForHouseholds(households = []) {
     .filter((h) => Number.isFinite(Number(h.lat)) && Number.isFinite(Number(h.lng)))
     .map((h) => ({ household_id: h.household_id, lat: Number(h.lat), lng: Number(h.lng), normalized_address: h.normalized_address }));
   return twoOpt(nearestNeighbor(points)).map((point, idx) => ({ ...point, order: idx + 1 }));
+}
+function clampScore(value) {
+  return Math.max(0, Math.min(100, Number(value) || 0));
+}
+function scoreTier(flyerScore, accessScore) {
+  if (accessScore < 20 || flyerScore < 20) return 'skip';
+  if (flyerScore >= 82) return 'premium_visibility';
+  if (flyerScore >= 67) return 'strong_visibility';
+  if (flyerScore >= 45) return 'standard';
+  return 'low_priority';
+}
+function parseAddressSignals(normalizedAddress = '') {
+  const address = String(normalizedAddress || '').toUpperCase();
+  const hasIntersectionHint = /\b(&|AND|@|INTERSECTION|CORNER)\b/.test(address);
+  const multiUnitHint = /\b(APT|UNIT|STE|SUITE|BLDG|BUILDING|TRLR|LOT|#)\b/.test(address);
+  const commercialHint = /\b(PLAZA|MALL|SHOP|CENTER|CTR|MARKET|CAMPUS|OFFICE)\b/.test(address);
+  const roadHint = /\b(AVE|AVENUE|BLVD|BOULEVARD|HWY|HIGHWAY|RD|ROAD|ST|STREET|WAY|DR|DRIVE)\b/.test(address);
+  return { hasIntersectionHint, multiUnitHint, commercialHint, roadHint };
+}
+function summarizeNearbyAnnotations(annotations = [], household) {
+  if (!Number.isFinite(Number(household?.lat)) || !Number.isFinite(Number(household?.lng))) {
+    return { transit: 0, school: 0, park: 0, commercial: 0, safety: 0 };
+  }
+  const center = { lat: Number(household.lat), lng: Number(household.lng) };
+  const nearby = { transit: 0, school: 0, park: 0, commercial: 0, safety: 0 };
+  for (const annotation of annotations) {
+    if (!annotation) continue;
+    const d = distance(center, { lat: annotation.lat, lng: annotation.lng });
+    if (!Number.isFinite(d) || d > 0.02) continue;
+    const type = String(annotation.type || '').toLowerCase();
+    if (type.includes('transit') || type.includes('bus')) nearby.transit += 1;
+    if (type.includes('school')) nearby.school += 1;
+    if (type.includes('park')) nearby.park += 1;
+    if (type.includes('commercial') || type.includes('business')) nearby.commercial += 1;
+    if (type.includes('safety') || type.includes('hazard')) nearby.safety += 1;
+  }
+  return nearby;
+}
+function computeFlyerProfile({ household, voters = [], annotations = [] }) {
+  const addressSignals = parseAddressSignals(household.normalized_address);
+  const nearby = summarizeNearbyAnnotations(annotations, household);
+  const precinctHint = voters.find((v) => String(v.precinct || '').trim())?.precinct || null;
+  const countyHint = voters.find((v) => String(v.source_county || '').trim())?.source_county || null;
+  const districtHint = voters.find((v) => String(v.district || '').trim())?.district || null;
+
+  const visibilityScore = clampScore(
+    20
+      + (addressSignals.roadHint ? 18 : 6)
+      + (addressSignals.hasIntersectionHint ? 20 : 0)
+      + (addressSignals.commercialHint ? 12 : 0)
+      + (nearby.transit * 4)
+      + (nearby.school * 3)
+      + (nearby.park * 2)
+      + (nearby.commercial * 5)
+      + Math.min(20, voters.length * 4)
+  );
+  const trafficScore = clampScore(
+    18
+      + (addressSignals.roadHint ? 15 : 4)
+      + (addressSignals.hasIntersectionHint ? 20 : 0)
+      + (nearby.transit * 6)
+      + (nearby.school * 4)
+      + (nearby.park * 4)
+      + (nearby.commercial * 7)
+      + (addressSignals.multiUnitHint ? 10 : 0)
+  );
+  const accessScore = clampScore(
+    60
+      + (addressSignals.multiUnitHint ? -18 : 0)
+      + (nearby.safety ? -14 : 0)
+      + (addressSignals.hasIntersectionHint ? 5 : 0)
+      + (addressSignals.roadHint ? 6 : 0)
+  );
+
+  const flyerScore = clampScore((visibilityScore * 0.45) + (trafficScore * 0.35) + (accessScore * 0.2));
+  const tier = scoreTier(flyerScore, accessScore);
+  const placementNotes = [];
+  if (addressSignals.multiUnitHint) placementNotes.push('Use apartment-safe placement (main entry boards, lobby, or mail area where permitted).');
+  if (addressSignals.hasIntersectionHint) placementNotes.push('Prioritize corner-facing visibility and both approach directions.');
+  if (nearby.transit > 0) placementNotes.push('Schedule drops near transit commute windows for higher exposure.');
+  if (nearby.school > 0 || nearby.park > 0) placementNotes.push('Coordinate placements before school/park peak activity times.');
+  if (!placementNotes.length) placementNotes.push('Standard front-door placement with weather-protected positioning.');
+
+  return {
+    visibility_score: visibilityScore,
+    traffic_score: trafficScore,
+    access_score: accessScore,
+    flyer_score: flyerScore,
+    flyer_tier: tier,
+    region_context: {
+      county: countyHint,
+      subdivision: precinctHint,
+      district: districtHint
+    },
+    rationale: {
+      address_signals: addressSignals,
+      nearby_annotations: nearby,
+      voter_count: voters.length
+    },
+    recommended_placement_notes: placementNotes,
+    scored_at: now()
+  };
+}
+function recomputeFlyerScores(store, options = {}) {
+  const includeDeleted = Boolean(options.includeDeleted);
+  const annotations = visibleRecords(store.mapAnnotations, includeDeleted);
+  const voters = visibleRecords(store.voters, includeDeleted);
+  const votersByHousehold = new Map();
+  for (const voter of voters) {
+    if (!votersByHousehold.has(voter.household_id)) votersByHousehold.set(voter.household_id, []);
+    votersByHousehold.get(voter.household_id).push(voter);
+  }
+  let updated = 0;
+  for (const household of visibleRecords(store.households, includeDeleted)) {
+    const profile = computeFlyerProfile({ household, voters: votersByHousehold.get(household.household_id) || [], annotations });
+    household.flyer_profile = profile;
+    updated += 1;
+  }
+  return updated;
 }
 function createTextProviderAdapter(provider = 'manual') {
   return {
@@ -813,6 +940,7 @@ function isAdminOnlyRoute(req, pathname) {
   if (pathname.startsWith('/api/settings')) return true;
   if (pathname.startsWith('/api/export')) return true;
   if (req.method !== 'GET' && pathname.startsWith('/api/assignments')) return true;
+  if (req.method !== 'GET' && pathname.startsWith('/api/flyer/')) return true;
   if (req.method === 'DELETE' && pathname.startsWith('/api/')) return true;
   if (req.method === 'POST' && pathname.startsWith('/api/clear')) return true;
   return false;
@@ -1422,12 +1550,44 @@ async function handler(req, res) {
       if (!eligible.has(household.household_id)) continue;
       const voters = votersByHousehold.get(household.household_id) || [];
       const last = latestByHousehold.get(household.household_id);
-      households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted', deleted_at: household.deleted_at, deleted_by: household.deleted_by, delete_reason: household.delete_reason } });
+      households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted', flyer_profile: household.flyer_profile || null, deleted_at: household.deleted_at, deleted_by: household.deleted_by, delete_reason: household.delete_reason } });
     }
     const annotations = user.role === 'admin'
       ? store.mapAnnotations.map((a) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: a }))
       : [];
     return send(res, 200, { households: { type: 'FeatureCollection', features: households }, annotations: { type: 'FeatureCollection', features: annotations } });
+  }
+
+  if (req.method === 'GET' && pathname === '/api/flyer/targets') {
+    const params = new URL(req.url, 'http://localhost').searchParams;
+    const county = params.get('county') || 'all';
+    const tier = String(params.get('tier') || '').trim();
+    const minScore = Number(params.get('min_score') || 0);
+    const store = readStore();
+    recomputeFlyerScores(store);
+    writeStore(store);
+    const votersSource = visibleRecords(store.voters);
+    const eligible = new Set(county === 'all' ? visibleRecords(store.households).map((h) => h.household_id) : votersSource.filter((v) => v.source_county === county).map((v) => v.household_id));
+    const assignmentScope = assignmentSetForUser(store, user);
+    if (assignmentScope) {
+      for (const householdId of [...eligible]) {
+        if (!assignmentScope.has(householdId)) eligible.delete(householdId);
+      }
+    }
+    const rows = visibleRecords(store.households)
+      .filter((household) => eligible.has(household.household_id))
+      .map((household) => ({ household_id: household.household_id, normalized_address: household.normalized_address, lat: household.lat, lng: household.lng, ...(household.flyer_profile || {}) }))
+      .filter((row) => (!tier || row.flyer_tier === tier) && Number(row.flyer_score || 0) >= minScore)
+      .sort((a, b) => Number(b.flyer_score || 0) - Number(a.flyer_score || 0));
+    return send(res, 200, { total: rows.length, targets: rows });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/flyer/recompute') {
+    const store = readStore();
+    const updated = recomputeFlyerScores(store);
+    audit(store, user.userId, 'RECOMPUTE_FLYER_SCORES', 'household', 'bulk', { updated });
+    writeStore(store);
+    return send(res, 200, { ok: true, updated });
   }
 
   if (req.method === 'POST' && pathname === '/api/canvass/logs') {
@@ -1501,7 +1661,10 @@ async function handler(req, res) {
     if (!Number.isFinite(body.lat) || !Number.isFinite(body.lng)) return send(res, 400, { error: 'lat/lng required' });
     const store = readStore();
     const record = { annotation_id: id('ann'), lat: body.lat, lng: body.lng, type: body.type || 'note', note: body.note || '', followup_at: body.followup_at || null, created_by: 'dashboard', created_at: now() };
-    store.mapAnnotations.unshift(record); audit(store, 'dashboard', 'ADD_ANNOTATION', 'annotation', record.annotation_id, { type: record.type }); writeStore(store);
+    store.mapAnnotations.unshift(record);
+    recomputeFlyerScores(store);
+    audit(store, 'dashboard', 'ADD_ANNOTATION', 'annotation', record.annotation_id, { type: record.type });
+    writeStore(store);
     publishServerEvent('annotation.created', {
       annotation: record
     });

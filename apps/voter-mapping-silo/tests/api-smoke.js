@@ -61,7 +61,14 @@ async function run() {
   assert(fs.existsSync(importStatus.file_path), 'Uploaded CSV should be persisted on disk');
 
   const featuresAdmin = await req('/silo/api/map/features?county=all', { headers: adminHeaders });
+
+  const flyerTargets = await req('/silo/api/flyer/targets?county=all', { headers: adminHeaders }, 200);
+  assert(flyerTargets.total >= 2);
+  assert(flyerTargets.targets[0].flyer_tier);
+  assert(Number.isFinite(Number(flyerTargets.targets[0].flyer_score)));
+
   assert.equal(featuresAdmin.households.features.length, 2);
+  assert(featuresAdmin.households.features[0].properties.flyer_profile);
   const householdIds = featuresAdmin.households.features.map((feature) => feature.properties.household_id);
 
   const assignment = await req('/silo/api/assignments', {
