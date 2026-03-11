@@ -117,6 +117,14 @@
       box-shadow: var(--shadow); padding: 14px 18px; margin-bottom: 20px;
       display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     }
+    .quick-links-bar__note {
+      width: 100%;
+      font-size: .78rem;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.45;
+      margin-top: 2px;
+    }
     .quick-links-bar__label { font-size: .78rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-right: 4px; white-space: nowrap; }
     .ql-btn {
       padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
@@ -634,11 +642,6 @@
       <button class="dash-btn dash-btn--gold" id="export-filtered-btn">&#11123; Export Filtered</button>
       <button class="dash-btn" id="copy-summary-btn" title="Copy weekly summary to clipboard">&#128203; Copy Summary</button>
       <button class="dash-btn" id="print-briefing-btn" title="Print daily ops briefing">&#128438; Print Briefing</button>
-      <a class="dash-btn" href="/admin/phone-banking.html">&#128222; Phone Bank</a>
-      <a class="dash-btn" href="/admin/text-banking.html">&#128172; Text Bank</a>
-      <a class="dash-btn" href="/admin/canvassing.html">&#127968; Canvass</a>
-      <a class="dash-btn" href="/admin/flyer-ops.html">&#128251; Flyers</a>
-      <a class="dash-btn" href="/admin/volunteer-dashboard.html">&#128101; Volunteer Dashboard</a>
       <a class="dash-btn" href="/index.html" target="_blank">View Site &rarr;</a>
     </div>
   </header>
@@ -821,6 +824,7 @@
       <a class="ql-btn" href="https://secure.actblue.com/donate/adam-arafat-1" target="_blank" rel="noopener noreferrer">&#128181; ActBlue</a>
       <a class="ql-btn" href="mailto:volunteer@arafatforcongress.org">&#128231; volunteer@</a>
       <a class="ql-btn" href="/index.html" target="_blank">&#127760; View Site</a>
+      <p class="quick-links-bar__note">This dashboard is the central, low-cost operations hub. Use it for weekly planning, volunteer deployment, and daily data logging instead of spreading updates across multiple disconnected tools.</p>
     </div>
 
     <!-- CAMPAIGN GOALS -->
@@ -1347,18 +1351,24 @@
   ];
 
   /* ---- SAMPLE DATA ---- */
+  function dateOffset(days) {
+    const dt = new Date();
+    dt.setDate(dt.getDate() + days);
+    return dt.toISOString().slice(0, 10);
+  }
+
   const SAMPLE_SESSIONS = [
-    { id:'ss1', date:'2026-03-08', type:'canvass', volunteer:'Maria H.', area:'Spanaway', doors:42, flyers:38, calls:0, texts:0, contacts:14, vols:3, notes:'Strong reception on housing/cost of living. Several interested in volunteering.', _sample:true },
-    { id:'ss2', date:'2026-03-07', type:'phone', volunteer:'James P. / Voter Contact', area:'Lakewood', doors:0, flyers:0, calls:65, texts:0, contacts:18, vols:4, notes:'Focused on JBLM-adjacent precincts. High interest in veteran issues.', _sample:true },
-    { id:'ss3', date:'2026-03-06', type:'text', volunteer:'Digital Team', area:'Multiple / Remote', doors:0, flyers:0, calls:0, texts:210, contacts:31, vols:2, notes:'Peer-to-peer text blast — event invite outreach.', _sample:true },
-    { id:'ss4', date:'2026-03-05', type:'canvass', volunteer:'Susan W. / Field', area:'Olympia', doors:28, flyers:25, calls:0, texts:0, contacts:9, vols:2, notes:'Covered South Capitol neighborhood. Left flyers at non-answers.', _sample:true },
-    { id:'ss5', date:'2026-03-03', type:'mixed', volunteer:'Area Coordinator Team', area:'Puyallup / South Hill', doors:19, flyers:17, calls:22, texts:0, contacts:11, vols:3, notes:'Combined canvass + phone in Puyallup. Identified 2 potential area leads.', _sample:true }
+    { id:'ss1', date:dateOffset(-3), type:'canvass', volunteer:'Field Team A', area:'Spanaway', doors:42, flyers:38, calls:0, texts:0, contacts:14, vols:3, notes:'High interest in cost-of-living messaging; added 3 follow-up households.', _sample:true },
+    { id:'ss2', date:dateOffset(-4), type:'phone', volunteer:'Phone Team', area:'Lakewood', doors:0, flyers:0, calls:65, texts:0, contacts:18, vols:4, notes:'Veteran and transportation issues were the top response themes.', _sample:true },
+    { id:'ss3', date:dateOffset(-5), type:'text', volunteer:'Digital Outreach', area:'Multiple / Remote', doors:0, flyers:0, calls:0, texts:210, contacts:31, vols:2, notes:'P2P reminder push for weekend canvass launch.', _sample:true },
+    { id:'ss4', date:dateOffset(-6), type:'canvass', volunteer:'Field Team B', area:'Olympia', doors:28, flyers:25, calls:0, texts:0, contacts:9, vols:2, notes:'Completed priority turf packet and flagged low-response blocks.', _sample:true },
+    { id:'ss5', date:dateOffset(-8), type:'mixed', volunteer:'Area Coordinators', area:'Puyallup / South Hill', doors:19, flyers:17, calls:22, texts:0, contacts:11, vols:3, notes:'Combined canvass and call follow-up to improve volunteer turnout.', _sample:true }
   ];
 
   const SAMPLE_EVENTS = [
-    { id:'se1', date:'2026-03-15', time:'10:00', type:'canvass', area:'Spanaway', lead:'Maria H.', targetVols:6, notes:'Meet at Spanaway Park main entrance. Bring flyers.', _sample:true },
-    { id:'se2', date:'2026-03-12', time:'18:00', type:'phone', area:'Multiple / Remote', lead:'James P.', targetVols:8, notes:'Virtual phone bank via Zoom — link TBD.', _sample:true },
-    { id:'se3', date:'2026-03-10', time:'13:00', type:'canvass', area:'Lakewood', lead:'TBD', targetVols:4, notes:'Lakewood precinct walk — Veterans Dr. area.', _sample:true }
+    { id:'se1', date:dateOffset(2), time:'10:00', type:'canvass', area:'Spanaway', lead:'Field Lead', targetVols:6, notes:'Meet at launch point and assign turf packets by partner pair.', _sample:true },
+    { id:'se2', date:dateOffset(4), time:'18:00', type:'phone', area:'Multiple / Remote', lead:'Phone Captain', targetVols:8, notes:'Remote phone bank with onboarding for new volunteers.', _sample:true },
+    { id:'se3', date:dateOffset(6), time:'13:00', type:'canvass', area:'Lakewood', lead:'TBD', targetVols:4, notes:'Priority doors first, then literature pass in adjacent blocks.', _sample:true }
   ];
 
   /* ---- STATE ---- */
