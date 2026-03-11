@@ -60,7 +60,11 @@
       };
       return [];
     }
-    const headers = parseCsvLine(lines[0]).map(h => h.toLowerCase().replace(/\s+/g, '_'));
+    const delimiter = lines[0].includes('\t') ? '\t' : ',';
+    const parseLine = delimiter === '\t'
+      ? (line) => line.split('\t').map(cell => cell.trim())
+      : parseCsvLine;
+    const headers = parseLine(lines[0]).map(h => h.toLowerCase().replace(/\s+/g, '_'));
     const summary = {
       totalRowsRead: lines.length - 1,
       rowsImported: 0,
@@ -82,7 +86,7 @@
     };
 
     const voters = lines.slice(1).map(line => {
-      const vals = parseCsvLine(line);
+      const vals = parseLine(line);
       const obj = {};
       headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
 
@@ -108,8 +112,8 @@
         city:          firstNonEmpty(obj, ['city', 'regcity']),
         state:         firstNonEmpty(obj, ['state', 'regstate']) || 'WA',
         zip:           firstNonEmpty(obj, ['zip', 'zip_code', 'regzipcode']),
-        phone:         obj.phone     || '',
-        email:         obj.email     || '',
+        phone:         firstNonEmpty(obj, ['phone', 'phone1', 'phone_1', 'cellphone', 'mobilephone', 'mobile']) || '',
+        email:         firstNonEmpty(obj, ['email', 'emailaddress', 'email_address']) || '',
         area:          obj.area      || '',
         lat:           parseFloat(obj.lat)  || null,
         lng:           parseFloat(obj.lng)  || null,
