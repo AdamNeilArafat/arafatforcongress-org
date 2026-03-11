@@ -220,6 +220,8 @@ function mapUnifiedOutcome(outcome: string) {
     talked: 'contacted',
     sent: 'contacted',
     no_answer: 'no_contact',
+    no_response: 'no_contact',
+    left_voicemail: 'no_contact',
     not_home: 'no_contact',
     refused: 'opposed',
     supporter: 'supporter',
@@ -230,6 +232,7 @@ function mapUnifiedOutcome(outcome: string) {
     bad_email: 'bad_email',
     do_not_call: 'do_not_contact',
     do_not_text: 'opt_out',
+    opted_out: 'opt_out',
     opt_out: 'opt_out',
     flyer_dropped: 'contacted',
     yard_sign: 'yard_sign_lead',
@@ -442,7 +445,7 @@ export function logOutreach(input: Omit<OutreachLog, 'id' | 'created_at' | 'time
     const outcome = mapUnifiedOutcome(input.outcome);
     const entry: OutreachLog = { ...input, outcome, id: id(), created_at: now(), timestamp: input.timestamp ?? now() };
     state.outreach_logs.unshift(entry);
-    if (entry.channel === 'text' && /(stop|end|quit|unsubscribe)/i.test(entry.notes ?? '')) {
+    if (entry.channel === 'text' && (entry.outcome === 'opt_out' || /(stop|end|quit|unsubscribe)/i.test(entry.notes ?? ''))) {
       state.suppression_list.unshift({ id: id(), voter_id: entry.voter_id, channel: 'text', reason: 'keyword_opt_out', created_at: now() });
       const voter = state.voters.find((v) => v.id === entry.voter_id);
       if (voter) voter.do_not_contact = true;

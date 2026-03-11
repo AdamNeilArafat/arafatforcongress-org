@@ -9,6 +9,7 @@ import {
   listAssignments,
   listAuditLogs,
   listEmailTemplates,
+  listGeocodeJobs,
   listImports,
   listMappingTemplates,
   listOutreachLogs,
@@ -45,6 +46,7 @@ function useData() {
   const volunteers = listVolunteers();
   const assignments = listAssignments();
   const suppressions = listSuppressionEntries();
+  const geocodeJobs = listGeocodeJobs();
 
   return {
     refresh,
@@ -53,6 +55,7 @@ function useData() {
     volunteers,
     assignments,
     suppressions,
+    geocodeJobs,
     templates: listTemplates(),
     emailTemplates: listEmailTemplates(),
     mappingTemplates: listMappingTemplates(),
@@ -67,7 +70,7 @@ function metricSet(voters: Voter[], imports: ReturnType<typeof listImports>, out
   const mappedHouseholds = voters.filter((v) => v.latitude != null && v.longitude != null).length;
   const phones = voters.filter((v) => !!v.phone).length;
   const emails = voters.filter((v) => !!v.email).length;
-  const textsSent = outreach.filter((o) => o.channel === 'text' && o.outcome === 'contacted').length;
+  const textsSent = outreach.filter((o) => o.channel === 'text').length;
   const callsCompleted = outreach.filter((o) => o.channel === 'phone').length;
   const emailsSent = outreach.filter((o) => o.channel === 'email').length;
   const doorsKnocked = outreach.filter((o) => o.channel === 'door').length;
@@ -75,10 +78,14 @@ function metricSet(voters: Voter[], imports: ReturnType<typeof listImports>, out
   const supporters = outreach.filter((o) => o.outcome === 'supporter').length;
   const undecideds = outreach.filter((o) => o.outcome === 'undecided').length;
   const followUpsDue = outreach.filter((o) => o.outcome === 'follow_up').length;
+  const geocodePending = voters.filter((v) => v.geocode_status === 'pending').length;
+  const geocodeFailed = voters.filter((v) => v.geocode_status === 'failed').length;
 
   return [
     ['Total imports', totalImports],
     ['Mapped households', mappedHouseholds],
+    ['Geocode pending', geocodePending],
+    ['Geocode failed', geocodeFailed],
     ['Phones', phones],
     ['Emails', emails],
     ['Texts sent', textsSent],
@@ -114,6 +121,15 @@ function CommandCenter({ data, refresh }: { data: ReturnType<typeof useData>; re
   const precincts = Array.from(new Set(data.voters.map((v) => v.precinct).filter(Boolean))).sort();
   const cities = Array.from(new Set(data.voters.map((v) => v.city).filter(Boolean))).sort();
 
+  const [geocodeStatus, setGeocodeStatus] = React.useState('');
+
+  async function runGeocodeBatch() {
+    setGeocodeStatus('Running geocoding batch...');
+    const result = await geocodeHouseholdsBatch(200);
+    setGeocodeStatus(`Geocode batch complete: scanned ${result.scanned}, success ${result.geocoded}, errors ${result.errors}.`);
+    refresh();
+  }
+
   const bulkAssign = () => {
     if (selected.length === 0) return;
     const volunteer = data.volunteers[0] ?? upsertVolunteer('Unassigned Pool');
@@ -136,6 +152,7 @@ function CommandCenter({ data, refresh }: { data: ReturnType<typeof useData>; re
           <option value="supporter">supporter</option><option value="undecided">undecided</option><option value="opposed">opposed</option><option value="follow_up">follow_up</option>
         </select>
         <button onClick={bulkAssign}>Bulk assign selected to canvass</button>
+        <button onClick={runGeocodeBatch}>Run geocode batch</button>
       </div>
 
       <div style={{ marginTop: 10, border: '1px solid #ddd', height: 360, position: 'relative', borderRadius: 8, overflow: 'hidden', background: 'linear-gradient(180deg,#f8fbff,#eef4ff)' }}>
@@ -147,6 +164,8 @@ function CommandCenter({ data, refresh }: { data: ReturnType<typeof useData>; re
         })}
       </div>
       <p>Cluster proxy: larger dots imply multi-voter households. Heatmap proxy: dense pin areas indicate turf hotspots.</p>
+      <p>Open geocode jobs: {data.geocodeJobs.filter((j) => j.status === 'queued' || j.status === 'processing').length}</p>
+      {geocodeStatus ? <p>{geocodeStatus}</p> : null}
     </section>
   );
 }
@@ -246,6 +265,7 @@ export default function AdminDashboardPage() {
     <main style={{ fontFamily: 'Inter,system-ui,sans-serif', margin: '16px auto', maxWidth: 1200, padding: '0 16px' }}>
       <h1>Campaign Operations Hub</h1>
       <p>CSV is the master source of truth for voters, map readiness, assignments, and all outreach channels.</p>
+      <p><a href="/volunteer/texts">Text Banking</a> · <a href="/volunteer/calls">Phone Banking</a> · <a href="/volunteer/map">Volunteer Map</a></p>
       <nav style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {['command', 'imports', 'routes', 'outreach', 'analytics', 'audit'].map((t) => <button key={t} onClick={() => setTab(t as typeof tab)}>{t}</button>)}
         <button onClick={() => { if (confirm('Clear all ops data?')) { clearAll(); data.refresh(); } }}>Clear all</button>
