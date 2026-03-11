@@ -29,7 +29,7 @@
   ];
 
   /* ── CSV PARSING ─────────────────────────────────────────────────────── */
-  function parseCsvLine(line) {
+  function parseDelimitedLine(line, delimiter) {
     const result = [];
     let current = '';
     let inQuotes = false;
@@ -38,7 +38,7 @@
       if (ch === '"') {
         if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
         else inQuotes = !inQuotes;
-      } else if (ch === ',' && !inQuotes) {
+      } else if (ch === delimiter && !inQuotes) {
         result.push(current.trim());
         current = '';
       } else {
@@ -49,8 +49,21 @@
     return result;
   }
 
+  function parseCsvLine(line) {
+    return parseDelimitedLine(line, ',');
+  }
+
+  function detectDelimiter(line) {
+    const commaCount = parseDelimitedLine(line, ',').length;
+    const tabCount = parseDelimitedLine(line, '\t').length;
+    return tabCount > commaCount ? '\t' : ',';
+  }
+
   function parseVoterCsv(text) {
-    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+    const lines = text
+      .split(/\r?\n/)
+      .map(line => line.replace(/\r$/, ''))
+      .filter(line => line.trim().length > 0);
     if (lines.length < 2) {
       lastImportSummary = {
         totalRowsRead: 0,
@@ -60,10 +73,8 @@
       };
       return [];
     }
-    const delimiter = lines[0].includes('\t') ? '\t' : ',';
-    const parseLine = delimiter === '\t'
-      ? (line) => line.split('\t').map(cell => cell.trim())
-      : parseCsvLine;
+    const delimiter = detectDelimiter(lines[0]);
+    const parseLine = (line) => parseDelimitedLine(line, delimiter);
     const headers = parseLine(lines[0]).map(h => h.toLowerCase().replace(/\s+/g, '_'));
     const summary = {
       totalRowsRead: lines.length - 1,
@@ -112,8 +123,8 @@
         city:          firstNonEmpty(obj, ['city', 'regcity']),
         state:         firstNonEmpty(obj, ['state', 'regstate']) || 'WA',
         zip:           firstNonEmpty(obj, ['zip', 'zip_code', 'regzipcode']),
-        phone:         firstNonEmpty(obj, ['phone', 'phone1', 'phone_1', 'cellphone', 'mobilephone', 'mobile']) || '',
-        email:         firstNonEmpty(obj, ['email', 'emailaddress', 'email_address']) || '',
+        phone:         firstNonEmpty(obj, ['phone', 'phone1', 'phone_1', 'phone2', 'phone_2', 'cellphone', 'mobilephone', 'mobile']) || '',
+        email:         firstNonEmpty(obj, ['email', 'emailaddress', 'email_address', 'email1', 'email_1']) || '',
         area:          obj.area      || '',
         lat:           parseFloat(obj.lat)  || null,
         lng:           parseFloat(obj.lng)  || null,
@@ -188,6 +199,7 @@
         saveVoters(voters);
         return { ok: true, voters, count: voters.length, importSummary: lastImportSummary };
       }
+      saveVoters([]);
       return { ok: false, error: 'No voter records parsed', importSummary: lastImportSummary };
     } catch (e) {
       return { ok: false, error: e.message };
