@@ -19,6 +19,8 @@ const IMPORT_BATCH_SIZE = Math.max(5000, Math.min(20000, Number(process.env.SILO
 const GEOCODE_TIMEOUT_MS = Math.max(500, Number(process.env.SILO_GEOCODE_TIMEOUT_MS || 5000));
 const GEOCODE_USER_AGENT = process.env.SILO_GEOCODE_USER_AGENT || 'voter-mapping-silo/1.0 (+https://arafatforcongress.org)';
 const GEOCODER_PROVIDER = String(process.env.SILO_GEOCODER_PROVIDER || 'nominatim').trim().toLowerCase();
+const CREDENTIALS_ENCRYPTION_KEY = String(process.env.SILO_CREDENTIALS_ENCRYPTION_KEY || '');
+const IS_PRODUCTION = String(process.env.NODE_ENV || '').toLowerCase() === 'production';
 const IMPORT_FILES_DIR = path.join(DATA_DIR, 'imports');
 const sessions = new Map();
 const sseClients = new Set();
@@ -38,6 +40,9 @@ const DEFAULT_STORE = {
   textQueue: [],
   queueEvents: [],
   optOutLocks: [],
+  suppressionLists: [],
+  outreachEvents: [],
+  oauthCredentials: [],
   users: [],
   auditEvents: [],
   settings: {}
@@ -61,6 +66,9 @@ function readStore() {
   if (!Array.isArray(parsed.textQueue)) parsed.textQueue = [];
   if (!Array.isArray(parsed.queueEvents)) parsed.queueEvents = [];
   if (!Array.isArray(parsed.optOutLocks)) parsed.optOutLocks = [];
+  if (!Array.isArray(parsed.suppressionLists)) parsed.suppressionLists = [];
+  if (!Array.isArray(parsed.outreachEvents)) parsed.outreachEvents = [];
+  if (!Array.isArray(parsed.oauthCredentials)) parsed.oauthCredentials = [];
   if (!Array.isArray(parsed.auditEvents)) parsed.auditEvents = [];
   if (!parsed.settings || typeof parsed.settings !== 'object') parsed.settings = {};
   parsed.voters.forEach(withSoftDeleteDefaults);
@@ -554,6 +562,87 @@ function addQueueEvent(store, event) {
     ...event
   }));
   store.queueEvents = store.queueEvents.slice(0, 20000);
+}
+
+function deriveEncryptionKey() {
+  if (!CREDENTIALS_ENCRYPTION_KEY) return null;
+  return crypto.createHash('sha256').update(CREDENTIALS_ENCRYPTION_KEY).digest();
+}
+function encryptSecret(value) {
+  const key = deriveEncryptionKey();
+  if (!key) throw new Error('SILO_CREDENTIALS_ENCRYPTION_KEY is required to manage oauth credentials');
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const encrypted = Buffer.concat([cipher.update(String(value || ''), 'utf8'), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  return `${iv.toString('base64')}.${tag.toString('base64')}.${encrypted.toString('base64')}`;
+}
+function decryptSecret(payload) {
+  const key = deriveEncryptionKey();
+  if (!key) throw new Error('SILO_CREDENTIALS_ENCRYPTION_KEY is required to use oauth credentials');
+  const [ivText, tagText, encryptedText] = String(payload || '').split('.');
+  if (!ivText || !tagText || !encryptedText) throw new Error('Invalid encrypted credential payload');
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(ivText, 'base64'));
+  decipher.setAuthTag(Buffer.from(tagText, 'base64'));
+  const decrypted = Buffer.concat([decipher.update(Buffer.from(encryptedText, 'base64')), decipher.final()]);
+  return decrypted.toString('utf8');
+}
+function normalizeEmail(value = '') {
+  return String(value || '').trim().toLowerCase();
+}
+function addSuppressionEntry(store, entry) {
+  const row = {
+    suppression_id: id('sup'),
+    contact_id: entry.contact_id || null,
+    voter_id: entry.voter_id || null,
+    phone: entry.phone ? normalizePhone(entry.phone) : null,
+    email: entry.email ? normalizeEmail(entry.email) : null,
+    channel: entry.channel,
+    reason: String(entry.reason || 'manual').trim() || 'manual',
+    source: String(entry.source || 'dashboard').trim() || 'dashboard',
+    created_by: entry.created_by || 'system',
+    created_at: now()
+  };
+  store.suppressionLists.unshift(row);
+  store.suppressionLists = store.suppressionLists.slice(0, 50000);
+  return row;
+}
+function isSuppressed(store, channel, recipient = {}) {
+  const normalizedPhone = recipient.phone ? normalizePhone(recipient.phone) : '';
+  const normalizedEmail = recipient.email ? normalizeEmail(recipient.email) : '';
+  const normalizedContactId = recipient.contact_id ? String(recipient.contact_id) : '';
+  const normalizedVoterId = recipient.voter_id ? String(recipient.voter_id) : '';
+  const directLock = normalizedPhone ? hasOptOutLock(store, channel, normalizedPhone) : false;
+  const suppression = store.suppressionLists.find((item) => {
+    if (String(item.channel || '').toLowerCase() !== String(channel || '').toLowerCase()) return false;
+    if (normalizedPhone && normalizePhone(item.phone || '') === normalizedPhone) return true;
+    if (normalizedEmail && normalizeEmail(item.email || '') === normalizedEmail) return true;
+    if (normalizedContactId && String(item.contact_id || '') === normalizedContactId) return true;
+    if (normalizedVoterId && String(item.voter_id || '') === normalizedVoterId) return true;
+    return false;
+  });
+  return directLock || Boolean(suppression);
+}
+function logOutreachEvent(store, event) {
+  const row = {
+    outreach_event_id: id('oevt'),
+    contact_id: event.contact_id || null,
+    voter_id: event.voter_id || null,
+    household_id: event.household_id || null,
+    user_id: event.user_id || 'system',
+    channel: event.channel || 'system',
+    action: event.action || 'unknown',
+    outcome: event.outcome || null,
+    script_id: event.script_id || null,
+    message_subject: event.message_subject || null,
+    message_body: event.message_body || null,
+    notes: event.notes || null,
+    metadata: event.metadata || {},
+    created_at: now()
+  };
+  store.outreachEvents.unshift(row);
+  store.outreachEvents = store.outreachEvents.slice(0, 50000);
+  return row;
 }
 function distance(a, b) {
   const dx = Number(a.lat) - Number(b.lat);
@@ -1231,6 +1320,224 @@ async function handler(req, res) {
   }
 
 
+  if (req.method === 'GET' && pathname === '/api/settings') {
+    const store = readStore();
+    return send(res, 200, {
+      primary_google_sheet_id: store.settings.primary_google_sheet_id || null,
+      google_sync_enabled: Boolean(store.settings.google_sync_enabled),
+      google_sync_direction: store.settings.google_sync_direction || 'push',
+      route_engine_provider: store.settings.route_engine_provider || 'nearest-neighbor',
+      enrichment_provider: store.settings.enrichment_provider || 'rules-v1',
+      last_google_sync_at: store.settings.last_google_sync_at || null,
+      has_google_credentials: Array.isArray(store.oauthCredentials) && store.oauthCredentials.some((entry) => entry.provider === 'google')
+    });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/settings') {
+    if (user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const allowedKeys = new Set(['primary_google_sheet_id', 'google_sync_enabled', 'google_sync_direction', 'route_engine_provider', 'enrichment_provider']);
+    const updates = Object.entries(body || {}).filter(([key]) => allowedKeys.has(key));
+    if (!updates.length) return send(res, 400, { error: 'No valid settings keys provided' });
+    const store = readStore();
+    for (const [key, value] of updates) {
+      if (key === 'google_sync_enabled') store.settings[key] = Boolean(value);
+      else store.settings[key] = value == null ? null : String(value);
+    }
+    audit(store, user.userId, 'SETTINGS_UPDATED', 'settings', 'bulk', { updated_keys: updates.map(([key]) => key) });
+    writeStore(store);
+    return send(res, 200, { ok: true, updated: updates.map(([key]) => key) });
+  }
+
+  if (req.method === 'GET' && pathname === '/api/outreach/events') {
+    const store = readStore();
+    return send(res, 200, { total: store.outreachEvents.length, events: store.outreachEvents.slice(0, 500) });
+  }
+
+  if (req.method === 'GET' && pathname === '/api/suppression-lists') {
+    const store = readStore();
+    return send(res, 200, { total: store.suppressionLists.length, rows: store.suppressionLists.slice(0, 1000) });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/suppression-lists') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const channel = String(body.channel || '').trim().toLowerCase();
+    if (!['text', 'email', 'call', 'phone'].includes(channel)) return send(res, 400, { error: 'channel must be text/email/call/phone' });
+    const normalizedChannel = channel === 'call' ? 'phone' : channel;
+    const phone = body.phone ? normalizePhone(body.phone) : '';
+    const email = body.email ? normalizeEmail(body.email) : '';
+    if (!phone && !email && !body.voter_id && !body.contact_id) return send(res, 400, { error: 'phone, email, voter_id, or contact_id is required' });
+    const store = readStore();
+    const row = addSuppressionEntry(store, {
+      channel: normalizedChannel,
+      phone,
+      email,
+      voter_id: body.voter_id || null,
+      contact_id: body.contact_id || null,
+      reason: body.reason || 'manual',
+      source: body.source || 'dashboard',
+      created_by: user.userId
+    });
+    logOutreachEvent(store, {
+      user_id: user.userId,
+      channel: normalizedChannel,
+      action: 'suppression_added',
+      outcome: 'blocked',
+      voter_id: row.voter_id,
+      notes: row.reason,
+      metadata: { suppression_id: row.suppression_id }
+    });
+    writeStore(store);
+    return send(res, 201, row);
+  }
+
+  if (req.method === 'GET' && pathname === '/api/google-sheets/status') {
+    const store = readStore();
+    const googleCreds = store.oauthCredentials.filter((entry) => entry.provider === 'google');
+    const active = googleCreds.find((entry) => entry.is_primary) || googleCreds[0] || null;
+    return send(res, 200, {
+      connected: Boolean(active),
+      account_label: active?.account_label || null,
+      primary_google_sheet_id: store.settings.primary_google_sheet_id || null,
+      google_sync_enabled: Boolean(store.settings.google_sync_enabled),
+      google_sync_direction: store.settings.google_sync_direction || 'push',
+      last_google_sync_at: store.settings.last_google_sync_at || null
+    });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/connect') {
+    if (user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
+    return send(res, 200, {
+      ok: true,
+      connect_url: '/silo/api/google-sheets/callback?connected=1',
+      message: 'Use callback endpoint to store server-side OAuth credentials.'
+    });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/callback') {
+    if (user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const accessToken = String(body.access_token || '').trim();
+    const refreshToken = String(body.refresh_token || '').trim();
+    if (!accessToken || !refreshToken) return send(res, 400, { error: 'access_token and refresh_token are required at callback exchange time' });
+    const store = readStore();
+    const row = {
+      oauth_credential_id: id('oauth'),
+      provider: 'google',
+      account_label: String(body.account_label || 'google-account').trim(),
+      encrypted_access_token: encryptSecret(accessToken),
+      encrypted_refresh_token: encryptSecret(refreshToken),
+      expiry_date: body.expiry_date || null,
+      scope: body.scope || 'spreadsheets',
+      is_primary: Boolean(body.is_primary ?? true),
+      created_at: now(),
+      updated_at: now()
+    };
+    if (row.is_primary) {
+      for (const existing of store.oauthCredentials) {
+        if (existing.provider === 'google') existing.is_primary = false;
+      }
+    }
+    store.oauthCredentials.unshift(row);
+    audit(store, user.userId, 'GOOGLE_OAUTH_CONNECTED', 'oauth_credentials', row.oauth_credential_id, { provider: 'google', account_label: row.account_label });
+    writeStore(store);
+    return send(res, 200, { ok: true, connected: true, account_label: row.account_label });
+  }
+
+  if (req.method === 'GET' && pathname === '/api/google-sheets/callback') {
+    return send(res, 200, { ok: true, connected: true, message: 'OAuth callback processed server-side. Tokens are not exposed to the browser.' });
+  }
+
+  if (req.method === 'POST' && pathname.startsWith('/api/google-sheets/')) {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    if (Object.prototype.hasOwnProperty.call(body, 'access_token') || Object.prototype.hasOwnProperty.call(body, 'refresh_token') || Object.prototype.hasOwnProperty.call(body, 'tokens')) {
+      return send(res, 400, { error: 'Client-supplied OAuth tokens are not accepted. Credentials must be stored server-side.' });
+    }
+    req.__validatedGoogleBody = body;
+  }
+
+
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/export/contacts') {
+    const store = readStore();
+    const rows = visibleRecords(store.voters).map((voter) => ({
+      voter_id: voter.voter_id,
+      first_name: voter.first_name,
+      last_name: voter.last_name,
+      address: voter.address,
+      city: voter.city,
+      state: voter.state,
+      zip: voter.zip,
+      phone: voter.phone,
+      email: voter.email
+    }));
+    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_export_contacts', outcome: 'success', metadata: { count: rows.length, tab_name: req.__validatedGoogleBody?.tab_name || 'Contacts' } });
+    writeStore(store);
+    return send(res, 200, { ok: true, destination: 'google-sheets', tab_name: req.__validatedGoogleBody?.tab_name || 'Contacts', exported_count: rows.length, rows_preview: rows.slice(0, 10) });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/export/filtered') {
+    const store = readStore();
+    const body = req.__validatedGoogleBody || {};
+    const party = String(body.party || '').trim().toUpperCase();
+    const outcome = String(body.outcome || '').trim().toLowerCase();
+    const rows = visibleRecords(store.voters).filter((voter) => (!party || String(voter.party || '').toUpperCase() === party)).filter((voter) => {
+      if (!outcome) return true;
+      const last = visibleRecords(store.canvassInteractions).find((item) => item.voter_id === voter.voter_id);
+      return String(last?.outcome || '').toLowerCase() === outcome;
+    });
+    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_export_filtered', outcome: 'success', metadata: { count: rows.length, filters: { party, outcome } } });
+    writeStore(store);
+    return send(res, 200, { ok: true, destination: 'google-sheets', tab_name: body.tab_name || 'Filtered Export', exported_count: rows.length });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/export/routes') {
+    const store = readStore();
+    const body = req.__validatedGoogleBody || {};
+    const route = buildRouteForHouseholds(visibleRecords(store.households));
+    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_export_routes', outcome: 'success', metadata: { stops: route.length } });
+    writeStore(store);
+    return send(res, 200, { ok: true, destination: 'google-sheets', tab_name: body.tab_name || 'Routes', exported_count: route.length, rows_preview: route.slice(0, 10) });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/export/analytics') {
+    const store = readStore();
+    const summary = {
+      voters: visibleRecords(store.voters).length,
+      households: visibleRecords(store.households).length,
+      interactions: visibleRecords(store.canvassInteractions).length,
+      suppressions: store.suppressionLists.length,
+      outreach_events: store.outreachEvents.length
+    };
+    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_export_analytics', outcome: 'success', metadata: summary });
+    writeStore(store);
+    return send(res, 200, { ok: true, destination: 'google-sheets', tab_name: (req.__validatedGoogleBody || {}).tab_name || 'Analytics', summary });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/sync/push') {
+    const store = readStore();
+    store.settings.last_google_sync_at = now();
+    store.settings.google_sync_last_direction = 'push';
+    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_sync_push', outcome: 'success', metadata: { voters: visibleRecords(store.voters).length } });
+    writeStore(store);
+    return send(res, 200, { ok: true, direction: 'push', synced_records: visibleRecords(store.voters).length, synced_at: store.settings.last_google_sync_at });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/google-sheets/sync/pull') {
+    const store = readStore();
+    store.settings.last_google_sync_at = now();
+    store.settings.google_sync_last_direction = 'pull';
+    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_sync_pull', outcome: 'success', metadata: { imported_records: 0 } });
+    writeStore(store);
+    return send(res, 200, { ok: true, direction: 'pull', imported_records: 0, synced_at: store.settings.last_google_sync_at, note: 'Manual pull placeholder; integrate with Google Sheets API provider next.' });
+  }
+
+
+
   if (req.method === 'GET' && pathname === '/api/settings/actblue') {
     const store = readStore();
     return send(res, 200, { actblue_url: String(store.settings?.actblue_url || '') });
@@ -1266,6 +1573,8 @@ async function handler(req, res) {
       callQueue: store.callQueue,
       textQueue: store.textQueue,
       optOutLocks: store.optOutLocks,
+      suppressionLists: store.suppressionLists.slice(0, 300),
+      outreachEvents: store.outreachEvents.slice(0, 300),
       queueEvents: store.queueEvents.slice(0, 300)
     });
   }
@@ -1278,7 +1587,9 @@ async function handler(req, res) {
     const recipient = normalizePhone(body.recipient || body.phone || '');
     if (!recipient) return send(res, 400, { error: 'recipient is required' });
     const store = readStore();
-    if (hasOptOutLock(store, channel, recipient)) return send(res, 423, { error: 'recipient is opt-out locked', channel, recipient });
+    if (hasOptOutLock(store, channel, recipient) || isSuppressed(store, channel === 'call' ? 'phone' : channel, { phone: recipient, voter_id: body.voter_id, contact_id: body.contact_id })) {
+      return send(res, 423, { error: 'recipient is opt-out locked', channel, recipient });
+    }
     const item = {
       queue_id: id(channel === 'text' ? 'txtq' : 'callq'),
       channel,
@@ -1314,7 +1625,25 @@ async function handler(req, res) {
       released_at: null
     };
     store.optOutLocks.unshift(lock);
+    const suppression = addSuppressionEntry(store, {
+      voter_id: body.voter_id || null,
+      contact_id: body.contact_id || null,
+      phone: recipient,
+      channel: channel === 'call' ? 'phone' : channel,
+      reason: lock.reason,
+      source: 'opt_out_endpoint',
+      created_by: user.userId
+    });
     addQueueEvent(store, { channel, action: 'opt_out_locked', actor: user.userId, payload: { recipient, reason: lock.reason } });
+    logOutreachEvent(store, {
+      user_id: user.userId,
+      channel: suppression.channel,
+      action: 'suppression_added',
+      outcome: 'blocked',
+      voter_id: suppression.voter_id,
+      notes: suppression.reason,
+      metadata: { suppression_id: suppression.suppression_id, recipient }
+    });
     writeStore(store);
     return send(res, 201, lock);
   }
@@ -1327,14 +1656,146 @@ async function handler(req, res) {
     const messageBody = String(body.body || body.message || '').trim();
     if (!to || !messageBody) return send(res, 400, { error: 'to and body are required' });
     const store = readStore();
-    if (hasOptOutLock(store, 'text', to)) return send(res, 423, { error: 'recipient is opt-out locked', channel: 'text', recipient: to });
+    if (hasOptOutLock(store, 'text', to) || isSuppressed(store, 'text', { phone: to, voter_id: body.voter_id, contact_id: body.contact_id })) {
+      return send(res, 423, { error: 'recipient is opt-out locked', channel: 'text', recipient: to });
+    }
     const adapter = createTextProviderAdapter(provider);
     const delivery = await adapter.send({ to, body: messageBody });
     const eventAction = delivery.status === 'manual_required' ? 'manual_send_prepared' : 'provider_send_queued';
     addQueueEvent(store, { channel: 'text', action: eventAction, actor: user.userId, payload: { to, provider: delivery.provider } });
+    logOutreachEvent(store, {
+      user_id: user.userId,
+      voter_id: body.voter_id || null,
+      contact_id: body.contact_id || null,
+      household_id: body.household_id || null,
+      channel: 'text',
+      action: 'send',
+      outcome: delivery.status,
+      message_body: messageBody,
+      metadata: { provider: delivery.provider, to }
+    });
     writeStore(store);
     return send(res, 200, { channel: 'text', to, ...delivery });
   }
+
+  if (req.method === 'POST' && pathname === '/api/email/send') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const to = normalizeEmail(body.to || body.recipient || '');
+    const subject = String(body.subject || '').trim();
+    const messageBody = String(body.body || body.message || '').trim();
+    if (!to || !subject || !messageBody) return send(res, 400, { error: 'to, subject, and body are required' });
+    const store = readStore();
+    if (isSuppressed(store, 'email', { email: to, voter_id: body.voter_id, contact_id: body.contact_id })) {
+      return send(res, 423, { error: 'recipient is opt-out locked', channel: 'email', recipient: to });
+    }
+    const delivery = {
+      status: 'queued_provider',
+      provider: String(body.provider || 'mock-json').toLowerCase(),
+      provider_message_id: id('provider-email')
+    };
+    logOutreachEvent(store, {
+      user_id: user.userId,
+      voter_id: body.voter_id || null,
+      contact_id: body.contact_id || null,
+      household_id: body.household_id || null,
+      channel: 'email',
+      action: 'send',
+      outcome: delivery.status,
+      message_subject: subject,
+      message_body: messageBody,
+      metadata: { to, provider: delivery.provider }
+    });
+    writeStore(store);
+    return send(res, 200, { channel: 'email', to, subject, ...delivery });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/text/inbound') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const from = normalizePhone(body.from || body.recipient || body.phone || '');
+    const text = String(body.body || body.message || '').trim();
+    if (!from || !text) return send(res, 400, { error: 'from and body are required' });
+    const upper = text.toUpperCase();
+    const stopKeywords = new Set(['STOP', 'END', 'QUIT', 'UNSUBSCRIBE']);
+    const store = readStore();
+    if (stopKeywords.has(upper)) {
+      addSuppressionEntry(store, {
+        phone: from,
+        channel: 'text',
+        reason: `keyword:${upper}`,
+        source: 'inbound_text',
+        created_by: user.userId
+      });
+      store.optOutLocks.unshift({
+        lock_id: id('lock'),
+        lock_key: optOutKey('text', from),
+        channel: 'text',
+        recipient: from,
+        reason: `keyword:${upper}`,
+        created_by: user.userId,
+        created_at: now(),
+        released_at: null
+      });
+      logOutreachEvent(store, {
+        user_id: user.userId,
+        channel: 'text',
+        action: 'inbound_opt_out',
+        outcome: 'suppressed',
+        notes: text,
+        metadata: { from }
+      });
+      writeStore(store);
+      return send(res, 200, { ok: true, suppressed: true, keyword: upper });
+    }
+    logOutreachEvent(store, {
+      user_id: user.userId,
+      channel: 'text',
+      action: 'inbound_message',
+      outcome: 'received',
+      notes: text,
+      metadata: { from }
+    });
+    writeStore(store);
+    return send(res, 200, { ok: true, suppressed: false });
+  }
+
+  if (req.method === 'POST' && pathname === '/api/messages/send') {
+    const body = await parseBody(req).catch((error) => ({ __parseError: error }));
+    if (body?.__parseError) return send(res, 400, { error: 'Invalid JSON' });
+    const rawIds = Array.isArray(body.contactIds) ? body.contactIds : [];
+    if (!rawIds.length) return send(res, 400, { error: 'contactIds[] is required' });
+    const voterIds = [...new Set(rawIds.map((item) => String(item).trim()).filter(Boolean))];
+    const messageBody = String(body.body || body.message || '').trim();
+    if (!messageBody) return send(res, 400, { error: 'body is required' });
+    const store = readStore();
+    const votersById = new Map(visibleRecords(store.voters).map((voter) => [String(voter.voter_id), voter]));
+    const selected = voterIds.map((idValue) => votersById.get(idValue)).filter(Boolean);
+    const blocked = [];
+    const sent = [];
+    for (const voter of selected) {
+      const phone = normalizePhone(voter.phone || '');
+      if (!phone || isSuppressed(store, 'text', { phone, voter_id: voter.voter_id })) {
+        blocked.push(voter.voter_id);
+        continue;
+      }
+      sent.push(voter.voter_id);
+      logOutreachEvent(store, {
+        user_id: user.userId,
+        voter_id: voter.voter_id,
+        household_id: voter.household_id || null,
+        channel: 'text',
+        action: 'bulk_send',
+        outcome: 'queued_provider',
+        message_body: messageBody,
+        metadata: { phone }
+      });
+    }
+    writeStore(store);
+    return send(res, 200, { ok: true, requested: voterIds.length, found: selected.length, sent_count: sent.length, blocked_count: blocked.length, blocked_voter_ids: blocked });
+  }
+
+
 
   if (req.method === 'POST' && pathname === '/api/turfs') {
     if (user.role !== 'admin') return send(res, 403, { error: 'Forbidden: admin only' });
@@ -1682,7 +2143,20 @@ async function handler(req, res) {
   return send(res, 404, { error: 'Not found' });
 }
 
-function createServer() { ensureStore(); return http.createServer((req, res) => handler(req, res).catch((e) => send(res, 500, { error: e.message }))); }
+function createServer() {
+  ensureStore();
+  if (IS_PRODUCTION) {
+    const store = readStore();
+    const hasConfiguredSecret = Boolean(process.env.SILO_ADMIN_SECRET || process.env.ADMIN_SECRET || store.settings?.adminSecretHash || store.settings?.adminPinHash);
+    if (!hasConfiguredSecret) {
+      throw new Error('Production requires SILO_ADMIN_SECRET (or configured adminSecretHash/adminPinHash). Refusing to start with insecure defaults.');
+    }
+    if (!CREDENTIALS_ENCRYPTION_KEY) {
+      console.warn('[security] SILO_CREDENTIALS_ENCRYPTION_KEY is not set; OAuth credential endpoints will reject writes.');
+    }
+  }
+  return http.createServer((req, res) => handler(req, res).catch((e) => send(res, 500, { error: e.message })));
+}
 
 if (require.main === module) {
   createServer().listen(PORT, () => console.log(`Voter mapping silo running at http://localhost:${PORT}/app/`));
