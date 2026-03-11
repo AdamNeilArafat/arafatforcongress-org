@@ -82,13 +82,55 @@ export type GeocodeJob = {
 export type OutreachLog = {
   id: string;
   voter_id: string;
-  channel: 'door' | 'phone' | 'text';
+  channel: 'door' | 'phone' | 'text' | 'email' | 'flyer';
   outcome: string;
   notes?: string;
   timestamp: string;
   metadata_json?: Record<string, unknown>;
   created_at: string;
   deleted_at?: string;
+};
+
+export type Volunteer = {
+  id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  active: boolean;
+  created_at: string;
+};
+
+export type Assignment = {
+  id: string;
+  voter_id: string;
+  volunteer_id: string;
+  outreach_type: 'canvass' | 'phone' | 'text' | 'email' | 'flyer' | 'follow_up';
+  status: 'queued' | 'in_progress' | 'complete' | 'skipped';
+  created_at: string;
+  updated_at: string;
+};
+
+export type RoutePlan = {
+  id: string;
+  name: string;
+  mode: 'walking' | 'driving';
+  voter_ids: string[];
+  volunteer_id?: string;
+  start_label?: string;
+  end_label?: string;
+  estimated_distance_km: number;
+  estimated_minutes: number;
+  status: 'planned' | 'active' | 'complete';
+  created_at: string;
+  updated_at: string;
+};
+
+export type SuppressionEntry = {
+  id: string;
+  voter_id: string;
+  channel: 'text' | 'email' | 'phone';
+  reason: string;
+  created_at: string;
 };
 
 export type AuditLog = {
@@ -108,10 +150,15 @@ type DBState = {
   outreach_logs: OutreachLog[];
   audit_logs: AuditLog[];
   text_templates: { id: string; name: string; body: string; created_at: string }[];
+  email_templates: { id: string; name: string; body: string; created_at: string }[];
   mapping_templates: Record<string, Record<string, string>>;
+  volunteers: Volunteer[];
+  assignments: Assignment[];
+  routes: RoutePlan[];
+  suppression_list: SuppressionEntry[];
 };
 
-const KEY = 'afc_ops_db_v4';
+const KEY = 'afc_ops_db_v5';
 
 function id() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
 function now() { return new Date().toISOString(); }
@@ -120,7 +167,7 @@ function storageLike() {
   return (globalThis as any).localStorage ?? (typeof window !== 'undefined' ? window.localStorage : undefined);
 }
 
-const empty = (): DBState => ({ imports: [], voters: [], geocode_cache: [], geocode_jobs: [], outreach_logs: [], audit_logs: [], text_templates: [], mapping_templates: {} });
+const empty = (): DBState => ({ imports: [], voters: [], geocode_cache: [], geocode_jobs: [], outreach_logs: [], audit_logs: [], text_templates: [], email_templates: [], mapping_templates: {}, volunteers: [], assignments: [], routes: [], suppression_list: [] });
 
 function loadState(): DBState {
   const storage = storageLike();
@@ -161,6 +208,35 @@ function dedupeKey(row: Partial<Voter & Record<string, string>>) {
 function parseTags(tags?: string) {
   if (!tags) return undefined;
   return tags.split(/[;,]/).map((t) => t.trim()).filter(Boolean);
+}
+
+function firstNonEmpty(...values: Array<string | undefined>) {
+  return values.find((v) => typeof v === 'string' && v.trim().length > 0);
+}
+
+function mapUnifiedOutcome(outcome: string) {
+  const normalized = outcome.toLowerCase().replace(/\s+/g, '_');
+  const map: Record<string, string> = {
+    talked: 'contacted',
+    sent: 'contacted',
+    no_answer: 'no_contact',
+    not_home: 'no_contact',
+    refused: 'opposed',
+    supporter: 'supporter',
+    undecided: 'undecided',
+    follow_up: 'follow_up',
+    moved: 'moved',
+    wrong_number: 'wrong_number',
+    bad_email: 'bad_email',
+    do_not_call: 'do_not_contact',
+    do_not_text: 'opt_out',
+    opt_out: 'opt_out',
+    flyer_dropped: 'contacted',
+    yard_sign: 'yard_sign_lead',
+    donation: 'donation_lead',
+    volunteer: 'volunteer_lead'
+  };
+  return map[normalized] ?? normalized;
 }
 
 function toVoter(row: Record<string, string>, importId: string): Voter {
@@ -241,6 +317,24 @@ export function importRows(sourceFileName: string, rows: Record<string, string>[
     for (const row of rows) {
       const key = dedupeKey(row as any);
       if (existingKeys.has(key)) {
+        const existing = state.voters.find((v) => !v.deleted_at && dedupeKey(v) === key);
+        if (existing) {
+          existing.first_name = firstNonEmpty(row.first_name, existing.first_name);
+          existing.last_name = firstNonEmpty(row.last_name, existing.last_name);
+          existing.phone = firstNonEmpty(row.phone, existing.phone);
+          existing.email = firstNonEmpty(row.email, existing.email);
+          existing.precinct = firstNonEmpty(row.precinct, existing.precinct);
+          existing.city = firstNonEmpty(row.city, existing.city);
+          existing.updated_at = now();
+          state.audit_logs.unshift({
+            id: id(),
+            action: 'IMPORT_ROW_MERGED',
+            entity: 'voter',
+            entity_id: existing.id,
+            payload_json: { source_file_name: sourceFileName },
+            created_at: now()
+          });
+        }
         batch.duplicate_count += 1;
         continue;
       }
@@ -345,8 +439,14 @@ export function listAuditLogs() { return loadState().audit_logs; }
 
 export function logOutreach(input: Omit<OutreachLog, 'id' | 'created_at' | 'timestamp'> & { timestamp?: string }) {
   withDbWrite((state) => {
-    const entry: OutreachLog = { ...input, id: id(), created_at: now(), timestamp: input.timestamp ?? now() };
+    const outcome = mapUnifiedOutcome(input.outcome);
+    const entry: OutreachLog = { ...input, outcome, id: id(), created_at: now(), timestamp: input.timestamp ?? now() };
     state.outreach_logs.unshift(entry);
+    if (entry.channel === 'text' && /(stop|end|quit|unsubscribe)/i.test(entry.notes ?? '')) {
+      state.suppression_list.unshift({ id: id(), voter_id: entry.voter_id, channel: 'text', reason: 'keyword_opt_out', created_at: now() });
+      const voter = state.voters.find((v) => v.id === entry.voter_id);
+      if (voter) voter.do_not_contact = true;
+    }
     state.audit_logs.unshift({ id: id(), action: 'OUTREACH_LOG_CREATE', entity: 'outreach', entity_id: entry.id, payload_json: { channel: entry.channel, outcome: entry.outcome }, created_at: now() });
   });
 }
@@ -356,6 +456,51 @@ export function saveTemplate(name: string, body: string) {
 }
 
 export function listTemplates() { return loadState().text_templates; }
+
+export function saveEmailTemplate(name: string, body: string) {
+  withDbWrite((state) => { state.email_templates.unshift({ id: id(), name, body, created_at: now() }); });
+}
+
+export function listEmailTemplates() { return loadState().email_templates; }
+
+export function listSuppressionEntries() { return loadState().suppression_list; }
+
+export function upsertVolunteer(name: string, phone?: string, email?: string) {
+  return withDbWrite((state) => {
+    const existing = state.volunteers.find((v) => v.name.toLowerCase() === name.toLowerCase());
+    if (existing) {
+      existing.phone = phone ?? existing.phone;
+      existing.email = email ?? existing.email;
+      existing.active = true;
+      return existing;
+    }
+    const volunteer: Volunteer = { id: id(), name, phone, email, active: true, created_at: now() };
+    state.volunteers.unshift(volunteer);
+    return volunteer;
+  });
+}
+
+export function listVolunteers() { return loadState().volunteers.filter((v) => v.active); }
+
+export function assignVoter(voterId: string, volunteerId: string, outreachType: Assignment['outreach_type']) {
+  return withDbWrite((state) => {
+    const assignment: Assignment = { id: id(), voter_id: voterId, volunteer_id: volunteerId, outreach_type: outreachType, status: 'queued', created_at: now(), updated_at: now() };
+    state.assignments.unshift(assignment);
+    return assignment;
+  });
+}
+
+export function listAssignments() { return loadState().assignments; }
+
+export function saveRoutePlan(input: Omit<RoutePlan, 'id' | 'created_at' | 'updated_at'>) {
+  return withDbWrite((state) => {
+    const route: RoutePlan = { ...input, id: id(), created_at: now(), updated_at: now() };
+    state.routes.unshift(route);
+    return route;
+  });
+}
+
+export function listRoutePlans() { return loadState().routes; }
 
 export function deleteVoter(voterId: string) {
   withDbWrite((state) => {
