@@ -669,3 +669,12 @@ This should feel like a better, easier, cheaper alternative to traditional campa
 * Add **script testing** so the campaign can compare which call/text/email scripts perform best.
 * Add **offline/mobile canvass mode** for volunteers in weak-signal areas.
 * Add **unified follow-up queue** so every undecided, donor lead, yard-sign request, or volunteer interest gets surfaced in one place.
+
+
+## IMPLEMENTATION NOTE
+
+For immediate execution planning, pair this prompt with:
+- `docs/csv-ops-hub-senior-review-and-improvement-plan-2026-03.md`
+- `docs/csv-ops-hub-developer-spec-v1.md`
+
+These two docs convert product intent into prioritized engineering delivery.
