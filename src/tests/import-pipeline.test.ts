@@ -63,14 +63,26 @@ describe('csv parse/validate/import + geocoding', () => {
     expect(listVoters()[0].phone).toBe('5551112222');
   });
 
-  it('normalizes outreach outcomes and enforces stop opt-out suppression', async () => {
-    const csv = `FName,LName,RegAddress,RegCity,RegState,RegZipCode,Phone\nB,Two,300 Pine,Tacoma,WA,98403,5551113333`;
+  it('normalizes outreach outcomes and enforces text opt-out suppression', async () => {
+    const csv = `FName,LName,RegAddress,RegCity,RegState,RegZipCode,Phone
+B,Two,300 Pine,Tacoma,WA,98403,5551113333`;
     const parsed = await parseCsvText(csv);
     importRows('sample.csv', parsed.rows, parsed.errors.length);
     const voter = listVoters()[0];
+
     logOutreach({ voter_id: voter.id, channel: 'text', outcome: 'sent', notes: 'STOP' });
     expect(listOutreachLogs()[0].outcome).toBe('contacted');
-    expect(listSuppressionEntries().length).toBe(1);
+
+    logOutreach({ voter_id: voter.id, channel: 'text', outcome: 'opted_out' });
+    expect(listOutreachLogs()[0].outcome).toBe('opt_out');
+
+    logOutreach({ voter_id: voter.id, channel: 'text', outcome: 'no_response' });
+    expect(listOutreachLogs()[0].outcome).toBe('no_contact');
+
+    logOutreach({ voter_id: voter.id, channel: 'phone', outcome: 'left_voicemail' });
+    expect(listOutreachLogs()[0].outcome).toBe('no_contact');
+
+    expect(listSuppressionEntries().length).toBe(2);
   });
 
   it('processes queued jobs and writes lat/lng to voters', async () => {
