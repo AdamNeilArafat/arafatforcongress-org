@@ -3297,9 +3297,16 @@
     allVoters = voters;
 
     if (statusEl) {
+      const summary = window.VoterData && window.VoterData.getLastImportSummary
+        ? window.VoterData.getLastImportSummary()
+        : null;
+      const summaryText = window.VoterData && window.VoterData.formatImportSummary
+        ? window.VoterData.formatImportSummary(summary)
+        : '';
       statusEl.textContent = voters.length
-        ? `${voters.length} voters loaded`
+        ? `${voters.length} voters loaded${summaryText ? ' · ' + summaryText : ''}`
         : 'No voter data — upload CSV in Settings';
+      statusEl.title = summaryText || '';
     }
 
     renderVoterReport(voters);
