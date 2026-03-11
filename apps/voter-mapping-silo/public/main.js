@@ -7,7 +7,8 @@ const state = {
   eventTimestamp: 0,
   eventSource: null,
   pendingCanvassByHousehold: new Map(),
-  pendingAnnotations: new Set()
+  pendingAnnotations: new Set(),
+  flyerTargets: []
 };
 
 function normalizeApiBase(value) {
@@ -170,12 +171,31 @@ function showVolunteerBridge(volunteerDashboard = {}) {
   directLink.href = adminLink;
 }
 
+function showFlyerTargets(targets = []) {
+  const top = targets.slice(0, 8);
+  if (!top.length) {
+    document.getElementById('flyerTargets').innerHTML = 'No targets matched current filters.';
+    return;
+  }
+  document.getElementById('flyerTargets').innerHTML = top
+    .map((target) => `${target.flyer_tier || 'unscored'} · ${safeNumber(target.flyer_score).toFixed(1)} · ${target.normalized_address}`)
+    .join('<br>');
+}
+
+async function refreshFlyerTargets() {
+  const county = document.getElementById('mapCounty').value;
+  const payload = await api(`/flyer/targets?county=${encodeURIComponent(county)}`);
+  state.flyerTargets = payload.targets || [];
+  showFlyerTargets(state.flyerTargets);
+}
+
 async function refreshDashboard() {
   const d = await api('/dashboard');
   showKpis(d);
   showDataQuality(d.dataQuality);
   showLiveFeed(d.liveFeed);
   showVolunteerBridge(d.volunteerDashboard);
+  await refreshFlyerTargets();
   const audit = await api('/audit');
   document.getElementById('audit').innerHTML = audit.slice(0, 8).map((a) => `${new Date(a.timestamp).toLocaleString()} · ${a.action}`).join('<br>');
 }
@@ -192,10 +212,16 @@ function renderMap({ fitToData = false } = {}) {
     heat.push([lat, lng, Math.max(1, f.properties.voter_count)]);
     bounds.push([lat, lng]);
     const marker = L.marker([lat, lng]);
+    const flyer = f.properties.flyer_profile || {};
+    const notes = Array.isArray(flyer.recommended_placement_notes) ? flyer.recommended_placement_notes.join(' | ') : '';
     marker.bindPopup(`
       <strong>${f.properties.normalized_address}</strong><br>
       Voters: ${f.properties.voter_count}<br>
       Status: ${f.properties.status}<br>
+      Flyer tier: ${flyer.flyer_tier || 'unscored'}<br>
+      Score (V/T/A): ${safeNumber(flyer.visibility_score).toFixed(1)} / ${safeNumber(flyer.traffic_score).toFixed(1)} / ${safeNumber(flyer.access_score).toFixed(1)}<br>
+      Overall flyer score: ${safeNumber(flyer.flyer_score).toFixed(1)}<br>
+      ${notes ? `Placement notes: ${notes}<br>` : ''}
       <button onclick="window.logOutcome('${f.properties.household_id}','Contacted')">Mark Contacted</button>
       <button onclick="window.logOutcome('${f.properties.household_id}','Not Home')">Mark Not Home</button>
       <button onclick="window.logOutcome('${f.properties.household_id}','Supporter')">Mark Supporter</button>
@@ -374,8 +400,13 @@ document.getElementById('refreshBtn').onclick = async () => {
   await refreshDashboard();
 };
 
+document.getElementById('refreshFlyerTargetsBtn').onclick = async () => {
+  await refreshFlyerTargets();
+};
+
 document.getElementById('mapCounty').onchange = async () => {
   await loadFeatures({ fitToData: true });
+  await refreshFlyerTargets();
 };
 
 async function initDashboard() {
