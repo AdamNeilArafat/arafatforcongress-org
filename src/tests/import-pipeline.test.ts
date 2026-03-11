@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { parseCsvText } from '../lib/csv/parse';
 import { geocodeHouseholdsBatch } from '../jobs/geocodeHouseholds';
-import { clearAll, importRows, listGeocodeJobs, listVoters, resetDb } from '../lib/db/store';
+import { clearAll, importRows, listGeocodeJobs, listOutreachLogs, listSuppressionEntries, listVoters, logOutreach, resetDb } from '../lib/db/store';
 
 class MemoryStorage {
   private db = new Map<string, string>();
@@ -47,6 +47,30 @@ describe('csv parse/validate/import + geocoding', () => {
     const second = importRows('b.csv', parsed.rows, 0);
     expect(second.duplicate_count).toBe(1);
     expect(listVoters()).toHaveLength(1);
+  });
+
+  it('merge-updates fields on reimport duplicate', async () => {
+    const firstCsv = `external_voter_id,first_name,last_name,address,city,state,zip,phone\nX1,A,One,123 Main,Tacoma,WA,98402,`;
+    const secondCsv = `external_voter_id,first_name,last_name,address,city,state,zip,phone\nX1,A,One,123 Main,Tacoma,WA,98402,5551112222`;
+    const first = await parseCsvText(firstCsv, undefined, {
+      external_voter_id: 'external_voter_id', first_name: 'first_name', last_name: 'last_name', address: 'address', city: 'city', state: 'state', zip: 'zip', phone: 'phone'
+    } as any);
+    const second = await parseCsvText(secondCsv, undefined, {
+      external_voter_id: 'external_voter_id', first_name: 'first_name', last_name: 'last_name', address: 'address', city: 'city', state: 'state', zip: 'zip', phone: 'phone'
+    } as any);
+    importRows('a.csv', first.rows, 0);
+    importRows('b.csv', second.rows, 0);
+    expect(listVoters()[0].phone).toBe('5551112222');
+  });
+
+  it('normalizes outreach outcomes and enforces stop opt-out suppression', async () => {
+    const csv = `FName,LName,RegAddress,RegCity,RegState,RegZipCode,Phone\nB,Two,300 Pine,Tacoma,WA,98403,5551113333`;
+    const parsed = await parseCsvText(csv);
+    importRows('sample.csv', parsed.rows, parsed.errors.length);
+    const voter = listVoters()[0];
+    logOutreach({ voter_id: voter.id, channel: 'text', outcome: 'sent', notes: 'STOP' });
+    expect(listOutreachLogs()[0].outcome).toBe('contacted');
+    expect(listSuppressionEntries().length).toBe(1);
   });
 
   it('processes queued jobs and writes lat/lng to voters', async () => {
