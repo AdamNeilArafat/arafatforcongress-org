@@ -57,3 +57,7 @@ Before deploying, remove prototype/test artifacts from the publish output, inclu
 - field-ops test/prototype pages and scripts (for example `admin/field-ops-test.html` and `js/field-ops-test.js`)
 
 Keep deployment artifacts limited to production pages only.
+
+### Repository cleanup notes
+
+The repository intentionally excludes placeholder and duplicate endorsement/suit image assets that were not referenced by any page or data file. Keep only actively referenced media to reduce clutter and avoid maintaining stale duplicates.
