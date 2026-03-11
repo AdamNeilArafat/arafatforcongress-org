@@ -1,5 +1,18 @@
 # Dashboard Upgrade Recommendations, Fix Plan, and Service Levels
 
+## Review Addendum (CSV-Driven Unified Ops Scope)
+
+A follow-up review found the plan covered mapping, routing, and text/phone/canvass structure, but did not yet *explicitly require*:
+- flyer placement scoring by visibility/traffic/access
+- text opt-out compliance workflow
+- email banking
+- DNC-style call/text result buttons and script panels
+- imported CSV as shared master source across all modules
+- low-cost sending architecture with fallback methods
+- assignment logic, suppression lists, reporting, and volunteer workflow polish
+
+To close these gaps, use `docs/master-prompt-csv-driven-campaign-operations-hub.md` as the implementation specification baseline.
+
 ## Phase 0 Audit Summary
 
 ### Stack summary
