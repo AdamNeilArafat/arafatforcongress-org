@@ -2936,35 +2936,63 @@
   }
 
   function parseSheetsData(csvText, source) {
-    const lines = csvText.trim().split('\n');
-    if (lines.length < 2) {
+    const rows = parseCsvRows(csvText);
+    if (rows.length < 2) {
       setDataStatus('sample', 'Sheet appears empty — showing sample data.');
       return;
     }
-    const headers = parseCsvLine(lines[0]).map(h => h.toLowerCase().trim());
+
+    const headers = rows[0].map((h) => normalizeCsvHeader(h));
     const idxDate     = findCol(headers, ['date contacted','date','date_contacted']);
     const idxType     = findCol(headers, ['contact method','type','method','contact_method']);
     const idxVol      = findCol(headers, ['assigned to','volunteer','assigned_to','name']);
     const idxArea     = findCol(headers, ['city','area','ward/precinct','ward_precinct']);
+    const idxCity     = findCol(headers, ['city']);
+    const idxWard     = findCol(headers, ['ward/precinct', 'ward_precinct', 'precinct']);
     const idxNotes    = findCol(headers, ['notes']);
+    const idxResponse = findCol(headers, ['response', 'result', 'status']);
+
+    const idxDoors    = findCol(headers, ['doors', 'doors knocked', 'doors knocked count', 'door count', 'doors_contacts']);
+    const idxFlyers   = findCol(headers, ['flyers', 'flyers distributed', 'literature', 'flyers left']);
+    const idxCalls    = findCol(headers, ['calls', 'phone calls', 'phone calls made']);
+    const idxTexts    = findCol(headers, ['texts', 'texts sent', 'sms']);
+    const idxContacts = findCol(headers, ['contacts', 'contacts made', 'doors/contacts', 'doors_contacts', 'conversations']);
+    const idxVols     = findCol(headers, ['volunteers', 'vols', 'volunteer count', 'team size']);
 
     const sheetSessions = [];
-    for (let i = 1; i < lines.length; i++) {
-      const cols = parseCsvLine(lines[i]);
+    for (let i = 1; i < rows.length; i++) {
+      const cols = rows[i];
       if (!cols.length || cols.every(c => !c.trim())) continue;
       const typeRaw = (idxType >= 0 ? cols[idxType] : '').toLowerCase();
+
+      const doors = parseIntCell(idxDoors, cols);
+      const flyers = parseIntCell(idxFlyers, cols);
+      const calls = parseIntCell(idxCalls, cols);
+      const texts = parseIntCell(idxTexts, cols);
+      const contacts = parseIntCell(idxContacts, cols) || inferContactsFromResponse(idxResponse >= 0 ? cols[idxResponse] : '');
+      const vols = Math.max(parseIntCell(idxVols, cols), 1);
+
       let type = 'mixed';
       if (typeRaw.includes('door') || typeRaw.includes('canvass')) type = 'canvass';
       else if (typeRaw.includes('phone') || typeRaw.includes('call')) type = 'phone';
       else if (typeRaw.includes('text') || typeRaw.includes('sms')) type = 'text';
+      else if (doors > 0) type = 'canvass';
+      else if (calls > 0) type = 'phone';
+      else if (texts > 0) type = 'text';
+
+      const area = firstNonEmpty(
+        idxArea >= 0 ? cols[idxArea] : '',
+        idxWard >= 0 ? cols[idxWard] : '',
+        idxCity >= 0 ? cols[idxCity] : ''
+      );
 
       sheetSessions.push({
         id: 'sh' + i,
         date:      idxDate >= 0 ? cols[idxDate] : '',
         type,
         volunteer: idxVol >= 0 ? cols[idxVol] : '',
-        area:      idxArea >= 0 ? cols[idxArea] : '',
-        doors: 0, flyers: 0, calls: 0, texts: 0, contacts: 0, vols: 1,
+        area,
+        doors, flyers, calls, texts, contacts, vols,
         notes: idxNotes >= 0 ? cols[idxNotes] : '',
         _sheet: true
       });
@@ -2982,29 +3010,84 @@
   }
 
   function findCol(headers, candidates) {
+    const normalizedCandidates = candidates.map(normalizeCsvHeader);
     for (const c of candidates) {
-      const idx = headers.indexOf(c);
+      const idx = headers.indexOf(normalizeCsvHeader(c));
       if (idx >= 0) return idx;
+    }
+    for (let i = 0; i < headers.length; i++) {
+      if (normalizedCandidates.includes(headers[i])) return i;
     }
     return -1;
   }
 
-  function parseCsvLine(line) {
-    const result = [];
-    let cur = '', inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"' && !inQ) { inQ = true; continue; }
-      if (ch === '"' && inQ) {
-        if (line[i+1] === '"') { cur += '"'; i++; }
-        else { inQ = false; }
+  function normalizeCsvHeader(value) {
+    return String(value || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function parseIntCell(idx, cols) {
+    if (idx < 0) return 0;
+    const raw = String(cols[idx] || '').replace(/,/g, '').trim();
+    if (!raw) return 0;
+    const n = parseInt(raw, 10);
+    return isNaN(n) ? 0 : Math.max(0, n);
+  }
+
+  function inferContactsFromResponse(response) {
+    const normalized = String(response || '').toLowerCase().trim();
+    if (!normalized) return 0;
+    if (normalized.includes('not home') || normalized.includes('left flyer')) return 0;
+    return 1;
+  }
+
+  function firstNonEmpty() {
+    for (const value of arguments) {
+      const text = String(value || '').trim();
+      if (text) return text;
+    }
+    return '';
+  }
+
+  function parseCsvRows(text) {
+    const rows = [];
+    let row = [];
+    let cur = '';
+    let inQ = false;
+    const csv = String(text || '').replace(/^\uFEFF/, '');
+
+    for (let i = 0; i < csv.length; i++) {
+      const ch = csv[i];
+      if (ch === '"') {
+        if (inQ && csv[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQ = !inQ;
+        }
         continue;
       }
-      if (ch === ',' && !inQ) { result.push(cur.trim()); cur = ''; continue; }
+      if (ch === ',' && !inQ) {
+        row.push(cur.trim());
+        cur = '';
+        continue;
+      }
+      if ((ch === '\n' || ch === '\r') && !inQ) {
+        if (ch === '\r' && csv[i + 1] === '\n') i++;
+        row.push(cur.trim());
+        if (row.some((cell) => String(cell || '').trim())) rows.push(row);
+        row = [];
+        cur = '';
+        continue;
+      }
       cur += ch;
     }
-    result.push(cur.trim());
-    return result;
+
+    if (cur.length || row.length) {
+      row.push(cur.trim());
+      if (row.some((cell) => String(cell || '').trim())) rows.push(row);
+    }
+
+    return rows;
   }
 
   /* ---- EDIT SESSION MODAL ---- */
