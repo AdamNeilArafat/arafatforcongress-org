@@ -1,0 +1,28 @@
+:root {
+  --bg-dark:#0b1220; --surface-dark:#111827; --surface-elevated:#1f2937; --border-dark:#334155;
+  --text-strong:#e5e7eb; --text-muted:#94a3b8; --emerald:#10b981; --emerald-soft:rgba(16,185,129,.2);
+  --warning:#f59e0b; --danger:#ef4444; --info:#38bdf8;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg-dark);color:var(--text-strong)}
+.hidden{display:none!important}
+.fo-header{position:sticky;top:0;background:rgba(11,18,32,.95);backdrop-filter:blur(8px);z-index:20;border-bottom:1px solid var(--border-dark);padding:12px 16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.fo-title{font-weight:800}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{padding:3px 8px;border:1px solid var(--border-dark);border-radius:999px;font-size:12px}.badge.phase{border-color:var(--emerald);color:var(--emerald)}
+.btn{background:var(--surface-elevated);color:var(--text-strong);border:1px solid var(--border-dark);padding:7px 10px;border-radius:8px;cursor:pointer}
+.btn.primary{background:var(--emerald-soft);border-color:var(--emerald)}
+main{padding:16px;max-width:1400px;margin:0 auto}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 12px;border:1px solid var(--border-dark);border-radius:8px;background:var(--surface-dark);cursor:pointer}.tab.active{border-color:var(--emerald)}
+.panel{background:var(--surface-dark);border:1px solid var(--border-dark);border-radius:12px;padding:12px;margin-bottom:12px}
+.grid{display:grid;gap:12px}.grid.stats{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.stat{background:var(--surface-elevated);padding:10px;border-radius:10px;border:1px solid var(--border-dark)}
+.stat b{font-size:24px}
+input,select,textarea{background:#0f172a;color:var(--text-strong);border:1px solid var(--border-dark);border-radius:8px;padding:8px}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{border-bottom:1px solid var(--border-dark);padding:8px;text-align:left;font-size:13px}
+#field-map{height:420px;border-radius:10px;overflow:hidden}
+.status-pill{padding:2px 7px;border-radius:999px;font-size:11px}
+.status-not_contacted{background:#374151}.status-contacted{background:#14532d}.status-follow_up{background:#78350f}.status-donation_pledged{background:#854d0e}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:30}
+.modal{width:min(560px,95vw);background:var(--surface-dark);border:1px solid var(--border-dark);border-radius:12px;padding:14px}
+.small{font-size:12px;color:var(--text-muted)}
+.progress{height:8px;background:#0f172a;border:1px solid var(--border-dark);border-radius:999px;overflow:hidden}.progress>div{height:100%;background:var(--emerald);width:0}
+@media(max-width:900px){#field-map{height:300px}}

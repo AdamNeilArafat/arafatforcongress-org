@@ -327,3 +327,23 @@ Audit scope: `index.html`, `issues.html`, `contact.html`, `events.html`, `about.
   - repeated CTA rows (`.inline-cta-row`, modifiers)
   - reusable card/chip helpers (`.section-shell`, `.chip-btn`)
   - repeated text helpers (`.brand-accent`, `.link-inherit`, `.text-link-strong`)
+
+---
+
+## 8. Admin Dark Theme Tokens (Field Ops V3)
+
+Additive dark-mode tokens for admin dashboards (kept compatible with existing token naming):
+
+| Token | Value | Usage |
+|---|---|---|
+| `--bg-dark` | `#0b1220` | App/page background for admin dark UIs |
+| `--surface-dark` | `#111827` | Default dark panel/card surface |
+| `--surface-elevated` | `#1f2937` | Elevated card/section backgrounds |
+| `--border-dark` | `#334155` | Dividers and control outlines |
+| `--text-strong` | `#e5e7eb` | Primary text on dark surfaces |
+| `--text-muted` | `#94a3b8` | Secondary/meta text on dark surfaces |
+| `--emerald` | `#10b981` | Primary success/action accent |
+| `--emerald-soft` | `rgba(16,185,129,0.2)` | Soft emerald fill/chips/buttons |
+| `--warning` | `#f59e0b` | Warning and follow-up status color |
+| `--danger` | `#ef4444` | Error/destructive status color |
+| `--info` | `#38bdf8` | Informational accents and charts |
