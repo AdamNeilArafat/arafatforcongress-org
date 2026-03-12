@@ -9,6 +9,7 @@
 
   const LS_VOTERS    = 'arafat_voters';
   const LS_VOTER_CSV = 'arafat_voters_csv_url';
+  const LS_GEOCODE_CACHE = 'arafat_geocode_cache';
   const DEFAULT_CSV  = '/data/voters-sample.csv';
   let lastImportSummary = null;
 
@@ -113,6 +114,9 @@
       }
 
       // Normalize
+      const latitudeRaw = firstNonEmpty(obj, ['lat', 'latitude', 'y']);
+      const longitudeRaw = firstNonEmpty(obj, ['lng', 'lon', 'long', 'longitude', 'x']);
+
       return {
         id:            firstNonEmpty(obj, ['id', 'statevoterid']) || ('v' + Math.random().toString(36).slice(2, 8)),
         firstName,
@@ -126,8 +130,8 @@
         phone:         firstNonEmpty(obj, ['phone', 'phone1', 'phone_1', 'phone2', 'phone_2', 'cellphone', 'mobilephone', 'mobile']) || '',
         email:         firstNonEmpty(obj, ['email', 'emailaddress', 'email_address', 'email1', 'email_1']) || '',
         area:          obj.area      || '',
-        lat:           parseFloat(obj.lat)  || null,
-        lng:           parseFloat(obj.lng)  || null,
+        lat:           parseFloat(latitudeRaw)  || null,
+        lng:           parseFloat(longitudeRaw) || null,
         party:         obj.party     || '',
         status:        STATUSES[obj.status] ? obj.status : 'not_contacted',
         contactMethod: obj.contactmethod || obj.contact_method || '',
@@ -185,6 +189,90 @@
     Object.assign(voters[idx], fields);
     saveVoters(voters);
     return voters[idx];
+  }
+
+  function loadGeocodeCache() {
+    try {
+      const raw = localStorage.getItem(LS_GEOCODE_CACHE);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveGeocodeCache(cache) {
+    try {
+      localStorage.setItem(LS_GEOCODE_CACHE, JSON.stringify(cache));
+    } catch (e) {}
+  }
+
+  function addressKey(voter) {
+    return [voter.address, voter.city, voter.state || 'WA', voter.zip]
+      .map((part) => String(part || '').trim().toLowerCase())
+      .filter(Boolean)
+      .join('|');
+  }
+
+  function geocodeQuery(voter) {
+    return [voter.address, voter.city, voter.state || 'WA', voter.zip]
+      .map((part) => String(part || '').trim())
+      .filter(Boolean)
+      .join(', ');
+  }
+
+  async function geocodeMissingVoters(voters, limit = 60) {
+    if (!Array.isArray(voters) || !voters.length) return { voters, geocoded: 0 };
+    const cache = loadGeocodeCache();
+    let geocoded = 0;
+
+    const missing = voters
+      .map((v, idx) => ({ v, idx }))
+      .filter(({ v }) => !v.lat || !v.lng)
+      .filter(({ v }) => v.address && (v.city || v.zip))
+      .slice(0, limit);
+
+    for (const { v, idx } of missing) {
+      const key = addressKey(v);
+      if (!key) continue;
+
+      const fromCache = cache[key];
+      if (fromCache && Number.isFinite(fromCache.lat) && Number.isFinite(fromCache.lng)) {
+        voters[idx].lat = fromCache.lat;
+        voters[idx].lng = fromCache.lng;
+        geocoded++;
+        continue;
+      }
+
+      try {
+        const url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=' + encodeURIComponent(geocodeQuery(v));
+        const resp = await fetch(url, { headers: { Accept: 'application/json' } });
+        if (!resp.ok) continue;
+        const data = await resp.json();
+        const first = Array.isArray(data) ? data[0] : null;
+        if (!first) continue;
+
+        const lat = parseFloat(first.lat);
+        const lng = parseFloat(first.lon);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+
+        voters[idx].lat = lat;
+        voters[idx].lng = lng;
+        cache[key] = { lat, lng };
+        geocoded++;
+
+        // Nominatim usage policy: keep requests low-rate.
+        await new Promise((resolve) => setTimeout(resolve, 1100));
+      } catch (e) {
+        // Best-effort geocoding only.
+      }
+    }
+
+    if (geocoded) {
+      saveGeocodeCache(cache);
+      saveVoters(voters);
+    }
+
+    return { voters, geocoded };
   }
 
   /* ── FETCH & INIT ────────────────────────────────────────────────────── */
@@ -258,6 +346,7 @@
     updateVoterStatus,
     fetchAndLoadVoters,
     getVoters,
+    geocodeMissingVoters,
     getLastImportSummary: () => lastImportSummary,
     formatImportSummary,
     pinColor,
