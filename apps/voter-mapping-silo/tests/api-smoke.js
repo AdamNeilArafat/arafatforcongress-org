@@ -17,6 +17,9 @@ async function run() {
     textQueue: [],
     queueEvents: [],
     optOutLocks: [],
+    suppressionLists: [],
+    outreachEvents: [],
+    oauthCredentials: [],
     users: [],
     auditEvents: [],
     settings: {}
@@ -170,6 +173,38 @@ async function run() {
     body: JSON.stringify({ name: 'Pierce A', county: 'pierce', household_ids: householdIds })
   }, 201);
   assert.equal(turf.household_ids.length, 2);
+
+  const syncPush = await req('/silo/api/google-sheets/sync/push', {
+    method: 'POST',
+    headers: { ...adminHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tab_name: 'Contacts' })
+  }, 200);
+  assert.equal(syncPush.direction, 'push');
+  assert(syncPush.synced_records >= 3);
+
+  const syncPull = await req('/silo/api/google-sheets/sync/pull', {
+    method: 'POST',
+    headers: { ...adminHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      rows: [{
+        voter_id: 'gsheet-1',
+        first_name: 'Sheet',
+        last_name: 'Import',
+        address: '300 Cedar St',
+        city: 'Tacoma',
+        state: 'WA',
+        zip: '98402',
+        source_county: 'pierce',
+        party: 'DEM'
+      }]
+    })
+  }, 200);
+  assert.equal(syncPull.direction, 'pull');
+  assert.equal(syncPull.imported_records, 1);
+
+  const googleStatus = await req('/silo/api/google-sheets/status', { headers: adminHeaders }, 200);
+  assert(googleStatus.cache);
+  assert(googleStatus.cache.voters >= 3);
 
   const optimized = await req('/silo/api/routes/optimize', {
     method: 'POST',

@@ -11,6 +11,7 @@ const PUBLIC_DIR = path.join(__dirname, 'public');
 const LIVE_PUBLIC_METRICS_PATH = path.join(__dirname, '..', '..', 'data', 'public-metrics.json');
 const LIVE_OUTREACH_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'outreach_data.json');
 const LIVE_VOLUNTEER_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'volunteer_data.json');
+const GOOGLE_SYNC_CACHE_PATH = path.join(DATA_DIR, 'google-sync-store.json');
 
 const TOKEN_TTL_MS = Number(process.env.SILO_TOKEN_TTL_MS || 12 * 60 * 60 * 1000);
 const MAX_JSON_BODY_BYTES = Number(process.env.SILO_MAX_JSON_BODY_BYTES || 80 * 1024 * 1024);
@@ -19,6 +20,9 @@ const IMPORT_BATCH_SIZE = Math.max(5000, Math.min(20000, Number(process.env.SILO
 const GEOCODE_TIMEOUT_MS = Math.max(500, Number(process.env.SILO_GEOCODE_TIMEOUT_MS || 5000));
 const GEOCODE_USER_AGENT = process.env.SILO_GEOCODE_USER_AGENT || 'voter-mapping-silo/1.0 (+https://arafatforcongress.org)';
 const GEOCODER_PROVIDER = String(process.env.SILO_GEOCODER_PROVIDER || 'nominatim').trim().toLowerCase();
+const GOOGLE_SYNC_PROVIDER_URL = String(process.env.SILO_GOOGLE_SYNC_PROVIDER_URL || '').trim();
+const GOOGLE_SYNC_API_KEY = String(process.env.SILO_GOOGLE_SYNC_API_KEY || '').trim();
+const GOOGLE_SYNC_TIMEOUT_MS = Math.max(1000, Number(process.env.SILO_GOOGLE_SYNC_TIMEOUT_MS || 15000));
 const CREDENTIALS_ENCRYPTION_KEY = String(process.env.SILO_CREDENTIALS_ENCRYPTION_KEY || '');
 const IS_PRODUCTION = String(process.env.NODE_ENV || '').toLowerCase() === 'production';
 const IMPORT_FILES_DIR = path.join(DATA_DIR, 'imports');
@@ -77,6 +81,172 @@ function readStore() {
   return parsed;
 }
 function writeStore(store) { fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2)); }
+function buildGoogleSyncSnapshot(store) {
+  const voters = visibleRecords(store.voters).map((voter) => ({
+    voter_id: voter.voter_id,
+    first_name: voter.first_name || '',
+    last_name: voter.last_name || '',
+    party: voter.party || '',
+    precinct: voter.precinct || '',
+    source_county: voter.source_county || '',
+    household_id: voter.household_id || '',
+    created_at: voter.created_at || null,
+    updated_at: voter.updated_at || voter.created_at || null
+  }));
+  const households = visibleRecords(store.households).map((household) => ({
+    household_id: household.household_id,
+    normalized_address: household.normalized_address || '',
+    lat: Number.isFinite(Number(household.lat)) ? Number(household.lat) : null,
+    lng: Number.isFinite(Number(household.lng)) ? Number(household.lng) : null,
+    geocode_confidence: Number.isFinite(Number(household.geocode_confidence)) ? Number(household.geocode_confidence) : null,
+    geocode_source: household.geocode_source || null,
+    updated_at: household.updated_at || household.created_at || null
+  }));
+  return {
+    generated_at: now(),
+    sheet_id: store.settings.primary_google_sheet_id || null,
+    voters,
+    households
+  };
+}
+function writeGoogleSyncCache(snapshot) {
+  if (!snapshot || typeof snapshot !== 'object') return;
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.writeFileSync(GOOGLE_SYNC_CACHE_PATH, JSON.stringify(snapshot, null, 2));
+}
+function readGoogleSyncCache() {
+  if (!fs.existsSync(GOOGLE_SYNC_CACHE_PATH)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(GOOGLE_SYNC_CACHE_PATH, 'utf8'));
+  } catch (_) {
+    return null;
+  }
+}
+function summarizeGoogleSyncSnapshot(snapshot) {
+  const voters = Array.isArray(snapshot?.voters) ? snapshot.voters : [];
+  const households = Array.isArray(snapshot?.households) ? snapshot.households : [];
+  return {
+    generated_at: snapshot?.generated_at || null,
+    sheet_id: snapshot?.sheet_id || null,
+    voters: voters.length,
+    households: households.length
+  };
+}
+async function pushGoogleSyncPayload(payload) {
+  const destination = GOOGLE_SYNC_PROVIDER_URL;
+  if (!destination) return { delivered: false, reason: 'provider_not_configured' };
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), GOOGLE_SYNC_TIMEOUT_MS);
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (GOOGLE_SYNC_API_KEY) headers['x-api-key'] = GOOGLE_SYNC_API_KEY;
+    const response = await fetch(destination, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      return { delivered: false, reason: `provider_error_${response.status}`, details: body.slice(0, 200) };
+    }
+    return { delivered: true, status: response.status };
+  } catch (error) {
+    return { delivered: false, reason: error.name === 'AbortError' ? 'provider_timeout' : 'provider_request_failed', details: String(error.message || error) };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+function normalizeIncomingGoogleRows(rows = []) {
+  return rows.map((row) => normalizeRow(row || {})).filter((row) => Object.keys(row).length > 0);
+}
+function applyGooglePullRows(store, rows = [], source = 'google-sheets') {
+  const normalizedRows = normalizeIncomingGoogleRows(rows);
+  if (!normalizedRows.length) return { inserted: 0, updated: 0, skipped: 0, householdsAdded: 0 };
+
+  const householdByNormalizedAddress = new Map(store.households.map((h) => [h.normalized_address, h]));
+  const voterByCountyKey = new Map(store.voters.map((v) => [`${v.source_county}:${v.voter_id}`, v]));
+  const geocodeCache = new Map();
+
+  let inserted = 0;
+  let updated = 0;
+  let skipped = 0;
+  let householdsAdded = 0;
+
+  return normalizedRows.reduce(async (prevPromise, row) => {
+    await prevPromise;
+    const county = String(firstNonEmpty(row, ['source_county', 'county'], 'pierce')).trim().toLowerCase();
+    const normalizedAddress = normalizeAddress(row);
+    if (!normalizedAddress) {
+      skipped += 1;
+      return;
+    }
+    let household = householdByNormalizedAddress.get(normalizedAddress);
+    if (!household) {
+      const lat = Number(firstNonEmpty(row, ['lat', 'latitude']));
+      const lng = Number(firstNonEmpty(row, ['lng', 'longitude', 'lon']));
+      const geo = Number.isFinite(lat) && Number.isFinite(lng)
+        ? { lat, lng, geocode_confidence: 1, geocode_source: 'google-sheet' }
+        : await geocodeAddress(normalizedAddress, geocodeCache);
+      household = {
+        household_id: id('hh'),
+        normalized_address: normalizedAddress,
+        lat: geo.lat,
+        lng: geo.lng,
+        geocode_confidence: geo.geocode_confidence,
+        geocode_source: geo.geocode_source,
+        created_at: now(),
+        updated_at: now(),
+        deleted_at: null,
+        deleted_by: null,
+        delete_reason: null,
+        flyer_profile: null
+      };
+      store.households.push(household);
+      householdByNormalizedAddress.set(normalizedAddress, household);
+      householdsAdded += 1;
+    }
+
+    const incomingVoterId = String(firstNonEmpty(row, ['voter_id', 'voterid', 'state_voter_id'], '')).trim();
+    const syntheticId = incomingVoterId || id('voter');
+    const voterKey = `${county}:${syntheticId}`;
+    const existing = voterByCountyKey.get(voterKey);
+    if (existing) {
+      existing.first_name = firstNonEmpty(row, ['first_name', 'firstname', 'first name'], existing.first_name);
+      existing.last_name = firstNonEmpty(row, ['last_name', 'lastname', 'last name'], existing.last_name);
+      existing.party = firstNonEmpty(row, ['party'], existing.party);
+      existing.precinct = firstNonEmpty(row, ['precinct'], existing.precinct);
+      existing.household_id = household.household_id;
+      existing.updated_at = now();
+      updated += 1;
+      return;
+    }
+
+    const parsedName = splitName(firstNonEmpty(row, ['full_name', 'name']));
+    const voter = {
+      voter_id: syntheticId,
+      first_name: firstNonEmpty(row, ['first_name', 'firstname', 'first name'], parsedName.firstName),
+      last_name: firstNonEmpty(row, ['last_name', 'lastname', 'last name'], parsedName.lastName),
+      age: firstNonEmpty(row, ['age']),
+      birth_year: firstNonEmpty(row, ['birth_year', 'birthyear', 'yob']),
+      last_voted: firstNonEmpty(row, ['last_voted', 'last voted']),
+      party: firstNonEmpty(row, ['party'], 'Unknown'),
+      precinct: firstNonEmpty(row, ['precinct']),
+      source_county: county,
+      source_file_id: null,
+      created_from: source,
+      household_id: household.household_id,
+      created_at: now(),
+      updated_at: now(),
+      deleted_at: null,
+      deleted_by: null,
+      delete_reason: null
+    };
+    store.voters.push(voter);
+    voterByCountyKey.set(voterKey, voter);
+    inserted += 1;
+  }, Promise.resolve()).then(() => ({ inserted, updated, skipped, householdsAdded }));
+}
 function id(prefix) { return `${prefix}_${crypto.randomUUID()}`; }
 function now() { return new Date().toISOString(); }
 function isSoftDeleted(record) {
@@ -1397,13 +1567,16 @@ async function handler(req, res) {
     const store = readStore();
     const googleCreds = store.oauthCredentials.filter((entry) => entry.provider === 'google');
     const active = googleCreds.find((entry) => entry.is_primary) || googleCreds[0] || null;
+    const cache = readGoogleSyncCache();
     return send(res, 200, {
       connected: Boolean(active),
       account_label: active?.account_label || null,
       primary_google_sheet_id: store.settings.primary_google_sheet_id || null,
       google_sync_enabled: Boolean(store.settings.google_sync_enabled),
       google_sync_direction: store.settings.google_sync_direction || 'push',
-      last_google_sync_at: store.settings.last_google_sync_at || null
+      last_google_sync_at: store.settings.last_google_sync_at || null,
+      provider_url_configured: Boolean(GOOGLE_SYNC_PROVIDER_URL),
+      cache: summarizeGoogleSyncSnapshot(cache)
     });
   }
 
@@ -1520,20 +1693,69 @@ async function handler(req, res) {
 
   if (req.method === 'POST' && pathname === '/api/google-sheets/sync/push') {
     const store = readStore();
+    const snapshot = buildGoogleSyncSnapshot(store);
+    writeGoogleSyncCache(snapshot);
+    const providerResult = await pushGoogleSyncPayload({ direction: 'push', payload: snapshot, generated_at: snapshot.generated_at });
     store.settings.last_google_sync_at = now();
     store.settings.google_sync_last_direction = 'push';
-    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_sync_push', outcome: 'success', metadata: { voters: visibleRecords(store.voters).length } });
+    logOutreachEvent(store, {
+      user_id: user.userId,
+      channel: 'system',
+      action: 'google_sync_push',
+      outcome: providerResult.delivered ? 'success' : 'partial',
+      metadata: {
+        voters: snapshot.voters.length,
+        households: snapshot.households.length,
+        delivered: providerResult.delivered,
+        provider_reason: providerResult.reason || null
+      }
+    });
     writeStore(store);
-    return send(res, 200, { ok: true, direction: 'push', synced_records: visibleRecords(store.voters).length, synced_at: store.settings.last_google_sync_at });
+    return send(res, 200, {
+      ok: true,
+      direction: 'push',
+      synced_records: snapshot.voters.length,
+      household_records: snapshot.households.length,
+      synced_at: store.settings.last_google_sync_at,
+      cache_path: GOOGLE_SYNC_CACHE_PATH,
+      provider: providerResult
+    });
   }
 
   if (req.method === 'POST' && pathname === '/api/google-sheets/sync/pull') {
+    const body = req.__validatedGoogleBody || {};
     const store = readStore();
+    const cache = readGoogleSyncCache();
+    const incomingRows = Array.isArray(body.rows) ? body.rows : (Array.isArray(cache?.voters) ? cache.voters : []);
+    const mergeResult = await applyGooglePullRows(store, incomingRows, 'google-sheets-sync');
+    recomputeFlyerScores(store);
     store.settings.last_google_sync_at = now();
     store.settings.google_sync_last_direction = 'pull';
-    logOutreachEvent(store, { user_id: user.userId, channel: 'system', action: 'google_sync_pull', outcome: 'success', metadata: { imported_records: 0 } });
+    logOutreachEvent(store, {
+      user_id: user.userId,
+      channel: 'system',
+      action: 'google_sync_pull',
+      outcome: 'success',
+      metadata: {
+        imported_records: mergeResult.inserted,
+        updated_records: mergeResult.updated,
+        skipped_records: mergeResult.skipped,
+        households_added: mergeResult.householdsAdded,
+        source: Array.isArray(body.rows) ? 'request_body' : 'local_cache'
+      }
+    });
     writeStore(store);
-    return send(res, 200, { ok: true, direction: 'pull', imported_records: 0, synced_at: store.settings.last_google_sync_at, note: 'Manual pull placeholder; integrate with Google Sheets API provider next.' });
+    return send(res, 200, {
+      ok: true,
+      direction: 'pull',
+      imported_records: mergeResult.inserted,
+      updated_records: mergeResult.updated,
+      skipped_records: mergeResult.skipped,
+      households_added: mergeResult.householdsAdded,
+      synced_at: store.settings.last_google_sync_at,
+      source: Array.isArray(body.rows) ? 'request_body' : 'local_cache',
+      cache_summary: summarizeGoogleSyncSnapshot(cache)
+    });
   }
 
 

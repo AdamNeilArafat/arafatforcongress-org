@@ -48,6 +48,33 @@ Recommended columns:
 - optional `lat`, `lng`
 
 
+
+## Google Sheets bi-directional sync (working baseline)
+The silo now has a working source-data sync loop that supports both read and write paths:
+
+- **Push (dashboard -> sync store/provider):** `POST /silo/api/google-sheets/sync/push`
+  - Builds a normalized source snapshot from active voters + households.
+  - Writes it to `apps/voter-mapping-silo/data/google-sync-store.json`.
+  - Optionally forwards the payload to an external Google Apps Script/webhook if configured.
+- **Pull (sheet/provider -> dashboard):** `POST /silo/api/google-sheets/sync/pull`
+  - Accepts `rows` in request JSON, or falls back to the local sync cache.
+  - Upserts into household + voter records (insert + update behavior).
+
+### Optional provider bridge (Google Sheet / Apps Script)
+Configure these env vars when starting the silo server:
+
+- `SILO_GOOGLE_SYNC_PROVIDER_URL` — Apps Script Web App URL or webhook endpoint.
+- `SILO_GOOGLE_SYNC_API_KEY` — optional shared secret sent as `x-api-key`.
+- `SILO_GOOGLE_SYNC_TIMEOUT_MS` — request timeout (default `15000`).
+
+Example:
+
+```bash
+SILO_ADMIN_SECRET='replace-with-strong-secret' SILO_GOOGLE_SYNC_PROVIDER_URL='https://script.google.com/macros/s/.../exec' SILO_GOOGLE_SYNC_API_KEY='replace-me' npm run silo:start
+```
+
+Use `/silo/api/google-sheets/status` to verify cache/provider status.
+
 ## Geocoding providers (free + automated)
 Geocoding during voter imports is automated and can run against free services.
 
