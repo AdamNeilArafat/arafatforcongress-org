@@ -2956,7 +2956,9 @@
       return;
     }
 
-    const headers = rows[0].map((h) => normalizeCsvHeader(h));
+    const headerRowIndex = detectHeaderRowIndex(rows);
+    const headers = rows[headerRowIndex].map((h) => normalizeCsvHeader(h));
+    const dataRows = rows.slice(headerRowIndex + 1);
     const idxDate     = findCol(headers, ['date contacted','date','date_contacted']);
     const idxType     = findCol(headers, ['contact method','type','method','contact_method']);
     const idxVol      = findCol(headers, ['assigned to','volunteer','assigned_to','name']);
@@ -2974,8 +2976,8 @@
     const idxVols     = findCol(headers, ['volunteers', 'vols', 'volunteer count', 'team size']);
 
     const sheetSessions = [];
-    for (let i = 1; i < rows.length; i++) {
-      const cols = rows[i];
+    for (let i = 0; i < dataRows.length; i++) {
+      const cols = dataRows[i];
       if (!cols.length || cols.every(c => !c.trim())) continue;
       const typeRaw = (idxType >= 0 ? cols[idxType] : '').toLowerCase();
 
@@ -3001,7 +3003,7 @@
       );
 
       sheetSessions.push({
-        id: 'sh' + i,
+        id: 'sh' + (i + 1),
         date:      idxDate >= 0 ? cols[idxDate] : '',
         type,
         volunteer: idxVol >= 0 ? cols[idxVol] : '',
@@ -3033,6 +3035,39 @@
       if (normalizedCandidates.includes(headers[i])) return i;
     }
     return -1;
+  }
+
+  function detectHeaderRowIndex(rows) {
+    const candidateGroups = [
+      ['date contacted', 'date', 'date_contacted'],
+      ['contact method', 'type', 'method', 'contact_method'],
+      ['assigned to', 'volunteer', 'assigned_to', 'name', 'volunteer team', 'volunteer / team'],
+      ['city', 'area', 'ward/precinct', 'ward_precinct', 'ward precinct'],
+      ['doors', 'doors knocked', 'door count'],
+      ['flyers', 'flyers distributed', 'literature'],
+      ['calls', 'phone calls', 'phone calls made'],
+      ['texts', 'texts sent', 'sms'],
+      ['contacts', 'contacts made', 'conversations'],
+      ['notes']
+    ];
+
+    const normalizedGroups = candidateGroups.map((group) => group.map(normalizeCsvHeader));
+    let bestIdx = 0;
+    let bestScore = -1;
+
+    for (let i = 0; i < Math.min(rows.length, 12); i++) {
+      const row = rows[i].map(normalizeCsvHeader);
+      let score = 0;
+      for (const group of normalizedGroups) {
+        if (group.some((c) => row.includes(c))) score++;
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        bestIdx = i;
+      }
+    }
+
+    return bestIdx;
   }
 
   function normalizeCsvHeader(value) {
@@ -3389,6 +3424,13 @@
     const voters = await (window.VoterData ? window.VoterData.getVoters() : Promise.resolve([]));
     allVoters = voters;
 
+    let geocodedNow = 0;
+    if (window.VoterData && window.VoterData.geocodeMissingVoters) {
+      const geocodeResult = await window.VoterData.geocodeMissingVoters(allVoters, 40);
+      allVoters = geocodeResult.voters || allVoters;
+      geocodedNow = geocodeResult.geocoded || 0;
+    }
+
     if (statusEl) {
       const summary = window.VoterData && window.VoterData.getLastImportSummary
         ? window.VoterData.getLastImportSummary()
@@ -3396,14 +3438,14 @@
       const summaryText = window.VoterData && window.VoterData.formatImportSummary
         ? window.VoterData.formatImportSummary(summary)
         : '';
-      statusEl.textContent = voters.length
-        ? `${voters.length} voters loaded${summaryText ? ' · ' + summaryText : ''}`
+      statusEl.textContent = allVoters.length
+        ? `${allVoters.length} voters loaded${summaryText ? ' · ' + summaryText : ''}${geocodedNow ? ` · geocoded ${geocodedNow} address${geocodedNow === 1 ? '' : 'es'}` : ''}`
         : 'No voter data — upload CSV in Settings';
       statusEl.title = summaryText || '';
     }
 
-    renderVoterReport(voters);
-    buildMap(voters);
+    renderVoterReport(allVoters);
+    buildMap(allVoters);
   }
 
   // Expose globally for popup buttons
