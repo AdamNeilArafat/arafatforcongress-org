@@ -1,12 +1,16 @@
 import React from 'react';
 import { mergeScript } from '../../lib/scripts/merge';
-import { listVoters, listTemplates, logOutreach } from '../../lib/db/store';
+import { listVoters, listTemplates, logOutreach, subscribeDbUpdates } from '../../lib/db/store';
 
 export default function VolunteerTextsPage() {
   const [idx, setIdx] = React.useState(0);
   const [template, setTemplate] = React.useState('Hi {{first_name}}, this is a volunteer for Arafat for Congress. Can we count on your vote in {{city}}?');
   const [lastAction, setLastAction] = React.useState('');
   const [copyStatus, setCopyStatus] = React.useState('');
+  const [rev, setRev] = React.useState(0);
+
+  React.useEffect(() => subscribeDbUpdates(() => setRev((n) => n + 1)), []);
+  void rev;
 
   const voters = listVoters();
   const templates = listTemplates();

@@ -13,6 +13,12 @@ export type ImportBatch = {
   geocode_success_count: number;
   geocode_failed_count: number;
   blocked_count: number;
+  feeder_counts: {
+    phone_bank: number;
+    text_bank: number;
+    mapping: number;
+    outreach: number;
+  };
   status: 'processing' | 'complete' | 'failed';
   error_summary?: string;
 };
@@ -159,6 +165,7 @@ type DBState = {
 };
 
 const KEY = 'afc_ops_db_v5';
+const DB_UPDATED_EVENT = 'afc_ops_db_updated';
 
 function id() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
 function now() { return new Date().toISOString(); }
@@ -188,11 +195,41 @@ function saveState(state: DBState) {
   storage.setItem(KEY, JSON.stringify(state));
 }
 
+function emitDbUpdated() {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(DB_UPDATED_EVENT));
+}
+
 export function withDbWrite<T>(fn: (state: DBState) => T): T {
   const state = loadState();
   const result = fn(state);
   saveState(state);
+  emitDbUpdated();
   return result;
+}
+
+export function subscribeDbUpdates(onChange: () => void) {
+  if (typeof window === 'undefined') return () => undefined;
+  const onCustom = () => onChange();
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === KEY) onChange();
+  };
+  window.addEventListener(DB_UPDATED_EVENT, onCustom as EventListener);
+  window.addEventListener('storage', onStorage);
+  return () => {
+    window.removeEventListener(DB_UPDATED_EVENT, onCustom as EventListener);
+    window.removeEventListener('storage', onStorage);
+  };
+}
+
+function computeFeederCounts(voters: Voter[]) {
+  const active = voters.filter((v) => !v.deleted_at);
+  return {
+    phone_bank: active.filter((v) => Boolean(v.phone) && !v.do_not_contact).length,
+    text_bank: active.filter((v) => Boolean(v.phone) && !v.do_not_contact).length,
+    mapping: active.filter((v) => v.latitude != null && v.longitude != null).length,
+    outreach: active.filter((v) => !v.do_not_contact).length
+  };
 }
 
 export function resetDb() {
@@ -318,6 +355,12 @@ export function importRows(sourceFileName: string, rows: Record<string, string>[
       geocode_success_count: 0,
       geocode_failed_count: 0,
       blocked_count: 0,
+      feeder_counts: {
+        phone_bank: 0,
+        text_bank: 0,
+        mapping: 0,
+        outreach: 0
+      },
       status: 'processing'
     };
     state.imports.unshift(batch);
@@ -461,6 +504,8 @@ export function importRows(sourceFileName: string, rows: Record<string, string>[
       batch.status = 'complete';
     }
 
+    batch.feeder_counts = computeFeederCounts(state.voters);
+
     state.audit_logs.unshift({
       id: id(),
       action: batch.status === 'complete' ? 'IMPORT_COMPLETE' : 'IMPORT_FAILED',
@@ -474,7 +519,8 @@ export function importRows(sourceFileName: string, rows: Record<string, string>[
         invalid_count: batch.invalid_count,
         pinnable_count: batch.pinnable_count,
         geocode_queued_count: batch.geocode_queued_count,
-        blocked_count: batch.blocked_count
+        blocked_count: batch.blocked_count,
+        feeder_counts: batch.feeder_counts
       },
       created_at: now()
     });
@@ -493,6 +539,7 @@ export function updateImportGeocodeCounters(importId: string) {
     batch.geocode_failed_count = voters.filter((v) => v.geocode_status === 'failed').length;
     batch.blocked_count = voters.filter((v) => v.geocode_status === 'blocked_missing_fields').length;
     batch.geocode_queued_count = voters.filter((v) => v.geocode_status === 'pending').length;
+    batch.feeder_counts = computeFeederCounts(state.voters);
   });
 }
 
