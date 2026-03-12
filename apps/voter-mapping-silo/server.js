@@ -2011,7 +2011,7 @@ async function handler(req, res) {
       if (!eligible.has(household.household_id)) continue;
       const voters = votersByHousehold.get(household.household_id) || [];
       const last = latestByHousehold.get(household.household_id);
-      households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted', flyer_profile: household.flyer_profile || null, deleted_at: household.deleted_at, deleted_by: household.deleted_by, delete_reason: household.delete_reason } });
+      households.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [household.lng, household.lat] }, properties: { household_id: household.household_id, normalized_address: household.normalized_address, voter_count: voters.length, voters, status: last?.outcome || 'Not Attempted', geocode_confidence: household.geocode_confidence, geocode_source: household.geocode_source, flyer_profile: household.flyer_profile || null, deleted_at: household.deleted_at, deleted_by: household.deleted_by, delete_reason: household.delete_reason } });
     }
     const annotations = user.role === 'admin'
       ? store.mapAnnotations.map((a) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: a }))

@@ -13,7 +13,9 @@
     "signup:inject": "node scripts/inject-signup.js",
     "dev": "vite",
     "test": "vitest run",
-    "test:dashboard": "node scripts/dashboard-smoke-test.mjs"
+    "test:dashboard": "node scripts/dashboard-smoke-test.mjs",
+    "silo:start": "node apps/voter-mapping-silo/server.js",
+    "silo:test": "node apps/voter-mapping-silo/tests/api-smoke.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",

@@ -25,6 +25,7 @@ async function run() {
   const adminKey = `admin-${crypto.randomUUID()}`;
   process.env.SILO_ADMIN_SECRET = adminKey;
   process.env.SILO_ROLE_CREDENTIALS = JSON.stringify({ volunteerkey: 'volunteer' });
+  process.env.SILO_GEOCODER_PROVIDER = 'deterministic';
 
   const server = createServer().listen(0);
   const port = server.address().port;
@@ -47,16 +48,20 @@ async function run() {
 
   const importForm = new FormData();
   importForm.set('county', 'pierce');
-  importForm.set('file', new Blob([`voter_id,first_name,last_name,address,city,state,zip,party\n1,Ada,Lovelace,100 Main St,Tacoma,WA,98402,DEM\n2,Grace,Hopper,100 Main St,Tacoma,WA,98402,DEM\n3,Alan,Turing,200 Pine St,Olympia,WA,98501,IND`], { type: 'text/csv' }), 'voters.csv');
+  importForm.set('file', new Blob([`Voter ID,First Name,Last Name,Full Address,City,State,Zip,Party\n1,Ada,Lovelace,100 Main St,Tacoma,WA,98402,DEM\n2,Grace,Hopper,100 Main St,Tacoma,WA,98402,DEM\n3,Alan,Turing,200 Pine St,Olympia,WA,98501,IND`], { type: 'text/csv' }), 'voters.csv');
   const importRes = await req('/silo/api/imports/voters', { method: 'POST', headers: adminHeaders, body: importForm }, 202);
   assert(importRes.importId);
 
-  await new Promise((resolve) => setTimeout(resolve, 150));
-  const importStatus = await req(`/silo/api/imports/${importRes.importId}`, { headers: adminHeaders });
+  let importStatus = null;
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    importStatus = await req(`/silo/api/imports/${importRes.importId}`, { headers: adminHeaders });
+    if (importStatus.status === 'completed') break;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
   assert.equal(importStatus.status, 'completed');
   assert.equal(importStatus.mapping_status, 'detected');
-  assert.equal(importStatus.column_mapping.address, 'address');
-  assert.equal(importStatus.column_mapping.voter_id, 'voter_id');
+  assert.equal(importStatus.column_mapping.address, 'Full Address');
+  assert.equal(importStatus.column_mapping.voter_id, 'Voter ID');
   assert(importStatus.file_sha256 && importStatus.file_sha256.length === 64);
   assert(fs.existsSync(importStatus.file_path), 'Uploaded CSV should be persisted on disk');
 
@@ -68,6 +73,7 @@ async function run() {
   assert(Number.isFinite(Number(flyerTargets.targets[0].flyer_score)));
 
   assert.equal(featuresAdmin.households.features.length, 2);
+  assert(featuresAdmin.households.features.every((feature) => feature.properties.geocode_source === 'deterministic-fallback'));
   assert(featuresAdmin.households.features[0].properties.flyer_profile);
   const householdIds = featuresAdmin.households.features.map((feature) => feature.properties.household_id);
 
