@@ -1373,6 +1373,7 @@
 
   /* ---- STATE ---- */
   let allSessions = [];
+  let importedSessions = [];
   let filteredSessions = [];
   let allEvents = [];
   let sortCol = 'date';
@@ -1389,6 +1390,19 @@
 
   function saveLocal(sessions) {
     try { localStorage.setItem(LS_SESSIONS, JSON.stringify(sessions)); } catch(e) {}
+  }
+
+  function rebuildSessionsFromSources() {
+    const local = loadLocal();
+    const hasImported = importedSessions.length > 0;
+    const hasLocal = local.length > 0;
+
+    if (hasImported) {
+      allSessions = [...importedSessions, ...local];
+      return;
+    }
+
+    allSessions = hasLocal ? [...SAMPLE_SESSIONS, ...local] : [...SAMPLE_SESSIONS];
   }
 
   function loadLocalEvents() {
@@ -2590,7 +2604,7 @@
     if (!confirm('Delete this session?')) return;
     const local = loadLocal().filter(s => s.id !== id);
     saveLocal(local);
-    allSessions = [...SAMPLE_SESSIONS, ...local];
+    rebuildSessionsFromSources();
     renderAll();
   };
 
@@ -2602,7 +2616,7 @@
     const local = loadLocal();
     local.push(copy);
     saveLocal(local);
-    allSessions = [...SAMPLE_SESSIONS, ...local];
+    rebuildSessionsFromSources();
     renderAll();
     // briefly open the log panel so user can see or edit the new entry
     document.getElementById('log-panel').open = true;
@@ -2726,7 +2740,7 @@
     const local = loadLocal();
     local.push(session);
     saveLocal(local);
-    allSessions = [...SAMPLE_SESSIONS, ...local];
+    rebuildSessionsFromSources();
     renderAll();
 
     fb.className = 'form-feedback form-feedback--success';
@@ -3004,8 +3018,8 @@
       setDataStatus('live', `CSV loaded — ${sheetSessions.length} rows.`);
     }
 
-    const local = loadLocal();
-    allSessions = [...sheetSessions, ...local];
+    importedSessions = sheetSessions;
+    rebuildSessionsFromSources();
     renderAll();
   }
 
@@ -3145,7 +3159,7 @@
     };
 
     saveLocal(local);
-    allSessions = [...SAMPLE_SESSIONS, ...local];
+    rebuildSessionsFromSources();
     renderAll();
     closeEditModal();
   });
@@ -3191,13 +3205,9 @@
 
     const local = loadLocal();
     const localEvents = loadLocalEvents();
+    importedSessions = [];
 
-    // Use sample data if no local sessions
-    if (!local.length) {
-      allSessions = [...SAMPLE_SESSIONS];
-    } else {
-      allSessions = [...SAMPLE_SESSIONS, ...local];
-    }
+    rebuildSessionsFromSources();
 
     if (!localEvents.length) {
       allEvents = [...SAMPLE_EVENTS];
