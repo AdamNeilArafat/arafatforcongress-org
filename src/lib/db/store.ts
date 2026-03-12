@@ -214,6 +214,12 @@ function firstNonEmpty(...values: Array<string | undefined>) {
   return values.find((v) => typeof v === 'string' && v.trim().length > 0);
 }
 
+function mergeTags(existing?: string[], incoming?: string) {
+  const parsed = parseTags(incoming);
+  if (!parsed?.length) return existing;
+  return Array.from(new Set([...(existing ?? []), ...parsed]));
+}
+
 function mapUnifiedOutcome(outcome: string) {
   const normalized = outcome.toLowerCase().replace(/\s+/g, '_');
   const map: Record<string, string> = {
@@ -322,12 +328,74 @@ export function importRows(sourceFileName: string, rows: Record<string, string>[
       if (existingKeys.has(key)) {
         const existing = state.voters.find((v) => !v.deleted_at && dedupeKey(v) === key);
         if (existing) {
+          const mergedAddressLine1 = firstNonEmpty(row.address_line1, row.address, existing.address_line1);
+          const mergedCity = firstNonEmpty(row.city, existing.city);
+          const mergedState = firstNonEmpty(row.state, existing.state);
+          const mergedZip = firstNonEmpty(row.zip, existing.zip);
+          const mergedAddress = buildNormalizedAddress({
+            address_line1: mergedAddressLine1,
+            city: mergedCity,
+            state: mergedState,
+            zip: mergedZip
+          });
+
+          const lat = row.latitude ? Number(row.latitude) : undefined;
+          const lng = row.longitude ? Number(row.longitude) : undefined;
+          const hasValidCoords = lat != null && lng != null && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+
           existing.first_name = firstNonEmpty(row.first_name, existing.first_name);
+          existing.middle_name = firstNonEmpty(row.middle_name, existing.middle_name);
           existing.last_name = firstNonEmpty(row.last_name, existing.last_name);
+          existing.suffix = firstNonEmpty(row.suffix, existing.suffix);
+          existing.birth_year = row.birth_year ? Number(row.birth_year) : existing.birth_year;
+          existing.gender = firstNonEmpty(row.gender, existing.gender);
+          existing.address_line1 = mergedAddress.address_line1;
+          existing.full_address = mergedAddress.full_address;
+          existing.normalized_address_hash = mergedAddress.normalized_address_hash;
           existing.phone = firstNonEmpty(row.phone, existing.phone);
           existing.email = firstNonEmpty(row.email, existing.email);
           existing.precinct = firstNonEmpty(row.precinct, existing.precinct);
-          existing.city = firstNonEmpty(row.city, existing.city);
+          existing.legislative_district = firstNonEmpty(row.legislative_district, existing.legislative_district);
+          existing.congressional_district = firstNonEmpty(row.congressional_district, existing.congressional_district);
+          existing.city = mergedCity;
+          existing.state = mergedState;
+          existing.zip = mergedZip;
+          existing.tags = mergeTags(existing.tags, row.tags);
+
+          if (hasValidCoords) {
+            existing.latitude = lat;
+            existing.longitude = lng;
+            existing.geocode_status = 'not_needed';
+            existing.geocode_error = undefined;
+          } else if (existing.latitude == null || existing.longitude == null) {
+            if (mergedAddress.missingRequiredParts) {
+              existing.geocode_status = 'blocked_missing_fields';
+            } else {
+              existing.geocode_status = 'pending';
+              const queuedJob = state.geocode_jobs.find((j) => !j.deleted_at && j.voter_id === existing.id && (j.status === 'queued' || j.status === 'processing'));
+              if (queuedJob && existing.normalized_address_hash && existing.full_address) {
+                queuedJob.normalized_address_hash = existing.normalized_address_hash;
+                queuedJob.full_address = existing.full_address;
+                queuedJob.updated_at = now();
+              }
+              if (!queuedJob && existing.normalized_address_hash && existing.full_address) {
+                batch.geocode_queued_count += 1;
+                state.geocode_jobs.push({
+                  id: id(),
+                  voter_id: existing.id,
+                  import_id: batch.id,
+                  normalized_address_hash: existing.normalized_address_hash,
+                  full_address: existing.full_address,
+                  status: 'queued',
+                  attempts: 0,
+                  next_run_at: now(),
+                  created_at: now(),
+                  updated_at: now()
+                });
+              }
+            }
+          }
+
           existing.updated_at = now();
           state.audit_logs.unshift({
             id: id(),
