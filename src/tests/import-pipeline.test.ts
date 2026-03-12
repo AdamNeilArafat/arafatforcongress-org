@@ -63,6 +63,32 @@ describe('csv parse/validate/import + geocoding', () => {
     expect(listVoters()[0].phone).toBe('5551112222');
   });
 
+
+  it('reimport duplicate refreshes address fields and queues geocode for unmapped voter', async () => {
+    const firstCsv = `external_voter_id,first_name,last_name,address,city,state,zip
+X1,A,One,123 Main,Tacoma,WA,98402`;
+    const secondCsv = `external_voter_id,first_name,last_name,address,city,state,zip
+X1,A,One,456 Oak,Lacey,WA,98503`;
+    const mapping = {
+      external_voter_id: 'external_voter_id', first_name: 'first_name', last_name: 'last_name', address: 'address', city: 'city', state: 'state', zip: 'zip'
+    } as any;
+
+    const first = await parseCsvText(firstCsv, undefined, mapping);
+    const second = await parseCsvText(secondCsv, undefined, mapping);
+
+    importRows('a.csv', first.rows, 0);
+    const batch = importRows('b.csv', second.rows, 0);
+
+    const voter = listVoters()[0];
+    expect(batch.duplicate_count).toBe(1);
+    expect(voter.address_line1).toBe('456 Oak');
+    expect(voter.city).toBe('Lacey');
+    expect(voter.zip).toBe('98503');
+    expect(voter.geocode_status).toBe('pending');
+    expect(listGeocodeJobs()).toHaveLength(1);
+    expect(listGeocodeJobs()[0].full_address).toContain('456 Oak');
+  });
+
   it('normalizes outreach outcomes and enforces text opt-out suppression', async () => {
     const csv = `FName,LName,RegAddress,RegCity,RegState,RegZipCode,Phone
 B,Two,300 Pine,Tacoma,WA,98403,5551113333`;
