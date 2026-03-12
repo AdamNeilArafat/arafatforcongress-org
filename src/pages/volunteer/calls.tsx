@@ -1,10 +1,14 @@
 import React from 'react';
-import { listVoters, logOutreach } from '../../lib/db/store';
+import { listVoters, logOutreach, subscribeDbUpdates } from '../../lib/db/store';
 
 export default function VolunteerCallsPage() {
   const [idx, setIdx] = React.useState(0);
   const [notes, setNotes] = React.useState('');
   const [lastAction, setLastAction] = React.useState('');
+  const [rev, setRev] = React.useState(0);
+
+  React.useEffect(() => subscribeDbUpdates(() => setRev((n) => n + 1)), []);
+  void rev;
 
   const voters = listVoters();
   const callable = voters.filter((v) => Boolean(v.phone) && !v.do_not_contact);

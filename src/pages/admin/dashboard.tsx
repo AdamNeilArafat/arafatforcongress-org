@@ -23,6 +23,7 @@ import {
   saveMappingTemplate,
   saveRoutePlan,
   saveTemplate,
+  subscribeDbUpdates,
   upsertVolunteer,
   type Voter
 } from '../../lib/db/store';
@@ -39,6 +40,7 @@ type ParsedFile = {
 function useData() {
   const [rev, setRev] = React.useState(0);
   const refresh = () => setRev((n) => n + 1);
+  React.useEffect(() => subscribeDbUpdates(refresh), []);
   void rev;
   const voters = listVoters();
   const outreach = listOutreachLogs();
@@ -186,12 +188,14 @@ function ImportPanel({ refresh, mappingTemplates }: { refresh: () => void; mappi
 
   async function runImport() {
     let inserted = 0;
+    let lastFeeders = { phone_bank: 0, text_bank: 0, outreach: 0, mapping: 0 };
     for (const file of files) {
       const reparsed = await parseCsvText(await file.file.text(), undefined, file.mapping);
       const batch = importRows(file.file.name, reparsed.rows, reparsed.errors.length);
       inserted += batch.inserted_count;
+      lastFeeders = batch.feeder_counts;
     }
-    setStatus(`Imported ${inserted} records. Reimports now merge selected fields into existing voters.`);
+    setStatus(`Imported ${inserted} records. Reimports now merge selected fields into existing voters. Feeders now: phone ${lastFeeders.phone_bank}, text ${lastFeeders.text_bank}, outreach ${lastFeeders.outreach}, mapping ${lastFeeders.mapping}.`);
     setFiles([]);
     refresh();
   }

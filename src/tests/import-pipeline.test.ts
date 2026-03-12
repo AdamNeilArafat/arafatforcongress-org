@@ -25,6 +25,10 @@ describe('csv parse/validate/import + geocoding', () => {
     expect(batch.pinnable_count).toBe(1);
     expect(batch.geocode_queued_count).toBe(1);
     expect(batch.blocked_count).toBe(1);
+    expect(batch.feeder_counts.phone_bank).toBe(3);
+    expect(batch.feeder_counts.text_bank).toBe(3);
+    expect(batch.feeder_counts.outreach).toBe(3);
+    expect(batch.feeder_counts.mapping).toBe(1);
 
     const voters = listVoters();
     expect(voters.find((v) => v.last_name === 'One')?.geocode_status).toBe('not_needed');
