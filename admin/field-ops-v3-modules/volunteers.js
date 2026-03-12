@@ -1,0 +1,2 @@
+export function volunteerLeaderboard(vols,records){return [...vols].map(v=>{const mine=records.filter(r=>r.assigned_volunteer===v.name);return {...v,contacts_completed:mine.filter(r=>r.status!=='not_contacted').length,followups_created:mine.filter(r=>r.status==='follow_up').length};}).sort((a,b)=>b.contacts_completed-a.contacts_completed);}
+export function freshness(last){if(!last)return 'cold';const d=(Date.now()-new Date(last).getTime())/86400000; if(d<8)return 'fresh'; if(d<15)return 'ok'; if(d<31)return 'stale'; return 'cold';}
