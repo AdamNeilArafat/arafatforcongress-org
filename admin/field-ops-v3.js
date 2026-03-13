@@ -44,7 +44,7 @@ function authGate(){const authed=sessionStorage.getItem('field_ops_authed')==='1
 
 function bind(){
   $$('.tab').forEach(t=>t.onclick=()=>setTab(t.dataset.tab)); setTab('map');
-  $('#settingsBtn').onclick=()=>{$('#settingsModal').classList.remove('hidden');$('#apiKey').value=localStorage.getItem('gemini_api_key')||'';$('#modelName').value=settings.gemini_model;$('#adminPin').value=settings.admin_pin;};
+  $('#settingsBtn').onclick=()=>{$('#settingsModal').classList.remove('hidden');$('#apiKey').value=localStorage.getItem('gemini_api_key')||'';$('#modelName').value=settings.gemini_model;$('#campaignPhase').value=settings.phase||'';$('#adminPin').value=settings.admin_pin;};
   $('#closeSettings').onclick=()=>$('#settingsModal').classList.add('hidden');
   $('#saveSettings').onclick=()=>{localStorage.setItem('gemini_api_key',$('#apiKey').value.trim());settings.gemini_model=$('#modelName').value.trim()||settings.gemini_model;settings.admin_pin=$('#adminPin').value.trim()||settings.admin_pin;settings.phase=$('#campaignPhase').value.trim()||settings.phase;saveSettings();$('#settingsModal').classList.add('hidden');renderAll();};
   $('#csvImport').onchange=e=>importCsv(e.target.files[0]); $('#exportFiltered').onclick=()=>exportCsv(false); $('#exportSelected').onclick=()=>exportCsv(true);
