@@ -5,6 +5,7 @@ import { inferMappingForHeaders, type VoterField } from '../../lib/csv/schema';
 import {
   assignVoter,
   clearAll,
+  clearByImport,
   importRows,
   listAssignments,
   listAuditLogs,
@@ -172,7 +173,15 @@ function CommandCenter({ data, refresh }: { data: ReturnType<typeof useData>; re
   );
 }
 
-function ImportPanel({ refresh, mappingTemplates }: { refresh: () => void; mappingTemplates: ReturnType<typeof listMappingTemplates> }) {
+function ImportPanel({
+  refresh,
+  mappingTemplates,
+  imports
+}: {
+  refresh: () => void;
+  mappingTemplates: ReturnType<typeof listMappingTemplates>;
+  imports: ReturnType<typeof listImports>;
+}) {
   const [files, setFiles] = React.useState<ParsedFile[]>([]);
   const [status, setStatus] = React.useState('');
 
@@ -200,7 +209,37 @@ function ImportPanel({ refresh, mappingTemplates }: { refresh: () => void; mappi
     refresh();
   }
 
-  return <section><h3>CSV Master Input</h3><input type="file" accept=".csv" multiple onChange={(e) => e.target.files && loadFiles(e.target.files)} /><button onClick={runImport}>Run import</button><p>{status}</p><p>Saved mappings: {Object.keys(mappingTemplates).join(', ') || 'none'}</p>{files.map((f) => <button key={f.file.name} onClick={() => saveMappingTemplate(f.file.name, f.mapping)}>Save mapping for {f.file.name}</button>)}</section>;
+  function clearOldImports() {
+    const oldImports = imports.slice(1);
+    if (oldImports.length === 0) {
+      setStatus('No older list found to clear.');
+      return;
+    }
+    oldImports.forEach((batch) => clearByImport(batch.id));
+    setStatus(`Cleared ${oldImports.length} older import list${oldImports.length === 1 ? '' : 's'} and related voter records.`);
+    refresh();
+  }
+
+  return (
+    <section>
+      <h3>CSV Master Input</h3>
+      <input type="file" accept=".csv" multiple onChange={(e) => e.target.files && loadFiles(e.target.files)} />
+      <button onClick={runImport}>Run import</button>
+      <button onClick={clearOldImports}>Clear old lists (keep newest)</button>
+      <p>{status}</p>
+      <p>Saved mappings: {Object.keys(mappingTemplates).join(', ') || 'none'}</p>
+      <p>Import history: {imports.length === 0 ? 'none' : `${imports.length} total`}</p>
+      {imports.slice(0, 6).map((batch, index) => (
+        <div key={batch.id} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+          <span>
+            {index === 0 ? 'Newest' : 'Older'} · {batch.source_file_name} · {batch.inserted_count} inserted
+          </span>
+          {index > 0 ? <button onClick={() => { clearByImport(batch.id); refresh(); }}>Clear list</button> : null}
+        </div>
+      ))}
+      {files.map((f) => <button key={f.file.name} onClick={() => saveMappingTemplate(f.file.name, f.mapping)}>Save mapping for {f.file.name}</button>)}
+    </section>
+  );
 }
 
 function RoutePanel({ voters, volunteers, refresh }: { voters: Voter[]; volunteers: ReturnType<typeof listVolunteers>; refresh: () => void }) {
@@ -275,7 +314,7 @@ export default function AdminDashboardPage() {
         <button onClick={() => { if (confirm('Clear all ops data?')) { clearAll(); data.refresh(); } }}>Clear all</button>
       </nav>
       {tab === 'command' && <CommandCenter data={data} refresh={data.refresh} />}
-      {tab === 'imports' && <ImportPanel refresh={data.refresh} mappingTemplates={data.mappingTemplates} />}
+      {tab === 'imports' && <ImportPanel refresh={data.refresh} mappingTemplates={data.mappingTemplates} imports={data.imports} />}
       {tab === 'routes' && <RoutePanel voters={data.voters} volunteers={data.volunteers} refresh={data.refresh} />}
       {tab === 'outreach' && <OutreachPanel data={data} refresh={data.refresh} />}
       {tab === 'analytics' && <AnalyticsPanel data={data} />}
