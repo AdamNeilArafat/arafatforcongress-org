@@ -19,6 +19,10 @@ main{padding:16px;max-width:1400px;margin:0 auto}
 input,select,textarea{background:#0f172a;color:var(--text-strong);border:1px solid var(--border-dark);border-radius:8px;padding:8px}
 .table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{border-bottom:1px solid var(--border-dark);padding:8px;text-align:left;font-size:13px}
 #field-map{height:420px;border-radius:10px;overflow:hidden}
+.tab-panel{position:relative;z-index:1}
+#field-map{position:relative;z-index:1}
+.fo-header,.tabs,.panel,.modal-backdrop{position:relative;z-index:5}
+.btn:focus-visible,.tab:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--info);outline-offset:2px}
 .status-pill{padding:2px 7px;border-radius:999px;font-size:11px}
 .status-not_contacted{background:#374151}.status-contacted{background:#14532d}.status-follow_up{background:#78350f}.status-donation_pledged{background:#854d0e}
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:30}
