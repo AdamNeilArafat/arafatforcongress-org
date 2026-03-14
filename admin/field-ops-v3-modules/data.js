@@ -16,5 +16,6 @@ export function normalizeRecord(raw={}){
   };
 }
 export function normalizeHeader(h){const k=String(h||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'_');return aliases[k]||k;}
-export function fromVoterData(voters=[]){return voters.map(v=>normalizeRecord(v));}
+export function hasImportableValues(record={}){return Boolean(record.first_name||record.last_name||record.full_name||record.address||record.city||record.zip||record.phone||record.email||record.id);}
+export function fromVoterData(voters=[]){return voters.map(v=>normalizeRecord(v)).filter(hasImportableValues);}
 export function mergeRecord(base,patch){const out={...base};for(const [k,v] of Object.entries(patch||{})){if(k==='tags'){const set=new Set([...(base.tags||[]),...((v||[]).filter(Boolean))]);out.tags=[...set];continue;}if(v===null||v===undefined)continue;if(typeof v==='string'&&v.trim()==='')continue;out[k]=v;}out.updated_at=new Date().toISOString();return out;}
