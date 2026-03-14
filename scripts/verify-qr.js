@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const path = require('path');
-const fs = require('fs-extra');
-const { loadQrRecords, ROOT } = require('./qr-data');
+import path from 'node:path';
+import fs from 'fs-extra';
+import { loadQrRecords, ROOT } from './qr-data.js';
 
 function assert(condition, message) {
   if (!condition) {

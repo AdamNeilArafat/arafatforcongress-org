@@ -1,7 +1,12 @@
 #!/usr/bin/env node
-const path = require('path');
-const fs = require('fs');
-const { getOptionalMeasurementId } = require('./env');
+import path from 'node:path';
+import fs from 'node:fs';
+import { getOptionalMeasurementId } from './env.js';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const ROOT = path.resolve(__dirname, '..');
 

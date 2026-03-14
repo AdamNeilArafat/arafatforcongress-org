@@ -1,4 +1,5 @@
 import express from 'express';
+import { asyncHandler } from '../utils/asyncHandler.js';
 
 function toNumber(value, fallback) {
   const parsed = Number(value);
@@ -22,40 +23,40 @@ export function createProvidersRouter(providers) {
     });
   });
 
-  router.get('/demographics/tract', async (req, res) => {
+  router.get('/demographics/tract', asyncHandler(async (req, res) => {
     const data = await providers.demographics.tractProfile(req.query);
     res.json({ data });
-  });
+  }));
 
-  router.get('/legislative/people/search', async (req, res) => {
+  router.get('/legislative/people/search', asyncHandler(async (req, res) => {
     const data = await providers.legislative.peopleSearch({
       jurisdiction: req.query.jurisdiction,
       name: req.query.name,
       page: toNumber(req.query.page, 1)
     });
     res.json({ data });
-  });
+  }));
 
-  router.get('/legislative/:state', async (req, res) => {
+  router.get('/legislative/:state', asyncHandler(async (req, res) => {
     const data = await providers.legislative.jurisdictions(req.params.state);
     res.json({ data });
-  });
+  }));
 
-  router.get('/finance/candidates/search', async (req, res) => {
+  router.get('/finance/candidates/search', asyncHandler(async (req, res) => {
     const data = await providers.finance.candidateSearch({
       name: req.query.name,
       state: req.query.state,
       cycle: toNumber(req.query.cycle, 2026)
     });
     res.json({ data });
-  });
+  }));
 
-  router.get('/finance/:state', async (req, res) => {
+  router.get('/finance/:state', asyncHandler(async (req, res) => {
     const data = await providers.finance.candidatesByState(req.params.state, Number(req.query.cycle || 2026));
     res.json({ data });
-  });
+  }));
 
-  router.get('/places/nearby', async (req, res) => {
+  router.get('/places/nearby', asyncHandler(async (req, res) => {
     const latitude = toNumber(req.query.latitude, NaN);
     const longitude = toNumber(req.query.longitude, NaN);
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
@@ -70,16 +71,16 @@ export function createProvidersRouter(providers) {
       categories: req.query.categories
     });
     res.json({ data });
-  });
+  }));
 
-  router.get('/geonames/search', async (req, res) => {
+  router.get('/geonames/search', asyncHandler(async (req, res) => {
     const data = await providers.geonames.searchLocality({
       query: req.query.query,
       country: req.query.country,
       maxRows: toNumber(req.query.maxRows, 10)
     });
     res.json({ data });
-  });
+  }));
 
   return router;
 }
