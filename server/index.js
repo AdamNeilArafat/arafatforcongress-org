@@ -4,6 +4,7 @@ import { importsRouter } from './routes/imports.js';
 import { createGeocodeRouter } from './routes/geocode.js';
 import { createProvidersRouter } from './routes/providers.js';
 import { createRoutesRouter } from './routes/routes.js';
+import { settingsRouter } from './routes/settings.js';
 import { buildProviders } from './services/providerRegistry.js';
 
 runMigrations();
@@ -17,6 +18,7 @@ app.use('/api/v3/imports', importsRouter);
 app.use('/api/v3/geocode', createGeocodeRouter(providers));
 app.use('/api/v3/providers', createProvidersRouter(providers));
 app.use('/api/v3/routes', createRoutesRouter(providers));
+app.use('/api/v3/settings', settingsRouter);
 
 const port = Number(process.env.PORT || 4177);
 app.listen(port, () => console.log(`Vanguard Field Ops V3 API listening on ${port}`));

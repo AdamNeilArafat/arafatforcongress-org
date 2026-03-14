@@ -1,4 +1,6 @@
 import { db, nowIso, randomId } from '../db/index.js';
+import { fetchWithRetry, throttle } from '../utils/httpClient.js';
+import { ProviderError } from './interfaces.js';
 
 export class BaseProvider {
   constructor(name, config = {}) {
@@ -29,5 +31,32 @@ export class BaseProvider {
   logUsage(operation, status, detail = {}, latencyMs = null, cacheHit = 0) {
     db.prepare('INSERT INTO provider_usage (id, provider, operation, status, latency_ms, cache_hit, detail_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
       .run(randomId('usage'), this.name, operation, status, latencyMs, cacheHit, JSON.stringify(detail), nowIso());
+  }
+
+  async request({ operation, cachePayload, url, init = {}, ttlSeconds = 86400, normalize, statusForValue = () => 'ok' }) {
+    const cacheKey = this.cacheKey(operation, cachePayload);
+    const cached = this.cacheGet(cacheKey);
+    if (cached) {
+      this.logUsage(operation, 'ok', { cached: true }, 0, 1);
+      return cached;
+    }
+
+    const started = Date.now();
+    try {
+      await throttle(this.name, this.config.rateLimitPerSecond ?? 2);
+      const response = await fetchWithRetry(url, init, this.config);
+      const raw = await response.json();
+      const normalized = normalize(raw);
+      this.cachePut(cacheKey, normalized, statusForValue(normalized), ttlSeconds);
+      this.logUsage(operation, statusForValue(normalized), {}, Date.now() - started, 0);
+      return normalized;
+    } catch (error) {
+      const providerError = error instanceof ProviderError
+        ? error
+        : new ProviderError(this.name, operation, 'request_failed', String(error), { url });
+      this.cachePut(cacheKey, providerError.toJSON(), 'error', Math.min(3600, ttlSeconds));
+      this.logUsage(operation, 'error', providerError.toJSON(), Date.now() - started, 0);
+      throw providerError;
+    }
   }
 }

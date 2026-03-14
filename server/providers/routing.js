@@ -1,5 +1,5 @@
 import { BaseProvider } from './base.js';
-import { fetchWithRetry } from '../utils/httpClient.js';
+import { RoutingProvider } from './interfaces.js';
 
 function haversine(a, b) {
   const R = 6371000;
@@ -28,18 +28,35 @@ export function nearestNeighborRoute(stops) {
   return { stops: ordered, distanceMeters, durationSeconds: distanceMeters / 1.3 };
 }
 
-export class OptionalOpenRouteServiceProvider extends BaseProvider {
-  constructor(config = {}) { super('openrouteservice_optional', config); }
-  async buildRoute(stops, mode = 'foot-walking') {
+export class OpenRouteServiceProvider extends RoutingProvider {
+  constructor(config = {}) {
+    super();
+    this.base = new BaseProvider('openrouteservice_optional', config);
+    this.name = 'openrouteservice_optional';
+    this.config = config;
+  }
+  request(...args) { return this.base.request(...args); }
+
+  async buildRoute(stops, mode = 'driving-car') {
     if (!this.config.apiKey) return nearestNeighborRoute(stops);
     const coordinates = stops.map((s) => [s.longitude, s.latitude]);
-    const response = await fetchWithRetry(`https://api.openrouteservice.org/v2/directions/${mode}/geojson`, {
-      method: 'POST',
-      headers: { Authorization: this.config.apiKey, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ coordinates })
-    }, this.config);
-    const data = await response.json();
-    const summary = data?.features?.[0]?.properties?.summary || {};
-    return { stops, distanceMeters: summary.distance ?? 0, durationSeconds: summary.duration ?? 0, geometry: data?.features?.[0]?.geometry };
+    return this.request({
+      operation: 'buildRoute',
+      cachePayload: { mode, coordinates },
+      url: `https://api.openrouteservice.org/v2/directions/${mode}`,
+      init: {
+        method: 'POST',
+        headers: { Authorization: this.config.apiKey, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ coordinates })
+      },
+      ttlSeconds: 7200,
+      normalize: (data) => {
+        const feature = data?.features?.[0];
+        const summary = feature?.properties?.summary || {};
+        return { stops, distanceMeters: summary.distance ?? 0, durationSeconds: summary.duration ?? 0, geometry: feature?.geometry };
+      }
+    });
   }
 }
+
+export { OpenRouteServiceProvider as OptionalOpenRouteServiceProvider };

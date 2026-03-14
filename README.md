@@ -92,3 +92,17 @@ Google is optional and never required for core flows.
 - Public Nominatim is intentionally throttled and used as fallback only.
 - API requests are cached in `api_cache` and logged in `provider_usage`.
 - Background worker processes import and geocode jobs incrementally.
+
+## Import pipeline (streaming + resumable)
+
+- `POST /api/v3/imports/preview` inspects CSV headers/sample rows and returns auto-mapping suggestions.
+- `POST /api/v3/imports/jobs/stage` stages rows to `import_rows` without loading entire file into memory.
+- `POST /api/v3/imports/jobs/:jobId/process` processes chunked rows with cursor-based resume.
+- `POST /api/v3/imports/jobs/:jobId/state` supports pause/resume/cancel controls.
+- Supports dry-run preview (`dryRun: true`) for merge validation without writing contacts.
+
+## Settings and observability
+
+- `GET /api/v3/settings` and `POST /api/v3/settings` for provider/rate-limit/dedupe defaults.
+- `GET /api/v3/settings/provider-usage` for provider request telemetry.
+- `GET /api/v3/settings/failed-requests` for cached failed request inspection.
