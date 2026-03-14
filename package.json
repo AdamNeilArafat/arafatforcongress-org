@@ -18,7 +18,8 @@
     "silo:test": "node apps/voter-mapping-silo/tests/api-smoke.js",
     "server:dev": "node server/index.js",
     "worker:dev": "node server/jobs/worker.js",
-    "v3:check": "node -e \"import('./server/db/index.js').then(m=>{m.runMigrations();console.log('migrations ok')})\""
+    "v3:check": "node -e \"import('./server/db/index.js').then(m=>{m.runMigrations();console.log('migrations ok')})\"",
+    "test:field-ops-v3": "node scripts/field-ops-v3-smoke-test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
