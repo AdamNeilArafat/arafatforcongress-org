@@ -10,7 +10,7 @@
   const LS_VOTERS    = 'arafat_voters';
   const LS_VOTER_CSV = 'arafat_voters_csv_url';
   const LS_GEOCODE_CACHE = 'arafat_geocode_cache';
-  const DEFAULT_CSV  = '/data/voters-sample.csv';
+  const DEFAULT_CSV  = '';
   let lastImportSummary = null;
 
   /* ── STATUS DEFINITIONS ─────────────────────────────────────────────── */
@@ -277,7 +277,8 @@
 
   /* ── FETCH & INIT ────────────────────────────────────────────────────── */
   async function fetchAndLoadVoters(csvUrl) {
-    const url = csvUrl || localStorage.getItem(LS_VOTER_CSV) || DEFAULT_CSV;
+    const url = (csvUrl || localStorage.getItem(LS_VOTER_CSV) || DEFAULT_CSV || '').trim();
+    if (!url) return { ok: false, error: 'No voter CSV configured' };
     try {
       const resp = await fetch(url + '?_cb=' + Date.now());
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
