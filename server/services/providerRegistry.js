@@ -1,5 +1,13 @@
 import { CensusGeocoderProvider, NominatimProvider } from '../providers/geocoders.js';
-import { CensusAcsProvider, FecProvider, NullAiProvider, OpenStatesProvider, OptionalGeminiProvider } from '../providers/externalData.js';
+import {
+  CensusAcsProvider,
+  FecProvider,
+  GeoNamesProvider,
+  NullAiProvider,
+  OpenStatesProvider,
+  OptionalGeminiProvider,
+  OverpassProvider
+} from '../providers/externalData.js';
 import { OptionalOpenRouteServiceProvider } from '../providers/routing.js';
 
 export function buildProviders(env = process.env) {
@@ -9,6 +17,8 @@ export function buildProviders(env = process.env) {
     demographics: new CensusAcsProvider({ apiKey: env.CENSUS_API_KEY }),
     legislative: new OpenStatesProvider({ apiKey: env.OPENSTATES_API_KEY }),
     finance: new FecProvider({ apiKey: env.FEC_API_KEY }),
+    places: new OverpassProvider({ endpoint: env.OVERPASS_ENDPOINT, rateLimitPerSecond: Number(env.OVERPASS_RPS || 1) }),
+    geonames: new GeoNamesProvider({ username: env.GEONAMES_USERNAME, endpoint: env.GEONAMES_ENDPOINT, rateLimitPerSecond: Number(env.GEONAMES_RPS || 2) }),
     ai: env.AI_PROVIDER === 'gemini' ? new OptionalGeminiProvider({ apiKey: env.GEMINI_API_KEY }) : new NullAiProvider(),
     routing: new OptionalOpenRouteServiceProvider({ apiKey: env.OPENROUTESERVICE_API_KEY })
   };
