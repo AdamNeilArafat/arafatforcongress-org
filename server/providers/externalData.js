@@ -10,21 +10,19 @@ function toQueryString(params) {
   return search.toString();
 }
 
-class ProviderMixin {
-  constructor(name, config) {
-    this.base = new BaseProvider(name, config);
-    this.name = name;
-    this.config = config;
-  }
-  request(...args) { return this.base.request(...args); }
-  cacheKey(...args) { return this.base.cacheKey(...args); }
-  cacheGet(...args) { return this.base.cacheGet(...args); }
-  cachePut(...args) { return this.base.cachePut(...args); }
-  logUsage(...args) { return this.base.logUsage(...args); }
+function attachProviderBase(target, name, config) {
+  target.base = new BaseProvider(name, config);
+  target.name = name;
+  target.config = config;
+  target.request = (...args) => target.base.request(...args);
+  target.cacheKey = (...args) => target.base.cacheKey(...args);
+  target.cacheGet = (...args) => target.base.cacheGet(...args);
+  target.cachePut = (...args) => target.base.cachePut(...args);
+  target.logUsage = (...args) => target.base.logUsage(...args);
 }
 
 export class CensusAcsProvider extends DemographicsProvider {
-  constructor(config = {}) { super(); Object.assign(this, new ProviderMixin('census_acs', config)); }
+  constructor(config = {}) { super(); attachProviderBase(this, 'census_acs', config); }
   async tractProfile({ state, county, tract, year = 2022 }) {
     const vars = 'NAME,B01001_001E,B19013_001E,B15003_001E,B25003_001E,B08301_001E';
     const apiKey = this.config.apiKey ? `&key=${this.config.apiKey}` : '';
@@ -51,7 +49,7 @@ export class CensusAcsProvider extends DemographicsProvider {
 }
 
 export class OpenStatesProvider extends LegislativeProvider {
-  constructor(config = {}) { super(); Object.assign(this, new ProviderMixin('openstates', config)); }
+  constructor(config = {}) { super(); attachProviderBase(this, 'openstates', config); }
   async jurisdictions(state) {
     if (!this.config.apiKey || !state) return [];
     const url = `https://v3.openstates.org/people?jurisdiction=${encodeURIComponent(state)}`;
@@ -76,7 +74,7 @@ export class OpenStatesProvider extends LegislativeProvider {
 }
 
 export class FecProvider extends FinanceProvider {
-  constructor(config = {}) { super(); Object.assign(this, new ProviderMixin('fec', config)); }
+  constructor(config = {}) { super(); attachProviderBase(this, 'fec', config); }
   async candidateSearch({ name, state, cycle = 2026 }) {
     if (!this.config.apiKey || !name) return [];
     const query = toQueryString({ name, state, cycle, api_key: this.config.apiKey, per_page: 20 });
@@ -97,7 +95,7 @@ export class FecProvider extends FinanceProvider {
 }
 
 export class OverpassProvider extends PlacesProvider {
-  constructor(config = {}) { super(); Object.assign(this, new ProviderMixin('overpass', config)); }
+  constructor(config = {}) { super(); attachProviderBase(this, 'overpass', config); }
   async nearbyPois({ latitude, longitude, radiusMeters = 800, categories = ['school', 'place_of_worship', 'park', 'bus_stop'] }) {
     const normalizedCategories = Array.isArray(categories) ? categories : String(categories).split(',').map((v) => v.trim()).filter(Boolean);
     const tagClauses = normalizedCategories.map((category) => `node(around:${radiusMeters},${latitude},${longitude})[\"amenity\"=\"${category}\"];`).join('');
@@ -114,7 +112,7 @@ export class OverpassProvider extends PlacesProvider {
 }
 
 export class GeoNamesProvider extends PlacesProvider {
-  constructor(config = {}) { super(); Object.assign(this, new ProviderMixin('geonames', config)); }
+  constructor(config = {}) { super(); attachProviderBase(this, 'geonames', config); }
   async searchLocality({ query, country = 'US', maxRows = 10 }) {
     if (!this.config.username || !query) return [];
     const params = toQueryString({ q: query, country, maxRows, username: this.config.username });
@@ -129,12 +127,12 @@ export class GeoNamesProvider extends PlacesProvider {
 }
 
 export class NullAiProvider extends AiProvider {
-  constructor() { super(); Object.assign(this, new ProviderMixin('null_ai', {})); }
+  constructor() { super(); attachProviderBase(this, 'null_ai', {}); }
   async summarizeNotes() { this.logUsage('summarizeNotes', 'disabled'); return 'AI disabled. Configure an optional AI provider to enable summaries.'; }
 }
 
 export class OptionalGeminiProvider extends AiProvider {
-  constructor(config = {}) { super(); Object.assign(this, new ProviderMixin('gemini_optional', config)); }
+  constructor(config = {}) { super(); attachProviderBase(this, 'gemini_optional', config); }
   async summarizeNotes(notes) {
     if (!this.config.apiKey) return 'Gemini key missing; AI summaries disabled.';
     this.logUsage('summarizeNotes', 'ok', { approxChars: notes.length });
