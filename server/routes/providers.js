@@ -1,5 +1,10 @@
 import express from 'express';
 
+function toNumber(value, fallback) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
 export function createProvidersRouter(providers) {
   const router = express.Router();
 
@@ -10,6 +15,8 @@ export function createProvidersRouter(providers) {
       demographics: providers.demographics.name,
       legislative: providers.legislative.name,
       finance: providers.finance.name,
+      places: providers.places.name,
+      geonames: providers.geonames.name,
       ai: providers.ai.name,
       routing: providers.routing.name
     });
@@ -20,13 +27,57 @@ export function createProvidersRouter(providers) {
     res.json({ data });
   });
 
+  router.get('/legislative/people/search', async (req, res) => {
+    const data = await providers.legislative.peopleSearch({
+      jurisdiction: req.query.jurisdiction,
+      name: req.query.name,
+      page: toNumber(req.query.page, 1)
+    });
+    res.json({ data });
+  });
+
   router.get('/legislative/:state', async (req, res) => {
     const data = await providers.legislative.jurisdictions(req.params.state);
     res.json({ data });
   });
 
+  router.get('/finance/candidates/search', async (req, res) => {
+    const data = await providers.finance.candidateSearch({
+      name: req.query.name,
+      state: req.query.state,
+      cycle: toNumber(req.query.cycle, 2026)
+    });
+    res.json({ data });
+  });
+
   router.get('/finance/:state', async (req, res) => {
     const data = await providers.finance.candidatesByState(req.params.state, Number(req.query.cycle || 2026));
+    res.json({ data });
+  });
+
+  router.get('/places/nearby', async (req, res) => {
+    const latitude = toNumber(req.query.latitude, NaN);
+    const longitude = toNumber(req.query.longitude, NaN);
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+      res.status(400).json({ error: 'latitude and longitude are required numeric query params.' });
+      return;
+    }
+
+    const data = await providers.places.nearbyPois({
+      latitude,
+      longitude,
+      radiusMeters: toNumber(req.query.radiusMeters, 800),
+      categories: req.query.categories
+    });
+    res.json({ data });
+  });
+
+  router.get('/geonames/search', async (req, res) => {
+    const data = await providers.geonames.searchLocality({
+      query: req.query.query,
+      country: req.query.country,
+      maxRows: toNumber(req.query.maxRows, 10)
+    });
     res.json({ data });
   });
 

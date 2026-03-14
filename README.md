@@ -7,7 +7,7 @@ Vanguard Field Ops V3 is a local-first campaign operations system for lawful fie
 - Added a dedicated Express + SQLite backend under `server/`.
 - Added normalized V3 schema migrations for contacts, households, addresses, import jobs, geocoding cache, provider usage logs, routes, outreach events, suppression/consent flags, and audit logs.
 - Added resumable CSV import pipeline (stage/process/pause/resume/cancel) with configurable dedupe strategy.
-- Added provider-agnostic adapters for geocoding, demographics, legislative, finance, routing, and optional AI.
+- Added provider-agnostic adapters for geocoding, demographics, legislative, finance, places (Overpass), GeoNames lookup, routing, and optional AI.
 - Added geocoding workflow with Census-first and Nominatim fallback.
 - Added route planning with openrouteservice adapter + nearest-neighbor fallback.
 - Added admin V3 settings panel in the React UI.
@@ -23,9 +23,11 @@ Google is optional and never required for core flows.
 3. Census ACS API (demographics)
 4. OpenStates API (legislative overlays)
 5. FEC API (public finance overlays)
-6. Local validation + cache (email/phone quality and API cache)
-7. openrouteservice adapter (optional routing API) + local nearest-neighbor fallback
-8. AI adapters optional only (`NullAiProvider` by default)
+6. OpenStreetMap Overpass (optional nearby POI enrichment)
+7. GeoNames (optional locality/postal helper)
+8. Local validation + cache (email/phone quality and API cache)
+9. openrouteservice adapter (optional routing API) + local nearest-neighbor fallback
+10. AI adapters optional only (`NullAiProvider` by default)
 
 ## Folder layout
 
@@ -74,11 +76,15 @@ Google is optional and never required for core flows.
 - `POST /api/v3/geocode/lookup`
 - `POST /api/v3/geocode/run`
 - `POST /api/v3/routes/plan`
+- `GET /api/v3/providers/places/nearby?latitude=...&longitude=...`
+- `GET /api/v3/providers/legislative/people/search?...`
+- `GET /api/v3/providers/finance/candidates/search?...`
+- `GET /api/v3/providers/geonames/search?query=...`
 
 ## Optional vs required services
 
 - **Required:** Node.js, SQLite (via `better-sqlite3`), Census Geocoder public endpoint (for full geocoding pipeline), local filesystem storage.
-- **Optional:** OpenStates API key, FEC API key, Census ACS key, openrouteservice key, Gemini key.
+- **Optional:** OpenStates API key, FEC API key, Census ACS key, Overpass endpoint override, GeoNames username, openrouteservice key, Gemini key.
 - **Not required:** Google APIs.
 
 ## Notes
