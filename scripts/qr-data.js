@@ -1,21 +1,24 @@
-const fs = require('fs-extra');
-const path = require('path');
-const { parse } = require('csv-parse/sync');
+import fs from 'fs-extra';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { parse } from 'csv-parse/sync';
 
-const ROOT = path.resolve(__dirname, '..');
-const CSV_PATH = path.join(ROOT, 'data', 'qr_map.csv');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export const ROOT = path.resolve(__dirname, '..');
+export const CSV_PATH = path.join(ROOT, 'data', 'qr_map.csv');
 
 function parseCsv() {
   if (!fs.existsSync(CSV_PATH)) {
     throw new Error(`CSV not found at ${CSV_PATH}`);
   }
   const csvContent = fs.readFileSync(CSV_PATH, 'utf8');
-  const rows = parse(csvContent, {
+  return parse(csvContent, {
     columns: true,
     skip_empty_lines: true,
-    trim: true
+    trim: true,
   });
-  return rows;
 }
 
 function validateRecords(rows) {
@@ -25,25 +28,19 @@ function validateRecords(rows) {
   const normalized = [];
 
   rows.forEach((row, idx) => {
-    const rowNumber = idx + 2; // account for header row
-    requiredColumns.forEach(col => {
-      if (!row[col]) {
-        errors.push(`Row ${rowNumber}: missing required column '${col}'.`);
-      }
+    const rowNumber = idx + 2;
+    requiredColumns.forEach((col) => {
+      if (!row[col]) errors.push(`Row ${rowNumber}: missing required column '${col}'.`);
     });
 
-    if (!row.qr_id) {
-      return;
-    }
+    if (!row.qr_id) return;
 
     const qrId = row.qr_id.trim();
     if (!/^[a-z0-9-]+$/.test(qrId)) {
       errors.push(`Row ${rowNumber}: qr_id '${qrId}' must be lowercase, numbers, and hyphens only.`);
     }
 
-    if (seenIds.has(qrId)) {
-      errors.push(`Row ${rowNumber}: duplicate qr_id '${qrId}'.`);
-    }
+    if (seenIds.has(qrId)) errors.push(`Row ${rowNumber}: duplicate qr_id '${qrId}'.`);
     seenIds.add(qrId);
 
     const pathValue = (row.path || '').trim();
@@ -58,9 +55,8 @@ function validateRecords(rows) {
 
     const destination = (row.destination_url || '').trim();
     try {
-      // eslint-disable-next-line no-new
       new URL(destination);
-    } catch (err) {
+    } catch {
       errors.push(`Row ${rowNumber}: destination_url '${destination}' is not a valid URL.`);
     }
 
@@ -69,25 +65,16 @@ function validateRecords(rows) {
       path: pathValue,
       destination_url: destination,
       dest_label: (row.dest_label || '').trim() || null,
-      notes: (row.notes || '').trim() || null
+      notes: (row.notes || '').trim() || null,
     });
   });
 
   return { errors, records: normalized };
 }
 
-function loadQrRecords() {
+export function loadQrRecords() {
   const rows = parseCsv();
   const { errors, records } = validateRecords(rows);
-  if (errors.length) {
-    const msg = errors.join('\n');
-    throw new Error(`QR CSV validation failed:\n${msg}`);
-  }
+  if (errors.length) throw new Error(`QR CSV validation failed:\n${errors.join('\n')}`);
   return records;
 }
-
-module.exports = {
-  loadQrRecords,
-  CSV_PATH,
-  ROOT
-};

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const path = require('path');
-const fs = require('fs-extra');
-const QRCode = require('qrcode');
-const { loadQrRecords, ROOT } = require('./qr-data');
-const { getOptionalMeasurementId } = require('./env');
+import path from 'node:path';
+import fs from 'fs-extra';
+import QRCode from 'qrcode';
+import { loadQrRecords, ROOT } from './qr-data.js';
+import { getOptionalMeasurementId } from './env.js';
 
 async function generateRedirectPage(entry, measurementId) {
   const pageDir = path.join(ROOT, entry.path.replace(/^\//, ''), '/');

@@ -1,11 +1,12 @@
 import express from 'express';
 import { db, nowIso, randomId } from '../db/index.js';
 import { nearestNeighborRoute } from '../providers/routing.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 
 export function createRoutesRouter(providers) {
   const router = express.Router();
 
-  router.post('/plan', async (req, res) => {
+  router.post('/plan', asyncHandler(async (req, res) => {
     const { name, mode = 'walking', stops = [] } = req.body;
     if (!Array.isArray(stops) || !stops.length) return res.status(400).json({ error: 'stops required' });
     const routed = providers.routing ? await providers.routing.buildRoute(stops, mode === 'walking' ? 'foot-walking' : 'driving-car') : nearestNeighborRoute(stops);
@@ -18,7 +19,7 @@ export function createRoutesRouter(providers) {
         .run(randomId('stop'), routeId, stop.contactId || null, stop.addressId || null, i + 1, stop.latitude, stop.longitude, 'pending', now);
     });
     res.json({ routeId, summary: routed });
-  });
+  }));
 
   return router;
 }

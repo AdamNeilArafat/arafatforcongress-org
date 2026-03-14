@@ -1,7 +1,12 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-const { getSignupEndpoint } = require('./env');
+import fs from 'node:fs';
+import path from 'node:path';
+import { getSignupEndpoint } from './env.js';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const ROOT = path.resolve(__dirname, '..');
 const HTML_FILES = [

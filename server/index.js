@@ -19,6 +19,11 @@ app.use('/api/v3/geocode', createGeocodeRouter(providers));
 app.use('/api/v3/providers', createProvidersRouter(providers));
 app.use('/api/v3/routes', createRoutesRouter(providers));
 app.use('/api/v3/settings', settingsRouter);
+app.use((error, _req, res, _next) => {
+  console.error('API error', error);
+  const status = Number(error?.status || error?.statusCode || 500);
+  res.status(status).json({ error: error?.message || 'Internal Server Error' });
+});
 
 const port = Number(process.env.PORT || 4177);
 app.listen(port, () => console.log(`Vanguard Field Ops V3 API listening on ${port}`));

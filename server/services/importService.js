@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from 'csv-parse';
+import { parse as parseSync } from 'csv-parse/sync';
 import { db, nowIso, randomId } from '../db/index.js';
 
 const TEMP_DIR = path.resolve(process.cwd(), 'data/imports');
@@ -58,12 +59,8 @@ export function previewCsvFile(fullPath, sampleSize = 50) {
   const content = fs.readFileSync(fullPath, 'utf8');
   const [headerLine = ''] = content.split(/\r?\n/, 1);
   const headers = headerLine.split(',').map((s) => s.trim()).filter(Boolean);
-  const rows = [];
-  const parser = parse(content, { columns: true, skip_empty_lines: true, relax_column_count: true });
-  for (const row of parser) {
-    rows.push(row);
-    if (rows.length >= sampleSize) break;
-  }
+  const parsed = parseSync(content, { columns: true, skip_empty_lines: true, relax_column_count: true });
+  const rows = parsed.slice(0, sampleSize);
   return { headers, sampleRows: rows, autoMapping: autoMapping(headers) };
 }
 
