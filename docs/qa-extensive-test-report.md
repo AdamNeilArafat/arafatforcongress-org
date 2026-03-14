@@ -54,3 +54,33 @@ Using Playwright against Vite dev server (`http://localhost:4178`):
 1. Add CORS middleware configuration for dev UI + API split ports.
 2. Add integration tests for `OverpassProvider` and `CensusAcsProvider` method presence (`this.request` availability).
 3. Add optional mock mode for external providers to allow deterministic offline enrichment tests.
+
+---
+
+## Additional QA pass (requested: review info + test buttons/functions)
+
+Date: 2026-03-14 (follow-up pass)
+
+### What was validated
+- Re-reviewed project docs and runbooks (`README.md`, `apps/voter-mapping-silo/README.md`) to verify intended app surfaces and available test scripts.
+- Re-ran all repository-provided automated suites relevant to UI + ops flows.
+- Performed browser-based interaction checks on key admin interfaces:
+  - `admin/field-ops-v3.html` (including PIN-gated access)
+  - `admin/volunteer-dashboard.html`
+
+### Automated checks (follow-up)
+- `npm test`: pass (`13 passed`, `1 skipped`).
+- `npm run test:dashboard`: pass.
+- `npm run test:field-ops-v3`: pass (`25 checks`).
+- `npm run silo:test`: pass.
+
+### Browser interaction checks (Playwright)
+- `field-ops-v3`:
+  - Successfully unlocked via default PIN (`1234`) in this environment.
+  - Exercised visible controls: Settings open/close, tab changes (Voter List/Outreach), `Select All`, `Clear`, `Log outreach`.
+- `volunteer-dashboard`:
+  - Exercised top actions: `Refresh`, `Export CSV`, `Reload`.
+
+### Functional notes
+- `field-ops-v3` contains an authentication gate (`Admin PIN Required`) that blocks underlying controls until unlocked; this is expected behavior and not a defect.
+- No new regressions were observed in the tested button/handler paths during this pass.
