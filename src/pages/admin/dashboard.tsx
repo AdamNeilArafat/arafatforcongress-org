@@ -29,6 +29,8 @@ import {
   type Voter
 } from '../../lib/db/store';
 import { mergeScript } from '../../lib/scripts/merge';
+import SettingsV3Page from './settings-v3';
+import MapRouteV3Panel from './map-route-v3';
 
 type ParsedFile = {
   file: File;
@@ -309,6 +311,8 @@ export default function AdminDashboardPage() {
       <h1>Campaign Operations Hub</h1>
       <p>CSV is the master source of truth for voters, map readiness, assignments, and all outreach channels.</p>
       <p><a href="/volunteer/texts">Text Banking</a> · <a href="/volunteer/calls">Phone Banking</a> · <a href="/volunteer/map">Volunteer Map</a></p>
+      <SettingsV3Page />
+      <MapRouteV3Panel />
       <nav style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {['command', 'imports', 'routes', 'outreach', 'analytics', 'audit'].map((t) => <button key={t} onClick={() => setTab(t as typeof tab)}>{t}</button>)}
         <button onClick={() => { if (confirm('Clear all ops data?')) { clearAll(); data.refresh(); } }}>Clear all</button>

@@ -1,63 +1,88 @@
-# District Ops Dashboard
+# Vanguard Field Ops V3
 
-## Local Nominatim geocoding (self-hosted)
+Vanguard Field Ops V3 is a local-first campaign operations system for lawful field organizing.
 
-Run a local geocoder (no dependency on public Nominatim):
+## What changed in V3
 
-```bash
-make nominatim-up
-make nominatim-import
-make nominatim-logs
-```
+- Added a dedicated Express + SQLite backend under `server/`.
+- Added normalized V3 schema migrations for contacts, households, addresses, import jobs, geocoding cache, provider usage logs, routes, outreach events, suppression/consent flags, and audit logs.
+- Added resumable CSV import pipeline (stage/process/pause/resume/cancel) with configurable dedupe strategy.
+- Added provider-agnostic adapters for geocoding, demographics, legislative, finance, routing, and optional AI.
+- Added geocoding workflow with Census-first and Nominatim fallback.
+- Added route planning with openrouteservice adapter + nearest-neighbor fallback.
+- Added admin V3 settings panel in the React UI.
 
-Deployment files:
-- `infra/nominatim/docker-compose.yml`
-- `infra/nominatim/README.md`
+## Provider policy
 
-### Geocoding env vars
+Google is optional and never required for core flows.
 
-- `GEOCODER_PROVIDER=nominatim_local|mock` (default: `nominatim_local`)
-- `NOMINATIM_BASE_URL=http://localhost:8080`
-- `NOMINATIM_PBF_URL=https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf`
-- `NOMINATIM_PORT=8080`
-- `NOMINATIM_IMPORT_THREADS=4`
-- `GEOCODING_CONCURRENCY=6`
-- `GEOCODING_RATE_LIMIT_PER_SEC=8`
-- `GEOCODING_MAX_ATTEMPTS=3`
-- `GEOCODING_BACKOFF_SECONDS=30`
+### Core/primary providers
 
-## Import + geocoding pipeline behavior
+1. U.S. Census Geocoder (primary geocoder for U.S. addresses)
+2. Nominatim/OSM (low-volume fallback geocoder)
+3. Census ACS API (demographics)
+4. OpenStates API (legislative overlays)
+5. FEC API (public finance overlays)
+6. Local validation + cache (email/phone quality and API cache)
+7. openrouteservice adapter (optional routing API) + local nearest-neighbor fallback
+8. AI adapters optional only (`NullAiProvider` by default)
 
-- CSV uploads append (multi-file supported) and create one import batch per file.
-- Dedupe is global across all non-deleted voters by `external_voter_id`, else normalized `name+address+zip`.
-- Rows with missing address parts (`city/state/zip/address`) are marked `blocked_missing_fields` and are not queued.
-- Geocode jobs are queued per voter and processed by background worker (`src/jobs/runGeocodeWorker.ts`).
-- Successful geocodes are cached in `geocode_cache` by normalized-address hash.
-- Map/Calls/Texts read from the same voter DB store.
-- Clear All, Clear Import, and Delete Row are soft-delete operations with audit log entries.
+## Folder layout
 
-## Conversations feed configuration
+- `src/components`
+- `src/pages`
+- `src/lib`
+- `src/hooks`
+- `server/routes`
+- `server/services`
+- `server/providers`
+- `server/jobs`
+- `server/db`
+- `server/db/migrations`
+- `server/utils`
 
-`js/conversations-feed.js` now resolves the feed endpoint in this order:
+## Local MacBook runbook
 
-1. `<meta name="conversations-feed-url" content="...">` in the page `<head>`
-2. `window.AFC_CONFIG.conversationsFeedUrl`
-3. `window.CONVERSATIONS_FEED_URL`
-4. Legacy fallback: `https://arafatforcongress.github.io/WebCrawler/conversations.json`
+1. Install deps:
+   ```bash
+   npm install
+   ```
+2. Configure env:
+   ```bash
+   cp .env.example .env
+   ```
+3. Start API:
+   ```bash
+   npm run server:dev
+   ```
+4. Start worker:
+   ```bash
+   npm run worker:dev
+   ```
+5. Start frontend:
+   ```bash
+   npm run dev
+   ```
 
-This means existing pages keep working even if no custom feed is provided.
+## API quickstart
 
-If you are generating pages from environment variables, set `CONVERSATIONS_FEED_URL` (see `.env.example`) and inject it into either the meta tag or one of the supported `window` config objects before `js/conversations-feed.js` runs.
+- `GET /api/v3/health`
+- `GET /api/v3/providers/health`
+- `POST /api/v3/imports/jobs/stage`
+- `POST /api/v3/imports/jobs/:jobId/process`
+- `POST /api/v3/imports/jobs/:jobId/state`
+- `POST /api/v3/geocode/lookup`
+- `POST /api/v3/geocode/run`
+- `POST /api/v3/routes/plan`
 
-### Deployment cleanup (remove prototype/test pages)
+## Optional vs required services
 
-Before deploying, remove prototype/test artifacts from the publish output, including:
+- **Required:** Node.js, SQLite (via `better-sqlite3`), Census Geocoder public endpoint (for full geocoding pipeline), local filesystem storage.
+- **Optional:** OpenStates API key, FEC API key, Census ACS key, openrouteservice key, Gemini key.
+- **Not required:** Google APIs.
 
-- `ga-test/` (contains GA test markup with `G-PLACEHOLDER`)
-- field-ops test/prototype pages and scripts (for example `admin/field-ops-test.html` and `js/field-ops-test.js`)
+## Notes
 
-Keep deployment artifacts limited to production pages only.
-
-### Repository cleanup notes
-
-The repository intentionally excludes placeholder and duplicate endorsement/suit image assets that were not referenced by any page or data file. Keep only actively referenced media to reduce clutter and avoid maintaining stale duplicates.
+- Public Nominatim is intentionally throttled and used as fallback only.
+- API requests are cached in `api_cache` and logged in `provider_usage`.
+- Background worker processes import and geocode jobs incrementally.

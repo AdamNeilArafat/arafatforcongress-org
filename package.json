@@ -15,7 +15,10 @@
     "test": "vitest run",
     "test:dashboard": "node scripts/dashboard-smoke-test.mjs",
     "silo:start": "node apps/voter-mapping-silo/server.js",
-    "silo:test": "node apps/voter-mapping-silo/tests/api-smoke.js"
+    "silo:test": "node apps/voter-mapping-silo/tests/api-smoke.js",
+    "server:dev": "node server/index.js",
+    "worker:dev": "node server/jobs/worker.js",
+    "v3:check": "node -e \"import('./server/db/index.js').then(m=>{m.runMigrations();console.log('migrations ok')})\""
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
@@ -24,7 +27,9 @@
     "papaparse": "^5.5.3",
     "qrcode": "^1.5.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "express": "^4.21.2",
+    "better-sqlite3": "^11.8.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
