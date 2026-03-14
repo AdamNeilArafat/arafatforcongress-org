@@ -1,0 +1,30 @@
+import express from 'express';
+import fs from 'node:fs';
+import path from 'node:path';
+import { createImportJob, listImportJobs, processImportJob, setImportJobState, stageCsvFile } from '../services/importService.js';
+
+export const importsRouter = express.Router();
+
+importsRouter.get('/jobs', (_req, res) => {
+  res.json({ jobs: listImportJobs() });
+});
+
+importsRouter.post('/jobs/stage', async (req, res) => {
+  const { filePath, fileName, mapping, dedupeRules } = req.body;
+  if (!filePath || !fs.existsSync(filePath)) return res.status(400).json({ error: 'filePath missing or not found' });
+  const jobId = createImportJob({ fileName: fileName || path.basename(filePath), mapping, dedupeRules });
+  const rows = await stageCsvFile(jobId, filePath);
+  res.json({ jobId, rows });
+});
+
+importsRouter.post('/jobs/:jobId/process', (req, res) => {
+  const result = processImportJob(req.params.jobId, Number(req.body?.chunkSize || 250));
+  res.json(result);
+});
+
+importsRouter.post('/jobs/:jobId/state', (req, res) => {
+  const { action } = req.body;
+  if (!['pause', 'resume', 'cancel'].includes(action)) return res.status(400).json({ error: 'invalid action' });
+  setImportJobState(req.params.jobId, action);
+  res.json({ ok: true });
+});
